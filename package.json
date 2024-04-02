@@ -1,0 +1,10 @@
+{
+  "name": "rotate",
+  "scripts": {
+    "test:format": "prettier . --check",
+    "format": "prettier . --write"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
+}
