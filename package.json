@@ -1,0 +1,12 @@
+{
+  "name": "rotate",
+  "scripts": {
+    "dev:raw": "serve src-raw",
+    "test:format": "prettier . --check",
+    "format": "prettier . --write"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5",
+    "serve": "14.2.1"
+  }
+}
