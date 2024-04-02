@@ -1,4 +1,4 @@
-(function (jc) {
+(function (window) {
   function D(a, b) {
     function c() {}
     c.prototype = a;
@@ -1834,7 +1834,7 @@
     return null != E.__nativeClassName(a);
   };
   E.__resolveNativeClass = function (a) {
-    return jc[a];
+    return window[a];
   };
   var wa = function (a) {
     if (a instanceof Array && null == a.__enum__)
@@ -20279,9 +20279,9 @@
     },
     tc = {},
     na = {},
-    tb = jc.ArrayBuffer || wa;
+    tb = window.ArrayBuffer || wa;
   null == tb.prototype.slice && (tb.prototype.slice = wa.sliceImpl);
-  var ec = jc.Uint8Array || Ia._new;
+  var ec = window.Uint8Array || Ia._new;
   h.started = !1;
   h.imageSmoothingEnabled = !0;
   h.lastCursor = 'default';
@@ -20608,12 +20608,4 @@
   R.TEXT_GREY = 0.75;
   R.THEMES = ['Theme A', 'Theme B'];
   g.main();
-})(
-  'undefined' != typeof window
-    ? window
-    : 'undefined' != typeof global
-      ? global
-      : 'undefined' != typeof self
-        ? self
-        : this,
-);
+})(window);
