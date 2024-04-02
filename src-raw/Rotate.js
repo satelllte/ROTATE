@@ -29,10 +29,11 @@
     },
     ja = function () {};
   ja.__name__ = !0;
-  ja.cca = function (a, b) {
-    var c = a.charCodeAt(b);
-    if (c == c) return c;
+
+  ja.charCodeAt = function (str, index) {
+    return str.charCodeAt(index);
   };
+
   ja.substr = function (a, b, c) {
     if (null == c) c = a.length;
     else if (0 > c)
@@ -60,13 +61,15 @@
   };
   la.parseInt = function (a) {
     var b = parseInt(a, 10);
-    0 != b || (120 != ja.cca(a, 1) && 88 != ja.cca(a, 1)) || (b = parseInt(a));
+    0 != b ||
+      (120 != ja.charCodeAt(a, 1) && 88 != ja.charCodeAt(a, 1)) ||
+      (b = parseInt(a));
     return isNaN(b) ? null : b;
   };
   var ma = function () {};
   ma.__name__ = !0;
   ma.isSpace = function (a, b) {
-    var c = ja.cca(a, b);
+    var c = ja.charCodeAt(a, b);
     return 8 < c && 14 > c ? !0 : 32 == c;
   };
   ma.ltrim = function (a) {
@@ -1518,7 +1521,8 @@
   };
   za.decode = function (a, b) {
     null == b && (b = !0);
-    if (b) for (; 61 == ja.cca(a, a.length - 1); ) a = ja.substr(a, 0, -1);
+    if (b)
+      for (; 61 == ja.charCodeAt(a, a.length - 1); ) a = ja.substr(a, 0, -1);
     return new sb(za.BYTES).decodeBytes(ya.ofString(a));
   };
   var sb = function (a) {
@@ -19489,7 +19493,7 @@
       var K = y++;
       '\n' == c.charAt(K)
         ? (++p, (m = 0), (k += b.lineHeight))
-        : ((K = ja.cca(c, K)),
+        : ((K = ja.charCodeAt(c, K)),
           (K = b.chars[K]),
           null != K &&
             (a.drawImage(
@@ -19533,7 +19537,9 @@
             (a = d = 0),
             (c += this.lineHeight);
         else if (
-          ((m = ja.cca(this.text, m)), (m = this.font.chars[m]), null != m)
+          ((m = ja.charCodeAt(this.text, m)),
+          (m = this.font.chars[m]),
+          null != m)
         ) {
           var k = m.xo + m.w;
           d += a + k;
@@ -19561,7 +19567,7 @@
           ? (++e,
             (c = -this.getLineOffset(this.lineWidths[e])),
             (d += this.lineHeight))
-          : ((k = ja.cca(this.text, k)),
+          : ((k = ja.charCodeAt(this.text, k)),
             (k = this.font.chars[k]),
             null != k &&
               (a.drawImage(
