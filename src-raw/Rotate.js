@@ -1547,7 +1547,8 @@
   };
   ya.prototype = {
     getString: function (a, b) {
-      if (0 > a || 0 > b || a + b > this.length) throw new Z(oa.OutsideBounds);
+      if (0 > a || 0 > b || a + b > this.length)
+        throw new ROTATE_Error(oa.OutsideBounds);
       for (
         var c = '', d = this.b, e = String.fromCharCode, f = a, m = a + b;
         f < m;
@@ -1606,7 +1607,7 @@
   var sb = function (a) {
     for (var b = a.length, c = 1; b > 1 << c; ) ++c;
     if (8 < c || b != 1 << c)
-      throw new Z('BaseCode : base length must be a power of two.');
+      throw new ROTATE_Error('BaseCode : base length must be a power of two.');
     this.base = a;
     this.nbits = c;
   };
@@ -1663,7 +1664,8 @@
           m += b;
           f <<= b;
           var y = c[a.b[k++]];
-          if (-1 == y) throw new Z('BaseCode : invalid encoded char');
+          if (-1 == y)
+            throw new ROTATE_Error('BaseCode : invalid encoded char');
           f |= y;
         }
         m -= 8;
@@ -1776,19 +1778,20 @@
     a.toString = dc;
     return a;
   };
-  var Z = function (a) {
+
+  var ROTATE_Error = function (a) {
     Error.call(this);
     this.val = a;
     this.message = String(a);
-    Error.captureStackTrace && Error.captureStackTrace(this, Z);
+    Error.captureStackTrace && Error.captureStackTrace(this, ROTATE_Error);
   };
-  Z.__name__ = !0;
-  Z.wrap = function (a) {
-    return a instanceof Error ? a : new Z(a);
+  ROTATE_Error.__name__ = !0;
+  ROTATE_Error.wrap = function (a) {
+    return a instanceof Error ? a : new ROTATE_Error(a);
   };
-  Z.__super__ = Error;
-  Z.prototype = __inherit(Error.prototype, {
-    __class__: Z,
+  ROTATE_Error.__super__ = Error;
+  ROTATE_Error.prototype = __inherit(Error.prototype, {
+    __class__: ROTATE_Error,
   });
 
   var JSObjectUtils = function () {};
@@ -1916,7 +1919,9 @@
   };
   JSObjectUtils.__cast = function (a, b) {
     if (JSObjectUtils.__instanceof(a, b)) return a;
-    throw new Z('Cannot cast ' + la.string(a) + ' to ' + la.string(b));
+    throw new ROTATE_Error(
+      'Cannot cast ' + la.string(a) + ' to ' + la.string(b),
+    );
   };
   JSObjectUtils.__nativeClassName = function (a) {
     a = JSObjectUtils.__toStr.call(a).slice(8, -1);
@@ -2328,7 +2333,7 @@
           }
         }
       } catch (f) {
-        f instanceof Z && (f = f.val), console.log(f);
+        f instanceof ROTATE_Error && (f = f.val), console.log(f);
       }
     },
     saveProgress: function () {
@@ -2437,9 +2442,9 @@
     try {
       return window.localStorage.getItem(a);
     } catch (b) {
-      b instanceof Z && (b = b.val);
+      b instanceof ROTATE_Error && (b = b.val);
       if ('SecurityError' != b.name && 'DOMException' != b.name)
-        throw Z.wrap(b);
+        throw ROTATE_Error.wrap(b);
       return null;
     }
   };
@@ -2448,10 +2453,10 @@
       window.localStorage.setItem(a, b);
     } catch (c) {
       if (
-        (c instanceof Z && (c = c.val),
+        (c instanceof ROTATE_Error && (c = c.val),
         'SecurityError' != c.name && 'DOMException' != c.name)
       )
-        throw Z.wrap(c);
+        throw ROTATE_Error.wrap(c);
     }
   };
   ra.removeItem = function (a) {
@@ -2459,10 +2464,10 @@
       window.localStorage.removeItem(a);
     } catch (b) {
       if (
-        (b instanceof Z && (b = b.val),
+        (b instanceof ROTATE_Error && (b = b.val),
         'SecurityError' != b.name && 'DOMException' != b.name)
       )
-        throw Z.wrap(b);
+        throw ROTATE_Error.wrap(b);
     }
   };
   ra.test = function () {
@@ -2472,9 +2477,9 @@
       window.localStorage.removeItem('?');
       return !0;
     } catch (a) {
-      a instanceof Z && (a = a.val);
+      a instanceof ROTATE_Error && (a = a.val);
       if ('SecurityError' != a.name && 'DOMException' != a.name)
-        throw Z.wrap(a);
+        throw ROTATE_Error.wrap(a);
       return !1;
     }
   };
