@@ -4619,18 +4619,20 @@
     },
     __class__: Ib,
   });
-  var ea = function () {};
-  ea.__name__ = !0;
-  ea.prototype = {
-    __class__: ea,
+
+  var ROTATE_BaseLevelInterface = function () {};
+  ROTATE_BaseLevelInterface.__name__ = !0;
+  ROTATE_BaseLevelInterface.prototype = {
+    __class__: ROTATE_BaseLevelInterface,
   };
+
   var ROTATE_EditorLevel = function () {
     this.startDir = 1;
     this.theme = 0;
     this.reset();
   };
   ROTATE_EditorLevel.__name__ = !0;
-  ROTATE_EditorLevel.__interfaces__ = [ea];
+  ROTATE_EditorLevel.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_EditorLevel.prototype = {
     reset: function () {
       this.tiles = [];
@@ -4679,6 +4681,7 @@
     kill: function () {},
     __class__: ROTATE_EditorLevel,
   };
+
   var ROTATE_Level1 = function () {
     this.startDir = 1;
     this.finishRow = 3;
@@ -4990,7 +4993,7 @@
     this.theme = 0;
   };
   ROTATE_Level1.__name__ = !0;
-  ROTATE_Level1.__interfaces__ = [ea];
+  ROTATE_Level1.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level1.prototype = {
     start: function () {
       var a = ROTATE_Game.instance.currentScreen;
@@ -5757,7 +5760,7 @@
     this.theme = 1;
   };
   ROTATE_Level10.__name__ = !0;
-  ROTATE_Level10.__interfaces__ = [ea];
+  ROTATE_Level10.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level10.prototype = {
     start: function () {
       this.speech = new U([
@@ -6361,7 +6364,7 @@
     this.theme = 1;
   };
   ROTATE_Level11.__name__ = !0;
-  ROTATE_Level11.__interfaces__ = [ea];
+  ROTATE_Level11.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level11.prototype = {
     start: function () {
       this.speech = new U([
@@ -7001,7 +7004,7 @@
     this.theme = 1;
   };
   ROTATE_Level12.__name__ = !0;
-  ROTATE_Level12.__interfaces__ = [ea];
+  ROTATE_Level12.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level12.prototype = {
     start: function () {
       this.speech = new U([
@@ -7738,7 +7741,7 @@
     this.theme = 1;
   };
   ROTATE_Level13.__name__ = !0;
-  ROTATE_Level13.__interfaces__ = [ea];
+  ROTATE_Level13.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level13.prototype = {
     start: function () {
       this.speech = new U([
@@ -9211,7 +9214,7 @@
     this.theme = 1;
   };
   ROTATE_Level14.__name__ = !0;
-  ROTATE_Level14.__interfaces__ = [ea];
+  ROTATE_Level14.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level14.prototype = {
     start: function () {
       this.cond1.start();
@@ -10748,7 +10751,7 @@
     this.theme = 1;
   };
   ROTATE_Level15.__name__ = !0;
-  ROTATE_Level15.__interfaces__ = [ea];
+  ROTATE_Level15.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level15.prototype = {
     start: function () {
       this.speech = new U([
@@ -12504,7 +12507,7 @@
     this.theme = 1;
   };
   ROTATE_Level16.__name__ = !0;
-  ROTATE_Level16.__interfaces__ = [ea];
+  ROTATE_Level16.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level16.prototype = {
     start: function () {
       this.speech = new U([
@@ -12880,7 +12883,7 @@
     this.theme = 0;
   };
   ROTATE_Level2.__name__ = !0;
-  ROTATE_Level2.__interfaces__ = [ea];
+  ROTATE_Level2.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level2.prototype = {
     start: function () {
       this.speech = new U([
@@ -13129,7 +13132,7 @@
     this.theme = 0;
   };
   ROTATE_Level3.__name__ = !0;
-  ROTATE_Level3.__interfaces__ = [ea];
+  ROTATE_Level3.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level3.prototype = {
     start: function () {
       this.speech = new U([
@@ -13538,7 +13541,7 @@
     this.theme = 0;
   };
   ROTATE_Level4.__name__ = !0;
-  ROTATE_Level4.__interfaces__ = [ea];
+  ROTATE_Level4.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level4.prototype = {
     start: function () {
       this.speech = new U([
@@ -13924,7 +13927,7 @@
     this.theme = 0;
   };
   ROTATE_Level5.__name__ = !0;
-  ROTATE_Level5.__interfaces__ = [ea];
+  ROTATE_Level5.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level5.prototype = {
     start: function () {
       this.speech = new U([
@@ -14614,7 +14617,7 @@
     this.theme = 0;
   };
   ROTATE_Level6.__name__ = !0;
-  ROTATE_Level6.__interfaces__ = [ea];
+  ROTATE_Level6.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level6.prototype = {
     start: function () {
       this.speech = new U([
@@ -15344,7 +15347,7 @@
     this.theme = 0;
   };
   ROTATE_Level7.__name__ = !0;
-  ROTATE_Level7.__interfaces__ = [ea];
+  ROTATE_Level7.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level7.prototype = {
     start: function () {
       this.speech = new U([
@@ -16653,7 +16656,7 @@
     this.theme = 0;
   };
   ROTATE_Level8.__name__ = !0;
-  ROTATE_Level8.__interfaces__ = [ea];
+  ROTATE_Level8.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level8.prototype = {
     start: function () {
       var a = ROTATE_Game.instance.currentScreen;
@@ -17832,7 +17835,7 @@
     this.theme = 1;
   };
   ROTATE_Level9.__name__ = !0;
-  ROTATE_Level9.__interfaces__ = [ea];
+  ROTATE_Level9.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level9.prototype = {
     start: function () {
       this.speech = new U([
