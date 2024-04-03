@@ -18734,13 +18734,13 @@
     __class__: ROTATE_Speech,
   };
 
-  var P = function () {
+  var ROTATE_ScreenBase = function () {
     this.pausable = !1;
     ROTATE_CanvasObject.call(this);
   };
-  P.__name__ = !0;
-  P.__super__ = ROTATE_CanvasObject;
-  P.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_ScreenBase.__name__ = !0;
+  ROTATE_ScreenBase.__super__ = ROTATE_CanvasObject;
+  ROTATE_ScreenBase.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     init: function () {},
     ready: function () {},
     update: function () {},
@@ -18748,7 +18748,7 @@
     postUpdate: function () {},
     prekill: function () {},
     kill: function () {},
-    __class__: P,
+    __class__: ROTATE_ScreenBase,
   });
 
   var ROTATE_ScreenAwards = function () {
@@ -18762,11 +18762,11 @@
     this.bg = new ROTATE_BackgroundObject();
     this.content = new ROTATE_CanvasObject();
     this.pivot = new ROTATE_CanvasObject();
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
   };
   ROTATE_ScreenAwards.__name__ = !0;
-  ROTATE_ScreenAwards.__super__ = P;
-  ROTATE_ScreenAwards.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenAwards.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenAwards.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
@@ -18886,12 +18886,12 @@
       1,
     );
     this.btnBack = new ROTATE_Button('BACK');
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
     this.fromEnd = fromEnd;
   };
   ROTATE_ScreenCredits.__name__ = !0;
-  ROTATE_ScreenCredits.__super__ = P;
-  ROTATE_ScreenCredits.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenCredits.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenCredits.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       var a = this;
       if (this.fromEnd) {
@@ -19003,11 +19003,11 @@
     this.camera = new ROTATE_CanvasObject();
     this.pivot = new ROTATE_CanvasObject();
     this.bg = new ROTATE_CanvasObject();
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
   };
   ROTATE_ScreenGameBase.__name__ = !0;
-  ROTATE_ScreenGameBase.__super__ = P;
-  ROTATE_ScreenGameBase.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenGameBase.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenGameBase.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       this.bg.graphics.beginFill(0x303030);
       this.bg.graphics.drawRect(
@@ -19536,13 +19536,13 @@
     null == speedrun && (speedrun = !1);
     this.done1 = this.first = !1;
     this.cond1 = new ROTATE_SpeechDelay(10);
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
     this.pausable = !0;
     this.speedrun = speedrun;
   };
   ROTATE_ScreenGameFinished.__name__ = !0;
-  ROTATE_ScreenGameFinished.__super__ = P;
-  ROTATE_ScreenGameFinished.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenGameFinished.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenGameFinished.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
       this.cond1.start();
@@ -19610,120 +19610,124 @@
     this.pivot = new ROTATE_CanvasObject();
     this.done = !1;
     this.delay = 9.5;
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
     this.pausable = !0;
     this.first = a;
   };
   ROTATE_ScreenGameLastScene.__name__ = !0;
-  ROTATE_ScreenGameLastScene.__super__ = P;
-  ROTATE_ScreenGameLastScene.prototype = __inherit(P.prototype, {
-    init: function () {
-      this.start = ROTATE_Game.instance.get_gameTime();
-      this.bg.graphics.beginFill(16777215);
-      this.bg.graphics.drawRect(
-        0,
-        0,
-        ROTATE_Canvas.width,
-        ROTATE_Canvas.height,
-      );
-      this.addChild(this.bg);
-      this.pivot.set_x(ROTATE_Canvas.width / 2);
-      this.pivot.set_y(ROTATE_Canvas.height / 2);
-      this.addChild(this.pivot);
-      this.pivot.addChild(this.camera);
-      this.camera.addChild(this.artMain);
-      this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
-      this.artPlants.set_animation(
-        new ROTATE_Animation([0, 1, 2], [250, 250, 250]),
-      );
-      this.camera.addChild(this.artPlants);
-      this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
-      this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
-      this.cat.set_scaleX(-1);
-      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
-      this.camera.addChild(this.cat);
-      this.player.origin.x = this.player.frameW / 2;
-      this.player.origin.y = this.player.frameH;
-      this.player.set_animation(ROTATE_Physics.ANIM_IDLE);
-      this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
-      this.player.set_y(12 * ROTATE_GameConstants.tileSize);
-      this.camera.addChild(this.player);
-      this.camera.set_x(Math.round((this.cameraX = -this.player.x)));
-      this.camera.set_y(
-        Math.round(
-          (this.cameraY =
-            -this.player.y +
-            ROTATE_GameConstants.rotateOffset +
-            2 * ROTATE_GameConstants.tileSize),
-        ),
-      );
-      this.vignette.set_alpha(0.75);
-      this.addChild(this.vignette);
-      this.hint.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.hint.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
-      this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.hint.set_y(ROTATE_Canvas.height - 24);
-      this.hint.set_alpha(0);
-      this.addChild(this.hint);
-      ROTATE_Audio.surface.volume(1);
-      ROTATE_Game.ie &&
-      ROTATE_Game.instance.muteSFX &&
-      ROTATE_Game.instance.muteMusic
-        ? (ROTATE_Game.instance.ieSurface = !0)
-        : (ROTATE_Audio.surface.play(),
-          ROTATE_Game.ie ||
-            ROTATE_Audio.surface.fade(
-              0,
-              1,
-              Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
-            ));
+  ROTATE_ScreenGameLastScene.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenGameLastScene.prototype = __inherit(
+    ROTATE_ScreenBase.prototype,
+    {
+      init: function () {
+        this.start = ROTATE_Game.instance.get_gameTime();
+        this.bg.graphics.beginFill(16777215);
+        this.bg.graphics.drawRect(
+          0,
+          0,
+          ROTATE_Canvas.width,
+          ROTATE_Canvas.height,
+        );
+        this.addChild(this.bg);
+        this.pivot.set_x(ROTATE_Canvas.width / 2);
+        this.pivot.set_y(ROTATE_Canvas.height / 2);
+        this.addChild(this.pivot);
+        this.pivot.addChild(this.camera);
+        this.camera.addChild(this.artMain);
+        this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
+        this.artPlants.set_animation(
+          new ROTATE_Animation([0, 1, 2], [250, 250, 250]),
+        );
+        this.camera.addChild(this.artPlants);
+        this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
+        this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
+        this.cat.set_scaleX(-1);
+        this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
+        this.camera.addChild(this.cat);
+        this.player.origin.x = this.player.frameW / 2;
+        this.player.origin.y = this.player.frameH;
+        this.player.set_animation(ROTATE_Physics.ANIM_IDLE);
+        this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
+        this.player.set_y(12 * ROTATE_GameConstants.tileSize);
+        this.camera.addChild(this.player);
+        this.camera.set_x(Math.round((this.cameraX = -this.player.x)));
+        this.camera.set_y(
+          Math.round(
+            (this.cameraY =
+              -this.player.y +
+              ROTATE_GameConstants.rotateOffset +
+              2 * ROTATE_GameConstants.tileSize),
+          ),
+        );
+        this.vignette.set_alpha(0.75);
+        this.addChild(this.vignette);
+        this.hint.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+        this.hint.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
+        this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
+        this.hint.set_y(ROTATE_Canvas.height - 24);
+        this.hint.set_alpha(0);
+        this.addChild(this.hint);
+        ROTATE_Audio.surface.volume(1);
+        ROTATE_Game.ie &&
+        ROTATE_Game.instance.muteSFX &&
+        ROTATE_Game.instance.muteMusic
+          ? (ROTATE_Game.instance.ieSurface = !0)
+          : (ROTATE_Audio.surface.play(),
+            ROTATE_Game.ie ||
+              ROTATE_Audio.surface.fade(
+                0,
+                1,
+                Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
+              ));
+      },
+      update: function () {
+        var a = this,
+          b = ROTATE_Game.instance.get_gameTime() - this.start;
+        !this.catTrigger &&
+          8 <= b &&
+          ((this.catTrigger = !0),
+          this.cat.set_scaleX(1),
+          (this.cat.horizontal = 1),
+          this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_1),
+          (this.cat.onFinish = function () {
+            a.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_2);
+            a.cat.onFinish = null;
+          }));
+        var c = b - this.delay;
+        this.hint.set_alpha(
+          0 > c ? 0 : 0.33 * ROTATE_Game.smootherStep(Math.min(c / 2.5, 1)),
+        );
+        !this.done &&
+          b >= this.delay &&
+          InputKeys.keyPressed(KEY_CODES.Space) &&
+          ((this.done = !0),
+          this.first &&
+            ((ROTATE_Awards.awardEscape.unlocked = !1),
+            ROTATE_Awards.awardEscape.unlock()),
+          ROTATE_Game.instance.changeScreen(
+            new ROTATE_ScreenCredits(!0),
+            !0,
+            null,
+            !0,
+            !0,
+          ),
+          ROTATE_Game.instance.timerHolder.removeChildren());
+      },
+      tick: function () {
+        var a = 0.75 * ROTATE_GameConstants.cameraSpeed;
+        this.cameraX += (-this.player.x - this.cameraX) * a;
+        this.cameraY +=
+          (-this.player.y + ROTATE_GameConstants.rotateOffset - this.cameraY) *
+          a;
+        this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
+      },
+      postUpdate: function () {
+        this.camera.set_x(Math.round(this.cameraX));
+        this.camera.set_y(Math.round(this.cameraY));
+      },
+      __class__: ROTATE_ScreenGameLastScene,
     },
-    update: function () {
-      var a = this,
-        b = ROTATE_Game.instance.get_gameTime() - this.start;
-      !this.catTrigger &&
-        8 <= b &&
-        ((this.catTrigger = !0),
-        this.cat.set_scaleX(1),
-        (this.cat.horizontal = 1),
-        this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_1),
-        (this.cat.onFinish = function () {
-          a.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_2);
-          a.cat.onFinish = null;
-        }));
-      var c = b - this.delay;
-      this.hint.set_alpha(
-        0 > c ? 0 : 0.33 * ROTATE_Game.smootherStep(Math.min(c / 2.5, 1)),
-      );
-      !this.done &&
-        b >= this.delay &&
-        InputKeys.keyPressed(KEY_CODES.Space) &&
-        ((this.done = !0),
-        this.first &&
-          ((ROTATE_Awards.awardEscape.unlocked = !1),
-          ROTATE_Awards.awardEscape.unlock()),
-        ROTATE_Game.instance.changeScreen(
-          new ROTATE_ScreenCredits(!0),
-          !0,
-          null,
-          !0,
-          !0,
-        ),
-        ROTATE_Game.instance.timerHolder.removeChildren());
-    },
-    tick: function () {
-      var a = 0.75 * ROTATE_GameConstants.cameraSpeed;
-      this.cameraX += (-this.player.x - this.cameraX) * a;
-      this.cameraY +=
-        (-this.player.y + ROTATE_GameConstants.rotateOffset - this.cameraY) * a;
-      this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
-    },
-    postUpdate: function () {
-      this.camera.set_x(Math.round(this.cameraX));
-      this.camera.set_y(Math.round(this.cameraY));
-    },
-    __class__: ROTATE_ScreenGameLastScene,
-  });
+  );
 
   var ROTATE_ScreenExtras = function () {
     this.erase = new ROTATE_EraseButton();
@@ -19751,11 +19755,11 @@
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'EXTRAS', 1);
     this.bg = new ROTATE_BackgroundObject();
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
   };
   ROTATE_ScreenExtras.__name__ = !0;
-  ROTATE_ScreenExtras.__super__ = P;
-  ROTATE_ScreenExtras.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenExtras.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenExtras.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
@@ -19832,11 +19836,11 @@
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
     this.bg = new ROTATE_BackgroundObject();
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
   };
   ROTATE_ScreenLevels.__name__ = !0;
-  ROTATE_ScreenLevels.__super__ = P;
-  ROTATE_ScreenLevels.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenLevels.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenLevels.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
@@ -19917,7 +19921,7 @@
     this.btnPlay = new ROTATE_Button('PLAY');
     this.logo = new ROTATE_ImageObject(ROTATE_Images.logo);
     this.bg = new ROTATE_BackgroundObject();
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
   };
   ROTATE_ScreenMainMenu.__name__ = !0;
   ROTATE_ScreenMainMenu.playTheme = function () {
@@ -19939,8 +19943,8 @@
           ROTATE_Audio.themeMenu.volume(1);
         }));
   };
-  ROTATE_ScreenMainMenu.__super__ = P;
-  ROTATE_ScreenMainMenu.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenMainMenu.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenMainMenu.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
@@ -20381,7 +20385,7 @@
     this.onTimer = null;
     this.done = !1;
     this.length = 1.5;
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
     this.lws = lws;
     lws = new ROTATE_ImageObject(ROTATE_Images.splashLWS);
     lws.set_x(Math.round((ROTATE_Canvas.width - lws.get_width()) / 2));
@@ -20389,8 +20393,8 @@
     this.addChild(lws);
   };
   ROTATE_ScreenLogo.__name__ = !0;
-  ROTATE_ScreenLogo.__super__ = P;
-  ROTATE_ScreenLogo.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenLogo.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenLogo.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     ready: function () {
       this.timer = Time.get_current();
     },
@@ -20406,11 +20410,11 @@
   var ROTATE_ScreenLaunchButton = function () {
     this.start = new ROTATE_ImageObject(ROTATE_Images.start);
     this.pivot = new ROTATE_CanvasObject();
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
   };
   ROTATE_ScreenLaunchButton.__name__ = !0;
-  ROTATE_ScreenLaunchButton.__super__ = P;
-  ROTATE_ScreenLaunchButton.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenLaunchButton.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenLaunchButton.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     init: function () {
       this.timer = Time.get_currentMS();
       this.pivot.set_x(ROTATE_Canvas.width / 2);
@@ -20452,49 +20456,52 @@
     this.cond2 = new ROTATE_SpeechDelay(0.5);
     this.done1 = !1;
     this.cond1 = new ROTATE_SpeechDelay(10);
-    P.call(this);
+    ROTATE_ScreenBase.call(this);
     this.pausable = !0;
     this.speedrun = speedrun;
   };
   ROTATE_ScreenGameBeginning.__name__ = !0;
-  ROTATE_ScreenGameBeginning.__super__ = P;
-  ROTATE_ScreenGameBeginning.prototype = __inherit(P.prototype, {
-    init: function () {
-      this.cond1.start();
-      this.speech = new ROTATE_Speech(
-        [
-          new ROTATE_SpeechPart(
-            new ROTATE_SpeechDelay(2),
-            "It's time to resume your training.",
-          ),
-          new ROTATE_SpeechPart(
-            new ROTATE_SpeechDelay(4),
-            "We'll start with the basics.",
-          ),
-        ],
-        this,
-      );
-      this.cond2.start();
+  ROTATE_ScreenGameBeginning.__super__ = ROTATE_ScreenBase;
+  ROTATE_ScreenGameBeginning.prototype = __inherit(
+    ROTATE_ScreenBase.prototype,
+    {
+      init: function () {
+        this.cond1.start();
+        this.speech = new ROTATE_Speech(
+          [
+            new ROTATE_SpeechPart(
+              new ROTATE_SpeechDelay(2),
+              "It's time to resume your training.",
+            ),
+            new ROTATE_SpeechPart(
+              new ROTATE_SpeechDelay(4),
+              "We'll start with the basics.",
+            ),
+          ],
+          this,
+        );
+        this.cond2.start();
+      },
+      update: function () {
+        !this.done2 &&
+          this.cond2.test() &&
+          ((this.done2 = !0),
+          ROTATE_ScreenPrimaryGame.playTheme(0),
+          ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
+        this.speech.update();
+        !this.done1 &&
+          this.cond1.test() &&
+          ((this.done1 = !0),
+          ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.level1, this.speedrun));
+      },
+      prekill: function () {
+        ROTATE_ScreenPrimaryGame.continueTheme ||
+          ROTATE_ScreenPrimaryGame.stopTheme();
+      },
+      kill: function () {},
+      __class__: ROTATE_ScreenGameBeginning,
     },
-    update: function () {
-      !this.done2 &&
-        this.cond2.test() &&
-        ((this.done2 = !0),
-        ROTATE_ScreenPrimaryGame.playTheme(0),
-        ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
-      this.speech.update();
-      !this.done1 &&
-        this.cond1.test() &&
-        ((this.done1 = !0),
-        ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.level1, this.speedrun));
-    },
-    prekill: function () {
-      ROTATE_ScreenPrimaryGame.continueTheme ||
-        ROTATE_ScreenPrimaryGame.stopTheme();
-    },
-    kill: function () {},
-    __class__: ROTATE_ScreenGameBeginning,
-  });
+  );
 
   var ROTATE_Text = function (font, text, color) {
     null == color && (color = 0);
