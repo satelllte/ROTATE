@@ -2260,7 +2260,7 @@
           'number' == typeof b &&
           (b | 0) === b &&
           0 <= a.unlocked &&
-          a.unlocked < B.list.length &&
+          a.unlocked < ROTATE_Levels.list.length &&
           a.awards instanceof Array &&
           null == a.awards.__enum__ &&
           a.awards.length == v.all.length
@@ -2309,7 +2309,7 @@
           if (null != b) {
             b.muteMusic && this.toggleMusic(!1);
             b.muteSFX && this.toggleSFX(!1);
-            null != b.unlocked && (B.unlocked = b.unlocked);
+            null != b.unlocked && (ROTATE_Levels.unlocked = b.unlocked);
             if (
               null != b.awards &&
               b.awards instanceof Array &&
@@ -2322,7 +2322,7 @@
                 c[e] && (v.all[e].unlocked = !0);
               }
             }
-            null != b.best && (B.speedrunBest = b.best);
+            null != b.best && (ROTATE_Levels.speedrunBest = b.best);
             null != b.invert && (this.invert = 1 == b.invert);
           }
         }
@@ -2337,10 +2337,10 @@
         a.push(d.unlocked);
       }
       a = {
-        unlocked: B.unlocked,
+        unlocked: ROTATE_Levels.unlocked,
         awards: a,
       };
-      -1 < B.speedrunBest && (a.best = B.speedrunBest);
+      -1 < ROTATE_Levels.speedrunBest && (a.best = ROTATE_Levels.speedrunBest);
       this.invert && (a.invert = !0);
       this.muteMusic && (a.muteMusic = !0);
       this.muteSFX && (a.muteSFX = !0);
@@ -2353,8 +2353,8 @@
         ++a;
         c.unlocked = !1;
       }
-      B.unlocked = 0;
-      B.speedrunBest = -1;
+      ROTATE_Levels.unlocked = 0;
+      ROTATE_Levels.speedrunBest = -1;
       this.invert = !1;
     },
     warnNoSave: function (a) {
@@ -5084,7 +5084,7 @@
         : 0;
     },
     finished: function () {
-      return B.level2;
+      return ROTATE_Levels.level2;
     },
     kill: function () {
       this.c1.parent.removeChild(this.c1);
@@ -5775,7 +5775,7 @@
       this.cat.update();
     },
     finished: function () {
-      return B.level11;
+      return ROTATE_Levels.level11;
     },
     kill: function () {},
     __class__: Jb,
@@ -6377,7 +6377,7 @@
       this.cat.update();
     },
     finished: function () {
-      return B.level12;
+      return ROTATE_Levels.level12;
     },
     kill: function () {},
     __class__: Kb,
@@ -7018,7 +7018,7 @@
       this.cat.update();
     },
     finished: function () {
-      return B.level13;
+      return ROTATE_Levels.level13;
     },
     kill: function () {},
     __class__: Lb,
@@ -7757,7 +7757,7 @@
       this.cat.update();
     },
     finished: function () {
-      return B.level14;
+      return ROTATE_Levels.level14;
     },
     kill: function () {},
     __class__: Mb,
@@ -9252,7 +9252,7 @@
           ((this.done1 = !0), this.cond2.start(), this.cond3.start());
     },
     finished: function () {
-      return B.level15;
+      return ROTATE_Levels.level15;
     },
     kill: function () {},
     __class__: Nb,
@@ -10766,7 +10766,7 @@
       this.cat.update();
     },
     finished: function () {
-      return B.level16;
+      return ROTATE_Levels.level16;
     },
     kill: function () {},
     __class__: Ob,
@@ -12893,7 +12893,7 @@
       this.speech.update();
     },
     finished: function () {
-      return B.level3;
+      return ROTATE_Levels.level3;
     },
     kill: function () {},
     __class__: Qb,
@@ -13145,7 +13145,7 @@
       this.speech.update();
     },
     finished: function () {
-      return B.level4;
+      return ROTATE_Levels.level4;
     },
     kill: function () {},
     __class__: Rb,
@@ -13551,7 +13551,7 @@
       this.speech.update();
     },
     finished: function () {
-      return B.level5;
+      return ROTATE_Levels.level5;
     },
     kill: function () {},
     __class__: Sb,
@@ -13938,7 +13938,7 @@
       this.speech.update();
     },
     finished: function () {
-      return B.level6;
+      return ROTATE_Levels.level6;
     },
     kill: function () {},
     __class__: Tb,
@@ -14628,7 +14628,7 @@
       this.speech.update();
     },
     finished: function () {
-      return B.level7;
+      return ROTATE_Levels.level7;
     },
     kill: function () {},
     __class__: Ub,
@@ -15361,7 +15361,7 @@
       this.cat.update();
     },
     finished: function () {
-      return B.level8;
+      return ROTATE_Levels.level8;
     },
     kill: function () {},
     __class__: Vb,
@@ -16694,7 +16694,7 @@
           (this.s1 = !0);
     },
     finished: function () {
-      return B.level9;
+      return ROTATE_Levels.level9;
     },
     kill: function () {
       this.c1.parent.removeChild(this.c1);
@@ -17849,13 +17849,13 @@
       this.cat.update();
     },
     finished: function () {
-      return B.level10;
+      return ROTATE_Levels.level10;
     },
     kill: function () {},
     __class__: Wb,
   };
-  var B = function () {};
-  B.__name__ = !0;
+  var ROTATE_Levels = function () {};
+  ROTATE_Levels.__name__ = !0;
   var cb = function () {};
   cb.__name__ = !0;
   cb.prototype = {
@@ -18912,7 +18912,9 @@
         ],
         this,
       );
-      this.speedrun && 42e4 >= B.speedrunBest && v.awardSpeedrun.unlock();
+      this.speedrun &&
+        42e4 >= ROTATE_Levels.speedrunBest &&
+        v.awardSpeedrun.unlock();
       if ((this.first = !v.awardEscape.unlocked))
         (v.awardEscape.unlocked = !0), ROTATE_Game.instance.saveProgress();
     },
@@ -19124,11 +19126,11 @@
       var a = this.bestTime;
       a.set_text(
         a.text +
-          (-1 < B.speedrunBest
-            ? ROTATE_Game.formatMS(B.speedrunBest)
+          (-1 < ROTATE_Levels.speedrunBest
+            ? ROTATE_Game.formatMS(ROTATE_Levels.speedrunBest)
             : '--:--:----'),
       );
-      0 > B.speedrunBest && this.bestTime.set_alpha(0.5);
+      0 > ROTATE_Levels.speedrunBest && this.bestTime.set_alpha(0.5);
       this.addChild(this.bestTime);
       this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.btnBack.set_y(ROTATE_Canvas.height - 80);
@@ -19179,7 +19181,7 @@
     refresh: function () {
       this.tiles.removeChildren();
       for (
-        var a = B.list.length,
+        var a = ROTATE_Levels.list.length,
           b = Math.round((ROTATE_Canvas.width - (4 * q.level.width + 72)) / 2),
           c = this.title.y + 56,
           d = 0;
@@ -19189,7 +19191,7 @@
         var e = [d++],
           f = Math.floor(e[0] / 4),
           m = e[0] % 4,
-          k = e[0] <= B.unlocked,
+          k = e[0] <= ROTATE_Levels.unlocked,
           p = new I(q.level);
         p.set_x(b + m * (p.get_width() + 24));
         p.set_y(c + f * (p.get_height() + 20));
@@ -19203,7 +19205,7 @@
                     (ca.stopTheme(),
                     0 == y[0]
                       ? ROTATE_Game.instance.changeScreen(new Qa())
-                      : w.play(B.list[y[0]]));
+                      : w.play(ROTATE_Levels.list[y[0]]));
                 };
               })(e),
             ))
@@ -19261,7 +19263,7 @@
       this.btnPlay.set_y(Math.floor(ROTATE_Canvas.height / 2) - 1);
       this.btnPlay.addEventListener('click', function (a) {
         1 < a.which ||
-          (0 == B.unlocked
+          (0 == ROTATE_Levels.unlocked
             ? (ca.stopTheme(), ROTATE_Game.instance.changeScreen(new Qa()))
             : ROTATE_Game.instance.changeScreen(new pb()));
       });
@@ -19413,7 +19415,10 @@
       this.red.visible = !1;
       this.addChild(this.red);
       if (this.speedrun) {
-        if (-1 == this.speedrunStart || 0 == B.list.indexOf(l.level))
+        if (
+          -1 == this.speedrunStart ||
+          0 == ROTATE_Levels.list.indexOf(l.level)
+        )
           this.speedrunStart = ROTATE_Game.instance.get_gameTimeMS();
         this.timerText = new r(ROTATE_Game.fontMain, '', 2);
         this.timerText.align = r.ALIGN_RIGHT;
@@ -19423,7 +19428,7 @@
         ROTATE_Game.instance.timerHolder.addChild(this.timerText);
         this.updateTimer();
       } else
-        l.level != B.level1 ||
+        l.level != ROTATE_Levels.level1 ||
           ROTATE_Game.instance.hasPaused ||
           ((this.pauseText = new r(
             ROTATE_Game.fontMain,
@@ -19488,21 +19493,25 @@
       );
     },
     finished: function () {
-      var a = B.list.indexOf(l.level);
+      var a = ROTATE_Levels.list.indexOf(l.level);
       if (-1 < a) {
         var b = !1;
         ++a;
-        if (this.speedrun && a == B.list.length) {
+        if (this.speedrun && a == ROTATE_Levels.list.length) {
           if (
             ((this.speedrunFinal =
               ROTATE_Game.instance.get_gameTimeMS() -
               this.speedrunStart +
               n.screenFadeTime / 2),
-            0 > B.speedrunBest || this.speedrunFinal < B.speedrunBest)
+            0 > ROTATE_Levels.speedrunBest ||
+              this.speedrunFinal < ROTATE_Levels.speedrunBest)
           )
-            (B.speedrunBest = this.speedrunFinal), (b = this.newBest = !0);
+            (ROTATE_Levels.speedrunBest = this.speedrunFinal),
+              (b = this.newBest = !0);
         } else
-          a > B.unlocked && a < B.list.length && ((B.unlocked = a), (b = !0));
+          a > ROTATE_Levels.unlocked &&
+            a < ROTATE_Levels.list.length &&
+            ((ROTATE_Levels.unlocked = a), (b = !0));
         b && ROTATE_Game.instance.saveProgress();
       }
       a = l.level.finished();
@@ -19710,7 +19719,7 @@
       this.speech.update();
       !this.done1 &&
         this.cond1.test() &&
-        ((this.done1 = !0), w.play(B.level1, this.speedrun));
+        ((this.done1 = !0), w.play(ROTATE_Levels.level1, this.speedrun));
     },
     prekill: function () {
       w.continueTheme || w.stopTheme();
@@ -20197,7 +20206,7 @@
         break;
       }
     }
-    0 != B.unlocked || a
+    0 != ROTATE_Levels.unlocked || a
       ? ((this.buttonMode = this.mouseEnabled = !0),
         this.addEventListener('click', function (e) {
           if (2 > e.which) {
@@ -20446,7 +20455,7 @@
             ? new A()
             : a
               ? new Oa()
-              : 0 < B.unlocked
+              : 0 < ROTATE_Levels.unlocked
                 ? new pb()
                 : new ca(),
           !0,
@@ -20799,42 +20808,44 @@
   ha.fadeSpeed = 0.1;
   Aa.fakeCol = 30;
   Aa.fakeRow = 16;
-  B.level1 = new ha();
-  B.level2 = new Qb();
-  B.level3 = new Rb();
-  B.level4 = new Sb();
-  B.level5 = new Tb();
-  B.level6 = new Ub();
-  B.level7 = new Vb();
-  B.level8 = new Aa();
-  B.level9 = new Wb();
-  B.level10 = new Jb();
-  B.level11 = new Kb();
-  B.level12 = new Lb();
-  B.level13 = new Mb();
-  B.level14 = new Nb();
-  B.level15 = new Ob();
-  B.level16 = new Pb();
-  B.list = [
-    B.level1,
-    B.level2,
-    B.level3,
-    B.level4,
-    B.level5,
-    B.level6,
-    B.level7,
-    B.level8,
-    B.level9,
-    B.level10,
-    B.level11,
-    B.level12,
-    B.level13,
-    B.level14,
-    B.level15,
-    B.level16,
+
+  ROTATE_Levels.level1 = new ha();
+  ROTATE_Levels.level2 = new Qb();
+  ROTATE_Levels.level3 = new Rb();
+  ROTATE_Levels.level4 = new Sb();
+  ROTATE_Levels.level5 = new Tb();
+  ROTATE_Levels.level6 = new Ub();
+  ROTATE_Levels.level7 = new Vb();
+  ROTATE_Levels.level8 = new Aa();
+  ROTATE_Levels.level9 = new Wb();
+  ROTATE_Levels.level10 = new Jb();
+  ROTATE_Levels.level11 = new Kb();
+  ROTATE_Levels.level12 = new Lb();
+  ROTATE_Levels.level13 = new Mb();
+  ROTATE_Levels.level14 = new Nb();
+  ROTATE_Levels.level15 = new Ob();
+  ROTATE_Levels.level16 = new Pb();
+  ROTATE_Levels.list = [
+    ROTATE_Levels.level1,
+    ROTATE_Levels.level2,
+    ROTATE_Levels.level3,
+    ROTATE_Levels.level4,
+    ROTATE_Levels.level5,
+    ROTATE_Levels.level6,
+    ROTATE_Levels.level7,
+    ROTATE_Levels.level8,
+    ROTATE_Levels.level9,
+    ROTATE_Levels.level10,
+    ROTATE_Levels.level11,
+    ROTATE_Levels.level12,
+    ROTATE_Levels.level13,
+    ROTATE_Levels.level14,
+    ROTATE_Levels.level15,
+    ROTATE_Levels.level16,
   ];
-  B.unlocked = 0;
-  B.speedrunBest = -1;
+  ROTATE_Levels.unlocked = 0;
+  ROTATE_Levels.speedrunBest = -1;
+
   U.TIME_TYPE = 30;
   U.TIME_STAY = 5250;
   U.TIME_FADE = 750;
