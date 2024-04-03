@@ -3445,18 +3445,20 @@
     L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
     if (
       null == L.gridCanvas &&
-      E.__instanceof(ROTATE_Game.instance.currentScreen, A)
+      E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor)
     ) {
       L.gridCanvas = window.document.createElement('canvas');
-      L.gridCanvas.width = A.editorLevel.tiles[0].length * n.tileSize + 2;
-      L.gridCanvas.height = A.editorLevel.tiles.length * n.tileSize + 2;
+      L.gridCanvas.width =
+        ROTATE_Editor.editorLevel.tiles[0].length * n.tileSize + 2;
+      L.gridCanvas.height =
+        ROTATE_Editor.editorLevel.tiles.length * n.tileSize + 2;
       L.gridCtx = L.gridCanvas.getContext('2d', null);
       L.gridSurface = new Surface(L.gridCtx);
       L.gridSurface.beginFill(2105376, 0.2);
       c = 0;
-      for (var d = A.editorLevel.tiles.length + 1; c < d; )
+      for (var d = ROTATE_Editor.editorLevel.tiles.length + 1; c < d; )
         for (
-          var e = c++, f = 0, m = A.editorLevel.tiles[0].length + 1;
+          var e = c++, f = 0, m = ROTATE_Editor.editorLevel.tiles[0].length + 1;
           f < m;
 
         ) {
@@ -3787,10 +3789,11 @@
             0,
           );
           if (
-            E.__instanceof(ROTATE_Game.instance.currentScreen, A) &&
-            (A.renderBlockText(a, b.getMeta(0) + ''), 1 < d)
+            E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor) &&
+            (ROTATE_Editor.renderBlockText(a, b.getMeta(0) + ''), 1 < d)
           )
-            for (b = 1; b < d; ) (c = b++), A.renderBlockRed(a, c * f, 0);
+            for (b = 1; b < d; )
+              (c = b++), ROTATE_Editor.renderBlockRed(a, c * f, 0);
         } else
           a.drawImage(
             q.blocks,
@@ -4008,7 +4011,7 @@
       null == c && (c = !0);
       b = b.getMeta(0) % 4;
       c =
-        !c || E.__instanceof(ROTATE_Game.instance.currentScreen, A)
+        !c || E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor)
           ? 0
           : Math.floor(ROTATE_Game.instance.get_gameTimeMS() / 50) % 3;
       a.drawImage(
@@ -4115,7 +4118,7 @@
       ];
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(ROTATE_Game.instance.currentScreen, A);
+      return !E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor);
     },
     render: function (a, b, c) {
       null == c && (c = !0);
@@ -4132,8 +4135,8 @@
         0,
       );
       c &&
-        E.__instanceof(ROTATE_Game.instance.currentScreen, A) &&
-        A.renderBlockText(a, b.getMeta(0) + '');
+        E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor) &&
+        ROTATE_Editor.renderBlockText(a, b.getMeta(0) + '');
     },
     setupBubble: function (a) {
       var b = this,
@@ -4385,7 +4388,7 @@
       null == c && (c = !0);
       var d = ROTATE_Game.instance.get_gameTimeMS() / 40;
       c =
-        !c || E.__instanceof(ROTATE_Game.instance.currentScreen, A)
+        !c || E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor)
           ? 0
           : Math.floor(d - (d < n.E ? 0 : n.E)) % 3;
       this.renderRotated(a, b, (4 + c) * n.tileSize, n.tileSize);
@@ -4398,7 +4401,7 @@
       return !1;
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(ROTATE_Game.instance.currentScreen, A);
+      return !E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor);
     },
     __class__: Db,
   });
@@ -4677,7 +4680,7 @@
       this.speech.update();
     },
     finished: function () {
-      ROTATE_Game.instance.changeScreen(new A());
+      ROTATE_Game.instance.changeScreen(new ROTATE_Editor());
       return null;
     },
     kill: function () {},
@@ -18512,27 +18515,27 @@
     },
     __class__: qa,
   });
-  var A = function () {
+  var ROTATE_Editor = function () {
     this.doors = [];
     this.drawing = !1;
     this.horizontal = this.vertical = 0;
     qa.call(this);
   };
-  A.__name__ = !0;
-  A.renderBlockText = function (a, b) {
-    A.renderBlockRed(a, 0, 0);
+  ROTATE_Editor.__name__ = !0;
+  ROTATE_Editor.renderBlockText = function (a, b) {
+    ROTATE_Editor.renderBlockRed(a, 0, 0);
     ROTATE_Text.drawText(a, ROTATE_Game.fontMain, b, 2, 0, 0);
   };
-  A.renderBlockRed = function (a, b, c) {
+  ROTATE_Editor.renderBlockRed = function (a, b, c) {
     a.beginFill(10428448, 0.4);
     a.drawRect(b, c, n.tileSize, n.tileSize);
     a.endFill();
   };
-  A.__super__ = qa;
-  A.prototype = D(qa.prototype, {
+  ROTATE_Editor.__super__ = qa;
+  ROTATE_Editor.prototype = D(qa.prototype, {
     init: function () {
       var a = this;
-      l.set_level(A.editorLevel);
+      l.set_level(ROTATE_Editor.editorLevel);
       for (var b = 0, c = l.get_height(); b < c; )
         for (var d = b++, e = 0, f = l.get_width(); e < f; ) {
           var m = e++;
@@ -18549,19 +18552,20 @@
         2 > k.which && k.target == a && (a.drawing = !0);
       });
       ROTATE_Canvas.input.addEventListener('mouseUp', Bind(this, this.mouseUp));
-      this.renderer.showGrid = A.showGrid;
-      this.barUpper = new ROTATE_EditorBarUpper(A.editorLevel.theme, function (
-        k,
-      ) {
-        A.editorLevel.theme = 1 - A.editorLevel.theme;
-        a.barUpper.theme.set_text(
-          ROTATE_EditorBarUpper.THEMES[A.editorLevel.theme],
-        );
-        a.renderer.updateAllBlocks();
-      });
+      this.renderer.showGrid = ROTATE_Editor.showGrid;
+      this.barUpper = new ROTATE_EditorBarUpper(
+        ROTATE_Editor.editorLevel.theme,
+        function (k) {
+          ROTATE_Editor.editorLevel.theme = 1 - ROTATE_Editor.editorLevel.theme;
+          a.barUpper.theme.set_text(
+            ROTATE_EditorBarUpper.THEMES[ROTATE_Editor.editorLevel.theme],
+          );
+          a.renderer.updateAllBlocks();
+        },
+      );
       this.addChild(this.barUpper);
       this.barLower = new ROTATE_EditorBarLower(function () {
-        a.renderer.showGrid = A.showGrid;
+        a.renderer.showGrid = ROTATE_Editor.showGrid;
       });
       this.addChild(this.barLower);
       this.barUpper.btnSave.addEventListener('click', function (k) {
@@ -18574,8 +18578,8 @@
         if (2 > k.which) {
           var p = new eb('Are you sure you want\nto clear the level?');
           p.onYes = function () {
-            A.editorLevel.reset();
-            ROTATE_Game.instance.changeScreen(new A(), !1);
+            ROTATE_Editor.editorLevel.reset();
+            ROTATE_Game.instance.changeScreen(new ROTATE_Editor(), !1);
           };
           p.onNo = function () {
             a.removeChild(p);
@@ -18603,7 +18607,9 @@
         };
         b.onLoad = function (c) {
           return a.tryLoadLevel(c)
-            ? (b.kill(), ROTATE_Game.instance.changeScreen(new A(), !1), !0)
+            ? (b.kill(),
+              ROTATE_Game.instance.changeScreen(new ROTATE_Editor(), !1),
+              !0)
             : !1;
         };
         this.dialog = b;
@@ -18613,10 +18619,18 @@
     showSaveDialog: function () {
       var a = this;
       if (null == this.dialog) {
-        for (var b = -1, c = -1, d = 0, e = A.editorLevel.tiles.length; d < e; )
-          for (var f = d++, m = 0, k = A.editorLevel.tiles[f].length; m < k; ) {
+        for (
+          var b = -1, c = -1, d = 0, e = ROTATE_Editor.editorLevel.tiles.length;
+          d < e;
+
+        )
+          for (
+            var f = d++, m = 0, k = ROTATE_Editor.editorLevel.tiles[f].length;
+            m < k;
+
+          ) {
             var p = m++;
-            if (1 != A.editorLevel.tiles[f][p][0]) {
+            if (1 != ROTATE_Editor.editorLevel.tiles[f][p][0]) {
               -1 == b && (b = f);
               c = f;
               break;
@@ -18624,40 +18638,41 @@
           }
         e = d = -1;
         f = 0;
-        for (m = A.editorLevel.tiles[0].length; f < m; ) {
+        for (m = ROTATE_Editor.editorLevel.tiles[0].length; f < m; ) {
           k = f++;
           p = 0;
-          for (var y = A.editorLevel.tiles.length; p < y; ) {
+          for (var y = ROTATE_Editor.editorLevel.tiles.length; p < y; ) {
             var H = p++;
-            if (1 != A.editorLevel.tiles[H][k][0]) {
+            if (1 != ROTATE_Editor.editorLevel.tiles[H][k][0]) {
               -1 == d && (d = k);
               e = k;
               break;
             }
           }
         }
-        f = A.editorLevel.startCol - d + ',';
-        f += A.editorLevel.startRow - b + ',';
-        f += A.editorLevel.finishCol - d + ',';
-        f += A.editorLevel.finishRow - b + ',';
+        f = ROTATE_Editor.editorLevel.startCol - d + ',';
+        f += ROTATE_Editor.editorLevel.startRow - b + ',';
+        f += ROTATE_Editor.editorLevel.finishCol - d + ',';
+        f += ROTATE_Editor.editorLevel.finishRow - b + ',';
         f = f + (d + ',') + b;
-        0 != A.editorLevel.theme && (f += ',' + A.editorLevel.theme);
+        0 != ROTATE_Editor.editorLevel.theme &&
+          (f += ',' + ROTATE_Editor.editorLevel.theme);
         f += '|';
         m = b;
         for (c += 1; m < c; )
           for (k = m++, k > b && (f += ';'), p = d, y = e + 1; p < y; ) {
             H = p++;
             for (
-              var K = '', W = A.editorLevel.tiles[k][H].length;
-              0 < --W && 0 == A.editorLevel.tiles[k][H][W];
+              var K = '', W = ROTATE_Editor.editorLevel.tiles[k][H].length;
+              0 < --W && 0 == ROTATE_Editor.editorLevel.tiles[k][H][W];
 
             );
             var aa = 0;
             for (W += 1; aa < W; ) {
               var fa = aa++;
               '' != K && (K += '.');
-              0 != A.editorLevel.tiles[k][H][fa] &&
-                (K += A.editorLevel.tiles[k][H][fa]);
+              0 != ROTATE_Editor.editorLevel.tiles[k][H][fa] &&
+                (K += ROTATE_Editor.editorLevel.tiles[k][H][fa]);
             }
             H > d && (f += ',');
             f += K;
@@ -18702,14 +18717,14 @@
             if (m == F.start.id) {
               if (
                 0 < e &&
-                (d != A.editorLevel.finishCol ||
-                  (e != A.editorLevel.finishRow &&
-                    e - 1 != A.editorLevel.finishRow &&
-                    e != A.editorLevel.finishRow - 1))
+                (d != ROTATE_Editor.editorLevel.finishCol ||
+                  (e != ROTATE_Editor.editorLevel.finishRow &&
+                    e - 1 != ROTATE_Editor.editorLevel.finishRow &&
+                    e != ROTATE_Editor.editorLevel.finishRow - 1))
               ) {
-                c = A.editorLevel.startCol;
-                var k = A.editorLevel.startRow;
-                A.editorLevel.setStart(d, e);
+                c = ROTATE_Editor.editorLevel.startCol;
+                var k = ROTATE_Editor.editorLevel.startRow;
+                ROTATE_Editor.editorLevel.setStart(d, e);
                 var p = l.getBlockData(d, e - 1);
                 f.push(p);
                 l.setBlock(d, e - 1, 0, [], !0);
@@ -18723,13 +18738,13 @@
               }
             } else if (m == F.finish.id)
               0 < e &&
-                (d != A.editorLevel.startCol ||
-                  (e != A.editorLevel.startRow &&
-                    e - 1 != A.editorLevel.startRow &&
-                    e != A.editorLevel.startRow - 1)) &&
-                ((c = A.editorLevel.finishCol),
-                (k = A.editorLevel.finishRow),
-                A.editorLevel.setFinish(d, e),
+                (d != ROTATE_Editor.editorLevel.startCol ||
+                  (e != ROTATE_Editor.editorLevel.startRow &&
+                    e - 1 != ROTATE_Editor.editorLevel.startRow &&
+                    e != ROTATE_Editor.editorLevel.startRow - 1)) &&
+                ((c = ROTATE_Editor.editorLevel.finishCol),
+                (k = ROTATE_Editor.editorLevel.finishRow),
+                ROTATE_Editor.editorLevel.setFinish(d, e),
                 (p = l.getBlockData(d, e - 1)),
                 f.push(p),
                 l.setBlock(d, e - 1, 0, [], !0),
@@ -18792,12 +18807,13 @@
         InputKeys.keyPressed(76) && this.showLoadDialog();
         InputKeys.keyPressed(67) && this.showSaveDialog();
         InputKeys.keyPressed(71) &&
-          ((this.renderer.showGrid = A.showGrid = !A.showGrid),
-          (this.barLower.gridToggle.toggle.clipRect.x = A.showGrid
+          ((this.renderer.showGrid = ROTATE_Editor.showGrid =
+            !ROTATE_Editor.showGrid),
+          (this.barLower.gridToggle.toggle.clipRect.x = ROTATE_Editor.showGrid
             ? this.barLower.gridToggle.toggle.clipRect.width
             : 0));
         InputKeys.keyPressed(13) &&
-          ROTATE_Game.instance.changeScreen(new w(A.editorLevel));
+          ROTATE_Game.instance.changeScreen(new w(ROTATE_Editor.editorLevel));
       }
     },
     tryLoadLevel: function (a) {
@@ -18883,13 +18899,13 @@
       for (c = 0; c < b.length; )
         for (H = b[c], ++c; H.length < ROTATE_EditorLevel.WORLD_SIZE; )
           H.push([1]);
-      A.editorLevel.load(b, a + m, d + k, e + m, f + k, p);
+      ROTATE_Editor.editorLevel.load(b, a + m, d + k, e + m, f + k, p);
       return !0;
     },
     tick: function () {
       if (!l.rotating && null == this.dialog) {
-        var a = this.horizontal * A.MOVE_SPEED,
-          b = this.vertical * A.MOVE_SPEED;
+        var a = this.horizontal * ROTATE_Editor.MOVE_SPEED,
+          b = this.vertical * ROTATE_Editor.MOVE_SPEED;
         0 == l.rotation
           ? ((this.cameraX -= a), (this.cameraY -= b))
           : 1 == l.rotation && ((this.cameraX -= b), (this.cameraY += a));
@@ -18912,7 +18928,7 @@
       );
       l.set_level(null);
     },
-    __class__: A,
+    __class__: ROTATE_Editor,
   });
   var bb = function (a) {
     null == a && (a = !1);
@@ -19130,7 +19146,8 @@
       this.btn2.set_y(this.btn1.y + 92);
       this.btn2.addEventListener('click', function (b) {
         2 > b.which &&
-          (ca.stopTheme(), ROTATE_Game.instance.changeScreen(new A()));
+          (ca.stopTheme(),
+          ROTATE_Game.instance.changeScreen(new ROTATE_Editor()));
       });
       this.addChild(this.btn2);
       this.text2.set_x(this.text1.x);
@@ -19394,7 +19411,7 @@
   w.prototype = D(qa.prototype, {
     init: function () {
       w.i = this;
-      this.tempLevel == A.editorLevel && v.awardEditor.unlock();
+      this.tempLevel == ROTATE_Editor.editorLevel && v.awardEditor.unlock();
       w.playTheme(this.tempLevel.theme);
       w.continueTheme = !1;
       l.set_level(this.tempLevel);
@@ -20218,7 +20235,7 @@
     this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
     this.btnPlay.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
     this.btnPlay.addEventListener('click', function (d) {
-      2 > d.which && w.play(A.editorLevel);
+      2 > d.which && w.play(ROTATE_Editor.editorLevel);
     });
     this.addChild(this.btnPlay);
     this.btnSave.set_x(
@@ -20293,12 +20310,16 @@
     this.mouseEnabled = this.buttonMode = !0;
     this.addEventListener('click', function (c) {
       1 < c.which ||
-        ((A.showGrid = !A.showGrid),
-        (b.toggle.clipRect.x = A.showGrid ? b.toggle.clipRect.width : 0),
+        ((ROTATE_Editor.showGrid = !ROTATE_Editor.showGrid),
+        (b.toggle.clipRect.x = ROTATE_Editor.showGrid
+          ? b.toggle.clipRect.width
+          : 0),
         null != a && a());
     });
     this.toggle.clipRect.width /= 2;
-    this.toggle.clipRect.x = A.showGrid ? this.toggle.clipRect.width : 0;
+    this.toggle.clipRect.x = ROTATE_Editor.showGrid
+      ? this.toggle.clipRect.width
+      : 0;
     this.toggle.set_x(4);
     this.toggle.set_y(5);
     this.addChild(this.toggle);
@@ -20510,8 +20531,8 @@
           (E.__instanceof(ROTATE_Game.instance.currentScreen, Qa) &&
             E.__cast(ROTATE_Game.instance.currentScreen, Qa).speedrun)),
         ROTATE_Game.instance.changeScreen(
-          l.level == A.editorLevel
-            ? new A()
+          l.level == ROTATE_Editor.editorLevel
+            ? new ROTATE_Editor()
             : a
               ? new Oa()
               : 0 < ROTATE_Levels.unlocked
@@ -20909,9 +20930,11 @@
   U.TIME_TYPE = 30;
   U.TIME_STAY = 5250;
   U.TIME_FADE = 750;
-  A.MOVE_SPEED = 4;
-  A.showGrid = !0;
-  A.editorLevel = new ROTATE_EditorLevel();
+
+  ROTATE_Editor.MOVE_SPEED = 4;
+  ROTATE_Editor.showGrid = !0;
+  ROTATE_Editor.editorLevel = new ROTATE_EditorLevel();
+
   w.continueTheme = !1;
   w.RESTART_DELAY = 1;
   w.DEATH_TIME = 1.5;
