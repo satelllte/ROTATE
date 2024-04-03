@@ -1561,11 +1561,12 @@
     },
     __class__: ya,
   };
-  var za = function () {};
-  za.__name__ = !0;
-  za.encode = function (a, b) {
+
+  var StringUtils = function () {};
+  StringUtils.__name__ = !0;
+  StringUtils.encode = function (a, b) {
     null == b && (b = !0);
-    var c = new sb(za.BYTES).encodeBytes(a).toString();
+    var c = new sb(StringUtils.BYTES).encodeBytes(a).toString();
     if (b)
       switch (a.length % 3) {
         case 1:
@@ -1576,12 +1577,13 @@
       }
     return c;
   };
-  za.decode = function (a, b) {
+  StringUtils.decode = function (a, b) {
     null == b && (b = !0);
     if (b)
       for (; 61 == ja.charCodeAt(a, a.length - 1); ) a = ja.substr(a, 0, -1);
-    return new sb(za.BYTES).decodeBytes(ya.ofString(a));
+    return new sb(StringUtils.BYTES).decodeBytes(ya.ofString(a));
   };
+
   var sb = function (a) {
     for (var b = a.length, c = 1; b > 1 << c; ) ++c;
     if (8 < c || b != 1 << c)
@@ -2314,7 +2316,7 @@
       try {
         var a = ra.getItem('lws:rotate');
         if (null != a && '' != a) {
-          var b = JSON.parse(za.decode(a).toString());
+          var b = JSON.parse(StringUtils.decode(a).toString());
           if (null != b) {
             b.muteMusic && this.toggleMusic(!1);
             b.muteSFX && this.toggleSFX(!1);
@@ -2353,7 +2355,10 @@
       this.invert && (a.invert = !0);
       this.muteMusic && (a.muteMusic = !0);
       this.muteSFX && (a.muteSFX = !0);
-      ra.setItem('lws:rotate', za.encode(ya.ofString(JSON.stringify(a))));
+      ra.setItem(
+        'lws:rotate',
+        StringUtils.encode(ya.ofString(JSON.stringify(a))),
+      );
     },
     clearProgress: function () {
       ra.removeItem('lws:rotate');
@@ -20926,8 +20931,11 @@
   InputKeys.keysOld = [];
   Ga.FUNC = 1;
   Surface.PI2 = 2 * Math.PI;
-  za.CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-  za.BYTES = ya.ofString(za.CHARS);
+
+  StringUtils.CHARS =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  StringUtils.BYTES = ya.ofString(StringUtils.CHARS);
+
   E.__toStr = {}.toString;
   Ia.BYTES_PER_ELEMENT = 1;
 
