@@ -4206,12 +4206,13 @@
     },
     __class__: Za,
   });
-  var va = function () {
+
+  var ROTATE_GameObject_Solid = function () {
     X.call(this);
   };
-  va.__name__ = !0;
-  va.__super__ = X;
-  va.prototype = D(X.prototype, {
+  ROTATE_GameObject_Solid.__name__ = !0;
+  ROTATE_GameObject_Solid.__super__ = X;
+  ROTATE_GameObject_Solid.prototype = D(X.prototype, {
     render: function (a, b, c) {
       null == c && (c = !0);
       var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0),
@@ -4241,27 +4242,28 @@
       if (!l.isInBounds(a, b)) return !0;
       a = l.getBlockData(a, b);
       b = a.get_block();
-      if (E.__instanceof(b, va)) return !0;
+      if (E.__instanceof(b, ROTATE_GameObject_Solid)) return !0;
       a.getMeta(0);
       return !1;
     },
-    __class__: va,
+    __class__: ROTATE_GameObject_Solid,
   });
+
   var Bb = function () {
     this.value = 1;
     X.call(this);
     this.configurable = !0;
   };
   Bb.__name__ = !0;
-  Bb.__super__ = va;
-  Bb.prototype = D(va.prototype, {
+  Bb.__super__ = ROTATE_GameObject_Solid;
+  Bb.prototype = D(ROTATE_GameObject_Solid.prototype, {
     set_value: function (a) {
       return (this.value = 0 > a ? 99 : 99 < a ? 0 : a);
     },
     render: function (a, b, c) {
       null == c && (c = !0);
       c
-        ? va.prototype.render.call(this, a, b, c)
+        ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
         : a.drawImage(
             q.blocks,
             new Bounds(0, 0, n.tileSize, n.tileSize),
@@ -4487,12 +4489,12 @@
     X.call(this);
   };
   Hb.__name__ = !0;
-  Hb.__super__ = va;
-  Hb.prototype = D(va.prototype, {
+  Hb.__super__ = ROTATE_GameObject_Solid;
+  Hb.prototype = D(ROTATE_GameObject_Solid.prototype, {
     render: function (a, b, c) {
       null == c && (c = !0);
       c
-        ? va.prototype.render.call(this, a, b, c)
+        ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
         : a.drawImage(
             q.blocks,
             new Bounds(0, 0, n.tileSize, n.tileSize),
@@ -20889,7 +20891,10 @@
     0,
     new ROTATE_GameObject_Air(),
   );
-  ROTATE_GameObjects.solid = ROTATE_GameObjects.register(1, new va());
+  ROTATE_GameObjects.solid = ROTATE_GameObjects.register(
+    1,
+    new ROTATE_GameObject_Solid(),
+  );
   ROTATE_GameObjects.stairs = ROTATE_GameObjects.register(2, new Fb());
   ROTATE_GameObjects.ramp = ROTATE_GameObjects.register(3, new $a());
   ROTATE_GameObjects.platform = ROTATE_GameObjects.register(4, new Cb());
