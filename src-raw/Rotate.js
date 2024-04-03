@@ -5780,7 +5780,7 @@
     kill: function () {},
     __class__: ROTATE_Level10,
   };
-  var Kb = function () {
+  var ROTATE_Level11 = function () {
     this.startDir = 1;
     this.finishRow = 7;
     this.finishCol = 24;
@@ -6360,9 +6360,9 @@
     ];
     this.theme = 1;
   };
-  Kb.__name__ = !0;
-  Kb.__interfaces__ = [ea];
-  Kb.prototype = {
+  ROTATE_Level11.__name__ = !0;
+  ROTATE_Level11.__interfaces__ = [ea];
+  ROTATE_Level11.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(1), 'Do you seek "freedom"?'),
@@ -6380,7 +6380,7 @@
       return ROTATE_Levels.level12;
     },
     kill: function () {},
-    __class__: Kb,
+    __class__: ROTATE_Level11,
   };
   var Lb = function () {
     this.startDir = 1;
@@ -20824,7 +20824,7 @@
   ROTATE_Levels.level8 = new ROTATE_Level8();
   ROTATE_Levels.level9 = new ROTATE_Level9();
   ROTATE_Levels.level10 = new ROTATE_Level10();
-  ROTATE_Levels.level11 = new Kb();
+  ROTATE_Levels.level11 = new ROTATE_Level11();
   ROTATE_Levels.level12 = new Lb();
   ROTATE_Levels.level13 = new Mb();
   ROTATE_Levels.level14 = new Nb();
