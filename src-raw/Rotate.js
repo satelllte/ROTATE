@@ -19759,7 +19759,9 @@
       this.btn3.addEventListener('click', function (b) {
         2 > b.which &&
           (ROTATE_ScreenMainMenu.stopTheme(),
-          ROTATE_Game.instance.changeScreen(new Qa(!0)));
+          ROTATE_Game.instance.changeScreen(
+            new ROTATE_ScreenGameBeginning(!0),
+          ));
       });
       this.addChild(this.btn3);
       this.text3.set_x(this.text2.x);
@@ -19854,7 +19856,9 @@
                   1 < H.which ||
                     (ROTATE_ScreenMainMenu.stopTheme(),
                     0 == y[0]
-                      ? ROTATE_Game.instance.changeScreen(new Qa())
+                      ? ROTATE_Game.instance.changeScreen(
+                          new ROTATE_ScreenGameBeginning(),
+                        )
                       : ROTATE_GameController.play(ROTATE_Levels.list[y[0]]));
                 };
               })(e),
@@ -19920,7 +19924,9 @@
         1 < a.which ||
           (0 == ROTATE_Levels.unlocked
             ? (ROTATE_ScreenMainMenu.stopTheme(),
-              ROTATE_Game.instance.changeScreen(new Qa()))
+              ROTATE_Game.instance.changeScreen(
+                new ROTATE_ScreenGameBeginning(),
+              ))
             : ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLevels()));
       });
       this.addChild(this.btnPlay);
@@ -20390,19 +20396,20 @@
     },
     __class__: vb,
   });
-  var Qa = function (a) {
-    null == a && (a = !1);
+
+  var ROTATE_ScreenGameBeginning = function (speedrun) {
+    null == speedrun && (speedrun = !1);
     this.done2 = !1;
     this.cond2 = new ROTATE_SpeechDelay(0.5);
     this.done1 = !1;
     this.cond1 = new ROTATE_SpeechDelay(10);
     P.call(this);
     this.pausable = !0;
-    this.speedrun = a;
+    this.speedrun = speedrun;
   };
-  Qa.__name__ = !0;
-  Qa.__super__ = P;
-  Qa.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenGameBeginning.__name__ = !0;
+  ROTATE_ScreenGameBeginning.__super__ = P;
+  ROTATE_ScreenGameBeginning.prototype = __inherit(P.prototype, {
     init: function () {
       this.cond1.start();
       this.speech = new ROTATE_Speech(
@@ -20436,7 +20443,7 @@
       ROTATE_GameController.continueTheme || ROTATE_GameController.stopTheme();
     },
     kill: function () {},
-    __class__: Qa,
+    __class__: ROTATE_ScreenGameBeginning,
   });
 
   var ROTATE_Text = function (font, text, color) {
@@ -21279,9 +21286,14 @@
               ROTATE_Game.instance.currentScreen,
               ROTATE_GameController,
             ).speedrun) ||
-          (JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, Qa) &&
-            JSObjectUtils.__cast(ROTATE_Game.instance.currentScreen, Qa)
-              .speedrun)),
+          (JSObjectUtils.__instanceof(
+            ROTATE_Game.instance.currentScreen,
+            ROTATE_ScreenGameBeginning,
+          ) &&
+            JSObjectUtils.__cast(
+              ROTATE_Game.instance.currentScreen,
+              ROTATE_ScreenGameBeginning,
+            ).speedrun)),
         ROTATE_Game.instance.changeScreen(
           ROTATE_LevelEditorManager.level == ROTATE_Editor.editorLevel
             ? new ROTATE_Editor()
