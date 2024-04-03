@@ -18713,7 +18713,7 @@
     this.sponsor = new ROTATE_Sponsor();
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
-    this.bg = new Na();
+    this.bg = new ROTATE_BackgroundObject();
     this.content = new ROTATE_CanvasObject();
     this.pivot = new ROTATE_CanvasObject();
     P.call(this);
@@ -18859,7 +18859,7 @@
         b.set_alpha(0.75);
         this.bg.addChild(b);
         this.btnBack.text.set_text('MENU');
-      } else ca.playTheme(), (this.bg = new Na());
+      } else ca.playTheme(), (this.bg = new ROTATE_BackgroundObject());
       this.addChild(this.bg);
       this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.text1.set_y(80);
@@ -19673,7 +19673,7 @@
     this.btn1 = new ROTATE_Button('AWARDS');
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'EXTRAS', 1);
-    this.bg = new Na();
+    this.bg = new ROTATE_BackgroundObject();
     P.call(this);
   };
   Oa.__name__ = !0;
@@ -19748,7 +19748,7 @@
     this.tiles = new ROTATE_CanvasObject();
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
-    this.bg = new Na();
+    this.bg = new ROTATE_BackgroundObject();
     P.call(this);
   };
   pb.__name__ = !0;
@@ -19827,7 +19827,7 @@
     this.btnExtras = new ROTATE_Button('EXTRAS');
     this.btnPlay = new ROTATE_Button('PLAY');
     this.logo = new ROTATE_ImageObject(ROTATE_Images.logo);
-    this.bg = new Na();
+    this.bg = new ROTATE_BackgroundObject();
     P.call(this);
   };
   ca.__name__ = !0;
@@ -20995,16 +20995,17 @@
     },
     __class__: bc,
   });
-  var Na = function () {
-    var a = this;
+
+  var ROTATE_BackgroundObject = function () {
+    var _self = this;
     ROTATE_CanvasObject.call(this);
     this.addEventListener('render', function (b) {
-      a.render(b.surface);
+      _self.render(b.surface);
     });
   };
-  Na.__name__ = !0;
-  Na.__super__ = ROTATE_CanvasObject;
-  Na.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_BackgroundObject.__name__ = !0;
+  ROTATE_BackgroundObject.__super__ = ROTATE_CanvasObject;
+  ROTATE_BackgroundObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     render: function (a) {
       for (
         var b = -Math.round(
@@ -21037,7 +21038,7 @@
         }
       a.drawImage(ROTATE_Images.vignette, null, 0, 0);
     },
-    __class__: Na,
+    __class__: ROTATE_BackgroundObject,
   });
 
   var ROTATE_Button = function (title, b) {
