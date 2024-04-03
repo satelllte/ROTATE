@@ -7762,7 +7762,7 @@
     kill: function () {},
     __class__: ROTATE_Level13,
   };
-  var Nb = function () {
+  var ROTATE_Level14 = function () {
     this.cond3 = new M(12);
     this.cond2 = new M(10);
     this.cond1 = new Xa(1);
@@ -9210,9 +9210,9 @@
     ];
     this.theme = 1;
   };
-  Nb.__name__ = !0;
-  Nb.__interfaces__ = [ea];
-  Nb.prototype = {
+  ROTATE_Level14.__name__ = !0;
+  ROTATE_Level14.__interfaces__ = [ea];
+  ROTATE_Level14.prototype = {
     start: function () {
       this.cond1.start();
       this.done1 = this.done2 = this.done3 = !1;
@@ -9255,7 +9255,7 @@
       return ROTATE_Levels.level15;
     },
     kill: function () {},
-    __class__: Nb,
+    __class__: ROTATE_Level14,
   };
   var Ob = function () {
     this.startDir = -1;
@@ -20827,7 +20827,7 @@
   ROTATE_Levels.level11 = new ROTATE_Level11();
   ROTATE_Levels.level12 = new ROTATE_Level12();
   ROTATE_Levels.level13 = new ROTATE_Level13();
-  ROTATE_Levels.level14 = new Nb();
+  ROTATE_Levels.level14 = new ROTATE_Level14();
   ROTATE_Levels.level15 = new Ob();
   ROTATE_Levels.level16 = new Pb();
   ROTATE_Levels.list = [
