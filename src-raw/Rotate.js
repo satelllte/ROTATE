@@ -18701,7 +18701,7 @@
     this.rotationSide = 0;
     this.awardDisplays = [];
     this.mute = new Ba();
-    this.sponsor = new Ma();
+    this.sponsor = new ROTATE_Sponsor();
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
     this.bg = new Na();
@@ -19642,7 +19642,7 @@
   var Oa = function () {
     this.erase = new Ya();
     this.mute = new Ba();
-    this.sponsor = new Ma();
+    this.sponsor = new ROTATE_Sponsor();
     this.bestTime = new ROTATE_Text(ROTATE_Game.fontMain, 'Best time: ', 2);
     this.text3 = new ROTATE_Text(
       ROTATE_Game.fontMain,
@@ -19735,7 +19735,7 @@
   var pb = function () {
     this.erase = new Ya();
     this.mute = new Ba();
-    this.sponsor = new Ma();
+    this.sponsor = new ROTATE_Sponsor();
     this.tiles = new ROTATE_CanvasObject();
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
@@ -19813,7 +19813,7 @@
   var ca = function () {
     this.erase = new Ya();
     this.mute = new Ba();
-    this.sponsor = new Ma();
+    this.sponsor = new ROTATE_Sponsor();
     this.btnCredits = new ROTATE_Button('CREDITS');
     this.btnExtras = new ROTATE_Button('EXTRAS');
     this.btnPlay = new ROTATE_Button('PLAY');
@@ -21145,7 +21145,7 @@
     __class__: cc,
   });
   var ub = function () {
-    this.sponsor = new Ma();
+    this.sponsor = new ROTATE_Sponsor();
     this.mute = new Ba(1);
     this.invert = new cc();
     this.btnQuit = new ROTATE_Button('QUIT', 0);
@@ -21236,7 +21236,8 @@
     },
     __class__: ub,
   });
-  var Ma = function () {
+
+  var ROTATE_Sponsor = function () {
     I.call(this, ROTATE_Images.linkJoshua);
     this.clipRect.height /= 2;
     this.set_x(8);
@@ -21249,10 +21250,10 @@
         a.focus());
     });
   };
-  Ma.__name__ = !0;
-  Ma.__super__ = I;
-  Ma.prototype = __inherit(I.prototype, {
-    __class__: Ma,
+  ROTATE_Sponsor.__name__ = !0;
+  ROTATE_Sponsor.__super__ = I;
+  ROTATE_Sponsor.prototype = __inherit(I.prototype, {
+    __class__: ROTATE_Sponsor,
   });
 
   var ROTATE_YesNoOverlay = function (questionText) {
