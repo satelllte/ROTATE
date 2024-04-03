@@ -527,20 +527,21 @@
       d + f > b.height && (f = b.height - d),
       a.drawImage(b, c, d, e, f, m, k, e, f));
   };
-  var rb = function () {
+  var Graphics = function () {
     this.clear();
   };
-  rb.__name__ = !0;
-  rb.prototype = {
+  Graphics.__name__ = !0;
+  Graphics.prototype = {
     get_length: function () {
       return this.items.length;
     },
     get_skipDraw: function () {
-      return this.filling ? !1 : !this.stroking;
+      return this.filling ? false : !this.stroking;
     },
     clear: function () {
       this.items = [];
-      this.filling = this.stroking = !1;
+      this.filling = false;
+      this.stroking = false;
       this.bounds = new z(0, 0, 0, 0);
     },
     _paint: function (a) {
@@ -559,22 +560,22 @@
       null == b && (b = 1);
       null == a && (a = 0);
       this.call('beginFill', [a, b]);
-      this.filling = !0;
+      this.filling = true;
     },
     endFill: function () {
       this.call('endFill');
-      this.filling = !1;
+      this.filling = false;
     },
     beginStroke: function (a, b, c) {
       null == c && (c = 1);
       null == b && (b = 0);
       null == a && (a = 1);
       this.call('beginStroke', [a, b, c]);
-      this.stroking = !0;
+      this.stroking = true;
     },
     endStroke: function () {
       this.call('endStroke');
-      this.stroking = !1;
+      this.stroking = false;
     },
     drawRect: function (a, b, c, d) {
       this.get_skipDraw() ||
@@ -613,10 +614,10 @@
       null == f && (f = 'normal');
       this.get_skipDraw() || this.call('drawText', [a, b, c, d, e, f, m, k]);
     },
-    __class__: rb,
+    __class__: Graphics,
   };
   var ROTATE_CanvasObject = function () {
-    this.graphics = new rb();
+    this.graphics = new Graphics();
     this._children = [];
     this._transformReverse = new Transform();
     this._transform = new Transform();
@@ -20471,7 +20472,7 @@
   N.startTime = 0;
   N.lastTime = 0;
   N.elapsedTime = 0;
-  rb.PI2 = 2 * Math.PI;
+  Graphics.PI2 = 2 * Math.PI;
   ROTATE_Event.ADDED = 'added';
   ROTATE_Event.REMOVED = 'removed';
   ROTATE_Event.ENTER_FRAME = 'enterFrame';
