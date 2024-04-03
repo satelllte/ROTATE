@@ -4049,7 +4049,8 @@
     },
     __class__: ROTATE_GameObject_Finish,
   });
-  var Za = function () {
+
+  var ROTATE_GameObject_Lever = function () {
     this.on = !1;
     this.channel = 0;
     X.call(this);
@@ -4057,9 +4058,9 @@
     this.bubbleHeight = 76;
     this.configurable = !0;
   };
-  Za.__name__ = !0;
-  Za.__super__ = X;
-  Za.prototype = D(X.prototype, {
+  ROTATE_GameObject_Lever.__name__ = !0;
+  ROTATE_GameObject_Lever.__super__ = X;
+  ROTATE_GameObject_Lever.prototype = D(X.prototype, {
     isTrigger: function (a) {
       return !0;
     },
@@ -4071,7 +4072,9 @@
         c = l.leversChanged.h[b];
       if (
         !(
-          null != c && ROTATE_Game.instance.get_gameTime() - c < Za.TOGGLE_TIMER
+          null != c &&
+          ROTATE_Game.instance.get_gameTime() - c <
+            ROTATE_GameObject_Lever.TOGGLE_TIMER
         )
       ) {
         c = w.i.channels;
@@ -4204,7 +4207,7 @@
     getConfigMeta: function () {
       return [this.channel, this.on ? 1 : 0];
     },
-    __class__: Za,
+    __class__: ROTATE_GameObject_Lever,
   });
 
   var ROTATE_GameObject_Solid = function () {
@@ -20881,7 +20884,7 @@
   J.ANIM_ROTATE = new sa([16, 17, 18, 19], [100, 100, 100, 100], !1);
   l.rotating = !1;
   l.rotation = 0;
-  Za.TOGGLE_TIMER = 0.67;
+  ROTATE_GameObject_Lever.TOGGLE_TIMER = 0.67;
 
   ROTATE_GameObjects.registry = [];
   ROTATE_GameObjects.start = ROTATE_GameObjects.register(
@@ -20920,7 +20923,10 @@
     6,
     new ROTATE_GameObject_Saw(),
   );
-  ROTATE_GameObjects.lever = ROTATE_GameObjects.register(8, new Za());
+  ROTATE_GameObjects.lever = ROTATE_GameObjects.register(
+    8,
+    new ROTATE_GameObject_Lever(),
+  );
   ROTATE_GameObjects.door = ROTATE_GameObjects.register(9, new yb());
   ROTATE_GameObjects.number = ROTATE_GameObjects.register(7, new Bb());
   ROTATE_GameObjects.vent = ROTATE_GameObjects.register(10, new Hb());
