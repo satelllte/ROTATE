@@ -18702,7 +18702,7 @@
     this.awardDisplays = [];
     this.mute = new Ba();
     this.sponsor = new Ma();
-    this.btnBack = new ba('BACK');
+    this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
     this.bg = new Na();
     this.content = new ROTATE_CanvasObject();
@@ -18828,7 +18828,7 @@
       'Design, code, & music by',
       1,
     );
-    this.btnBack = new ba('BACK');
+    this.btnBack = new ROTATE_Button('BACK');
     P.call(this);
     this.fromEnd = a;
   };
@@ -19647,20 +19647,20 @@
       'Finish the game as\nquickly as you can.',
       1,
     );
-    this.btn3 = new ba('SPEEDRUN');
+    this.btn3 = new ROTATE_Button('SPEEDRUN');
     this.text2 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Build custom levels\nand share codes.',
       1,
     );
-    this.btn2 = new ba('EDITOR');
+    this.btn2 = new ROTATE_Button('EDITOR');
     this.text1 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       "See all the awards\nthat you've earned.",
       1,
     );
-    this.btn1 = new ba('AWARDS');
-    this.btnBack = new ba('BACK');
+    this.btn1 = new ROTATE_Button('AWARDS');
+    this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'EXTRAS', 1);
     this.bg = new Na();
     P.call(this);
@@ -19735,7 +19735,7 @@
     this.mute = new Ba();
     this.sponsor = new Ma();
     this.tiles = new ROTATE_CanvasObject();
-    this.btnBack = new ba('BACK');
+    this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
     this.bg = new Na();
     P.call(this);
@@ -19812,9 +19812,9 @@
     this.erase = new Ya();
     this.mute = new Ba();
     this.sponsor = new Ma();
-    this.btnCredits = new ba('CREDITS');
-    this.btnExtras = new ba('EXTRAS');
-    this.btnPlay = new ba('PLAY');
+    this.btnCredits = new ROTATE_Button('CREDITS');
+    this.btnExtras = new ROTATE_Button('EXTRAS');
+    this.btnPlay = new ROTATE_Button('PLAY');
     this.logo = new I(ROTATE_Images.logo);
     this.bg = new Na();
     P.call(this);
@@ -20370,9 +20370,10 @@
     kill: function () {},
     __class__: Qa,
   });
-  var ROTATE_Text = function (a, b, c) {
-    null == c && (c = 0);
-    null == b && (b = '');
+
+  var ROTATE_Text = function (font, text, color) {
+    null == color && (color = 0);
+    null == text && (text = '');
     this.textWidth = this.textHeight = 0;
     this.lineWidths = [];
     this.align =
@@ -20384,9 +20385,9 @@
     this.text = '';
     var d = this;
     ROTATE_CanvasObject.call(this);
-    this.set_font(a);
-    this.set_text(b);
-    this.color = c;
+    this.set_font(font);
+    this.set_text(text);
+    this.color = color;
     this.addEventListener('render', function (e) {
       d.render(e.surface);
     });
@@ -20518,6 +20519,7 @@
     },
     __class__: ROTATE_Text,
   });
+
   var Xb = function (a) {
     ROTATE_CanvasObject.call(this);
     var b = new I(ROTATE_Images.awardFrame);
@@ -20726,8 +20728,8 @@
     __class__: Da,
   });
   var Yb = function () {
-    this.btnLoad = new ba('LOAD');
-    this.btnCancel = new ba('CANCEL');
+    this.btnLoad = new ROTATE_Button('LOAD');
+    this.btnCancel = new ROTATE_Button('CANCEL');
     this.invalid = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Level code is invalid!',
@@ -20766,7 +20768,7 @@
     __class__: Yb,
   });
   var Zb = function (a) {
-    this.btnBack = new ba('BACK');
+    this.btnBack = new ROTATE_Button('BACK');
     var b = this;
     Da.call(this, 'SAVE LEVEL', a);
     this.area.readOnly = !0;
@@ -21022,7 +21024,8 @@
     },
     __class__: Na,
   });
-  var ba = function (a, b) {
+
+  var ROTATE_Button = function (title, b) {
     null == b && (b = 0);
     ROTATE_CanvasObject.call(this);
     this.main = new I(ROTATE_Images.menuBtn);
@@ -21032,7 +21035,7 @@
     this.addChild(this.main);
     var c = (this.text = new ROTATE_Text(
       ROTATE_Game.fontMain,
-      a.toUpperCase(),
+      title.toUpperCase(),
       b,
     ));
     c.set_y(c.y - 2);
@@ -21041,11 +21044,12 @@
     this.text.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
     this.addChild(this.text);
   };
-  ba.__name__ = !0;
-  ba.__super__ = ROTATE_CanvasObject;
-  ba.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-    __class__: ba,
+  ROTATE_Button.__name__ = !0;
+  ROTATE_Button.__super__ = ROTATE_CanvasObject;
+  ROTATE_Button.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+    __class__: ROTATE_Button,
   });
+
   var Ba = function (a) {
     null == a && (a = 0);
     var b = this;
@@ -21140,9 +21144,9 @@
     this.sponsor = new Ma();
     this.mute = new Ba(1);
     this.invert = new cc();
-    this.btnQuit = new ba('QUIT', 0);
-    this.btnRedo = new ba('RESTART', 0);
-    this.btnPlay = new ba('CONTINUE', 0);
+    this.btnQuit = new ROTATE_Button('QUIT', 0);
+    this.btnRedo = new ROTATE_Button('RESTART', 0);
+    this.btnPlay = new ROTATE_Button('CONTINUE', 0);
     this.text = new ROTATE_Text(ROTATE_Game.fontMain, 'GAME PAUSED');
     ROTATE_CanvasObject.call(this);
     this.graphics.beginFill(1052688, 0.85);
@@ -21248,8 +21252,8 @@
   });
 
   var eb = function (a) {
-    this.btnNo = new ba('NO');
-    this.btnYes = new ba('YES');
+    this.btnNo = new ROTATE_Button('NO');
+    this.btnYes = new ROTATE_Button('YES');
     this.main = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
     var b = this;
     ROTATE_CanvasObject.call(this);
