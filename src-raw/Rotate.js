@@ -4462,12 +4462,12 @@
     },
     __class__: Fb,
   });
-  var Gb = function () {
+  var ROTATE_GameObject_Start = function () {
     X.call(this);
   };
-  Gb.__name__ = !0;
-  Gb.__super__ = X;
-  Gb.prototype = D(X.prototype, {
+  ROTATE_GameObject_Start.__name__ = !0;
+  ROTATE_GameObject_Start.__super__ = X;
+  ROTATE_GameObject_Start.prototype = D(X.prototype, {
     render: function (a, b, c) {
       a.drawImage(
         q.blocks,
@@ -4479,7 +4479,7 @@
     shouldRender: function (a) {
       return !1;
     },
-    __class__: Gb,
+    __class__: ROTATE_GameObject_Start,
   });
   var Hb = function () {
     X.call(this);
@@ -20873,8 +20873,12 @@
   l.rotating = !1;
   l.rotation = 0;
   Za.TOGGLE_TIMER = 0.67;
+
   ROTATE_GameObjects.registry = [];
-  ROTATE_GameObjects.start = ROTATE_GameObjects.register(-1, new Gb());
+  ROTATE_GameObjects.start = ROTATE_GameObjects.register(
+    -1,
+    new ROTATE_GameObject_Start(),
+  );
   ROTATE_GameObjects.finish = ROTATE_GameObjects.register(-2, new Ab());
   ROTATE_GameObjects.air = ROTATE_GameObjects.register(0, new xb());
   ROTATE_GameObjects.solid = ROTATE_GameObjects.register(1, new va());
@@ -20888,6 +20892,7 @@
   ROTATE_GameObjects.number = ROTATE_GameObjects.register(7, new Bb());
   ROTATE_GameObjects.vent = ROTATE_GameObjects.register(10, new Hb());
   ROTATE_GameObjects.fan = ROTATE_GameObjects.register(11, new zb());
+
   ab.GRAVITY_MULT = 0.2;
   ROTATE_EditorLevel.WORLD_SIZE = 42;
 
