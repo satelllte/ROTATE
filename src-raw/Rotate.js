@@ -2701,17 +2701,19 @@
     },
     __class__: ua,
   });
-  var sa = function (a, b, c) {
-    null == c && (c = !0);
-    this.loop = !1;
-    this.frames = a;
-    this.delays = b;
-    this.loop = c;
+
+  var ROTATE_Animation = function (frames, delays, loop) {
+    null == loop && (loop = !0);
+    this.loop = false;
+    this.frames = frames;
+    this.delays = delays;
+    this.loop = loop;
   };
-  sa.__name__ = !0;
-  sa.prototype = {
-    __class__: sa,
+  ROTATE_Animation.__name__ = !0;
+  ROTATE_Animation.prototype = {
+    __class__: ROTATE_Animation,
   };
+
   var S = function () {
     this.horizontal = this.x2 = this.dx = 0;
     ua.call(this, ROTATE_Images.cat, 24, 24);
@@ -19203,7 +19205,9 @@
       this.pivot.addChild(this.camera);
       this.camera.addChild(this.artMain);
       this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
-      this.artPlants.set_animation(new sa([0, 1, 2], [250, 250, 250]));
+      this.artPlants.set_animation(
+        new ROTATE_Animation([0, 1, 2], [250, 250, 250]),
+      );
       this.camera.addChild(this.artPlants);
       this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
       this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
@@ -21126,17 +21130,17 @@
   S.SPEED = 2;
   S.ACCEL = 0.06;
   S.DECCEL_MULT = 0.6;
-  S.ANIM_IDLE = new sa(
+  S.ANIM_IDLE = new ROTATE_Animation(
     [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],
     [1500, 100, 100, 100, 100, 100, 3000, 100, 100, 200, 100, 100],
   );
-  S.ANIM_EXIT = new sa(
+  S.ANIM_EXIT = new ROTATE_Animation(
     [9, 10, 11, 12, 13, 14, 15, 16, 17],
     [100, 100, 100, 100, 100, 100, 100, 100, 100],
     !1,
   );
-  S.ANIM_END_1 = new sa([9, 10], [100, 100], !1);
-  S.ANIM_END_2 = new sa(
+  S.ANIM_END_1 = new ROTATE_Animation([9, 10], [100, 100], !1);
+  S.ANIM_END_2 = new ROTATE_Animation(
     [11, 12, 22, 14, 24, 25, 26],
     [100, 100, 100, 100, 100, 100, 100],
   );
@@ -21152,11 +21156,15 @@
   J.GRAVITY = 0.35;
   J.GRAVITY_MAX = 9;
   J.ROTATE_DELAY = 0.05;
-  J.ANIM_IDLE = new sa([0, 1, 2, 3], [400, 400, 400, 400]);
-  J.ANIM_RUN = new sa([4, 5, 6, 7], [100, 100, 100, 100]);
-  J.ANIM_JUMP = new sa([8, 9], [200, 200], !1);
-  J.ANIM_FALL = new sa([12, 13, 14, 15], [100, 100, 100, 100]);
-  J.ANIM_ROTATE = new sa([16, 17, 18, 19], [100, 100, 100, 100], !1);
+  J.ANIM_IDLE = new ROTATE_Animation([0, 1, 2, 3], [400, 400, 400, 400]);
+  J.ANIM_RUN = new ROTATE_Animation([4, 5, 6, 7], [100, 100, 100, 100]);
+  J.ANIM_JUMP = new ROTATE_Animation([8, 9], [200, 200], !1);
+  J.ANIM_FALL = new ROTATE_Animation([12, 13, 14, 15], [100, 100, 100, 100]);
+  J.ANIM_ROTATE = new ROTATE_Animation(
+    [16, 17, 18, 19],
+    [100, 100, 100, 100],
+    !1,
+  );
   l.rotating = !1;
   l.rotation = 0;
   ROTATE_GameObject_Lever.TOGGLE_TIMER = 0.67;
