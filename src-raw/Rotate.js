@@ -19021,6 +19021,7 @@
     },
     __class__: qa,
   });
+
   var ROTATE_Editor = function () {
     this.doors = [];
     this.drawing = !1;
@@ -19120,21 +19121,21 @@
     showLoadDialog: function () {
       var a = this;
       if (null == this.dialog) {
-        var b = new Yb();
-        b.onBack = function () {
-          b.kill();
+        var loadLevelMenu = new ROTATE_LoadLevelMenu();
+        loadLevelMenu.onBack = function () {
+          loadLevelMenu.kill();
           a.removeChild(a.dialog);
           a.dialog = null;
         };
-        b.onLoad = function (c) {
+        loadLevelMenu.onLoad = function (c) {
           return a.tryLoadLevel(c)
-            ? (b.kill(),
+            ? (loadLevelMenu.kill(),
               ROTATE_Game.instance.changeScreen(new ROTATE_Editor(), !1),
               !0)
             : !1;
         };
-        this.dialog = b;
-        this.addChild(b);
+        this.dialog = loadLevelMenu;
+        this.addChild(loadLevelMenu);
       }
     },
     showSaveDialog: function () {
@@ -19468,6 +19469,7 @@
     },
     __class__: ROTATE_Editor,
   });
+
   var bb = function (a) {
     null == a && (a = !1);
     this.done1 = this.first = !1;
@@ -20700,6 +20702,7 @@
     },
     __class__: ac,
   });
+
   var Da = function (a, b) {
     null == b && (b = '');
     ROTATE_CanvasObject.call(this);
@@ -20740,7 +20743,8 @@
     },
     __class__: Da,
   });
-  var Yb = function () {
+
+  var ROTATE_LoadLevelMenu = function () {
     this.btnLoad = new ROTATE_Button('LOAD');
     this.btnCancel = new ROTATE_Button('CANCEL');
     this.invalid = new ROTATE_Text(
@@ -20748,7 +20752,7 @@
       'Level code is invalid!',
       2,
     );
-    var a = this;
+    var _self = this;
     Da.call(this, 'LOAD LEVEL');
     this.invalid.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     this.invalid.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
@@ -20759,26 +20763,26 @@
     this.btnCancel.set_x(Math.round(ROTATE_Canvas.width / 2) - 96);
     this.btnCancel.set_y(ROTATE_Canvas.height - 52);
     this.btnCancel.addEventListener('click', function (b) {
-      if (2 > b.which && null != a.onBack) a.onBack();
+      if (2 > b.which && null != _self.onBack) _self.onBack();
     });
     this.addChild(this.btnCancel);
     this.btnLoad.set_x(Math.round(ROTATE_Canvas.width / 2) + 96);
     this.btnLoad.set_y(ROTATE_Canvas.height - 52);
     this.btnLoad.addEventListener('click', function (b) {
       2 > b.which &&
-        null != a.onLoad &&
-        !a.onLoad(a.area.value) &&
-        (a.invalid.visible = !0);
+        null != _self.onLoad &&
+        !_self.onLoad(_self.area.value) &&
+        (_self.invalid.visible = !0);
     });
     this.addChild(this.btnLoad);
     this.area.addEventListener('input', function () {
-      a.invalid.visible = !1;
+      _self.invalid.visible = !1;
     });
   };
-  Yb.__name__ = !0;
-  Yb.__super__ = Da;
-  Yb.prototype = __inherit(Da.prototype, {
-    __class__: Yb,
+  ROTATE_LoadLevelMenu.__name__ = !0;
+  ROTATE_LoadLevelMenu.__super__ = Da;
+  ROTATE_LoadLevelMenu.prototype = __inherit(Da.prototype, {
+    __class__: ROTATE_LoadLevelMenu,
   });
   var Zb = function (a) {
     this.btnBack = new ROTATE_Button('BACK');
