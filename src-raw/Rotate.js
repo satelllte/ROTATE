@@ -125,9 +125,9 @@
   };
   Canvas.setup = function (container) {
     Canvas.parent = container;
-    var b = window.document.body;
-    b.style.margin = '0';
-    b.style.overflow = 'hidden';
+    var body = document.body;
+    body.style.margin = '0';
+    body.style.overflow = 'hidden';
     Canvas.c = window.document.createElement('canvas');
     Canvas.c.width = Canvas.width;
     Canvas.c.height = Canvas.height;
