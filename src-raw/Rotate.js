@@ -871,15 +871,17 @@
   Ta.prototype = D(ROTATE_Event.prototype, {
     __class__: Ta,
   });
-  var Ua = function (a, b) {
-    this.type = a;
-    this.keyCode = b;
+
+  var ROTATE_KeyEvent = function (type, keyCode) {
+    this.type = type;
+    this.keyCode = keyCode;
   };
-  Ua.__name__ = !0;
-  Ua.__super__ = ROTATE_Event;
-  Ua.prototype = D(ROTATE_Event.prototype, {
-    __class__: Ua,
+  ROTATE_KeyEvent.__name__ = !0;
+  ROTATE_KeyEvent.__super__ = ROTATE_Event;
+  ROTATE_KeyEvent.prototype = D(ROTATE_Event.prototype, {
+    __class__: ROTATE_KeyEvent,
   });
+
   var ROTATE_ManagerEvent = function (type, progress) {
     this.type = type;
     this.progress = progress;
@@ -1134,7 +1136,7 @@
         var b = window.document.activeElement.tagName.toLowerCase();
         'input' != b &&
           'textarea' != b &&
-          (this.triggerEvent(new Ua('keyDown', a.keyCode)),
+          (this.triggerEvent(new ROTATE_KeyEvent('keyDown', a.keyCode)),
           this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault());
       }
     },
@@ -1143,7 +1145,7 @@
         var b = window.document.activeElement.tagName.toLowerCase();
         'input' != b &&
           'textarea' != b &&
-          (this.triggerEvent(new Ua('keyUp', a.keyCode)),
+          (this.triggerEvent(new ROTATE_KeyEvent('keyUp', a.keyCode)),
           this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault());
       }
     },
@@ -21267,8 +21269,9 @@
 
   Ta.FOCUS = 'focus';
   Ta.BLUR = 'blur';
-  Ua.KEY_DOWN = 'keyDown';
-  Ua.KEY_UP = 'keyUp';
+
+  ROTATE_KeyEvent.KEY_DOWN = 'keyDown';
+  ROTATE_KeyEvent.KEY_UP = 'keyUp';
 
   ROTATE_ManagerEvent.FINISHED = 'finished';
   ROTATE_ManagerEvent.PROGRESS = 'progress';
