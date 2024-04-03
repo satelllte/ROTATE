@@ -20734,7 +20734,7 @@
   });
 
   var ROTATE_ActiveGameObject = function () {
-    this.bubble = new ac();
+    this.bubble = new Bubble();
     var a = this;
     ROTATE_CanvasObject.call(this);
     this.mouseEnabled = this.buttonMode = !0;
@@ -20842,16 +20842,16 @@
     __class__: ROTATE_ActiveGameObject,
   });
 
-  var ac = function () {
+  var Bubble = function () {
     this.tip = new ROTATE_ImageObject(ROTATE_Images.configTip);
     ROTATE_CanvasObject.call(this);
     this.tip.set_x(-this.tip.get_width() / 2);
     this.tip.set_y(-this.tip.get_height());
     this.addChild(this.tip);
   };
-  ac.__name__ = !0;
-  ac.__super__ = ROTATE_CanvasObject;
-  ac.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  Bubble.__name__ = !0;
+  Bubble.__super__ = ROTATE_CanvasObject;
+  Bubble.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     setup: function (a) {
       var b = Math.round(a.bubbleWidth / 2);
       this.graphics.clear();
@@ -20876,7 +20876,7 @@
       this.addChild(this.content);
       a.setupBubble(this.content);
     },
-    __class__: ac,
+    __class__: Bubble,
   });
 
   var ROTATE_MenuWithTextarea = function (a, b) {
