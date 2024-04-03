@@ -568,7 +568,7 @@
       a.endStroke();
     },
     call: function (a, b) {
-      this.items.push(Ga.callFunc(a, b));
+      this.items.push(ROTATE_FunctionWrapper.callFunc(a, b));
     },
     beginFill: function (a, b) {
       null == b && (b = 1);
@@ -1201,22 +1201,25 @@
   InputKeys.keyReleased = function (a) {
     return InputKeys.keyDown(a) ? !1 : InputKeys.keyDownOld(a);
   };
-  var Ga = function (a, b) {
-    this.type = a;
-    this.name = b;
+
+  var ROTATE_FunctionWrapper = function (type, name) {
+    this.type = type;
+    this.name = name;
   };
-  Ga.__name__ = !0;
-  Ga.callFunc = function (a, b) {
-    var c = new Ga(Ga.FUNC, a);
-    c.params = b;
+  ROTATE_FunctionWrapper.__name__ = !0;
+  ROTATE_FunctionWrapper.callFunc = function (name, params) {
+    var c = new ROTATE_FunctionWrapper(ROTATE_FunctionWrapper.FUNC, name);
+    c.params = params;
     return c;
   };
-  Ga.prototype = {
+  ROTATE_FunctionWrapper.prototype = {
     execute: function (a) {
-      this.type == Ga.FUNC && a[this.name].apply(a, this.params);
+      this.type == ROTATE_FunctionWrapper.FUNC &&
+        a[this.name].apply(a, this.params);
     },
-    __class__: Ga,
+    __class__: ROTATE_FunctionWrapper,
   };
+
   var Surface = function (ctx) {
     this._transform = new Transform();
     this._ctx = ctx;
@@ -21247,29 +21250,38 @@
   ROTATE_Manager.finished = !1;
   ROTATE_Manager.tasks = [];
   ROTATE_Manager.events = new Sa();
+
   Time.startTime = 0;
   Time.lastTime = 0;
   Time.elapsedTime = 0;
+
   Graphics.PI2 = 2 * Math.PI;
+
   ROTATE_Event.ADDED = 'added';
   ROTATE_Event.REMOVED = 'removed';
   ROTATE_Event.ENTER_FRAME = 'enterFrame';
   ROTATE_Event.EXIT_FRAME = 'exitFrame';
+
   Ta.FOCUS = 'focus';
   Ta.BLUR = 'blur';
   Ua.KEY_DOWN = 'keyDown';
   Ua.KEY_UP = 'keyUp';
+
   ROTATE_ManagerEvent.FINISHED = 'finished';
   ROTATE_ManagerEvent.PROGRESS = 'progress';
+
   Ha.CLICK = 'click';
   Ha.MOUSE_DOWN = 'mouseDown';
   Ha.MOUSE_UP = 'mouseUp';
   Ha.MOVE = 'move';
   fb.RENDER = 'render';
+
   InputKeys.inited = !1;
   InputKeys.keys = [];
   InputKeys.keysOld = [];
-  Ga.FUNC = 1;
+
+  ROTATE_FunctionWrapper.FUNC = 1;
+
   Surface.PI2 = 2 * Math.PI;
 
   StringUtils.CHARS =
