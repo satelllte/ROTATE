@@ -8,9 +8,11 @@
     b.toString !== Object.prototype.toString && (d.toString = b.toString);
     return d;
   }
+
+  var bindIdNext = 0;
   function Bind(a, b) {
     if (null == b) return null;
-    null == b.__id__ && (b.__id__ = pc++);
+    null == b.__id__ && (b.__id__ = bindIdNext++);
     var c;
     null == a.hx__closures__
       ? (a.hx__closures__ = {})
@@ -24,6 +26,7 @@
       (a.hx__closures__[b.__id__] = c));
     return c;
   }
+
   var dc = function () {
       return E.__string_rec(this, '');
     },
@@ -20341,7 +20344,6 @@
     __class__: eb,
   });
   var gameInstance;
-  var pc = 0;
   String.prototype.__class__ = String;
   String.__name__ = !0;
   Array.__name__ = !0;
