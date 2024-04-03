@@ -2618,6 +2618,7 @@
     },
     __class__: wb,
   };
+
   var ua = function (a, b, c) {
     this.animChanged = !1;
     this.frame = this.animTimer = this.lastF = 0;
@@ -2714,33 +2715,38 @@
     __class__: ROTATE_Animation,
   };
 
-  var S = function () {
+  var ROTATE_CatAnimationObject = function () {
     this.horizontal = this.x2 = this.dx = 0;
     ua.call(this, ROTATE_Images.cat, 24, 24);
     this.origin.x = this.frameW / 2;
     this.origin.y = this.frameH;
   };
-  S.__name__ = !0;
-  S.__super__ = ua;
-  S.prototype = D(ua.prototype, {
+
+  ROTATE_CatAnimationObject.__name__ = !0;
+  ROTATE_CatAnimationObject.__super__ = ua;
+  ROTATE_CatAnimationObject.prototype = D(ua.prototype, {
     tick: function () {
       0 < this.horizontal
-        ? this.dx < S.SPEED &&
-          (this.dx < -S.ACCEL
-            ? (this.dx *= S.DECCEL_MULT)
-            : ((this.dx += S.ACCEL), this.dx > S.SPEED && (this.dx = S.SPEED)))
+        ? this.dx < ROTATE_CatAnimationObject.SPEED &&
+          (this.dx < -ROTATE_CatAnimationObject.ACCEL
+            ? (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT)
+            : ((this.dx += ROTATE_CatAnimationObject.ACCEL),
+              this.dx > ROTATE_CatAnimationObject.SPEED &&
+                (this.dx = ROTATE_CatAnimationObject.SPEED)))
         : 0 > this.horizontal
-          ? this.dx > -S.SPEED &&
-            (this.dx > S.ACCEL
-              ? (this.dx *= S.DECCEL_MULT)
-              : ((this.dx -= S.ACCEL),
-                this.dx < -S.SPEED && (this.dx = -S.SPEED)))
-          : (this.dx *= S.DECCEL_MULT);
+          ? this.dx > -ROTATE_CatAnimationObject.SPEED &&
+            (this.dx > ROTATE_CatAnimationObject.ACCEL
+              ? (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT)
+              : ((this.dx -= ROTATE_CatAnimationObject.ACCEL),
+                this.dx < -ROTATE_CatAnimationObject.SPEED &&
+                  (this.dx = -ROTATE_CatAnimationObject.SPEED)))
+          : (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT);
       this.x2 += this.dx;
       this.set_x(Math.round(this.x2));
     },
-    __class__: S,
+    __class__: ROTATE_CatAnimationObject,
   });
+
   var hc = function (a) {
     this.lastChanged = -1;
     this.signals = [];
@@ -19171,7 +19177,7 @@
       'Press [SPACE] to continue...',
     );
     this.catTrigger = !1;
-    this.cat = new S();
+    this.cat = new ROTATE_CatAnimationObject();
     this.player = new ua(ROTATE_Images.player, 32, 48);
     this.artPlants = new ua(ROTATE_Images.endingPlants, 504, 24);
     this.artMain = new I(ROTATE_Images.endingMain);
@@ -19212,7 +19218,7 @@
       this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
       this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
       this.cat.set_scaleX(-1);
-      this.cat.set_animation(S.ANIM_IDLE);
+      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
       this.camera.addChild(this.cat);
       this.player.origin.x = this.player.frameW / 2;
       this.player.origin.y = this.player.frameH;
@@ -19258,9 +19264,9 @@
         ((this.catTrigger = !0),
         this.cat.set_scaleX(1),
         (this.cat.horizontal = 1),
-        this.cat.set_animation(S.ANIM_END_1),
+        this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_1),
         (this.cat.onFinish = function () {
-          a.cat.set_animation(S.ANIM_END_2);
+          a.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_2);
           a.cat.onFinish = null;
         }));
       var c = b - this.delay;
@@ -19827,11 +19833,11 @@
       return null != a ? a.get_status() : !1;
     },
     catAppear: function (a, b, c) {
-      this.cat = new S();
+      this.cat = new ROTATE_CatAnimationObject();
       this.cat.set_x((this.cat.x2 = (a + 0.5) * ROTATE_GameConstants.tileSize));
       this.cat.set_y((b + 1) * ROTATE_GameConstants.tileSize);
       this.cat.set_scaleX(c);
-      this.cat.set_animation(S.ANIM_IDLE);
+      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
       this.level.addChild(this.cat);
     },
     catDisappear: function (a) {
@@ -19845,7 +19851,7 @@
           b.level.removeChild(b.cat);
           b.cat = null;
         }),
-        this.cat.set_animation(S.ANIM_EXIT),
+        this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_EXIT),
         (this.cat.horizontal = this.cat.scaleX));
     },
     kill: function () {
@@ -21127,23 +21133,28 @@
   ROTATE_Awards.STAY_MS = 3000;
   ROTATE_Awards.bubbleTimer = -1;
 
-  S.SPEED = 2;
-  S.ACCEL = 0.06;
-  S.DECCEL_MULT = 0.6;
-  S.ANIM_IDLE = new ROTATE_Animation(
+  ROTATE_CatAnimationObject.SPEED = 2;
+  ROTATE_CatAnimationObject.ACCEL = 0.06;
+  ROTATE_CatAnimationObject.DECCEL_MULT = 0.6;
+  ROTATE_CatAnimationObject.ANIM_IDLE = new ROTATE_Animation(
     [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],
     [1500, 100, 100, 100, 100, 100, 3000, 100, 100, 200, 100, 100],
   );
-  S.ANIM_EXIT = new ROTATE_Animation(
+  ROTATE_CatAnimationObject.ANIM_EXIT = new ROTATE_Animation(
     [9, 10, 11, 12, 13, 14, 15, 16, 17],
     [100, 100, 100, 100, 100, 100, 100, 100, 100],
     !1,
   );
-  S.ANIM_END_1 = new ROTATE_Animation([9, 10], [100, 100], !1);
-  S.ANIM_END_2 = new ROTATE_Animation(
+  ROTATE_CatAnimationObject.ANIM_END_1 = new ROTATE_Animation(
+    [9, 10],
+    [100, 100],
+    !1,
+  );
+  ROTATE_CatAnimationObject.ANIM_END_2 = new ROTATE_Animation(
     [11, 12, 22, 14, 24, 25, 26],
     [100, 100, 100, 100, 100, 100, 100],
   );
+
   J.HIT_W = 12;
   J.HIT_H = 42;
   J.SPEED = 3.7;
@@ -21165,8 +21176,10 @@
     [100, 100, 100, 100],
     !1,
   );
+
   l.rotating = !1;
   l.rotation = 0;
+
   ROTATE_GameObject_Lever.TOGGLE_TIMER = 0.67;
 
   ROTATE_GameObjects.registry = [];
