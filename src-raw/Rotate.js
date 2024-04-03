@@ -18738,6 +18738,7 @@
     kill: function () {},
     __class__: P,
   });
+
   var ib = function () {
     this.rotating = !1;
     this.rotationSide = 0;
@@ -18770,7 +18771,8 @@
       this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.btnBack.set_y(ROTATE_Canvas.height - 88);
       this.btnBack.addEventListener('click', function (a) {
-        2 > a.which && ROTATE_Game.instance.changeScreen(new Oa());
+        2 > a.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
       });
       this.content.addChild(this.btnBack);
       this.content.addChild(this.sponsor);
@@ -18969,15 +18971,19 @@
                   ROTATE_Audio.surface.stop();
                 }))),
           ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
-          ROTATE_Game.instance.changeScreen(a.fromEnd ? new Oa() : new ca()));
+          ROTATE_Game.instance.changeScreen(
+            a.fromEnd ? new ROTATE_ScreenExtras() : new ca(),
+          ));
       });
       this.addChild(this.btnBack);
       this.addChild(this.mute);
     },
     __class__: mb,
   });
+
   var qa = function () {
-    this.cameraX = this.cameraY = 0;
+    this.cameraX = 0;
+    this.cameraY = 0;
     this.level = new ROTATE_CanvasObject();
     this.camera = new ROTATE_CanvasObject();
     this.pivot = new ROTATE_CanvasObject();
@@ -18988,7 +18994,7 @@
   qa.__super__ = P;
   qa.prototype = __inherit(P.prototype, {
     init: function () {
-      this.bg.graphics.beginFill(3158064);
+      this.bg.graphics.beginFill(0x303030);
       this.bg.graphics.drawRect(
         0,
         0,
@@ -19683,7 +19689,8 @@
     },
     __class__: ob,
   });
-  var Oa = function () {
+
+  var ROTATE_ScreenExtras = function () {
     this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
@@ -19711,9 +19718,9 @@
     this.bg = new ROTATE_BackgroundObject();
     P.call(this);
   };
-  Oa.__name__ = !0;
-  Oa.__super__ = P;
-  Oa.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenExtras.__name__ = !0;
+  ROTATE_ScreenExtras.__super__ = P;
+  ROTATE_ScreenExtras.prototype = __inherit(P.prototype, {
     init: function () {
       ca.playTheme();
       this.addChild(this.bg);
@@ -19774,8 +19781,9 @@
       this.addChild(this.erase);
       ROTATE_Game.instance.warnNoSave(this);
     },
-    __class__: Oa,
+    __class__: ROTATE_ScreenExtras,
   });
+
   var pb = function () {
     this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
@@ -19854,6 +19862,7 @@
     },
     __class__: pb,
   });
+
   var ca = function () {
     this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
@@ -19908,7 +19917,8 @@
       this.btnExtras.set_x(this.btnPlay.x);
       this.btnExtras.set_y(this.btnPlay.y + 60);
       this.btnExtras.addEventListener('click', function (a) {
-        2 > a.which && ROTATE_Game.instance.changeScreen(new Oa());
+        2 > a.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
       });
       this.addChild(this.btnExtras);
       this.btnCredits.set_x(this.btnExtras.x);
@@ -19923,6 +19933,7 @@
     },
     __class__: ca,
   });
+
   var ROTATE_GameController = function (a, b, c) {
     null == c && (c = -1);
     null == b && (b = !1);
@@ -20895,7 +20906,8 @@
     this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
     this.btnExit.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
     this.btnExit.addEventListener('click', function (d) {
-      2 > d.which && ROTATE_Game.instance.changeScreen(new Oa());
+      2 > d.which &&
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
     });
     this.addChild(this.btnExit);
     this.btnClear.set_x(
@@ -21263,7 +21275,7 @@
           ROTATE_LevelEditorManager.level == ROTATE_Editor.editorLevel
             ? new ROTATE_Editor()
             : a
-              ? new Oa()
+              ? new ROTATE_ScreenExtras()
               : 0 < ROTATE_Levels.unlocked
                 ? new pb()
                 : new ca(),
