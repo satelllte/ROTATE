@@ -109,6 +109,7 @@
   ma.replace = function (a, b, c) {
     return a.split(b).join(c);
   };
+
   var ROTATE_Canvas = function () {};
   ROTATE_Canvas.__name__ = !0;
   ROTATE_Canvas.set_background = function (color) {
@@ -1584,11 +1585,11 @@
     __class__: ya,
   };
 
-  var StringUtils = function () {};
-  StringUtils.__name__ = !0;
-  StringUtils.encode = function (a, b) {
+  var CharUtils = function () {};
+  CharUtils.__name__ = !0;
+  CharUtils.encode = function (a, b) {
     null == b && (b = !0);
-    var c = new sb(StringUtils.BYTES).encodeBytes(a).toString();
+    var c = new sb(CharUtils.BYTES).encodeBytes(a).toString();
     if (b)
       switch (a.length % 3) {
         case 1:
@@ -1599,11 +1600,11 @@
       }
     return c;
   };
-  StringUtils.decode = function (a, b) {
+  CharUtils.decode = function (a, b) {
     null == b && (b = !0);
     if (b)
       for (; 61 == ja.charCodeAt(a, a.length - 1); ) a = ja.substr(a, 0, -1);
-    return new sb(StringUtils.BYTES).decodeBytes(ya.ofString(a));
+    return new sb(CharUtils.BYTES).decodeBytes(ya.ofString(a));
   };
 
   var sb = function (a) {
@@ -2314,7 +2315,7 @@
       try {
         var a = LocalStorage.getItem('lws:rotate');
         if (null != a && '' != a) {
-          var b = JSON.parse(StringUtils.decode(a).toString());
+          var b = JSON.parse(CharUtils.decode(a).toString());
           if (null != b) {
             b.muteMusic && this.toggleMusic(!1);
             b.muteSFX && this.toggleSFX(!1);
@@ -2355,7 +2356,7 @@
       this.muteSFX && (a.muteSFX = !0);
       LocalStorage.setItem(
         'lws:rotate',
-        StringUtils.encode(ya.ofString(JSON.stringify(a))),
+        CharUtils.encode(ya.ofString(JSON.stringify(a))),
       );
     },
     clearProgress: function () {
@@ -21598,9 +21599,9 @@
 
   Surface.PI2 = 2 * Math.PI;
 
-  StringUtils.CHARS =
+  CharUtils.CHARS =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-  StringUtils.BYTES = ya.ofString(StringUtils.CHARS);
+  CharUtils.BYTES = ya.ofString(CharUtils.CHARS);
 
   JSObjectUtils.__toStr = {}.toString;
 
