@@ -181,13 +181,13 @@
     Time._update();
     if (ROTATE_Manager.get_done())
       ROTATE_Canvas.wasLoaded ||
-        (ROTATE_Manager.triggerEvent(new Fa('progress', 1)),
+        (ROTATE_Manager.triggerEvent(new ROTATE_ManagerEvent('progress', 1)),
         (ROTATE_Canvas.lastProgress = 1),
-        ROTATE_Manager.triggerEvent(new Fa('finished', 1)));
+        ROTATE_Manager.triggerEvent(new ROTATE_ManagerEvent('finished', 1)));
     else {
       var a = ROTATE_Manager.get_progress();
       a != ROTATE_Canvas.lastProgress &&
-        (ROTATE_Manager.triggerEvent(new Fa('progress', a)),
+        (ROTATE_Manager.triggerEvent(new ROTATE_ManagerEvent('progress', a)),
         (ROTATE_Canvas.lastProgress = a));
     }
     ROTATE_Canvas.wasLoaded = ROTATE_Manager.get_done();
@@ -880,14 +880,14 @@
   Ua.prototype = D(ROTATE_Event.prototype, {
     __class__: Ua,
   });
-  var Fa = function (a, b) {
-    this.type = a;
-    this.progress = b;
+  var ROTATE_ManagerEvent = function (type, progress) {
+    this.type = type;
+    this.progress = progress;
   };
-  Fa.__name__ = !0;
-  Fa.__super__ = ROTATE_Event;
-  Fa.prototype = D(ROTATE_Event.prototype, {
-    __class__: Fa,
+  ROTATE_ManagerEvent.__name__ = !0;
+  ROTATE_ManagerEvent.__super__ = ROTATE_Event;
+  ROTATE_ManagerEvent.prototype = D(ROTATE_Event.prototype, {
+    __class__: ROTATE_ManagerEvent,
   });
   var Ha = function (a, b, c, d, e) {
     null == e && (e = 0);
@@ -20557,8 +20557,8 @@
   Ta.BLUR = 'blur';
   Ua.KEY_DOWN = 'keyDown';
   Ua.KEY_UP = 'keyUp';
-  Fa.FINISHED = 'finished';
-  Fa.PROGRESS = 'progress';
+  ROTATE_ManagerEvent.FINISHED = 'finished';
+  ROTATE_ManagerEvent.PROGRESS = 'progress';
   Ha.CLICK = 'click';
   Ha.MOUSE_DOWN = 'mouseDown';
   Ha.MOUSE_UP = 'mouseUp';
