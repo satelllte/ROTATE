@@ -2482,8 +2482,10 @@
       if (this.unlocked) return !1;
       this.unlocked = !0;
       ROTATE_Game.instance.saveProgress();
-      JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, ib) &&
-        ROTATE_Game.instance.currentScreen.refresh();
+      JSObjectUtils.__instanceof(
+        ROTATE_Game.instance.currentScreen,
+        ROTATE_ScreenAwards,
+      ) && ROTATE_Game.instance.currentScreen.refresh();
       ROTATE_Awards.queueNotify(this);
       return !0;
     },
@@ -18739,7 +18741,7 @@
     __class__: P,
   });
 
-  var ib = function () {
+  var ROTATE_ScreenAwards = function () {
     this.rotating = !1;
     this.rotationSide = 0;
     this.awardDisplays = [];
@@ -18752,9 +18754,9 @@
     this.pivot = new ROTATE_CanvasObject();
     P.call(this);
   };
-  ib.__name__ = !0;
-  ib.__super__ = P;
-  ib.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenAwards.__name__ = !0;
+  ROTATE_ScreenAwards.__super__ = P;
+  ROTATE_ScreenAwards.prototype = __inherit(P.prototype, {
     init: function () {
       ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
@@ -18849,7 +18851,7 @@
                 ? 0
                 : this.rotationSide);
     },
-    __class__: ib,
+    __class__: ROTATE_ScreenAwards,
   });
   var mb = function (a) {
     null == a && (a = !1);
@@ -19565,6 +19567,7 @@
     },
     __class__: bb,
   });
+
   var ob = function (a) {
     null == a && (a = !1);
     this.hint = new ROTATE_Text(
@@ -19733,7 +19736,8 @@
       this.btn1.set_x(134);
       this.btn1.set_y(133);
       this.btn1.addEventListener('click', function (b) {
-        2 > b.which && ROTATE_Game.instance.changeScreen(new ib());
+        2 > b.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenAwards());
       });
       this.addChild(this.btn1);
       this.text1.set_x(this.btn1.x + 110);
