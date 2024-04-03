@@ -1533,8 +1533,10 @@
     },
     __class__: Transform,
   };
+
   var lc = function () {};
   lc.__name__ = !0;
+
   var ya = function (a) {
     this.length = a.byteLength;
     this.b = new Uint8Array(a);
@@ -1602,7 +1604,7 @@
   CharUtils.__name__ = !0;
   CharUtils.encode = function (a, b) {
     null == b && (b = !0);
-    var c = new sb(CharUtils.BYTES).encodeBytes(a).toString();
+    var c = new CharEncoder(CharUtils.BYTES).encodeBytes(a).toString();
     if (b)
       switch (a.length % 3) {
         case 1:
@@ -1618,18 +1620,18 @@
     if (b)
       for (; 61 == StringUtils2.charCodeAt(a, a.length - 1); )
         a = StringUtils2.substr(a, 0, -1);
-    return new sb(CharUtils.BYTES).decodeBytes(ya.ofString(a));
+    return new CharEncoder(CharUtils.BYTES).decodeBytes(ya.ofString(a));
   };
 
-  var sb = function (a) {
+  var CharEncoder = function (a) {
     for (var b = a.length, c = 1; b > 1 << c; ) ++c;
     if (8 < c || b != 1 << c)
       throw new ROTATE_Error('BaseCode : base length must be a power of two.');
     this.base = a;
     this.nbits = c;
   };
-  sb.__name__ = !0;
-  sb.prototype = {
+  CharEncoder.__name__ = !0;
+  CharEncoder.prototype = {
     encodeBytes: function (a) {
       for (
         var b = this.nbits,
@@ -1690,8 +1692,9 @@
       }
       return e;
     },
-    __class__: sb,
+    __class__: CharEncoder,
   };
+
   var hb = function () {
     this.h = {};
   };
@@ -1719,6 +1722,7 @@
     },
     __class__: hb,
   };
+
   var fc = function (a, b) {
     this.map = a;
     this.keys = b;
