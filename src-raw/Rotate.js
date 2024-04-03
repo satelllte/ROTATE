@@ -46,15 +46,14 @@
   }
 
   var dc = function () {
-      return JSObjectUtils.__string_rec(this, '');
-    },
-    ja = function () {};
-  ja.__name__ = !0;
+    return JSObjectUtils.__string_rec(this, '');
+  };
 
+  var ja = function () {};
+  ja.__name__ = !0;
   ja.charCodeAt = function (str, index) {
     return str.charCodeAt(index);
   };
-
   ja.substr = function (a, b, c) {
     if (null == c) c = a.length;
     else if (0 > c)
@@ -74,7 +73,9 @@
       },
     };
   };
+
   Math.__name__ = !0;
+
   var la = function () {};
   la.__name__ = !0;
   la.string = function (a) {
