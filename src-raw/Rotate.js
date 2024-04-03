@@ -2008,6 +2008,7 @@
   ROTATE_Font.prototype = {
     __class__: ROTATE_Font,
   };
+
   var ROTATE_Game = function () {
     this.muteMusic = false;
     this.muteSFX = false;
