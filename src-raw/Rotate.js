@@ -18752,7 +18752,7 @@
         this.content.removeChild(c);
       }
       null != this.erase && this.content.removeChild(this.erase);
-      this.erase = new Ya();
+      this.erase = new ROTATE_EraseButton();
       this.content.addChild(this.erase);
       this.awardDisplays = [];
       a = Math.floor(ROTATE_Awards.all.length / 3);
@@ -19649,7 +19649,7 @@
     __class__: ob,
   });
   var Oa = function () {
-    this.erase = new Ya();
+    this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
     this.bestTime = new ROTATE_Text(ROTATE_Game.fontMain, 'Best time: ', 2);
@@ -19742,7 +19742,7 @@
     __class__: Oa,
   });
   var pb = function () {
-    this.erase = new Ya();
+    this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
     this.tiles = new ROTATE_CanvasObject();
@@ -19820,7 +19820,7 @@
     __class__: pb,
   });
   var ca = function () {
-    this.erase = new Ya();
+    this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
     this.btnCredits = new ROTATE_Button('CREDITS');
@@ -20797,6 +20797,7 @@
   Zb.prototype = __inherit(Da.prototype, {
     __class__: Zb,
   });
+
   var ROTATE_EditorBarLower = function (a) {
     this.selector = new ROTATE_ActiveGameObject();
     var b = this;
@@ -20828,6 +20829,7 @@
   ROTATE_EditorBarLower.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     __class__: ROTATE_EditorBarLower,
   });
+
   var ROTATE_EditorBarUpper = function (a, b) {
     this.btnLoad = new ROTATE_Text(ROTATE_Game.fontMain, 'Load');
     this.btnSave = new ROTATE_Text(ROTATE_Game.fontMain, 'Save');
@@ -20924,7 +20926,7 @@
     __class__: ROTATE_EditorBarUpper,
   });
 
-  var Ya = function () {
+  var ROTATE_EraseButton = function () {
     ROTATE_ImageObject.call(this, ROTATE_Images.trash);
     this.set_x(ROTATE_Canvas.width - 120);
     this.set_y(ROTATE_Canvas.height - this.get_height() - 12);
@@ -20955,10 +20957,10 @@
         }))
       : this.set_alpha(0.33);
   };
-  Ya.__name__ = !0;
-  Ya.__super__ = ROTATE_ImageObject;
-  Ya.prototype = __inherit(ROTATE_ImageObject.prototype, {
-    __class__: Ya,
+  ROTATE_EraseButton.__name__ = !0;
+  ROTATE_EraseButton.__super__ = ROTATE_ImageObject;
+  ROTATE_EraseButton.prototype = __inherit(ROTATE_ImageObject.prototype, {
+    __class__: ROTATE_EraseButton,
   });
 
   var ROTATE_GridToggle = function (a) {
