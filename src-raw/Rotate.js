@@ -18860,7 +18860,7 @@
         var d = b++,
           e = Math.floor(d / 3),
           f = e < a ? 3 : ROTATE_Awards.all.length - 3 * a,
-          m = new Xb(ROTATE_Awards.all[d]);
+          m = new ROTATE_AwardObject(ROTATE_Awards.all[d]);
         m.set_x(
           Math.floor(ROTATE_Canvas.width / 2) -
             80 * (f - 1) +
@@ -20708,29 +20708,29 @@
     __class__: ROTATE_Text,
   });
 
-  var Xb = function (a) {
+  var ROTATE_AwardObject = function (award) {
     ROTATE_CanvasObject.call(this);
     var b = new ROTATE_ImageObject(ROTATE_Images.awardFrame);
     b.set_x(-b.get_width() / 2);
     this.addChild(b);
     b = new ROTATE_ImageObject(
-      a.unlocked ? a.icon : ROTATE_Images.awardIconLocked,
+      award.unlocked ? award.icon : ROTATE_Images.awardIconLocked,
     );
     b.set_x(-b.get_width() / 2);
     b.set_y(8);
     this.addChild(b);
-    b = new ROTATE_Text(ROTATE_Game.fontMain, a.name, 1);
+    b = new ROTATE_Text(ROTATE_Game.fontMain, award.name, 1);
     b.align = ROTATE_Text.ALIGN_CENTER;
     b.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     b.set_y(64);
     b.set_lineHeight(b.lineHeight - 4);
     this.addChild(b);
-    a.unlocked || this.set_alpha(0.5);
+    award.unlocked || this.set_alpha(0.5);
   };
-  Xb.__name__ = !0;
-  Xb.__super__ = ROTATE_CanvasObject;
-  Xb.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-    __class__: Xb,
+  ROTATE_AwardObject.__name__ = !0;
+  ROTATE_AwardObject.__super__ = ROTATE_CanvasObject;
+  ROTATE_AwardObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+    __class__: ROTATE_AwardObject,
   });
 
   var ROTATE_ActiveGameObject = function () {
