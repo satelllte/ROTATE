@@ -304,7 +304,7 @@
         c.width -= 1e-4;
         c.height -= 1e-4;
         xa.pointInTransformedBounds(
-          new Q(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
+          new Vector2(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
           a._transform,
           c,
         ) && (b = a);
@@ -319,7 +319,7 @@
     return b;
   };
   ROTATE_Canvas.pageToGame = function (a, b) {
-    return new Q(
+    return new Vector2(
       (a - ROTATE_Canvas.offsetX) / ROTATE_Canvas.scale,
       (b - ROTATE_Canvas.offsetY) / ROTATE_Canvas.scale,
     );
@@ -517,10 +517,10 @@
     b = a.subtract(b);
     d = d.subtract(c);
     c = a.subtract(c);
-    a = Q.dot(e, b);
-    e = Q.dot(e, e);
-    c = Q.dot(d, c);
-    d = Q.dot(d, d);
+    a = Vector2.dot(e, b);
+    e = Vector2.dot(e, e);
+    c = Vector2.dot(d, c);
+    d = Vector2.dot(d, d);
     return 0 <= a && a <= e && 0 <= c ? c <= d : !1;
   };
   xa.pointInTransformedBounds = function (a, b, c) {
@@ -926,38 +926,39 @@
     __class__: ROTATE_RenderEvent,
   });
 
-  var Q = function (a, b) {
-    this.x = a;
-    this.y = b;
+  var Vector2 = function (x, y) {
+    this.x = x;
+    this.y = y;
   };
-  Q.__name__ = !0;
-  Q.dot = function (a, b) {
+  Vector2.__name__ = !0;
+  Vector2.dot = function (a, b) {
     return a.x * b.x + a.y * b.y;
   };
-  Q.distance = function (a, b) {
+  Vector2.distance = function (a, b) {
     return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
   };
-  Q.prototype = {
+  Vector2.prototype = {
     copy: function () {
-      return new Q(this.x, this.y);
+      return new Vector2(this.x, this.y);
     },
     equals: function (a) {
       return null != a && a.x == this.x ? a.y == this.y : !1;
     },
     add: function (a) {
-      return new Q(this.x + a.x, this.y + a.y);
+      return new Vector2(this.x + a.x, this.y + a.y);
     },
     subtract: function (a) {
-      return new Q(this.x - a.x, this.y - a.y);
+      return new Vector2(this.x - a.x, this.y - a.y);
     },
     multiply: function (a) {
-      return new Q(this.x * a.x, this.y * a.y);
+      return new Vector2(this.x * a.x, this.y * a.y);
     },
     divide: function (a) {
-      return new Q(this.x / a.x, this.y / a.y);
+      return new Vector2(this.x / a.x, this.y / a.y);
     },
-    __class__: Q,
+    __class__: Vector2,
   };
+
   var Bounds = function (x, y, width, height) {
     this.x = x;
     this.y = y;
@@ -1017,7 +1018,7 @@
       return a;
     },
     get_center: function () {
-      return new Q(
+      return new Vector2(
         (this.get_left() + this.get_right()) / 2,
         (this.get_top() + this.get_bottom()) / 2,
       );
@@ -1509,7 +1510,7 @@
       this.matrix[5] = a.get(5);
     },
     apply: function (a, b) {
-      return new Q(
+      return new Vector2(
         this.matrix[0] * a + this.matrix[2] * b + this.matrix[4],
         this.matrix[1] * a + this.matrix[3] * b + this.matrix[5],
       );
@@ -2613,7 +2614,7 @@
   var ua = function (a, b, c) {
     this.animChanged = !1;
     this.frame = this.animTimer = this.lastF = 0;
-    this.origin = new Q(0, 0);
+    this.origin = new Vector2(0, 0);
     var d = this;
     ROTATE_CanvasObject.call(this);
     this.image = a;
@@ -3244,10 +3245,10 @@
             )
               return !0;
           } else if (JSObjectUtils.__instanceof(k, Wa)) {
-            var p = new Q(a.get_right(), a.get_bottom());
-            1 == k.dir && (p = new Q(a.get_left(), a.get_bottom()));
-            2 == k.dir && (p = new Q(a.get_left(), a.get_top()));
-            3 == k.dir && (p = new Q(a.get_right(), a.get_top()));
+            var p = new Vector2(a.get_right(), a.get_bottom());
+            1 == k.dir && (p = new Vector2(a.get_left(), a.get_bottom()));
+            2 == k.dir && (p = new Vector2(a.get_left(), a.get_top()));
+            3 == k.dir && (p = new Vector2(a.get_right(), a.get_top()));
             p.x -= b * ROTATE_GameConstants.tileSize;
             p.y -= c * ROTATE_GameConstants.tileSize;
             if (k.testPoint(p)) return !0;
@@ -3287,7 +3288,7 @@
             (y = a.copy()),
             (y.x -= b * k),
             (y.y -= c * k),
-            (p = new Q(
+            (p = new Vector2(
               0 == p.dir || 3 == p.dir ? k : 0,
               0 == p.dir || 1 == p.dir ? k : 0,
             )),
@@ -3304,11 +3305,11 @@
     testAABBCircle: function (a, b, c) {
       return new Bounds(a.x, a.y - c, a.width, a.height + 2 * c).contains(b) ||
         new Bounds(a.x - c, a.y, a.width + 2 * c, a.height).contains(b) ||
-        Q.distance(b, new Q(a.get_left(), a.get_top())) < c ||
-        Q.distance(b, new Q(a.get_right(), a.get_top())) < c ||
-        Q.distance(b, new Q(a.get_right(), a.get_bottom())) < c
+        Vector2.distance(b, new Vector2(a.get_left(), a.get_top())) < c ||
+        Vector2.distance(b, new Vector2(a.get_right(), a.get_top())) < c ||
+        Vector2.distance(b, new Vector2(a.get_right(), a.get_bottom())) < c
         ? !0
-        : Q.distance(b, new Q(a.get_left(), a.get_bottom())) < c;
+        : Vector2.distance(b, new Vector2(a.get_left(), a.get_bottom())) < c;
     },
     jumpKeyDown: function () {
       return InputKeys.keyDown(KEY_CODES.ArrowUp) ||
@@ -4941,7 +4942,7 @@
         var d = ROTATE_LevelEditorManager.getBlockData(b, c),
           e = d.get_block();
         if (e.collides(d) && !e.isTrigger(d)) {
-          var f = new Q(
+          var f = new Vector2(
             a.x - b * ROTATE_GameConstants.tileSize,
             a.y - c * ROTATE_GameConstants.tileSize,
           );
@@ -4952,7 +4953,7 @@
             if (
               m.testPoint(
                 f,
-                new Q(
+                new Vector2(
                   a.lastX - b * ROTATE_GameConstants.tileSize,
                   a.lastY - c * ROTATE_GameConstants.tileSize,
                 ),
@@ -20633,7 +20634,7 @@
       );
     },
     getTextOffset: function () {
-      var a = new Q(0, 0);
+      var a = new Vector2(0, 0);
       this.xAlign == ROTATE_Text.X_ALIGN_CENTER &&
         (a.x = Math.round(-this.textWidth / 2));
       this.xAlign == ROTATE_Text.X_ALIGN_RIGHT && (a.x = -this.textWidth);
