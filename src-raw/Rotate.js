@@ -12898,7 +12898,7 @@
     kill: function () {},
     __class__: ROTATE_Level2,
   };
-  var Rb = function () {
+  var ROTATE_Level3 = function () {
     this.startDir = -1;
     this.finishRow = 6;
     this.finishCol = 3;
@@ -13128,9 +13128,9 @@
     ];
     this.theme = 0;
   };
-  Rb.__name__ = !0;
-  Rb.__interfaces__ = [ea];
-  Rb.prototype = {
+  ROTATE_Level3.__name__ = !0;
+  ROTATE_Level3.__interfaces__ = [ea];
+  ROTATE_Level3.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(1), 'Remember, your mind is needed.'),
@@ -13148,7 +13148,7 @@
       return ROTATE_Levels.level4;
     },
     kill: function () {},
-    __class__: Rb,
+    __class__: ROTATE_Level3,
   };
   var Sb = function () {
     this.startDir = 1;
@@ -20815,7 +20815,7 @@
 
   ROTATE_Levels.level1 = new ROTATE_Level1();
   ROTATE_Levels.level2 = new ROTATE_Level2();
-  ROTATE_Levels.level3 = new Rb();
+  ROTATE_Levels.level3 = new ROTATE_Level3();
   ROTATE_Levels.level4 = new Sb();
   ROTATE_Levels.level5 = new Tb();
   ROTATE_Levels.level6 = new Ub();
