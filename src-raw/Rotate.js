@@ -3813,13 +3813,14 @@
     },
     __class__: L,
   });
-  var X = function () {
+
+  var ROTATE_Tooltip = function () {
     this.bubbleHeight = 46;
     this.bubbleWidth = 124;
     this.configurable = !1;
   };
-  X.__name__ = !0;
-  X.prototype = {
+  ROTATE_Tooltip.__name__ = !0;
+  ROTATE_Tooltip.prototype = {
     shouldRender: function (a) {
       return !0;
     },
@@ -3860,15 +3861,15 @@
       return !1;
     },
     onInteract: function (a) {},
-    __class__: X,
+    __class__: ROTATE_Tooltip,
   };
 
   var ROTATE_GameObject_Air = function () {
-    X.call(this);
+    ROTATE_Tooltip.call(this);
   };
   ROTATE_GameObject_Air.__name__ = !0;
-  ROTATE_GameObject_Air.__super__ = X;
-  ROTATE_GameObject_Air.prototype = __inherit(X.prototype, {
+  ROTATE_GameObject_Air.__super__ = ROTATE_Tooltip;
+  ROTATE_GameObject_Air.prototype = __inherit(ROTATE_Tooltip.prototype, {
     collides: function (a) {
       return !1;
     },
@@ -3882,14 +3883,14 @@
     this.angle = 0;
     this.length = 3;
     this.channel = 0;
-    X.call(this);
+    ROTATE_Tooltip.call(this);
     this.bubbleWidth = 148;
     this.bubbleHeight = 106;
     this.configurable = !0;
   };
   ROTATE_GameObject_Door.__name__ = !0;
-  ROTATE_GameObject_Door.__super__ = X;
-  ROTATE_GameObject_Door.prototype = __inherit(X.prototype, {
+  ROTATE_GameObject_Door.__super__ = ROTATE_Tooltip;
+  ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     set_angle: function (a) {
       return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
     },
@@ -4125,12 +4126,12 @@
 
   var ROTATE_AngleTooltip = function () {
     this.angle = 0;
-    X.call(this);
+    ROTATE_Tooltip.call(this);
     this.configurable = !0;
   };
   ROTATE_AngleTooltip.__name__ = !0;
-  ROTATE_AngleTooltip.__super__ = X;
-  ROTATE_AngleTooltip.prototype = __inherit(X.prototype, {
+  ROTATE_AngleTooltip.__super__ = ROTATE_Tooltip;
+  ROTATE_AngleTooltip.prototype = __inherit(ROTATE_Tooltip.prototype, {
     set_angle: function (a) {
       return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
     },
@@ -4218,11 +4219,11 @@
   });
 
   var ROTATE_GameObject_Finish = function () {
-    X.call(this);
+    ROTATE_Tooltip.call(this);
   };
   ROTATE_GameObject_Finish.__name__ = !0;
-  ROTATE_GameObject_Finish.__super__ = X;
-  ROTATE_GameObject_Finish.prototype = __inherit(X.prototype, {
+  ROTATE_GameObject_Finish.__super__ = ROTATE_Tooltip;
+  ROTATE_GameObject_Finish.prototype = __inherit(ROTATE_Tooltip.prototype, {
     render: function (a, b, c) {
       a.drawImage(
         ROTATE_Images.blocks,
@@ -4245,14 +4246,14 @@
   var ROTATE_GameObject_Lever = function () {
     this.on = !1;
     this.channel = 0;
-    X.call(this);
+    ROTATE_Tooltip.call(this);
     this.bubbleWidth = 148;
     this.bubbleHeight = 76;
     this.configurable = !0;
   };
   ROTATE_GameObject_Lever.__name__ = !0;
-  ROTATE_GameObject_Lever.__super__ = X;
-  ROTATE_GameObject_Lever.prototype = __inherit(X.prototype, {
+  ROTATE_GameObject_Lever.__super__ = ROTATE_Tooltip;
+  ROTATE_GameObject_Lever.prototype = __inherit(ROTATE_Tooltip.prototype, {
     isTrigger: function (a) {
       return !0;
     },
@@ -4416,11 +4417,11 @@
   });
 
   var ROTATE_GameObject_Solid = function () {
-    X.call(this);
+    ROTATE_Tooltip.call(this);
   };
   ROTATE_GameObject_Solid.__name__ = !0;
-  ROTATE_GameObject_Solid.__super__ = X;
-  ROTATE_GameObject_Solid.prototype = __inherit(X.prototype, {
+  ROTATE_GameObject_Solid.__super__ = ROTATE_Tooltip;
+  ROTATE_GameObject_Solid.prototype = __inherit(ROTATE_Tooltip.prototype, {
     render: function (a, b, c) {
       null == c && (c = !0);
       var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0),
@@ -4459,7 +4460,7 @@
 
   var ROTATE_GameObject_Number = function () {
     this.value = 1;
-    X.call(this);
+    ROTATE_Tooltip.call(this);
     this.configurable = !0;
   };
   ROTATE_GameObject_Number.__name__ = !0;
@@ -4739,11 +4740,11 @@
     },
   );
   var ROTATE_GameObject_Start = function () {
-    X.call(this);
+    ROTATE_Tooltip.call(this);
   };
   ROTATE_GameObject_Start.__name__ = !0;
-  ROTATE_GameObject_Start.__super__ = X;
-  ROTATE_GameObject_Start.prototype = __inherit(X.prototype, {
+  ROTATE_GameObject_Start.__super__ = ROTATE_Tooltip;
+  ROTATE_GameObject_Start.prototype = __inherit(ROTATE_Tooltip.prototype, {
     render: function (a, b, c) {
       a.drawImage(
         ROTATE_Images.blocks,
@@ -4764,7 +4765,7 @@
   });
 
   var ROTATE_GameObject_Vent = function () {
-    X.call(this);
+    ROTATE_Tooltip.call(this);
   };
   ROTATE_GameObject_Vent.__name__ = !0;
   ROTATE_GameObject_Vent.__super__ = ROTATE_GameObject_Solid;
