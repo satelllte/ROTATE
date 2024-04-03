@@ -2614,25 +2614,27 @@
     __class__: BlockData,
   };
 
-  var ua = function (a, b, c) {
-    this.animChanged = !1;
-    this.frame = this.animTimer = this.lastF = 0;
+  var ROTATE_AnimatedObject = function (image, frameW, frameH) {
+    this.animChanged = false;
+    this.frame = 0;
+    this.animTimer = 0;
+    this.lastF = 0;
     this.origin = new Vector2(0, 0);
-    var d = this;
+    var _self = this;
     ROTATE_CanvasObject.call(this);
-    this.image = a;
-    this.frameW = b;
-    this.frameH = c;
-    this.cols = Math.floor(this.image.width / b);
-    this.rows = Math.floor(this.image.height / c);
+    this.image = image;
+    this.frameW = frameW;
+    this.frameH = frameH;
+    this.cols = Math.floor(this.image.width / frameW);
+    this.rows = Math.floor(this.image.height / frameH);
     this.frames = this.cols * this.rows;
     this.addEventListener('render', function (e) {
-      d.render(e.surface);
+      _self.render(e.surface);
     });
   };
-  ua.__name__ = !0;
-  ua.__super__ = ROTATE_CanvasObject;
-  ua.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_AnimatedObject.__name__ = !0;
+  ROTATE_AnimatedObject.__super__ = ROTATE_CanvasObject;
+  ROTATE_AnimatedObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     set_frame: function (a) {
       return (this.frame = 0 > a || a >= this.frames ? 0 : a);
     },
@@ -2695,7 +2697,7 @@
         this.frameH,
       );
     },
-    __class__: ua,
+    __class__: ROTATE_AnimatedObject,
   });
 
   var ROTATE_Animation = function (frames, delays, loop) {
@@ -2712,35 +2714,37 @@
 
   var ROTATE_CatAnimationObject = function () {
     this.horizontal = this.x2 = this.dx = 0;
-    ua.call(this, ROTATE_Images.cat, 24, 24);
+    ROTATE_AnimatedObject.call(this, ROTATE_Images.cat, 24, 24);
     this.origin.x = this.frameW / 2;
     this.origin.y = this.frameH;
   };
-
   ROTATE_CatAnimationObject.__name__ = !0;
-  ROTATE_CatAnimationObject.__super__ = ua;
-  ROTATE_CatAnimationObject.prototype = __inherit(ua.prototype, {
-    tick: function () {
-      0 < this.horizontal
-        ? this.dx < ROTATE_CatAnimationObject.SPEED &&
-          (this.dx < -ROTATE_CatAnimationObject.ACCEL
-            ? (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT)
-            : ((this.dx += ROTATE_CatAnimationObject.ACCEL),
-              this.dx > ROTATE_CatAnimationObject.SPEED &&
-                (this.dx = ROTATE_CatAnimationObject.SPEED)))
-        : 0 > this.horizontal
-          ? this.dx > -ROTATE_CatAnimationObject.SPEED &&
-            (this.dx > ROTATE_CatAnimationObject.ACCEL
+  ROTATE_CatAnimationObject.__super__ = ROTATE_AnimatedObject;
+  ROTATE_CatAnimationObject.prototype = __inherit(
+    ROTATE_AnimatedObject.prototype,
+    {
+      tick: function () {
+        0 < this.horizontal
+          ? this.dx < ROTATE_CatAnimationObject.SPEED &&
+            (this.dx < -ROTATE_CatAnimationObject.ACCEL
               ? (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT)
-              : ((this.dx -= ROTATE_CatAnimationObject.ACCEL),
-                this.dx < -ROTATE_CatAnimationObject.SPEED &&
-                  (this.dx = -ROTATE_CatAnimationObject.SPEED)))
-          : (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT);
-      this.x2 += this.dx;
-      this.set_x(Math.round(this.x2));
+              : ((this.dx += ROTATE_CatAnimationObject.ACCEL),
+                this.dx > ROTATE_CatAnimationObject.SPEED &&
+                  (this.dx = ROTATE_CatAnimationObject.SPEED)))
+          : 0 > this.horizontal
+            ? this.dx > -ROTATE_CatAnimationObject.SPEED &&
+              (this.dx > ROTATE_CatAnimationObject.ACCEL
+                ? (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT)
+                : ((this.dx -= ROTATE_CatAnimationObject.ACCEL),
+                  this.dx < -ROTATE_CatAnimationObject.SPEED &&
+                    (this.dx = -ROTATE_CatAnimationObject.SPEED)))
+            : (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT);
+        this.x2 += this.dx;
+        this.set_x(Math.round(this.x2));
+      },
+      __class__: ROTATE_CatAnimationObject,
     },
-    __class__: ROTATE_CatAnimationObject,
-  });
+  );
 
   var hc = function (a) {
     this.lastChanged = -1;
@@ -2859,15 +2863,15 @@
       this.dy =
       this.horizontal =
         0;
-    ua.call(this, ROTATE_Images.player, 32, 48);
+    ROTATE_AnimatedObject.call(this, ROTATE_Images.player, 32, 48);
     this.set_animation(ROTATE_Physics.ANIM_IDLE);
     this.onChange = Bind(this, this.aminChange);
     this.spawnTime = ROTATE_Game.instance.get_gameTimeMS();
     this.adjust();
   };
   ROTATE_Physics.__name__ = !0;
-  ROTATE_Physics.__super__ = ua;
-  ROTATE_Physics.prototype = __inherit(ua.prototype, {
+  ROTATE_Physics.__super__ = ROTATE_AnimatedObject;
+  ROTATE_Physics.prototype = __inherit(ROTATE_AnimatedObject.prototype, {
     get_localX: function () {
       return 0 == ROTATE_LevelEditorManager.rotation
         ? this.x2
@@ -19649,8 +19653,12 @@
     );
     this.catTrigger = !1;
     this.cat = new ROTATE_CatAnimationObject();
-    this.player = new ua(ROTATE_Images.player, 32, 48);
-    this.artPlants = new ua(ROTATE_Images.endingPlants, 504, 24);
+    this.player = new ROTATE_AnimatedObject(ROTATE_Images.player, 32, 48);
+    this.artPlants = new ROTATE_AnimatedObject(
+      ROTATE_Images.endingPlants,
+      504,
+      24,
+    );
     this.artMain = new ROTATE_ImageObject(ROTATE_Images.endingMain);
     this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
     this.bg = new ROTATE_CanvasObject();
