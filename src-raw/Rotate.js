@@ -1987,15 +1987,18 @@
   };
   Game.__name__ = !0;
   Game.main = function () {
-    Game.i = new Game();
-    Game.i.addEventListener('added', ((Ja = Game.i), T(Ja, Ja.init)));
+    Game.instance = new Game();
+    Game.instance.addEventListener(
+      'added',
+      ((Ja = Game.instance), T(Ja, Ja.init)),
+    );
     Canvas.start(
       document.getElementById('game'),
       504 /* width */,
       504 /* height */,
       0x202020 /* background */,
       false /* transparent */,
-      Game.i,
+      Game.instance,
     );
   };
   Game.smootherStep = function (a) {
@@ -2339,9 +2342,15 @@
       Game.ie
         ? this.muteMusic
           ? (u.themeMenu.stop(), u.themeGame1.stop(), u.themeGame2.stop())
-          : (Game.i.ieMenu && !u.themeMenu.playing() && u.themeMenu.play(),
-            Game.i.ieGame1 && !u.themeGame1.playing() && u.themeGame1.play(),
-            Game.i.ieGame2 && !u.themeGame2.playing() && u.themeGame2.play())
+          : (Game.instance.ieMenu &&
+              !u.themeMenu.playing() &&
+              u.themeMenu.play(),
+            Game.instance.ieGame1 &&
+              !u.themeGame1.playing() &&
+              u.themeGame1.play(),
+            Game.instance.ieGame2 &&
+              !u.themeGame2.playing() &&
+              u.themeGame2.play())
         : (u.themeMenu.mute(this.muteMusic),
           u.themeGame1.mute(this.muteMusic),
           u.themeGame2.mute(this.muteMusic));
@@ -2349,7 +2358,9 @@
         ? this.muteSFX &&
           (this.muteMusic
             ? u.surface.stop()
-            : Game.i.ieSurface && !u.surface.playing() && u.surface.play())
+            : Game.instance.ieSurface &&
+              !u.surface.playing() &&
+              u.surface.play())
         : u.surface.mute(this.muteMusic && this.muteSFX);
       a && this.saveProgress();
     },
@@ -2414,9 +2425,9 @@
     unlock: function () {
       if (this.unlocked) return !1;
       this.unlocked = !0;
-      Game.i.saveProgress();
-      E.__instanceof(Game.i.currentScreen, ib) &&
-        Game.i.currentScreen.refresh();
+      Game.instance.saveProgress();
+      E.__instanceof(Game.instance.currentScreen, ib) &&
+        Game.instance.currentScreen.refresh();
       v.queueNotify(this);
       return !0;
     },
@@ -2539,7 +2550,8 @@
     },
     set_animation: function (a) {
       this.animation != a &&
-        ((this.animTimer = Game.i.get_gameTimeMS()), (this.animChanged = !0));
+        ((this.animTimer = Game.instance.get_gameTimeMS()),
+        (this.animChanged = !0));
       return (this.animation = a);
     },
     render: function (a) {
@@ -2549,7 +2561,9 @@
         0 < this.animation.frames.length
       ) {
         for (
-          var b = Game.i.get_gameTimeMS() - this.animTimer, c = 0, d = !1;
+          var b = Game.instance.get_gameTimeMS() - this.animTimer,
+            c = 0,
+            d = !1;
           b > this.animation.delays[c];
 
         )
@@ -2641,14 +2655,14 @@
     signalOn: function (a, b) {
       var c = a + 'x' + b;
       0 > this.signals.indexOf(c) &&
-        (this.get_status() || (this.lastChanged = Game.i.get_gameTime()),
+        (this.get_status() || (this.lastChanged = Game.instance.get_gameTime()),
         this.signals.push(c));
     },
     signalOff: function (a, b) {
       var c = this.signals.indexOf(a + 'x' + b);
       -1 < c &&
         (this.signals.splice(c, 1),
-        this.get_status() || (this.lastChanged = Game.i.get_gameTime()));
+        this.get_status() || (this.lastChanged = Game.instance.get_gameTime()));
     },
     __class__: hc,
   };
@@ -2736,7 +2750,7 @@
     ua.call(this, q.player, 32, 48);
     this.set_animation(J.ANIM_IDLE);
     this.onChange = T(this, this.aminChange);
-    this.spawnTime = Game.i.get_gameTimeMS();
+    this.spawnTime = Game.instance.get_gameTimeMS();
     this.adjust();
   };
   J.__name__ = !0;
@@ -2783,10 +2797,10 @@
     aminChange: function (a) {
       this.animation == J.ANIM_RUN &&
         0 == a &&
-        100 < Game.i.get_gameTimeMS() - this.lastStep &&
-        ((Game.ie && Game.i.muteSFX) ||
+        100 < Game.instance.get_gameTimeMS() - this.lastStep &&
+        ((Game.ie && Game.instance.muteSFX) ||
           u.steps.play(0 == this.step ? 'a' : 'b'),
-        (this.lastStep = Game.i.get_gameTimeMS()),
+        (this.lastStep = Game.instance.get_gameTimeMS()),
         (this.step = 0 == this.step ? 1 : 0));
     },
     adjust: function () {
@@ -2812,8 +2826,8 @@
         }
         this.touchingFinish() &&
           ((this.finished = !0),
-          (Game.ie && Game.i.muteSFX) || u.exit.play(),
-          Game.i.currentScreen.finished());
+          (Game.ie && Game.instance.muteSFX) || u.exit.play(),
+          Game.instance.currentScreen.finished());
       }
     },
     touchingFinish: function () {
@@ -2846,12 +2860,12 @@
         !this.finished &&
         this.grounded &&
         this.jumpKeyDown() &&
-        Game.i.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY &&
-        Game.i.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2
+        Game.instance.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY &&
+        Game.instance.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2
           ? ((this.dy = -J.JUMP_SPEED),
-            (this.jumpTimer = Game.i.get_gameTime()),
-            (Game.ie && Game.i.muteSFX) || u.steps.play('a'),
-            (this.lastStep = Game.i.get_gameTimeMS()))
+            (this.jumpTimer = Game.instance.get_gameTime()),
+            (Game.ie && Game.instance.muteSFX) || u.steps.play('a'),
+            (this.lastStep = Game.instance.get_gameTimeMS()))
           : this.dy < J.GRAVITY_MAX &&
             ((this.dy += J.GRAVITY),
             this.dy > J.GRAVITY_MAX && (this.dy = J.GRAVITY_MAX));
@@ -2919,7 +2933,7 @@
             f = this.get_localX();
           }
         this.get_localY() - p < -n.E && (this.grounded = !0);
-        b = Game.i.get_gameTimeMS();
+        b = Game.instance.get_gameTimeMS();
         c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
         if (0 <= this.dy && !this.grounded) {
           d = this.get_localY();
@@ -2947,10 +2961,10 @@
         this.updateTouching();
         this.grounded &&
           !a &&
-          (100 < Game.i.get_gameTimeMS() - this.spawnTime &&
-            ((Game.ie && Game.i.muteSFX) || u.steps.play('b'),
-            (this.lastStep = Game.i.get_gameTimeMS())),
-          (this.jumpTimer2 = Game.i.get_gameTime()));
+          (100 < Game.instance.get_gameTimeMS() - this.spawnTime &&
+            ((Game.ie && Game.instance.muteSFX) || u.steps.play('b'),
+            (this.lastStep = Game.instance.get_gameTimeMS())),
+          (this.jumpTimer2 = Game.instance.get_gameTime()));
         this.grounded
           ? 0 != this.horizontal && 0.75 < Math.abs(this.dx)
             ? this.set_animation(J.ANIM_RUN)
@@ -3165,9 +3179,9 @@
       if (
         !this.grounded ||
         this.jumpKeyDown() ||
-        Game.i.get_gameTime() - this.rotateTimer <
+        Game.instance.get_gameTime() - this.rotateTimer <
           J.ROTATE_DELAY + n.rotateTime ||
-        Game.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2
+        Game.instance.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2
       )
         return !1;
       var b = this.x2,
@@ -3195,10 +3209,10 @@
       this.set_scaleX(a);
       this.adjust();
       this.set_animation(J.ANIM_ROTATE);
-      this.rotateTimer = Game.i.get_gameTime();
-      (Game.ie && Game.i.muteSFX) || u.steps.play('a');
-      this.lastStep = Game.i.get_gameTimeMS();
-      (Game.ie && Game.i.muteSFX) || u.rotate.play();
+      this.rotateTimer = Game.instance.get_gameTime();
+      (Game.ie && Game.instance.muteSFX) || u.steps.play('a');
+      this.lastStep = Game.instance.get_gameTimeMS();
+      (Game.ie && Game.instance.muteSFX) || u.rotate.play();
     },
     onRotateStart2: function () {
       this.rotStartY = this.get_localY();
@@ -3349,7 +3363,10 @@
     L.bakeCanvas.height = c * n.tileSize;
     L.bakeSurface.reset();
     L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
-    if (null == L.gridCanvas && E.__instanceof(Game.i.currentScreen, A)) {
+    if (
+      null == L.gridCanvas &&
+      E.__instanceof(Game.instance.currentScreen, A)
+    ) {
       L.gridCanvas = window.document.createElement('canvas');
       L.gridCanvas.width = A.editorLevel.tiles[0].length * n.tileSize + 2;
       L.gridCanvas.height = A.editorLevel.tiles.length * n.tileSize + 2;
@@ -3422,8 +3439,8 @@
           null != L.gridCanvas &&
           a.drawImage(L.gridCanvas, null, 0, 0);
         if (
-          E.__instanceof(Game.i.currentScreen, w) &&
-          ((c = Game.i.currentScreen),
+          E.__instanceof(Game.instance.currentScreen, w) &&
+          ((c = Game.instance.currentScreen),
           !l.rotating && !c.player.dead && !c.player.finished)
         ) {
           k = 0;
@@ -3446,7 +3463,9 @@
         null,
         -q.interact.width / 2,
         Math.round(
-          -e / 2 - q.interact.height + 2 * Math.sin(8 * Game.i.get_gameTime()),
+          -e / 2 -
+            q.interact.height +
+            2 * Math.sin(8 * Game.instance.get_gameTime()),
         ) + d,
       );
       a.rotate((l.rotation * Math.PI) / 2);
@@ -3655,14 +3674,15 @@
           var m = this.isOpen(b),
             k = 0.5 * d - 0.16666666666666666;
           c = m ? 0 : k;
-          if (E.__instanceof(Game.i.currentScreen, w)) {
+          if (E.__instanceof(Game.instance.currentScreen, w)) {
             var p = w.i.channels,
               y = b.getMeta(0);
             p = p.h[y];
             null != p &&
               ((c = Math.min(
                 1,
-                (Game.i.get_gameTime() - p.lastChanged) / n.doorSlideTime,
+                (Game.instance.get_gameTime() - p.lastChanged) /
+                  n.doorSlideTime,
               )),
               (c = Game.smootherStep(c)),
               (c = m ? (1 - c) * k : c * k));
@@ -3682,7 +3702,7 @@
           a.drawImage(q.blocks, new z(4 * f, 3 * f, f, f), c * f, 0);
           a.drawImage(q.blocks, new z(5 * f, 3 * f, f, f), (d - c - 1) * f, 0);
           if (
-            E.__instanceof(Game.i.currentScreen, A) &&
+            E.__instanceof(Game.instance.currentScreen, A) &&
             (A.renderBlockText(a, b.getMeta(0) + ''), 1 < d)
           )
             for (b = 1; b < d; ) (c = b++), A.renderBlockRed(a, c * f, 0);
@@ -3717,7 +3737,7 @@
       }
     },
     isOpen: function (a) {
-      return E.__instanceof(Game.i.currentScreen, w) &&
+      return E.__instanceof(Game.instance.currentScreen, w) &&
         w.i.getChannelStatus(a.getMeta(0))
         ? !0
         : !1;
@@ -3898,9 +3918,9 @@
       null == c && (c = !0);
       b = b.getMeta(0) % 4;
       c =
-        !c || E.__instanceof(Game.i.currentScreen, A)
+        !c || E.__instanceof(Game.instance.currentScreen, A)
           ? 0
-          : Math.floor(Game.i.get_gameTimeMS() / 50) % 3;
+          : Math.floor(Game.instance.get_gameTimeMS() / 50) % 3;
       a.drawImage(
         q.blocks,
         new z(
@@ -3954,7 +3974,7 @@
     onInteract: function (a) {
       var b = a.y * l.get_width() + a.x,
         c = l.leversChanged.h[b];
-      if (!(null != c && Game.i.get_gameTime() - c < Za.TOGGLE_TIMER)) {
+      if (!(null != c && Game.instance.get_gameTime() - c < Za.TOGGLE_TIMER)) {
         c = w.i.channels;
         var d = a.getMeta(0),
           e = c.h[d];
@@ -3963,7 +3983,7 @@
           ? w.i.signalOn(a.x, a.y, a.getMeta(0))
           : w.i.signalOff(a.x, a.y, a.getMeta(0));
         var f = l.leversChanged,
-          m = Game.i.get_gameTime();
+          m = Game.instance.get_gameTime();
         f.h[b] = m;
         null == e && ((b = w.i.channels), (e = a.getMeta(0)), (e = b.h[e]));
         e = null != e && e.get_status();
@@ -3975,9 +3995,9 @@
               break;
             }
         c
-          ? (Game.ie && Game.i.muteSFX) || u.leverOn.play()
-          : (Game.ie && Game.i.muteSFX) || u.leverOff.play();
-        !b || (Game.ie && Game.i.muteSFX) || u.door.play();
+          ? (Game.ie && Game.instance.muteSFX) || u.leverOn.play()
+          : (Game.ie && Game.instance.muteSFX) || u.leverOff.play();
+        !b || (Game.ie && Game.instance.muteSFX) || u.door.play();
         l.setBlockMeta(a.x, a.y, [a.getMeta(0), c ? 1 : 0]);
       }
     },
@@ -3997,7 +4017,7 @@
       ];
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(Game.i.currentScreen, A);
+      return !E.__instanceof(Game.instance.currentScreen, A);
     },
     render: function (a, b, c) {
       null == c && (c = !0);
@@ -4009,7 +4029,7 @@
         0,
       );
       c &&
-        E.__instanceof(Game.i.currentScreen, A) &&
+        E.__instanceof(Game.instance.currentScreen, A) &&
         A.renderBlockText(a, b.getMeta(0) + '');
     },
     setupBubble: function (a) {
@@ -4254,9 +4274,9 @@
     },
     render: function (a, b, c) {
       null == c && (c = !0);
-      var d = Game.i.get_gameTimeMS() / 40;
+      var d = Game.instance.get_gameTimeMS() / 40;
       c =
-        !c || E.__instanceof(Game.i.currentScreen, A)
+        !c || E.__instanceof(Game.instance.currentScreen, A)
           ? 0
           : Math.floor(d - (d < n.E ? 0 : n.E)) % 3;
       this.renderRotated(a, b, (4 + c) * n.tileSize, n.tileSize);
@@ -4269,7 +4289,7 @@
       return !1;
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(Game.i.currentScreen, A);
+      return !E.__instanceof(Game.instance.currentScreen, A);
     },
     __class__: Db,
   });
@@ -4441,7 +4461,7 @@
   Ib.__super__ = x;
   Ib.prototype = D(x.prototype, {
     update: function (a) {
-      if (!Game.i.paused)
+      if (!Game.instance.paused)
         for (a = this.particles.length; 0 <= --a; ) {
           var b = this.particles[a];
           0 >= b.life ? this.particles.splice(a, 1) : b.update();
@@ -4538,7 +4558,7 @@
       this.speech.update();
     },
     finished: function () {
-      Game.i.changeScreen(new A());
+      Game.instance.changeScreen(new A());
       return null;
     },
     kill: function () {},
@@ -4858,7 +4878,7 @@
   ha.__interfaces__ = [ea];
   ha.prototype = {
     start: function () {
-      var a = Game.i.currentScreen;
+      var a = Game.instance.currentScreen;
       this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
       this.s1 = !0;
       this.s2 = this.s3 = this.s4 = this.s5 = !1;
@@ -4877,14 +4897,14 @@
       this.c3.set_y(9 * n.tileSize);
       this.c3.set_alpha(this.a3);
       this.c3.clipRect.width = 48;
-      Game.i.invert && (this.c3.clipRect.x = 48);
+      Game.instance.invert && (this.c3.clipRect.x = 48);
       a.overlay.addChild(this.c3);
       null == this.c4 && (this.c4 = new I(q.controls4));
       this.c4.set_x(29 * n.tileSize);
       this.c4.set_y(n.tileSize);
       this.c4.set_alpha(this.a4);
       this.c4.clipRect.width = 48;
-      Game.i.invert && (this.c4.clipRect.x = 48);
+      Game.instance.invert && (this.c4.clipRect.x = 48);
       a.overlay.addChild(this.c4);
       null == this.c5 && (this.c5 = new I(q.controls5));
       this.c5.set_x(24.5 * n.tileSize);
@@ -4894,7 +4914,7 @@
       this.speech = new U([new C(new M(1), 'Make your way to the exit.')]);
     },
     tick: function () {
-      var a = 0.25 * Math.sin(8 * Game.i.get_gameTime()) + 0.75;
+      var a = 0.25 * Math.sin(8 * Game.instance.get_gameTime()) + 0.75;
       this.s1 && 1 > this.a1
         ? ((this.a1 += ha.fadeSpeed), 1 < this.a1 && (this.a1 = 1))
         : !this.s1 &&
@@ -4944,7 +4964,7 @@
               !l.rotating &&
               0 == l.rotation &&
               ((this.s4 = !1), (this.s5 = !0));
-      this.c3.clipRect.x = this.c4.clipRect.x = Game.i.invert ? 48 : 0;
+      this.c3.clipRect.x = this.c4.clipRect.x = Game.instance.invert ? 48 : 0;
     },
     finished: function () {
       return B.level2;
@@ -9102,7 +9122,8 @@
           (!this.done2 &&
             this.cond2.test() &&
             ((this.done2 = !0),
-            (Game.ie && Game.i.muteSFX) || (u.cat.volume(0.5), u.cat.play())),
+            (Game.ie && Game.instance.muteSFX) ||
+              (u.cat.volume(0.5), u.cat.play())),
           !this.done3 && this.cond3.test())
         ) {
           this.done3 = !0;
@@ -12385,7 +12406,9 @@
       this.cat.update();
     },
     finished: function () {
-      Game.i.changeScreen(new bb(E.__cast(Game.i.currentScreen, w).speedrun));
+      Game.instance.changeScreen(
+        new bb(E.__cast(Game.instance.currentScreen, w).speedrun),
+      );
       return null;
     },
     kill: function () {},
@@ -16516,7 +16539,7 @@
   Aa.__interfaces__ = [ea];
   Aa.prototype = {
     start: function () {
-      var a = Game.i.currentScreen;
+      var a = Game.instance.currentScreen;
       this.a1 = 0;
       this.s1 = this.s2 = !1;
       null == this.c1 && (this.c1 = new I(q.controls5));
@@ -16534,7 +16557,7 @@
       this.cat = new ta(30, 26, -1, 1, new ia(28, 22, 3, 1));
     },
     tick: function () {
-      var a = 0.25 * Math.sin(8 * Game.i.get_gameTime()) + 0.75;
+      var a = 0.25 * Math.sin(8 * Game.instance.get_gameTime()) + 0.75;
       this.s1 && 1 > this.a1
         ? ((this.a1 += ha.fadeSpeed), 1 < this.a1 && (this.a1 = 1))
         : !this.s1 &&
@@ -16546,7 +16569,7 @@
       this.speech.update();
       this.cat.update();
       this.s1
-        ? Game.i.currentScreen.getChannelStatus(0) ||
+        ? Game.instance.currentScreen.getChannelStatus(0) ||
           ((this.s1 = !1), (this.s2 = !0))
         : !this.s2 &&
           w.i.player.x >= 28 * n.tileSize &&
@@ -17895,8 +17918,10 @@
         !w.i.player.getHitBounds().intersects(this.bounds) ||
         (-1 != this.rotation && l.rotation != this.rotation) ||
         l.rotating ||
-        ((this.hit = !0), (this.timer = Game.i.get_gameTime()));
-      return this.hit ? Game.i.get_gameTime() - this.timer >= this.delay : !1;
+        ((this.hit = !0), (this.timer = Game.instance.get_gameTime()));
+      return this.hit
+        ? Game.instance.get_gameTime() - this.timer >= this.delay
+        : !1;
     },
     __class__: V,
   };
@@ -17908,7 +17933,7 @@
   Xa.__interfaces__ = [db];
   Xa.prototype = {
     start: function () {
-      this.timer = Game.i.get_gameTime();
+      this.timer = Game.instance.get_gameTime();
     },
     test: function () {
       var a = w.i.channels.h[this.channel];
@@ -17923,10 +17948,10 @@
   M.__interfaces__ = [db];
   M.prototype = {
     start: function () {
-      this.timer = Game.i.get_gameTime();
+      this.timer = Game.instance.get_gameTime();
     },
     test: function () {
-      return Game.i.get_gameTime() - this.timer >= this.delay;
+      return Game.instance.get_gameTime() - this.timer >= this.delay;
     },
     __class__: M,
   };
@@ -17951,8 +17976,8 @@
     this.field.xAlign = r.X_ALIGN_CENTER;
     this.field.align = r.ALIGN_CENTER;
     this.field.set_x(Canvas.width / 2);
-    null == b && E.__instanceof(Game.i.currentScreen, w)
-      ? ((b = Game.i.currentScreen.textHolder),
+    null == b && E.__instanceof(Game.instance.currentScreen, w)
+      ? ((b = Game.instance.currentScreen.textHolder),
         (this.field.yAlign = r.Y_ALIGN_TOP),
         this.field.set_y(Canvas.height - 96))
       : ((this.field.yAlign = r.Y_ALIGN_MIDDLE),
@@ -17964,8 +17989,8 @@
   U.prototype = {
     update: function () {
       var a = !0;
-      E.__instanceof(Game.i.currentScreen, w) &&
-        (a = !Game.i.currentScreen.player.dead);
+      E.__instanceof(Game.instance.currentScreen, w) &&
+        (a = !Game.instance.currentScreen.player.dead);
       a &&
         null != this.events[this.index] &&
         this.events[this.index].cond.test() &&
@@ -17973,7 +17998,7 @@
           (this.field.set_text(''),
           (this.msg = this.events[this.index].text),
           (this['char'] = this.char2 = 0),
-          (this.timer = Game.i.get_gameTimeMS()),
+          (this.timer = Game.instance.get_gameTimeMS()),
           this.field.set_alpha(1)),
         this.index++,
         null != this.events[this.index] &&
@@ -17983,7 +18008,7 @@
         (0 == this['char'] ||
           ' ' == this.msg.charAt(this['char']) ||
           '\n' == this.msg.charAt(this['char']) ||
-          Game.i.get_gameTimeMS() - this.timer >= U.TIME_TYPE)
+          Game.instance.get_gameTimeMS() - this.timer >= U.TIME_TYPE)
       ) {
         a = this.field;
         a.set_text(a.text + this.msg.charAt(this['char']));
@@ -17995,21 +18020,22 @@
             for (a = this.lastTone; a == this.lastTone; )
               a = Math.round(7 * Math.random());
             this.lastTone = a;
-            (Game.ie && Game.i.muteSFX) || u.voice.play(this.tones[a]);
+            (Game.ie && Game.instance.muteSFX) || u.voice.play(this.tones[a]);
           }
           this.char2++;
         }
         this['char']++;
-        this.timer = Game.i.get_gameTimeMS();
+        this.timer = Game.instance.get_gameTimeMS();
       }
       this['char'] == this.msg.length &&
-        Game.i.get_gameTimeMS() - this.timer > U.TIME_STAY &&
+        Game.instance.get_gameTimeMS() - this.timer > U.TIME_STAY &&
         ((a = Math.min(
           1,
-          (Game.i.get_gameTimeMS() - this.timer - U.TIME_STAY) / U.TIME_FADE,
+          (Game.instance.get_gameTimeMS() - this.timer - U.TIME_STAY) /
+            U.TIME_FADE,
         )),
         this.field.set_alpha(Game.smootherStep(1 - a)));
-      E.__instanceof(Game.i.currentScreen, w) &&
+      E.__instanceof(Game.instance.currentScreen, w) &&
         (this.field.graphics.clear(),
         '' != this.field.text &&
           ((a = this.field.getBoundsSelf()),
@@ -18076,13 +18102,13 @@
       this.btnBack.set_x(Math.round(Canvas.width / 2));
       this.btnBack.set_y(Canvas.height - 88);
       this.btnBack.addEventListener('click', function (a) {
-        2 > a.which && Game.i.changeScreen(new Oa());
+        2 > a.which && Game.instance.changeScreen(new Oa());
       });
       this.content.addChild(this.btnBack);
       this.content.addChild(this.sponsor);
       this.content.addChild(this.mute);
       this.refresh();
-      Game.i.warnNoSave(this);
+      Game.instance.warnNoSave(this);
     },
     refresh: function () {
       for (var a = 0, b = this.awardDisplays; a < b.length; ) {
@@ -18112,7 +18138,7 @@
     update: function () {
       if (this.rotating) {
         var a = Math.min(
-            (Game.i.get_gameTime() - this.rotateStart) / n.rotateTime,
+            (Game.instance.get_gameTime() - this.rotateStart) / n.rotateTime,
             1,
           ),
           b = Game.smootherStep(a);
@@ -18128,13 +18154,13 @@
           this.rotating = !1;
         }
       } else if (
-        ((a = G.keyPressed(Game.i.invert ? 69 : 81)),
-        (b = G.keyPressed(Game.i.invert ? 81 : 69)),
+        ((a = G.keyPressed(Game.instance.invert ? 69 : 81)),
+        (b = G.keyPressed(Game.instance.invert ? 81 : 69)),
         a || b)
       )
         v.awardRotate.unlock(),
           (this.rotating = !0),
-          (this.rotateStart = Game.i.get_gameTime()),
+          (this.rotateStart = Game.instance.get_gameTime()),
           (this.rotateDir = a ? -1 : 1),
           (this.rotateStartAngle = this.pivot.rotation),
           (this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir),
@@ -18246,8 +18272,8 @@
                 u.surface.once('fade', function () {
                   u.surface.stop();
                 }))),
-          Game.ie && (Game.i.ieSurface = !1),
-          Game.i.changeScreen(a.fromEnd ? new Oa() : new ca()));
+          Game.ie && (Game.instance.ieSurface = !1),
+          Game.instance.changeScreen(a.fromEnd ? new Oa() : new ca()));
       });
       this.addChild(this.btnBack);
       this.addChild(this.mute);
@@ -18283,7 +18309,7 @@
     doRotation: function (a) {
       if (l.rotating) {
         var b = Math.min(
-            (Game.i.get_gameTime() - this.rotateStart) / n.rotateTime,
+            (Game.instance.get_gameTime() - this.rotateStart) / n.rotateTime,
             1,
           ),
           c = Game.smootherStep(b);
@@ -18301,12 +18327,12 @@
           if (null != a) a.onRotateEnd();
         }
       } else if (
-        ((b = G.keyPressed(Game.i.invert ? 69 : 81)),
-        (c = G.keyPressed(Game.i.invert ? 81 : 69)),
+        ((b = G.keyPressed(Game.instance.invert ? 69 : 81)),
+        (c = G.keyPressed(Game.instance.invert ? 81 : 69)),
         (b || c) && (null == a || a.canRotate(b ? -1 : 1)))
       ) {
         l.rotating = !0;
-        this.rotateStart = Game.i.get_gameTime();
+        this.rotateStart = Game.instance.get_gameTime();
         this.rotateDir = b ? -1 : 1;
         this.rotateStartAngle = this.pivot.rotation;
         this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir;
@@ -18381,7 +18407,7 @@
           var p = new eb('Are you sure you want\nto clear the level?');
           p.onYes = function () {
             A.editorLevel.reset();
-            Game.i.changeScreen(new A(), !1);
+            Game.instance.changeScreen(new A(), !1);
           };
           p.onNo = function () {
             a.removeChild(p);
@@ -18409,7 +18435,7 @@
         };
         b.onLoad = function (c) {
           return a.tryLoadLevel(c)
-            ? (b.kill(), Game.i.changeScreen(new A(), !1), !0)
+            ? (b.kill(), Game.instance.changeScreen(new A(), !1), !0)
             : !1;
         };
         this.dialog = b;
@@ -18602,7 +18628,7 @@
           (this.barLower.gridToggle.toggle.clipRect.x = A.showGrid
             ? this.barLower.gridToggle.toggle.clipRect.width
             : 0));
-        G.keyPressed(13) && Game.i.changeScreen(new w(A.editorLevel));
+        G.keyPressed(13) && Game.instance.changeScreen(new w(A.editorLevel));
       }
     },
     tryLoadLevel: function (a) {
@@ -18736,15 +18762,15 @@
       );
       this.speedrun && 42e4 >= B.speedrunBest && v.awardSpeedrun.unlock();
       if ((this.first = !v.awardEscape.unlocked))
-        (v.awardEscape.unlocked = !0), Game.i.saveProgress();
+        (v.awardEscape.unlocked = !0), Game.instance.saveProgress();
     },
     update: function () {
       this.speech.update();
       !this.done1 &&
         this.cond1.test() &&
         ((this.done1 = !0),
-        Game.i.changeScreen(new ob(this.first), !0, null, !0),
-        (Game.ie && Game.i.muteSFX) ||
+        Game.instance.changeScreen(new ob(this.first), !0, null, !0),
+        (Game.ie && Game.instance.muteSFX) ||
           (u.exit.volume(0.5),
           u.exit.play(),
           u.exit.once('end', function () {
@@ -18754,7 +18780,7 @@
     kill: function () {
       u.themeGame2.stop();
       u.themeGame2.volume(1);
-      Game.ie && (Game.i.ieGame2 = !1);
+      Game.ie && (Game.instance.ieGame2 = !1);
     },
     __class__: bb,
   });
@@ -18781,7 +18807,7 @@
   ob.__super__ = P;
   ob.prototype = D(P.prototype, {
     init: function () {
-      this.start = Game.i.get_gameTime();
+      this.start = Game.instance.get_gameTime();
       this.bg.graphics.beginFill(16777215);
       this.bg.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
       this.addChild(this.bg);
@@ -18819,15 +18845,15 @@
       this.hint.set_alpha(0);
       this.addChild(this.hint);
       u.surface.volume(1);
-      Game.ie && Game.i.muteSFX && Game.i.muteMusic
-        ? (Game.i.ieSurface = !0)
+      Game.ie && Game.instance.muteSFX && Game.instance.muteMusic
+        ? (Game.instance.ieSurface = !0)
         : (u.surface.play(),
           Game.ie ||
             u.surface.fade(0, 1, Math.round(n.screenFadeTimeSlow / 2)));
     },
     update: function () {
       var a = this,
-        b = Game.i.get_gameTime() - this.start;
+        b = Game.instance.get_gameTime() - this.start;
       !this.catTrigger &&
         8 <= b &&
         ((this.catTrigger = !0),
@@ -18847,8 +18873,8 @@
         G.keyPressed(32) &&
         ((this.done = !0),
         this.first && ((v.awardEscape.unlocked = !1), v.awardEscape.unlock()),
-        Game.i.changeScreen(new mb(!0), !0, null, !0, !0),
-        Game.i.timerHolder.removeChildren());
+        Game.instance.changeScreen(new mb(!0), !0, null, !0, !0),
+        Game.instance.timerHolder.removeChildren());
     },
     tick: function () {
       var a = 0.75 * n.cameraSpeed;
@@ -18903,7 +18929,7 @@
       this.btn1.set_x(134);
       this.btn1.set_y(133);
       this.btn1.addEventListener('click', function (b) {
-        2 > b.which && Game.i.changeScreen(new ib());
+        2 > b.which && Game.instance.changeScreen(new ib());
       });
       this.addChild(this.btn1);
       this.text1.set_x(this.btn1.x + 110);
@@ -18912,7 +18938,7 @@
       this.btn2.set_x(this.btn1.x);
       this.btn2.set_y(this.btn1.y + 92);
       this.btn2.addEventListener('click', function (b) {
-        2 > b.which && (ca.stopTheme(), Game.i.changeScreen(new A()));
+        2 > b.which && (ca.stopTheme(), Game.instance.changeScreen(new A()));
       });
       this.addChild(this.btn2);
       this.text2.set_x(this.text1.x);
@@ -18921,7 +18947,7 @@
       this.btn3.set_x(this.btn2.x);
       this.btn3.set_y(this.btn2.y + 92);
       this.btn3.addEventListener('click', function (b) {
-        2 > b.which && (ca.stopTheme(), Game.i.changeScreen(new Qa(!0)));
+        2 > b.which && (ca.stopTheme(), Game.instance.changeScreen(new Qa(!0)));
       });
       this.addChild(this.btn3);
       this.text3.set_x(this.text2.x);
@@ -18940,13 +18966,13 @@
       this.btnBack.set_x(Math.round(Canvas.width / 2));
       this.btnBack.set_y(Canvas.height - 80);
       this.btnBack.addEventListener('click', function (b) {
-        2 > b.which && Game.i.changeScreen(new ca());
+        2 > b.which && Game.instance.changeScreen(new ca());
       });
       this.addChild(this.btnBack);
       this.addChild(this.sponsor);
       this.addChild(this.mute);
       this.addChild(this.erase);
-      Game.i.warnNoSave(this);
+      Game.instance.warnNoSave(this);
     },
     __class__: Oa,
   });
@@ -18974,13 +19000,13 @@
       this.btnBack.set_x(Math.round(Canvas.width / 2));
       this.btnBack.set_y(Canvas.height - 84);
       this.btnBack.addEventListener('click', function (a) {
-        2 > a.which && Game.i.changeScreen(new ca());
+        2 > a.which && Game.instance.changeScreen(new ca());
       });
       this.addChild(this.btnBack);
       this.addChild(this.sponsor);
       this.addChild(this.mute);
       this.addChild(this.erase);
-      Game.i.warnNoSave(this);
+      Game.instance.warnNoSave(this);
       this.refresh();
     },
     refresh: function () {
@@ -19009,7 +19035,7 @@
                   1 < H.which ||
                     (ca.stopTheme(),
                     0 == y[0]
-                      ? Game.i.changeScreen(new Qa())
+                      ? Game.instance.changeScreen(new Qa())
                       : w.play(B.list[y[0]]));
                 };
               })(e),
@@ -19040,12 +19066,12 @@
   ca.__name__ = !0;
   ca.playTheme = function () {
     u.themeMenu.playing() ||
-      ((Game.ie && Game.i.muteMusic) || u.themeMenu.play(),
-      Game.ie && (Game.i.ieMenu = !0));
+      ((Game.ie && Game.instance.muteMusic) || u.themeMenu.play(),
+      Game.ie && (Game.instance.ieMenu = !0));
   };
   ca.stopTheme = function () {
     Game.ie
-      ? (u.themeMenu.stop(), (Game.i.ieMenu = !1))
+      ? (u.themeMenu.stop(), (Game.instance.ieMenu = !1))
       : (u.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
         u.themeMenu.once('fade', function () {
           u.themeMenu.stop();
@@ -19066,25 +19092,25 @@
       this.btnPlay.addEventListener('click', function (a) {
         1 < a.which ||
           (0 == B.unlocked
-            ? (ca.stopTheme(), Game.i.changeScreen(new Qa()))
-            : Game.i.changeScreen(new pb()));
+            ? (ca.stopTheme(), Game.instance.changeScreen(new Qa()))
+            : Game.instance.changeScreen(new pb()));
       });
       this.addChild(this.btnPlay);
       this.btnExtras.set_x(this.btnPlay.x);
       this.btnExtras.set_y(this.btnPlay.y + 60);
       this.btnExtras.addEventListener('click', function (a) {
-        2 > a.which && Game.i.changeScreen(new Oa());
+        2 > a.which && Game.instance.changeScreen(new Oa());
       });
       this.addChild(this.btnExtras);
       this.btnCredits.set_x(this.btnExtras.x);
       this.btnCredits.set_y(this.btnExtras.y + 60);
       this.btnCredits.addEventListener('click', function (a) {
-        2 > a.which && Game.i.changeScreen(new mb());
+        2 > a.which && Game.instance.changeScreen(new mb());
       });
       this.addChild(this.btnCredits);
       this.addChild(this.mute);
       this.addChild(this.erase);
-      Game.i.warnNoSave(this);
+      Game.instance.warnNoSave(this);
     },
     __class__: ca,
   });
@@ -19117,7 +19143,7 @@
   w.play = function (a, b, c) {
     null == c && (c = -1);
     null == b && (b = !1);
-    null != a && Game.i.changeScreen(new w(a, b, c));
+    null != a && Game.instance.changeScreen(new w(a, b, c));
   };
   w.playTheme = function (a) {
     w.stopped &&
@@ -19126,18 +19152,18 @@
         : 1 == a &&
           u.themeGame2.playing() &&
           (u.themeGame2.stop(), (w.canceled = !0)),
-      Game.ie && (Game.i.ieGame1 = Game.i.ieGame2 = !1),
+      Game.ie && (Game.instance.ieGame1 = Game.instance.ieGame2 = !1),
       (w.stopped = !1));
     0 == a
       ? (u.themeGame1.volume(1),
         u.themeGame1.playing() ||
-          ((Game.ie && Game.i.muteMusic) || u.themeGame1.play(),
-          Game.ie && (Game.i.ieGame1 = !0)))
+          ((Game.ie && Game.instance.muteMusic) || u.themeGame1.play(),
+          Game.ie && (Game.instance.ieGame1 = !0)))
       : 1 == a &&
         (u.themeGame2.volume(1),
         u.themeGame2.playing() ||
-          ((Game.ie && Game.i.muteMusic) || u.themeGame2.play(),
-          Game.ie && (Game.i.ieGame2 = !0)));
+          ((Game.ie && Game.instance.muteMusic) || u.themeGame2.play(),
+          Game.ie && (Game.instance.ieGame2 = !0)));
   };
   w.stopTheme = function () {
     var a = u.themeGame1.playing()
@@ -19147,8 +19173,8 @@
         : null;
     if (null != a) {
       var b =
-        E.__instanceof(Game.i.currentScreen, w) &&
-        E.__instanceof(Game.i.targetScreen, bb);
+        E.__instanceof(Game.instance.currentScreen, w) &&
+        E.__instanceof(Game.instance.targetScreen, bb);
       if (Game.ie) b || a.stop();
       else {
         var c = a.volume();
@@ -19160,7 +19186,7 @@
       w.stopped = !0;
       w.canceled = !1;
     } else w.stopped = w.canceled = !1;
-    Game.ie && (Game.i.ieGame1 = Game.i.ieGame2 = !1);
+    Game.ie && (Game.instance.ieGame1 = Game.instance.ieGame2 = !1);
   };
   w.__super__ = qa;
   w.prototype = D(qa.prototype, {
@@ -19209,17 +19235,17 @@
       this.addChild(this.red);
       if (this.speedrun) {
         if (-1 == this.speedrunStart || 0 == B.list.indexOf(l.level))
-          this.speedrunStart = Game.i.get_gameTimeMS();
+          this.speedrunStart = Game.instance.get_gameTimeMS();
         this.timerText = new r(Game.fontMain, '', 2);
         this.timerText.align = r.ALIGN_RIGHT;
         this.timerText.xAlign = r.X_ALIGN_RIGHT;
         this.timerText.set_x(Canvas.width - 12);
         this.timerText.set_y(8);
-        Game.i.timerHolder.addChild(this.timerText);
+        Game.instance.timerHolder.addChild(this.timerText);
         this.updateTimer();
       } else
         l.level != B.level1 ||
-          Game.i.hasPaused ||
+          Game.instance.hasPaused ||
           ((this.pauseText = new r(
             Game.fontMain,
             'Press [ESC] or [P] to pause',
@@ -19233,16 +19259,16 @@
     updateTimer: function () {
       this.speedrun &&
         this.timerText.set_text(
-          Game.formatMS(Game.i.get_gameTimeMS() - this.speedrunStart),
+          Game.formatMS(Game.instance.get_gameTimeMS() - this.speedrunStart),
         );
     },
     killPlayer: function (a) {
       null == a && (a = !1);
       if (!this.player.dead) {
         this.player.dead = !0;
-        this.deathTime = Game.i.get_gameTime();
+        this.deathTime = Game.instance.get_gameTime();
         this.player.visible = !1;
-        (Game.ie && Game.i.muteSFX) || u.death.play();
+        (Game.ie && Game.instance.muteSFX) || u.death.play();
         var b = 0,
           c = 0;
         0 == l.rotation
@@ -19269,8 +19295,10 @@
       }
     },
     restart: function (a) {
-      a = Game.i.paused ? ((Ja = Game.i), T(Ja, Ja.unpause)) : null;
-      Game.i.changeScreen(
+      a = Game.instance.paused
+        ? ((Ja = Game.instance), T(Ja, Ja.unpause))
+        : null;
+      Game.instance.changeScreen(
         new w(l.level, this.speedrun, this.speedrunStart),
         !0,
         a,
@@ -19284,7 +19312,7 @@
         if (this.speedrun && a == B.list.length) {
           if (
             ((this.speedrunFinal =
-              Game.i.get_gameTimeMS() -
+              Game.instance.get_gameTimeMS() -
               this.speedrunStart +
               n.screenFadeTime / 2),
             0 > B.speedrunBest || this.speedrunFinal < B.speedrunBest)
@@ -19292,7 +19320,7 @@
             (B.speedrunBest = this.speedrunFinal), (b = this.newBest = !0);
         } else
           a > B.unlocked && a < B.list.length && ((B.unlocked = a), (b = !0));
-        b && Game.i.saveProgress();
+        b && Game.instance.saveProgress();
       }
       a = l.level.finished();
       null != a && w.play(a, this.speedrun, this.speedrunStart);
@@ -19303,15 +19331,16 @@
         var a =
           1 -
           Math.min(
-            (Game.i.get_gameTime() - this.deathTime) / w.DEATH_SHAKE_TIME,
+            (Game.instance.get_gameTime() - this.deathTime) /
+              w.DEATH_SHAKE_TIME,
             1,
           );
         this.red.set_alpha(a);
         a = Game.smootherStep(a);
         this.shakeX = Math.random() * w.DEATH_SHAKE_AMOUNT * a;
         this.shakeY = Math.random() * w.DEATH_SHAKE_AMOUNT * a;
-        Game.i.get_gameTime() - this.deathTime >= w.DEATH_TIME &&
-          null == Game.i.targetScreen &&
+        Game.instance.get_gameTime() - this.deathTime >= w.DEATH_TIME &&
+          null == Game.instance.targetScreen &&
           this.restart(!0);
       } else this.player.finished || this.doRotation(this.player);
       this.player.update();
@@ -19367,7 +19396,7 @@
       var b = this;
       null != this.cat &&
         (0 != a && this.cat.set_scaleX(a),
-        (Game.ie && Game.i.muteSFX) || u.cat.play(),
+        (Game.ie && Game.instance.muteSFX) || u.cat.play(),
         (this.cat.onFinish = function () {
           b.level.removeChild(b.cat);
           b.cat = null;
@@ -19390,7 +19419,7 @@
             var a = this.timerText;
             a.set_text(a.text + '\nNew best time!');
           }
-        } else Game.i.timerHolder.removeChild(this.timerText);
+        } else Game.instance.timerHolder.removeChild(this.timerText);
     },
     prekill: function () {
       w.continueTheme ? (w.stopped = w.canceled = !1) : w.stopTheme();
@@ -19418,7 +19447,7 @@
     update: function () {
       !this.done &&
         N.get_current() - this.timer > this.length &&
-        ((this.done = !0), Game.i.changeScreen(new ca()));
+        ((this.done = !0), Game.instance.changeScreen(new ca()));
     },
     __class__: $b,
   });
@@ -19458,7 +19487,7 @@
             u.exit.once('end', function () {
               u.exit.volume(1);
             }),
-            Game.i.changeScreen(new $b()),
+            Game.instance.changeScreen(new $b()),
             (a.start.mouseEnabled = !1));
         }));
     },
@@ -19904,7 +19933,7 @@
     this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
     this.btnExit.hitPadding = R.BTN_PAD;
     this.btnExit.addEventListener('click', function (d) {
-      2 > d.which && Game.i.changeScreen(new Oa());
+      2 > d.which && Game.instance.changeScreen(new Oa());
     });
     this.addChild(this.btnExit);
     this.btnClear.set_x(
@@ -19984,13 +20013,13 @@
           if (2 > e.which) {
             var f = new eb('Do you want to erase ALL of\nyour saved progress?');
             f.onNo = function () {
-              Game.i.currentScreen.removeChild(f);
+              Game.instance.currentScreen.removeChild(f);
             };
             f.onYes = function () {
-              Game.i.clearProgress();
-              Game.i.changeScreen(new ca());
+              Game.instance.clearProgress();
+              Game.instance.changeScreen(new ca());
             };
-            Game.i.currentScreen.addChild(f);
+            Game.instance.currentScreen.addChild(f);
           }
         }))
       : this.set_alpha(0.33);
@@ -20093,11 +20122,13 @@
     var b = this;
     x.call(this);
     this.sfx = new I(q.mute);
-    this.sfx.set_clipRect(new z(Game.i.muteSFX ? 28 : 0, 30 * a, 28, 30));
+    this.sfx.set_clipRect(
+      new z(Game.instance.muteSFX ? 28 : 0, 30 * a, 28, 30),
+    );
     this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
     this.sfx.addEventListener('click', function (c) {
       2 > c.which &&
-        (Game.ie && !Game.i.ieUnmuted
+        (Game.ie && !Game.instance.ieUnmuted
           ? b.showWarn(T(b, b.toggleSFX))
           : b.toggleSFX());
     });
@@ -20105,11 +20136,13 @@
     this.sfx.set_y(Canvas.height - this.sfx.get_height() - 12);
     this.addChild(this.sfx);
     this.music = new I(q.mute);
-    this.music.set_clipRect(new z(Game.i.muteMusic ? 84 : 56, 30 * a, 28, 30));
+    this.music.set_clipRect(
+      new z(Game.instance.muteMusic ? 84 : 56, 30 * a, 28, 30),
+    );
     this.music.mouseEnabled = this.music.buttonMode = !0;
     this.music.addEventListener('click', function (c) {
       2 > c.which &&
-        (Game.ie && !Game.i.ieUnmuted
+        (Game.ie && !Game.instance.ieUnmuted
           ? b.showWarn(T(b, b.toggleMusic))
           : b.toggleMusic());
     });
@@ -20125,22 +20158,22 @@
         'Audio may slow down the game\nin Internet Explorer. Continue?',
       );
       b.onNo = function () {
-        Game.i.removeChild(b);
+        Game.instance.removeChild(b);
       };
       b.onYes = function () {
-        Game.i.removeChild(b);
-        Game.i.ieUnmuted = !0;
+        Game.instance.removeChild(b);
+        Game.instance.ieUnmuted = !0;
         null != a && a();
       };
-      Game.i.addChild(b);
+      Game.instance.addChild(b);
     },
     toggleSFX: function () {
-      Game.i.toggleSFX();
-      this.sfx.clipRect.x = Game.i.muteSFX ? 28 : 0;
+      Game.instance.toggleSFX();
+      this.sfx.clipRect.x = Game.instance.muteSFX ? 28 : 0;
     },
     toggleMusic: function () {
-      Game.i.toggleMusic();
-      this.music.clipRect.x = Game.i.muteMusic ? 84 : 56;
+      Game.instance.toggleMusic();
+      this.music.clipRect.x = Game.instance.muteMusic ? 84 : 56;
     },
     __class__: Ba,
   });
@@ -20156,14 +20189,14 @@
     this.addChild(a);
     var b = new I(q.configToggle);
     b.clipRect.width = 22;
-    Game.i.invert && (b.clipRect.x = 22);
+    Game.instance.invert && (b.clipRect.x = 22);
     b.set_alpha(0.75);
     this.addChild(b);
     this.addEventListener('click', function (c) {
       2 > c.which &&
-        ((Game.i.invert = !Game.i.invert),
-        (b.clipRect.x = Game.i.invert ? 22 : 0),
-        Game.i.saveProgress());
+        ((Game.instance.invert = !Game.instance.invert),
+        (b.clipRect.x = Game.instance.invert ? 22 : 0),
+        Game.instance.saveProgress());
     });
   };
   cc.__name__ = !0;
@@ -20196,15 +20229,15 @@
     this.btnPlay.set_x(this.text.x);
     this.btnPlay.set_y(this.text.y + 60);
     this.btnPlay.addEventListener('click', function (a) {
-      2 > a.which && Game.i.unpause();
+      2 > a.which && Game.instance.unpause();
     });
     this.addChild(this.btnPlay);
     this.btnRedo.set_x(this.btnPlay.x);
     this.btnRedo.set_y(this.btnPlay.y + 60);
     this.btnRedo.addEventListener('click', function (a) {
       2 > a.which &&
-        E.__instanceof(Game.i.currentScreen, w) &&
-        Game.i.currentScreen.restart(!1);
+        E.__instanceof(Game.instance.currentScreen, w) &&
+        Game.instance.currentScreen.restart(!1);
     });
     this.addChild(this.btnRedo);
     this.btnQuit.set_x(this.btnRedo.x);
@@ -20212,11 +20245,11 @@
     this.btnQuit.addEventListener('click', function (a) {
       2 > a.which &&
         ((a =
-          (E.__instanceof(Game.i.currentScreen, w) &&
-            E.__cast(Game.i.currentScreen, w).speedrun) ||
-          (E.__instanceof(Game.i.currentScreen, Qa) &&
-            E.__cast(Game.i.currentScreen, Qa).speedrun)),
-        Game.i.changeScreen(
+          (E.__instanceof(Game.instance.currentScreen, w) &&
+            E.__cast(Game.instance.currentScreen, w).speedrun) ||
+          (E.__instanceof(Game.instance.currentScreen, Qa) &&
+            E.__cast(Game.instance.currentScreen, Qa).speedrun)),
+        Game.instance.changeScreen(
           l.level == A.editorLevel
             ? new A()
             : a
@@ -20225,7 +20258,7 @@
                 ? new pb()
                 : new ca(),
           !0,
-          ((Ja = Game.i), T(Ja, Ja.unpause)),
+          ((Ja = Game.instance), T(Ja, Ja.unpause)),
         ));
     });
     this.addChild(this.btnQuit);
@@ -20233,20 +20266,20 @@
     this.addChild(this.mute);
     this.addChild(this.sponsor);
     this.sponsor.clipRect.y = this.sponsor.clipRect.height;
-    Game.i.warnNoSave(this);
+    Game.instance.warnNoSave(this);
   };
   ub.__name__ = !0;
   ub.__super__ = x;
   ub.prototype = D(x.prototype, {
     onPause: function () {
-      this.mute.sfx.clipRect.x = Game.i.muteSFX ? 28 : 0;
-      this.mute.music.clipRect.x = Game.i.muteMusic ? 84 : 56;
-      var a = E.__instanceof(Game.i.currentScreen, w);
+      this.mute.sfx.clipRect.x = Game.instance.muteSFX ? 28 : 0;
+      this.mute.music.clipRect.x = Game.instance.muteMusic ? 84 : 56;
+      var a = E.__instanceof(Game.instance.currentScreen, w);
       this.btnRedo.set_alpha(a ? 1 : 0.25);
       this.btnRedo.main.mouseEnabled = a;
       a =
-        E.__instanceof(Game.i.currentScreen, bb) ||
-        E.__instanceof(Game.i.currentScreen, ob);
+        E.__instanceof(Game.instance.currentScreen, bb) ||
+        E.__instanceof(Game.instance.currentScreen, ob);
       this.btnQuit.set_alpha(a ? 0.25 : 1);
       this.btnQuit.main.mouseEnabled = !a;
     },
