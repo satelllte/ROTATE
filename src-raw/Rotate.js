@@ -4754,7 +4754,7 @@
     __class__: ROTATE_Particle,
   };
 
-  var Ib = function (a, b, c, d, e, f, m, k, p) {
+  var ROTATE_ParticleSystem = function (a, b, c, d, e, f, m, k, p) {
     null == p && (p = 1);
     null == k && (k = !1);
     this.particles = [];
@@ -4784,9 +4784,9 @@
       y.render(aa.surface);
     });
   };
-  Ib.__name__ = !0;
-  Ib.__super__ = ROTATE_CanvasObject;
-  Ib.prototype = D(ROTATE_CanvasObject.prototype, {
+  ROTATE_ParticleSystem.__name__ = !0;
+  ROTATE_ParticleSystem.__super__ = ROTATE_CanvasObject;
+  ROTATE_ParticleSystem.prototype = D(ROTATE_CanvasObject.prototype, {
     update: function (a) {
       if (!ROTATE_Game.instance.paused)
         for (a = this.particles.length; 0 <= --a; ) {
@@ -4835,7 +4835,7 @@
         a.drawRect(Math.round(d.x - f), Math.round(d.y - f), e, e);
       }
     },
-    __class__: Ib,
+    __class__: ROTATE_ParticleSystem,
   });
 
   // #region Levels
@@ -19961,7 +19961,17 @@
         4 < d ? (d = 4) : -4 > d && (d = -4);
         4 < e ? (e = 4) : -4 > e && (e = -4);
         var f = this.player.getHitBounds().get_center();
-        a = new Ib(f.x, f.y, 14622752, 0.4 * d, 0.4 * e, b, c, !0, a ? 2 : 1);
+        a = new ROTATE_ParticleSystem(
+          f.x,
+          f.y,
+          14622752,
+          0.4 * d,
+          0.4 * e,
+          b,
+          c,
+          !0,
+          a ? 2 : 1,
+        );
         this.blood.addChild(a);
         null != l.level.speech && l.level.speech.killed();
         this.red.visible = !0;
