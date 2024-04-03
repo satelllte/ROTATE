@@ -110,22 +110,22 @@
     height,
     background,
     transparent,
-    f,
+    gameInstance,
   ) {
     Canvas.started ||
       1 > width ||
       1 > height ||
-      null == f ||
+      null == gameInstance ||
       ((Canvas.transparent = transparent),
       (Canvas.width = width),
       (Canvas.height = height),
       Canvas.set_background(background),
-      (Canvas.stage = f),
+      (Canvas.stage = gameInstance),
       window.setTimeout(function () {
         window.focus();
       }, 0),
       Canvas.setup(container),
-      f.triggerEvent(new Y('added')),
+      gameInstance.triggerEvent(new Y('added')),
       t._init(),
       Canvas.loop(),
       (Canvas.started = !0));
