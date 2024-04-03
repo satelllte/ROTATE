@@ -5,8 +5,11 @@
     ArrowRight: 39,
     ArrowUp: 38,
     KeyA: 65,
+    KeyC: 67,
     KeyD: 68,
     KeyE: 69,
+    KeyG: 71,
+    KeyL: 76,
     KeyQ: 81,
     KeyS: 83,
     KeyW: 87,
@@ -19392,9 +19395,9 @@
               }
           }
         }
-        InputKeys.keyPressed(76) && this.showLoadDialog();
-        InputKeys.keyPressed(67) && this.showSaveDialog();
-        InputKeys.keyPressed(71) &&
+        InputKeys.keyPressed(KEY_CODES.KeyL) && this.showLoadDialog();
+        InputKeys.keyPressed(KEY_CODES.KeyC) && this.showSaveDialog();
+        InputKeys.keyPressed(KEY_CODES.KeyG) &&
           ((this.renderer.showGrid = ROTATE_ScreenEditor.showGrid =
             !ROTATE_ScreenEditor.showGrid),
           (this.barLower.gridToggle.toggle.clipRect.x =
