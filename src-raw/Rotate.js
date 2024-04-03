@@ -20972,6 +20972,7 @@
     F.fan,
   ];
   O.selected = 1;
+
   ROTATE_EditorBarLower.HEIGHT = 48;
 
   ROTATE_EditorBarUpper.HEIGHT = 48;
