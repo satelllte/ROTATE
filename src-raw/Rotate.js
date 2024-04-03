@@ -3646,12 +3646,12 @@
         (l.level.finishCol + 1) * a,
         l.level.finishRow * a,
       );
-      E.__instanceof(l.level, Aa) &&
+      E.__instanceof(l.level, ROTATE_Level8) &&
         L.bakeSurface.drawImage(
           q.blocks,
           new Bounds(2 * a, 2 * a, a, 2 * a),
-          (Aa.fakeCol + 1) * a,
-          Aa.fakeRow * a,
+          (ROTATE_Level8.fakeCol + 1) * a,
+          ROTATE_Level8.fakeRow * a,
         );
     },
     getBoundsSelf: function () {
@@ -15366,7 +15366,7 @@
     kill: function () {},
     __class__: ROTATE_Level7,
   };
-  var Aa = function () {
+  var ROTATE_Level8 = function () {
     this.startDir = -1;
     this.finishRow = 28;
     this.finishCol = 38;
@@ -16652,9 +16652,9 @@
     ];
     this.theme = 0;
   };
-  Aa.__name__ = !0;
-  Aa.__interfaces__ = [ea];
-  Aa.prototype = {
+  ROTATE_Level8.__name__ = !0;
+  ROTATE_Level8.__interfaces__ = [ea];
+  ROTATE_Level8.prototype = {
     start: function () {
       var a = ROTATE_Game.instance.currentScreen;
       this.a1 = 0;
@@ -16699,7 +16699,7 @@
     kill: function () {
       this.c1.parent.removeChild(this.c1);
     },
-    __class__: Aa,
+    __class__: ROTATE_Level8,
   };
   var Wb = function () {
     this.startDir = 1;
@@ -20809,9 +20809,10 @@
   F.fan = F.register(11, new zb());
   ab.GRAVITY_MULT = 0.2;
   pa.WORLD_SIZE = 42;
+
   ROTATE_Level1.fadeSpeed = 0.1;
-  Aa.fakeCol = 30;
-  Aa.fakeRow = 16;
+  ROTATE_Level8.fakeCol = 30;
+  ROTATE_Level8.fakeRow = 16;
 
   ROTATE_Levels.level1 = new ROTATE_Level1();
   ROTATE_Levels.level2 = new ROTATE_Level2();
@@ -20820,7 +20821,7 @@
   ROTATE_Levels.level5 = new ROTATE_Level5();
   ROTATE_Levels.level6 = new ROTATE_Level6();
   ROTATE_Levels.level7 = new ROTATE_Level7();
-  ROTATE_Levels.level8 = new Aa();
+  ROTATE_Levels.level8 = new ROTATE_Level8();
   ROTATE_Levels.level9 = new Wb();
   ROTATE_Levels.level10 = new Jb();
   ROTATE_Levels.level11 = new Kb();
