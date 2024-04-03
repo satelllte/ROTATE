@@ -2476,13 +2476,14 @@
       return !1;
     }
   };
-  var Ka = function (a, b) {
+
+  var ROTATE_Award = function (name, icon) {
     this.unlocked = !1;
-    this.name = a;
-    this.icon = b;
+    this.name = name;
+    this.icon = icon;
   };
-  Ka.__name__ = !0;
-  Ka.prototype = {
+  ROTATE_Award.__name__ = !0;
+  ROTATE_Award.prototype = {
     unlock: function () {
       if (this.unlocked) return !1;
       this.unlocked = !0;
@@ -2492,8 +2493,9 @@
       ROTATE_Awards.queueNotify(this);
       return !0;
     },
-    __class__: Ka,
+    __class__: ROTATE_Award,
   };
+
   var ROTATE_Awards = function () {};
   ROTATE_Awards.__name__ = !0;
   ROTATE_Awards.setup = function (a) {
@@ -20903,27 +20905,27 @@
     ROTATE_Audio.voice,
   ];
 
-  ROTATE_Awards.awardEscape = new Ka(
+  ROTATE_Awards.awardEscape = new ROTATE_Award(
     'The Beginning',
     ROTATE_Images.awardIconEscape,
   );
-  ROTATE_Awards.awardSpeedrun = new Ka(
+  ROTATE_Awards.awardSpeedrun = new ROTATE_Award(
     'Seven or\nLess',
     ROTATE_Images.awardIconSpeedrun,
   );
-  ROTATE_Awards.awardEditor = new Ka(
+  ROTATE_Awards.awardEditor = new ROTATE_Award(
     'Architect',
     ROTATE_Images.awardIconEditor,
   );
-  ROTATE_Awards.awardJoshua = new Ka(
+  ROTATE_Awards.awardJoshua = new ROTATE_Award(
     'Curiosity',
     ROTATE_Images.awardIconJoshua,
   );
-  ROTATE_Awards.awardSoundtrack = new Ka(
+  ROTATE_Awards.awardSoundtrack = new ROTATE_Award(
     'Sound Seeker',
     ROTATE_Images.awardIconSoundtrack,
   );
-  ROTATE_Awards.awardRotate = new Ka(
+  ROTATE_Awards.awardRotate = new ROTATE_Award(
     'Rotate Me',
     ROTATE_Images.awardIconRotate,
   );
