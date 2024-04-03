@@ -3235,7 +3235,7 @@
         var k = f[m];
         ++m;
         if (null != k && (null == d || d(k)))
-          if (JSObjectUtils.__instanceof(k, La)) {
+          if (JSObjectUtils.__instanceof(k, Collider)) {
             if (
               ((k = k.bounds.copy()),
               (k.x += b * ROTATE_GameConstants.tileSize),
@@ -3871,7 +3871,7 @@
     },
     getColliders: function (a) {
       return [
-        new La(
+        new Collider(
           new Bounds(
             0,
             0,
@@ -4350,7 +4350,7 @@
     },
     getColliders: function (a) {
       return [
-        new La(
+        new Collider(
           new Bounds(
             0.15 * ROTATE_GameConstants.tileSize,
             0.15 * ROTATE_GameConstants.tileSize,
@@ -4740,7 +4740,7 @@
             : 1 == a.getMeta(0)
               ? ((a = new Bounds(b - c, e, c, d)), (b = new Bounds(0, 0, c, b)))
               : ((a = new Bounds(e, 0, d, c)), (b = new Bounds(0, c, b, c)));
-        return [new La(a), new La(b)];
+        return [new Collider(a), new Collider(b)];
       },
       onTrigger: function (a) {
         ROTATE_ScreenPrimaryGame.i.killPlayer();
@@ -18392,16 +18392,16 @@
     __class__: cb,
   };
 
-  var La = function (a) {
-    this.bounds = a;
+  var Collider = function (bounds) {
+    this.bounds = bounds;
   };
-  La.__name__ = !0;
-  La.__interfaces__ = [cb];
-  La.prototype = {
+  Collider.__name__ = !0;
+  Collider.__interfaces__ = [cb];
+  Collider.prototype = {
     testPoint: function (a, b) {
       return this.bounds.contains(a);
     },
-    __class__: La,
+    __class__: Collider,
   };
 
   var kb = function (a) {
