@@ -863,13 +863,14 @@
   ROTATE_Event.prototype = {
     __class__: ROTATE_Event,
   };
-  var Ta = function (a) {
-    this.type = a;
+
+  var ROTATE_FocusingEvent = function (type) {
+    this.type = type;
   };
-  Ta.__name__ = !0;
-  Ta.__super__ = ROTATE_Event;
-  Ta.prototype = D(ROTATE_Event.prototype, {
-    __class__: Ta,
+  ROTATE_FocusingEvent.__name__ = !0;
+  ROTATE_FocusingEvent.__super__ = ROTATE_Event;
+  ROTATE_FocusingEvent.prototype = D(ROTATE_Event.prototype, {
+    __class__: ROTATE_FocusingEvent,
   });
 
   var ROTATE_KeyEvent = function (type, keyCode) {
@@ -1093,11 +1094,11 @@
     },
     onFocus: function () {
       this.isFocused = !0;
-      this.triggerEvent(new Ta('focus'));
+      this.triggerEvent(new ROTATE_FocusingEvent('focus'));
     },
     onBlur: function () {
       this.isFocused = !1;
-      this.triggerEvent(new Ta('blur'));
+      this.triggerEvent(new ROTATE_FocusingEvent('blur'));
     },
     onClick: function (a) {
       if (!this.isFocused) this.onFocus();
@@ -21267,8 +21268,8 @@
   ROTATE_Event.ENTER_FRAME = 'enterFrame';
   ROTATE_Event.EXIT_FRAME = 'exitFrame';
 
-  Ta.FOCUS = 'focus';
-  Ta.BLUR = 'blur';
+  ROTATE_FocusingEvent.FOCUS = 'focus';
+  ROTATE_FocusingEvent.BLUR = 'blur';
 
   ROTATE_KeyEvent.KEY_DOWN = 'keyDown';
   ROTATE_KeyEvent.KEY_UP = 'keyUp';
