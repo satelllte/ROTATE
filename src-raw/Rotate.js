@@ -597,7 +597,7 @@
     },
     __class__: rb,
   };
-  var x = function () {
+  var ROTATE_CanvasObject = function () {
     this.graphics = new rb();
     this._children = [];
     this._transformReverse = new gb();
@@ -610,9 +610,9 @@
     this.x = this.y = 0;
     this.listeners = new Ra();
   };
-  x.__name__ = !0;
-  x.__super__ = Sa;
-  x.prototype = D(Sa.prototype, {
+  ROTATE_CanvasObject.__name__ = !0;
+  ROTATE_CanvasObject.__super__ = Sa;
+  ROTATE_CanvasObject.prototype = D(Sa.prototype, {
     set_x: function (a) {
       this.x != a && ((this.x = a), this._updateTransform());
       return this.x;
@@ -752,12 +752,12 @@
         }
       }
     },
-    __class__: x,
+    __class__: ROTATE_CanvasObject,
   });
   var I = function (a) {
     this.imageWidth = this.imageHeight = 0;
     var b = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     null != a && this.create(a);
     this.addEventListener('render', function (c) {
       b.render(c.surface);
@@ -772,8 +772,8 @@
     });
     return c;
   };
-  I.__super__ = x;
-  I.prototype = D(x.prototype, {
+  I.__super__ = ROTATE_CanvasObject;
+  I.prototype = D(ROTATE_CanvasObject.prototype, {
     get_rect: function () {
       return new z(
         0,
@@ -1979,15 +1979,15 @@
     this.ieSurface = false;
     this.ieUnmuted = false;
     this.invert = false;
-    this.fader = new x();
+    this.fader = new ROTATE_CanvasObject();
     this.fading = false;
     this.fadingSlow = false;
-    this.timerHolder = new x();
+    this.timerHolder = new ROTATE_CanvasObject();
     this.pauseOnInit = false;
     this.pausedTime = 0;
     this.hasPaused = false;
     this.paused = false;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
   };
   Game.__name__ = !0;
   Game.main = function () {
@@ -2041,8 +2041,8 @@
     10 > a && (b += '0');
     return (b += a);
   };
-  Game.__super__ = x;
-  Game.prototype = D(x.prototype, {
+  Game.__super__ = ROTATE_CanvasObject;
+  Game.prototype = D(ROTATE_CanvasObject.prototype, {
     get_gameTimeMS: function () {
       return this.paused
         ? this.pauseStart - this.pausedTime
@@ -2441,7 +2441,7 @@
   v.__name__ = !0;
   v.setup = function (a) {
     null == v.bubble &&
-      ((v.bubble = new x()),
+      ((v.bubble = new ROTATE_CanvasObject()),
       (v.bubble.mouseEnabled = !0),
       a.addChild(v.bubble),
       (v.bubbleTitle = new r(Game.fontMain, 'NEW AWARD')),
@@ -2535,7 +2535,7 @@
     this.frame = this.animTimer = this.lastF = 0;
     this.origin = new Q(0, 0);
     var d = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.image = a;
     this.frameW = b;
     this.frameH = c;
@@ -2547,8 +2547,8 @@
     });
   };
   ua.__name__ = !0;
-  ua.__super__ = x;
-  ua.prototype = D(x.prototype, {
+  ua.__super__ = ROTATE_CanvasObject;
+  ua.prototype = D(ROTATE_CanvasObject.prototype, {
     set_frame: function (a) {
       return (this.frame = 0 > a || a >= this.frames ? 0 : a);
     },
@@ -3350,7 +3350,7 @@
   var L = function (a) {
     this.showGrid = !1;
     var b = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     if (null == L.bakeCanvas) {
       L.bakeCanvas = window.document.createElement('canvas');
       L.bakeCtx = L.bakeCanvas.getContext('2d', null);
@@ -3397,8 +3397,8 @@
     });
   };
   L.__name__ = !0;
-  L.__super__ = x;
-  L.prototype = D(x.prototype, {
+  L.__super__ = ROTATE_CanvasObject;
+  L.prototype = D(ROTATE_CanvasObject.prototype, {
     render: function (a, b) {
       if (null != l.level) {
         a.drawImage(L.bakeCanvas, null, -n.tileSize, -n.tileSize);
@@ -4438,7 +4438,7 @@
     null == k && (k = !1);
     this.particles = [];
     var y = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.color = c;
     for (c = 0; 75 > c; ) {
       c++;
@@ -4464,8 +4464,8 @@
     });
   };
   Ib.__name__ = !0;
-  Ib.__super__ = x;
-  Ib.prototype = D(x.prototype, {
+  Ib.__super__ = ROTATE_CanvasObject;
+  Ib.prototype = D(ROTATE_CanvasObject.prototype, {
     update: function (a) {
       if (!Game.instance.paused)
         for (a = this.particles.length; 0 <= --a; ) {
@@ -18062,11 +18062,11 @@
   };
   var P = function () {
     this.pausable = !1;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
   };
   P.__name__ = !0;
-  P.__super__ = x;
-  P.prototype = D(x.prototype, {
+  P.__super__ = ROTATE_CanvasObject;
+  P.prototype = D(ROTATE_CanvasObject.prototype, {
     init: function () {},
     ready: function () {},
     update: function () {},
@@ -18085,8 +18085,8 @@
     this.btnBack = new ba('BACK');
     this.title = new r(Game.fontMain, 'AWARDS', 1);
     this.bg = new Na();
-    this.content = new x();
-    this.pivot = new x();
+    this.content = new ROTATE_CanvasObject();
+    this.pivot = new ROTATE_CanvasObject();
     P.call(this);
   };
   ib.__name__ = !0;
@@ -18203,7 +18203,7 @@
     init: function () {
       var a = this;
       if (this.fromEnd) {
-        this.bg = new x();
+        this.bg = new ROTATE_CanvasObject();
         this.bg.graphics.beginFill(16777215);
         this.bg.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
         var b = new I(q.vignette);
@@ -18288,10 +18288,10 @@
   });
   var qa = function () {
     this.cameraX = this.cameraY = 0;
-    this.level = new x();
-    this.camera = new x();
-    this.pivot = new x();
-    this.bg = new x();
+    this.level = new ROTATE_CanvasObject();
+    this.camera = new ROTATE_CanvasObject();
+    this.pivot = new ROTATE_CanvasObject();
+    this.bg = new ROTATE_CanvasObject();
     P.call(this);
   };
   qa.__name__ = !0;
@@ -18799,10 +18799,10 @@
     this.artPlants = new ua(q.endingPlants, 504, 24);
     this.artMain = new I(q.endingMain);
     this.vignette = new I(q.vignette);
-    this.bg = new x();
+    this.bg = new ROTATE_CanvasObject();
     this.cameraX = this.cameraY = 0;
-    this.camera = new x();
-    this.pivot = new x();
+    this.camera = new ROTATE_CanvasObject();
+    this.pivot = new ROTATE_CanvasObject();
     this.done = !1;
     this.delay = 9.5;
     P.call(this);
@@ -18986,7 +18986,7 @@
     this.erase = new Ya();
     this.mute = new Ba();
     this.sponsor = new Ma();
-    this.tiles = new x();
+    this.tiles = new ROTATE_CanvasObject();
     this.btnBack = new ba('BACK');
     this.title = new r(Game.fontMain, 'LEVEL SELECT', 1);
     this.bg = new Na();
@@ -19129,10 +19129,10 @@
     this.doors = [];
     this.cat = null;
     this.vignette = new I(q.vignette);
-    this.red = new x();
-    this.overlay = new x();
-    this.textHolder = new x();
-    this.blood = new x();
+    this.red = new ROTATE_CanvasObject();
+    this.overlay = new ROTATE_CanvasObject();
+    this.textHolder = new ROTATE_CanvasObject();
+    this.blood = new ROTATE_CanvasObject();
     this.shakeX = this.shakeY = 0;
     this.deathTime = -1;
     qa.call(this);
@@ -19460,7 +19460,7 @@
   });
   var vb = function () {
     this.start = new I(q.start);
-    this.pivot = new x();
+    this.pivot = new ROTATE_CanvasObject();
     P.call(this);
   };
   vb.__name__ = !0;
@@ -19554,7 +19554,7 @@
         0;
     this.text = '';
     var d = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.set_font(a);
     this.set_text(b);
     this.color = c;
@@ -19582,8 +19582,8 @@
             (m += K.xa)));
     }
   };
-  r.__super__ = x;
-  r.prototype = D(x.prototype, {
+  r.__super__ = ROTATE_CanvasObject;
+  r.prototype = D(ROTATE_CanvasObject.prototype, {
     set_font: function (a) {
       this.font = a;
       this.set_lineHeight(a.lineHeight);
@@ -19685,7 +19685,7 @@
     __class__: r,
   });
   var Xb = function (a) {
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     var b = new I(q.awardFrame);
     b.set_x(-b.get_width() / 2);
     this.addChild(b);
@@ -19702,14 +19702,14 @@
     a.unlocked || this.set_alpha(0.5);
   };
   Xb.__name__ = !0;
-  Xb.__super__ = x;
-  Xb.prototype = D(x.prototype, {
+  Xb.__super__ = ROTATE_CanvasObject;
+  Xb.prototype = D(ROTATE_CanvasObject.prototype, {
     __class__: Xb,
   });
   var O = function () {
     this.bubble = new ac();
     var a = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.mouseEnabled = this.buttonMode = !0;
     this.bubble.visible = !1;
     this.bubble.mouseEnabled = !0;
@@ -19735,8 +19735,8 @@
     return (O.selected =
       0 > a ? 0 : a >= O.list.length ? O.list.length - 1 : a);
   };
-  O.__super__ = x;
-  O.prototype = D(x.prototype, {
+  O.__super__ = ROTATE_CanvasObject;
+  O.prototype = D(ROTATE_CanvasObject.prototype, {
     get_selection: function () {
       return O.list[O.selected];
     },
@@ -19775,14 +19775,14 @@
   });
   var ac = function () {
     this.tip = new I(q.configTip);
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.tip.set_x(-this.tip.get_width() / 2);
     this.tip.set_y(-this.tip.get_height());
     this.addChild(this.tip);
   };
   ac.__name__ = !0;
-  ac.__super__ = x;
-  ac.prototype = D(x.prototype, {
+  ac.__super__ = ROTATE_CanvasObject;
+  ac.prototype = D(ROTATE_CanvasObject.prototype, {
     setup: function (a) {
       var b = Math.round(a.bubbleWidth / 2);
       this.graphics.clear();
@@ -19801,7 +19801,7 @@
         a.bubbleHeight,
       );
       null != this.content && this.removeChild(this.content);
-      this.content = new x();
+      this.content = new ROTATE_CanvasObject();
       this.content.set_x(-b);
       this.content.set_y(-a.bubbleHeight - this.tip.get_height());
       this.addChild(this.content);
@@ -19811,7 +19811,7 @@
   });
   var Da = function (a, b) {
     null == b && (b = '');
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.graphics.beginFill(1052688, 0.95);
     this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
     this.mouseEnabled = !0;
@@ -19840,8 +19840,8 @@
     this.area.select();
   };
   Da.__name__ = !0;
-  Da.__super__ = x;
-  Da.prototype = D(x.prototype, {
+  Da.__super__ = ROTATE_CanvasObject;
+  Da.prototype = D(ROTATE_CanvasObject.prototype, {
     kill: function () {
       null != this.area.parentElement &&
         window.document.body.removeChild(this.area);
@@ -19904,7 +19904,7 @@
   var Pa = function (a) {
     this.selector = new O();
     var b = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.set_y(Canvas.height - Pa.HEIGHT);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
@@ -19921,8 +19921,8 @@
     });
   };
   Pa.__name__ = !0;
-  Pa.__super__ = x;
-  Pa.prototype = D(x.prototype, {
+  Pa.__super__ = ROTATE_CanvasObject;
+  Pa.prototype = D(ROTATE_CanvasObject.prototype, {
     __class__: Pa,
   });
   var R = function (a, b) {
@@ -19931,7 +19931,7 @@
     this.btnPlay = new r(Game.fontMain, 'Play');
     this.btnClear = new r(Game.fontMain, 'Clear');
     this.btnExit = new r(Game.fontMain, 'Exit');
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
     this.graphics.drawRect(0, 0, Canvas.width, R.HEIGHT);
@@ -19998,8 +19998,8 @@
     this.addChild(this.btnLoad);
   };
   R.__name__ = !0;
-  R.__super__ = x;
-  R.prototype = D(x.prototype, {
+  R.__super__ = ROTATE_CanvasObject;
+  R.prototype = D(ROTATE_CanvasObject.prototype, {
     __class__: R,
   });
   var Ya = function () {
@@ -20040,7 +20040,7 @@
     this.label = new r(Game.fontMain, 'Grid');
     this.toggle = new I(q.configToggle);
     var b = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.set_x(Canvas.width - this.get_width() - 12);
     this.set_y(8);
     this.mouseEnabled = this.buttonMode = !0;
@@ -20061,8 +20061,8 @@
     this.addChild(this.label);
   };
   bc.__name__ = !0;
-  bc.__super__ = x;
-  bc.prototype = D(x.prototype, {
+  bc.__super__ = ROTATE_CanvasObject;
+  bc.prototype = D(ROTATE_CanvasObject.prototype, {
     getBoundsSelf: function () {
       return new z(0, 0, 76, 30);
     },
@@ -20070,14 +20070,14 @@
   });
   var Na = function () {
     var a = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.addEventListener('render', function (b) {
       a.render(b.surface);
     });
   };
   Na.__name__ = !0;
-  Na.__super__ = x;
-  Na.prototype = D(x.prototype, {
+  Na.__super__ = ROTATE_CanvasObject;
+  Na.prototype = D(ROTATE_CanvasObject.prototype, {
     render: function (a) {
       for (
         var b = -Math.round((30 * N.get_current()) % q.bgCells.width),
@@ -20106,7 +20106,7 @@
   });
   var ba = function (a, b) {
     null == b && (b = 0);
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.main = new I(q.menuBtn);
     this.main.set_x(-this.main.get_width() / 2);
     this.main.set_y(-this.main.get_height() / 2);
@@ -20120,14 +20120,14 @@
     this.addChild(this.text);
   };
   ba.__name__ = !0;
-  ba.__super__ = x;
-  ba.prototype = D(x.prototype, {
+  ba.__super__ = ROTATE_CanvasObject;
+  ba.prototype = D(ROTATE_CanvasObject.prototype, {
     __class__: ba,
   });
   var Ba = function (a) {
     null == a && (a = 0);
     var b = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.sfx = new I(q.mute);
     this.sfx.set_clipRect(
       new z(Game.instance.muteSFX ? 28 : 0, 30 * a, 28, 30),
@@ -20158,8 +20158,8 @@
     this.addChild(this.music);
   };
   Ba.__name__ = !0;
-  Ba.__super__ = x;
-  Ba.prototype = D(x.prototype, {
+  Ba.__super__ = ROTATE_CanvasObject;
+  Ba.prototype = D(ROTATE_CanvasObject.prototype, {
     showWarn: function (a) {
       var b = new eb(
         'Audio may slow down the game\nin Internet Explorer. Continue?',
@@ -20185,7 +20185,7 @@
     __class__: Ba,
   });
   var cc = function () {
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.set_x(12);
     this.set_y(12);
     this.mouseEnabled = this.buttonMode = !0;
@@ -20207,8 +20207,8 @@
     });
   };
   cc.__name__ = !0;
-  cc.__super__ = x;
-  cc.prototype = D(x.prototype, {
+  cc.__super__ = ROTATE_CanvasObject;
+  cc.prototype = D(ROTATE_CanvasObject.prototype, {
     getBoundsSelf: function () {
       return new z(0, 0, 198, 22);
     },
@@ -20222,7 +20222,7 @@
     this.btnRedo = new ba('RESTART', 0);
     this.btnPlay = new ba('CONTINUE', 0);
     this.text = new r(Game.fontMain, 'GAME PAUSED');
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.graphics.beginFill(1052688, 0.85);
     this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
     this.visible = !1;
@@ -20277,8 +20277,8 @@
     Game.instance.warnNoSave(this);
   };
   ub.__name__ = !0;
-  ub.__super__ = x;
-  ub.prototype = D(x.prototype, {
+  ub.__super__ = ROTATE_CanvasObject;
+  ub.prototype = D(ROTATE_CanvasObject.prototype, {
     onPause: function () {
       this.mute.sfx.clipRect.x = Game.instance.muteSFX ? 28 : 0;
       this.mute.music.clipRect.x = Game.instance.muteMusic ? 84 : 56;
@@ -20316,7 +20316,7 @@
     this.btnYes = new ba('YES');
     this.main = new r(Game.fontMain, '', 2);
     var b = this;
-    x.call(this);
+    ROTATE_CanvasObject.call(this);
     this.main.set_text(a);
     this.graphics.beginFill(1052688, 0.95);
     this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
@@ -20341,8 +20341,8 @@
     this.addChild(this.btnNo);
   };
   eb.__name__ = !0;
-  eb.__super__ = x;
-  eb.prototype = D(x.prototype, {
+  eb.__super__ = ROTATE_CanvasObject;
+  eb.prototype = D(ROTATE_CanvasObject.prototype, {
     __class__: eb,
   });
   var gameInstance;
