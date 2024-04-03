@@ -261,7 +261,7 @@
         );
       ROTATE_Canvas.surface.beginFill(
         ROTATE_Canvas.background & 16777215,
-        JSObjectUtils.__cast(a, kc) / 255,
+        JSObjectUtils.__cast(a, ROTATE_Number) / 255,
       );
     } else
       ROTATE_Canvas.surface.beginFill(ROTATE_Canvas.background & 16777215, 1);
@@ -1905,13 +1905,13 @@
     switch (b) {
       case Array:
         return a instanceof Array ? null == a.__enum__ : !1;
-      case mc:
+      case ROTATE_Boolean:
         return 'boolean' == typeof a;
-      case qc:
+      case ROTATE_Dynamic:
         return !0;
-      case kc:
+      case ROTATE_Number:
         return 'number' == typeof a;
-      case rc:
+      case ROTATE_Int:
         return 'number' == typeof a ? (a | 0) === a : !1;
       case String:
         return 'string' == typeof a;
@@ -1932,7 +1932,7 @@
               return !0;
           }
         else return !1;
-        return (b == sc && null != a.__name__) ||
+        return (b == ROTATE_Class && null != a.__name__) ||
           (b == tc && null != a.__ename__)
           ? !0
           : a.__enum__ == b;
@@ -21589,19 +21589,18 @@
   Date.prototype.__class__ = Date;
   Date.__name__ = ['Date'];
 
-  var rc = {
-      __name__: ['Int'],
-    },
-    qc = {
-      __name__: ['Dynamic'],
-    },
-    kc = Number;
-  kc.__name__ = ['Float'];
-  var mc = Boolean;
-  mc.__ename__ = ['Bool'];
-  var sc = {
-    __name__: ['Class'],
-  };
+  var ROTATE_Int = {__name__: ['Int']};
+
+  var ROTATE_Dynamic = {__name__: ['Dynamic']};
+
+  var ROTATE_Number = Number;
+  ROTATE_Number.__name__ = ['Float'];
+
+  var ROTATE_Boolean = Boolean;
+  ROTATE_Boolean.__ename__ = ['Bool'];
+
+  var ROTATE_Class = {__name__: ['Class']};
+
   var tc = {};
   var na = {};
 
