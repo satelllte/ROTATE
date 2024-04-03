@@ -4494,12 +4494,13 @@
     },
     __class__: ROTATE_GameObject_Start,
   });
-  var Hb = function () {
+
+  var ROTATE_GameObject_Vent = function () {
     X.call(this);
   };
-  Hb.__name__ = !0;
-  Hb.__super__ = ROTATE_GameObject_Solid;
-  Hb.prototype = D(ROTATE_GameObject_Solid.prototype, {
+  ROTATE_GameObject_Vent.__name__ = !0;
+  ROTATE_GameObject_Vent.__super__ = ROTATE_GameObject_Solid;
+  ROTATE_GameObject_Vent.prototype = D(ROTATE_GameObject_Solid.prototype, {
     render: function (a, b, c) {
       null == c && (c = !0);
       c
@@ -4519,8 +4520,9 @@
         !1,
       );
     },
-    __class__: Hb,
+    __class__: ROTATE_GameObject_Vent,
   });
+
   var ROTATE_GameObjects = function () {};
   ROTATE_GameObjects.__name__ = !0;
   ROTATE_GameObjects.register = function (a, b) {
@@ -20936,7 +20938,10 @@
     7,
     new ROTATE_GameObject_Number(),
   );
-  ROTATE_GameObjects.vent = ROTATE_GameObjects.register(10, new Hb());
+  ROTATE_GameObjects.vent = ROTATE_GameObjects.register(
+    10,
+    new ROTATE_GameObject_Vent(),
+  );
   ROTATE_GameObjects.fan = ROTATE_GameObjects.register(11, new zb());
 
   ab.GRAVITY_MULT = 0.2;
