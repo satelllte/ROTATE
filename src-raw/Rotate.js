@@ -19086,7 +19086,9 @@
       });
       this.barUpper.btnClear.addEventListener('click', function (k) {
         if (2 > k.which) {
-          var p = new eb('Are you sure you want\nto clear the level?');
+          var p = new ROTATE_YesNoOverlay(
+            'Are you sure you want\nto clear the level?',
+          );
           p.onYes = function () {
             ROTATE_Editor.editorLevel.reset();
             ROTATE_Game.instance.changeScreen(new ROTATE_Editor(), !1);
@@ -20926,7 +20928,9 @@
       ? ((this.buttonMode = this.mouseEnabled = !0),
         this.addEventListener('click', function (e) {
           if (2 > e.which) {
-            var f = new eb('Do you want to erase ALL of\nyour saved progress?');
+            var f = new ROTATE_YesNoOverlay(
+              'Do you want to erase ALL of\nyour saved progress?',
+            );
             f.onNo = function () {
               ROTATE_Game.instance.currentScreen.removeChild(f);
             };
@@ -21087,7 +21091,7 @@
   Ba.__super__ = ROTATE_CanvasObject;
   Ba.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     showWarn: function (a) {
-      var b = new eb(
+      var b = new ROTATE_YesNoOverlay(
         'Audio may slow down the game\nin Internet Explorer. Continue?',
       );
       b.onNo = function () {
@@ -21251,13 +21255,13 @@
     __class__: Ma,
   });
 
-  var eb = function (a) {
+  var ROTATE_YesNoOverlay = function (questionText) {
     this.btnNo = new ROTATE_Button('NO');
     this.btnYes = new ROTATE_Button('YES');
     this.main = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
-    var b = this;
+    var _self = this;
     ROTATE_CanvasObject.call(this);
-    this.main.set_text(a);
+    this.main.set_text(questionText);
     this.graphics.beginFill(1052688, 0.95);
     this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     this.mouseEnabled = !0;
@@ -21270,20 +21274,20 @@
     this.btnYes.set_x(Math.round(ROTATE_Canvas.width / 2) - 96);
     this.btnYes.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
     this.btnYes.addEventListener('click', function (c) {
-      if (2 > c.which && null != b.onYes) b.onYes();
+      if (2 > c.which && null != _self.onYes) _self.onYes();
     });
     this.addChild(this.btnYes);
     this.btnNo.set_x(Math.round(ROTATE_Canvas.width / 2) + 96);
     this.btnNo.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
     this.btnNo.addEventListener('click', function (c) {
-      if (2 > c.which && null != b.onNo) b.onNo();
+      if (2 > c.which && null != _self.onNo) _self.onNo();
     });
     this.addChild(this.btnNo);
   };
-  eb.__name__ = !0;
-  eb.__super__ = ROTATE_CanvasObject;
-  eb.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-    __class__: eb,
+  ROTATE_YesNoOverlay.__name__ = !0;
+  ROTATE_YesNoOverlay.__super__ = ROTATE_CanvasObject;
+  ROTATE_YesNoOverlay.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+    __class__: ROTATE_YesNoOverlay,
   });
 
   var gameInstance;
