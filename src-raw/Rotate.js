@@ -2098,7 +2098,7 @@
     },
     loaded: function (a) {
       var b = this;
-      ROTATE_Game.nosave = !ra.test();
+      ROTATE_Game.nosave = !LocalStorage.test();
       ROTATE_Game.nosave || this.loadProgress();
       a = (function () {
         var c = -1,
@@ -2257,10 +2257,11 @@
     },
     migrateProgress: function () {
       try {
-        if (null != JSON.parse(window.atob(ra.getItem('lws:rotate')))) return;
+        if (null != JSON.parse(window.atob(LocalStorage.getItem('lws:rotate'))))
+          return;
       } catch (k) {}
       try {
-        var a = JSON.parse(window.atob(ra.getItem('data'))),
+        var a = JSON.parse(window.atob(LocalStorage.getItem('data'))),
           b = a.unlocked;
         if (
           'number' == typeof b &&
@@ -2301,15 +2302,15 @@
           null != a.invert && (m.invert = a.invert);
           null != a.muteMusic && (m.muteMusic = a.muteMusic);
           null != a.muteSFX && (m.muteSFX = a.muteSFX);
-          ra.setItem('lws:rotate', window.btoa(JSON.stringify(m)));
-          ra.removeItem('data');
+          LocalStorage.setItem('lws:rotate', window.btoa(JSON.stringify(m)));
+          LocalStorage.removeItem('data');
         }
       } catch (k) {}
     },
     loadProgress: function () {
       this.migrateProgress();
       try {
-        var a = ra.getItem('lws:rotate');
+        var a = LocalStorage.getItem('lws:rotate');
         if (null != a && '' != a) {
           var b = JSON.parse(StringUtils.decode(a).toString());
           if (null != b) {
@@ -2350,13 +2351,13 @@
       this.invert && (a.invert = !0);
       this.muteMusic && (a.muteMusic = !0);
       this.muteSFX && (a.muteSFX = !0);
-      ra.setItem(
+      LocalStorage.setItem(
         'lws:rotate',
         StringUtils.encode(ya.ofString(JSON.stringify(a))),
       );
     },
     clearProgress: function () {
-      ra.removeItem('lws:rotate');
+      LocalStorage.removeItem('lws:rotate');
       for (var a = 0, b = ROTATE_Awards.all; a < b.length; ) {
         var c = b[a];
         ++a;
@@ -2436,9 +2437,10 @@
   });
   var ROTATE_Audio = function () {};
   ROTATE_Audio.__name__ = !0;
-  var ra = function () {};
-  ra.__name__ = !0;
-  ra.getItem = function (a) {
+
+  var LocalStorage = function () {};
+  LocalStorage.__name__ = !0;
+  LocalStorage.getItem = function (a) {
     try {
       return window.localStorage.getItem(a);
     } catch (b) {
@@ -2448,7 +2450,7 @@
       return null;
     }
   };
-  ra.setItem = function (a, b) {
+  LocalStorage.setItem = function (a, b) {
     try {
       window.localStorage.setItem(a, b);
     } catch (c) {
@@ -2459,7 +2461,7 @@
         throw ROTATE_Error.wrap(c);
     }
   };
-  ra.removeItem = function (a) {
+  LocalStorage.removeItem = function (a) {
     try {
       window.localStorage.removeItem(a);
     } catch (b) {
@@ -2470,7 +2472,7 @@
         throw ROTATE_Error.wrap(b);
     }
   };
-  ra.test = function () {
+  LocalStorage.test = function () {
     try {
       window.localStorage.setItem('?', '!');
       if ('!' != window.localStorage.getItem('?')) return !1;
