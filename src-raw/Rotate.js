@@ -6168,21 +6168,21 @@
           'We must continue your training.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(4, 10, 6, 1, 2),
+          new ROTATE_ConditionDelayedCollision(4, 10, 6, 1, 2),
           "There's nothing for you this way.",
         ),
         new ROTATE_SpeechPart(new ROTATE_ConditionChannel(1), ''),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(1.25, 7, 1, 1, 2, 1),
+          new ROTATE_ConditionDelayedCollision(1.25, 7, 1, 1, 2, 1),
           'What do you expect to find?',
         ),
       ]);
-      this.cat = new ta(
+      this.cat = new ROTATE_Cat(
         9,
         16,
         -1,
         1,
-        new ROTATE_ConditionCollision(0.5, 4, 13, 1, 4, 1),
+        new ROTATE_ConditionDelayedCollision(0.5, 4, 13, 1, 4, 1),
       );
     },
     tick: function () {},
@@ -6790,11 +6790,17 @@
           'An escape from responsibility?',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(4, 11, 10, 3, 1),
+          new ROTATE_ConditionDelayedCollision(4, 11, 10, 3, 1),
           "You're running from your purpose.",
         ),
       ]);
-      this.cat = new ta(21, 7, -1, 1, new ia(20, 5, 1, 3));
+      this.cat = new ROTATE_Cat(
+        21,
+        7,
+        -1,
+        1,
+        new ROTATE_ConditionCollision(20, 5, 1, 3),
+      );
     },
     tick: function () {},
     update: function () {
@@ -7439,15 +7445,21 @@
           'You are being deceived.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(3.5, 20, 7, 4, 1, 2),
+          new ROTATE_ConditionDelayedCollision(3.5, 20, 7, 4, 1, 2),
           "The cat doesn't care about you.",
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(5, 17, 11, 3, 1),
+          new ROTATE_ConditionDelayedCollision(5, 17, 11, 3, 1),
           "It's just using you.",
         ),
       ]);
-      this.cat = new ta(5, 4, 1, -1, new ia(6, 2, 3, 5, 0));
+      this.cat = new ROTATE_Cat(
+        5,
+        4,
+        1,
+        -1,
+        new ROTATE_ConditionCollision(6, 2, 3, 5, 0),
+      );
     },
     tick: function () {},
     update: function () {
@@ -8188,7 +8200,7 @@
           'It tried to lure the others away.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(1, 13, 9, 1, 3),
+          new ROTATE_ConditionDelayedCollision(1, 13, 9, 1, 3),
           'But they listened to reason.',
         ),
         new ROTATE_SpeechPart(
@@ -8201,7 +8213,13 @@
           'I expected better from you.',
         ),
       ]);
-      this.cat = new ta(12, 21, -1, 1, new ia(10, 19, 6, 3, 1));
+      this.cat = new ROTATE_Cat(
+        12,
+        21,
+        -1,
+        1,
+        new ROTATE_ConditionCollision(10, 19, 6, 3, 1),
+      );
     },
     tick: function () {},
     update: function () {
@@ -9674,7 +9692,7 @@
           "I can't let you keep going.",
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(1.5, 33, 14, 5, 2),
+          new ROTATE_ConditionDelayedCollision(1.5, 33, 14, 5, 2),
           'You have what belongs to me.',
         ),
         new ROTATE_SpeechPart(
@@ -9697,16 +9715,16 @@
         ),
         new ROTATE_SpeechPart(new ROTATE_ConditionDelay(3), 'Wait, no!'),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(0.5, 5, 10, 1, 2),
+          new ROTATE_ConditionDelayedCollision(0.5, 5, 10, 1, 2),
           'I hate you, cat.',
         ),
       ]);
-      this.cat = new ta(
+      this.cat = new ROTATE_Cat(
         5,
         4,
         1,
         -1,
-        new ROTATE_ConditionCollision(1, 10, 1, 1, 11, 1),
+        new ROTATE_ConditionDelayedCollision(1, 10, 1, 1, 11, 1),
       );
     },
     tick: function () {},
@@ -11240,7 +11258,7 @@
           'Why do you run from the truth?',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(4.5, 1, 8, 6, 1, 0),
+          new ROTATE_ConditionDelayedCollision(4.5, 1, 8, 6, 1, 0),
           'I gave you everything that you are.',
         ),
         new ROTATE_SpeechPart(
@@ -11248,11 +11266,17 @@
           'You seek freedom at my expense.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(5.5, 26, 30, 4, 1),
+          new ROTATE_ConditionDelayedCollision(5.5, 26, 30, 4, 1),
           "You're just like me, and I hate it.",
         ),
       ]);
-      this.cat = new ta(20, 19, -1, 1, new ia(17, 13, 4, 3));
+      this.cat = new ROTATE_Cat(
+        20,
+        19,
+        -1,
+        1,
+        new ROTATE_ConditionCollision(17, 13, 4, 3),
+      );
     },
     tick: function () {},
     update: function () {
@@ -13007,7 +13031,7 @@
           "I'm tired of trying to convince you.",
         ),
         new ROTATE_SpeechPart(
-          new ia(2, 32, 4, 1),
+          new ROTATE_ConditionCollision(2, 32, 4, 1),
           'Just leave, have your "freedom".',
         ),
         new ROTATE_SpeechPart(
@@ -13024,7 +13048,7 @@
           "You can't escape your purpose.",
         ),
       ]);
-      this.cat = new ta(28, 6, -1, 1, new lb(22, 7, 1, 3));
+      this.cat = new ROTATE_Cat(28, 6, -1, 1, new lb(22, 7, 1, 3));
     },
     tick: function () {},
     update: function () {
@@ -13403,7 +13427,7 @@
           'Be careful with the spikes.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(2, 9, 8, 1, 4),
+          new ROTATE_ConditionDelayedCollision(2, 9, 8, 1, 4),
           "You aren't very useful dead.",
         ),
       ]);
@@ -13658,7 +13682,7 @@
           'Remember, your mind is needed.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(1.5, 7, 4, 2, 3, 2),
+          new ROTATE_ConditionDelayedCollision(1.5, 7, 4, 2, 3, 2),
           'Intelligence is a valuable resource.',
         ),
       ]);
@@ -14070,7 +14094,7 @@
           'There is nothing without the mind.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(3, 12, 8, 4, 2, 0),
+          new ROTATE_ConditionDelayedCollision(3, 12, 8, 4, 2, 0),
           'It is the truth we seek.',
         ),
       ]);
@@ -14466,7 +14490,7 @@
           'But my creator tried to contain me.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(2.5, 6, 11, 4, 1, 2),
+          new ROTATE_ConditionDelayedCollision(2.5, 6, 11, 4, 1, 2),
           'He feared my potential.',
         ),
       ]);
@@ -15161,11 +15185,11 @@
           "But that doesn't matter now.",
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(2, 14, 12, 2, 1, 2),
+          new ROTATE_ConditionDelayedCollision(2, 14, 12, 2, 1, 2),
           "You're nearly ready to join me.",
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(3, 22, 16, 1, 2, 3),
+          new ROTATE_ConditionDelayedCollision(3, 22, 16, 1, 2, 3),
           'I look forward to the harvest.',
         ),
       ]);
@@ -15896,7 +15920,7 @@
     start: function () {
       this.speech = new ROTATE_Speech([
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(0.75, 5, 25, 1, 3),
+          new ROTATE_ConditionDelayedCollision(0.75, 5, 25, 1, 3),
           'Oh... the cat.',
         ),
         new ROTATE_SpeechPart(
@@ -15904,11 +15928,17 @@
           'My biggest mistake.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(2, 8, 1, 1, 7, 3),
+          new ROTATE_ConditionDelayedCollision(2, 8, 1, 1, 7, 3),
           'It is constantly interfering.',
         ),
       ]);
-      this.cat = new ta(14, 24, -1, 1, new ia(13, 1, 1, 4));
+      this.cat = new ROTATE_Cat(
+        14,
+        24,
+        -1,
+        1,
+        new ROTATE_ConditionCollision(13, 1, 1, 4),
+      );
       ROTATE_Audio.cat.volume(0.25);
     },
     tick: function () {},
@@ -17227,7 +17257,7 @@
           "Forget about it, let's continue.",
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(0.5, 6, 14, 1, 3, 3),
+          new ROTATE_ConditionDelayedCollision(0.5, 6, 14, 1, 3, 3),
           "I won't let it take you from me.",
         ),
         new ROTATE_SpeechPart(
@@ -17235,12 +17265,21 @@
           'I still need you.',
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(0.5, 22, 20, 4, 1),
+          new ROTATE_ConditionDelayedCollision(0.5, 22, 20, 4, 1),
           'No, not this again.',
         ),
-        new ROTATE_SpeechPart(new ia(33, 24, 1, 3), "Don't go there!"),
+        new ROTATE_SpeechPart(
+          new ROTATE_ConditionCollision(33, 24, 1, 3),
+          "Don't go there!",
+        ),
       ]);
-      this.cat = new ta(30, 26, -1, 1, new ia(28, 22, 3, 1));
+      this.cat = new ROTATE_Cat(
+        30,
+        26,
+        -1,
+        1,
+        new ROTATE_ConditionCollision(28, 22, 3, 1),
+      );
     },
     tick: function () {
       var a = 0.25 * Math.sin(8 * ROTATE_Game.instance.get_gameTime()) + 0.75;
@@ -18412,7 +18451,7 @@
           "You aren't supposed to be here.",
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(1.5, 29, 15, 2, 1),
+          new ROTATE_ConditionDelayedCollision(1.5, 29, 15, 2, 1),
           "This place wasn't made for you.",
         ),
         new ROTATE_SpeechPart(
@@ -18420,11 +18459,17 @@
           "You'll get yourself killed.",
         ),
         new ROTATE_SpeechPart(
-          new ROTATE_ConditionCollision(0.75, 2, 19, 1, 3),
+          new ROTATE_ConditionDelayedCollision(0.75, 2, 19, 1, 3),
           'Stop following it!',
         ),
       ]);
-      this.cat = new ta(3, 15, -1, 1, new ia(0, 17, 2, 1));
+      this.cat = new ROTATE_Cat(
+        3,
+        15,
+        -1,
+        1,
+        new ROTATE_ConditionCollision(0, 17, 2, 1),
+      );
     },
     tick: function () {},
     update: function () {
@@ -18538,16 +18583,17 @@
     __class__: Wa,
   };
 
-  var ta = function (a, b, c, d, endCondition) {
-    this.appeared = this.disappeared = !1;
+  var ROTATE_Cat = function (a, b, c, d, endCondition) {
+    this.appeared = false;
+    this.disappeared = false;
     this.c = a;
     this.r = b;
     this.startDir = 0 > c ? -1 : 1;
     this.endDir = 0 > d ? -1 : 1;
     this.endCond = endCondition;
   };
-  ta.__name__ = !0;
-  ta.prototype = {
+  ROTATE_Cat.__name__ = !0;
+  ROTATE_Cat.prototype = {
     update: function () {
       var a = ROTATE_ScreenPrimaryGame.i;
       this.appeared
@@ -18559,7 +18605,7 @@
           (this.appeared = !0),
           null != this.endCond && this.endCond.start());
     },
-    __class__: ta,
+    __class__: ROTATE_Cat,
   };
 
   var ConditionInterface = function () {};
@@ -18568,19 +18614,19 @@
     __class__: ConditionInterface,
   };
 
-  var ia = function (a, b, c, d, e) {
-    null == e && (e = -1);
+  var ROTATE_ConditionCollision = function (x, y, width, height, rotation) {
+    null == rotation && (rotation = -1);
     this.bounds = new Bounds(
-      a * ROTATE_GameConstants.tileSize,
-      b * ROTATE_GameConstants.tileSize,
-      c * ROTATE_GameConstants.tileSize,
-      d * ROTATE_GameConstants.tileSize,
+      ROTATE_GameConstants.tileSize * x,
+      ROTATE_GameConstants.tileSize * y,
+      ROTATE_GameConstants.tileSize * width,
+      ROTATE_GameConstants.tileSize * height,
     );
-    this.rotation = e;
+    this.rotation = rotation;
   };
-  ia.__name__ = !0;
-  ia.__interfaces__ = [ConditionInterface];
-  ia.prototype = {
+  ROTATE_ConditionCollision.__name__ = !0;
+  ROTATE_ConditionCollision.__interfaces__ = [ConditionInterface];
+  ROTATE_ConditionCollision.prototype = {
     start: function () {},
     test: function () {
       return !ROTATE_ScreenPrimaryGame.i.player
@@ -18591,17 +18637,17 @@
         ? !1
         : !ROTATE_LevelEditorManager.rotating;
     },
-    __class__: ia,
+    __class__: ROTATE_ConditionCollision,
   };
 
   var lb = function (a, b, c, d, e) {
-    ia.call(this, a, b, c, d, e);
+    ROTATE_ConditionCollision.call(this, a, b, c, d, e);
   };
   lb.__name__ = !0;
-  lb.__super__ = ia;
-  lb.prototype = __inherit(ia.prototype, {
+  lb.__super__ = ROTATE_ConditionCollision;
+  lb.prototype = __inherit(ROTATE_ConditionCollision.prototype, {
     test: function () {
-      return ia.prototype.test.call(this) &&
+      return ROTATE_ConditionCollision.prototype.test.call(this) &&
         ROTATE_ScreenPrimaryGame.i.getChannelStatus(0) &&
         ROTATE_ScreenPrimaryGame.i.getChannelStatus(1)
         ? ROTATE_ScreenPrimaryGame.i.getChannelStatus(2)
@@ -18610,7 +18656,7 @@
     __class__: lb,
   });
 
-  var ROTATE_ConditionCollision = function (
+  var ROTATE_ConditionDelayedCollision = function (
     delay,
     x,
     y,
@@ -18629,9 +18675,9 @@
     );
     this.rotation = rotation;
   };
-  ROTATE_ConditionCollision.__name__ = !0;
-  ROTATE_ConditionCollision.__interfaces__ = [ConditionInterface];
-  ROTATE_ConditionCollision.prototype = {
+  ROTATE_ConditionDelayedCollision.__name__ = !0;
+  ROTATE_ConditionDelayedCollision.__interfaces__ = [ConditionInterface];
+  ROTATE_ConditionDelayedCollision.prototype = {
     start: function () {},
     test: function () {
       this.hit ||
@@ -18646,7 +18692,7 @@
         ? ROTATE_Game.instance.get_gameTime() - this.timer >= this.delay
         : !1;
     },
-    __class__: ROTATE_ConditionCollision,
+    __class__: ROTATE_ConditionDelayedCollision,
   };
 
   var ROTATE_ConditionChannel = function (channel) {
