@@ -4714,7 +4714,7 @@
     return ROTATE_GameObjects.registry[a];
   };
 
-  var ROTATE_ParticleSystem = function (
+  var ROTATE_Particle = function (
     size,
     life,
     x,
@@ -4738,12 +4738,12 @@
     this.gravityY = gravityY;
     this.handler = handler;
   };
-  ROTATE_ParticleSystem.__name__ = !0;
-  ROTATE_ParticleSystem.prototype = {
+  ROTATE_Particle.__name__ = !0;
+  ROTATE_Particle.prototype = {
     update: function () {
       if (!this.freeze || 0 >= this.life)
-        (this.dx += this.gravityX * ROTATE_ParticleSystem.GRAVITY_MULT),
-          (this.dy += this.gravityY * ROTATE_ParticleSystem.GRAVITY_MULT),
+        (this.dx += this.gravityX * ROTATE_Particle.GRAVITY_MULT),
+          (this.dy += this.gravityY * ROTATE_Particle.GRAVITY_MULT),
           (this.x += this.dx),
           (this.y += this.dy),
           null != this.handler && this.handler(this),
@@ -4751,7 +4751,7 @@
           (this.lastX = this.x),
           (this.lastY = this.y);
     },
-    __class__: ROTATE_ParticleSystem,
+    __class__: ROTATE_Particle,
   };
 
   var Ib = function (a, b, c, d, e, f, m, k, p) {
@@ -4766,7 +4766,7 @@
       var H = Math.random() * Math.PI * 2,
         K = 3 * (0.7 * Math.random() + 0.3) * p,
         W = 20 * Math.random();
-      H = new ROTATE_ParticleSystem(
+      H = new ROTATE_Particle(
         6 * (0.6 * Math.random() + 0.4),
         Math.round(50 * (0.5 * Math.random() + 0.5)),
         a + Math.cos(H) * W,
@@ -21501,7 +21501,7 @@
     new ROTATE_GameObject_Fan(),
   );
 
-  ROTATE_ParticleSystem.GRAVITY_MULT = 0.2;
+  ROTATE_Particle.GRAVITY_MULT = 0.2;
   ROTATE_EditorLevel.WORLD_SIZE = 42;
 
   ROTATE_Level1.fadeSpeed = 0.1;
