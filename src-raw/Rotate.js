@@ -49,19 +49,19 @@
     return JSObjectUtils.__string_rec(this, '');
   };
 
-  var ja = function () {};
-  ja.__name__ = !0;
-  ja.charCodeAt = function (str, index) {
+  var StringUtils2 = function () {};
+  StringUtils2.__name__ = !0;
+  StringUtils2.charCodeAt = function (str, index) {
     return str.charCodeAt(index);
   };
-  ja.substr = function (a, b, c) {
+  StringUtils2.substr = function (a, b, c) {
     if (null == c) c = a.length;
     else if (0 > c)
       if (0 == b) c = a.length + c;
       else return '';
     return a.substr(b, c);
   };
-  ja.iter = function (a) {
+  StringUtils2.iter = function (a) {
     return {
       cur: 0,
       arr: a,
@@ -84,7 +84,8 @@
   Utils.parseInt = function (a) {
     var b = parseInt(a, 10);
     0 != b ||
-      (120 != ja.charCodeAt(a, 1) && 88 != ja.charCodeAt(a, 1)) ||
+      (120 != StringUtils2.charCodeAt(a, 1) &&
+        88 != StringUtils2.charCodeAt(a, 1)) ||
       (b = parseInt(a));
     return isNaN(b) ? null : b;
   };
@@ -92,17 +93,17 @@
   var StringUtils = function () {};
   StringUtils.__name__ = !0;
   StringUtils.isSpace = function (a, b) {
-    var c = ja.charCodeAt(a, b);
+    var c = StringUtils2.charCodeAt(a, b);
     return 8 < c && 14 > c ? !0 : 32 == c;
   };
   StringUtils.ltrim = function (a) {
     for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, c); ) ++c;
-    return 0 < c ? ja.substr(a, c, b - c) : a;
+    return 0 < c ? StringUtils2.substr(a, c, b - c) : a;
   };
   StringUtils.rtrim = function (a) {
     for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, b - c - 1); )
       ++c;
-    return 0 < c ? ja.substr(a, 0, b - c) : a;
+    return 0 < c ? StringUtils2.substr(a, 0, b - c) : a;
   };
   StringUtils.trim = function (a) {
     return StringUtils.ltrim(StringUtils.rtrim(a));
@@ -835,7 +836,7 @@
         this.image = a;
         var b = a.width,
           c = a.height;
-        'svg' == ja.substr(a.src, a.src.length - 3, null) &&
+        'svg' == StringUtils2.substr(a.src, a.src.length - 3, null) &&
           (window.document.body.appendChild(a),
           (b = a.offsetWidth),
           (c = a.offsetHeight),
@@ -1604,7 +1605,8 @@
   CharUtils.decode = function (a, b) {
     null == b && (b = !0);
     if (b)
-      for (; 61 == ja.charCodeAt(a, a.length - 1); ) a = ja.substr(a, 0, -1);
+      for (; 61 == StringUtils2.charCodeAt(a, a.length - 1); )
+        a = StringUtils2.substr(a, 0, -1);
     return new sb(CharUtils.BYTES).decodeBytes(ya.ofString(a));
   };
 
@@ -1689,7 +1691,7 @@
       var a = [],
         b;
       for (b in this.h) this.h.hasOwnProperty(b) && a.push(b | 0);
-      return ja.iter(a);
+      return StringUtils2.iter(a);
     },
     iterator: function () {
       return {
@@ -20667,7 +20669,7 @@
       var K = y++;
       '\n' == c.charAt(K)
         ? (++p, (m = 0), (k += b.lineHeight))
-        : ((K = ja.charCodeAt(c, K)),
+        : ((K = StringUtils2.charCodeAt(c, K)),
           (K = b.chars[K]),
           null != K &&
             (a.drawImage(
@@ -20711,7 +20713,7 @@
             (a = d = 0),
             (c += this.lineHeight);
         else if (
-          ((m = ja.charCodeAt(this.text, m)),
+          ((m = StringUtils2.charCodeAt(this.text, m)),
           (m = this.font.chars[m]),
           null != m)
         ) {
@@ -20741,7 +20743,7 @@
           ? (++e,
             (c = -this.getLineOffset(this.lineWidths[e])),
             (d += this.lineHeight))
-          : ((k = ja.charCodeAt(this.text, k)),
+          : ((k = StringUtils2.charCodeAt(this.text, k)),
             (k = this.font.chars[k]),
             null != k &&
               (a.drawImage(
