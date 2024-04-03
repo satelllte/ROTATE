@@ -18558,10 +18558,10 @@
     __class__: ta,
   };
 
-  var db = function () {};
-  db.__name__ = !0;
-  db.prototype = {
-    __class__: db,
+  var ConditionInterface = function () {};
+  ConditionInterface.__name__ = !0;
+  ConditionInterface.prototype = {
+    __class__: ConditionInterface,
   };
 
   var ia = function (a, b, c, d, e) {
@@ -18575,7 +18575,7 @@
     this.rotation = e;
   };
   ia.__name__ = !0;
-  ia.__interfaces__ = [db];
+  ia.__interfaces__ = [ConditionInterface];
   ia.prototype = {
     start: function () {},
     test: function () {
@@ -18626,7 +18626,7 @@
     this.rotation = rotation;
   };
   ROTATE_ConditionCollision.__name__ = !0;
-  ROTATE_ConditionCollision.__interfaces__ = [db];
+  ROTATE_ConditionCollision.__interfaces__ = [ConditionInterface];
   ROTATE_ConditionCollision.prototype = {
     start: function () {},
     test: function () {
@@ -18650,7 +18650,7 @@
     this.channel = channel;
   };
   ROTATE_ConditionChannel.__name__ = !0;
-  ROTATE_ConditionChannel.__interfaces__ = [db];
+  ROTATE_ConditionChannel.__interfaces__ = [ConditionInterface];
   ROTATE_ConditionChannel.prototype = {
     start: function () {
       this.timer = ROTATE_Game.instance.get_gameTime();
@@ -18666,7 +18666,7 @@
     this.delay = a;
   };
   ROTATE_ConditionDelay.__name__ = !0;
-  ROTATE_ConditionDelay.__interfaces__ = [db];
+  ROTATE_ConditionDelay.__interfaces__ = [ConditionInterface];
   ROTATE_ConditionDelay.prototype = {
     start: function () {
       this.timer = ROTATE_Game.instance.get_gameTime();
