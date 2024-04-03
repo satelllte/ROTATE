@@ -12531,7 +12531,7 @@
     kill: function () {},
     __class__: Pb,
   };
-  var Qb = function () {
+  var ROTATE_Level2 = function () {
     this.startDir = 1;
     this.finishRow = 3;
     this.finishCol = 15;
@@ -12879,9 +12879,9 @@
     ];
     this.theme = 0;
   };
-  Qb.__name__ = !0;
-  Qb.__interfaces__ = [ea];
-  Qb.prototype = {
+  ROTATE_Level2.__name__ = !0;
+  ROTATE_Level2.__interfaces__ = [ea];
+  ROTATE_Level2.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(0.5), 'Be careful with the spikes.'),
@@ -12896,7 +12896,7 @@
       return ROTATE_Levels.level3;
     },
     kill: function () {},
-    __class__: Qb,
+    __class__: ROTATE_Level2,
   };
   var Rb = function () {
     this.startDir = -1;
@@ -20814,7 +20814,7 @@
   Aa.fakeRow = 16;
 
   ROTATE_Levels.level1 = new ROTATE_Level1();
-  ROTATE_Levels.level2 = new Qb();
+  ROTATE_Levels.level2 = new ROTATE_Level2();
   ROTATE_Levels.level3 = new Rb();
   ROTATE_Levels.level4 = new Sb();
   ROTATE_Levels.level5 = new Tb();
