@@ -3706,20 +3706,22 @@
     onInteract: function (a) {},
     __class__: X,
   };
-  var xb = function () {
+
+  var ROTATE_GameObject_Air = function () {
     X.call(this);
   };
-  xb.__name__ = !0;
-  xb.__super__ = X;
-  xb.prototype = D(X.prototype, {
+  ROTATE_GameObject_Air.__name__ = !0;
+  ROTATE_GameObject_Air.__super__ = X;
+  ROTATE_GameObject_Air.prototype = D(X.prototype, {
     collides: function (a) {
       return !1;
     },
     shouldRender: function (a) {
       return !1;
     },
-    __class__: xb,
+    __class__: ROTATE_GameObject_Air,
   });
+
   var yb = function () {
     this.angle = 0;
     this.length = 3;
@@ -20883,7 +20885,10 @@
     -2,
     new ROTATE_GameObject_Finish(),
   );
-  ROTATE_GameObjects.air = ROTATE_GameObjects.register(0, new xb());
+  ROTATE_GameObjects.air = ROTATE_GameObjects.register(
+    0,
+    new ROTATE_GameObject_Air(),
+  );
   ROTATE_GameObjects.solid = ROTATE_GameObjects.register(1, new va());
   ROTATE_GameObjects.stairs = ROTATE_GameObjects.register(2, new Fb());
   ROTATE_GameObjects.ramp = ROTATE_GameObjects.register(3, new $a());
