@@ -20703,7 +20703,7 @@
     __class__: ac,
   });
 
-  var Da = function (a, b) {
+  var ROTATE_MenuWithTextarea = function (a, b) {
     null == b && (b = '');
     ROTATE_CanvasObject.call(this);
     this.graphics.beginFill(1052688, 0.95);
@@ -20734,14 +20734,14 @@
     this.area.value = b;
     this.area.select();
   };
-  Da.__name__ = !0;
-  Da.__super__ = ROTATE_CanvasObject;
-  Da.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_MenuWithTextarea.__name__ = !0;
+  ROTATE_MenuWithTextarea.__super__ = ROTATE_CanvasObject;
+  ROTATE_MenuWithTextarea.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     kill: function () {
       null != this.area.parentElement &&
         window.document.body.removeChild(this.area);
     },
-    __class__: Da,
+    __class__: ROTATE_MenuWithTextarea,
   });
 
   var ROTATE_LoadLevelMenu = function () {
@@ -20753,7 +20753,7 @@
       2,
     );
     var _self = this;
-    Da.call(this, 'LOAD LEVEL');
+    ROTATE_MenuWithTextarea.call(this, 'LOAD LEVEL');
     this.invalid.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     this.invalid.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
     this.invalid.set_x(Math.round(ROTATE_Canvas.width / 2));
@@ -20780,15 +20780,18 @@
     });
   };
   ROTATE_LoadLevelMenu.__name__ = !0;
-  ROTATE_LoadLevelMenu.__super__ = Da;
-  ROTATE_LoadLevelMenu.prototype = __inherit(Da.prototype, {
-    __class__: ROTATE_LoadLevelMenu,
-  });
+  ROTATE_LoadLevelMenu.__super__ = ROTATE_MenuWithTextarea;
+  ROTATE_LoadLevelMenu.prototype = __inherit(
+    ROTATE_MenuWithTextarea.prototype,
+    {
+      __class__: ROTATE_LoadLevelMenu,
+    },
+  );
 
   var ROTATE_SaveLevelMenu = function (a) {
     this.btnBack = new ROTATE_Button('BACK');
     var b = this;
-    Da.call(this, 'SAVE LEVEL', a);
+    ROTATE_MenuWithTextarea.call(this, 'SAVE LEVEL', a);
     this.area.readOnly = !0;
     this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
     this.btnBack.set_y(ROTATE_Canvas.height - 52);
@@ -20798,10 +20801,13 @@
     this.addChild(this.btnBack);
   };
   ROTATE_SaveLevelMenu.__name__ = !0;
-  ROTATE_SaveLevelMenu.__super__ = Da;
-  ROTATE_SaveLevelMenu.prototype = __inherit(Da.prototype, {
-    __class__: ROTATE_SaveLevelMenu,
-  });
+  ROTATE_SaveLevelMenu.__super__ = ROTATE_MenuWithTextarea;
+  ROTATE_SaveLevelMenu.prototype = __inherit(
+    ROTATE_MenuWithTextarea.prototype,
+    {
+      __class__: ROTATE_SaveLevelMenu,
+    },
+  );
 
   var ROTATE_EditorBarLower = function (a) {
     this.selector = new ROTATE_ActiveGameObject();
