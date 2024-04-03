@@ -152,7 +152,7 @@
       ROTATE_Canvas.imageSmoothingEnabled,
     );
     ROTATE_Canvas.surface = new Surface(ROTATE_Canvas.ctx);
-    N._reset();
+    Time._reset();
     ROTATE_Canvas.input = new CanvasInput(ROTATE_Canvas.canvas);
     G._init();
     ROTATE_Canvas.input.addEventListener('click', ROTATE_Canvas.onClick);
@@ -164,7 +164,7 @@
     ROTATE_Canvas.input.addEventListener('move', ROTATE_Canvas.onMouseMove);
   };
   ROTATE_Canvas.loop = function () {
-    N._update();
+    Time._update();
     if (ROTATE_Manager.get_done())
       ROTATE_Canvas.wasLoaded ||
         (ROTATE_Manager.triggerEvent(new Fa('progress', 1)),
@@ -450,31 +450,31 @@
     };
     return new Howl(a);
   };
-  var N = function () {};
-  N.__name__ = !0;
-  N._reset = function () {
-    N.startTime = N.absoluteTime();
-    N.lastTime = 0;
+  var Time = function () {};
+  Time.__name__ = !0;
+  Time._reset = function () {
+    Time.startTime = Time.absoluteTime();
+    Time.lastTime = 0;
   };
-  N._update = function () {
-    var a = N.get_currentMS();
-    N.elapsedTime = a - N.lastTime;
-    N.lastTime = a;
+  Time._update = function () {
+    var a = Time.get_currentMS();
+    Time.elapsedTime = a - Time.lastTime;
+    Time.lastTime = a;
   };
-  N.absoluteTime = function () {
+  Time.absoluteTime = function () {
     return new Date().getTime();
   };
-  N.get_current = function () {
-    return 0.001 * N.get_currentMS();
+  Time.get_current = function () {
+    return 0.001 * Time.get_currentMS();
   };
-  N.get_currentMS = function () {
-    return N.absoluteTime() - N.startTime;
+  Time.get_currentMS = function () {
+    return Time.absoluteTime() - Time.startTime;
   };
-  N.get_elapsed = function () {
-    return 0.001 * N.elapsedTime;
+  Time.get_elapsed = function () {
+    return 0.001 * Time.elapsedTime;
   };
-  N.get_elapsedMS = function () {
-    return N.elapsedTime;
+  Time.get_elapsedMS = function () {
+    return Time.elapsedTime;
   };
   var xa = function () {};
   xa.__name__ = !0;
@@ -2066,7 +2066,7 @@
     get_gameTimeMS: function () {
       return this.paused
         ? this.pauseStart - this.pausedTime
-        : N.get_currentMS() - this.pausedTime;
+        : Time.get_currentMS() - this.pausedTime;
     },
     get_gameTime: function () {
       return 0.001 * this.get_gameTimeMS();
@@ -2094,7 +2094,7 @@
       })();
       ROTATE_Game.ie = 0 < a && 11 >= a;
       ROTATE_Game.ie && (this.muteSFX = this.muteMusic = !0);
-      this.lastTick = N.get_currentMS();
+      this.lastTick = Time.get_currentMS();
       this.addEventListener('enterFrame', Bind(this, this.update));
       window.document.getElementById('game').style.display = 'block';
       window.document.getElementById('loader').style.display = 'none';
@@ -2118,7 +2118,7 @@
         (a && null != this.targetScreen && this.targetScreen.pausable
           ? (this.pauseOnInit = !0)
           : ((this.paused = !0),
-            (this.pauseStart = N.get_currentMS()),
+            (this.pauseStart = Time.get_currentMS()),
             null != this.pauseMenu &&
               ((this.pauseMenu.visible = !0), this.pauseMenu.onPause()),
             (this.hasPaused = !0),
@@ -2131,7 +2131,7 @@
       this.paused &&
         null == this.targetScreen &&
         ((this.paused = !1),
-        (this.pausedTime += N.get_currentMS() - this.pauseStart),
+        (this.pausedTime += Time.get_currentMS() - this.pauseStart),
         (this.pauseMenu.visible = !1));
     },
     getFadeSpeed: function () {
@@ -2146,7 +2146,7 @@
         ? null == this.targetScreen &&
           ((this.fading = !0),
           (this.fadingSlow = d),
-          (this.fadeStart = N.get_currentMS()),
+          (this.fadeStart = Time.get_currentMS()),
           this.fader.graphics.clear(),
           this.fader.graphics.beginFill(e ? 16777215 : 1052688),
           this.fader.graphics.drawRect(
@@ -2185,7 +2185,7 @@
     update: function (a) {
       null != this.targetScreen
         ? ((a = Math.min(
-            (N.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2),
+            (Time.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2),
             1,
           )),
           this.fader.set_alpha(ROTATE_Game.smootherStep(a)),
@@ -2195,7 +2195,8 @@
             this.setScreen(a)))
         : 0 < this.fader.alpha &&
           ((a = Math.min(
-            (N.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2) -
+            (Time.get_currentMS() - this.fadeStart) /
+              (this.getFadeSpeed() / 2) -
               1,
             1,
           )),
@@ -2507,7 +2508,7 @@
   v.update = function () {
     if (null != v.bubble) {
       var a = 0,
-        b = N.get_currentMS();
+        b = Time.get_currentMS();
       if (-1 != v.bubbleTimer) {
         var c = b - v.bubbleTimer;
         var d = c <= 2 * v.FADE_MS + v.STAY_MS;
@@ -19566,11 +19567,11 @@
   $b.__super__ = P;
   $b.prototype = D(P.prototype, {
     ready: function () {
-      this.timer = N.get_current();
+      this.timer = Time.get_current();
     },
     update: function () {
       !this.done &&
-        N.get_current() - this.timer > this.length &&
+        Time.get_current() - this.timer > this.length &&
         ((this.done = !0), ROTATE_Game.instance.changeScreen(new ca()));
     },
     __class__: $b,
@@ -19584,7 +19585,7 @@
   vb.__super__ = P;
   vb.prototype = D(P.prototype, {
     init: function () {
-      this.timer = N.get_currentMS();
+      this.timer = Time.get_currentMS();
       this.pivot.set_x(ROTATE_Canvas.width / 2);
       this.pivot.set_y(ROTATE_Canvas.height / 2);
       this.addChild(this.pivot);
@@ -19596,7 +19597,7 @@
     update: function () {
       var a = this,
         b = ROTATE_Game.smootherStep(
-          Math.min(1, (N.get_currentMS() - this.timer) / 250),
+          Math.min(1, (Time.get_currentMS() - this.timer) / 250),
         );
       this.pivot.set_rotation(-90 + 90 * b);
       this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
@@ -20203,8 +20204,8 @@
   Na.prototype = D(ROTATE_CanvasObject.prototype, {
     render: function (a) {
       for (
-        var b = -Math.round((30 * N.get_current()) % q.bgCells.width),
-          c = -Math.round((15 * N.get_current()) % q.bgCells.height),
+        var b = -Math.round((30 * Time.get_current()) % q.bgCells.width),
+          c = -Math.round((15 * Time.get_current()) % q.bgCells.height),
           d = 0,
           e = Math.ceil(ROTATE_Canvas.height / q.bgCells.height) + 1;
         d < e;
@@ -20506,9 +20507,9 @@
   ROTATE_Manager.finished = !1;
   ROTATE_Manager.tasks = [];
   ROTATE_Manager.events = new Sa();
-  N.startTime = 0;
-  N.lastTime = 0;
-  N.elapsedTime = 0;
+  Time.startTime = 0;
+  Time.lastTime = 0;
+  Time.elapsedTime = 0;
   Graphics.PI2 = 2 * Math.PI;
   ROTATE_Event.ADDED = 'added';
   ROTATE_Event.REMOVED = 'removed';
