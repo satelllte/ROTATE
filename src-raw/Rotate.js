@@ -3998,12 +3998,13 @@
     },
     __class__: da,
   });
-  var zb = function () {
+
+  var ROTATE_GameObject_Fan = function () {
     da.call(this);
   };
-  zb.__name__ = !0;
-  zb.__super__ = da;
-  zb.prototype = D(da.prototype, {
+  ROTATE_GameObject_Fan.__name__ = !0;
+  ROTATE_GameObject_Fan.__super__ = da;
+  ROTATE_GameObject_Fan.prototype = D(da.prototype, {
     alwaysUpdate: function (a) {
       return !0;
     },
@@ -4029,8 +4030,9 @@
         0,
       );
     },
-    __class__: zb,
+    __class__: ROTATE_GameObject_Fan,
   });
+
   var ROTATE_GameObject_Finish = function () {
     X.call(this);
   };
@@ -20942,7 +20944,10 @@
     10,
     new ROTATE_GameObject_Vent(),
   );
-  ROTATE_GameObjects.fan = ROTATE_GameObjects.register(11, new zb());
+  ROTATE_GameObjects.fan = ROTATE_GameObjects.register(
+    11,
+    new ROTATE_GameObject_Fan(),
+  );
 
   ab.GRAVITY_MULT = 0.2;
   ROTATE_EditorLevel.WORLD_SIZE = 42;
