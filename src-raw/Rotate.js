@@ -4365,20 +4365,22 @@
     },
     __class__: Cb,
   });
-  var $a = function () {
+
+  var ROTATE_GameObject_Ramp = function () {
     da.call(this);
   };
-  $a.__name__ = !0;
-  $a.__super__ = da;
-  $a.prototype = D(da.prototype, {
+  ROTATE_GameObject_Ramp.__name__ = !0;
+  ROTATE_GameObject_Ramp.__super__ = da;
+  ROTATE_GameObject_Ramp.prototype = D(da.prototype, {
     render: function (a, b, c) {
       this.renderRotated(a, b, 6 * n.tileSize, 0);
     },
     getColliders: function (a) {
       return [new Wa(a.getMeta(0))];
     },
-    __class__: $a,
+    __class__: ROTATE_GameObject_Ramp,
   });
+
   var Db = function () {
     da.call(this);
   };
@@ -4451,8 +4453,8 @@
     da.call(this);
   };
   ROTATE_GameObject_Stairs.__name__ = !0;
-  ROTATE_GameObject_Stairs.__super__ = $a;
-  ROTATE_GameObject_Stairs.prototype = D($a.prototype, {
+  ROTATE_GameObject_Stairs.__super__ = ROTATE_GameObject_Ramp;
+  ROTATE_GameObject_Stairs.prototype = D(ROTATE_GameObject_Ramp.prototype, {
     render: function (a, b, c) {
       c = n.tileSize;
       var d = c / 2;
@@ -20899,7 +20901,10 @@
     2,
     new ROTATE_GameObject_Stairs(),
   );
-  ROTATE_GameObjects.ramp = ROTATE_GameObjects.register(3, new $a());
+  ROTATE_GameObjects.ramp = ROTATE_GameObjects.register(
+    3,
+    new ROTATE_GameObject_Ramp(),
+  );
   ROTATE_GameObjects.platform = ROTATE_GameObjects.register(4, new Cb());
   ROTATE_GameObjects.spikes = ROTATE_GameObjects.register(5, new Eb());
   ROTATE_GameObjects.saw = ROTATE_GameObjects.register(6, new Db());
