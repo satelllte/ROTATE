@@ -13556,7 +13556,7 @@
     kill: function () {},
     __class__: ROTATE_Level4,
   };
-  var Tb = function () {
+  var ROTATE_Level5 = function () {
     this.startDir = -1;
     this.finishRow = 3;
     this.finishCol = 7;
@@ -13923,9 +13923,9 @@
     ];
     this.theme = 0;
   };
-  Tb.__name__ = !0;
-  Tb.__interfaces__ = [ea];
-  Tb.prototype = {
+  ROTATE_Level5.__name__ = !0;
+  ROTATE_Level5.__interfaces__ = [ea];
+  ROTATE_Level5.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(2), 'I was like you once.'),
@@ -13941,7 +13941,7 @@
       return ROTATE_Levels.level6;
     },
     kill: function () {},
-    __class__: Tb,
+    __class__: ROTATE_Level5,
   };
   var Ub = function () {
     this.startDir = 1;
@@ -20817,7 +20817,7 @@
   ROTATE_Levels.level2 = new ROTATE_Level2();
   ROTATE_Levels.level3 = new ROTATE_Level3();
   ROTATE_Levels.level4 = new ROTATE_Level4();
-  ROTATE_Levels.level5 = new Tb();
+  ROTATE_Levels.level5 = new ROTATE_Level5();
   ROTATE_Levels.level6 = new Ub();
   ROTATE_Levels.level7 = new Vb();
   ROTATE_Levels.level8 = new Aa();
