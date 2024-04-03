@@ -19199,14 +19199,14 @@
             H > d && (f += ',');
             f += K;
           }
-        var ka = new Zb(f);
-        ka.onBack = function () {
-          ka.kill();
-          a.removeChild(ka);
+        var saveLevelMenu = new ROTATE_SaveLevelMenu(f);
+        saveLevelMenu.onBack = function () {
+          saveLevelMenu.kill();
+          a.removeChild(saveLevelMenu);
           a.dialog = null;
         };
-        this.dialog = ka;
-        this.addChild(ka);
+        this.dialog = saveLevelMenu;
+        this.addChild(saveLevelMenu);
       }
     },
     update: function () {
@@ -20784,7 +20784,8 @@
   ROTATE_LoadLevelMenu.prototype = __inherit(Da.prototype, {
     __class__: ROTATE_LoadLevelMenu,
   });
-  var Zb = function (a) {
+
+  var ROTATE_SaveLevelMenu = function (a) {
     this.btnBack = new ROTATE_Button('BACK');
     var b = this;
     Da.call(this, 'SAVE LEVEL', a);
@@ -20796,10 +20797,10 @@
     });
     this.addChild(this.btnBack);
   };
-  Zb.__name__ = !0;
-  Zb.__super__ = Da;
-  Zb.prototype = __inherit(Da.prototype, {
-    __class__: Zb,
+  ROTATE_SaveLevelMenu.__name__ = !0;
+  ROTATE_SaveLevelMenu.__super__ = Da;
+  ROTATE_SaveLevelMenu.prototype = __inherit(Da.prototype, {
+    __class__: ROTATE_SaveLevelMenu,
   });
 
   var ROTATE_EditorBarLower = function (a) {
