@@ -7023,7 +7023,7 @@
     kill: function () {},
     __class__: ROTATE_Level12,
   };
-  var Mb = function () {
+  var ROTATE_Level13 = function () {
     this.startDir = 1;
     this.finishRow = 21;
     this.finishCol = 14;
@@ -7737,9 +7737,9 @@
     ];
     this.theme = 1;
   };
-  Mb.__name__ = !0;
-  Mb.__interfaces__ = [ea];
-  Mb.prototype = {
+  ROTATE_Level13.__name__ = !0;
+  ROTATE_Level13.__interfaces__ = [ea];
+  ROTATE_Level13.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(2), 'This has happened before.'),
@@ -7760,7 +7760,7 @@
       return ROTATE_Levels.level14;
     },
     kill: function () {},
-    __class__: Mb,
+    __class__: ROTATE_Level13,
   };
   var Nb = function () {
     this.cond3 = new M(12);
@@ -20826,7 +20826,7 @@
   ROTATE_Levels.level10 = new ROTATE_Level10();
   ROTATE_Levels.level11 = new ROTATE_Level11();
   ROTATE_Levels.level12 = new ROTATE_Level12();
-  ROTATE_Levels.level13 = new Mb();
+  ROTATE_Levels.level13 = new ROTATE_Level13();
   ROTATE_Levels.level14 = new Nb();
   ROTATE_Levels.level15 = new Ob();
   ROTATE_Levels.level16 = new Pb();
