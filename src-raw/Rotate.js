@@ -308,7 +308,7 @@
         var c = a.getBounds();
         c.width -= 1e-4;
         c.height -= 1e-4;
-        xa.pointInTransformedBounds(
+        CanvasUtils.pointInTransformedBounds(
           new Vector2(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
           a._transform,
           c,
@@ -475,6 +475,7 @@
     };
     return new Howl(a);
   };
+
   var Time = function () {};
   Time.__name__ = !0;
   Time._reset = function () {
@@ -501,9 +502,10 @@
   Time.get_elapsedMS = function () {
     return Time.elapsedTime;
   };
-  var xa = function () {};
-  xa.__name__ = !0;
-  xa.getColorString = function (a, b) {
+
+  var CanvasUtils = function () {};
+  CanvasUtils.__name__ = !0;
+  CanvasUtils.getColorString = function (a, b) {
     null == b && (b = 1);
     return (
       'rgba(' +
@@ -517,7 +519,7 @@
       ')'
     );
   };
-  xa.pointInQuad = function (a, b, c, d, e) {
+  CanvasUtils.pointInQuad = function (a, b, c, d, e) {
     e = c.subtract(b);
     b = a.subtract(b);
     d = d.subtract(c);
@@ -528,10 +530,10 @@
     d = Vector2.dot(d, d);
     return 0 <= a && a <= e && 0 <= c ? c <= d : !1;
   };
-  xa.pointInTransformedBounds = function (a, b, c) {
+  CanvasUtils.pointInTransformedBounds = function (a, b, c) {
     return null == a || null == b || null == c || 0 == c.width || 0 == c.height
       ? !1
-      : xa.pointInQuad(
+      : CanvasUtils.pointInQuad(
           a,
           b.apply(c.get_left(), c.get_top()),
           b.apply(c.get_right(), c.get_top()),
@@ -539,7 +541,7 @@
           b.apply(c.get_left(), c.get_bottom()),
         );
   };
-  xa.drawImageSafe = function (a, b, c, d, e, f, m, k) {
+  CanvasUtils.drawImageSafe = function (a, b, c, d, e, f, m, k) {
     0 >= e ||
       0 >= f ||
       0 >= c + e ||
@@ -552,6 +554,7 @@
       d + f > b.height && (f = b.height - d),
       a.drawImage(b, c, d, e, f, m, k, e, f));
   };
+
   var Graphics = function () {
     this.clear();
   };
@@ -641,6 +644,7 @@
     },
     __class__: Graphics,
   };
+
   var ROTATE_CanvasObject = function () {
     this.graphics = new Graphics();
     this._children = [];
@@ -1288,7 +1292,7 @@
       null == b && (b = 1);
       null == a && (a = 0);
       0 > b ? (b = 0) : 1 < b && (b = 1);
-      this._ctx.fillStyle = xa.getColorString(a & 16777215, b);
+      this._ctx.fillStyle = CanvasUtils.getColorString(a & 16777215, b);
       this.filling = !0;
     },
     endFill: function () {
@@ -1299,7 +1303,7 @@
       null == b && (b = 0);
       null == a && (a = 1);
       0 > c ? (c = 0) : 1 < c && (c = 1);
-      this._ctx.strokeStyle = xa.getColorString(b & 16777215, c);
+      this._ctx.strokeStyle = CanvasUtils.getColorString(b & 16777215, c);
       this._ctx.lineWidth = this.strokeWidth = a;
       this.stroking = !0;
     },
@@ -1390,7 +1394,16 @@
       null == e && (e = !0);
       null != b
         ? e
-          ? xa.drawImageSafe(this._ctx, a, b.x, b.y, b.width, b.height, c, d)
+          ? CanvasUtils.drawImageSafe(
+              this._ctx,
+              a,
+              b.x,
+              b.y,
+              b.width,
+              b.height,
+              c,
+              d,
+            )
           : this._ctx.drawImage(
               a,
               b.x,
