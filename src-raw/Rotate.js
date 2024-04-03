@@ -127,7 +127,7 @@
       window.focus();
     }, 0);
     Canvas.setup(container);
-    gameInstance.triggerEvent(new Y('added'));
+    gameInstance.triggerEvent(new ROTATE_Event('added'));
     t._init();
     Canvas.loop();
     Canvas.started = true;
@@ -198,11 +198,11 @@
         : 'default';
     a != Canvas.lastCursor &&
       ((Canvas.canvas.style.cursor = a), (Canvas.lastCursor = a));
-    var d = new Y('enterFrame');
+    var d = new ROTATE_Event('enterFrame');
     Canvas.stage.cascadingCallback(function (e) {
       e.triggerEvent(d);
     });
-    d = new Y('exitFrame');
+    d = new ROTATE_Event('exitFrame');
     Canvas.stage.cascadingCallback(function (e) {
       e.triggerEvent(d);
     });
@@ -660,7 +660,7 @@
         this._children.push(a),
         (a.parent = this),
         a._updateTransform(),
-        a.triggerEvent(new Y('added')));
+        a.triggerEvent(new ROTATE_Event('added')));
     },
     addChildAt: function (a, b) {
       null != a &&
@@ -670,7 +670,7 @@
         this._children.splice(b, 0, a),
         (a.parent = this),
         a._updateTransform(),
-        a.triggerEvent(new Y('added')));
+        a.triggerEvent(new ROTATE_Event('added')));
     },
     removeChild: function (a) {
       null != a &&
@@ -678,7 +678,7 @@
         ((a.parent = null),
         this._children.splice(this._children.indexOf(a), 1),
         a._updateTransform(),
-        a.triggerEvent(new Y('removed')));
+        a.triggerEvent(new ROTATE_Event('removed')));
     },
     removeChildAt: function (a) {
       if (0 <= a && a < this._children.length) {
@@ -686,7 +686,7 @@
         b.parent = null;
         b._updateTransform();
         this._children.splice(a, 1);
-        b.triggerEvent(new Y('removed'));
+        b.triggerEvent(new ROTATE_Event('removed'));
       }
     },
     removeChildren: function () {
@@ -822,19 +822,19 @@
     },
     __class__: I,
   });
-  var Y = function (a) {
-    this.type = a;
+  var ROTATE_Event = function (type) {
+    this.type = type;
   };
-  Y.__name__ = !0;
-  Y.prototype = {
-    __class__: Y,
+  ROTATE_Event.__name__ = !0;
+  ROTATE_Event.prototype = {
+    __class__: ROTATE_Event,
   };
   var Ta = function (a) {
     this.type = a;
   };
   Ta.__name__ = !0;
-  Ta.__super__ = Y;
-  Ta.prototype = D(Y.prototype, {
+  Ta.__super__ = ROTATE_Event;
+  Ta.prototype = D(ROTATE_Event.prototype, {
     __class__: Ta,
   });
   var Ua = function (a, b) {
@@ -842,8 +842,8 @@
     this.keyCode = b;
   };
   Ua.__name__ = !0;
-  Ua.__super__ = Y;
-  Ua.prototype = D(Y.prototype, {
+  Ua.__super__ = ROTATE_Event;
+  Ua.prototype = D(ROTATE_Event.prototype, {
     __class__: Ua,
   });
   var Fa = function (a, b) {
@@ -851,8 +851,8 @@
     this.progress = b;
   };
   Fa.__name__ = !0;
-  Fa.__super__ = Y;
-  Fa.prototype = D(Y.prototype, {
+  Fa.__super__ = ROTATE_Event;
+  Fa.prototype = D(ROTATE_Event.prototype, {
     __class__: Fa,
   });
   var Ha = function (a, b, c, d, e) {
@@ -864,8 +864,8 @@
     this.which = e;
   };
   Ha.__name__ = !0;
-  Ha.__super__ = Y;
-  Ha.prototype = D(Y.prototype, {
+  Ha.__super__ = ROTATE_Event;
+  Ha.prototype = D(ROTATE_Event.prototype, {
     __class__: Ha,
   });
   var fb = function (a, b) {
@@ -873,8 +873,8 @@
     this.surface = b;
   };
   fb.__name__ = !0;
-  fb.__super__ = Y;
-  fb.prototype = D(Y.prototype, {
+  fb.__super__ = ROTATE_Event;
+  fb.prototype = D(ROTATE_Event.prototype, {
     __class__: fb,
   });
   var Q = function (a, b) {
@@ -20383,10 +20383,10 @@
   N.lastTime = 0;
   N.elapsedTime = 0;
   rb.PI2 = 2 * Math.PI;
-  Y.ADDED = 'added';
-  Y.REMOVED = 'removed';
-  Y.ENTER_FRAME = 'enterFrame';
-  Y.EXIT_FRAME = 'exitFrame';
+  ROTATE_Event.ADDED = 'added';
+  ROTATE_Event.REMOVED = 'removed';
+  ROTATE_Event.ENTER_FRAME = 'enterFrame';
+  ROTATE_Event.EXIT_FRAME = 'exitFrame';
   Ta.FOCUS = 'focus';
   Ta.BLUR = 'blur';
   Ua.KEY_DOWN = 'keyDown';
