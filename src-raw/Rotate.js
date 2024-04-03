@@ -18709,7 +18709,7 @@
     this.rotating = !1;
     this.rotationSide = 0;
     this.awardDisplays = [];
-    this.mute = new Ba();
+    this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
     this.btnBack = new ROTATE_Button('BACK');
     this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
@@ -18818,7 +18818,7 @@
   });
   var mb = function (a) {
     null == a && (a = !1);
-    this.mute = new Ba();
+    this.mute = new ROTATE_MuteButtons();
     this.more = new ROTATE_ImageObject(ROTATE_Images.linkLWS);
     this.moreText = new ROTATE_Text(
       ROTATE_Game.fontMain,
@@ -19650,7 +19650,7 @@
   });
   var Oa = function () {
     this.erase = new Ya();
-    this.mute = new Ba();
+    this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
     this.bestTime = new ROTATE_Text(ROTATE_Game.fontMain, 'Best time: ', 2);
     this.text3 = new ROTATE_Text(
@@ -19743,7 +19743,7 @@
   });
   var pb = function () {
     this.erase = new Ya();
-    this.mute = new Ba();
+    this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
     this.tiles = new ROTATE_CanvasObject();
     this.btnBack = new ROTATE_Button('BACK');
@@ -19821,7 +19821,7 @@
   });
   var ca = function () {
     this.erase = new Ya();
-    this.mute = new Ba();
+    this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
     this.btnCredits = new ROTATE_Button('CREDITS');
     this.btnExtras = new ROTATE_Button('EXTRAS');
@@ -21065,7 +21065,7 @@
     __class__: ROTATE_Button,
   });
 
-  var Ba = function (a) {
+  var ROTATE_MuteButtons = function (a) {
     null == a && (a = 0);
     var b = this;
     ROTATE_CanvasObject.call(this);
@@ -21098,9 +21098,9 @@
     this.music.set_y(ROTATE_Canvas.height - this.music.get_height() - 12);
     this.addChild(this.music);
   };
-  Ba.__name__ = !0;
-  Ba.__super__ = ROTATE_CanvasObject;
-  Ba.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_MuteButtons.__name__ = !0;
+  ROTATE_MuteButtons.__super__ = ROTATE_CanvasObject;
+  ROTATE_MuteButtons.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     showWarn: function (a) {
       var b = new ROTATE_YesNoOverlay(
         'Audio may slow down the game\nin Internet Explorer. Continue?',
@@ -21123,8 +21123,9 @@
       ROTATE_Game.instance.toggleMusic();
       this.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
     },
-    __class__: Ba,
+    __class__: ROTATE_MuteButtons,
   });
+
   var ROTATE_InvertCheckbox = function () {
     ROTATE_CanvasObject.call(this);
     this.set_x(12);
@@ -21158,7 +21159,7 @@
 
   var ROTATE_PauseMenu = function () {
     this.sponsor = new ROTATE_Sponsor();
-    this.mute = new Ba(1);
+    this.mute = new ROTATE_MuteButtons(1);
     this.invert = new ROTATE_InvertCheckbox();
     this.btnQuit = new ROTATE_Button('QUIT', 0);
     this.btnRedo = new ROTATE_Button('RESTART', 0);
