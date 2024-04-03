@@ -1637,7 +1637,7 @@
         var b = this.nbits,
           c = this.base,
           d = ((8 * a.length) / b) | 0,
-          e = new ya(new tb(d + (0 == (8 * a.length) % b ? 0 : 1))),
+          e = new ya(new ArrayBuffer(d + (0 == (8 * a.length) % b ? 0 : 1))),
           f = 0,
           m = 0,
           k = (1 << b) - 1,
@@ -1671,7 +1671,7 @@
       for (
         var c = this.tbl,
           d = (a.length * b) >> 3,
-          e = new ya(new tb(d)),
+          e = new ya(new ArrayBuffer(d)),
           f = 0,
           m = 0,
           k = 0,
@@ -1955,32 +1955,6 @@
   };
   JSObjectUtils.__resolveNativeClass = function (a) {
     return window[a];
-  };
-
-  var wa = function (a) {
-    if (a instanceof Array && null == a.__enum__)
-      (this.a = a), (this.byteLength = a.length);
-    else {
-      this.a = [];
-      for (var b = 0; b < a; ) {
-        var c = b++;
-        this.a[c] = 0;
-      }
-      this.byteLength = a;
-    }
-  };
-  wa.__name__ = !0;
-  wa.sliceImpl = function (a, b) {
-    var c = new Uint8Array(this, a, null == b ? null : b - a),
-      d = new tb(c.byteLength);
-    new Uint8Array(d).set(c);
-    return d;
-  };
-  wa.prototype = {
-    slice: function (a, b) {
-      return new wa(this.a.slice(a, b));
-    },
-    __class__: wa,
   };
 
   var ROTATE_GameConstants = function () {};
@@ -21626,12 +21600,10 @@
   var mc = Boolean;
   mc.__ename__ = ['Bool'];
   var sc = {
-      __name__: ['Class'],
-    },
-    tc = {},
-    na = {},
-    tb = window.ArrayBuffer || wa;
-  null == tb.prototype.slice && (tb.prototype.slice = wa.sliceImpl);
+    __name__: ['Class'],
+  };
+  var tc = {};
+  var na = {};
 
   ROTATE_Canvas.started = !1;
   ROTATE_Canvas.imageSmoothingEnabled = !0;
