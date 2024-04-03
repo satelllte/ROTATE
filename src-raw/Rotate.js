@@ -2571,7 +2571,7 @@
   wb.__name__ = !0;
   wb.prototype = {
     get_block: function () {
-      return F.getBlock(this.id);
+      return ROTATE_GameObjects.getBlock(this.id);
     },
     getMeta: function (a) {
       return null != this.meta && null != this.meta[a] ? this.meta[a] : 0;
@@ -3369,7 +3369,7 @@
     return new wb(a, b, l.getBlockID(a, b), l.getBlockMeta(a, b));
   };
   l.getBlock = function (a, b) {
-    return F.getBlock(l.getBlockID(a, b));
+    return ROTATE_GameObjects.getBlock(l.getBlockID(a, b));
   };
   l.setBlock = function (a, b, c, d, e) {
     null == e && (e = !1);
@@ -3382,7 +3382,7 @@
       null != d && (l.tiles[b][a] = l.tiles[b][a].concat(d));
       e && (l.level.tiles[b][a] = l.tiles[b][a].slice(0));
       a = l.getBlockData(a, b);
-      F.getBlock(c).alwaysUpdate(a) &&
+      ROTATE_GameObjects.getBlock(c).alwaysUpdate(a) &&
         ((c = l.updateQueue),
         null != na[f] ? c.setReserved(f, a) : (c.h[f] = a));
     }
@@ -3498,7 +3498,7 @@
           var p = k.next(),
             y = l.rotating;
           if (!y)
-            if (p.get_block() == F.door)
+            if (p.get_block() == ROTATE_GameObjects.door)
               for (var H = p.getMeta(1), K = p.getMeta(2), W = 0; W < H; ) {
                 var aa = W++;
                 if (
@@ -4508,13 +4508,15 @@
     },
     __class__: Hb,
   });
-  var F = function () {};
-  F.__name__ = !0;
-  F.register = function (a, b) {
-    return null == F.registry[a] ? ((F.registry[a] = b), (b.id = a), b) : null;
+  var ROTATE_GameObjects = function () {};
+  ROTATE_GameObjects.__name__ = !0;
+  ROTATE_GameObjects.register = function (a, b) {
+    return null == ROTATE_GameObjects.registry[a]
+      ? ((ROTATE_GameObjects.registry[a] = b), (b.id = a), b)
+      : null;
   };
-  F.getBlock = function (a) {
-    return F.registry[a];
+  ROTATE_GameObjects.getBlock = function (a) {
+    return ROTATE_GameObjects.registry[a];
   };
   var ab = function (a, b, c, d, e, f, m, k, p) {
     null == k && (k = 0);
@@ -18540,7 +18542,7 @@
         for (var d = b++, e = 0, f = l.get_width(); e < f; ) {
           var m = e++;
           m = l.getBlockData(m, d);
-          m.get_block() == F.door &&
+          m.get_block() == ROTATE_GameObjects.door &&
             0 < m.getMeta(1) &&
             this.doors.push(new Va(m));
         }
@@ -18714,7 +18716,7 @@
             var m = InputKeys.keyDown(16)
               ? 0
               : this.barLower.selector.get_selection().id;
-            if (m == F.start.id) {
+            if (m == ROTATE_GameObjects.start.id) {
               if (
                 0 < e &&
                 (d != ROTATE_Editor.editorLevel.finishCol ||
@@ -18736,7 +18738,7 @@
                 this.renderer.updateBlockPlus(d, e - 1);
                 this.renderer.updateBlockPlus(d, e);
               }
-            } else if (m == F.finish.id)
+            } else if (m == ROTATE_GameObjects.finish.id)
               0 < e &&
                 (d != ROTATE_Editor.editorLevel.startCol ||
                   (e != ROTATE_Editor.editorLevel.startRow &&
@@ -18755,15 +18757,18 @@
                 this.renderer.updateBlockPlus(c, k),
                 this.renderer.updateBlockPlus(d, e - 1),
                 this.renderer.updateBlockPlus(d, e));
-            else if (l.isReplacable(d, e) && ((c = F.getBlock(m)), null != c)) {
-              var y = F.getBlock(m).getConfigMeta();
+            else if (
+              l.isReplacable(d, e) &&
+              ((c = ROTATE_GameObjects.getBlock(m)), null != c)
+            ) {
+              var y = ROTATE_GameObjects.getBlock(m).getConfigMeta();
               k = l.getBlockData(d, e);
               (k.id == m && k.metaEquals(y)) ||
-                (c == F.door && !Va.canPlace(d, e, y)) ||
+                (c == ROTATE_GameObjects.door && !Va.canPlace(d, e, y)) ||
                 (f.push(k),
                 l.setBlock(d, e, m, y, !0),
                 this.renderer.updateBlockPlus(d, e),
-                c == F.door &&
+                c == ROTATE_GameObjects.door &&
                   ((b = new Va(l.getBlockData(d, e))),
                   this.doors.push(b),
                   b.forEach(function (aa, fa) {
@@ -18776,14 +18781,14 @@
                   })));
             }
             for (c = 0; c < f.length; )
-              if (((k = f[c]), ++c, k.get_block() == F.door)) {
+              if (((k = f[c]), ++c, k.get_block() == ROTATE_GameObjects.door)) {
                 p = 0;
                 for (var H = this.doors.length; p < H; ) {
                   var K = p++,
                     W = this.doors[K];
                   if (W != b && W.contains(k.x, k.y)) {
                     W.forEach(function (aa, fa) {
-                      if (l.getBlock(aa, fa) == F.door) {
+                      if (l.getBlock(aa, fa) == ROTATE_GameObjects.door) {
                         for (var ka = !1, Ca = 0; Ca < f.length; ) {
                           var nb = f[Ca];
                           ++Ca;
@@ -19423,7 +19428,7 @@
         for (var c = a++, d = 0, e = l.get_width(); d < e; ) {
           var f = d++;
           f = l.getBlockData(f, c);
-          f.get_block() == F.door &&
+          f.get_block() == ROTATE_GameObjects.door &&
             0 < f.getMeta(1) &&
             this.doors.push(new Va(f));
         }
@@ -20868,21 +20873,21 @@
   l.rotating = !1;
   l.rotation = 0;
   Za.TOGGLE_TIMER = 0.67;
-  F.registry = [];
-  F.start = F.register(-1, new Gb());
-  F.finish = F.register(-2, new Ab());
-  F.air = F.register(0, new xb());
-  F.solid = F.register(1, new va());
-  F.stairs = F.register(2, new Fb());
-  F.ramp = F.register(3, new $a());
-  F.platform = F.register(4, new Cb());
-  F.spikes = F.register(5, new Eb());
-  F.saw = F.register(6, new Db());
-  F.lever = F.register(8, new Za());
-  F.door = F.register(9, new yb());
-  F.number = F.register(7, new Bb());
-  F.vent = F.register(10, new Hb());
-  F.fan = F.register(11, new zb());
+  ROTATE_GameObjects.registry = [];
+  ROTATE_GameObjects.start = ROTATE_GameObjects.register(-1, new Gb());
+  ROTATE_GameObjects.finish = ROTATE_GameObjects.register(-2, new Ab());
+  ROTATE_GameObjects.air = ROTATE_GameObjects.register(0, new xb());
+  ROTATE_GameObjects.solid = ROTATE_GameObjects.register(1, new va());
+  ROTATE_GameObjects.stairs = ROTATE_GameObjects.register(2, new Fb());
+  ROTATE_GameObjects.ramp = ROTATE_GameObjects.register(3, new $a());
+  ROTATE_GameObjects.platform = ROTATE_GameObjects.register(4, new Cb());
+  ROTATE_GameObjects.spikes = ROTATE_GameObjects.register(5, new Eb());
+  ROTATE_GameObjects.saw = ROTATE_GameObjects.register(6, new Db());
+  ROTATE_GameObjects.lever = ROTATE_GameObjects.register(8, new Za());
+  ROTATE_GameObjects.door = ROTATE_GameObjects.register(9, new yb());
+  ROTATE_GameObjects.number = ROTATE_GameObjects.register(7, new Bb());
+  ROTATE_GameObjects.vent = ROTATE_GameObjects.register(10, new Hb());
+  ROTATE_GameObjects.fan = ROTATE_GameObjects.register(11, new zb());
   ab.GRAVITY_MULT = 0.2;
   ROTATE_EditorLevel.WORLD_SIZE = 42;
 
@@ -20956,20 +20961,20 @@
   O.size2 = n.tileSize / 2;
   O.size4 = n.tileSize + 4;
   O.list = [
-    F.air,
-    F.solid,
-    F.start,
-    F.finish,
-    F.stairs,
-    F.ramp,
-    F.platform,
-    F.spikes,
-    F.saw,
-    F.lever,
-    F.door,
-    F.number,
-    F.vent,
-    F.fan,
+    ROTATE_GameObjects.air,
+    ROTATE_GameObjects.solid,
+    ROTATE_GameObjects.start,
+    ROTATE_GameObjects.finish,
+    ROTATE_GameObjects.stairs,
+    ROTATE_GameObjects.ramp,
+    ROTATE_GameObjects.platform,
+    ROTATE_GameObjects.spikes,
+    ROTATE_GameObjects.saw,
+    ROTATE_GameObjects.lever,
+    ROTATE_GameObjects.door,
+    ROTATE_GameObjects.number,
+    ROTATE_GameObjects.vent,
+    ROTATE_GameObjects.fan,
   ];
   O.selected = 1;
 
