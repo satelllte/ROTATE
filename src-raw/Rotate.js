@@ -1972,8 +1972,10 @@
   };
   var n = function () {};
   n.__name__ = !0;
-  var q = function () {};
-  q.__name__ = !0;
+
+  var ROTATE_Images = function () {};
+  ROTATE_Images.__name__ = !0;
+
   var gc = function (a, b, c, d) {
     null == d && (d = 0);
     null == c && (c = 1);
@@ -2683,7 +2685,7 @@
   };
   var S = function () {
     this.horizontal = this.x2 = this.dx = 0;
-    ua.call(this, q.cat, 24, 24);
+    ua.call(this, ROTATE_Images.cat, 24, 24);
     this.origin.x = this.frameW / 2;
     this.origin.y = this.frameH;
   };
@@ -2815,7 +2817,7 @@
       this.dy =
       this.horizontal =
         0;
-    ua.call(this, q.player, 32, 48);
+    ua.call(this, ROTATE_Images.player, 32, 48);
     this.set_animation(J.ANIM_IDLE);
     this.onChange = Bind(this, this.aminChange);
     this.spawnTime = ROTATE_Game.instance.get_gameTimeMS();
@@ -3541,12 +3543,12 @@
       a.translate((b + 0.5) * e, (c + 0.5) * e);
       a.rotate((-l.rotation * Math.PI) / 2);
       a.drawImage(
-        q.interact,
+        ROTATE_Images.interact,
         null,
-        -q.interact.width / 2,
+        -ROTATE_Images.interact.width / 2,
         Math.round(
           -e / 2 -
-            q.interact.height +
+            ROTATE_Images.interact.height +
             2 * Math.sin(8 * ROTATE_Game.instance.get_gameTime()),
         ) + d,
       );
@@ -3558,7 +3560,10 @@
       L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
       if (null != l.level) {
         for (
-          var a = 1 == l.level.theme ? q.bgBricks : q.bgTiles,
+          var a =
+              1 == l.level.theme
+                ? ROTATE_Images.bgBricks
+                : ROTATE_Images.bgTiles,
             b = Math.ceil(L.bakeCanvas.width / a.width),
             c = 0,
             d = Math.ceil(L.bakeCanvas.height / a.height);
@@ -3610,7 +3615,10 @@
                 (p + 1) * n.tileSize,
                 (f + 1) * n.tileSize,
               );
-              var K = 1 == l.level.theme ? q.bgBricks : q.bgTiles;
+              var K =
+                1 == l.level.theme
+                  ? ROTATE_Images.bgBricks
+                  : ROTATE_Images.bgTiles;
               L.bakeSurface.drawImage(
                 K,
                 new Bounds(
@@ -3637,20 +3645,20 @@
     renderDecals: function () {
       var a = n.tileSize;
       L.bakeSurface.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds(a, 2 * a, a, 2 * a),
         (l.level.startCol + 1) * a,
         l.level.startRow * a,
       );
       L.bakeSurface.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds(2 * a, 2 * a, a, 2 * a),
         (l.level.finishCol + 1) * a,
         l.level.finishRow * a,
       );
       E.__instanceof(l.level, ROTATE_Level8) &&
         L.bakeSurface.drawImage(
-          q.blocks,
+          ROTATE_Images.blocks,
           new Bounds(2 * a, 2 * a, a, 2 * a),
           (ROTATE_Level8.fakeCol + 1) * a,
           ROTATE_Level8.fakeRow * a,
@@ -3774,18 +3782,28 @@
           m = c;
           for (k = 0; 0 < m; )
             (p = 1 < m ? 1 : m),
-              a.drawImage(q.blocks, new Bounds(3 * f, 3 * f, p * f, f), k, 0),
               a.drawImage(
-                q.blocks,
+                ROTATE_Images.blocks,
+                new Bounds(3 * f, 3 * f, p * f, f),
+                k,
+                0,
+              ),
+              a.drawImage(
+                ROTATE_Images.blocks,
                 new Bounds((4 - p) * f, 3 * f, p * f, f),
                 d * f - k - p * f,
                 0,
               ),
               (m -= p),
               (k += p * f);
-          a.drawImage(q.blocks, new Bounds(4 * f, 3 * f, f, f), c * f, 0);
           a.drawImage(
-            q.blocks,
+            ROTATE_Images.blocks,
+            new Bounds(4 * f, 3 * f, f, f),
+            c * f,
+            0,
+          );
+          a.drawImage(
+            ROTATE_Images.blocks,
             new Bounds(5 * f, 3 * f, f, f),
             (d - c - 1) * f,
             0,
@@ -3798,25 +3816,25 @@
               (c = b++), ROTATE_Editor.renderBlockRed(a, c * f, 0);
         } else
           a.drawImage(
-            q.blocks,
+            ROTATE_Images.blocks,
             new Bounds(3 * f, 3 * f, 0.33333333333333337 * f, f),
             0,
             0,
           ),
             a.drawImage(
-              q.blocks,
+              ROTATE_Images.blocks,
               new Bounds(4 * f, 3 * f, f, f),
               0.33333333333333337 * f,
               0,
             ),
             a.drawImage(
-              q.blocks,
+              ROTATE_Images.blocks,
               new Bounds(5 * f, 3 * f, f, f),
               -0.33333333333333337 * f,
               0,
             ),
             a.drawImage(
-              q.blocks,
+              ROTATE_Images.blocks,
               new Bounds(
                 3.6666666666666665 * f,
                 3 * f,
@@ -3857,7 +3875,7 @@
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
-      var e = new I(q.configArrow);
+      var e = new I(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -3867,7 +3885,7 @@
       e.set_x(d.x + 11);
       e.set_y(d.y + 4);
       a.addChild(e);
-      var f = new I(q.configArrow);
+      var f = new I(ROTATE_Images.configArrow);
       f.mouseEnabled = f.buttonMode = !0;
       f.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -3888,7 +3906,7 @@
       m.set_x(this.bubbleWidth - 31);
       m.set_y(e.y);
       a.addChild(m);
-      c = new I(q.configArrow);
+      c = new I(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -3898,7 +3916,7 @@
       c.set_x(m.x + 11);
       c.set_y(m.y + 4);
       a.addChild(c);
-      f = new I(q.configArrow);
+      f = new I(ROTATE_Images.configArrow);
       f.mouseEnabled = f.buttonMode = !0;
       f.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -3919,7 +3937,7 @@
       k.set_x(this.bubbleWidth - 31);
       k.set_y(c.y);
       a.addChild(k);
-      e = new I(q.configArrow);
+      e = new I(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (p) {
         1 < p.which || (b.set_angle(b.angle + 1), k.set_text(b.angle + ''));
@@ -3927,7 +3945,7 @@
       e.set_x(k.x + 11);
       e.set_y(k.y + 4);
       a.addChild(e);
-      c = new I(q.configArrow);
+      c = new I(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (p) {
         1 < p.which || (b.set_angle(b.angle - 1), k.set_text(b.angle + ''));
@@ -3966,7 +3984,7 @@
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
-      c = new I(q.configArrow);
+      c = new I(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (e) {
         1 < e.which || (b.set_angle(b.angle + 1), d.set_text(b.angle + ''));
@@ -3974,7 +3992,7 @@
       c.set_x(d.x + 11);
       c.set_y(12);
       a.addChild(c);
-      c = new I(q.configArrow);
+      c = new I(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (e) {
         1 < e.which || (b.set_angle(b.angle - 1), d.set_text(b.angle + ''));
@@ -3992,7 +4010,7 @@
         f = e / 2;
       a.translate(f, f);
       a.rotate((b.getMeta(0) * Math.PI) / 2);
-      a.drawImage(q.blocks, new Bounds(c, d, e, e), -f, -f);
+      a.drawImage(ROTATE_Images.blocks, new Bounds(c, d, e, e), -f, -f);
       a.rotate((-b.getMeta(0) * Math.PI) / 2);
       a.translate(-f, -f);
     },
@@ -4019,7 +4037,7 @@
           ? 0
           : Math.floor(ROTATE_Game.instance.get_gameTimeMS() / 50) % 3;
       a.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds(
           ((0 < b && 3 > b ? 1 : 0) + 2 * c) * n.tileSize,
           (5 + (1 < b ? 1 : 0)) * n.tileSize,
@@ -4041,7 +4059,7 @@
   ROTATE_GameObject_Finish.prototype = D(X.prototype, {
     render: function (a, b, c) {
       a.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds(0, 3 * n.tileSize, n.tileSize, n.tileSize),
         0,
         0,
@@ -4132,7 +4150,7 @@
       null == c && (c = !0);
       var d = 0 < b.getMeta(1);
       a.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds(
           (d ? 4 : 3) * n.tileSize,
           2 * n.tileSize,
@@ -4158,7 +4176,7 @@
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
-      var e = new I(q.configArrow);
+      var e = new I(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (k) {
         1 < k.which ||
@@ -4168,7 +4186,7 @@
       e.set_x(d.x + 11);
       e.set_y(d.y + 4);
       a.addChild(e);
-      var f = new I(q.configArrow);
+      var f = new I(ROTATE_Images.configArrow);
       f.mouseEnabled = f.buttonMode = !0;
       f.addEventListener('mouseDown', function (k) {
         1 < k.which ||
@@ -4189,7 +4207,7 @@
       m.set_x(this.bubbleWidth - 31);
       m.set_y(e.y);
       a.addChild(m);
-      c = new I(q.configArrow);
+      c = new I(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (k) {
         1 < k.which || ((b.on = !b.on), m.set_text(b.on ? '1' : '0'));
@@ -4197,7 +4215,7 @@
       c.set_x(m.x + 11);
       c.set_y(m.y + 4);
       a.addChild(c);
-      e = new I(q.configArrow);
+      e = new I(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (k) {
         1 < k.which || ((b.on = !b.on), m.set_text(b.on ? '1' : '0'));
@@ -4235,14 +4253,14 @@
       k = n.tileSize;
       p = n.tileSize / 2;
       a.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds((e || b ? (b ? (e ? (d ? 0 : 1) : 2) : 3) : 4) * k, 0, p, p),
         0,
         0,
       );
-      a.drawImage(q.blocks, new Bounds(f * k + p, 0, p, p), p, 0);
-      a.drawImage(q.blocks, new Bounds(y * k, p, p, p), 0, p);
-      a.drawImage(q.blocks, new Bounds(m * k + p, p, p, p), p, p);
+      a.drawImage(ROTATE_Images.blocks, new Bounds(f * k + p, 0, p, p), p, 0);
+      a.drawImage(ROTATE_Images.blocks, new Bounds(y * k, p, p, p), 0, p);
+      a.drawImage(ROTATE_Images.blocks, new Bounds(m * k + p, p, p, p), p, p);
     },
     testCanSolidConnect: function (a, b, c) {
       if (!l.isInBounds(a, b)) return !0;
@@ -4271,7 +4289,7 @@
       c
         ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
         : a.drawImage(
-            q.blocks,
+            ROTATE_Images.blocks,
             new Bounds(0, 0, n.tileSize, n.tileSize),
             0,
             0,
@@ -4280,7 +4298,7 @@
       b = b.getMeta(0);
       0 > b
         ? (a.drawImage(
-            q.blocks,
+            ROTATE_Images.blocks,
             new Bounds(100, 4 * n.tileSize, 10, n.tileSize),
             14,
             0,
@@ -4288,7 +4306,7 @@
           ),
           -1 == b &&
             a.drawImage(
-              q.blocks,
+              ROTATE_Images.blocks,
               new Bounds(110, 4 * n.tileSize, 10, n.tileSize),
               0,
               0,
@@ -4296,21 +4314,21 @@
             ),
           -2 == b &&
             a.drawImage(
-              q.blocks,
+              ROTATE_Images.blocks,
               new Bounds(120, 4 * n.tileSize, 10, n.tileSize),
               0,
               0,
               !1,
             ))
         : (a.drawImage(
-            q.blocks,
+            ROTATE_Images.blocks,
             new Bounds((b % 10) * 10, 4 * n.tileSize, 10, n.tileSize),
             14,
             0,
             !1,
           ),
           a.drawImage(
-            q.blocks,
+            ROTATE_Images.blocks,
             new Bounds(
               10 * Math.min(Math.floor(0.1 * b), 9),
               4 * n.tileSize,
@@ -4334,7 +4352,7 @@
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
-      c = new I(q.configArrow);
+      c = new I(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (e) {
         1 < e.which || (b.set_value(b.value + 1), d.set_text(b.value + ''));
@@ -4342,7 +4360,7 @@
       c.set_x(d.x + 11);
       c.set_y(12);
       a.addChild(c);
-      c = new I(q.configArrow);
+      c = new I(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (e) {
         1 < e.which || (b.set_value(b.value - 1), d.set_text(b.value + ''));
@@ -4470,7 +4488,12 @@
       a.translate(d, d);
       1 < b.getMeta(0) && a.rotate(Math.PI);
       (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
-      a.drawImage(q.blocks, new Bounds(5 * n.tileSize, 0, c, c), -d, -d);
+      a.drawImage(
+        ROTATE_Images.blocks,
+        new Bounds(5 * n.tileSize, 0, c, c),
+        -d,
+        -d,
+      );
       (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
       1 < b.getMeta(0) && a.rotate(-Math.PI);
       a.translate(-d, -d);
@@ -4485,7 +4508,7 @@
   ROTATE_GameObject_Start.prototype = D(X.prototype, {
     render: function (a, b, c) {
       a.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds(0, 2 * n.tileSize, n.tileSize, n.tileSize),
         0,
         0,
@@ -4508,14 +4531,14 @@
       c
         ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
         : a.drawImage(
-            q.blocks,
+            ROTATE_Images.blocks,
             new Bounds(0, 0, n.tileSize, n.tileSize),
             0,
             0,
             !1,
           );
       a.drawImage(
-        q.blocks,
+        ROTATE_Images.blocks,
         new Bounds(5 * n.tileSize, 2 * n.tileSize, n.tileSize, n.tileSize),
         0,
         0,
@@ -5024,31 +5047,31 @@
       this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
       this.s1 = !0;
       this.s2 = this.s3 = this.s4 = this.s5 = !1;
-      null == this.c1 && (this.c1 = new I(q.controls1));
+      null == this.c1 && (this.c1 = new I(ROTATE_Images.controls1));
       this.c1.set_x(3.5 * n.tileSize);
       this.c1.set_y(9 * n.tileSize);
       this.c1.set_alpha(this.a1);
       a.overlay.addChild(this.c1);
-      null == this.c2 && (this.c2 = new I(q.controls2));
+      null == this.c2 && (this.c2 = new I(ROTATE_Images.controls2));
       this.c2.set_x(10 * n.tileSize);
       this.c2.set_y(11 * n.tileSize);
       this.c2.set_alpha(this.a2);
       a.overlay.addChild(this.c2);
-      null == this.c3 && (this.c3 = new I(q.controls3));
+      null == this.c3 && (this.c3 = new I(ROTATE_Images.controls3));
       this.c3.set_x(18.5 * n.tileSize);
       this.c3.set_y(9 * n.tileSize);
       this.c3.set_alpha(this.a3);
       this.c3.clipRect.width = 48;
       ROTATE_Game.instance.invert && (this.c3.clipRect.x = 48);
       a.overlay.addChild(this.c3);
-      null == this.c4 && (this.c4 = new I(q.controls4));
+      null == this.c4 && (this.c4 = new I(ROTATE_Images.controls4));
       this.c4.set_x(29 * n.tileSize);
       this.c4.set_y(n.tileSize);
       this.c4.set_alpha(this.a4);
       this.c4.clipRect.width = 48;
       ROTATE_Game.instance.invert && (this.c4.clipRect.x = 48);
       a.overlay.addChild(this.c4);
-      null == this.c5 && (this.c5 = new I(q.controls5));
+      null == this.c5 && (this.c5 = new I(ROTATE_Images.controls5));
       this.c5.set_x(24.5 * n.tileSize);
       this.c5.set_y(5 * n.tileSize);
       this.c5.set_alpha(this.a5);
@@ -16686,7 +16709,7 @@
       var a = ROTATE_Game.instance.currentScreen;
       this.a1 = 0;
       this.s1 = this.s2 = !1;
-      null == this.c1 && (this.c1 = new I(q.controls5));
+      null == this.c1 && (this.c1 = new I(ROTATE_Images.controls5));
       this.c1.set_x(28.5 * n.tileSize);
       this.c1.set_y(28 * n.tileSize);
       this.c1.set_alpha(this.a1);
@@ -18332,19 +18355,19 @@
   var mb = function (a) {
     null == a && (a = !1);
     this.mute = new Ba();
-    this.more = new I(q.linkLWS);
+    this.more = new I(ROTATE_Images.linkLWS);
     this.moreText = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Game published by',
       1,
     );
-    this.soundtrack = new I(q.soundtrack);
+    this.soundtrack = new I(ROTATE_Images.soundtrack);
     this.text2 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Special thanks to the playtesters\nand Patreon contributors!',
       1,
     );
-    this.joshua = new I(q.linkJoshua2);
+    this.joshua = new I(ROTATE_Images.linkJoshua2);
     this.text1 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Design, code, & music by',
@@ -18368,7 +18391,7 @@
           ROTATE_Canvas.width,
           ROTATE_Canvas.height,
         );
-        var b = new I(q.vignette);
+        var b = new I(ROTATE_Images.vignette);
         b.set_alpha(0.75);
         this.bg.addChild(b);
         this.btnBack.text.set_text('MENU');
@@ -19007,10 +19030,10 @@
     );
     this.catTrigger = !1;
     this.cat = new S();
-    this.player = new ua(q.player, 32, 48);
-    this.artPlants = new ua(q.endingPlants, 504, 24);
-    this.artMain = new I(q.endingMain);
-    this.vignette = new I(q.vignette);
+    this.player = new ua(ROTATE_Images.player, 32, 48);
+    this.artPlants = new ua(ROTATE_Images.endingPlants, 504, 24);
+    this.artMain = new I(ROTATE_Images.endingMain);
+    this.vignette = new I(ROTATE_Images.vignette);
     this.bg = new ROTATE_CanvasObject();
     this.cameraX = this.cameraY = 0;
     this.camera = new ROTATE_CanvasObject();
@@ -19247,7 +19270,9 @@
       this.tiles.removeChildren();
       for (
         var a = ROTATE_Levels.list.length,
-          b = Math.round((ROTATE_Canvas.width - (4 * q.level.width + 72)) / 2),
+          b = Math.round(
+            (ROTATE_Canvas.width - (4 * ROTATE_Images.level.width + 72)) / 2,
+          ),
           c = this.title.y + 56,
           d = 0;
         d < a;
@@ -19257,7 +19282,7 @@
           f = Math.floor(e[0] / 4),
           m = e[0] % 4,
           k = e[0] <= ROTATE_Levels.unlocked,
-          p = new I(q.level);
+          p = new I(ROTATE_Images.level);
         p.set_x(b + m * (p.get_width() + 24));
         p.set_y(c + f * (p.get_height() + 20));
         k
@@ -19293,7 +19318,7 @@
     this.btnCredits = new ba('CREDITS');
     this.btnExtras = new ba('EXTRAS');
     this.btnPlay = new ba('PLAY');
-    this.logo = new I(q.logo);
+    this.logo = new I(ROTATE_Images.logo);
     this.bg = new Na();
     P.call(this);
   };
@@ -19359,7 +19384,7 @@
     this.speedrunFinal = -1;
     this.doors = [];
     this.cat = null;
-    this.vignette = new I(q.vignette);
+    this.vignette = new I(ROTATE_Images.vignette);
     this.red = new ROTATE_CanvasObject();
     this.overlay = new ROTATE_CanvasObject();
     this.textHolder = new ROTATE_CanvasObject();
@@ -19691,7 +19716,7 @@
     this.length = 1.5;
     P.call(this);
     this.lws = a;
-    a = new I(q.splashLWS);
+    a = new I(ROTATE_Images.splashLWS);
     a.set_x(Math.round((ROTATE_Canvas.width - a.get_width()) / 2));
     a.set_y(Math.round((ROTATE_Canvas.height - a.get_height()) / 2));
     this.addChild(a);
@@ -19710,7 +19735,7 @@
     __class__: $b,
   });
   var vb = function () {
-    this.start = new I(q.start);
+    this.start = new I(ROTATE_Images.start);
     this.pivot = new ROTATE_CanvasObject();
     P.call(this);
   };
@@ -19942,10 +19967,10 @@
   });
   var Xb = function (a) {
     ROTATE_CanvasObject.call(this);
-    var b = new I(q.awardFrame);
+    var b = new I(ROTATE_Images.awardFrame);
     b.set_x(-b.get_width() / 2);
     this.addChild(b);
-    b = new I(a.unlocked ? a.icon : q.awardIconLocked);
+    b = new I(a.unlocked ? a.icon : ROTATE_Images.awardIconLocked);
     b.set_x(-b.get_width() / 2);
     b.set_y(8);
     this.addChild(b);
@@ -20030,7 +20055,7 @@
     __class__: O,
   });
   var ac = function () {
-    this.tip = new I(q.configTip);
+    this.tip = new I(ROTATE_Images.configTip);
     ROTATE_CanvasObject.call(this);
     this.tip.set_x(-this.tip.get_width() / 2);
     this.tip.set_y(-this.tip.get_height());
@@ -20234,7 +20259,7 @@
     this.theme.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
     this.theme.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     this.addChild(this.theme);
-    var c = new I(q.configArrow);
+    var c = new I(ROTATE_Images.configArrow);
     c.mouseEnabled = c.buttonMode = !0;
     c.set_x(this.theme.x + 46);
     c.set_y(this.theme.y + 4);
@@ -20242,7 +20267,7 @@
       2 > d.which && b(-1);
     });
     this.addChild(c);
-    c = new I(q.configArrow);
+    c = new I(ROTATE_Images.configArrow);
     c.mouseEnabled = c.buttonMode = !0;
     c.set_scaleX(-1);
     c.set_x(this.theme.x - 46);
@@ -20289,7 +20314,7 @@
     __class__: ROTATE_EditorBarUpper,
   });
   var Ya = function () {
-    I.call(this, q.trash);
+    I.call(this, ROTATE_Images.trash);
     this.set_x(ROTATE_Canvas.width - 120);
     this.set_y(ROTATE_Canvas.height - this.get_height() - 12);
     for (var a = !1, b = 0, c = v.all; b < c.length; ) {
@@ -20324,7 +20349,7 @@
   });
   var bc = function (a) {
     this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
-    this.toggle = new I(q.configToggle);
+    this.toggle = new I(ROTATE_Images.configToggle);
     var b = this;
     ROTATE_CanvasObject.call(this);
     this.set_x(ROTATE_Canvas.width - this.get_width() - 12);
@@ -20370,36 +20395,42 @@
   Na.prototype = D(ROTATE_CanvasObject.prototype, {
     render: function (a) {
       for (
-        var b = -Math.round((30 * Time.get_current()) % q.bgCells.width),
-          c = -Math.round((15 * Time.get_current()) % q.bgCells.height),
+        var b = -Math.round(
+            (30 * Time.get_current()) % ROTATE_Images.bgCells.width,
+          ),
+          c = -Math.round(
+            (15 * Time.get_current()) % ROTATE_Images.bgCells.height,
+          ),
           d = 0,
-          e = Math.ceil(ROTATE_Canvas.height / q.bgCells.height) + 1;
+          e =
+            Math.ceil(ROTATE_Canvas.height / ROTATE_Images.bgCells.height) + 1;
         d < e;
 
       )
         for (
           var f = d++,
             m = 0,
-            k = Math.ceil(ROTATE_Canvas.width / q.bgCells.width) + 1;
+            k =
+              Math.ceil(ROTATE_Canvas.width / ROTATE_Images.bgCells.width) + 1;
           m < k;
 
         ) {
           var p = m++;
           a.drawImage(
-            q.bgCells,
+            ROTATE_Images.bgCells,
             null,
-            b + q.bgCells.width * p,
-            c + q.bgCells.height * f,
+            b + ROTATE_Images.bgCells.width * p,
+            c + ROTATE_Images.bgCells.height * f,
           );
         }
-      a.drawImage(q.vignette, null, 0, 0);
+      a.drawImage(ROTATE_Images.vignette, null, 0, 0);
     },
     __class__: Na,
   });
   var ba = function (a, b) {
     null == b && (b = 0);
     ROTATE_CanvasObject.call(this);
-    this.main = new I(q.menuBtn);
+    this.main = new I(ROTATE_Images.menuBtn);
     this.main.set_x(-this.main.get_width() / 2);
     this.main.set_y(-this.main.get_height() / 2);
     this.main.mouseEnabled = this.main.buttonMode = !0;
@@ -20424,7 +20455,7 @@
     null == a && (a = 0);
     var b = this;
     ROTATE_CanvasObject.call(this);
-    this.sfx = new I(q.mute);
+    this.sfx = new I(ROTATE_Images.mute);
     this.sfx.set_clipRect(
       new Bounds(ROTATE_Game.instance.muteSFX ? 28 : 0, 30 * a, 28, 30),
     );
@@ -20438,7 +20469,7 @@
     this.sfx.set_x(ROTATE_Canvas.width - this.sfx.get_width() - 12);
     this.sfx.set_y(ROTATE_Canvas.height - this.sfx.get_height() - 12);
     this.addChild(this.sfx);
-    this.music = new I(q.mute);
+    this.music = new I(ROTATE_Images.mute);
     this.music.set_clipRect(
       new Bounds(ROTATE_Game.instance.muteMusic ? 84 : 56, 30 * a, 28, 30),
     );
@@ -20490,7 +20521,7 @@
     a.set_y(-4);
     a.set_alpha(0.5);
     this.addChild(a);
-    var b = new I(q.configToggle);
+    var b = new I(ROTATE_Images.configToggle);
     b.clipRect.width = 22;
     ROTATE_Game.instance.invert && (b.clipRect.x = 22);
     b.set_alpha(0.75);
@@ -20590,7 +20621,7 @@
     __class__: ub,
   });
   var Ma = function () {
-    I.call(this, q.linkJoshua);
+    I.call(this, ROTATE_Images.linkJoshua);
     this.clipRect.height /= 2;
     this.set_x(8);
     this.set_y(ROTATE_Canvas.height - this.get_height() - 8);
@@ -20715,45 +20746,62 @@
   n.rotateTime = 0.5;
   n.rotateOffset = 1.5 * n.tileSize;
   n.doorSlideTime = 0.2;
-  q.start = ROTATE_Manager.loadImage('img/start.png');
-  q.splashLWS = ROTATE_Manager.loadImage('img/splash-lws.png');
-  q.linkLWS = ROTATE_Manager.loadImage('img/link-lws.png');
-  q.linkJoshua = ROTATE_Manager.loadImage('img/link-joshua.png');
-  q.linkJoshua2 = ROTATE_Manager.loadImage('img/link-joshua-2.png');
-  q.soundtrack = ROTATE_Manager.loadImage('img/soundtrack.png');
-  q.awardFrame = ROTATE_Manager.loadImage('img/award-frame.png');
-  q.awardIconLocked = ROTATE_Manager.loadImage('img/award-icon-locked.png');
-  q.awardIconEscape = ROTATE_Manager.loadImage('img/award-icon-escape.png');
-  q.awardIconSpeedrun = ROTATE_Manager.loadImage('img/award-icon-speedrun.png');
-  q.awardIconEditor = ROTATE_Manager.loadImage('img/award-icon-editor.png');
-  q.awardIconJoshua = ROTATE_Manager.loadImage('img/award-icon-joshua.png');
-  q.awardIconSoundtrack = ROTATE_Manager.loadImage(
+
+  ROTATE_Images.start = ROTATE_Manager.loadImage('img/start.png');
+  ROTATE_Images.splashLWS = ROTATE_Manager.loadImage('img/splash-lws.png');
+  ROTATE_Images.linkLWS = ROTATE_Manager.loadImage('img/link-lws.png');
+  ROTATE_Images.linkJoshua = ROTATE_Manager.loadImage('img/link-joshua.png');
+  ROTATE_Images.linkJoshua2 = ROTATE_Manager.loadImage('img/link-joshua-2.png');
+  ROTATE_Images.soundtrack = ROTATE_Manager.loadImage('img/soundtrack.png');
+  ROTATE_Images.awardFrame = ROTATE_Manager.loadImage('img/award-frame.png');
+  ROTATE_Images.awardIconLocked = ROTATE_Manager.loadImage(
+    'img/award-icon-locked.png',
+  );
+  ROTATE_Images.awardIconEscape = ROTATE_Manager.loadImage(
+    'img/award-icon-escape.png',
+  );
+  ROTATE_Images.awardIconSpeedrun = ROTATE_Manager.loadImage(
+    'img/award-icon-speedrun.png',
+  );
+  ROTATE_Images.awardIconEditor = ROTATE_Manager.loadImage(
+    'img/award-icon-editor.png',
+  );
+  ROTATE_Images.awardIconJoshua = ROTATE_Manager.loadImage(
+    'img/award-icon-joshua.png',
+  );
+  ROTATE_Images.awardIconSoundtrack = ROTATE_Manager.loadImage(
     'img/award-icon-soundtrack.png',
   );
-  q.awardIconRotate = ROTATE_Manager.loadImage('img/award-icon-rotate.png');
-  q.vignette = ROTATE_Manager.loadImage('img/vignette.png');
-  q.bgCells = ROTATE_Manager.loadImage('img/bg-cells.png');
-  q.logo = ROTATE_Manager.loadImage('img/logo.png');
-  q.configTip = ROTATE_Manager.loadImage('img/config-tip.png');
-  q.configArrow = ROTATE_Manager.loadImage('img/config-arrow.png');
-  q.configToggle = ROTATE_Manager.loadImage('img/config-toggle.png');
-  q.menuBtn = ROTATE_Manager.loadImage('img/menu-btn.png');
-  q.level = ROTATE_Manager.loadImage('img/level.png');
-  q.interact = ROTATE_Manager.loadImage('img/interact.png');
-  q.mute = ROTATE_Manager.loadImage('img/mute.png');
-  q.trash = ROTATE_Manager.loadImage('img/trash.png');
-  q.player = ROTATE_Manager.loadImage('img/player.png');
-  q.bgTiles = ROTATE_Manager.loadImage('img/bg-tiles.png');
-  q.bgBricks = ROTATE_Manager.loadImage('img/bg-bricks.png');
-  q.blocks = ROTATE_Manager.loadImage('img/blocks.png');
-  q.cat = ROTATE_Manager.loadImage('img/cat.png');
-  q.endingMain = ROTATE_Manager.loadImage('img/ending-main.png');
-  q.endingPlants = ROTATE_Manager.loadImage('img/ending-plants.png');
-  q.controls1 = ROTATE_Manager.loadImage('img/controls-1.png');
-  q.controls2 = ROTATE_Manager.loadImage('img/controls-2.png');
-  q.controls3 = ROTATE_Manager.loadImage('img/controls-3.png');
-  q.controls4 = ROTATE_Manager.loadImage('img/controls-4.png');
-  q.controls5 = ROTATE_Manager.loadImage('img/controls-5.png');
+  ROTATE_Images.awardIconRotate = ROTATE_Manager.loadImage(
+    'img/award-icon-rotate.png',
+  );
+  ROTATE_Images.vignette = ROTATE_Manager.loadImage('img/vignette.png');
+  ROTATE_Images.bgCells = ROTATE_Manager.loadImage('img/bg-cells.png');
+  ROTATE_Images.logo = ROTATE_Manager.loadImage('img/logo.png');
+  ROTATE_Images.configTip = ROTATE_Manager.loadImage('img/config-tip.png');
+  ROTATE_Images.configArrow = ROTATE_Manager.loadImage('img/config-arrow.png');
+  ROTATE_Images.configToggle = ROTATE_Manager.loadImage(
+    'img/config-toggle.png',
+  );
+  ROTATE_Images.menuBtn = ROTATE_Manager.loadImage('img/menu-btn.png');
+  ROTATE_Images.level = ROTATE_Manager.loadImage('img/level.png');
+  ROTATE_Images.interact = ROTATE_Manager.loadImage('img/interact.png');
+  ROTATE_Images.mute = ROTATE_Manager.loadImage('img/mute.png');
+  ROTATE_Images.trash = ROTATE_Manager.loadImage('img/trash.png');
+  ROTATE_Images.player = ROTATE_Manager.loadImage('img/player.png');
+  ROTATE_Images.bgTiles = ROTATE_Manager.loadImage('img/bg-tiles.png');
+  ROTATE_Images.bgBricks = ROTATE_Manager.loadImage('img/bg-bricks.png');
+  ROTATE_Images.blocks = ROTATE_Manager.loadImage('img/blocks.png');
+  ROTATE_Images.cat = ROTATE_Manager.loadImage('img/cat.png');
+  ROTATE_Images.endingMain = ROTATE_Manager.loadImage('img/ending-main.png');
+  ROTATE_Images.endingPlants = ROTATE_Manager.loadImage(
+    'img/ending-plants.png',
+  );
+  ROTATE_Images.controls1 = ROTATE_Manager.loadImage('img/controls-1.png');
+  ROTATE_Images.controls2 = ROTATE_Manager.loadImage('img/controls-2.png');
+  ROTATE_Images.controls3 = ROTATE_Manager.loadImage('img/controls-3.png');
+  ROTATE_Images.controls4 = ROTATE_Manager.loadImage('img/controls-4.png');
+  ROTATE_Images.controls5 = ROTATE_Manager.loadImage('img/controls-5.png');
 
   ROTATE_Game.fontMain = new gc(
     'fonts/simple-pixels.png',
@@ -20836,12 +20884,12 @@
     ROTATE_Audio.voice,
   ];
 
-  v.awardEscape = new Ka('The Beginning', q.awardIconEscape);
-  v.awardSpeedrun = new Ka('Seven or\nLess', q.awardIconSpeedrun);
-  v.awardEditor = new Ka('Architect', q.awardIconEditor);
-  v.awardJoshua = new Ka('Curiosity', q.awardIconJoshua);
-  v.awardSoundtrack = new Ka('Sound Seeker', q.awardIconSoundtrack);
-  v.awardRotate = new Ka('Rotate Me', q.awardIconRotate);
+  v.awardEscape = new Ka('The Beginning', ROTATE_Images.awardIconEscape);
+  v.awardSpeedrun = new Ka('Seven or\nLess', ROTATE_Images.awardIconSpeedrun);
+  v.awardEditor = new Ka('Architect', ROTATE_Images.awardIconEditor);
+  v.awardJoshua = new Ka('Curiosity', ROTATE_Images.awardIconJoshua);
+  v.awardSoundtrack = new Ka('Sound Seeker', ROTATE_Images.awardIconSoundtrack);
+  v.awardRotate = new Ka('Rotate Me', ROTATE_Images.awardIconRotate);
   v.all = [
     v.awardEscape,
     v.awardSpeedrun,
