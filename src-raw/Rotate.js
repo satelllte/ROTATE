@@ -19567,7 +19567,12 @@
       !this.done1 &&
         this.cond1.test() &&
         ((this.done1 = !0),
-        ROTATE_Game.instance.changeScreen(new ob(this.first), !0, null, !0),
+        ROTATE_Game.instance.changeScreen(
+          new ROTATE_ScreenGameLastScene(this.first),
+          !0,
+          null,
+          !0,
+        ),
         (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
           (ROTATE_Audio.exit.volume(0.5),
           ROTATE_Audio.exit.play(),
@@ -19583,7 +19588,7 @@
     __class__: ROTATE_ScreenGameFinished,
   });
 
-  var ob = function (a) {
+  var ROTATE_ScreenGameLastScene = function (a) {
     null == a && (a = !1);
     this.hint = new ROTATE_Text(
       ROTATE_Game.fontMain,
@@ -19605,9 +19610,9 @@
     this.pausable = !0;
     this.first = a;
   };
-  ob.__name__ = !0;
-  ob.__super__ = P;
-  ob.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenGameLastScene.__name__ = !0;
+  ROTATE_ScreenGameLastScene.__super__ = P;
+  ROTATE_ScreenGameLastScene.prototype = __inherit(P.prototype, {
     init: function () {
       this.start = ROTATE_Game.instance.get_gameTime();
       this.bg.graphics.beginFill(16777215);
@@ -19713,7 +19718,7 @@
       this.camera.set_x(Math.round(this.cameraX));
       this.camera.set_y(Math.round(this.cameraY));
     },
-    __class__: ob,
+    __class__: ROTATE_ScreenGameLastScene,
   });
 
   var ROTATE_ScreenExtras = function () {
@@ -21372,7 +21377,11 @@
         JSObjectUtils.__instanceof(
           ROTATE_Game.instance.currentScreen,
           ROTATE_ScreenGameFinished,
-        ) || JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, ob);
+        ) ||
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_ScreenGameLastScene,
+        );
       this.btnQuit.set_alpha(a ? 0.25 : 1);
       this.btnQuit.main.mouseEnabled = !a;
     },
