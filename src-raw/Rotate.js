@@ -128,7 +128,7 @@
     }, 0);
     Canvas.setup(container);
     gameInstance.triggerEvent(new ROTATE_Event('added'));
-    t._init();
+    ROTATE_Manager._init();
     Canvas.loop();
     Canvas.started = true;
   };
@@ -160,17 +160,18 @@
   };
   Canvas.loop = function () {
     N._update();
-    if (t.get_done())
+    if (ROTATE_Manager.get_done())
       Canvas.wasLoaded ||
-        (t.triggerEvent(new Fa('progress', 1)),
+        (ROTATE_Manager.triggerEvent(new Fa('progress', 1)),
         (Canvas.lastProgress = 1),
-        t.triggerEvent(new Fa('finished', 1)));
+        ROTATE_Manager.triggerEvent(new Fa('finished', 1)));
     else {
-      var a = t.get_progress();
+      var a = ROTATE_Manager.get_progress();
       a != Canvas.lastProgress &&
-        (t.triggerEvent(new Fa('progress', a)), (Canvas.lastProgress = a));
+        (ROTATE_Manager.triggerEvent(new Fa('progress', a)),
+        (Canvas.lastProgress = a));
     }
-    Canvas.wasLoaded = t.get_done();
+    Canvas.wasLoaded = ROTATE_Manager.get_done();
     var b = Canvas.scale;
     Canvas.scale =
       window.innerWidth / window.innerHeight < Canvas.width / Canvas.height
@@ -355,79 +356,79 @@
     },
     __class__: Sa,
   };
-  var t = function () {};
-  t.__name__ = !0;
-  t.triggerEvent = function (a) {
-    t.events.triggerEvent(a);
+  var ROTATE_Manager = function () {};
+  ROTATE_Manager.__name__ = !0;
+  ROTATE_Manager.triggerEvent = function (a) {
+    ROTATE_Manager.events.triggerEvent(a);
   };
-  t.addEventListener = function (a, b) {
-    t.events.addEventListener(a, b);
+  ROTATE_Manager.addEventListener = function (a, b) {
+    ROTATE_Manager.events.addEventListener(a, b);
   };
-  t.removeEventListener = function (a, b) {
-    t.events.removeEventListener(a, b);
+  ROTATE_Manager.removeEventListener = function (a, b) {
+    ROTATE_Manager.events.removeEventListener(a, b);
   };
-  t._init = function () {
-    t.inited || (t.inited = !0);
+  ROTATE_Manager._init = function () {
+    ROTATE_Manager.inited || (ROTATE_Manager.inited = !0);
   };
-  t.createTask = function () {
-    t.tasks.push(!1);
-    return t.tasks.length - 1;
+  ROTATE_Manager.createTask = function () {
+    ROTATE_Manager.tasks.push(!1);
+    return ROTATE_Manager.tasks.length - 1;
   };
-  t.closeTask = function (a) {
-    0 <= a && a < t.tasks.length && (t.tasks[a] = !0);
+  ROTATE_Manager.closeTask = function (a) {
+    0 <= a && a < ROTATE_Manager.tasks.length && (ROTATE_Manager.tasks[a] = !0);
   };
-  t.get_done = function () {
-    if (!t.inited) return !1;
-    if (t.finished) return !0;
-    for (var a = 0, b = t.tasks.length; a < b; ) {
+  ROTATE_Manager.get_done = function () {
+    if (!ROTATE_Manager.inited) return !1;
+    if (ROTATE_Manager.finished) return !0;
+    for (var a = 0, b = ROTATE_Manager.tasks.length; a < b; ) {
       var c = a++;
-      if (!t.tasks[c]) return !1;
+      if (!ROTATE_Manager.tasks[c]) return !1;
     }
-    return (t.finished = !0);
+    return (ROTATE_Manager.finished = !0);
   };
-  t.get_progress = function () {
-    if (!t.inited) return 0;
-    if (t.finished) return 1;
-    for (var a = 0, b = 0, c = t.tasks.length; b < c; ) {
+  ROTATE_Manager.get_progress = function () {
+    if (!ROTATE_Manager.inited) return 0;
+    if (ROTATE_Manager.finished) return 1;
+    for (var a = 0, b = 0, c = ROTATE_Manager.tasks.length; b < c; ) {
       var d = b++;
-      t.tasks[d] && ++a;
+      ROTATE_Manager.tasks[d] && ++a;
     }
-    return a / t.tasks.length;
+    return a / ROTATE_Manager.tasks.length;
   };
-  t.loadImage = function (a, b) {
+  ROTATE_Manager.loadImage = function (a, b) {
     var c = new Image();
     c.src = a;
-    if (!t.finished) {
-      var d = t.createTask();
+    if (!ROTATE_Manager.finished) {
+      var d = ROTATE_Manager.createTask();
       c.onload = function () {
-        t.closeTask(d);
+        ROTATE_Manager.closeTask(d);
         null != b && b(c);
       };
     }
     return c;
   };
-  t.loadWebFonts = function (a, b) {
-    var c = t.createTask();
+  ROTATE_Manager.loadWebFonts = function (a, b) {
+    var c = ROTATE_Manager.createTask();
     a.active = function () {
-      t.closeTask(c);
+      ROTATE_Manager.closeTask(c);
       null != b && b();
     };
     WebFont.load(a);
   };
-  t.loadTextFile = function (a, b) {
-    var c = t.createTask(),
+  ROTATE_Manager.loadTextFile = function (a, b) {
+    var c = ROTATE_Manager.createTask(),
       d = new XMLHttpRequest();
     d.open('GET', a);
     d.onload = function () {
-      t.closeTask(c);
+      ROTATE_Manager.closeTask(c);
       null != b && b(d.responseText);
     };
     d.send();
   };
-  t.loadSound = function (a) {
-    var b = t.createTask();
+  ROTATE_Manager.loadSound = function (a) {
+    var b = ROTATE_Manager.createTask();
     a.onload = function () {
-      t.closeTask(b);
+      ROTATE_Manager.closeTask(b);
     };
     return new Howl(a);
   };
@@ -765,7 +766,7 @@
   I.__name__ = !0;
   I.fromFile = function (a, b) {
     var c = new I(null);
-    t.loadImage(a, function (d) {
+    ROTATE_Manager.loadImage(a, function (d) {
       c.create(d);
       null != b && b();
     });
@@ -1944,9 +1945,9 @@
     null == d && (d = 0);
     null == c && (c = 1);
     var e = this;
-    this.image = t.loadImage(a);
+    this.image = ROTATE_Manager.loadImage(a);
     this.colorOffset = d;
-    t.loadTextFile(b, function (f) {
+    ROTATE_Manager.loadTextFile(b, function (f) {
       f = JSON.parse(f);
       e.lineHeight = f.l * c;
       f = f.c;
@@ -2052,7 +2053,7 @@
     init: function (a) {
       this.removeEventListener('added', Bind(this, this.init));
       Canvas.set_imageSmoothingEnabled(!1);
-      t.addEventListener('finished', Bind(this, this.loaded));
+      ROTATE_Manager.addEventListener('finished', Bind(this, this.loaded));
     },
     loaded: function (a) {
       var b = this;
@@ -20375,10 +20376,10 @@
   Canvas.offsetY = 0;
   Canvas.wasLoaded = !1;
   Canvas.lastProgress = 0;
-  t.inited = !1;
-  t.finished = !1;
-  t.tasks = [];
-  t.events = new Sa();
+  ROTATE_Manager.inited = !1;
+  ROTATE_Manager.finished = !1;
+  ROTATE_Manager.tasks = [];
+  ROTATE_Manager.events = new Sa();
   N.startTime = 0;
   N.lastTime = 0;
   N.elapsedTime = 0;
@@ -20417,43 +20418,45 @@
   n.rotateTime = 0.5;
   n.rotateOffset = 1.5 * n.tileSize;
   n.doorSlideTime = 0.2;
-  q.start = t.loadImage('img/start.png');
-  q.splashLWS = t.loadImage('img/splash-lws.png');
-  q.linkLWS = t.loadImage('img/link-lws.png');
-  q.linkJoshua = t.loadImage('img/link-joshua.png');
-  q.linkJoshua2 = t.loadImage('img/link-joshua-2.png');
-  q.soundtrack = t.loadImage('img/soundtrack.png');
-  q.awardFrame = t.loadImage('img/award-frame.png');
-  q.awardIconLocked = t.loadImage('img/award-icon-locked.png');
-  q.awardIconEscape = t.loadImage('img/award-icon-escape.png');
-  q.awardIconSpeedrun = t.loadImage('img/award-icon-speedrun.png');
-  q.awardIconEditor = t.loadImage('img/award-icon-editor.png');
-  q.awardIconJoshua = t.loadImage('img/award-icon-joshua.png');
-  q.awardIconSoundtrack = t.loadImage('img/award-icon-soundtrack.png');
-  q.awardIconRotate = t.loadImage('img/award-icon-rotate.png');
-  q.vignette = t.loadImage('img/vignette.png');
-  q.bgCells = t.loadImage('img/bg-cells.png');
-  q.logo = t.loadImage('img/logo.png');
-  q.configTip = t.loadImage('img/config-tip.png');
-  q.configArrow = t.loadImage('img/config-arrow.png');
-  q.configToggle = t.loadImage('img/config-toggle.png');
-  q.menuBtn = t.loadImage('img/menu-btn.png');
-  q.level = t.loadImage('img/level.png');
-  q.interact = t.loadImage('img/interact.png');
-  q.mute = t.loadImage('img/mute.png');
-  q.trash = t.loadImage('img/trash.png');
-  q.player = t.loadImage('img/player.png');
-  q.bgTiles = t.loadImage('img/bg-tiles.png');
-  q.bgBricks = t.loadImage('img/bg-bricks.png');
-  q.blocks = t.loadImage('img/blocks.png');
-  q.cat = t.loadImage('img/cat.png');
-  q.endingMain = t.loadImage('img/ending-main.png');
-  q.endingPlants = t.loadImage('img/ending-plants.png');
-  q.controls1 = t.loadImage('img/controls-1.png');
-  q.controls2 = t.loadImage('img/controls-2.png');
-  q.controls3 = t.loadImage('img/controls-3.png');
-  q.controls4 = t.loadImage('img/controls-4.png');
-  q.controls5 = t.loadImage('img/controls-5.png');
+  q.start = ROTATE_Manager.loadImage('img/start.png');
+  q.splashLWS = ROTATE_Manager.loadImage('img/splash-lws.png');
+  q.linkLWS = ROTATE_Manager.loadImage('img/link-lws.png');
+  q.linkJoshua = ROTATE_Manager.loadImage('img/link-joshua.png');
+  q.linkJoshua2 = ROTATE_Manager.loadImage('img/link-joshua-2.png');
+  q.soundtrack = ROTATE_Manager.loadImage('img/soundtrack.png');
+  q.awardFrame = ROTATE_Manager.loadImage('img/award-frame.png');
+  q.awardIconLocked = ROTATE_Manager.loadImage('img/award-icon-locked.png');
+  q.awardIconEscape = ROTATE_Manager.loadImage('img/award-icon-escape.png');
+  q.awardIconSpeedrun = ROTATE_Manager.loadImage('img/award-icon-speedrun.png');
+  q.awardIconEditor = ROTATE_Manager.loadImage('img/award-icon-editor.png');
+  q.awardIconJoshua = ROTATE_Manager.loadImage('img/award-icon-joshua.png');
+  q.awardIconSoundtrack = ROTATE_Manager.loadImage(
+    'img/award-icon-soundtrack.png',
+  );
+  q.awardIconRotate = ROTATE_Manager.loadImage('img/award-icon-rotate.png');
+  q.vignette = ROTATE_Manager.loadImage('img/vignette.png');
+  q.bgCells = ROTATE_Manager.loadImage('img/bg-cells.png');
+  q.logo = ROTATE_Manager.loadImage('img/logo.png');
+  q.configTip = ROTATE_Manager.loadImage('img/config-tip.png');
+  q.configArrow = ROTATE_Manager.loadImage('img/config-arrow.png');
+  q.configToggle = ROTATE_Manager.loadImage('img/config-toggle.png');
+  q.menuBtn = ROTATE_Manager.loadImage('img/menu-btn.png');
+  q.level = ROTATE_Manager.loadImage('img/level.png');
+  q.interact = ROTATE_Manager.loadImage('img/interact.png');
+  q.mute = ROTATE_Manager.loadImage('img/mute.png');
+  q.trash = ROTATE_Manager.loadImage('img/trash.png');
+  q.player = ROTATE_Manager.loadImage('img/player.png');
+  q.bgTiles = ROTATE_Manager.loadImage('img/bg-tiles.png');
+  q.bgBricks = ROTATE_Manager.loadImage('img/bg-bricks.png');
+  q.blocks = ROTATE_Manager.loadImage('img/blocks.png');
+  q.cat = ROTATE_Manager.loadImage('img/cat.png');
+  q.endingMain = ROTATE_Manager.loadImage('img/ending-main.png');
+  q.endingPlants = ROTATE_Manager.loadImage('img/ending-plants.png');
+  q.controls1 = ROTATE_Manager.loadImage('img/controls-1.png');
+  q.controls2 = ROTATE_Manager.loadImage('img/controls-2.png');
+  q.controls3 = ROTATE_Manager.loadImage('img/controls-3.png');
+  q.controls4 = ROTATE_Manager.loadImage('img/controls-4.png');
+  q.controls5 = ROTATE_Manager.loadImage('img/controls-5.png');
   Game.fontMain = new gc(
     'fonts/simple-pixels.png',
     'fonts/simple-pixels.json',
@@ -20462,53 +20465,53 @@
   );
   Game.nosave = !1;
   Game.ie = !1;
-  u.themeMenu = t.loadSound({
+  u.themeMenu = ROTATE_Manager.loadSound({
     src: ['music/menu.ogg', 'music/menu.mp3'],
     loop: !0,
   });
-  u.themeGame1 = t.loadSound({
+  u.themeGame1 = ROTATE_Manager.loadSound({
     src: ['music/game-1.ogg', 'music/game-1.mp3'],
     loop: !0,
     volume: 0.8,
   });
-  u.themeGame2 = t.loadSound({
+  u.themeGame2 = ROTATE_Manager.loadSound({
     src: ['music/game-2.ogg', 'music/game-2.mp3'],
     loop: !0,
     volume: 0.75,
   });
-  u.surface = t.loadSound({
+  u.surface = ROTATE_Manager.loadSound({
     src: ['sfx/surface.ogg', 'sfx/surface.mp3'],
     loop: !0,
   });
-  u.steps = t.loadSound({
+  u.steps = ROTATE_Manager.loadSound({
     src: ['sfx/steps.ogg', 'sfx/steps.mp3'],
     sprite: {
       a: [0, 400],
       b: [475, 400],
     },
   });
-  u.death = t.loadSound({
+  u.death = ROTATE_Manager.loadSound({
     src: ['sfx/death.ogg', 'sfx/death.mp3'],
   });
-  u.rotate = t.loadSound({
+  u.rotate = ROTATE_Manager.loadSound({
     src: ['sfx/rotate.ogg', 'sfx/rotate.mp3'],
   });
-  u.exit = t.loadSound({
+  u.exit = ROTATE_Manager.loadSound({
     src: ['sfx/exit.ogg', 'sfx/exit.mp3'],
   });
-  u.door = t.loadSound({
+  u.door = ROTATE_Manager.loadSound({
     src: ['sfx/door.ogg', 'sfx/door.mp3'],
   });
-  u.cat = t.loadSound({
+  u.cat = ROTATE_Manager.loadSound({
     src: ['sfx/cat.ogg', 'sfx/cat.mp3'],
   });
-  u.leverOn = t.loadSound({
+  u.leverOn = ROTATE_Manager.loadSound({
     src: ['sfx/lever-on.ogg', 'sfx/lever-on.mp3'],
   });
-  u.leverOff = t.loadSound({
+  u.leverOff = ROTATE_Manager.loadSound({
     src: ['sfx/lever-off.ogg', 'sfx/lever-off.mp3'],
   });
-  u.voice = t.loadSound({
+  u.voice = ROTATE_Manager.loadSound({
     src: ['sfx/voice.ogg', 'sfx/voice.mp3'],
     sprite: {
       a: [0, 1e3],
