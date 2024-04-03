@@ -357,7 +357,7 @@
   };
 
   var ROTATE_EventTarget = function () {
-    this.listeners = new Ra();
+    this.listeners = new ROTATE_EventMap();
   };
   ROTATE_EventTarget.__name__ = !0;
   ROTATE_EventTarget.prototype = {
@@ -647,7 +647,7 @@
     this.rotation = 0;
     this.scaleX = this.scaleY = 1;
     this.x = this.y = 0;
-    this.listeners = new Ra();
+    this.listeners = new ROTATE_EventMap();
   };
   ROTATE_CanvasObject.__name__ = !0;
   ROTATE_CanvasObject.__super__ = ROTATE_EventTarget;
@@ -1067,7 +1067,7 @@
     this.mouseX = this.mouseY = 0;
     this.isFocused = !1;
     var _self = this;
-    this.listeners = new Ra();
+    this.listeners = new ROTATE_EventMap();
     this.c = canvas;
     window.addEventListener('focus', Bind(this, this.onFocus));
     window.addEventListener('blur', Bind(this, this.onBlur));
@@ -1717,12 +1717,13 @@
     },
     __class__: fc,
   };
-  var Ra = function () {
+
+  var ROTATE_EventMap = function () {
     this.h = {};
   };
-  Ra.__name__ = !0;
-  Ra.__interfaces__ = [lc];
-  Ra.prototype = {
+  ROTATE_EventMap.__name__ = !0;
+  ROTATE_EventMap.__interfaces__ = [lc];
+  ROTATE_EventMap.prototype = {
     setReserved: function (a, b) {
       null == this.rh && (this.rh = {});
       this.rh['$' + a] = b;
@@ -1752,8 +1753,9 @@
         for (b in this.rh) 36 == b.charCodeAt(0) && a.push(b.substr(1));
       return a;
     },
-    __class__: Ra,
+    __class__: ROTATE_EventMap,
   };
+
   var oa = {
     __ename__: !0,
     __constructs__: ['Blocked', 'Overflow', 'OutsideBounds', 'Custom'],
@@ -3389,7 +3391,7 @@
           ROTATE_LevelEditorManager.tiles[d][m] = a.tiles[d][m].slice(0);
         }
       }
-      ROTATE_LevelEditorManager.updateQueue = new Ra();
+      ROTATE_LevelEditorManager.updateQueue = new ROTATE_EventMap();
       b = 0;
       for (c = ROTATE_LevelEditorManager.get_height(); b < c; )
         for (
