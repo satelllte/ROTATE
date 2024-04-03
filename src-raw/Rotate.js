@@ -6152,7 +6152,7 @@
           new ROTATE_ConditionCollision(4, 10, 6, 1, 2),
           "There's nothing for you this way.",
         ),
-        new ROTATE_SpeechPart(new Xa(1), ''),
+        new ROTATE_SpeechPart(new ROTATE_ConditionChannel(1), ''),
         new ROTATE_SpeechPart(
           new ROTATE_ConditionCollision(1.25, 7, 1, 1, 2, 1),
           'What do you expect to find?',
@@ -8176,7 +8176,7 @@
           new ROTATE_ConditionDelay(7),
           'They came back to join me.',
         ),
-        new ROTATE_SpeechPart(new Xa(0), ''),
+        new ROTATE_SpeechPart(new ROTATE_ConditionChannel(0), ''),
         new ROTATE_SpeechPart(
           new ROTATE_ConditionDelay(0.75),
           'I expected better from you.',
@@ -8198,7 +8198,7 @@
   var ROTATE_Level14 = function () {
     this.cond3 = new ROTATE_ConditionDelay(12);
     this.cond2 = new ROTATE_ConditionDelay(10);
-    this.cond1 = new Xa(1);
+    this.cond1 = new ROTATE_ConditionChannel(1);
     this.startDir = -1;
     this.finishRow = 7;
     this.finishCol = 13;
@@ -12995,7 +12995,7 @@
           new ROTATE_ConditionDelay(5),
           "You'll come to regret this mistake.",
         ),
-        new ROTATE_SpeechPart(new Xa(2), ''),
+        new ROTATE_SpeechPart(new ROTATE_ConditionChannel(2), ''),
         new ROTATE_SpeechPart(
           new ROTATE_ConditionDelay(4),
           'You will realize I was right.',
@@ -18630,13 +18630,13 @@
     __class__: ROTATE_ConditionCollision,
   };
 
-  var Xa = function (a) {
+  var ROTATE_ConditionChannel = function (channel) {
     this.timer = -1;
-    this.channel = a;
+    this.channel = channel;
   };
-  Xa.__name__ = !0;
-  Xa.__interfaces__ = [db];
-  Xa.prototype = {
+  ROTATE_ConditionChannel.__name__ = !0;
+  ROTATE_ConditionChannel.__interfaces__ = [db];
+  ROTATE_ConditionChannel.prototype = {
     start: function () {
       this.timer = ROTATE_Game.instance.get_gameTime();
     },
@@ -18644,7 +18644,7 @@
       var a = ROTATE_ScreenPrimaryGame.i.channels.h[this.channel];
       return null != a ? a.lastChanged > this.timer : !1;
     },
-    __class__: Xa,
+    __class__: ROTATE_ConditionChannel,
   };
 
   var ROTATE_ConditionDelay = function (a) {
