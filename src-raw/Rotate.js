@@ -2131,13 +2131,13 @@
             (this.hasPaused = !0),
             JSObjectUtils.__instanceof(
               this.currentScreen,
-              ROTATE_GameController,
+              ROTATE_ScreenPrimaryGame,
             ) &&
-              null != ROTATE_GameController.i.pauseText &&
-              (ROTATE_GameController.i.pauseText.parent.removeChild(
-                ROTATE_GameController.i.pauseText,
+              null != ROTATE_ScreenPrimaryGame.i.pauseText &&
+              (ROTATE_ScreenPrimaryGame.i.pauseText.parent.removeChild(
+                ROTATE_ScreenPrimaryGame.i.pauseText,
               ),
-              (ROTATE_GameController.i.pauseText = null))));
+              (ROTATE_ScreenPrimaryGame.i.pauseText = null))));
     },
     unpause: function () {
       this.paused &&
@@ -3665,7 +3665,7 @@
         if (
           JSObjectUtils.__instanceof(
             ROTATE_Game.instance.currentScreen,
-            ROTATE_GameController,
+            ROTATE_ScreenPrimaryGame,
           ) &&
           ((c = ROTATE_Game.instance.currentScreen),
           !ROTATE_LevelEditorManager.rotating &&
@@ -3924,7 +3924,7 @@
     },
     collides: function (a) {
       var b = this.isOpen(a);
-      !b && this.isStuck(a) && ROTATE_GameController.i.killPlayer();
+      !b && this.isStuck(a) && ROTATE_ScreenPrimaryGame.i.killPlayer();
       return !b;
     },
     alwaysUpdate: function (a) {
@@ -3946,10 +3946,10 @@
           if (
             JSObjectUtils.__instanceof(
               ROTATE_Game.instance.currentScreen,
-              ROTATE_GameController,
+              ROTATE_ScreenPrimaryGame,
             )
           ) {
-            var p = ROTATE_GameController.i.channels,
+            var p = ROTATE_ScreenPrimaryGame.i.channels,
               y = b.getMeta(0);
             p = p.h[y];
             null != p &&
@@ -4037,14 +4037,14 @@
     isOpen: function (a) {
       return JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
-        ROTATE_GameController,
-      ) && ROTATE_GameController.i.getChannelStatus(a.getMeta(0))
+        ROTATE_ScreenPrimaryGame,
+      ) && ROTATE_ScreenPrimaryGame.i.getChannelStatus(a.getMeta(0))
         ? !0
         : !1;
     },
     isStuck: function (a) {
       for (
-        var b = 0, c = ROTATE_GameController.i.player.touching;
+        var b = 0, c = ROTATE_ScreenPrimaryGame.i.player.touching;
         b < c.length;
 
       ) {
@@ -4298,24 +4298,24 @@
             ROTATE_GameObject_Lever.TOGGLE_TIMER
         )
       ) {
-        c = ROTATE_GameController.i.channels;
+        c = ROTATE_ScreenPrimaryGame.i.channels;
         var d = a.getMeta(0),
           e = c.h[d];
         d = null != e && e.get_status();
         (c = 1 > a.getMeta(1))
-          ? ROTATE_GameController.i.signalOn(a.x, a.y, a.getMeta(0))
-          : ROTATE_GameController.i.signalOff(a.x, a.y, a.getMeta(0));
+          ? ROTATE_ScreenPrimaryGame.i.signalOn(a.x, a.y, a.getMeta(0))
+          : ROTATE_ScreenPrimaryGame.i.signalOff(a.x, a.y, a.getMeta(0));
         var f = ROTATE_LevelEditorManager.leversChanged,
           m = ROTATE_Game.instance.get_gameTime();
         f.h[b] = m;
         null == e &&
-          ((b = ROTATE_GameController.i.channels),
+          ((b = ROTATE_ScreenPrimaryGame.i.channels),
           (e = a.getMeta(0)),
           (e = b.h[e]));
         e = null != e && e.get_status();
         b = !1;
         if (d != e)
-          for (d = 0, e = ROTATE_GameController.i.doors; d < e.length; )
+          for (d = 0, e = ROTATE_ScreenPrimaryGame.i.doors; d < e.length; )
             if (((f = e[d]), ++d, f.channel == a.getMeta(0))) {
               b = !0;
               break;
@@ -4336,7 +4336,7 @@
     },
     onPlay: function (a) {
       0 < a.getMeta(1) &&
-        ROTATE_GameController.i.signalOn(a.x, a.y, a.getMeta(0));
+        ROTATE_ScreenPrimaryGame.i.signalOn(a.x, a.y, a.getMeta(0));
     },
     getColliders: function (a) {
       return [
@@ -4686,7 +4686,7 @@
       return [new kb(a.getMeta(0))];
     },
     onTrigger: function (a) {
-      ROTATE_GameController.i.killPlayer(!0);
+      ROTATE_ScreenPrimaryGame.i.killPlayer(!0);
       return !1;
     },
     alwaysUpdate: function (a) {
@@ -4733,7 +4733,7 @@
         return [new La(a), new La(b)];
       },
       onTrigger: function (a) {
-        ROTATE_GameController.i.killPlayer();
+        ROTATE_ScreenPrimaryGame.i.killPlayer();
         return !1;
       },
       __class__: ROTATE_GameObject_Spikes,
@@ -5427,23 +5427,23 @@
     update: function () {
       this.speech.update();
       this.s1 &&
-      ROTATE_GameController.i.player.x > 10 * ROTATE_GameConstants.tileSize
+      ROTATE_ScreenPrimaryGame.i.player.x > 10 * ROTATE_GameConstants.tileSize
         ? ((this.s1 = !1), (this.s2 = !0))
         : this.s2 &&
-            ROTATE_GameController.i.player.x >
+            ROTATE_ScreenPrimaryGame.i.player.x >
               17 * ROTATE_GameConstants.tileSize
           ? ((this.s2 = !1), (this.s3 = !0))
           : this.s3 &&
-              ROTATE_GameController.i.player.x >
+              ROTATE_ScreenPrimaryGame.i.player.x >
                 27 * ROTATE_GameConstants.tileSize &&
-              ROTATE_GameController.i.player.grounded &&
+              ROTATE_ScreenPrimaryGame.i.player.grounded &&
               !ROTATE_LevelEditorManager.rotating &&
               1 == ROTATE_LevelEditorManager.rotation
             ? ((this.s3 = !1), (this.s4 = !0))
             : this.s4 &&
-              ROTATE_GameController.i.player.x >
+              ROTATE_ScreenPrimaryGame.i.player.x >
                 22 * ROTATE_GameConstants.tileSize &&
-              ROTATE_GameController.i.player.grounded &&
+              ROTATE_ScreenPrimaryGame.i.player.grounded &&
               !ROTATE_LevelEditorManager.rotating &&
               0 == ROTATE_LevelEditorManager.rotation &&
               ((this.s4 = !1), (this.s5 = !0));
@@ -12985,7 +12985,7 @@
         new bb(
           JSObjectUtils.__cast(
             ROTATE_Game.instance.currentScreen,
-            ROTATE_GameController,
+            ROTATE_ScreenPrimaryGame,
           ).speedrun,
         ),
       );
@@ -17195,9 +17195,9 @@
         ? ROTATE_Game.instance.currentScreen.getChannelStatus(0) ||
           ((this.s1 = !1), (this.s2 = !0))
         : !this.s2 &&
-          ROTATE_GameController.i.player.x >=
+          ROTATE_ScreenPrimaryGame.i.player.x >=
             28 * ROTATE_GameConstants.tileSize &&
-          ROTATE_GameController.i.player.y >=
+          ROTATE_ScreenPrimaryGame.i.player.y >=
             24 * ROTATE_GameConstants.tileSize &&
           (this.s1 = !0);
     },
@@ -18488,7 +18488,7 @@
   ta.__name__ = !0;
   ta.prototype = {
     update: function () {
-      var a = ROTATE_GameController.i;
+      var a = ROTATE_ScreenPrimaryGame.i;
       this.appeared
         ? !this.disappeared &&
           null != this.endCond &&
@@ -18520,7 +18520,7 @@
   ia.prototype = {
     start: function () {},
     test: function () {
-      return !ROTATE_GameController.i.player
+      return !ROTATE_ScreenPrimaryGame.i.player
         .getHitBounds()
         .intersects(this.bounds) ||
         (-1 != this.rotation &&
@@ -18538,9 +18538,9 @@
   lb.prototype = __inherit(ia.prototype, {
     test: function () {
       return ia.prototype.test.call(this) &&
-        ROTATE_GameController.i.getChannelStatus(0) &&
-        ROTATE_GameController.i.getChannelStatus(1)
-        ? ROTATE_GameController.i.getChannelStatus(2)
+        ROTATE_ScreenPrimaryGame.i.getChannelStatus(0) &&
+        ROTATE_ScreenPrimaryGame.i.getChannelStatus(1)
+        ? ROTATE_ScreenPrimaryGame.i.getChannelStatus(2)
         : !1;
     },
     __class__: lb,
@@ -18563,7 +18563,7 @@
     start: function () {},
     test: function () {
       this.hit ||
-        !ROTATE_GameController.i.player
+        !ROTATE_ScreenPrimaryGame.i.player
           .getHitBounds()
           .intersects(this.bounds) ||
         (-1 != this.rotation &&
@@ -18587,7 +18587,7 @@
       this.timer = ROTATE_Game.instance.get_gameTime();
     },
     test: function () {
-      var a = ROTATE_GameController.i.channels.h[this.channel];
+      var a = ROTATE_ScreenPrimaryGame.i.channels.h[this.channel];
       return null != a ? a.lastChanged > this.timer : !1;
     },
     __class__: Xa,
@@ -18633,7 +18633,7 @@
     null == b &&
     JSObjectUtils.__instanceof(
       ROTATE_Game.instance.currentScreen,
-      ROTATE_GameController,
+      ROTATE_ScreenPrimaryGame,
     )
       ? ((b = ROTATE_Game.instance.currentScreen.textHolder),
         (this.field.yAlign = ROTATE_Text.Y_ALIGN_TOP),
@@ -18650,7 +18650,7 @@
       var a = !0;
       JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
-        ROTATE_GameController,
+        ROTATE_ScreenPrimaryGame,
       ) && (a = !ROTATE_Game.instance.currentScreen.player.dead);
       a &&
         null != this.events[this.index] &&
@@ -18703,7 +18703,7 @@
         this.field.set_alpha(ROTATE_Game.smootherStep(1 - a)));
       JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
-        ROTATE_GameController,
+        ROTATE_ScreenPrimaryGame,
       ) &&
         (this.field.graphics.clear(),
         '' != this.field.text &&
@@ -19392,7 +19392,7 @@
             : 0));
         InputKeys.keyPressed(13) &&
           ROTATE_Game.instance.changeScreen(
-            new ROTATE_GameController(ROTATE_Editor.editorLevel),
+            new ROTATE_ScreenPrimaryGame(ROTATE_Editor.editorLevel),
           );
       }
     },
@@ -19866,7 +19866,9 @@
                       ? ROTATE_Game.instance.changeScreen(
                           new ROTATE_ScreenGameBeginning(),
                         )
-                      : ROTATE_GameController.play(ROTATE_Levels.list[y[0]]));
+                      : ROTATE_ScreenPrimaryGame.play(
+                          ROTATE_Levels.list[y[0]],
+                        ));
                 };
               })(e),
             ))
@@ -19958,7 +19960,7 @@
     __class__: ROTATE_ScreenMainMenu,
   });
 
-  var ROTATE_GameController = function (a, b, c) {
+  var ROTATE_ScreenPrimaryGame = function (a, b, c) {
     null == c && (c = -1);
     null == b && (b = !1);
     this.channels = new hb();
@@ -19980,28 +19982,28 @@
     this.speedrunStart = c;
     (0 == a.theme && ROTATE_Audio.themeGame1.playing()) ||
     (1 == a.theme && ROTATE_Audio.themeGame2.playing())
-      ? (ROTATE_GameController.continueTheme = !0)
-      : (ROTATE_GameController.continueTheme = !1);
+      ? (ROTATE_ScreenPrimaryGame.continueTheme = !0)
+      : (ROTATE_ScreenPrimaryGame.continueTheme = !1);
   };
-  ROTATE_GameController.__name__ = !0;
-  ROTATE_GameController.play = function (a, b, c) {
+  ROTATE_ScreenPrimaryGame.__name__ = !0;
+  ROTATE_ScreenPrimaryGame.play = function (a, b, c) {
     null == c && (c = -1);
     null == b && (b = !1);
     null != a &&
-      ROTATE_Game.instance.changeScreen(new ROTATE_GameController(a, b, c));
+      ROTATE_Game.instance.changeScreen(new ROTATE_ScreenPrimaryGame(a, b, c));
   };
-  ROTATE_GameController.playTheme = function (a) {
-    ROTATE_GameController.stopped &&
+  ROTATE_ScreenPrimaryGame.playTheme = function (a) {
+    ROTATE_ScreenPrimaryGame.stopped &&
       (0 == a && ROTATE_Audio.themeGame1.playing()
         ? (ROTATE_Audio.themeGame1.stop(),
-          (ROTATE_GameController.canceled = !0))
+          (ROTATE_ScreenPrimaryGame.canceled = !0))
         : 1 == a &&
           ROTATE_Audio.themeGame2.playing() &&
           (ROTATE_Audio.themeGame2.stop(),
-          (ROTATE_GameController.canceled = !0)),
+          (ROTATE_ScreenPrimaryGame.canceled = !0)),
       ROTATE_Game.ie &&
         (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1),
-      (ROTATE_GameController.stopped = !1));
+      (ROTATE_ScreenPrimaryGame.stopped = !1));
     0 == a
       ? (ROTATE_Audio.themeGame1.volume(1),
         ROTATE_Audio.themeGame1.playing() ||
@@ -20015,7 +20017,7 @@
             ROTATE_Audio.themeGame2.play(),
           ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !0)));
   };
-  ROTATE_GameController.stopTheme = function () {
+  ROTATE_ScreenPrimaryGame.stopTheme = function () {
     var a = ROTATE_Audio.themeGame1.playing()
       ? ROTATE_Audio.themeGame1
       : ROTATE_Audio.themeGame2.playing()
@@ -20025,7 +20027,7 @@
       var b =
         JSObjectUtils.__instanceof(
           ROTATE_Game.instance.currentScreen,
-          ROTATE_GameController,
+          ROTATE_ScreenPrimaryGame,
         ) && JSObjectUtils.__instanceof(ROTATE_Game.instance.targetScreen, bb);
       if (ROTATE_Game.ie) b || a.stop();
       else {
@@ -20036,23 +20038,24 @@
           Math.floor(ROTATE_GameConstants.screenFadeTime / 2) + (b ? 1e4 : 0),
         );
         a.once('fade', function () {
-          ROTATE_GameController.canceled || (a.stop(), a.volume(1));
+          ROTATE_ScreenPrimaryGame.canceled || (a.stop(), a.volume(1));
         });
       }
-      ROTATE_GameController.stopped = !0;
-      ROTATE_GameController.canceled = !1;
-    } else ROTATE_GameController.stopped = ROTATE_GameController.canceled = !1;
+      ROTATE_ScreenPrimaryGame.stopped = !0;
+      ROTATE_ScreenPrimaryGame.canceled = !1;
+    } else
+      ROTATE_ScreenPrimaryGame.stopped = ROTATE_ScreenPrimaryGame.canceled = !1;
     ROTATE_Game.ie &&
       (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1);
   };
-  ROTATE_GameController.__super__ = qa;
-  ROTATE_GameController.prototype = __inherit(qa.prototype, {
+  ROTATE_ScreenPrimaryGame.__super__ = qa;
+  ROTATE_ScreenPrimaryGame.prototype = __inherit(qa.prototype, {
     init: function () {
-      ROTATE_GameController.i = this;
+      ROTATE_ScreenPrimaryGame.i = this;
       this.tempLevel == ROTATE_Editor.editorLevel &&
         ROTATE_Awards.awardEditor.unlock();
-      ROTATE_GameController.playTheme(this.tempLevel.theme);
-      ROTATE_GameController.continueTheme = !1;
+      ROTATE_ScreenPrimaryGame.playTheme(this.tempLevel.theme);
+      ROTATE_ScreenPrimaryGame.continueTheme = !1;
       ROTATE_LevelEditorManager.set_level(this.tempLevel);
       ROTATE_LevelEditorManager.onPlay();
       for (var a = this.channels.iterator(); a.hasNext(); )
@@ -20191,7 +20194,7 @@
           Bind(gameInstance, gameInstance.unpause))
         : null;
       ROTATE_Game.instance.changeScreen(
-        new ROTATE_GameController(
+        new ROTATE_ScreenPrimaryGame(
           ROTATE_LevelEditorManager.level,
           this.speedrun,
           this.speedrunStart,
@@ -20224,7 +20227,7 @@
       }
       a = ROTATE_LevelEditorManager.level.finished();
       null != a &&
-        ROTATE_GameController.play(a, this.speedrun, this.speedrunStart);
+        ROTATE_ScreenPrimaryGame.play(a, this.speedrun, this.speedrunStart);
     },
     update: function () {
       qa.prototype.update.call(this);
@@ -20233,17 +20236,17 @@
           1 -
           Math.min(
             (ROTATE_Game.instance.get_gameTime() - this.deathTime) /
-              ROTATE_GameController.DEATH_SHAKE_TIME,
+              ROTATE_ScreenPrimaryGame.DEATH_SHAKE_TIME,
             1,
           );
         this.red.set_alpha(a);
         a = ROTATE_Game.smootherStep(a);
         this.shakeX =
-          Math.random() * ROTATE_GameController.DEATH_SHAKE_AMOUNT * a;
+          Math.random() * ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT * a;
         this.shakeY =
-          Math.random() * ROTATE_GameController.DEATH_SHAKE_AMOUNT * a;
+          Math.random() * ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT * a;
         ROTATE_Game.instance.get_gameTime() - this.deathTime >=
-          ROTATE_GameController.DEATH_TIME &&
+          ROTATE_ScreenPrimaryGame.DEATH_TIME &&
           null == ROTATE_Game.instance.targetScreen &&
           this.restart(!0);
       } else this.player.finished || this.doRotation(this.player);
@@ -20313,7 +20316,7 @@
         (this.cat.horizontal = this.cat.scaleX));
     },
     kill: function () {
-      ROTATE_GameController.i = null;
+      ROTATE_ScreenPrimaryGame.i = null;
       ROTATE_LevelEditorManager.level.kill();
       ROTATE_LevelEditorManager.set_level(null);
       ROTATE_Audio.cat.volume(1);
@@ -20330,11 +20333,13 @@
         } else ROTATE_Game.instance.timerHolder.removeChild(this.timerText);
     },
     prekill: function () {
-      ROTATE_GameController.continueTheme
-        ? (ROTATE_GameController.stopped = ROTATE_GameController.canceled = !1)
-        : ROTATE_GameController.stopTheme();
+      ROTATE_ScreenPrimaryGame.continueTheme
+        ? (ROTATE_ScreenPrimaryGame.stopped =
+            ROTATE_ScreenPrimaryGame.canceled =
+              !1)
+        : ROTATE_ScreenPrimaryGame.stopTheme();
     },
-    __class__: ROTATE_GameController,
+    __class__: ROTATE_ScreenPrimaryGame,
   });
   var $b = function (a) {
     null == a && (a = !0);
@@ -20439,16 +20444,17 @@
       !this.done2 &&
         this.cond2.test() &&
         ((this.done2 = !0),
-        ROTATE_GameController.playTheme(0),
+        ROTATE_ScreenPrimaryGame.playTheme(0),
         ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
       this.speech.update();
       !this.done1 &&
         this.cond1.test() &&
         ((this.done1 = !0),
-        ROTATE_GameController.play(ROTATE_Levels.level1, this.speedrun));
+        ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.level1, this.speedrun));
     },
     prekill: function () {
-      ROTATE_GameController.continueTheme || ROTATE_GameController.stopTheme();
+      ROTATE_ScreenPrimaryGame.continueTheme ||
+        ROTATE_ScreenPrimaryGame.stopTheme();
     },
     kill: function () {},
     __class__: ROTATE_ScreenGameBeginning,
@@ -20977,7 +20983,7 @@
     this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
     this.btnPlay.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
     this.btnPlay.addEventListener('click', function (d) {
-      2 > d.which && ROTATE_GameController.play(ROTATE_Editor.editorLevel);
+      2 > d.which && ROTATE_ScreenPrimaryGame.play(ROTATE_Editor.editorLevel);
     });
     this.addChild(this.btnPlay);
     this.btnSave.set_x(
@@ -21276,7 +21282,7 @@
       2 > a.which &&
         JSObjectUtils.__instanceof(
           ROTATE_Game.instance.currentScreen,
-          ROTATE_GameController,
+          ROTATE_ScreenPrimaryGame,
         ) &&
         ROTATE_Game.instance.currentScreen.restart(!1);
     });
@@ -21288,11 +21294,11 @@
         ((a =
           (JSObjectUtils.__instanceof(
             ROTATE_Game.instance.currentScreen,
-            ROTATE_GameController,
+            ROTATE_ScreenPrimaryGame,
           ) &&
             JSObjectUtils.__cast(
               ROTATE_Game.instance.currentScreen,
-              ROTATE_GameController,
+              ROTATE_ScreenPrimaryGame,
             ).speedrun) ||
           (JSObjectUtils.__instanceof(
             ROTATE_Game.instance.currentScreen,
@@ -21330,7 +21336,7 @@
       this.mute.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
       var a = JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
-        ROTATE_GameController,
+        ROTATE_ScreenPrimaryGame,
       );
       this.btnRedo.set_alpha(a ? 1 : 0.25);
       this.btnRedo.main.mouseEnabled = a;
@@ -21831,13 +21837,13 @@
   ROTATE_Editor.showGrid = !0;
   ROTATE_Editor.editorLevel = new ROTATE_EditorLevel();
 
-  ROTATE_GameController.continueTheme = !1;
-  ROTATE_GameController.RESTART_DELAY = 1;
-  ROTATE_GameController.DEATH_TIME = 1.5;
-  ROTATE_GameController.DEATH_SHAKE_TIME = 0.85;
-  ROTATE_GameController.DEATH_SHAKE_AMOUNT = 24;
-  ROTATE_GameController.stopped = !1;
-  ROTATE_GameController.canceled = !1;
+  ROTATE_ScreenPrimaryGame.continueTheme = !1;
+  ROTATE_ScreenPrimaryGame.RESTART_DELAY = 1;
+  ROTATE_ScreenPrimaryGame.DEATH_TIME = 1.5;
+  ROTATE_ScreenPrimaryGame.DEATH_SHAKE_TIME = 0.85;
+  ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT = 24;
+  ROTATE_ScreenPrimaryGame.stopped = !1;
+  ROTATE_ScreenPrimaryGame.canceled = !1;
 
   ROTATE_Text.ALIGN_LEFT = 0;
   ROTATE_Text.ALIGN_CENTER = 1;
