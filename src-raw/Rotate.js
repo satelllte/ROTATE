@@ -3043,7 +3043,8 @@
               (this.set_localX(f), (b = this.dx = 0));
             f = this.get_localX();
           }
-        this.get_localY() - p < -ROTATE_GameConstants.E && (this.grounded = !0);
+        this.get_localY() - p < -ROTATE_GameConstants.EPSILON &&
+          (this.grounded = !0);
         b = ROTATE_Game.instance.get_gameTimeMS();
         c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
         if (0 <= this.dy && !this.grounded) {
@@ -3169,9 +3170,9 @@
       null == c && (c = -1);
       a = null == a ? this.getHitBounds() : a;
       var d = ROTATE_Game.quantize(a.get_left()),
-        e = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.E),
+        e = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.EPSILON),
         f = ROTATE_Game.quantize(a.get_top()),
-        m = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.E);
+        m = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.EPSILON);
       for (m += 1; f < m; )
         for (var k = f++, p = d, y = e + 1; p < y; ) {
           var H = p++;
@@ -3193,9 +3194,9 @@
       this.touching = [];
       var a = this.getHitBounds(),
         b = ROTATE_Game.quantize(a.get_left()),
-        c = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.E),
+        c = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.EPSILON),
         d = ROTATE_Game.quantize(a.get_top()),
-        e = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.E);
+        e = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.EPSILON);
       for (e += 1; d < e; )
         for (var f = d++, m = b, k = c + 1; m < k; ) {
           var p = m++,
@@ -3595,12 +3596,12 @@
           );
           var d = Math.floor(c.x / ROTATE_GameConstants.tileSize),
             e = Math.floor(
-              (c.x + ROTATE_Canvas.width - ROTATE_GameConstants.E) /
+              (c.x + ROTATE_Canvas.width - ROTATE_GameConstants.EPSILON) /
                 ROTATE_GameConstants.tileSize,
             ),
             f = Math.floor(c.y / ROTATE_GameConstants.tileSize),
             m = Math.floor(
-              (c.y + ROTATE_Canvas.height - ROTATE_GameConstants.E) /
+              (c.y + ROTATE_Canvas.height - ROTATE_GameConstants.EPSILON) /
                 ROTATE_GameConstants.tileSize,
             );
           c = function (fa, ka) {
@@ -4634,7 +4635,10 @@
         )
           ? 0
           : Math.floor(
-              d - (d < ROTATE_GameConstants.E ? 0 : ROTATE_GameConstants.E),
+              d -
+                (d < ROTATE_GameConstants.EPSILON
+                  ? 0
+                  : ROTATE_GameConstants.EPSILON),
             ) % 3;
       this.renderRotated(
         a,
@@ -21354,7 +21358,7 @@
 
   JSObjectUtils.__toStr = {}.toString;
 
-  ROTATE_GameConstants.E = 1e-8;
+  ROTATE_GameConstants.EPSILON = 1e-8;
   ROTATE_GameConstants.screenFadeTime = 700;
   ROTATE_GameConstants.screenFadeTimeSlow = 1600;
   ROTATE_GameConstants.tileSize = 24;
