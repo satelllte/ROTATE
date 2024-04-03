@@ -154,7 +154,7 @@
     ROTATE_Canvas.surface = new Surface(ROTATE_Canvas.ctx);
     Time._reset();
     ROTATE_Canvas.input = new CanvasInput(ROTATE_Canvas.canvas);
-    G._init();
+    InputKeys._init();
     ROTATE_Canvas.input.addEventListener('click', ROTATE_Canvas.onClick);
     ROTATE_Canvas.input.addEventListener(
       'mouseDown',
@@ -1145,47 +1145,47 @@
     },
     __class__: CanvasInput,
   });
-  var G = function () {};
-  G.__name__ = !0;
-  G._init = function () {
-    G.inited ||
-      (ROTATE_Canvas.input.addEventListener('keyDown', G.onKeyDown),
-      ROTATE_Canvas.input.addEventListener('keyUp', G.onKeyUp),
-      ROTATE_Canvas.input.addEventListener('blur', G.reset),
-      ROTATE_Canvas.stage.addEventListener('exitFrame', G.update),
-      (G.inited = !0));
+  var InputKeys = function () {};
+  InputKeys.__name__ = !0;
+  InputKeys._init = function () {
+    InputKeys.inited ||
+      (ROTATE_Canvas.input.addEventListener('keyDown', InputKeys.onKeyDown),
+      ROTATE_Canvas.input.addEventListener('keyUp', InputKeys.onKeyUp),
+      ROTATE_Canvas.input.addEventListener('blur', InputKeys.reset),
+      ROTATE_Canvas.stage.addEventListener('exitFrame', InputKeys.update),
+      (InputKeys.inited = !0));
   };
-  G.onKeyDown = function (a) {
-    G.keyDown(a.keyCode) || G.keys.push(a.keyCode);
+  InputKeys.onKeyDown = function (a) {
+    InputKeys.keyDown(a.keyCode) || InputKeys.keys.push(a.keyCode);
   };
-  G.onKeyUp = function (a) {
-    a = G.keys.indexOf(a.keyCode);
-    -1 < a && G.keys.splice(a, 1);
+  InputKeys.onKeyUp = function (a) {
+    a = InputKeys.keys.indexOf(a.keyCode);
+    -1 < a && InputKeys.keys.splice(a, 1);
   };
-  G.reset = function (a) {
-    G.keys = [];
+  InputKeys.reset = function (a) {
+    InputKeys.keys = [];
   };
-  G.update = function () {
-    G.keysOld = G.keys.slice(0);
+  InputKeys.update = function () {
+    InputKeys.keysOld = InputKeys.keys.slice(0);
     if (
       null != window.document.activeElement &&
       null != window.document.activeElement.tagName
     ) {
       var a = window.document.activeElement.tagName.toLowerCase();
-      ('input' != a && 'textarea' != a) || G.reset(null);
+      ('input' != a && 'textarea' != a) || InputKeys.reset(null);
     }
   };
-  G.keyDown = function (a) {
-    return -1 < G.keys.indexOf(a);
+  InputKeys.keyDown = function (a) {
+    return -1 < InputKeys.keys.indexOf(a);
   };
-  G.keyDownOld = function (a) {
-    return -1 < G.keysOld.indexOf(a);
+  InputKeys.keyDownOld = function (a) {
+    return -1 < InputKeys.keysOld.indexOf(a);
   };
-  G.keyPressed = function (a) {
-    return G.keyDown(a) ? !G.keyDownOld(a) : !1;
+  InputKeys.keyPressed = function (a) {
+    return InputKeys.keyDown(a) ? !InputKeys.keyDownOld(a) : !1;
   };
-  G.keyReleased = function (a) {
-    return G.keyDown(a) ? !1 : G.keyDownOld(a);
+  InputKeys.keyReleased = function (a) {
+    return InputKeys.keyDown(a) ? !1 : InputKeys.keyDownOld(a);
   };
   var Ga = function (a, b) {
     this.type = a;
@@ -2033,14 +2033,14 @@
   };
   ROTATE_Game.getInputX = function () {
     return (
-      (G.keyDown(37) || G.keyDown(65) ? -1 : 0) +
-      (G.keyDown(39) || G.keyDown(68) ? 1 : 0)
+      (InputKeys.keyDown(37) || InputKeys.keyDown(65) ? -1 : 0) +
+      (InputKeys.keyDown(39) || InputKeys.keyDown(68) ? 1 : 0)
     );
   };
   ROTATE_Game.getInputY = function () {
     return (
-      (G.keyDown(38) || G.keyDown(87) ? -1 : 0) +
-      (G.keyDown(40) || G.keyDown(83) ? 1 : 0)
+      (InputKeys.keyDown(38) || InputKeys.keyDown(87) ? -1 : 0) +
+      (InputKeys.keyDown(40) || InputKeys.keyDown(83) ? 1 : 0)
     );
   };
   ROTATE_Game.formatMS = function (a) {
@@ -2206,7 +2206,7 @@
             this.currentScreen.ready()));
       null != this.currentScreen &&
         this.currentScreen.pausable &&
-        (G.keyPressed(80) || G.keyPressed(27)) &&
+        (InputKeys.keyPressed(80) || InputKeys.keyPressed(27)) &&
         (this.paused ? this.unpause() : this.pause());
       if (!this.paused) {
         null != this.currentScreen && this.currentScreen.update();
@@ -2856,7 +2856,8 @@
           : this.grounded &&
             this.animation != J.ANIM_IDLE &&
             this.set_animation(J.ANIM_IDLE),
-        !this.finished && (G.keyPressed(40) || G.keyPressed(83)))
+        !this.finished &&
+          (InputKeys.keyPressed(40) || InputKeys.keyPressed(83)))
       ) {
         for (var a = 0, b = this.touching; a < b.length; ) {
           var c = b[a];
@@ -3216,7 +3217,9 @@
         : Q.distance(b, new Q(a.get_left(), a.get_bottom())) < c;
     },
     jumpKeyDown: function () {
-      return G.keyDown(38) || G.keyDown(87) ? !0 : G.keyDown(32);
+      return InputKeys.keyDown(38) || InputKeys.keyDown(87)
+        ? !0
+        : InputKeys.keyDown(32);
     },
     canRotate: function (a) {
       if (
@@ -18235,8 +18238,8 @@
           this.rotating = !1;
         }
       } else if (
-        ((a = G.keyPressed(ROTATE_Game.instance.invert ? 69 : 81)),
-        (b = G.keyPressed(ROTATE_Game.instance.invert ? 81 : 69)),
+        ((a = InputKeys.keyPressed(ROTATE_Game.instance.invert ? 69 : 81)),
+        (b = InputKeys.keyPressed(ROTATE_Game.instance.invert ? 81 : 69)),
         a || b)
       )
         v.awardRotate.unlock(),
@@ -18423,8 +18426,8 @@
           if (null != a) a.onRotateEnd();
         }
       } else if (
-        ((b = G.keyPressed(ROTATE_Game.instance.invert ? 69 : 81)),
-        (c = G.keyPressed(ROTATE_Game.instance.invert ? 81 : 69)),
+        ((b = InputKeys.keyPressed(ROTATE_Game.instance.invert ? 69 : 81)),
+        (c = InputKeys.keyPressed(ROTATE_Game.instance.invert ? 81 : 69)),
         (b || c) && (null == a || a.canRotate(b ? -1 : 1)))
       ) {
         l.rotating = !0;
@@ -18624,7 +18627,7 @@
           if (l.isInBounds(d, e)) {
             var f = [];
             b = null;
-            var m = G.keyDown(16)
+            var m = InputKeys.keyDown(16)
               ? 0
               : this.barLower.selector.get_selection().id;
             if (m == F.start.id) {
@@ -18717,14 +18720,14 @@
               }
           }
         }
-        G.keyPressed(76) && this.showLoadDialog();
-        G.keyPressed(67) && this.showSaveDialog();
-        G.keyPressed(71) &&
+        InputKeys.keyPressed(76) && this.showLoadDialog();
+        InputKeys.keyPressed(67) && this.showSaveDialog();
+        InputKeys.keyPressed(71) &&
           ((this.renderer.showGrid = A.showGrid = !A.showGrid),
           (this.barLower.gridToggle.toggle.clipRect.x = A.showGrid
             ? this.barLower.gridToggle.toggle.clipRect.width
             : 0));
-        G.keyPressed(13) &&
+        InputKeys.keyPressed(13) &&
           ROTATE_Game.instance.changeScreen(new w(A.editorLevel));
       }
     },
@@ -18977,7 +18980,7 @@
       );
       !this.done &&
         b >= this.delay &&
-        G.keyPressed(32) &&
+        InputKeys.keyPressed(32) &&
         ((this.done = !0),
         this.first && ((v.awardEscape.unlocked = !1), v.awardEscape.unlock()),
         ROTATE_Game.instance.changeScreen(new mb(!0), !0, null, !0, !0),
@@ -19866,7 +19869,7 @@
     render: function (a) {
       a.beginFill(12525600, 0.75);
       a.drawRect(
-        (G.keyDown(16) ? 0 : O.selected) * O.size4,
+        (InputKeys.keyDown(16) ? 0 : O.selected) * O.size4,
         0,
         O.size4,
         O.size4,
@@ -20526,9 +20529,9 @@
   Ha.MOUSE_UP = 'mouseUp';
   Ha.MOVE = 'move';
   fb.RENDER = 'render';
-  G.inited = !1;
-  G.keys = [];
-  G.keysOld = [];
+  InputKeys.inited = !1;
+  InputKeys.keys = [];
+  InputKeys.keysOld = [];
   Ga.FUNC = 1;
   Surface.PI2 = 2 * Math.PI;
   za.CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
