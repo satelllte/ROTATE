@@ -18534,9 +18534,9 @@
       });
       ROTATE_Canvas.input.addEventListener('mouseUp', Bind(this, this.mouseUp));
       this.renderer.showGrid = A.showGrid;
-      this.barUpper = new R(A.editorLevel.theme, function (k) {
+      this.barUpper = new ROTATE_Editor(A.editorLevel.theme, function (k) {
         A.editorLevel.theme = 1 - A.editorLevel.theme;
-        a.barUpper.theme.set_text(R.THEMES[A.editorLevel.theme]);
+        a.barUpper.theme.set_text(ROTATE_Editor.THEMES[A.editorLevel.theme]);
         a.renderer.updateAllBlocks();
       });
       this.addChild(this.barUpper);
@@ -20117,7 +20117,7 @@
   Pa.prototype = D(ROTATE_CanvasObject.prototype, {
     __class__: Pa,
   });
-  var R = function (a, b) {
+  var ROTATE_Editor = function (a, b) {
     this.btnLoad = new r(ROTATE_Game.fontMain, 'Load');
     this.btnSave = new r(ROTATE_Game.fontMain, 'Save');
     this.btnPlay = new r(ROTATE_Game.fontMain, 'Play');
@@ -20126,26 +20126,26 @@
     ROTATE_CanvasObject.call(this);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
-    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, R.HEIGHT);
-    this.btnExit.set_x(R.EDGE_PAD);
-    this.btnExit.set_y(R.EDGE_PAD_Y);
+    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Editor.HEIGHT);
+    this.btnExit.set_x(ROTATE_Editor.EDGE_PAD);
+    this.btnExit.set_y(ROTATE_Editor.EDGE_PAD_Y);
     this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
-    this.btnExit.hitPadding = R.BTN_PAD;
+    this.btnExit.hitPadding = ROTATE_Editor.BTN_PAD;
     this.btnExit.addEventListener('click', function (d) {
       2 > d.which && ROTATE_Game.instance.changeScreen(new Oa());
     });
     this.addChild(this.btnExit);
     this.btnClear.set_x(
-      this.btnExit.x + this.btnExit.get_width() + R.BTN_SPACE,
+      this.btnExit.x + this.btnExit.get_width() + ROTATE_Editor.BTN_SPACE,
     );
-    this.btnClear.set_y(R.EDGE_PAD_Y);
+    this.btnClear.set_y(ROTATE_Editor.EDGE_PAD_Y);
     this.btnClear.mouseEnabled = this.btnClear.buttonMode = !0;
-    this.btnClear.hitPadding = R.BTN_PAD;
-    this.btnClear.set_alpha(R.TEXT_GREY);
+    this.btnClear.hitPadding = ROTATE_Editor.BTN_PAD;
+    this.btnClear.set_alpha(ROTATE_Editor.TEXT_GREY);
     this.addChild(this.btnClear);
-    this.theme = new r(ROTATE_Game.fontMain, R.THEMES[a]);
+    this.theme = new r(ROTATE_Game.fontMain, ROTATE_Editor.THEMES[a]);
     this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
-    this.theme.set_y(R.EDGE_PAD_Y);
+    this.theme.set_y(ROTATE_Editor.EDGE_PAD_Y);
     this.theme.xAlign = r.X_ALIGN_CENTER;
     this.addChild(this.theme);
     var c = new I(q.configArrow);
@@ -20165,34 +20165,38 @@
       2 > d.which && b(1);
     });
     this.addChild(c);
-    this.btnPlay.set_x(ROTATE_Canvas.width - R.EDGE_PAD);
-    this.btnPlay.set_y(R.EDGE_PAD_Y);
+    this.btnPlay.set_x(ROTATE_Canvas.width - ROTATE_Editor.EDGE_PAD);
+    this.btnPlay.set_y(ROTATE_Editor.EDGE_PAD_Y);
     this.btnPlay.xAlign = r.X_ALIGN_RIGHT;
     this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
-    this.btnPlay.hitPadding = R.BTN_PAD;
+    this.btnPlay.hitPadding = ROTATE_Editor.BTN_PAD;
     this.btnPlay.addEventListener('click', function (d) {
       2 > d.which && w.play(A.editorLevel);
     });
     this.addChild(this.btnPlay);
-    this.btnSave.set_x(this.btnPlay.x - this.btnPlay.get_width() - R.BTN_SPACE);
-    this.btnSave.set_y(R.EDGE_PAD_Y);
+    this.btnSave.set_x(
+      this.btnPlay.x - this.btnPlay.get_width() - ROTATE_Editor.BTN_SPACE,
+    );
+    this.btnSave.set_y(ROTATE_Editor.EDGE_PAD_Y);
     this.btnSave.xAlign = r.X_ALIGN_RIGHT;
     this.btnSave.mouseEnabled = this.btnSave.buttonMode = !0;
-    this.btnSave.hitPadding = R.BTN_PAD;
-    this.btnSave.set_alpha(R.TEXT_GREY);
+    this.btnSave.hitPadding = ROTATE_Editor.BTN_PAD;
+    this.btnSave.set_alpha(ROTATE_Editor.TEXT_GREY);
     this.addChild(this.btnSave);
-    this.btnLoad.set_x(this.btnSave.x - this.btnSave.get_width() - R.BTN_SPACE);
-    this.btnLoad.set_y(R.EDGE_PAD_Y);
+    this.btnLoad.set_x(
+      this.btnSave.x - this.btnSave.get_width() - ROTATE_Editor.BTN_SPACE,
+    );
+    this.btnLoad.set_y(ROTATE_Editor.EDGE_PAD_Y);
     this.btnLoad.xAlign = r.X_ALIGN_RIGHT;
     this.btnLoad.mouseEnabled = this.btnLoad.buttonMode = !0;
-    this.btnLoad.hitPadding = R.BTN_PAD;
-    this.btnLoad.set_alpha(R.TEXT_GREY);
+    this.btnLoad.hitPadding = ROTATE_Editor.BTN_PAD;
+    this.btnLoad.set_alpha(ROTATE_Editor.TEXT_GREY);
     this.addChild(this.btnLoad);
   };
-  R.__name__ = !0;
-  R.__super__ = ROTATE_CanvasObject;
-  R.prototype = D(ROTATE_CanvasObject.prototype, {
-    __class__: R,
+  ROTATE_Editor.__name__ = !0;
+  ROTATE_Editor.__super__ = ROTATE_CanvasObject;
+  ROTATE_Editor.prototype = D(ROTATE_CanvasObject.prototype, {
+    __class__: ROTATE_Editor,
   });
   var Ya = function () {
     I.call(this, q.trash);
@@ -20249,7 +20253,7 @@
     this.addChild(this.toggle);
     this.label.set_x(32);
     this.label.set_y(1);
-    this.label.set_alpha(R.TEXT_GREY);
+    this.label.set_alpha(ROTATE_Editor.TEXT_GREY);
     this.addChild(this.label);
   };
   bc.__name__ = !0;
@@ -20888,12 +20892,14 @@
   ];
   O.selected = 1;
   Pa.HEIGHT = 48;
-  R.HEIGHT = 48;
-  R.EDGE_PAD = 14;
-  R.EDGE_PAD_Y = 9;
-  R.BTN_SPACE = 12;
-  R.BTN_PAD = 8;
-  R.TEXT_GREY = 0.75;
-  R.THEMES = ['Theme A', 'Theme B'];
+
+  ROTATE_Editor.HEIGHT = 48;
+  ROTATE_Editor.EDGE_PAD = 14;
+  ROTATE_Editor.EDGE_PAD_Y = 9;
+  ROTATE_Editor.BTN_SPACE = 12;
+  ROTATE_Editor.BTN_PAD = 8;
+  ROTATE_Editor.TEXT_GREY = 0.75;
+  ROTATE_Editor.THEMES = ['Theme A', 'Theme B'];
+
   ROTATE_Game.main();
 })(window);
