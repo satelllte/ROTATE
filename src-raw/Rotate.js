@@ -21246,6 +21246,7 @@
   Ma.prototype = __inherit(I.prototype, {
     __class__: Ma,
   });
+
   var eb = function (a) {
     this.btnNo = new ba('NO');
     this.btnYes = new ba('YES');
@@ -21280,12 +21281,17 @@
   eb.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     __class__: eb,
   });
+
   var gameInstance;
+
   String.prototype.__class__ = String;
   String.__name__ = !0;
+
   Array.__name__ = !0;
+
   Date.prototype.__class__ = Date;
   Date.__name__ = ['Date'];
+
   var rc = {
       __name__: ['Int'],
     },
