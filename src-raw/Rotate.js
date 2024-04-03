@@ -2845,7 +2845,7 @@
     __class__: Va,
   };
 
-  var ROTATE_Physics = function () {
+  var ROTATE_Player = function () {
     this.lastStep = -1;
     this.step = 0;
     this.touchingOld = [];
@@ -2864,14 +2864,14 @@
       this.horizontal =
         0;
     ROTATE_AnimatedObject.call(this, ROTATE_Images.player, 32, 48);
-    this.set_animation(ROTATE_Physics.ANIM_IDLE);
+    this.set_animation(ROTATE_Player.ANIM_IDLE);
     this.onChange = Bind(this, this.aminChange);
     this.spawnTime = ROTATE_Game.instance.get_gameTimeMS();
     this.adjust();
   };
-  ROTATE_Physics.__name__ = !0;
-  ROTATE_Physics.__super__ = ROTATE_AnimatedObject;
-  ROTATE_Physics.prototype = __inherit(ROTATE_AnimatedObject.prototype, {
+  ROTATE_Player.__name__ = !0;
+  ROTATE_Player.__super__ = ROTATE_AnimatedObject;
+  ROTATE_Player.prototype = __inherit(ROTATE_AnimatedObject.prototype, {
     get_localX: function () {
       return 0 == ROTATE_LevelEditorManager.rotation
         ? this.x2
@@ -2912,7 +2912,7 @@
       return a;
     },
     aminChange: function (a) {
-      this.animation == ROTATE_Physics.ANIM_RUN &&
+      this.animation == ROTATE_Player.ANIM_RUN &&
         0 == a &&
         100 < ROTATE_Game.instance.get_gameTimeMS() - this.lastStep &&
         ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
@@ -2936,8 +2936,8 @@
         0 != this.horizontal
           ? this.set_scaleX(0 < this.horizontal ? 1 : -1)
           : this.grounded &&
-            this.animation != ROTATE_Physics.ANIM_IDLE &&
-            this.set_animation(ROTATE_Physics.ANIM_IDLE),
+            this.animation != ROTATE_Player.ANIM_IDLE &&
+            this.set_animation(ROTATE_Player.ANIM_IDLE),
         !this.finished &&
           (InputKeys.keyPressed(KEY_CODES.ArrowDown) ||
             InputKeys.keyPressed(KEY_CODES.KeyS)))
@@ -2970,38 +2970,37 @@
       if (!ROTATE_LevelEditorManager.rotating && !this.dead) {
         null == this.lastBounds && (this.lastBounds = this.getHitBounds());
         var a =
-          ROTATE_Physics.SPEED * (this.onRamp ? ROTATE_Physics.RAMP_MULT : 1);
+          ROTATE_Player.SPEED * (this.onRamp ? ROTATE_Player.RAMP_MULT : 1);
         0 < this.horizontal
           ? this.dx < a
-            ? this.dx < -ROTATE_Physics.ACCEL
-              ? (this.dx *= ROTATE_Physics.DECCEL_MULT)
-              : ((this.dx += ROTATE_Physics.ACCEL),
-                this.dx > a && (this.dx = a))
+            ? this.dx < -ROTATE_Player.ACCEL
+              ? (this.dx *= ROTATE_Player.DECCEL_MULT)
+              : ((this.dx += ROTATE_Player.ACCEL), this.dx > a && (this.dx = a))
             : this.dx > a && (this.dx = a)
           : 0 > this.horizontal
             ? this.dx > -a
-              ? this.dx > ROTATE_Physics.ACCEL
-                ? (this.dx *= ROTATE_Physics.DECCEL_MULT)
-                : ((this.dx -= ROTATE_Physics.ACCEL),
+              ? this.dx > ROTATE_Player.ACCEL
+                ? (this.dx *= ROTATE_Player.DECCEL_MULT)
+                : ((this.dx -= ROTATE_Player.ACCEL),
                   this.dx < -a && (this.dx = -a))
               : this.dx < -a && (this.dx = -a)
-            : (this.dx *= ROTATE_Physics.DECCEL_MULT);
+            : (this.dx *= ROTATE_Player.DECCEL_MULT);
         !this.finished &&
         this.grounded &&
         this.jumpKeyDown() &&
         ROTATE_Game.instance.get_gameTime() - this.jumpTimer >=
-          ROTATE_Physics.JUMP_DELAY &&
+          ROTATE_Player.JUMP_DELAY &&
         ROTATE_Game.instance.get_gameTime() - this.jumpTimer2 >=
-          ROTATE_Physics.JUMP_DELAY_2
-          ? ((this.dy = -ROTATE_Physics.JUMP_SPEED),
+          ROTATE_Player.JUMP_DELAY_2
+          ? ((this.dy = -ROTATE_Player.JUMP_SPEED),
             (this.jumpTimer = ROTATE_Game.instance.get_gameTime()),
             (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
               ROTATE_Audio.steps.play('a'),
             (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()))
-          : this.dy < ROTATE_Physics.GRAVITY_MAX &&
-            ((this.dy += ROTATE_Physics.GRAVITY),
-            this.dy > ROTATE_Physics.GRAVITY_MAX &&
-              (this.dy = ROTATE_Physics.GRAVITY_MAX));
+          : this.dy < ROTATE_Player.GRAVITY_MAX &&
+            ((this.dy += ROTATE_Player.GRAVITY),
+            this.dy > ROTATE_Player.GRAVITY_MAX &&
+              (this.dy = ROTATE_Player.GRAVITY_MAX));
         a = this.grounded;
         this.onRamp = this.grounded = !1;
         for (
@@ -3104,12 +3103,12 @@
           (this.jumpTimer2 = ROTATE_Game.instance.get_gameTime()));
         this.grounded
           ? 0 != this.horizontal && 0.75 < Math.abs(this.dx)
-            ? this.set_animation(ROTATE_Physics.ANIM_RUN)
-            : this.set_animation(ROTATE_Physics.ANIM_IDLE)
+            ? this.set_animation(ROTATE_Player.ANIM_RUN)
+            : this.set_animation(ROTATE_Player.ANIM_IDLE)
           : ROTATE_LevelEditorManager.rotating ||
             (0 <= this.dy
-              ? this.set_animation(ROTATE_Physics.ANIM_FALL)
-              : this.set_animation(ROTATE_Physics.ANIM_JUMP));
+              ? this.set_animation(ROTATE_Player.ANIM_FALL)
+              : this.set_animation(ROTATE_Player.ANIM_JUMP));
         this.lastX = this.x2;
         this.lastY = this.y2;
         this.lastBounds = this.getHitBounds();
@@ -3134,8 +3133,8 @@
         for (; 3 < d; ) d -= 4;
       }
       var f = 0 == d || 2 == d,
-        m = f ? ROTATE_Physics.HIT_W : ROTATE_Physics.HIT_H;
-      f = f ? ROTATE_Physics.HIT_H : ROTATE_Physics.HIT_W;
+        m = f ? ROTATE_Player.HIT_W : ROTATE_Player.HIT_H;
+      f = f ? ROTATE_Player.HIT_H : ROTATE_Player.HIT_W;
       a =
         (a && ROTATE_LevelEditorManager.rotating) || (!a && e)
           ? ROTATE_GameConstants.rotateOffset
@@ -3331,9 +3330,9 @@
         !this.grounded ||
         this.jumpKeyDown() ||
         ROTATE_Game.instance.get_gameTime() - this.rotateTimer <
-          ROTATE_Physics.ROTATE_DELAY + ROTATE_GameConstants.rotateTime ||
+          ROTATE_Player.ROTATE_DELAY + ROTATE_GameConstants.rotateTime ||
         ROTATE_Game.instance.get_gameTime() - this.jumpTimer2 <
-          ROTATE_Physics.JUMP_DELAY_2
+          ROTATE_Player.JUMP_DELAY_2
       )
         return !1;
       var b = this.x2,
@@ -3360,7 +3359,7 @@
       this.set_localY(this.get_localY() - ROTATE_GameConstants.rotateOffset);
       this.set_scaleX(a);
       this.adjust();
-      this.set_animation(ROTATE_Physics.ANIM_ROTATE);
+      this.set_animation(ROTATE_Player.ANIM_ROTATE);
       this.rotateTimer = ROTATE_Game.instance.get_gameTime();
       (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
         ROTATE_Audio.steps.play('a');
@@ -3382,7 +3381,7 @@
       );
       this.adjust();
     },
-    __class__: ROTATE_Physics,
+    __class__: ROTATE_Player,
   });
 
   var ROTATE_LevelEditorManager = function () {};
@@ -19703,7 +19702,7 @@
         this.camera.addChild(this.cat);
         this.player.origin.x = this.player.frameW / 2;
         this.player.origin.y = this.player.frameH;
-        this.player.set_animation(ROTATE_Physics.ANIM_IDLE);
+        this.player.set_animation(ROTATE_Player.ANIM_IDLE);
         this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
         this.player.set_y(12 * ROTATE_GameConstants.tileSize);
         this.camera.addChild(this.player);
@@ -20165,7 +20164,7 @@
           }
         ROTATE_LevelEditorManager.level.start();
         ROTATE_ScreenGameBase.prototype.init.call(this);
-        this.player = new ROTATE_Physics();
+        this.player = new ROTATE_Player();
         this.player.set_x(
           (this.player.x2 = this.player.lastX =
             (ROTATE_LevelEditorManager.level.startCol + 0.5) *
@@ -21798,32 +21797,32 @@
     [100, 100, 100, 100, 100, 100, 100],
   );
 
-  ROTATE_Physics.HIT_W = 12;
-  ROTATE_Physics.HIT_H = 42;
-  ROTATE_Physics.SPEED = 3.7;
-  ROTATE_Physics.RAMP_MULT = 0.7;
-  ROTATE_Physics.ACCEL = 0.33;
-  ROTATE_Physics.DECCEL_MULT = 0.6;
-  ROTATE_Physics.JUMP_SPEED = 5.9;
-  ROTATE_Physics.JUMP_DELAY = 0.25;
-  ROTATE_Physics.JUMP_DELAY_2 = 0.06666666666666667;
-  ROTATE_Physics.GRAVITY = 0.35;
-  ROTATE_Physics.GRAVITY_MAX = 9;
-  ROTATE_Physics.ROTATE_DELAY = 0.05;
-  ROTATE_Physics.ANIM_IDLE = new ROTATE_Animation(
+  ROTATE_Player.HIT_W = 12;
+  ROTATE_Player.HIT_H = 42;
+  ROTATE_Player.SPEED = 3.7;
+  ROTATE_Player.RAMP_MULT = 0.7;
+  ROTATE_Player.ACCEL = 0.33;
+  ROTATE_Player.DECCEL_MULT = 0.6;
+  ROTATE_Player.JUMP_SPEED = 5.9;
+  ROTATE_Player.JUMP_DELAY = 0.25;
+  ROTATE_Player.JUMP_DELAY_2 = 0.06666666666666667;
+  ROTATE_Player.GRAVITY = 0.35;
+  ROTATE_Player.GRAVITY_MAX = 9;
+  ROTATE_Player.ROTATE_DELAY = 0.05;
+  ROTATE_Player.ANIM_IDLE = new ROTATE_Animation(
     [0, 1, 2, 3],
     [400, 400, 400, 400],
   );
-  ROTATE_Physics.ANIM_RUN = new ROTATE_Animation(
+  ROTATE_Player.ANIM_RUN = new ROTATE_Animation(
     [4, 5, 6, 7],
     [100, 100, 100, 100],
   );
-  ROTATE_Physics.ANIM_JUMP = new ROTATE_Animation([8, 9], [200, 200], !1);
-  ROTATE_Physics.ANIM_FALL = new ROTATE_Animation(
+  ROTATE_Player.ANIM_JUMP = new ROTATE_Animation([8, 9], [200, 200], !1);
+  ROTATE_Player.ANIM_FALL = new ROTATE_Animation(
     [12, 13, 14, 15],
     [100, 100, 100, 100],
   );
-  ROTATE_Physics.ANIM_ROTATE = new ROTATE_Animation(
+  ROTATE_Player.ANIM_ROTATE = new ROTATE_Animation(
     [16, 17, 18, 19],
     [100, 100, 100, 100],
     !1,
