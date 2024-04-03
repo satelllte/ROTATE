@@ -89,16 +89,16 @@
   ma.replace = function (a, b, c) {
     return a.split(b).join(c);
   };
-  var Canvas = function () {};
-  Canvas.__name__ = !0;
-  Canvas.set_background = function (color) {
-    Canvas.background = color & -1;
-    return Canvas.background;
+  var ROTATE_Canvas = function () {};
+  ROTATE_Canvas.__name__ = !0;
+  ROTATE_Canvas.set_background = function (color) {
+    ROTATE_Canvas.background = color & -1;
+    return ROTATE_Canvas.background;
   };
-  Canvas.set_imageSmoothingEnabled = function (a) {
-    Canvas.imageSmoothingEnabled = a;
-    if (null != Canvas.ctx) {
-      var b = Canvas.ctx;
+  ROTATE_Canvas.set_imageSmoothingEnabled = function (a) {
+    ROTATE_Canvas.imageSmoothingEnabled = a;
+    if (null != ROTATE_Canvas.ctx) {
+      var b = ROTATE_Canvas.ctx;
       b.webkitImageSmoothingEnabled = a;
       b.mozImageSmoothingEnabled = a;
       b.msImageSmoothingEnabled = a;
@@ -107,7 +107,7 @@
     }
     return a;
   };
-  Canvas.start = function (
+  ROTATE_Canvas.start = function (
     container,
     width,
     height,
@@ -115,102 +115,108 @@
     transparent,
     gameInstance,
   ) {
-    if (Canvas.started) return;
+    if (ROTATE_Canvas.started) return;
     if (gameInstance === null) return;
 
-    Canvas.transparent = transparent;
-    Canvas.width = width;
-    Canvas.height = height;
-    Canvas.set_background(background);
-    Canvas.stage = gameInstance;
+    ROTATE_Canvas.transparent = transparent;
+    ROTATE_Canvas.width = width;
+    ROTATE_Canvas.height = height;
+    ROTATE_Canvas.set_background(background);
+    ROTATE_Canvas.stage = gameInstance;
     window.setTimeout(function () {
       window.focus();
     }, 0);
-    Canvas.setup(container);
+    ROTATE_Canvas.setup(container);
     gameInstance.triggerEvent(new ROTATE_Event('added'));
     ROTATE_Manager._init();
-    Canvas.loop();
-    Canvas.started = true;
+    ROTATE_Canvas.loop();
+    ROTATE_Canvas.started = true;
   };
-  Canvas.setup = function (container) {
-    Canvas.parent = container;
+  ROTATE_Canvas.setup = function (container) {
+    ROTATE_Canvas.parent = container;
     var body = document.body;
     body.style.margin = '0';
     body.style.overflow = 'hidden';
-    Canvas.canvas = document.createElement('canvas');
-    Canvas.canvas.width = Canvas.width;
-    Canvas.canvas.height = Canvas.height;
-    Canvas.canvas.style.position = 'absolute';
-    Canvas.canvas.style.left = Canvas.canvas.style.top = '0';
-    Canvas.canvas.style.transform = 'translateZ(0px)';
-    Canvas.canvas.style.cursor = 'default';
-    container.appendChild(Canvas.canvas);
-    Canvas.ctx = Canvas.canvas.getContext('2d', {
-      alpha: Canvas.transparent,
+    ROTATE_Canvas.canvas = document.createElement('canvas');
+    ROTATE_Canvas.canvas.width = ROTATE_Canvas.width;
+    ROTATE_Canvas.canvas.height = ROTATE_Canvas.height;
+    ROTATE_Canvas.canvas.style.position = 'absolute';
+    ROTATE_Canvas.canvas.style.left = ROTATE_Canvas.canvas.style.top = '0';
+    ROTATE_Canvas.canvas.style.transform = 'translateZ(0px)';
+    ROTATE_Canvas.canvas.style.cursor = 'default';
+    container.appendChild(ROTATE_Canvas.canvas);
+    ROTATE_Canvas.ctx = ROTATE_Canvas.canvas.getContext('2d', {
+      alpha: ROTATE_Canvas.transparent,
     });
-    Canvas.set_imageSmoothingEnabled(Canvas.imageSmoothingEnabled);
-    Canvas.surface = new Ea(Canvas.ctx);
+    ROTATE_Canvas.set_imageSmoothingEnabled(
+      ROTATE_Canvas.imageSmoothingEnabled,
+    );
+    ROTATE_Canvas.surface = new Ea(ROTATE_Canvas.ctx);
     N._reset();
-    Canvas.input = new qb(Canvas.canvas);
+    ROTATE_Canvas.input = new qb(ROTATE_Canvas.canvas);
     G._init();
-    Canvas.input.addEventListener('click', Canvas.onClick);
-    Canvas.input.addEventListener('mouseDown', Canvas.onMouseDown);
-    Canvas.input.addEventListener('mouseUp', Canvas.onMouseUp);
-    Canvas.input.addEventListener('move', Canvas.onMouseMove);
+    ROTATE_Canvas.input.addEventListener('click', ROTATE_Canvas.onClick);
+    ROTATE_Canvas.input.addEventListener(
+      'mouseDown',
+      ROTATE_Canvas.onMouseDown,
+    );
+    ROTATE_Canvas.input.addEventListener('mouseUp', ROTATE_Canvas.onMouseUp);
+    ROTATE_Canvas.input.addEventListener('move', ROTATE_Canvas.onMouseMove);
   };
-  Canvas.loop = function () {
+  ROTATE_Canvas.loop = function () {
     N._update();
     if (ROTATE_Manager.get_done())
-      Canvas.wasLoaded ||
+      ROTATE_Canvas.wasLoaded ||
         (ROTATE_Manager.triggerEvent(new Fa('progress', 1)),
-        (Canvas.lastProgress = 1),
+        (ROTATE_Canvas.lastProgress = 1),
         ROTATE_Manager.triggerEvent(new Fa('finished', 1)));
     else {
       var a = ROTATE_Manager.get_progress();
-      a != Canvas.lastProgress &&
+      a != ROTATE_Canvas.lastProgress &&
         (ROTATE_Manager.triggerEvent(new Fa('progress', a)),
-        (Canvas.lastProgress = a));
+        (ROTATE_Canvas.lastProgress = a));
     }
-    Canvas.wasLoaded = ROTATE_Manager.get_done();
-    var b = Canvas.scale;
-    Canvas.scale =
-      window.innerWidth / window.innerHeight < Canvas.width / Canvas.height
-        ? window.innerWidth / Canvas.width
-        : window.innerHeight / Canvas.height;
-    var c = Math.round(Canvas.width * Canvas.scale);
-    a = Math.round(Canvas.height * Canvas.scale);
-    Canvas.scale != b &&
-      ((Canvas.canvas.style.width = c + 'px'),
-      (Canvas.canvas.style.height = a + 'px'));
+    ROTATE_Canvas.wasLoaded = ROTATE_Manager.get_done();
+    var b = ROTATE_Canvas.scale;
+    ROTATE_Canvas.scale =
+      window.innerWidth / window.innerHeight <
+      ROTATE_Canvas.width / ROTATE_Canvas.height
+        ? window.innerWidth / ROTATE_Canvas.width
+        : window.innerHeight / ROTATE_Canvas.height;
+    var c = Math.round(ROTATE_Canvas.width * ROTATE_Canvas.scale);
+    a = Math.round(ROTATE_Canvas.height * ROTATE_Canvas.scale);
+    ROTATE_Canvas.scale != b &&
+      ((ROTATE_Canvas.canvas.style.width = c + 'px'),
+      (ROTATE_Canvas.canvas.style.height = a + 'px'));
     b = Math.floor((window.innerWidth - c) / 2);
-    b != Canvas.offsetX &&
-      ((Canvas.canvas.style.left =
+    b != ROTATE_Canvas.offsetX &&
+      ((ROTATE_Canvas.canvas.style.left =
         Math.floor((window.innerWidth - c) / 2) + 'px'),
-      (Canvas.offsetX = b));
+      (ROTATE_Canvas.offsetX = b));
     c = Math.floor((window.innerHeight - a) / 2);
-    c != Canvas.offsetY &&
-      ((Canvas.canvas.style.top =
+    c != ROTATE_Canvas.offsetY &&
+      ((ROTATE_Canvas.canvas.style.top =
         Math.floor((window.innerHeight - a) / 2) + 'px'),
-      (Canvas.offsetY = c));
-    Canvas.updateMouseSprite();
+      (ROTATE_Canvas.offsetY = c));
+    ROTATE_Canvas.updateMouseSprite();
     a =
-      null != Canvas.mouseSprite && Canvas.mouseSprite.buttonMode
+      null != ROTATE_Canvas.mouseSprite && ROTATE_Canvas.mouseSprite.buttonMode
         ? 'pointer'
         : 'default';
-    a != Canvas.lastCursor &&
-      ((Canvas.canvas.style.cursor = a), (Canvas.lastCursor = a));
+    a != ROTATE_Canvas.lastCursor &&
+      ((ROTATE_Canvas.canvas.style.cursor = a), (ROTATE_Canvas.lastCursor = a));
     var d = new ROTATE_Event('enterFrame');
-    Canvas.stage.cascadingCallback(function (e) {
+    ROTATE_Canvas.stage.cascadingCallback(function (e) {
       e.triggerEvent(d);
     });
     d = new ROTATE_Event('exitFrame');
-    Canvas.stage.cascadingCallback(function (e) {
+    ROTATE_Canvas.stage.cascadingCallback(function (e) {
       e.triggerEvent(d);
     });
-    Canvas.render();
-    Canvas.requestAnimationFrame(Canvas.loop);
+    ROTATE_Canvas.render();
+    ROTATE_Canvas.requestAnimationFrame(ROTATE_Canvas.loop);
   };
-  Canvas.requestAnimationFrame = function (a) {
+  ROTATE_Canvas.requestAnimationFrame = function (a) {
     var b = window;
     (b =
       b.requestAnimationFrame ||
@@ -221,21 +227,33 @@
       ? b(a)
       : window.setTimeout(a, 16);
   };
-  Canvas.render = function () {
-    Canvas.surface.reset();
-    if (Canvas.transparent) {
-      var a = Canvas.background >>> 24;
-      255 > a && Canvas.surface.clearRect(0, 0, Canvas.width, Canvas.height);
-      Canvas.surface.beginFill(
-        Canvas.background & 16777215,
+  ROTATE_Canvas.render = function () {
+    ROTATE_Canvas.surface.reset();
+    if (ROTATE_Canvas.transparent) {
+      var a = ROTATE_Canvas.background >>> 24;
+      255 > a &&
+        ROTATE_Canvas.surface.clearRect(
+          0,
+          0,
+          ROTATE_Canvas.width,
+          ROTATE_Canvas.height,
+        );
+      ROTATE_Canvas.surface.beginFill(
+        ROTATE_Canvas.background & 16777215,
         E.__cast(a, kc) / 255,
       );
-    } else Canvas.surface.beginFill(Canvas.background & 16777215, 1);
-    Canvas.surface.drawRect(0, 0, Canvas.width, Canvas.height);
-    Canvas.surface._ctx.globalAlpha = 1;
-    Canvas.renderSprite(Canvas.stage, Canvas.surface);
+    } else
+      ROTATE_Canvas.surface.beginFill(ROTATE_Canvas.background & 16777215, 1);
+    ROTATE_Canvas.surface.drawRect(
+      0,
+      0,
+      ROTATE_Canvas.width,
+      ROTATE_Canvas.height,
+    );
+    ROTATE_Canvas.surface._ctx.globalAlpha = 1;
+    ROTATE_Canvas.renderSprite(ROTATE_Canvas.stage, ROTATE_Canvas.surface);
   };
-  Canvas.renderSprite = function (a, b) {
+  ROTATE_Canvas.renderSprite = function (a, b) {
     if (a.visible && 0 != a.alpha) {
       b.save();
       b.translate(a.x, a.y);
@@ -249,26 +267,26 @@
       for (var d = 0, e = a._children; d < e.length; ) {
         var f = e[d];
         ++d;
-        Canvas.renderSprite(f, b);
+        ROTATE_Canvas.renderSprite(f, b);
       }
       b.scale(1 / a.scaleX, 1 / a.scaleY);
       b._ctx.globalAlpha = c;
       b.restore();
     }
   };
-  Canvas.updateMouseSprite = function () {
-    var a = Canvas.updateMouseSpriteStep(Canvas.stage, null);
-    null == a && (a = Canvas.stage);
-    Canvas.mouseSprite = a;
+  ROTATE_Canvas.updateMouseSprite = function () {
+    var a = ROTATE_Canvas.updateMouseSpriteStep(ROTATE_Canvas.stage, null);
+    null == a && (a = ROTATE_Canvas.stage);
+    ROTATE_Canvas.mouseSprite = a;
   };
-  Canvas.updateMouseSpriteStep = function (a, b) {
+  ROTATE_Canvas.updateMouseSpriteStep = function (a, b) {
     if (a.visible) {
       if (a.mouseEnabled) {
         var c = a.getBounds();
         c.width -= 1e-4;
         c.height -= 1e-4;
         xa.pointInTransformedBounds(
-          new Q(Canvas.input.mouseX, Canvas.input.mouseY),
+          new Q(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
           a._transform,
           c,
         ) && (b = a);
@@ -277,46 +295,46 @@
       for (var d = a._children; c < d.length; ) {
         var e = d[c];
         ++c;
-        b = Canvas.updateMouseSpriteStep(e, b);
+        b = ROTATE_Canvas.updateMouseSpriteStep(e, b);
       }
     }
     return b;
   };
-  Canvas.pageToGame = function (a, b) {
+  ROTATE_Canvas.pageToGame = function (a, b) {
     return new Q(
-      (a - Canvas.offsetX) / Canvas.scale,
-      (b - Canvas.offsetY) / Canvas.scale,
+      (a - ROTATE_Canvas.offsetX) / ROTATE_Canvas.scale,
+      (b - ROTATE_Canvas.offsetY) / ROTATE_Canvas.scale,
     );
   };
-  Canvas.onClick = function (a) {
-    Canvas.updateMouseSprite();
-    null != Canvas.clickSprite &&
-      Canvas.mouseSprite == Canvas.clickSprite &&
-      Canvas.triggerMouseEvent(Canvas.clickSprite, a);
+  ROTATE_Canvas.onClick = function (a) {
+    ROTATE_Canvas.updateMouseSprite();
+    null != ROTATE_Canvas.clickSprite &&
+      ROTATE_Canvas.mouseSprite == ROTATE_Canvas.clickSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.clickSprite, a);
   };
-  Canvas.onMouseDown = function (a) {
+  ROTATE_Canvas.onMouseDown = function (a) {
     window.getSelection().removeAllRanges();
     var b = window.document.activeElement,
       c = b.tagName.toLowerCase();
     1 != a.which ||
       ('input' != c && 'textarea' != c) ||
       b.setSelectionRange(0, 0);
-    Canvas.updateMouseSprite();
-    Canvas.clickSprite = Canvas.mouseSprite;
-    null != Canvas.mouseSprite &&
-      Canvas.triggerMouseEvent(Canvas.mouseSprite, a);
+    ROTATE_Canvas.updateMouseSprite();
+    ROTATE_Canvas.clickSprite = ROTATE_Canvas.mouseSprite;
+    null != ROTATE_Canvas.mouseSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, a);
   };
-  Canvas.onMouseUp = function (a) {
-    Canvas.updateMouseSprite();
-    null != Canvas.mouseSprite &&
-      Canvas.triggerMouseEvent(Canvas.mouseSprite, a);
+  ROTATE_Canvas.onMouseUp = function (a) {
+    ROTATE_Canvas.updateMouseSprite();
+    null != ROTATE_Canvas.mouseSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, a);
   };
-  Canvas.onMouseMove = function (a) {
-    Canvas.updateMouseSprite();
-    null != Canvas.mouseSprite &&
-      Canvas.triggerMouseEvent(Canvas.mouseSprite, a);
+  ROTATE_Canvas.onMouseMove = function (a) {
+    ROTATE_Canvas.updateMouseSprite();
+    null != ROTATE_Canvas.mouseSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, a);
   };
-  Canvas.triggerMouseEvent = function (a, b) {
+  ROTATE_Canvas.triggerMouseEvent = function (a, b) {
     for (var c = (b.target = a); null != c; ) c.triggerEvent(b), (c = c.parent);
   };
   var Sa = function () {
@@ -637,7 +655,7 @@
       return (this.alpha = 0 > a ? 0 : 1 < a ? 1 : a);
     },
     get_stage: function () {
-      return Canvas.stage;
+      return ROTATE_Canvas.stage;
     },
     get_width: function () {
       return this.getBounds().width * this.scaleX;
@@ -1049,7 +1067,7 @@
       return (this.mouseY = Math.floor(a));
     },
     updateMouse: function (a) {
-      a = Canvas.pageToGame(a.pageX, a.pageY);
+      a = ROTATE_Canvas.pageToGame(a.pageX, a.pageY);
       this.set_mouseX(a.x);
       this.set_mouseY(a.y);
     },
@@ -1130,10 +1148,10 @@
   G.__name__ = !0;
   G._init = function () {
     G.inited ||
-      (Canvas.input.addEventListener('keyDown', G.onKeyDown),
-      Canvas.input.addEventListener('keyUp', G.onKeyUp),
-      Canvas.input.addEventListener('blur', G.reset),
-      Canvas.stage.addEventListener('exitFrame', G.update),
+      (ROTATE_Canvas.input.addEventListener('keyDown', G.onKeyDown),
+      ROTATE_Canvas.input.addEventListener('keyUp', G.onKeyUp),
+      ROTATE_Canvas.input.addEventListener('blur', G.reset),
+      ROTATE_Canvas.stage.addEventListener('exitFrame', G.update),
       (G.inited = !0));
   };
   G.onKeyDown = function (a) {
@@ -1996,7 +2014,7 @@
       'added',
       ((gameInstance = Game.instance), Bind(gameInstance, gameInstance.init)),
     );
-    Canvas.start(
+    ROTATE_Canvas.start(
       document.getElementById('game'),
       504 /* width */,
       504 /* height */,
@@ -2053,7 +2071,7 @@
     },
     init: function (a) {
       this.removeEventListener('added', Bind(this, this.init));
-      Canvas.set_imageSmoothingEnabled(!1);
+      ROTATE_Canvas.set_imageSmoothingEnabled(!1);
       ROTATE_Manager.addEventListener('finished', Bind(this, this.loaded));
     },
     loaded: function (a) {
@@ -2084,7 +2102,7 @@
       this.addChild(this.fader);
       this.addChild(this.timerHolder);
       v.setup(this);
-      Canvas.input.addEventListener('blur', function (c) {
+      ROTATE_Canvas.input.addEventListener('blur', function (c) {
         null != b.targetScreen &&
           b.targetScreen.pausable &&
           (b.pauseOnInit = !0);
@@ -2129,7 +2147,12 @@
           (this.fadeStart = N.get_currentMS()),
           this.fader.graphics.clear(),
           this.fader.graphics.beginFill(e ? 16777215 : 1052688),
-          this.fader.graphics.drawRect(0, 0, Canvas.width, Canvas.height),
+          this.fader.graphics.drawRect(
+            0,
+            0,
+            ROTATE_Canvas.width,
+            ROTATE_Canvas.height,
+          ),
           (this.fader.mouseEnabled = !0),
           null == this.currentScreen
             ? (this.fader.set_alpha(1),
@@ -3406,13 +3429,13 @@
         if (!l.rotating) {
           c = l.rotation;
           c = b.globalToLocal(
-            1 == c || 2 == c ? Canvas.width : 0,
-            2 == c || 3 == c ? Canvas.height : 0,
+            1 == c || 2 == c ? ROTATE_Canvas.width : 0,
+            2 == c || 3 == c ? ROTATE_Canvas.height : 0,
           );
           var d = Math.floor(c.x / n.tileSize),
-            e = Math.floor((c.x + Canvas.width - n.E) / n.tileSize),
+            e = Math.floor((c.x + ROTATE_Canvas.width - n.E) / n.tileSize),
             f = Math.floor(c.y / n.tileSize),
-            m = Math.floor((c.y + Canvas.height - n.E) / n.tileSize);
+            m = Math.floor((c.y + ROTATE_Canvas.height - n.E) / n.tileSize);
           c = function (fa, ka) {
             return fa >= d && ka >= f && fa <= e ? ka <= m : !1;
           };
@@ -17981,13 +18004,13 @@
     this.field.set_alpha(0);
     this.field.xAlign = r.X_ALIGN_CENTER;
     this.field.align = r.ALIGN_CENTER;
-    this.field.set_x(Canvas.width / 2);
+    this.field.set_x(ROTATE_Canvas.width / 2);
     null == b && E.__instanceof(Game.instance.currentScreen, w)
       ? ((b = Game.instance.currentScreen.textHolder),
         (this.field.yAlign = r.Y_ALIGN_TOP),
-        this.field.set_y(Canvas.height - 96))
+        this.field.set_y(ROTATE_Canvas.height - 96))
       : ((this.field.yAlign = r.Y_ALIGN_MIDDLE),
-        this.field.set_y(Canvas.height / 2));
+        this.field.set_y(ROTATE_Canvas.height / 2));
     b.addChild(this.field);
     null != a[0] && a[0].cond.start();
   };
@@ -18095,18 +18118,18 @@
     init: function () {
       ca.playTheme();
       this.addChild(this.bg);
-      this.pivot.set_x(Math.round(Canvas.width / 2));
-      this.pivot.set_y(Math.round(Canvas.height / 2));
+      this.pivot.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.pivot.set_y(Math.round(ROTATE_Canvas.height / 2));
       this.addChild(this.pivot);
       this.content.set_x(-this.pivot.x);
       this.content.set_y(-this.pivot.y);
       this.pivot.addChild(this.content);
       this.title.xAlign = r.X_ALIGN_CENTER;
-      this.title.set_x(Math.round(Canvas.width / 2));
+      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.title.set_y(64);
       this.content.addChild(this.title);
-      this.btnBack.set_x(Math.round(Canvas.width / 2));
-      this.btnBack.set_y(Canvas.height - 88);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 88);
       this.btnBack.addEventListener('click', function (a) {
         2 > a.which && Game.instance.changeScreen(new Oa());
       });
@@ -18134,7 +18157,9 @@
           f = e < a ? 3 : v.all.length - 3 * a,
           m = new Xb(v.all[d]);
         m.set_x(
-          Math.floor(Canvas.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e),
+          Math.floor(ROTATE_Canvas.width / 2) -
+            80 * (f - 1) +
+            160 * (d - 3 * e),
         );
         m.set_y(128 + 136 * e);
         this.content.addChild(m);
@@ -18205,19 +18230,24 @@
       if (this.fromEnd) {
         this.bg = new ROTATE_CanvasObject();
         this.bg.graphics.beginFill(16777215);
-        this.bg.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
+        this.bg.graphics.drawRect(
+          0,
+          0,
+          ROTATE_Canvas.width,
+          ROTATE_Canvas.height,
+        );
         var b = new I(q.vignette);
         b.set_alpha(0.75);
         this.bg.addChild(b);
         this.btnBack.text.set_text('MENU');
       } else ca.playTheme(), (this.bg = new Na());
       this.addChild(this.bg);
-      this.text1.set_x(Math.round(Canvas.width / 2));
+      this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.text1.set_y(80);
       this.text1.xAlign = r.X_ALIGN_CENTER;
       this.addChild(this.text1);
       this.joshua.set_x(
-        Math.round((Canvas.width - this.joshua.get_width()) / 2),
+        Math.round((ROTATE_Canvas.width - this.joshua.get_width()) / 2),
       );
       this.joshua.set_y(this.text1.y + 36);
       this.joshua.mouseEnabled = this.joshua.buttonMode = !0;
@@ -18240,7 +18270,9 @@
             .open('https://www.patreon.com/lightwolfstudios', '_blank')
             .focus();
       });
-      this.soundtrack.set_x(Canvas.width - this.soundtrack.get_width() - 6);
+      this.soundtrack.set_x(
+        ROTATE_Canvas.width - this.soundtrack.get_width() - 6,
+      );
       this.soundtrack.set_y(8);
       this.soundtrack.mouseEnabled = this.soundtrack.buttonMode = !0;
       this.soundtrack.addEventListener('click', function (c) {
@@ -18256,7 +18288,9 @@
       this.moreText.xAlign = r.X_ALIGN_CENTER;
       this.moreText.align = r.ALIGN_CENTER;
       this.addChild(this.moreText);
-      this.more.set_x(Math.round((Canvas.width - this.more.get_width()) / 2));
+      this.more.set_x(
+        Math.round((ROTATE_Canvas.width - this.more.get_width()) / 2),
+      );
       this.more.set_y(this.moreText.y + this.moreText.get_height());
       this.more.mouseEnabled = this.more.buttonMode = !0;
       this.more.addEventListener('click', function (c) {
@@ -18266,8 +18300,8 @@
           c.focus());
       });
       this.addChild(this.more);
-      this.btnBack.set_x(Math.round(Canvas.width / 2));
-      this.btnBack.set_y(Canvas.height - 64);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 64);
       this.btnBack.addEventListener('click', function (c) {
         2 > c.which &&
           (a.fromEnd &&
@@ -18299,10 +18333,15 @@
   qa.prototype = D(P.prototype, {
     init: function () {
       this.bg.graphics.beginFill(3158064);
-      this.bg.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
+      this.bg.graphics.drawRect(
+        0,
+        0,
+        ROTATE_Canvas.width,
+        ROTATE_Canvas.height,
+      );
       this.addChild(this.bg);
-      this.pivot.set_x(Canvas.width / 2);
-      this.pivot.set_y(Canvas.height / 2);
+      this.pivot.set_x(ROTATE_Canvas.width / 2);
+      this.pivot.set_y(ROTATE_Canvas.height / 2);
       this.addChild(this.pivot);
       this.pivot.addChild(this.camera);
       this.level.set_x(-this.camera.x);
@@ -18390,7 +18429,7 @@
       this.addEventListener('mouseDown', function (k) {
         2 > k.which && k.target == a && (a.drawing = !0);
       });
-      Canvas.input.addEventListener('mouseUp', Bind(this, this.mouseUp));
+      ROTATE_Canvas.input.addEventListener('mouseUp', Bind(this, this.mouseUp));
       this.renderer.showGrid = A.showGrid;
       this.barUpper = new R(A.editorLevel.theme, function (k) {
         A.editorLevel.theme = 1 - A.editorLevel.theme;
@@ -18428,7 +18467,7 @@
       2 > a.which && (this.drawing = !1);
     },
     getBoundsSelf: function () {
-      return new z(0, 0, Canvas.width, Canvas.height);
+      return new z(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     },
     showLoadDialog: function () {
       var a = this;
@@ -18517,15 +18556,15 @@
         this.doRotation();
         this.horizontal = Game.getInputX();
         this.vertical = Game.getInputY();
-        var b = Canvas.input.mouseX,
-          c = Canvas.input.mouseY;
+        var b = ROTATE_Canvas.input.mouseX,
+          c = ROTATE_Canvas.input.mouseY;
         if (
           this.drawing &&
           !l.rotating &&
           0 <= b &&
           0 <= c &&
-          b < Canvas.width &&
-          c < Canvas.height
+          b < ROTATE_Canvas.width &&
+          c < ROTATE_Canvas.height
         ) {
           if (null == l.level) return;
           b = this.renderer.globalToLocal(b, c);
@@ -18740,7 +18779,10 @@
       }
     },
     kill: function () {
-      Canvas.input.removeEventListener('mouseUp', Bind(this, this.mouseUp));
+      ROTATE_Canvas.input.removeEventListener(
+        'mouseUp',
+        Bind(this, this.mouseUp),
+      );
       l.set_level(null);
     },
     __class__: A,
@@ -18815,10 +18857,15 @@
     init: function () {
       this.start = Game.instance.get_gameTime();
       this.bg.graphics.beginFill(16777215);
-      this.bg.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
+      this.bg.graphics.drawRect(
+        0,
+        0,
+        ROTATE_Canvas.width,
+        ROTATE_Canvas.height,
+      );
       this.addChild(this.bg);
-      this.pivot.set_x(Canvas.width / 2);
-      this.pivot.set_y(Canvas.height / 2);
+      this.pivot.set_x(ROTATE_Canvas.width / 2);
+      this.pivot.set_y(ROTATE_Canvas.height / 2);
       this.addChild(this.pivot);
       this.pivot.addChild(this.camera);
       this.camera.addChild(this.artMain);
@@ -18846,8 +18893,8 @@
       this.addChild(this.vignette);
       this.hint.xAlign = r.X_ALIGN_CENTER;
       this.hint.yAlign = r.Y_ALIGN_BOTTOM;
-      this.hint.set_x(Math.round(Canvas.width / 2));
-      this.hint.set_y(Canvas.height - 24);
+      this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.hint.set_y(ROTATE_Canvas.height - 24);
       this.hint.set_alpha(0);
       this.addChild(this.hint);
       u.surface.volume(1);
@@ -18886,7 +18933,7 @@
       var a = 0.75 * n.cameraSpeed;
       this.cameraX += (-this.player.x - this.cameraX) * a;
       this.cameraY += (-this.player.y + n.rotateOffset - this.cameraY) * a;
-      this.cat.x < Canvas.width + 100 && this.cat.tick();
+      this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
     },
     postUpdate: function () {
       this.camera.set_x(Math.round(this.cameraX));
@@ -18929,7 +18976,7 @@
       ca.playTheme();
       this.addChild(this.bg);
       this.title.xAlign = r.X_ALIGN_CENTER;
-      this.title.set_x(Math.round(Canvas.width / 2));
+      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.title.set_y(56);
       this.addChild(this.title);
       this.btn1.set_x(134);
@@ -18960,7 +19007,7 @@
       this.text3.set_y(this.btn3.y - 29);
       this.addChild(this.text3);
       this.bestTime.xAlign = r.X_ALIGN_CENTER;
-      this.bestTime.set_x(Math.round(Canvas.width / 2));
+      this.bestTime.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.bestTime.set_y(this.btn3.y + 21 + 8);
       var a = this.bestTime;
       a.set_text(
@@ -18969,8 +19016,8 @@
       );
       0 > B.speedrunBest && this.bestTime.set_alpha(0.5);
       this.addChild(this.bestTime);
-      this.btnBack.set_x(Math.round(Canvas.width / 2));
-      this.btnBack.set_y(Canvas.height - 80);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 80);
       this.btnBack.addEventListener('click', function (b) {
         2 > b.which && Game.instance.changeScreen(new ca());
       });
@@ -18999,12 +19046,12 @@
       ca.playTheme();
       this.addChild(this.bg);
       this.title.xAlign = r.X_ALIGN_CENTER;
-      this.title.set_x(Math.round(Canvas.width / 2));
+      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.title.set_y(56);
       this.addChild(this.title);
       this.addChild(this.tiles);
-      this.btnBack.set_x(Math.round(Canvas.width / 2));
-      this.btnBack.set_y(Canvas.height - 84);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 84);
       this.btnBack.addEventListener('click', function (a) {
         2 > a.which && Game.instance.changeScreen(new ca());
       });
@@ -19019,7 +19066,7 @@
       this.tiles.removeChildren();
       for (
         var a = B.list.length,
-          b = Math.round((Canvas.width - (4 * q.level.width + 72)) / 2),
+          b = Math.round((ROTATE_Canvas.width - (4 * q.level.width + 72)) / 2),
           c = this.title.y + 56,
           d = 0;
         d < a;
@@ -19090,11 +19137,13 @@
       ca.playTheme();
       this.addChild(this.bg);
       this.addChild(this.sponsor);
-      this.logo.set_x(Math.floor((Canvas.width - this.logo.get_width()) / 2));
+      this.logo.set_x(
+        Math.floor((ROTATE_Canvas.width - this.logo.get_width()) / 2),
+      );
       this.logo.set_y(80);
       this.addChild(this.logo);
-      this.btnPlay.set_x(Math.floor(Canvas.width / 2));
-      this.btnPlay.set_y(Math.floor(Canvas.height / 2) - 1);
+      this.btnPlay.set_x(Math.floor(ROTATE_Canvas.width / 2));
+      this.btnPlay.set_y(Math.floor(ROTATE_Canvas.height / 2) - 1);
       this.btnPlay.addEventListener('click', function (a) {
         1 < a.which ||
           (0 == B.unlocked
@@ -19236,7 +19285,12 @@
       this.addChild(this.vignette);
       this.addChild(this.textHolder);
       this.red.graphics.beginFill(14622752);
-      this.red.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
+      this.red.graphics.drawRect(
+        0,
+        0,
+        ROTATE_Canvas.width,
+        ROTATE_Canvas.height,
+      );
       this.red.visible = !1;
       this.addChild(this.red);
       if (this.speedrun) {
@@ -19245,7 +19299,7 @@
         this.timerText = new r(Game.fontMain, '', 2);
         this.timerText.align = r.ALIGN_RIGHT;
         this.timerText.xAlign = r.X_ALIGN_RIGHT;
-        this.timerText.set_x(Canvas.width - 12);
+        this.timerText.set_x(ROTATE_Canvas.width - 12);
         this.timerText.set_y(8);
         Game.instance.timerHolder.addChild(this.timerText);
         this.updateTimer();
@@ -19257,7 +19311,7 @@
             'Press [ESC] or [P] to pause',
           )),
           (this.pauseText.xAlign = r.X_ALIGN_CENTER),
-          this.pauseText.set_x(Math.round(Canvas.width / 2)),
+          this.pauseText.set_x(Math.round(ROTATE_Canvas.width / 2)),
           this.pauseText.set_y(8),
           this.pauseText.set_alpha(0.33),
           this.addChild(this.pauseText));
@@ -19441,8 +19495,8 @@
     P.call(this);
     this.lws = a;
     a = new I(q.splashLWS);
-    a.set_x(Math.round((Canvas.width - a.get_width()) / 2));
-    a.set_y(Math.round((Canvas.height - a.get_height()) / 2));
+    a.set_x(Math.round((ROTATE_Canvas.width - a.get_width()) / 2));
+    a.set_y(Math.round((ROTATE_Canvas.height - a.get_height()) / 2));
     this.addChild(a);
   };
   $b.__name__ = !0;
@@ -19468,8 +19522,8 @@
   vb.prototype = D(P.prototype, {
     init: function () {
       this.timer = N.get_currentMS();
-      this.pivot.set_x(Canvas.width / 2);
-      this.pivot.set_y(Canvas.height / 2);
+      this.pivot.set_x(ROTATE_Canvas.width / 2);
+      this.pivot.set_y(ROTATE_Canvas.height / 2);
       this.addChild(this.pivot);
       this.start.set_x(-this.start.get_width() / 2);
       this.start.set_y(-this.start.get_height() / 2);
@@ -19813,19 +19867,20 @@
     null == b && (b = '');
     ROTATE_CanvasObject.call(this);
     this.graphics.beginFill(1052688, 0.95);
-    this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
+    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     this.mouseEnabled = !0;
     this.title = new r(Game.fontMain, a);
     this.title.xAlign = r.X_ALIGN_CENTER;
-    this.title.set_x(Math.round(Canvas.width / 2));
+    this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
     this.title.set_y(36);
     this.addChild(this.title);
     this.area = window.document.createElement('textarea');
-    var c = Canvas.width - 80;
+    var c = ROTATE_Canvas.width - 80;
     window.document.body.appendChild(this.area);
     this.area.style.position = 'absolute';
-    this.area.style.left = Math.round((Canvas.width - c) / 2) + 'px';
-    this.area.style.top = Math.round((Canvas.height - 300) / 2 - 8) + 'px';
+    this.area.style.left = Math.round((ROTATE_Canvas.width - c) / 2) + 'px';
+    this.area.style.top =
+      Math.round((ROTATE_Canvas.height - 300) / 2 - 8) + 'px';
     this.area.style.width = c - 12 + 'px';
     this.area.style.height = '288px';
     this.area.style.resize = 'none';
@@ -19856,18 +19911,18 @@
     Da.call(this, 'LOAD LEVEL');
     this.invalid.xAlign = r.X_ALIGN_CENTER;
     this.invalid.yAlign = r.Y_ALIGN_BOTTOM;
-    this.invalid.set_x(Math.round(Canvas.width / 2));
-    this.invalid.set_y(Canvas.height - 82);
+    this.invalid.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.invalid.set_y(ROTATE_Canvas.height - 82);
     this.invalid.visible = !1;
     this.addChild(this.invalid);
-    this.btnCancel.set_x(Math.round(Canvas.width / 2) - 96);
-    this.btnCancel.set_y(Canvas.height - 52);
+    this.btnCancel.set_x(Math.round(ROTATE_Canvas.width / 2) - 96);
+    this.btnCancel.set_y(ROTATE_Canvas.height - 52);
     this.btnCancel.addEventListener('click', function (b) {
       if (2 > b.which && null != a.onBack) a.onBack();
     });
     this.addChild(this.btnCancel);
-    this.btnLoad.set_x(Math.round(Canvas.width / 2) + 96);
-    this.btnLoad.set_y(Canvas.height - 52);
+    this.btnLoad.set_x(Math.round(ROTATE_Canvas.width / 2) + 96);
+    this.btnLoad.set_y(ROTATE_Canvas.height - 52);
     this.btnLoad.addEventListener('click', function (b) {
       2 > b.which &&
         null != a.onLoad &&
@@ -19889,8 +19944,8 @@
     var b = this;
     Da.call(this, 'SAVE LEVEL', a);
     this.area.readOnly = !0;
-    this.btnBack.set_x(Math.round(Canvas.width / 2));
-    this.btnBack.set_y(Canvas.height - 52);
+    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.btnBack.set_y(ROTATE_Canvas.height - 52);
     this.btnBack.addEventListener('click', function (c) {
       if (2 > c.which && null != b.onBack) b.onBack();
     });
@@ -19905,10 +19960,10 @@
     this.selector = new O();
     var b = this;
     ROTATE_CanvasObject.call(this);
-    this.set_y(Canvas.height - Pa.HEIGHT);
+    this.set_y(ROTATE_Canvas.height - Pa.HEIGHT);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
-    this.graphics.drawRect(0, 0, Canvas.width, Pa.HEIGHT);
+    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, Pa.HEIGHT);
     this.gridToggle = new bc(a);
     this.addChild(this.gridToggle);
     this.selector.set_x(12);
@@ -19934,7 +19989,7 @@
     ROTATE_CanvasObject.call(this);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
-    this.graphics.drawRect(0, 0, Canvas.width, R.HEIGHT);
+    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, R.HEIGHT);
     this.btnExit.set_x(R.EDGE_PAD);
     this.btnExit.set_y(R.EDGE_PAD_Y);
     this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
@@ -19973,7 +20028,7 @@
       2 > d.which && b(1);
     });
     this.addChild(c);
-    this.btnPlay.set_x(Canvas.width - R.EDGE_PAD);
+    this.btnPlay.set_x(ROTATE_Canvas.width - R.EDGE_PAD);
     this.btnPlay.set_y(R.EDGE_PAD_Y);
     this.btnPlay.xAlign = r.X_ALIGN_RIGHT;
     this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
@@ -20004,8 +20059,8 @@
   });
   var Ya = function () {
     I.call(this, q.trash);
-    this.set_x(Canvas.width - 120);
-    this.set_y(Canvas.height - this.get_height() - 12);
+    this.set_x(ROTATE_Canvas.width - 120);
+    this.set_y(ROTATE_Canvas.height - this.get_height() - 12);
     for (var a = !1, b = 0, c = v.all; b < c.length; ) {
       var d = c[b];
       ++b;
@@ -20041,7 +20096,7 @@
     this.toggle = new I(q.configToggle);
     var b = this;
     ROTATE_CanvasObject.call(this);
-    this.set_x(Canvas.width - this.get_width() - 12);
+    this.set_x(ROTATE_Canvas.width - this.get_width() - 12);
     this.set_y(8);
     this.mouseEnabled = this.buttonMode = !0;
     this.addEventListener('click', function (c) {
@@ -20083,12 +20138,14 @@
         var b = -Math.round((30 * N.get_current()) % q.bgCells.width),
           c = -Math.round((15 * N.get_current()) % q.bgCells.height),
           d = 0,
-          e = Math.ceil(Canvas.height / q.bgCells.height) + 1;
+          e = Math.ceil(ROTATE_Canvas.height / q.bgCells.height) + 1;
         d < e;
 
       )
         for (
-          var f = d++, m = 0, k = Math.ceil(Canvas.width / q.bgCells.width) + 1;
+          var f = d++,
+            m = 0,
+            k = Math.ceil(ROTATE_Canvas.width / q.bgCells.width) + 1;
           m < k;
 
         ) {
@@ -20139,8 +20196,8 @@
           ? b.showWarn(Bind(b, b.toggleSFX))
           : b.toggleSFX());
     });
-    this.sfx.set_x(Canvas.width - this.sfx.get_width() - 12);
-    this.sfx.set_y(Canvas.height - this.sfx.get_height() - 12);
+    this.sfx.set_x(ROTATE_Canvas.width - this.sfx.get_width() - 12);
+    this.sfx.set_y(ROTATE_Canvas.height - this.sfx.get_height() - 12);
     this.addChild(this.sfx);
     this.music = new I(q.mute);
     this.music.set_clipRect(
@@ -20154,7 +20211,7 @@
           : b.toggleMusic());
     });
     this.music.set_x(this.sfx.x - this.music.get_width() - 12);
-    this.music.set_y(Canvas.height - this.music.get_height() - 12);
+    this.music.set_y(ROTATE_Canvas.height - this.music.get_height() - 12);
     this.addChild(this.music);
   };
   Ba.__name__ = !0;
@@ -20224,14 +20281,14 @@
     this.text = new r(Game.fontMain, 'GAME PAUSED');
     ROTATE_CanvasObject.call(this);
     this.graphics.beginFill(1052688, 0.85);
-    this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
+    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     this.visible = !1;
     this.mouseEnabled = !0;
     this.text.align = r.ALIGN_CENTER;
     this.text.xAlign = r.X_ALIGN_CENTER;
     this.text.yAlign = r.Y_ALIGN_MIDDLE;
-    this.text.set_x(Math.floor(Canvas.width / 2));
-    this.text.set_y(Math.floor(Canvas.height / 2) - 96 - 1);
+    this.text.set_x(Math.floor(ROTATE_Canvas.width / 2));
+    this.text.set_y(Math.floor(ROTATE_Canvas.height / 2) - 96 - 1);
     this.addChild(this.text);
     this.btnPlay.set_x(this.text.x);
     this.btnPlay.set_y(this.text.y + 60);
@@ -20297,7 +20354,7 @@
     I.call(this, q.linkJoshua);
     this.clipRect.height /= 2;
     this.set_x(8);
-    this.set_y(Canvas.height - this.get_height() - 8);
+    this.set_y(ROTATE_Canvas.height - this.get_height() - 8);
     this.mouseEnabled = this.buttonMode = !0;
     this.addEventListener('click', function (a) {
       2 <= a.which ||
@@ -20319,22 +20376,22 @@
     ROTATE_CanvasObject.call(this);
     this.main.set_text(a);
     this.graphics.beginFill(1052688, 0.95);
-    this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
+    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     this.mouseEnabled = !0;
     this.main.align = r.ALIGN_CENTER;
     this.main.xAlign = r.X_ALIGN_CENTER;
     this.main.yAlign = r.Y_ALIGN_MIDDLE;
-    this.main.set_x(Math.round(Canvas.width / 2));
-    this.main.set_y(Math.round(Canvas.height / 2) - 40);
+    this.main.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.main.set_y(Math.round(ROTATE_Canvas.height / 2) - 40);
     this.addChild(this.main);
-    this.btnYes.set_x(Math.round(Canvas.width / 2) - 96);
-    this.btnYes.set_y(Math.round(Canvas.height / 2) + 40);
+    this.btnYes.set_x(Math.round(ROTATE_Canvas.width / 2) - 96);
+    this.btnYes.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
     this.btnYes.addEventListener('click', function (c) {
       if (2 > c.which && null != b.onYes) b.onYes();
     });
     this.addChild(this.btnYes);
-    this.btnNo.set_x(Math.round(Canvas.width / 2) + 96);
-    this.btnNo.set_y(Math.round(Canvas.height / 2) + 40);
+    this.btnNo.set_x(Math.round(ROTATE_Canvas.width / 2) + 96);
+    this.btnNo.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
     this.btnNo.addEventListener('click', function (c) {
       if (2 > c.which && null != b.onNo) b.onNo();
     });
@@ -20369,14 +20426,14 @@
     tb = window.ArrayBuffer || wa;
   null == tb.prototype.slice && (tb.prototype.slice = wa.sliceImpl);
   var ec = window.Uint8Array || Ia._new;
-  Canvas.started = !1;
-  Canvas.imageSmoothingEnabled = !0;
-  Canvas.lastCursor = 'default';
-  Canvas.scale = 1;
-  Canvas.offsetX = 0;
-  Canvas.offsetY = 0;
-  Canvas.wasLoaded = !1;
-  Canvas.lastProgress = 0;
+  ROTATE_Canvas.started = !1;
+  ROTATE_Canvas.imageSmoothingEnabled = !0;
+  ROTATE_Canvas.lastCursor = 'default';
+  ROTATE_Canvas.scale = 1;
+  ROTATE_Canvas.offsetX = 0;
+  ROTATE_Canvas.offsetY = 0;
+  ROTATE_Canvas.wasLoaded = !1;
+  ROTATE_Canvas.lastProgress = 0;
   ROTATE_Manager.inited = !1;
   ROTATE_Manager.finished = !1;
   ROTATE_Manager.tasks = [];
