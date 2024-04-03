@@ -153,7 +153,7 @@
     );
     ROTATE_Canvas.surface = new Surface(ROTATE_Canvas.ctx);
     N._reset();
-    ROTATE_Canvas.input = new qb(ROTATE_Canvas.canvas);
+    ROTATE_Canvas.input = new CanvasInput(ROTATE_Canvas.canvas);
     G._init();
     ROTATE_Canvas.input.addEventListener('click', ROTATE_Canvas.onClick);
     ROTATE_Canvas.input.addEventListener(
@@ -1034,21 +1034,21 @@
     },
     __class__: Bounds,
   };
-  var qb = function (a) {
+  var CanvasInput = function (canvas) {
     this.mouseX = this.mouseY = 0;
     this.isFocused = !1;
-    var b = this;
+    var _self = this;
     this.listeners = new Ra();
-    this.c = a;
+    this.c = canvas;
     window.addEventListener('focus', Bind(this, this.onFocus));
     window.addEventListener('blur', Bind(this, this.onBlur));
     window.addEventListener('pagehide', Bind(this, this.onBlur));
-    window.addEventListener('contextmenu', function (c) {
-      var d = c.target.tagName.toLowerCase();
-      if ('canvas' != d && 'body' != d && 'html' != d) return !0;
-      b.onMouseUp(c);
-      c.preventDefault();
-      return !1;
+    window.addEventListener('contextmenu', function (event) {
+      var tag = event.target.tagName.toLowerCase();
+      if (tag !== 'canvas' && tag !== 'body' && tag !== 'html') return true;
+      _self.onMouseUp(event);
+      event.preventDefault();
+      return false;
     });
     window.addEventListener('click', Bind(this, this.onClick));
     window.addEventListener('mousedown', Bind(this, this.onMouseDown));
@@ -1058,9 +1058,9 @@
     window.addEventListener('keydown', Bind(this, this.onKeyDown));
     window.addEventListener('keyup', Bind(this, this.onKeyUp));
   };
-  qb.__name__ = !0;
-  qb.__super__ = Sa;
-  qb.prototype = D(Sa.prototype, {
+  CanvasInput.__name__ = !0;
+  CanvasInput.__super__ = Sa;
+  CanvasInput.prototype = D(Sa.prototype, {
     set_mouseX: function (a) {
       return (this.mouseX = Math.floor(a));
     },
@@ -1143,7 +1143,7 @@
             84 == a))
       );
     },
-    __class__: qb,
+    __class__: CanvasInput,
   });
   var G = function () {};
   G.__name__ = !0;
