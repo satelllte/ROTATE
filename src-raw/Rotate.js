@@ -4382,12 +4382,12 @@
     __class__: ROTATE_GameObject_Ramp,
   });
 
-  var Db = function () {
+  var ROTATE_GameObject_Saw = function () {
     da.call(this);
   };
-  Db.__name__ = !0;
-  Db.__super__ = da;
-  Db.prototype = D(da.prototype, {
+  ROTATE_GameObject_Saw.__name__ = !0;
+  ROTATE_GameObject_Saw.__super__ = da;
+  ROTATE_GameObject_Saw.prototype = D(da.prototype, {
     isTrigger: function (a) {
       return !0;
     },
@@ -4410,7 +4410,7 @@
     alwaysUpdate: function (a) {
       return !E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor);
     },
-    __class__: Db,
+    __class__: ROTATE_GameObject_Saw,
   });
 
   var ROTATE_GameObject_Spikes = function () {
@@ -20916,7 +20916,10 @@
     5,
     new ROTATE_GameObject_Spikes(),
   );
-  ROTATE_GameObjects.saw = ROTATE_GameObjects.register(6, new Db());
+  ROTATE_GameObjects.saw = ROTATE_GameObjects.register(
+    6,
+    new ROTATE_GameObject_Saw(),
+  );
   ROTATE_GameObjects.lever = ROTATE_GameObjects.register(8, new Za());
   ROTATE_GameObjects.door = ROTATE_GameObjects.register(9, new yb());
   ROTATE_GameObjects.number = ROTATE_GameObjects.register(7, new Bb());
