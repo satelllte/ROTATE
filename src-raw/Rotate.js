@@ -13150,7 +13150,7 @@
     kill: function () {},
     __class__: ROTATE_Level3,
   };
-  var Sb = function () {
+  var ROTATE_Level4 = function () {
     this.startDir = 1;
     this.finishRow = 4;
     this.finishCol = 23;
@@ -13537,9 +13537,9 @@
     ];
     this.theme = 0;
   };
-  Sb.__name__ = !0;
-  Sb.__interfaces__ = [ea];
-  Sb.prototype = {
+  ROTATE_Level4.__name__ = !0;
+  ROTATE_Level4.__interfaces__ = [ea];
+  ROTATE_Level4.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(1.5), 'There is nothing without the mind.'),
@@ -13554,7 +13554,7 @@
       return ROTATE_Levels.level5;
     },
     kill: function () {},
-    __class__: Sb,
+    __class__: ROTATE_Level4,
   };
   var Tb = function () {
     this.startDir = -1;
@@ -20816,7 +20816,7 @@
   ROTATE_Levels.level1 = new ROTATE_Level1();
   ROTATE_Levels.level2 = new ROTATE_Level2();
   ROTATE_Levels.level3 = new ROTATE_Level3();
-  ROTATE_Levels.level4 = new Sb();
+  ROTATE_Levels.level4 = new ROTATE_Level4();
   ROTATE_Levels.level5 = new Tb();
   ROTATE_Levels.level6 = new Ub();
   ROTATE_Levels.level7 = new Vb();
