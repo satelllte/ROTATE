@@ -4351,19 +4351,20 @@
     },
     __class__: Bb,
   });
-  var Cb = function () {
+
+  var ROTATE_GameObject_Platform = function () {
     da.call(this);
   };
-  Cb.__name__ = !0;
-  Cb.__super__ = da;
-  Cb.prototype = D(da.prototype, {
+  ROTATE_GameObject_Platform.__name__ = !0;
+  ROTATE_GameObject_Platform.__super__ = da;
+  ROTATE_GameObject_Platform.prototype = D(da.prototype, {
     render: function (a, b, c) {
       this.renderRotated(a, b, 7 * n.tileSize, 0);
     },
     getColliders: function (a) {
       return [new jb(a.getMeta(0))];
     },
-    __class__: Cb,
+    __class__: ROTATE_GameObject_Platform,
   });
 
   var ROTATE_GameObject_Ramp = function () {
@@ -20905,7 +20906,10 @@
     3,
     new ROTATE_GameObject_Ramp(),
   );
-  ROTATE_GameObjects.platform = ROTATE_GameObjects.register(4, new Cb());
+  ROTATE_GameObjects.platform = ROTATE_GameObjects.register(
+    4,
+    new ROTATE_GameObject_Platform(),
+  );
   ROTATE_GameObjects.spikes = ROTATE_GameObjects.register(5, new Eb());
   ROTATE_GameObjects.saw = ROTATE_GameObjects.register(6, new Db());
   ROTATE_GameObjects.lever = ROTATE_GameObjects.register(8, new Za());
