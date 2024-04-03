@@ -2117,7 +2117,7 @@
           (b.pauseOnInit = !0);
         null != b.currentScreen && b.currentScreen.pausable && b.pause();
       });
-      this.changeScreen(new ROTATE_ScreenFirst(), !1);
+      this.changeScreen(new ROTATE_ScreenLaunchButton(), !1);
     },
     pause: function (a) {
       null == a && (a = !0);
@@ -20387,14 +20387,14 @@
     __class__: ROTATE_ScreenLogo,
   });
 
-  var ROTATE_ScreenFirst = function () {
+  var ROTATE_ScreenLaunchButton = function () {
     this.start = new ROTATE_ImageObject(ROTATE_Images.start);
     this.pivot = new ROTATE_CanvasObject();
     P.call(this);
   };
-  ROTATE_ScreenFirst.__name__ = !0;
-  ROTATE_ScreenFirst.__super__ = P;
-  ROTATE_ScreenFirst.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenLaunchButton.__name__ = !0;
+  ROTATE_ScreenLaunchButton.__super__ = P;
+  ROTATE_ScreenLaunchButton.prototype = __inherit(P.prototype, {
     init: function () {
       this.timer = Time.get_currentMS();
       this.pivot.set_x(ROTATE_Canvas.width / 2);
@@ -20427,7 +20427,7 @@
             (a.start.mouseEnabled = !1));
         }));
     },
-    __class__: ROTATE_ScreenFirst,
+    __class__: ROTATE_ScreenLaunchButton,
   });
 
   var ROTATE_ScreenGameBeginning = function (speedrun) {
