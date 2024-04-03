@@ -2585,19 +2585,22 @@
       ROTATE_Awards.bubble.set_y(-68 * (1 - a));
     }
   };
-  var wb = function (a, b, c, d) {
-    this.x = a;
-    this.y = b;
-    this.id = c;
-    this.meta = null == d ? [] : d;
+
+  var BlockData = function (x, y, id, meta) {
+    this.x = x;
+    this.y = y;
+    this.id = id;
+    this.meta = null == meta ? [] : meta;
   };
-  wb.__name__ = !0;
-  wb.prototype = {
+  BlockData.__name__ = !0;
+  BlockData.prototype = {
     get_block: function () {
       return ROTATE_GameObjects.getBlock(this.id);
     },
-    getMeta: function (a) {
-      return null != this.meta && null != this.meta[a] ? this.meta[a] : 0;
+    getMeta: function (index) {
+      return null != this.meta && null != this.meta[index]
+        ? this.meta[index]
+        : 0;
     },
     metaEquals: function (a) {
       if (null == this.meta && null == a) return !0;
@@ -2608,7 +2611,7 @@
       }
       return !0;
     },
-    __class__: wb,
+    __class__: BlockData,
   };
 
   var ua = function (a, b, c) {
@@ -2765,6 +2768,7 @@
     },
     __class__: hc,
   };
+
   var Va = function (a) {
     this.x = a.x;
     this.y = a.y;
@@ -2836,6 +2840,7 @@
     },
     __class__: Va,
   };
+
   var ROTATE_Physics = function () {
     this.lastStep = -1;
     this.step = 0;
@@ -3449,7 +3454,7 @@
       : ROTATE_LevelEditorManager.tiles[b][a].slice(1);
   };
   ROTATE_LevelEditorManager.getBlockData = function (a, b) {
-    return new wb(
+    return new BlockData(
       a,
       b,
       ROTATE_LevelEditorManager.getBlockID(a, b),
@@ -20799,7 +20804,7 @@
           ROTATE_GameConstants.tileSize,
           ROTATE_GameConstants.tileSize,
         );
-        e.render(a, new wb(0, 0, e.id, e.getConfigMeta()), !1);
+        e.render(a, new BlockData(0, 0, e.id, e.getConfigMeta()), !1);
         e.rotatePreview() &&
           (a.translate(
             ROTATE_ActiveGameObject.size2,
