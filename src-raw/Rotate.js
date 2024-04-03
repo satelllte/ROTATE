@@ -20938,7 +20938,7 @@
     ROTATE_Awards.awardRotate,
   ];
   ROTATE_Awards.FADE_MS = 250;
-  ROTATE_Awards.STAY_MS = 3e3;
+  ROTATE_Awards.STAY_MS = 3000;
   ROTATE_Awards.bubbleTimer = -1;
 
   S.SPEED = 2;
