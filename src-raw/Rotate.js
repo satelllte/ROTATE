@@ -20359,21 +20359,22 @@
       __class__: ROTATE_ScreenPrimaryGame,
     },
   );
-  var $b = function (a) {
-    null == a && (a = !0);
+
+  var ROTATE_ScreenLogo = function (lws) {
+    null == lws && (lws = !0);
     this.onTimer = null;
     this.done = !1;
     this.length = 1.5;
     P.call(this);
-    this.lws = a;
-    a = new ROTATE_ImageObject(ROTATE_Images.splashLWS);
-    a.set_x(Math.round((ROTATE_Canvas.width - a.get_width()) / 2));
-    a.set_y(Math.round((ROTATE_Canvas.height - a.get_height()) / 2));
-    this.addChild(a);
+    this.lws = lws;
+    lws = new ROTATE_ImageObject(ROTATE_Images.splashLWS);
+    lws.set_x(Math.round((ROTATE_Canvas.width - lws.get_width()) / 2));
+    lws.set_y(Math.round((ROTATE_Canvas.height - lws.get_height()) / 2));
+    this.addChild(lws);
   };
-  $b.__name__ = !0;
-  $b.__super__ = P;
-  $b.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenLogo.__name__ = !0;
+  ROTATE_ScreenLogo.__super__ = P;
+  ROTATE_ScreenLogo.prototype = __inherit(P.prototype, {
     ready: function () {
       this.timer = Time.get_current();
     },
@@ -20383,7 +20384,7 @@
         ((this.done = !0),
         ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu()));
     },
-    __class__: $b,
+    __class__: ROTATE_ScreenLogo,
   });
 
   var ROTATE_ScreenFirst = function () {
@@ -20422,7 +20423,7 @@
             ROTATE_Audio.exit.once('end', function () {
               ROTATE_Audio.exit.volume(1);
             }),
-            ROTATE_Game.instance.changeScreen(new $b()),
+            ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLogo()),
             (a.start.mouseEnabled = !1));
         }));
     },
