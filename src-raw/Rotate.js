@@ -1989,7 +1989,7 @@
     Game.instance = new Game();
     Game.instance.addEventListener(
       'added',
-      ((Ja = Game.instance), T(Ja, Ja.init)),
+      ((gameInstance = Game.instance), T(gameInstance, gameInstance.init)),
     );
     Canvas.start(
       document.getElementById('game'),
@@ -19295,7 +19295,8 @@
     },
     restart: function (a) {
       a = Game.instance.paused
-        ? ((Ja = Game.instance), T(Ja, Ja.unpause))
+        ? ((gameInstance = Game.instance),
+          T(gameInstance, gameInstance.unpause))
         : null;
       Game.instance.changeScreen(
         new w(l.level, this.speedrun, this.speedrunStart),
@@ -20257,7 +20258,8 @@
                 ? new pb()
                 : new ca(),
           !0,
-          ((Ja = Game.instance), T(Ja, Ja.unpause)),
+          ((gameInstance = Game.instance),
+          T(gameInstance, gameInstance.unpause)),
         ));
     });
     this.addChild(this.btnQuit);
@@ -20336,8 +20338,8 @@
   eb.prototype = D(x.prototype, {
     __class__: eb,
   });
-  var Ja,
-    pc = 0;
+  var gameInstance;
+  var pc = 0;
   String.prototype.__class__ = String;
   String.__name__ = !0;
   Array.__name__ = !0;
