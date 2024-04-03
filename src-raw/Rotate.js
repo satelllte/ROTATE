@@ -18556,7 +18556,7 @@
         a.renderer.updateAllBlocks();
       });
       this.addChild(this.barUpper);
-      this.barLower = new Pa(function () {
+      this.barLower = new ROTATE_EditorBarLower(function () {
         a.renderer.showGrid = A.showGrid;
       });
       this.addChild(this.barLower);
@@ -20119,29 +20119,36 @@
   Zb.prototype = D(Da.prototype, {
     __class__: Zb,
   });
-  var Pa = function (a) {
+  var ROTATE_EditorBarLower = function (a) {
     this.selector = new O();
     var b = this;
     ROTATE_CanvasObject.call(this);
-    this.set_y(ROTATE_Canvas.height - Pa.HEIGHT);
+    this.set_y(ROTATE_Canvas.height - ROTATE_EditorBarLower.HEIGHT);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
-    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, Pa.HEIGHT);
+    this.graphics.drawRect(
+      0,
+      0,
+      ROTATE_Canvas.width,
+      ROTATE_EditorBarLower.HEIGHT,
+    );
     this.gridToggle = new bc(a);
     this.addChild(this.gridToggle);
     this.selector.set_x(12);
     this.selector.set_y(
-      Math.round((Pa.HEIGHT - this.selector.get_height()) / 2),
+      Math.round(
+        (ROTATE_EditorBarLower.HEIGHT - this.selector.get_height()) / 2,
+      ),
     );
     this.addChild(this.selector);
     this.addEventListener('mouseDown', function (c) {
       2 > c.which && c.target == b && (b.selector.bubble.visible = !1);
     });
   };
-  Pa.__name__ = !0;
-  Pa.__super__ = ROTATE_CanvasObject;
-  Pa.prototype = D(ROTATE_CanvasObject.prototype, {
-    __class__: Pa,
+  ROTATE_EditorBarLower.__name__ = !0;
+  ROTATE_EditorBarLower.__super__ = ROTATE_CanvasObject;
+  ROTATE_EditorBarLower.prototype = D(ROTATE_CanvasObject.prototype, {
+    __class__: ROTATE_EditorBarLower,
   });
   var ROTATE_Editor = function (a, b) {
     this.btnLoad = new ROTATE_Text(ROTATE_Game.fontMain, 'Load');
@@ -20924,7 +20931,7 @@
     F.fan,
   ];
   O.selected = 1;
-  Pa.HEIGHT = 48;
+  ROTATE_EditorBarLower.HEIGHT = 48;
 
   ROTATE_Editor.HEIGHT = 48;
   ROTATE_Editor.EDGE_PAD = 14;
