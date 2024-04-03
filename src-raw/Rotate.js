@@ -6382,7 +6382,7 @@
     kill: function () {},
     __class__: ROTATE_Level11,
   };
-  var Lb = function () {
+  var ROTATE_Level12 = function () {
     this.startDir = 1;
     this.finishRow = 4;
     this.finishCol = 3;
@@ -7000,9 +7000,9 @@
     ];
     this.theme = 1;
   };
-  Lb.__name__ = !0;
-  Lb.__interfaces__ = [ea];
-  Lb.prototype = {
+  ROTATE_Level12.__name__ = !0;
+  ROTATE_Level12.__interfaces__ = [ea];
+  ROTATE_Level12.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(1.25), "Don't you understand?"),
@@ -7021,7 +7021,7 @@
       return ROTATE_Levels.level13;
     },
     kill: function () {},
-    __class__: Lb,
+    __class__: ROTATE_Level12,
   };
   var Mb = function () {
     this.startDir = 1;
@@ -20825,7 +20825,7 @@
   ROTATE_Levels.level9 = new ROTATE_Level9();
   ROTATE_Levels.level10 = new ROTATE_Level10();
   ROTATE_Levels.level11 = new ROTATE_Level11();
-  ROTATE_Levels.level12 = new Lb();
+  ROTATE_Levels.level12 = new ROTATE_Level12();
   ROTATE_Levels.level13 = new Mb();
   ROTATE_Levels.level14 = new Nb();
   ROTATE_Levels.level15 = new Ob();
