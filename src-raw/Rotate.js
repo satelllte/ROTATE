@@ -1971,21 +1971,22 @@
     __class__: gc,
   };
   var Game = function () {
-    this.muteMusic =
-      this.muteSFX =
-      this.ieMenu =
-      this.ieGame1 =
-      this.ieGame2 =
-      this.ieSurface =
-      this.ieUnmuted =
-      this.invert =
-        !1;
+    this.muteMusic = false;
+    this.muteSFX = false;
+    this.ieMenu = false;
+    this.ieGame1 = false;
+    this.ieGame2 = false;
+    this.ieSurface = false;
+    this.ieUnmuted = false;
+    this.invert = false;
     this.fader = new x();
-    this.fading = this.fadingSlow = !1;
+    this.fading = false;
+    this.fadingSlow = false;
     this.timerHolder = new x();
-    this.pauseOnInit = !1;
+    this.pauseOnInit = false;
     this.pausedTime = 0;
-    this.hasPaused = this.paused = !1;
+    this.hasPaused = false;
+    this.paused = false;
     x.call(this);
   };
   Game.__name__ = !0;
