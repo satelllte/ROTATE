@@ -104,12 +104,19 @@
     }
     return a;
   };
-  Canvas.start = function (container, width, height, background, e, f) {
+  Canvas.start = function (
+    container,
+    width,
+    height,
+    background,
+    transparent,
+    f,
+  ) {
     Canvas.started ||
       1 > width ||
       1 > height ||
       null == f ||
-      ((Canvas.transparent = e),
+      ((Canvas.transparent = transparent),
       (Canvas.width = width),
       (Canvas.height = height),
       Canvas.set_background(background),
@@ -1987,7 +1994,7 @@
       504 /* width */,
       504 /* height */,
       0x202020 /* background */,
-      !1,
+      false /* transparent */,
       g.i,
     );
   };
