@@ -89,24 +89,25 @@
     return isNaN(b) ? null : b;
   };
 
-  var ma = function () {};
-  ma.__name__ = !0;
-  ma.isSpace = function (a, b) {
+  var StringUtils = function () {};
+  StringUtils.__name__ = !0;
+  StringUtils.isSpace = function (a, b) {
     var c = ja.charCodeAt(a, b);
     return 8 < c && 14 > c ? !0 : 32 == c;
   };
-  ma.ltrim = function (a) {
-    for (var b = a.length, c = 0; c < b && ma.isSpace(a, c); ) ++c;
+  StringUtils.ltrim = function (a) {
+    for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, c); ) ++c;
     return 0 < c ? ja.substr(a, c, b - c) : a;
   };
-  ma.rtrim = function (a) {
-    for (var b = a.length, c = 0; c < b && ma.isSpace(a, b - c - 1); ) ++c;
+  StringUtils.rtrim = function (a) {
+    for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, b - c - 1); )
+      ++c;
     return 0 < c ? ja.substr(a, 0, b - c) : a;
   };
-  ma.trim = function (a) {
-    return ma.ltrim(ma.rtrim(a));
+  StringUtils.trim = function (a) {
+    return StringUtils.ltrim(StringUtils.rtrim(a));
   };
-  ma.replace = function (a, b, c) {
+  StringUtils.replace = function (a, b, c) {
     return a.split(b).join(c);
   };
 
@@ -2538,7 +2539,7 @@
       ROTATE_Awards.queue.push(a);
   };
   ROTATE_Awards.adjustBubble = function (a, b) {
-    ROTATE_Awards.bubbleName.set_text(ma.replace(a, '\n', ' '));
+    ROTATE_Awards.bubbleName.set_text(StringUtils.replace(a, '\n', ' '));
     ROTATE_Awards.bubble.graphics.clear();
     var c =
       Math.max(
@@ -19477,7 +19478,11 @@
       }
     },
     tryLoadLevel: function (a) {
-      a = ma.replace(ma.replace(ma.trim(a), '\n', ''), '\t', '');
+      a = StringUtils.replace(
+        StringUtils.replace(StringUtils.trim(a), '\n', ''),
+        '\t',
+        '',
+      );
       var b = a.split('|');
       if (2 > b.length) return !1;
       var c = b[0].split(',');
