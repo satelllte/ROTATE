@@ -1,4 +1,4 @@
-(function (window) {
+(function () {
   const KEY_CODES = {
     ArrowDown: 40,
     ArrowLeft: 37,
@@ -21138,4 +21138,4 @@
   ROTATE_EditorBarUpper.THEMES = ['Theme A', 'Theme B'];
 
   ROTATE_Game.main();
-})(window);
+})();
