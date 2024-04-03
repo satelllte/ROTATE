@@ -74,8 +74,6 @@
     };
   };
 
-  Math.__name__ = !0;
-
   var Utils = function () {};
   Utils.__name__ = !0;
   Utils.string = function (a) {
