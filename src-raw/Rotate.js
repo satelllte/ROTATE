@@ -542,7 +542,7 @@
       this.items = [];
       this.filling = false;
       this.stroking = false;
-      this.bounds = new z(0, 0, 0, 0);
+      this.bounds = new Bounds(0, 0, 0, 0);
     },
     _paint: function (a) {
       for (var b = 0, c = this.items; b < c.length; ) {
@@ -579,30 +579,30 @@
     },
     drawRect: function (a, b, c, d) {
       this.get_skipDraw() ||
-        (this.bounds.combine(new z(a, b, c, d)),
+        (this.bounds.combine(new Bounds(a, b, c, d)),
         this.call('drawRect', [a, b, c, d]));
     },
     drawPath: function (a, b) {
       null == b && (b = !0);
       this.get_skipDraw() ||
-        (this.bounds.combine(z.containingPoints(a)),
+        (this.bounds.combine(Bounds.containingPoints(a)),
         this.call('drawPath', [a, b]));
     },
     drawCircle: function (a, b, c) {
       this.get_skipDraw() ||
-        (this.bounds.combine(new z(a - c, b - c, 2 * c, 2 * c)),
+        (this.bounds.combine(new Bounds(a - c, b - c, 2 * c, 2 * c)),
         this.call('drawCircle', [a, b, c]));
     },
     drawArc: function (a, b, c, d, e, f, m) {
       null == m && (m = !1);
       null == f && (f = !1);
       this.get_skipDraw() ||
-        (this.bounds.combine(new z(a - c, b - c, 2 * c, 2 * c)),
+        (this.bounds.combine(new Bounds(a - c, b - c, 2 * c, 2 * c)),
         this.call('drawArc', [a, b, c, d, e, f, m]));
     },
     drawEllipse: function (a, b, c, d) {
       this.get_skipDraw() ||
-        (this.bounds.combine(new z(a, b, c, d)),
+        (this.bounds.combine(new Bounds(a, b, c, d)),
         this.call('drawEllipse', [a, b, c, d]));
     },
     drawImage: function (a, b, c) {
@@ -752,11 +752,11 @@
       }
     },
     getBoundsSelf: function () {
-      return new z(0, 0, 0, 0);
+      return new Bounds(0, 0, 0, 0);
     },
     getBounds: function () {
       var a = [this.getBoundsSelf(), this.graphics.bounds];
-      return z.combineMultiple(a);
+      return Bounds.combineMultiple(a);
     },
     hitTestPoint: function (a) {
       return this.getBounds().contains(a);
@@ -794,7 +794,7 @@
   I.__super__ = ROTATE_CanvasObject;
   I.prototype = D(ROTATE_CanvasObject.prototype, {
     get_rect: function () {
-      return new z(
+      return new Bounds(
         0,
         0,
         null != this.clipRect ? this.clipRect.width : 0,
@@ -816,11 +816,11 @@
           window.document.body.removeChild(a));
         this.imageWidth = b;
         this.imageHeight = c;
-        this.set_clipRect(new z(0, 0, b, c));
+        this.set_clipRect(new Bounds(0, 0, b, c));
       }
     },
     getBoundsSelf: function () {
-      return new z(
+      return new Bounds(
         0,
         0,
         null != this.image ? this.clipRect.width : 0,
@@ -929,14 +929,14 @@
     },
     __class__: Q,
   };
-  var z = function (a, b, c, d) {
-    this.x = a;
-    this.y = b;
-    this.width = c;
-    this.height = d;
+  var Bounds = function (x, y, width, height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
   };
-  z.__name__ = !0;
-  z.combineMultiple = function (a) {
+  Bounds.__name__ = !0;
+  Bounds.combineMultiple = function (a) {
     for (var b = 0, c = 0, d = 0, e = 0, f = 0, m = a.length; f < m; ) {
       var k = f++,
         p = a[k];
@@ -945,9 +945,9 @@
       if (0 == k || p.get_bottom() > d) d = p.get_bottom();
       if (0 == k || p.get_right() > e) e = p.get_right();
     }
-    return new z(c, b, e - c, d - b);
+    return new Bounds(c, b, e - c, d - b);
   };
-  z.containingPoints = function (a) {
+  Bounds.containingPoints = function (a) {
     for (
       var b = a[0].y, c = a[0].x, d = a[0].y, e = a[0].x, f = 0;
       f < a.length;
@@ -958,9 +958,9 @@
       m.y < b ? (b = m.y) : m.y > d && (d = m.y);
       m.x < c ? (c = m.x) : m.x > e && (e = m.x);
     }
-    return new z(c, b, e - c, d - b);
+    return new Bounds(c, b, e - c, d - b);
   };
-  z.prototype = {
+  Bounds.prototype = {
     get_top: function () {
       return this.y;
     },
@@ -1030,9 +1030,9 @@
       this.set_right(a);
     },
     copy: function () {
-      return new z(this.x, this.y, this.width, this.height);
+      return new Bounds(this.x, this.y, this.width, this.height);
     },
-    __class__: z,
+    __class__: Bounds,
   };
   var qb = function (a) {
     this.mouseX = this.mouseY = 0;
@@ -2623,7 +2623,7 @@
       this.animChanged = !1;
     },
     getFrameRect: function (a) {
-      return new z(
+      return new Bounds(
         (a % this.cols) * this.frameW,
         Math.floor(a / this.cols) * this.frameH,
         this.frameW,
@@ -2631,7 +2631,12 @@
       );
     },
     getBoundsSelf: function () {
-      return new z(-this.origin.x, -this.origin.y, this.frameW, this.frameH);
+      return new Bounds(
+        -this.origin.x,
+        -this.origin.y,
+        this.frameW,
+        this.frameH,
+      );
     },
     __class__: ua,
   });
@@ -3037,12 +3042,12 @@
       f = f ? J.HIT_H : J.HIT_W;
       a = (a && l.rotating) || (!a && e) ? n.rotateOffset : 0;
       return 3 == d
-        ? new z(b - a, c - f / 2, m, f)
+        ? new Bounds(b - a, c - f / 2, m, f)
         : 2 == d
-          ? new z(b - m / 2, c - a, m, f)
+          ? new Bounds(b - m / 2, c - a, m, f)
           : 1 == d
-            ? new z(b - m + a, c - f / 2, m, f)
-            : new z(b - m / 2, c - f + a, m, f);
+            ? new Bounds(b - m + a, c - f / 2, m, f)
+            : new Bounds(b - m / 2, c - f + a, m, f);
     },
     rampCheck: function (a) {
       return E.__instanceof(a, Wa)
@@ -3191,7 +3196,7 @@
               0 == p.dir || 1 == p.dir ? k : 0,
             )),
             this.testAABBCircle(
-              new z(a.x - b * k, a.y - c * k, a.width, a.height),
+              new Bounds(a.x - b * k, a.y - c * k, a.width, a.height),
               p,
               k,
             ))
@@ -3201,8 +3206,8 @@
       return !1;
     },
     testAABBCircle: function (a, b, c) {
-      return new z(a.x, a.y - c, a.width, a.height + 2 * c).contains(b) ||
-        new z(a.x - c, a.y, a.width + 2 * c, a.height).contains(b) ||
+      return new Bounds(a.x, a.y - c, a.width, a.height + 2 * c).contains(b) ||
+        new Bounds(a.x - c, a.y, a.width + 2 * c, a.height).contains(b) ||
         Q.distance(b, new Q(a.get_left(), a.get_top())) < c ||
         Q.distance(b, new Q(a.get_right(), a.get_top())) < c ||
         Q.distance(b, new Q(a.get_right(), a.get_bottom())) < c
@@ -3568,7 +3573,7 @@
               var K = 1 == l.level.theme ? q.bgBricks : q.bgTiles;
               L.bakeSurface.drawImage(
                 K,
-                new z(
+                new Bounds(
                   ((p + 1) * n.tileSize) % K.width,
                   ((f + 1) * n.tileSize) % K.height,
                   n.tileSize,
@@ -3593,26 +3598,26 @@
       var a = n.tileSize;
       L.bakeSurface.drawImage(
         q.blocks,
-        new z(a, 2 * a, a, 2 * a),
+        new Bounds(a, 2 * a, a, 2 * a),
         (l.level.startCol + 1) * a,
         l.level.startRow * a,
       );
       L.bakeSurface.drawImage(
         q.blocks,
-        new z(2 * a, 2 * a, a, 2 * a),
+        new Bounds(2 * a, 2 * a, a, 2 * a),
         (l.level.finishCol + 1) * a,
         l.level.finishRow * a,
       );
       E.__instanceof(l.level, Aa) &&
         L.bakeSurface.drawImage(
           q.blocks,
-          new z(2 * a, 2 * a, a, 2 * a),
+          new Bounds(2 * a, 2 * a, a, 2 * a),
           (Aa.fakeCol + 1) * a,
           Aa.fakeRow * a,
         );
     },
     getBoundsSelf: function () {
-      return new z(
+      return new Bounds(
         0,
         0,
         l.get_width() * n.tileSize,
@@ -3639,7 +3644,7 @@
       return !1;
     },
     getColliders: function (a) {
-      return [new La(new z(0, 0, n.tileSize, n.tileSize))];
+      return [new La(new Bounds(0, 0, n.tileSize, n.tileSize))];
     },
     onTrigger: function (a) {
       return !0;
@@ -3727,17 +3732,22 @@
           m = c;
           for (k = 0; 0 < m; )
             (p = 1 < m ? 1 : m),
-              a.drawImage(q.blocks, new z(3 * f, 3 * f, p * f, f), k, 0),
+              a.drawImage(q.blocks, new Bounds(3 * f, 3 * f, p * f, f), k, 0),
               a.drawImage(
                 q.blocks,
-                new z((4 - p) * f, 3 * f, p * f, f),
+                new Bounds((4 - p) * f, 3 * f, p * f, f),
                 d * f - k - p * f,
                 0,
               ),
               (m -= p),
               (k += p * f);
-          a.drawImage(q.blocks, new z(4 * f, 3 * f, f, f), c * f, 0);
-          a.drawImage(q.blocks, new z(5 * f, 3 * f, f, f), (d - c - 1) * f, 0);
+          a.drawImage(q.blocks, new Bounds(4 * f, 3 * f, f, f), c * f, 0);
+          a.drawImage(
+            q.blocks,
+            new Bounds(5 * f, 3 * f, f, f),
+            (d - c - 1) * f,
+            0,
+          );
           if (
             E.__instanceof(ROTATE_Game.instance.currentScreen, A) &&
             (A.renderBlockText(a, b.getMeta(0) + ''), 1 < d)
@@ -3746,25 +3756,30 @@
         } else
           a.drawImage(
             q.blocks,
-            new z(3 * f, 3 * f, 0.33333333333333337 * f, f),
+            new Bounds(3 * f, 3 * f, 0.33333333333333337 * f, f),
             0,
             0,
           ),
             a.drawImage(
               q.blocks,
-              new z(4 * f, 3 * f, f, f),
+              new Bounds(4 * f, 3 * f, f, f),
               0.33333333333333337 * f,
               0,
             ),
             a.drawImage(
               q.blocks,
-              new z(5 * f, 3 * f, f, f),
+              new Bounds(5 * f, 3 * f, f, f),
               -0.33333333333333337 * f,
               0,
             ),
             a.drawImage(
               q.blocks,
-              new z(3.6666666666666665 * f, 3 * f, 0.33333333333333337 * f, f),
+              new Bounds(
+                3.6666666666666665 * f,
+                3 * f,
+                0.33333333333333337 * f,
+                f,
+              ),
               0.6666666666666666 * f,
               0,
             );
@@ -3933,7 +3948,7 @@
         f = e / 2;
       a.translate(f, f);
       a.rotate((b.getMeta(0) * Math.PI) / 2);
-      a.drawImage(q.blocks, new z(c, d, e, e), -f, -f);
+      a.drawImage(q.blocks, new Bounds(c, d, e, e), -f, -f);
       a.rotate((-b.getMeta(0) * Math.PI) / 2);
       a.translate(-f, -f);
     },
@@ -3960,7 +3975,7 @@
           : Math.floor(ROTATE_Game.instance.get_gameTimeMS() / 50) % 3;
       a.drawImage(
         q.blocks,
-        new z(
+        new Bounds(
           ((0 < b && 3 > b ? 1 : 0) + 2 * c) * n.tileSize,
           (5 + (1 < b ? 1 : 0)) * n.tileSize,
           n.tileSize,
@@ -3981,7 +3996,7 @@
     render: function (a, b, c) {
       a.drawImage(
         q.blocks,
-        new z(0, 3 * n.tileSize, n.tileSize, n.tileSize),
+        new Bounds(0, 3 * n.tileSize, n.tileSize, n.tileSize),
         0,
         0,
       );
@@ -4049,7 +4064,7 @@
     getColliders: function (a) {
       return [
         new La(
-          new z(
+          new Bounds(
             0.15 * n.tileSize,
             0.15 * n.tileSize,
             0.7 * n.tileSize,
@@ -4066,7 +4081,12 @@
       var d = 0 < b.getMeta(1);
       a.drawImage(
         q.blocks,
-        new z((d ? 4 : 3) * n.tileSize, 2 * n.tileSize, n.tileSize, n.tileSize),
+        new Bounds(
+          (d ? 4 : 3) * n.tileSize,
+          2 * n.tileSize,
+          n.tileSize,
+          n.tileSize,
+        ),
         0,
         0,
       );
@@ -4163,13 +4183,13 @@
       p = n.tileSize / 2;
       a.drawImage(
         q.blocks,
-        new z((e || b ? (b ? (e ? (d ? 0 : 1) : 2) : 3) : 4) * k, 0, p, p),
+        new Bounds((e || b ? (b ? (e ? (d ? 0 : 1) : 2) : 3) : 4) * k, 0, p, p),
         0,
         0,
       );
-      a.drawImage(q.blocks, new z(f * k + p, 0, p, p), p, 0);
-      a.drawImage(q.blocks, new z(y * k, p, p, p), 0, p);
-      a.drawImage(q.blocks, new z(m * k + p, p, p, p), p, p);
+      a.drawImage(q.blocks, new Bounds(f * k + p, 0, p, p), p, 0);
+      a.drawImage(q.blocks, new Bounds(y * k, p, p, p), 0, p);
+      a.drawImage(q.blocks, new Bounds(m * k + p, p, p, p), p, p);
     },
     testCanSolidConnect: function (a, b, c) {
       if (!l.isInBounds(a, b)) return !0;
@@ -4196,12 +4216,18 @@
       null == c && (c = !0);
       c
         ? va.prototype.render.call(this, a, b, c)
-        : a.drawImage(q.blocks, new z(0, 0, n.tileSize, n.tileSize), 0, 0, !1);
+        : a.drawImage(
+            q.blocks,
+            new Bounds(0, 0, n.tileSize, n.tileSize),
+            0,
+            0,
+            !1,
+          );
       b = b.getMeta(0);
       0 > b
         ? (a.drawImage(
             q.blocks,
-            new z(100, 4 * n.tileSize, 10, n.tileSize),
+            new Bounds(100, 4 * n.tileSize, 10, n.tileSize),
             14,
             0,
             !1,
@@ -4209,7 +4235,7 @@
           -1 == b &&
             a.drawImage(
               q.blocks,
-              new z(110, 4 * n.tileSize, 10, n.tileSize),
+              new Bounds(110, 4 * n.tileSize, 10, n.tileSize),
               0,
               0,
               !1,
@@ -4217,21 +4243,21 @@
           -2 == b &&
             a.drawImage(
               q.blocks,
-              new z(120, 4 * n.tileSize, 10, n.tileSize),
+              new Bounds(120, 4 * n.tileSize, 10, n.tileSize),
               0,
               0,
               !1,
             ))
         : (a.drawImage(
             q.blocks,
-            new z((b % 10) * 10, 4 * n.tileSize, 10, n.tileSize),
+            new Bounds((b % 10) * 10, 4 * n.tileSize, 10, n.tileSize),
             14,
             0,
             !1,
           ),
           a.drawImage(
             q.blocks,
-            new z(
+            new Bounds(
               10 * Math.min(Math.floor(0.1 * b), 9),
               4 * n.tileSize,
               10,
@@ -4359,12 +4385,12 @@
         d = 0.5 * b,
         e = (b - d) / 2;
       3 == a.getMeta(0)
-        ? ((a = new z(0, e, c, d)), (b = new z(c, 0, c, b)))
+        ? ((a = new Bounds(0, e, c, d)), (b = new Bounds(c, 0, c, b)))
         : 2 == a.getMeta(0)
-          ? ((a = new z(e, b - c, d, c)), (b = new z(0, 0, b, c)))
+          ? ((a = new Bounds(e, b - c, d, c)), (b = new Bounds(0, 0, b, c)))
           : 1 == a.getMeta(0)
-            ? ((a = new z(b - c, e, c, d)), (b = new z(0, 0, c, b)))
-            : ((a = new z(e, 0, d, c)), (b = new z(0, c, b, c)));
+            ? ((a = new Bounds(b - c, e, c, d)), (b = new Bounds(0, 0, c, b)))
+            : ((a = new Bounds(e, 0, d, c)), (b = new Bounds(0, c, b, c)));
       return [new La(a), new La(b)];
     },
     onTrigger: function (a) {
@@ -4385,7 +4411,7 @@
       a.translate(d, d);
       1 < b.getMeta(0) && a.rotate(Math.PI);
       (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
-      a.drawImage(q.blocks, new z(5 * n.tileSize, 0, c, c), -d, -d);
+      a.drawImage(q.blocks, new Bounds(5 * n.tileSize, 0, c, c), -d, -d);
       (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
       1 < b.getMeta(0) && a.rotate(-Math.PI);
       a.translate(-d, -d);
@@ -4401,7 +4427,7 @@
     render: function (a, b, c) {
       a.drawImage(
         q.blocks,
-        new z(0, 2 * n.tileSize, n.tileSize, n.tileSize),
+        new Bounds(0, 2 * n.tileSize, n.tileSize, n.tileSize),
         0,
         0,
       );
@@ -4421,10 +4447,16 @@
       null == c && (c = !0);
       c
         ? va.prototype.render.call(this, a, b, c)
-        : a.drawImage(q.blocks, new z(0, 0, n.tileSize, n.tileSize), 0, 0, !1);
+        : a.drawImage(
+            q.blocks,
+            new Bounds(0, 0, n.tileSize, n.tileSize),
+            0,
+            0,
+            !1,
+          );
       a.drawImage(
         q.blocks,
-        new z(5 * n.tileSize, 2 * n.tileSize, n.tileSize, n.tileSize),
+        new Bounds(5 * n.tileSize, 2 * n.tileSize, n.tileSize, n.tileSize),
         0,
         0,
         !1,
@@ -17811,7 +17843,7 @@
     __class__: kb,
   };
   var jb = function (a) {
-    this.bounds = new z(0, 0, n.tileSize, n.tileSize);
+    this.bounds = new Bounds(0, 0, n.tileSize, n.tileSize);
     this.dir = a;
   };
   jb.__name__ = !0;
@@ -17906,7 +17938,7 @@
   };
   var ia = function (a, b, c, d, e) {
     null == e && (e = -1);
-    this.bounds = new z(
+    this.bounds = new Bounds(
       a * n.tileSize,
       b * n.tileSize,
       c * n.tileSize,
@@ -17945,7 +17977,7 @@
     null == f && (f = -1);
     this.hit = !1;
     this.delay = a;
-    this.bounds = new z(
+    this.bounds = new Bounds(
       b * n.tileSize,
       c * n.tileSize,
       d * n.tileSize,
@@ -18485,7 +18517,7 @@
       2 > a.which && (this.drawing = !1);
     },
     getBoundsSelf: function () {
-      return new z(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
+      return new Bounds(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     },
     showLoadDialog: function () {
       var a = this;
@@ -19660,7 +19692,7 @@
           null != K &&
             (a.drawImage(
               b.image,
-              new z(K.x + f * b.colorOffset, K.y, K.w, K.h),
+              new Bounds(K.x + f * b.colorOffset, K.y, K.w, K.h),
               d + m + K.xo,
               e + k + K.yo,
             ),
@@ -19734,7 +19766,12 @@
             null != k &&
               (a.drawImage(
                 this.font.image,
-                new z(k.x + this.color * this.font.colorOffset, k.y, k.w, k.h),
+                new Bounds(
+                  k.x + this.color * this.font.colorOffset,
+                  k.y,
+                  k.w,
+                  k.h,
+                ),
                 b.x + c + k.xo,
                 b.y + d + k.yo,
               ),
@@ -19743,7 +19780,7 @@
     },
     getBoundsSelf: function () {
       var a = this.getTextOffset();
-      return new z(
+      return new Bounds(
         a.x - this.hitPadding,
         a.y - this.hitPadding,
         this.textWidth + 2 * this.hitPadding,
@@ -19854,7 +19891,7 @@
       a.translate(-2, -2);
     },
     getBoundsSelf: function () {
-      return new z(0, 0, O.list.length * (n.tileSize + 4), n.tileSize + 4);
+      return new Bounds(0, 0, O.list.length * (n.tileSize + 4), n.tileSize + 4);
     },
     __class__: O,
   });
@@ -20150,7 +20187,7 @@
   bc.__super__ = ROTATE_CanvasObject;
   bc.prototype = D(ROTATE_CanvasObject.prototype, {
     getBoundsSelf: function () {
-      return new z(0, 0, 76, 30);
+      return new Bounds(0, 0, 76, 30);
     },
     __class__: bc,
   });
@@ -20218,7 +20255,7 @@
     ROTATE_CanvasObject.call(this);
     this.sfx = new I(q.mute);
     this.sfx.set_clipRect(
-      new z(ROTATE_Game.instance.muteSFX ? 28 : 0, 30 * a, 28, 30),
+      new Bounds(ROTATE_Game.instance.muteSFX ? 28 : 0, 30 * a, 28, 30),
     );
     this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
     this.sfx.addEventListener('click', function (c) {
@@ -20232,7 +20269,7 @@
     this.addChild(this.sfx);
     this.music = new I(q.mute);
     this.music.set_clipRect(
-      new z(ROTATE_Game.instance.muteMusic ? 84 : 56, 30 * a, 28, 30),
+      new Bounds(ROTATE_Game.instance.muteMusic ? 84 : 56, 30 * a, 28, 30),
     );
     this.music.mouseEnabled = this.music.buttonMode = !0;
     this.music.addEventListener('click', function (c) {
@@ -20298,7 +20335,7 @@
   cc.__super__ = ROTATE_CanvasObject;
   cc.prototype = D(ROTATE_CanvasObject.prototype, {
     getBoundsSelf: function () {
-      return new z(0, 0, 198, 22);
+      return new Bounds(0, 0, 198, 22);
     },
     __class__: cc,
   });
