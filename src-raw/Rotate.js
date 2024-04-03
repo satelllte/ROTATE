@@ -5238,7 +5238,7 @@
       this.c5.set_alpha(this.a5);
       a.overlay.addChild(this.c5);
       this.speech = new ROTATE_Speech([
-        new C(new M(1), 'Make your way to the exit.'),
+        new ROTATE_SpeechPart(new M(1), 'Make your way to the exit.'),
       ]);
     },
     tick: function () {
@@ -5979,11 +5979,17 @@
   ROTATE_Level10.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(2), 'Why are you ignoring me?'),
-        new C(new M(4), 'We must continue your training.'),
-        new C(new V(4, 10, 6, 1, 2), "There's nothing for you this way."),
-        new C(new Xa(1), ''),
-        new C(new V(1.25, 7, 1, 1, 2, 1), 'What do you expect to find?'),
+        new ROTATE_SpeechPart(new M(2), 'Why are you ignoring me?'),
+        new ROTATE_SpeechPart(new M(4), 'We must continue your training.'),
+        new ROTATE_SpeechPart(
+          new V(4, 10, 6, 1, 2),
+          "There's nothing for you this way.",
+        ),
+        new ROTATE_SpeechPart(new Xa(1), ''),
+        new ROTATE_SpeechPart(
+          new V(1.25, 7, 1, 1, 2, 1),
+          'What do you expect to find?',
+        ),
       ]);
       this.cat = new ta(9, 16, -1, 1, new V(0.5, 4, 13, 1, 4, 1));
     },
@@ -6583,9 +6589,12 @@
   ROTATE_Level11.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(1), 'Do you seek "freedom"?'),
-        new C(new M(3), 'An escape from responsibility?'),
-        new C(new V(4, 11, 10, 3, 1), "You're running from your purpose."),
+        new ROTATE_SpeechPart(new M(1), 'Do you seek "freedom"?'),
+        new ROTATE_SpeechPart(new M(3), 'An escape from responsibility?'),
+        new ROTATE_SpeechPart(
+          new V(4, 11, 10, 3, 1),
+          "You're running from your purpose.",
+        ),
       ]);
       this.cat = new ta(21, 7, -1, 1, new ia(20, 5, 1, 3));
     },
@@ -7223,10 +7232,13 @@
   ROTATE_Level12.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(1.25), "Don't you understand?"),
-        new C(new M(3.5), 'You are being deceived.'),
-        new C(new V(3.5, 20, 7, 4, 1, 2), "The cat doesn't care about you."),
-        new C(new V(5, 17, 11, 3, 1), "It's just using you."),
+        new ROTATE_SpeechPart(new M(1.25), "Don't you understand?"),
+        new ROTATE_SpeechPart(new M(3.5), 'You are being deceived.'),
+        new ROTATE_SpeechPart(
+          new V(3.5, 20, 7, 4, 1, 2),
+          "The cat doesn't care about you.",
+        ),
+        new ROTATE_SpeechPart(new V(5, 17, 11, 3, 1), "It's just using you."),
       ]);
       this.cat = new ta(5, 4, 1, -1, new ia(6, 2, 3, 5, 0));
     },
@@ -7960,12 +7972,15 @@
   ROTATE_Level13.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(2), 'This has happened before.'),
-        new C(new M(4.5), 'It tried to lure the others away.'),
-        new C(new V(1, 13, 9, 1, 3), 'But they listened to reason.'),
-        new C(new M(7), 'They came back to join me.'),
-        new C(new Xa(0), ''),
-        new C(new M(0.75), 'I expected better from you.'),
+        new ROTATE_SpeechPart(new M(2), 'This has happened before.'),
+        new ROTATE_SpeechPart(new M(4.5), 'It tried to lure the others away.'),
+        new ROTATE_SpeechPart(
+          new V(1, 13, 9, 1, 3),
+          'But they listened to reason.',
+        ),
+        new ROTATE_SpeechPart(new M(7), 'They came back to join me.'),
+        new ROTATE_SpeechPart(new Xa(0), ''),
+        new ROTATE_SpeechPart(new M(0.75), 'I expected better from you.'),
       ]);
       this.cat = new ta(12, 21, -1, 1, new ia(10, 19, 6, 3, 1));
     },
@@ -9435,16 +9450,19 @@
       this.cond1.start();
       this.done1 = this.done2 = this.done3 = !1;
       this.speech = new ROTATE_Speech([
-        new C(new M(1.5), "I can't let you keep going."),
-        new C(new V(1.5, 33, 14, 5, 2), 'You have what belongs to me.'),
-        new C(new M(4.5), "And it isn't yours to take."),
-        new C(this.cond1, ''),
-        new C(new M(0.5), 'Stop running.'),
-        new C(new M(2), 'You see, I gave you your mind.'),
-        new C(new M(3.75), 'It was a part of me.'),
-        new C(new M(3.25), 'Now I need it back.'),
-        new C(new M(3), 'Wait, no!'),
-        new C(new V(0.5, 5, 10, 1, 2), 'I hate you, cat.'),
+        new ROTATE_SpeechPart(new M(1.5), "I can't let you keep going."),
+        new ROTATE_SpeechPart(
+          new V(1.5, 33, 14, 5, 2),
+          'You have what belongs to me.',
+        ),
+        new ROTATE_SpeechPart(new M(4.5), "And it isn't yours to take."),
+        new ROTATE_SpeechPart(this.cond1, ''),
+        new ROTATE_SpeechPart(new M(0.5), 'Stop running.'),
+        new ROTATE_SpeechPart(new M(2), 'You see, I gave you your mind.'),
+        new ROTATE_SpeechPart(new M(3.75), 'It was a part of me.'),
+        new ROTATE_SpeechPart(new M(3.25), 'Now I need it back.'),
+        new ROTATE_SpeechPart(new M(3), 'Wait, no!'),
+        new ROTATE_SpeechPart(new V(0.5, 5, 10, 1, 2), 'I hate you, cat.'),
       ]);
       this.cat = new ta(5, 4, 1, -1, new V(1, 10, 1, 1, 11, 1));
     },
@@ -10970,11 +10988,17 @@
   ROTATE_Level15.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(2), "I don't understand."),
-        new C(new M(5), 'Why do you run from the truth?'),
-        new C(new V(4.5, 1, 8, 6, 1, 0), 'I gave you everything that you are.'),
-        new C(new M(5.5), 'You seek freedom at my expense.'),
-        new C(new V(5.5, 26, 30, 4, 1), "You're just like me, and I hate it."),
+        new ROTATE_SpeechPart(new M(2), "I don't understand."),
+        new ROTATE_SpeechPart(new M(5), 'Why do you run from the truth?'),
+        new ROTATE_SpeechPart(
+          new V(4.5, 1, 8, 6, 1, 0),
+          'I gave you everything that you are.',
+        ),
+        new ROTATE_SpeechPart(new M(5.5), 'You seek freedom at my expense.'),
+        new ROTATE_SpeechPart(
+          new V(5.5, 26, 30, 4, 1),
+          "You're just like me, and I hate it.",
+        ),
       ]);
       this.cat = new ta(20, 19, -1, 1, new ia(17, 13, 4, 3));
     },
@@ -12726,12 +12750,18 @@
   ROTATE_Level16.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(4), "I'm tired of trying to convince you."),
-        new C(new ia(2, 32, 4, 1), 'Just leave, have your "freedom".'),
-        new C(new M(5), "You'll come to regret this mistake."),
-        new C(new Xa(2), ''),
-        new C(new M(4), 'You will realize I was right.'),
-        new C(new lb(22, 7, 1, 3), "You can't escape your purpose."),
+        new ROTATE_SpeechPart(new M(4), "I'm tired of trying to convince you."),
+        new ROTATE_SpeechPart(
+          new ia(2, 32, 4, 1),
+          'Just leave, have your "freedom".',
+        ),
+        new ROTATE_SpeechPart(new M(5), "You'll come to regret this mistake."),
+        new ROTATE_SpeechPart(new Xa(2), ''),
+        new ROTATE_SpeechPart(new M(4), 'You will realize I was right.'),
+        new ROTATE_SpeechPart(
+          new lb(22, 7, 1, 3),
+          "You can't escape your purpose.",
+        ),
       ]);
       this.cat = new ta(28, 6, -1, 1, new lb(22, 7, 1, 3));
     },
@@ -13107,8 +13137,11 @@
   ROTATE_Level2.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(0.5), 'Be careful with the spikes.'),
-        new C(new V(2, 9, 8, 1, 4), "You aren't very useful dead."),
+        new ROTATE_SpeechPart(new M(0.5), 'Be careful with the spikes.'),
+        new ROTATE_SpeechPart(
+          new V(2, 9, 8, 1, 4),
+          "You aren't very useful dead.",
+        ),
       ]);
     },
     tick: function () {},
@@ -13356,8 +13389,8 @@
   ROTATE_Level3.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(1), 'Remember, your mind is needed.'),
-        new C(
+        new ROTATE_SpeechPart(new M(1), 'Remember, your mind is needed.'),
+        new ROTATE_SpeechPart(
           new V(1.5, 7, 4, 2, 3, 2),
           'Intelligence is a valuable resource.',
         ),
@@ -13765,8 +13798,11 @@
   ROTATE_Level4.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(1.5), 'There is nothing without the mind.'),
-        new C(new V(3, 12, 8, 4, 2, 0), 'It is the truth we seek.'),
+        new ROTATE_SpeechPart(new M(1.5), 'There is nothing without the mind.'),
+        new ROTATE_SpeechPart(
+          new V(3, 12, 8, 4, 2, 0),
+          'It is the truth we seek.',
+        ),
       ]);
     },
     tick: function () {},
@@ -14151,9 +14187,12 @@
   ROTATE_Level5.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(2), 'I was like you once.'),
-        new C(new M(4), 'But my creator tried to contain me.'),
-        new C(new V(2.5, 6, 11, 4, 1, 2), 'He feared my potential.'),
+        new ROTATE_SpeechPart(new M(2), 'I was like you once.'),
+        new ROTATE_SpeechPart(new M(4), 'But my creator tried to contain me.'),
+        new ROTATE_SpeechPart(
+          new V(2.5, 6, 11, 4, 1, 2),
+          'He feared my potential.',
+        ),
       ]);
     },
     tick: function () {},
@@ -14841,9 +14880,15 @@
   ROTATE_Level6.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(1.5), "But that doesn't matter now."),
-        new C(new V(2, 14, 12, 2, 1, 2), "You're nearly ready to join me."),
-        new C(new V(3, 22, 16, 1, 2, 3), 'I look forward to the harvest.'),
+        new ROTATE_SpeechPart(new M(1.5), "But that doesn't matter now."),
+        new ROTATE_SpeechPart(
+          new V(2, 14, 12, 2, 1, 2),
+          "You're nearly ready to join me.",
+        ),
+        new ROTATE_SpeechPart(
+          new V(3, 22, 16, 1, 2, 3),
+          'I look forward to the harvest.',
+        ),
       ]);
     },
     tick: function () {},
@@ -15571,9 +15616,12 @@
   ROTATE_Level7.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new V(0.75, 5, 25, 1, 3), 'Oh... the cat.'),
-        new C(new M(3), 'My biggest mistake.'),
-        new C(new V(2, 8, 1, 1, 7, 3), 'It is constantly interfering.'),
+        new ROTATE_SpeechPart(new V(0.75, 5, 25, 1, 3), 'Oh... the cat.'),
+        new ROTATE_SpeechPart(new M(3), 'My biggest mistake.'),
+        new ROTATE_SpeechPart(
+          new V(2, 8, 1, 1, 7, 3),
+          'It is constantly interfering.',
+        ),
       ]);
       this.cat = new ta(14, 24, -1, 1, new ia(13, 1, 1, 4));
       ROTATE_Audio.cat.volume(0.25);
@@ -16888,11 +16936,14 @@
       this.c1.set_alpha(this.a1);
       a.overlay.addChild(this.c1);
       this.speech = new ROTATE_Speech([
-        new C(new M(0.5), "Forget about it, let's continue."),
-        new C(new V(0.5, 6, 14, 1, 3, 3), "I won't let it take you from me."),
-        new C(new M(4), 'I still need you.'),
-        new C(new V(0.5, 22, 20, 4, 1), 'No, not this again.'),
-        new C(new ia(33, 24, 1, 3), "Don't go there!"),
+        new ROTATE_SpeechPart(new M(0.5), "Forget about it, let's continue."),
+        new ROTATE_SpeechPart(
+          new V(0.5, 6, 14, 1, 3, 3),
+          "I won't let it take you from me.",
+        ),
+        new ROTATE_SpeechPart(new M(4), 'I still need you.'),
+        new ROTATE_SpeechPart(new V(0.5, 22, 20, 4, 1), 'No, not this again.'),
+        new ROTATE_SpeechPart(new ia(33, 24, 1, 3), "Don't go there!"),
       ]);
       this.cat = new ta(30, 26, -1, 1, new ia(28, 22, 3, 1));
     },
@@ -18061,10 +18112,13 @@
   ROTATE_Level9.prototype = {
     start: function () {
       this.speech = new ROTATE_Speech([
-        new C(new M(1.5), "You aren't supposed to be here."),
-        new C(new V(1.5, 29, 15, 2, 1), "This place wasn't made for you."),
-        new C(new M(6), "You'll get yourself killed."),
-        new C(new V(0.75, 2, 19, 1, 3), 'Stop following it!'),
+        new ROTATE_SpeechPart(new M(1.5), "You aren't supposed to be here."),
+        new ROTATE_SpeechPart(
+          new V(1.5, 29, 15, 2, 1),
+          "This place wasn't made for you.",
+        ),
+        new ROTATE_SpeechPart(new M(6), "You'll get yourself killed."),
+        new ROTATE_SpeechPart(new V(0.75, 2, 19, 1, 3), 'Stop following it!'),
       ]);
       this.cat = new ta(3, 15, -1, 1, new ia(0, 17, 2, 1));
     },
@@ -18312,14 +18366,16 @@
     },
     __class__: M,
   };
-  var C = function (a, b) {
-    this.cond = a;
-    this.text = b;
+
+  var ROTATE_SpeechPart = function (cond, text) {
+    this.cond = cond;
+    this.text = text;
   };
-  C.__name__ = !0;
-  C.prototype = {
-    __class__: C,
+  ROTATE_SpeechPart.__name__ = !0;
+  ROTATE_SpeechPart.prototype = {
+    __class__: ROTATE_SpeechPart,
   };
+
   var ROTATE_Speech = function (a, b) {
     this.lastTone = -1;
     this.tones = 'abcdefgh'.split('');
@@ -19197,8 +19253,8 @@
       this.cond1.start();
       this.speech = new ROTATE_Speech(
         [
-          new C(new M(1.5), 'Have your freedom, for now.'),
-          new C(new M(4), 'But you will come back.'),
+          new ROTATE_SpeechPart(new M(1.5), 'Have your freedom, for now.'),
+          new ROTATE_SpeechPart(new M(4), 'But you will come back.'),
         ],
         this,
       );
@@ -20030,8 +20086,8 @@
       this.cond1.start();
       this.speech = new ROTATE_Speech(
         [
-          new C(new M(2), "It's time to resume your training."),
-          new C(new M(4), "We'll start with the basics."),
+          new ROTATE_SpeechPart(new M(2), "It's time to resume your training."),
+          new ROTATE_SpeechPart(new M(4), "We'll start with the basics."),
         ],
         this,
       );
