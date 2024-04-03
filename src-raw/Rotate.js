@@ -18386,17 +18386,10 @@
 
   // #endregion Levels
 
-  var cb = function () {};
-  cb.__name__ = !0;
-  cb.prototype = {
-    __class__: cb,
-  };
-
   var Collider = function (bounds) {
     this.bounds = bounds;
   };
   Collider.__name__ = !0;
-  Collider.__interfaces__ = [cb];
   Collider.prototype = {
     testPoint: function (a, b) {
       return this.bounds.contains(a);
@@ -18408,7 +18401,6 @@
     this.dir = a;
   };
   kb.__name__ = !0;
-  kb.__interfaces__ = [cb];
   kb.prototype = {
     testPoint: function (a, b) {
       return !1;
@@ -18426,7 +18418,6 @@
     this.dir = a;
   };
   jb.__name__ = !0;
-  jb.__interfaces__ = [cb];
   jb.prototype = {
     testPoint: function (a, b) {
       if (null == b) return !1;
@@ -18472,7 +18463,6 @@
     this.set_dir(a);
   };
   Wa.__name__ = !0;
-  Wa.__interfaces__ = [cb];
   Wa.prototype = {
     set_dir: function (a) {
       return (this.dir = 0 > a || 3 < a ? 0 : a);
