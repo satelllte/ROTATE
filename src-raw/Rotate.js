@@ -88,6 +88,7 @@
       (b = parseInt(a));
     return isNaN(b) ? null : b;
   };
+
   var ma = function () {};
   ma.__name__ = !0;
   ma.isSpace = function (a, b) {
