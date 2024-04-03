@@ -3722,7 +3722,7 @@
     __class__: ROTATE_GameObject_Air,
   });
 
-  var yb = function () {
+  var ROTATE_GameObject_Door = function () {
     this.angle = 0;
     this.length = 3;
     this.channel = 0;
@@ -3731,9 +3731,9 @@
     this.bubbleHeight = 106;
     this.configurable = !0;
   };
-  yb.__name__ = !0;
-  yb.__super__ = X;
-  yb.prototype = D(X.prototype, {
+  ROTATE_GameObject_Door.__name__ = !0;
+  ROTATE_GameObject_Door.__super__ = X;
+  ROTATE_GameObject_Door.prototype = D(X.prototype, {
     set_angle: function (a) {
       return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
     },
@@ -3940,8 +3940,9 @@
     getConfigMeta: function () {
       return [this.channel, this.length, this.angle];
     },
-    __class__: yb,
+    __class__: ROTATE_GameObject_Door,
   });
+
   var da = function () {
     this.angle = 0;
     X.call(this);
@@ -20927,7 +20928,10 @@
     8,
     new ROTATE_GameObject_Lever(),
   );
-  ROTATE_GameObjects.door = ROTATE_GameObjects.register(9, new yb());
+  ROTATE_GameObjects.door = ROTATE_GameObjects.register(
+    9,
+    new ROTATE_GameObject_Door(),
+  );
   ROTATE_GameObjects.number = ROTATE_GameObjects.register(7, new Bb());
   ROTATE_GameObjects.vent = ROTATE_GameObjects.register(10, new Hb());
   ROTATE_GameObjects.fan = ROTATE_GameObjects.register(11, new zb());
