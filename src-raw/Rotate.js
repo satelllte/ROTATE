@@ -2359,7 +2359,7 @@
     },
     warnNoSave: function (a) {
       if (ROTATE_Game.nosave) {
-        var b = new r(
+        var b = new ROTATE_Text(
           ROTATE_Game.fontMain,
           'Enable cookies & site data\nto save your progress!',
           2,
@@ -2499,12 +2499,12 @@
       ((v.bubble = new ROTATE_CanvasObject()),
       (v.bubble.mouseEnabled = !0),
       a.addChild(v.bubble),
-      (v.bubbleTitle = new r(ROTATE_Game.fontMain, 'NEW AWARD')),
+      (v.bubbleTitle = new ROTATE_Text(ROTATE_Game.fontMain, 'NEW AWARD')),
       v.bubbleTitle.set_x(68),
       v.bubbleTitle.set_y(4),
       v.bubbleTitle.set_alpha(0.5),
       v.bubble.addChild(v.bubbleTitle),
-      (v.bubbleName = new r(ROTATE_Game.fontMain, '')),
+      (v.bubbleName = new ROTATE_Text(ROTATE_Game.fontMain, '')),
       v.bubbleName.set_x(68),
       v.bubbleName.set_y(28),
       v.bubble.addChild(v.bubbleName),
@@ -3842,13 +3842,13 @@
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(ROTATE_Game.fontMain, 'Channel');
+        c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(ROTATE_Game.fontMain, this.channel + '');
-      d.align = r.ALIGN_CENTER;
-      d.xAlign = r.X_ALIGN_CENTER;
+      var d = new ROTATE_Text(ROTATE_Game.fontMain, this.channel + '');
+      d.align = ROTATE_Text.ALIGN_CENTER;
+      d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
@@ -3873,13 +3873,13 @@
       f.set_x(d.x - 11);
       f.set_y(e.y);
       a.addChild(f);
-      e = new r(ROTATE_Game.fontMain, 'Length');
+      e = new ROTATE_Text(ROTATE_Game.fontMain, 'Length');
       e.set_x(16);
       e.set_y(c.y + 30);
       a.addChild(e);
-      var m = new r(ROTATE_Game.fontMain, this.length + '');
-      m.align = r.ALIGN_CENTER;
-      m.xAlign = r.X_ALIGN_CENTER;
+      var m = new ROTATE_Text(ROTATE_Game.fontMain, this.length + '');
+      m.align = ROTATE_Text.ALIGN_CENTER;
+      m.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       m.set_x(this.bubbleWidth - 31);
       m.set_y(e.y);
       a.addChild(m);
@@ -3904,13 +3904,13 @@
       f.set_x(m.x - 11);
       f.set_y(c.y);
       a.addChild(f);
-      c = new r(ROTATE_Game.fontMain, 'Angle');
+      c = new ROTATE_Text(ROTATE_Game.fontMain, 'Angle');
       c.set_x(32);
       c.set_y(e.y + 30);
       a.addChild(c);
-      var k = new r(ROTATE_Game.fontMain, this.angle + '');
-      k.align = r.ALIGN_CENTER;
-      k.xAlign = r.X_ALIGN_CENTER;
+      var k = new ROTATE_Text(ROTATE_Game.fontMain, this.angle + '');
+      k.align = ROTATE_Text.ALIGN_CENTER;
+      k.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       k.set_x(this.bubbleWidth - 31);
       k.set_y(c.y);
       a.addChild(k);
@@ -3950,13 +3950,13 @@
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(ROTATE_Game.fontMain, 'Angle');
+        c = new ROTATE_Text(ROTATE_Game.fontMain, 'Angle');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(ROTATE_Game.fontMain, this.angle + '');
-      d.align = r.ALIGN_CENTER;
-      d.xAlign = r.X_ALIGN_CENTER;
+      var d = new ROTATE_Text(ROTATE_Game.fontMain, this.angle + '');
+      d.align = ROTATE_Text.ALIGN_CENTER;
+      d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
@@ -4137,13 +4137,13 @@
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(ROTATE_Game.fontMain, 'Channel');
+        c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(ROTATE_Game.fontMain, this.channel + '');
-      d.align = r.ALIGN_CENTER;
-      d.xAlign = r.X_ALIGN_CENTER;
+      var d = new ROTATE_Text(ROTATE_Game.fontMain, this.channel + '');
+      d.align = ROTATE_Text.ALIGN_CENTER;
+      d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
@@ -4168,13 +4168,13 @@
       f.set_x(d.x - 11);
       f.set_y(e.y);
       a.addChild(f);
-      e = new r(ROTATE_Game.fontMain, 'State');
+      e = new ROTATE_Text(ROTATE_Game.fontMain, 'State');
       e.set_x(32);
       e.set_y(c.y + 30);
       a.addChild(e);
-      var m = new r(ROTATE_Game.fontMain, this.on ? '1' : '0');
-      m.align = r.ALIGN_CENTER;
-      m.xAlign = r.X_ALIGN_CENTER;
+      var m = new ROTATE_Text(ROTATE_Game.fontMain, this.on ? '1' : '0');
+      m.align = ROTATE_Text.ALIGN_CENTER;
+      m.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       m.set_x(this.bubbleWidth - 31);
       m.set_y(e.y);
       a.addChild(m);
@@ -4311,13 +4311,13 @@
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(ROTATE_Game.fontMain, 'Value');
+        c = new ROTATE_Text(ROTATE_Game.fontMain, 'Value');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(ROTATE_Game.fontMain, this.value + '');
-      d.align = r.ALIGN_CENTER;
-      d.xAlign = r.X_ALIGN_CENTER;
+      var d = new ROTATE_Text(ROTATE_Game.fontMain, this.value + '');
+      d.align = ROTATE_Text.ALIGN_CENTER;
+      d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
@@ -18094,18 +18094,18 @@
     this.char2 = this.timer = 0;
     this['char'] = 0;
     this.msg = '';
-    this.field = new r(ROTATE_Game.fontMain, '', 2);
+    this.field = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
     this.index = 0;
     this.events = a;
     this.field.set_alpha(0);
-    this.field.xAlign = r.X_ALIGN_CENTER;
-    this.field.align = r.ALIGN_CENTER;
+    this.field.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.field.align = ROTATE_Text.ALIGN_CENTER;
     this.field.set_x(ROTATE_Canvas.width / 2);
     null == b && E.__instanceof(ROTATE_Game.instance.currentScreen, w)
       ? ((b = ROTATE_Game.instance.currentScreen.textHolder),
-        (this.field.yAlign = r.Y_ALIGN_TOP),
+        (this.field.yAlign = ROTATE_Text.Y_ALIGN_TOP),
         this.field.set_y(ROTATE_Canvas.height - 96))
-      : ((this.field.yAlign = r.Y_ALIGN_MIDDLE),
+      : ((this.field.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE),
         this.field.set_y(ROTATE_Canvas.height / 2));
     b.addChild(this.field);
     null != a[0] && a[0].cond.start();
@@ -18203,7 +18203,7 @@
     this.mute = new Ba();
     this.sponsor = new Ma();
     this.btnBack = new ba('BACK');
-    this.title = new r(ROTATE_Game.fontMain, 'AWARDS', 1);
+    this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
     this.bg = new Na();
     this.content = new ROTATE_CanvasObject();
     this.pivot = new ROTATE_CanvasObject();
@@ -18221,7 +18221,7 @@
       this.content.set_x(-this.pivot.x);
       this.content.set_y(-this.pivot.y);
       this.pivot.addChild(this.content);
-      this.title.xAlign = r.X_ALIGN_CENTER;
+      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.title.set_y(64);
       this.content.addChild(this.title);
@@ -18311,15 +18311,23 @@
     null == a && (a = !1);
     this.mute = new Ba();
     this.more = new I(q.linkLWS);
-    this.moreText = new r(ROTATE_Game.fontMain, 'Game published by', 1);
+    this.moreText = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      'Game published by',
+      1,
+    );
     this.soundtrack = new I(q.soundtrack);
-    this.text2 = new r(
+    this.text2 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Special thanks to the playtesters\nand Patreon contributors!',
       1,
     );
     this.joshua = new I(q.linkJoshua2);
-    this.text1 = new r(ROTATE_Game.fontMain, 'Design, code, & music by', 1);
+    this.text1 = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      'Design, code, & music by',
+      1,
+    );
     this.btnBack = new ba('BACK');
     P.call(this);
     this.fromEnd = a;
@@ -18346,7 +18354,7 @@
       this.addChild(this.bg);
       this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.text1.set_y(80);
-      this.text1.xAlign = r.X_ALIGN_CENTER;
+      this.text1.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       this.addChild(this.text1);
       this.joshua.set_x(
         Math.round((ROTATE_Canvas.width - this.joshua.get_width()) / 2),
@@ -18362,8 +18370,8 @@
       this.addChild(this.joshua);
       this.text2.set_x(this.text1.x);
       this.text2.set_y(this.joshua.y + this.joshua.get_height() + 40);
-      this.text2.xAlign = r.X_ALIGN_CENTER;
-      this.text2.align = r.ALIGN_CENTER;
+      this.text2.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.text2.align = ROTATE_Text.ALIGN_CENTER;
       this.addChild(this.text2);
       this.text2.mouseEnabled = this.text2.buttonMode = !0;
       this.text2.addEventListener('click', function (c) {
@@ -18387,8 +18395,8 @@
       this.addChild(this.soundtrack);
       this.moreText.set_x(this.text1.x);
       this.moreText.set_y(this.text2.y + this.text2.get_height() + 36);
-      this.moreText.xAlign = r.X_ALIGN_CENTER;
-      this.moreText.align = r.ALIGN_CENTER;
+      this.moreText.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.moreText.align = ROTATE_Text.ALIGN_CENTER;
       this.addChild(this.moreText);
       this.more.set_x(
         Math.round((ROTATE_Canvas.width - this.more.get_width()) / 2),
@@ -18513,7 +18521,7 @@
   A.__name__ = !0;
   A.renderBlockText = function (a, b) {
     A.renderBlockRed(a, 0, 0);
-    r.drawText(a, ROTATE_Game.fontMain, b, 2, 0, 0);
+    ROTATE_Text.drawText(a, ROTATE_Game.fontMain, b, 2, 0, 0);
   };
   A.renderBlockRed = function (a, b, c) {
     a.beginFill(10428448, 0.4);
@@ -18951,7 +18959,10 @@
   });
   var ob = function (a) {
     null == a && (a = !1);
-    this.hint = new r(ROTATE_Game.fontMain, 'Press [SPACE] to continue...');
+    this.hint = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      'Press [SPACE] to continue...',
+    );
     this.catTrigger = !1;
     this.cat = new S();
     this.player = new ua(q.player, 32, 48);
@@ -19008,8 +19019,8 @@
       );
       this.vignette.set_alpha(0.75);
       this.addChild(this.vignette);
-      this.hint.xAlign = r.X_ALIGN_CENTER;
-      this.hint.yAlign = r.Y_ALIGN_BOTTOM;
+      this.hint.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.hint.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
       this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.hint.set_y(ROTATE_Canvas.height - 24);
       this.hint.set_alpha(0);
@@ -19068,27 +19079,27 @@
     this.erase = new Ya();
     this.mute = new Ba();
     this.sponsor = new Ma();
-    this.bestTime = new r(ROTATE_Game.fontMain, 'Best time: ', 2);
-    this.text3 = new r(
+    this.bestTime = new ROTATE_Text(ROTATE_Game.fontMain, 'Best time: ', 2);
+    this.text3 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Finish the game as\nquickly as you can.',
       1,
     );
     this.btn3 = new ba('SPEEDRUN');
-    this.text2 = new r(
+    this.text2 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Build custom levels\nand share codes.',
       1,
     );
     this.btn2 = new ba('EDITOR');
-    this.text1 = new r(
+    this.text1 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       "See all the awards\nthat you've earned.",
       1,
     );
     this.btn1 = new ba('AWARDS');
     this.btnBack = new ba('BACK');
-    this.title = new r(ROTATE_Game.fontMain, 'EXTRAS', 1);
+    this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'EXTRAS', 1);
     this.bg = new Na();
     P.call(this);
   };
@@ -19098,7 +19109,7 @@
     init: function () {
       ca.playTheme();
       this.addChild(this.bg);
-      this.title.xAlign = r.X_ALIGN_CENTER;
+      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.title.set_y(56);
       this.addChild(this.title);
@@ -19131,7 +19142,7 @@
       this.text3.set_x(this.text2.x);
       this.text3.set_y(this.btn3.y - 29);
       this.addChild(this.text3);
-      this.bestTime.xAlign = r.X_ALIGN_CENTER;
+      this.bestTime.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       this.bestTime.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.bestTime.set_y(this.btn3.y + 21 + 8);
       var a = this.bestTime;
@@ -19162,7 +19173,7 @@
     this.sponsor = new Ma();
     this.tiles = new ROTATE_CanvasObject();
     this.btnBack = new ba('BACK');
-    this.title = new r(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
+    this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
     this.bg = new Na();
     P.call(this);
   };
@@ -19172,7 +19183,7 @@
     init: function () {
       ca.playTheme();
       this.addChild(this.bg);
-      this.title.xAlign = r.X_ALIGN_CENTER;
+      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.title.set_y(56);
       this.addChild(this.title);
@@ -19222,9 +19233,9 @@
             ))
           : p.set_alpha(0.5);
         this.tiles.addChild(p);
-        e = new r(ROTATE_Game.fontMain, '' + (e[0] + 1));
-        e.xAlign = r.X_ALIGN_CENTER;
-        e.yAlign = r.Y_ALIGN_MIDDLE;
+        e = new ROTATE_Text(ROTATE_Game.fontMain, '' + (e[0] + 1));
+        e.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+        e.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
         e.set_x(Math.round(p.get_width() / 2));
         e.set_y(Math.round(p.get_height() / 2) - 2);
         p.addChild(e);
@@ -19431,9 +19442,9 @@
           0 == ROTATE_Levels.list.indexOf(l.level)
         )
           this.speedrunStart = ROTATE_Game.instance.get_gameTimeMS();
-        this.timerText = new r(ROTATE_Game.fontMain, '', 2);
-        this.timerText.align = r.ALIGN_RIGHT;
-        this.timerText.xAlign = r.X_ALIGN_RIGHT;
+        this.timerText = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
+        this.timerText.align = ROTATE_Text.ALIGN_RIGHT;
+        this.timerText.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
         this.timerText.set_x(ROTATE_Canvas.width - 12);
         this.timerText.set_y(8);
         ROTATE_Game.instance.timerHolder.addChild(this.timerText);
@@ -19441,11 +19452,11 @@
       } else
         l.level != ROTATE_Levels.level1 ||
           ROTATE_Game.instance.hasPaused ||
-          ((this.pauseText = new r(
+          ((this.pauseText = new ROTATE_Text(
             ROTATE_Game.fontMain,
             'Press [ESC] or [P] to pause',
           )),
-          (this.pauseText.xAlign = r.X_ALIGN_CENTER),
+          (this.pauseText.xAlign = ROTATE_Text.X_ALIGN_CENTER),
           this.pauseText.set_x(Math.round(ROTATE_Canvas.width / 2)),
           this.pauseText.set_y(8),
           this.pauseText.set_alpha(0.33),
@@ -19738,7 +19749,7 @@
     kill: function () {},
     __class__: Qa,
   });
-  var r = function (a, b, c) {
+  var ROTATE_Text = function (a, b, c) {
     null == c && (c = 0);
     null == b && (b = '');
     this.textWidth = this.textHeight = 0;
@@ -19759,8 +19770,8 @@
       d.render(e.surface);
     });
   };
-  r.__name__ = !0;
-  r.drawText = function (a, b, c, d, e, f) {
+  ROTATE_Text.__name__ = !0;
+  ROTATE_Text.drawText = function (a, b, c, d, e, f) {
     null == f && (f = 0);
     null == c && (c = '');
     for (var m = 0, k = 0, p = 0, y = 0, H = c.length; y < H; ) {
@@ -19779,8 +19790,8 @@
             (m += K.xa)));
     }
   };
-  r.__super__ = ROTATE_CanvasObject;
-  r.prototype = D(ROTATE_CanvasObject.prototype, {
+  ROTATE_Text.__super__ = ROTATE_CanvasObject;
+  ROTATE_Text.prototype = D(ROTATE_CanvasObject.prototype, {
     set_font: function (a) {
       this.font = a;
       this.set_lineHeight(a.lineHeight);
@@ -19869,22 +19880,22 @@
     },
     getTextOffset: function () {
       var a = new Q(0, 0);
-      this.xAlign == r.X_ALIGN_CENTER &&
+      this.xAlign == ROTATE_Text.X_ALIGN_CENTER &&
         (a.x = Math.round(-this.textWidth / 2));
-      this.xAlign == r.X_ALIGN_RIGHT && (a.x = -this.textWidth);
-      this.yAlign == r.Y_ALIGN_MIDDLE &&
+      this.xAlign == ROTATE_Text.X_ALIGN_RIGHT && (a.x = -this.textWidth);
+      this.yAlign == ROTATE_Text.Y_ALIGN_MIDDLE &&
         (a.y = Math.round(-this.textHeight / 2));
-      this.yAlign == r.Y_ALIGN_BOTTOM && (a.y = -this.textHeight);
+      this.yAlign == ROTATE_Text.Y_ALIGN_BOTTOM && (a.y = -this.textHeight);
       return a;
     },
     getLineOffset: function (a) {
-      return this.align == r.ALIGN_CENTER
+      return this.align == ROTATE_Text.ALIGN_CENTER
         ? Math.round((-this.textWidth + a) / 2)
-        : this.align == r.ALIGN_RIGHT
+        : this.align == ROTATE_Text.ALIGN_RIGHT
           ? -this.textWidth + a
           : 0;
     },
-    __class__: r,
+    __class__: ROTATE_Text,
   });
   var Xb = function (a) {
     ROTATE_CanvasObject.call(this);
@@ -19895,9 +19906,9 @@
     b.set_x(-b.get_width() / 2);
     b.set_y(8);
     this.addChild(b);
-    b = new r(ROTATE_Game.fontMain, a.name, 1);
-    b.align = r.ALIGN_CENTER;
-    b.xAlign = r.X_ALIGN_CENTER;
+    b = new ROTATE_Text(ROTATE_Game.fontMain, a.name, 1);
+    b.align = ROTATE_Text.ALIGN_CENTER;
+    b.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     b.set_y(64);
     b.set_lineHeight(b.lineHeight - 4);
     this.addChild(b);
@@ -20017,8 +20028,8 @@
     this.graphics.beginFill(1052688, 0.95);
     this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     this.mouseEnabled = !0;
-    this.title = new r(ROTATE_Game.fontMain, a);
-    this.title.xAlign = r.X_ALIGN_CENTER;
+    this.title = new ROTATE_Text(ROTATE_Game.fontMain, a);
+    this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
     this.title.set_y(36);
     this.addChild(this.title);
@@ -20054,11 +20065,15 @@
   var Yb = function () {
     this.btnLoad = new ba('LOAD');
     this.btnCancel = new ba('CANCEL');
-    this.invalid = new r(ROTATE_Game.fontMain, 'Level code is invalid!', 2);
+    this.invalid = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      'Level code is invalid!',
+      2,
+    );
     var a = this;
     Da.call(this, 'LOAD LEVEL');
-    this.invalid.xAlign = r.X_ALIGN_CENTER;
-    this.invalid.yAlign = r.Y_ALIGN_BOTTOM;
+    this.invalid.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.invalid.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
     this.invalid.set_x(Math.round(ROTATE_Canvas.width / 2));
     this.invalid.set_y(ROTATE_Canvas.height - 82);
     this.invalid.visible = !1;
@@ -20129,11 +20144,11 @@
     __class__: Pa,
   });
   var ROTATE_Editor = function (a, b) {
-    this.btnLoad = new r(ROTATE_Game.fontMain, 'Load');
-    this.btnSave = new r(ROTATE_Game.fontMain, 'Save');
-    this.btnPlay = new r(ROTATE_Game.fontMain, 'Play');
-    this.btnClear = new r(ROTATE_Game.fontMain, 'Clear');
-    this.btnExit = new r(ROTATE_Game.fontMain, 'Exit');
+    this.btnLoad = new ROTATE_Text(ROTATE_Game.fontMain, 'Load');
+    this.btnSave = new ROTATE_Text(ROTATE_Game.fontMain, 'Save');
+    this.btnPlay = new ROTATE_Text(ROTATE_Game.fontMain, 'Play');
+    this.btnClear = new ROTATE_Text(ROTATE_Game.fontMain, 'Clear');
+    this.btnExit = new ROTATE_Text(ROTATE_Game.fontMain, 'Exit');
     ROTATE_CanvasObject.call(this);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
@@ -20154,10 +20169,10 @@
     this.btnClear.hitPadding = ROTATE_Editor.BTN_PAD;
     this.btnClear.set_alpha(ROTATE_Editor.TEXT_GREY);
     this.addChild(this.btnClear);
-    this.theme = new r(ROTATE_Game.fontMain, ROTATE_Editor.THEMES[a]);
+    this.theme = new ROTATE_Text(ROTATE_Game.fontMain, ROTATE_Editor.THEMES[a]);
     this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
     this.theme.set_y(ROTATE_Editor.EDGE_PAD_Y);
-    this.theme.xAlign = r.X_ALIGN_CENTER;
+    this.theme.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     this.addChild(this.theme);
     var c = new I(q.configArrow);
     c.mouseEnabled = c.buttonMode = !0;
@@ -20178,7 +20193,7 @@
     this.addChild(c);
     this.btnPlay.set_x(ROTATE_Canvas.width - ROTATE_Editor.EDGE_PAD);
     this.btnPlay.set_y(ROTATE_Editor.EDGE_PAD_Y);
-    this.btnPlay.xAlign = r.X_ALIGN_RIGHT;
+    this.btnPlay.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
     this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
     this.btnPlay.hitPadding = ROTATE_Editor.BTN_PAD;
     this.btnPlay.addEventListener('click', function (d) {
@@ -20189,7 +20204,7 @@
       this.btnPlay.x - this.btnPlay.get_width() - ROTATE_Editor.BTN_SPACE,
     );
     this.btnSave.set_y(ROTATE_Editor.EDGE_PAD_Y);
-    this.btnSave.xAlign = r.X_ALIGN_RIGHT;
+    this.btnSave.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
     this.btnSave.mouseEnabled = this.btnSave.buttonMode = !0;
     this.btnSave.hitPadding = ROTATE_Editor.BTN_PAD;
     this.btnSave.set_alpha(ROTATE_Editor.TEXT_GREY);
@@ -20198,7 +20213,7 @@
       this.btnSave.x - this.btnSave.get_width() - ROTATE_Editor.BTN_SPACE,
     );
     this.btnLoad.set_y(ROTATE_Editor.EDGE_PAD_Y);
-    this.btnLoad.xAlign = r.X_ALIGN_RIGHT;
+    this.btnLoad.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
     this.btnLoad.mouseEnabled = this.btnLoad.buttonMode = !0;
     this.btnLoad.hitPadding = ROTATE_Editor.BTN_PAD;
     this.btnLoad.set_alpha(ROTATE_Editor.TEXT_GREY);
@@ -20244,7 +20259,7 @@
     __class__: Ya,
   });
   var bc = function (a) {
-    this.label = new r(ROTATE_Game.fontMain, 'Grid');
+    this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
     this.toggle = new I(q.configToggle);
     var b = this;
     ROTATE_CanvasObject.call(this);
@@ -20321,11 +20336,15 @@
     this.main.set_y(-this.main.get_height() / 2);
     this.main.mouseEnabled = this.main.buttonMode = !0;
     this.addChild(this.main);
-    var c = (this.text = new r(ROTATE_Game.fontMain, a.toUpperCase(), b));
+    var c = (this.text = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      a.toUpperCase(),
+      b,
+    ));
     c.set_y(c.y - 2);
-    this.text.align = r.ALIGN_CENTER;
-    this.text.xAlign = r.X_ALIGN_CENTER;
-    this.text.yAlign = r.Y_ALIGN_MIDDLE;
+    this.text.align = ROTATE_Text.ALIGN_CENTER;
+    this.text.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.text.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
     this.addChild(this.text);
   };
   ba.__name__ = !0;
@@ -20398,7 +20417,7 @@
     this.set_x(12);
     this.set_y(12);
     this.mouseEnabled = this.buttonMode = !0;
-    var a = new r(ROTATE_Game.fontMain, 'Invert [Q] & [E]?');
+    var a = new ROTATE_Text(ROTATE_Game.fontMain, 'Invert [Q] & [E]?');
     a.set_x(30);
     a.set_y(-4);
     a.set_alpha(0.5);
@@ -20430,15 +20449,15 @@
     this.btnQuit = new ba('QUIT', 0);
     this.btnRedo = new ba('RESTART', 0);
     this.btnPlay = new ba('CONTINUE', 0);
-    this.text = new r(ROTATE_Game.fontMain, 'GAME PAUSED');
+    this.text = new ROTATE_Text(ROTATE_Game.fontMain, 'GAME PAUSED');
     ROTATE_CanvasObject.call(this);
     this.graphics.beginFill(1052688, 0.85);
     this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     this.visible = !1;
     this.mouseEnabled = !0;
-    this.text.align = r.ALIGN_CENTER;
-    this.text.xAlign = r.X_ALIGN_CENTER;
-    this.text.yAlign = r.Y_ALIGN_MIDDLE;
+    this.text.align = ROTATE_Text.ALIGN_CENTER;
+    this.text.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.text.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
     this.text.set_x(Math.floor(ROTATE_Canvas.width / 2));
     this.text.set_y(Math.floor(ROTATE_Canvas.height / 2) - 96 - 1);
     this.addChild(this.text);
@@ -20523,16 +20542,16 @@
   var eb = function (a) {
     this.btnNo = new ba('NO');
     this.btnYes = new ba('YES');
-    this.main = new r(ROTATE_Game.fontMain, '', 2);
+    this.main = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
     var b = this;
     ROTATE_CanvasObject.call(this);
     this.main.set_text(a);
     this.graphics.beginFill(1052688, 0.95);
     this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
     this.mouseEnabled = !0;
-    this.main.align = r.ALIGN_CENTER;
-    this.main.xAlign = r.X_ALIGN_CENTER;
-    this.main.yAlign = r.Y_ALIGN_MIDDLE;
+    this.main.align = ROTATE_Text.ALIGN_CENTER;
+    this.main.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.main.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
     this.main.set_x(Math.round(ROTATE_Canvas.width / 2));
     this.main.set_y(Math.round(ROTATE_Canvas.height / 2) - 40);
     this.addChild(this.main);
@@ -20875,15 +20894,17 @@
   w.DEATH_SHAKE_AMOUNT = 24;
   w.stopped = !1;
   w.canceled = !1;
-  r.ALIGN_LEFT = 0;
-  r.ALIGN_CENTER = 1;
-  r.ALIGN_RIGHT = 2;
-  r.X_ALIGN_LEFT = 0;
-  r.X_ALIGN_CENTER = 1;
-  r.X_ALIGN_RIGHT = 2;
-  r.Y_ALIGN_TOP = 0;
-  r.Y_ALIGN_MIDDLE = 1;
-  r.Y_ALIGN_BOTTOM = 2;
+
+  ROTATE_Text.ALIGN_LEFT = 0;
+  ROTATE_Text.ALIGN_CENTER = 1;
+  ROTATE_Text.ALIGN_RIGHT = 2;
+  ROTATE_Text.X_ALIGN_LEFT = 0;
+  ROTATE_Text.X_ALIGN_CENTER = 1;
+  ROTATE_Text.X_ALIGN_RIGHT = 2;
+  ROTATE_Text.Y_ALIGN_TOP = 0;
+  ROTATE_Text.Y_ALIGN_MIDDLE = 1;
+  ROTATE_Text.Y_ALIGN_BOTTOM = 2;
+
   O.size2 = n.tileSize / 2;
   O.size4 = n.tileSize + 4;
   O.list = [
