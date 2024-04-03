@@ -2130,7 +2130,7 @@
       this.fader.mouseEnabled = !0;
       this.addChild(this.fader);
       this.addChild(this.timerHolder);
-      v.setup(this);
+      ROTATE_Awards.setup(this);
       ROTATE_Canvas.input.addEventListener('blur', function (c) {
         null != b.targetScreen &&
           b.targetScreen.pausable &&
@@ -2249,7 +2249,7 @@
           }
         null != this.currentScreen && this.currentScreen.postUpdate();
       }
-      v.update();
+      ROTATE_Awards.update();
     },
     migrateProgress: function () {
       try {
@@ -2265,7 +2265,7 @@
           a.unlocked < ROTATE_Levels.list.length &&
           a.awards instanceof Array &&
           null == a.awards.__enum__ &&
-          a.awards.length == v.all.length
+          a.awards.length == ROTATE_Awards.all.length
         )
           if (null != a.best) {
             var c = a.best;
@@ -2285,7 +2285,7 @@
             : 1)
         ) {
           d = 0;
-          for (var e = v.all.length; d < e; ) {
+          for (var e = ROTATE_Awards.all.length; d < e; ) {
             var f = d++;
             if ('boolean' != typeof a.awards[f]) throw Error();
           }
@@ -2321,7 +2321,7 @@
               a = 0;
               for (var d = c.length; a < d; ) {
                 var e = a++;
-                c[e] && (v.all[e].unlocked = !0);
+                c[e] && (ROTATE_Awards.all[e].unlocked = !0);
               }
             }
             null != b.best && (ROTATE_Levels.speedrunBest = b.best);
@@ -2333,7 +2333,7 @@
       }
     },
     saveProgress: function () {
-      for (var a = [], b = 0, c = v.all; b < c.length; ) {
+      for (var a = [], b = 0, c = ROTATE_Awards.all; b < c.length; ) {
         var d = c[b];
         ++b;
         a.push(d.unlocked);
@@ -2350,7 +2350,7 @@
     },
     clearProgress: function () {
       ra.removeItem('lws:rotate');
-      for (var a = 0, b = v.all; a < b.length; ) {
+      for (var a = 0, b = ROTATE_Awards.all; a < b.length; ) {
         var c = b[a];
         ++a;
         c.unlocked = !1;
@@ -2489,79 +2489,94 @@
       ROTATE_Game.instance.saveProgress();
       E.__instanceof(ROTATE_Game.instance.currentScreen, ib) &&
         ROTATE_Game.instance.currentScreen.refresh();
-      v.queueNotify(this);
+      ROTATE_Awards.queueNotify(this);
       return !0;
     },
     __class__: Ka,
   };
-  var v = function () {};
-  v.__name__ = !0;
-  v.setup = function (a) {
-    null == v.bubble &&
-      ((v.bubble = new ROTATE_CanvasObject()),
-      (v.bubble.mouseEnabled = !0),
-      a.addChild(v.bubble),
-      (v.bubbleTitle = new ROTATE_Text(ROTATE_Game.fontMain, 'NEW AWARD')),
-      v.bubbleTitle.set_x(68),
-      v.bubbleTitle.set_y(4),
-      v.bubbleTitle.set_alpha(0.5),
-      v.bubble.addChild(v.bubbleTitle),
-      (v.bubbleName = new ROTATE_Text(ROTATE_Game.fontMain, '')),
-      v.bubbleName.set_x(68),
-      v.bubbleName.set_y(28),
-      v.bubble.addChild(v.bubbleName),
-      v.bubble.set_alpha(0));
+  var ROTATE_Awards = function () {};
+  ROTATE_Awards.__name__ = !0;
+  ROTATE_Awards.setup = function (a) {
+    null == ROTATE_Awards.bubble &&
+      ((ROTATE_Awards.bubble = new ROTATE_CanvasObject()),
+      (ROTATE_Awards.bubble.mouseEnabled = !0),
+      a.addChild(ROTATE_Awards.bubble),
+      (ROTATE_Awards.bubbleTitle = new ROTATE_Text(
+        ROTATE_Game.fontMain,
+        'NEW AWARD',
+      )),
+      ROTATE_Awards.bubbleTitle.set_x(68),
+      ROTATE_Awards.bubbleTitle.set_y(4),
+      ROTATE_Awards.bubbleTitle.set_alpha(0.5),
+      ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleTitle),
+      (ROTATE_Awards.bubbleName = new ROTATE_Text(ROTATE_Game.fontMain, '')),
+      ROTATE_Awards.bubbleName.set_x(68),
+      ROTATE_Awards.bubbleName.set_y(28),
+      ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleName),
+      ROTATE_Awards.bubble.set_alpha(0));
   };
-  v.queueNotify = function (a) {
-    null == v.queue && (v.queue = []);
-    null != a && 0 > v.queue.indexOf(a) && v.queue.push(a);
+  ROTATE_Awards.queueNotify = function (a) {
+    null == ROTATE_Awards.queue && (ROTATE_Awards.queue = []);
+    null != a &&
+      0 > ROTATE_Awards.queue.indexOf(a) &&
+      ROTATE_Awards.queue.push(a);
   };
-  v.adjustBubble = function (a, b) {
-    v.bubbleName.set_text(ma.replace(a, '\n', ' '));
-    v.bubble.graphics.clear();
+  ROTATE_Awards.adjustBubble = function (a, b) {
+    ROTATE_Awards.bubbleName.set_text(ma.replace(a, '\n', ' '));
+    ROTATE_Awards.bubble.graphics.clear();
     var c =
-      Math.max(v.bubbleTitle.get_width(), v.bubbleName.get_width()) +
-      v.bubbleName.x +
+      Math.max(
+        ROTATE_Awards.bubbleTitle.get_width(),
+        ROTATE_Awards.bubbleName.get_width(),
+      ) +
+      ROTATE_Awards.bubbleName.x +
       12 +
       4;
-    v.bubble.graphics.beginFill(3158064);
-    v.bubble.graphics.drawRect(0, 0, c, 68);
-    v.bubble.graphics.beginFill(6316128);
-    v.bubble.graphics.drawRect(0, 0, c - 2, 66);
-    v.bubble.graphics.beginFill(4210752);
-    v.bubble.graphics.drawRect(0, 0, c - 4, 64);
-    null != v.bubbleIcon && v.bubble.removeChild(v.bubbleIcon);
-    v.bubbleIcon = new I(b);
-    v.bubbleIcon.set_x(8);
-    v.bubbleIcon.set_y(8);
-    v.bubble.addChild(v.bubbleIcon);
+    ROTATE_Awards.bubble.graphics.beginFill(3158064);
+    ROTATE_Awards.bubble.graphics.drawRect(0, 0, c, 68);
+    ROTATE_Awards.bubble.graphics.beginFill(6316128);
+    ROTATE_Awards.bubble.graphics.drawRect(0, 0, c - 2, 66);
+    ROTATE_Awards.bubble.graphics.beginFill(4210752);
+    ROTATE_Awards.bubble.graphics.drawRect(0, 0, c - 4, 64);
+    null != ROTATE_Awards.bubbleIcon &&
+      ROTATE_Awards.bubble.removeChild(ROTATE_Awards.bubbleIcon);
+    ROTATE_Awards.bubbleIcon = new I(b);
+    ROTATE_Awards.bubbleIcon.set_x(8);
+    ROTATE_Awards.bubbleIcon.set_y(8);
+    ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleIcon);
   };
-  v.update = function () {
-    if (null != v.bubble) {
+  ROTATE_Awards.update = function () {
+    if (null != ROTATE_Awards.bubble) {
       var a = 0,
         b = Time.get_currentMS();
-      if (-1 != v.bubbleTimer) {
-        var c = b - v.bubbleTimer;
-        var d = c <= 2 * v.FADE_MS + v.STAY_MS;
+      if (-1 != ROTATE_Awards.bubbleTimer) {
+        var c = b - ROTATE_Awards.bubbleTimer;
+        var d = c <= 2 * ROTATE_Awards.FADE_MS + ROTATE_Awards.STAY_MS;
       } else d = !1;
       d
-        ? ((a = c <= v.FADE_MS ? 0 : c <= v.FADE_MS + v.STAY_MS ? 1 : 2),
+        ? ((a =
+            c <= ROTATE_Awards.FADE_MS
+              ? 0
+              : c <= ROTATE_Awards.FADE_MS + ROTATE_Awards.STAY_MS
+                ? 1
+                : 2),
           (a =
             0 == a
-              ? ROTATE_Game.smootherStep(c / v.FADE_MS)
+              ? ROTATE_Game.smootherStep(c / ROTATE_Awards.FADE_MS)
               : 1 == a
                 ? 1
                 : 1 -
                   ROTATE_Game.smootherStep(
-                    (c - v.FADE_MS - v.STAY_MS) / v.FADE_MS,
+                    (c - ROTATE_Awards.FADE_MS - ROTATE_Awards.STAY_MS) /
+                      ROTATE_Awards.FADE_MS,
                   )))
-        : null != v.queue &&
-          0 < v.queue.length &&
-          ((c = v.queue.shift()),
-          v.adjustBubble(c.name, c.icon),
-          (v.bubbleTimer = b));
-      v.bubble.set_alpha(a);
-      v.bubble.set_y(-68 * (1 - a));
+        : null != ROTATE_Awards.queue &&
+          0 < ROTATE_Awards.queue.length &&
+          ((c = ROTATE_Awards.queue.shift()),
+          ROTATE_Awards.adjustBubble(c.name, c.icon),
+          (ROTATE_Awards.bubbleTimer = b));
+      ROTATE_Awards.bubble.set_alpha(a);
+      ROTATE_Awards.bubble.set_y(-68 * (1 - a));
     }
   };
   var wb = function (a, b, c, d) {
@@ -18291,13 +18306,13 @@
       this.erase = new Ya();
       this.content.addChild(this.erase);
       this.awardDisplays = [];
-      a = Math.floor(v.all.length / 3);
+      a = Math.floor(ROTATE_Awards.all.length / 3);
       b = 0;
-      for (c = v.all.length; b < c; ) {
+      for (c = ROTATE_Awards.all.length; b < c; ) {
         var d = b++,
           e = Math.floor(d / 3),
-          f = e < a ? 3 : v.all.length - 3 * a,
-          m = new Xb(v.all[d]);
+          f = e < a ? 3 : ROTATE_Awards.all.length - 3 * a,
+          m = new Xb(ROTATE_Awards.all[d]);
         m.set_x(
           Math.floor(ROTATE_Canvas.width / 2) -
             80 * (f - 1) +
@@ -18336,7 +18351,7 @@
         )),
         a || b)
       )
-        v.awardRotate.unlock(),
+        ROTATE_Awards.awardRotate.unlock(),
           (this.rotating = !0),
           (this.rotateStart = ROTATE_Game.instance.get_gameTime()),
           (this.rotateDir = a ? -1 : 1),
@@ -18409,7 +18424,7 @@
       this.joshua.addEventListener('click', function (c) {
         1 < c.which ||
           ((c = window.open('https://criobite.com', '_blank')),
-          v.awardJoshua.unlock(),
+          ROTATE_Awards.awardJoshua.unlock(),
           c.focus());
       });
       this.addChild(this.joshua);
@@ -18435,7 +18450,7 @@
           (window
             .open('https://criobite.com/link/rotate-soundtrack', '_blank')
             .focus(),
-          v.awardSoundtrack.unlock());
+          ROTATE_Awards.awardSoundtrack.unlock());
       });
       this.addChild(this.soundtrack);
       this.moreText.set_x(this.text1.x);
@@ -18451,7 +18466,7 @@
       this.more.addEventListener('click', function (c) {
         2 <= c.which ||
           ((c = window.open('http://lightwolfstudios.com/', '_blank')),
-          v.awardJoshua.unlock(),
+          ROTATE_Awards.awardJoshua.unlock(),
           c.focus());
       });
       this.addChild(this.more);
@@ -18998,9 +19013,10 @@
       );
       this.speedrun &&
         42e4 >= ROTATE_Levels.speedrunBest &&
-        v.awardSpeedrun.unlock();
-      if ((this.first = !v.awardEscape.unlocked))
-        (v.awardEscape.unlocked = !0), ROTATE_Game.instance.saveProgress();
+        ROTATE_Awards.awardSpeedrun.unlock();
+      if ((this.first = !ROTATE_Awards.awardEscape.unlocked))
+        (ROTATE_Awards.awardEscape.unlocked = !0),
+          ROTATE_Game.instance.saveProgress();
     },
     update: function () {
       this.speech.update();
@@ -19124,7 +19140,9 @@
         b >= this.delay &&
         InputKeys.keyPressed(KEY_CODES.Space) &&
         ((this.done = !0),
-        this.first && ((v.awardEscape.unlocked = !1), v.awardEscape.unlock()),
+        this.first &&
+          ((ROTATE_Awards.awardEscape.unlocked = !1),
+          ROTATE_Awards.awardEscape.unlock()),
         ROTATE_Game.instance.changeScreen(new mb(!0), !0, null, !0, !0),
         ROTATE_Game.instance.timerHolder.removeChildren());
     },
@@ -19458,7 +19476,8 @@
   w.prototype = D(qa.prototype, {
     init: function () {
       w.i = this;
-      this.tempLevel == ROTATE_Editor.editorLevel && v.awardEditor.unlock();
+      this.tempLevel == ROTATE_Editor.editorLevel &&
+        ROTATE_Awards.awardEditor.unlock();
       w.playTheme(this.tempLevel.theme);
       w.continueTheme = !1;
       l.set_level(this.tempLevel);
@@ -20317,7 +20336,7 @@
     I.call(this, ROTATE_Images.trash);
     this.set_x(ROTATE_Canvas.width - 120);
     this.set_y(ROTATE_Canvas.height - this.get_height() - 12);
-    for (var a = !1, b = 0, c = v.all; b < c.length; ) {
+    for (var a = !1, b = 0, c = ROTATE_Awards.all; b < c.length; ) {
       var d = c[b];
       ++b;
       if (d.unlocked) {
@@ -20629,7 +20648,7 @@
     this.addEventListener('click', function (a) {
       2 <= a.which ||
         ((a = window.open('https://lightwolfstudios.com', '_blank')),
-        v.awardJoshua.unlock(),
+        ROTATE_Awards.awardJoshua.unlock(),
         a.focus());
     });
   };
@@ -20884,23 +20903,42 @@
     ROTATE_Audio.voice,
   ];
 
-  v.awardEscape = new Ka('The Beginning', ROTATE_Images.awardIconEscape);
-  v.awardSpeedrun = new Ka('Seven or\nLess', ROTATE_Images.awardIconSpeedrun);
-  v.awardEditor = new Ka('Architect', ROTATE_Images.awardIconEditor);
-  v.awardJoshua = new Ka('Curiosity', ROTATE_Images.awardIconJoshua);
-  v.awardSoundtrack = new Ka('Sound Seeker', ROTATE_Images.awardIconSoundtrack);
-  v.awardRotate = new Ka('Rotate Me', ROTATE_Images.awardIconRotate);
-  v.all = [
-    v.awardEscape,
-    v.awardSpeedrun,
-    v.awardEditor,
-    v.awardJoshua,
-    v.awardSoundtrack,
-    v.awardRotate,
+  ROTATE_Awards.awardEscape = new Ka(
+    'The Beginning',
+    ROTATE_Images.awardIconEscape,
+  );
+  ROTATE_Awards.awardSpeedrun = new Ka(
+    'Seven or\nLess',
+    ROTATE_Images.awardIconSpeedrun,
+  );
+  ROTATE_Awards.awardEditor = new Ka(
+    'Architect',
+    ROTATE_Images.awardIconEditor,
+  );
+  ROTATE_Awards.awardJoshua = new Ka(
+    'Curiosity',
+    ROTATE_Images.awardIconJoshua,
+  );
+  ROTATE_Awards.awardSoundtrack = new Ka(
+    'Sound Seeker',
+    ROTATE_Images.awardIconSoundtrack,
+  );
+  ROTATE_Awards.awardRotate = new Ka(
+    'Rotate Me',
+    ROTATE_Images.awardIconRotate,
+  );
+  ROTATE_Awards.all = [
+    ROTATE_Awards.awardEscape,
+    ROTATE_Awards.awardSpeedrun,
+    ROTATE_Awards.awardEditor,
+    ROTATE_Awards.awardJoshua,
+    ROTATE_Awards.awardSoundtrack,
+    ROTATE_Awards.awardRotate,
   ];
-  v.FADE_MS = 250;
-  v.STAY_MS = 3e3;
-  v.bubbleTimer = -1;
+  ROTATE_Awards.FADE_MS = 250;
+  ROTATE_Awards.STAY_MS = 3e3;
+  ROTATE_Awards.bubbleTimer = -1;
+
   S.SPEED = 2;
   S.ACCEL = 0.06;
   S.DECCEL_MULT = 0.6;
