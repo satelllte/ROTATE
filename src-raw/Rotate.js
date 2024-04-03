@@ -4123,14 +4123,14 @@
     __class__: ROTATE_GameObject_Door,
   });
 
-  var da = function () {
+  var ROTATE_AngleTooltip = function () {
     this.angle = 0;
     X.call(this);
     this.configurable = !0;
   };
-  da.__name__ = !0;
-  da.__super__ = X;
-  da.prototype = __inherit(X.prototype, {
+  ROTATE_AngleTooltip.__name__ = !0;
+  ROTATE_AngleTooltip.__super__ = X;
+  ROTATE_AngleTooltip.prototype = __inherit(X.prototype, {
     set_angle: function (a) {
       return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
     },
@@ -4176,15 +4176,15 @@
       a.rotate((-b.getMeta(0) * Math.PI) / 2);
       a.translate(-f, -f);
     },
-    __class__: da,
+    __class__: ROTATE_AngleTooltip,
   });
 
   var ROTATE_GameObject_Fan = function () {
-    da.call(this);
+    ROTATE_AngleTooltip.call(this);
   };
   ROTATE_GameObject_Fan.__name__ = !0;
-  ROTATE_GameObject_Fan.__super__ = da;
-  ROTATE_GameObject_Fan.prototype = __inherit(da.prototype, {
+  ROTATE_GameObject_Fan.__super__ = ROTATE_AngleTooltip;
+  ROTATE_GameObject_Fan.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
     alwaysUpdate: function (a) {
       return !0;
     },
@@ -4589,26 +4589,29 @@
   );
 
   var ROTATE_GameObject_Platform = function () {
-    da.call(this);
+    ROTATE_AngleTooltip.call(this);
   };
   ROTATE_GameObject_Platform.__name__ = !0;
-  ROTATE_GameObject_Platform.__super__ = da;
-  ROTATE_GameObject_Platform.prototype = __inherit(da.prototype, {
-    render: function (a, b, c) {
-      this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
+  ROTATE_GameObject_Platform.__super__ = ROTATE_AngleTooltip;
+  ROTATE_GameObject_Platform.prototype = __inherit(
+    ROTATE_AngleTooltip.prototype,
+    {
+      render: function (a, b, c) {
+        this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
+      },
+      getColliders: function (a) {
+        return [new jb(a.getMeta(0))];
+      },
+      __class__: ROTATE_GameObject_Platform,
     },
-    getColliders: function (a) {
-      return [new jb(a.getMeta(0))];
-    },
-    __class__: ROTATE_GameObject_Platform,
-  });
+  );
 
   var ROTATE_GameObject_Ramp = function () {
-    da.call(this);
+    ROTATE_AngleTooltip.call(this);
   };
   ROTATE_GameObject_Ramp.__name__ = !0;
-  ROTATE_GameObject_Ramp.__super__ = da;
-  ROTATE_GameObject_Ramp.prototype = __inherit(da.prototype, {
+  ROTATE_GameObject_Ramp.__super__ = ROTATE_AngleTooltip;
+  ROTATE_GameObject_Ramp.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
     render: function (a, b, c) {
       this.renderRotated(a, b, 6 * ROTATE_GameConstants.tileSize, 0);
     },
@@ -4619,11 +4622,11 @@
   });
 
   var ROTATE_GameObject_Saw = function () {
-    da.call(this);
+    ROTATE_AngleTooltip.call(this);
   };
   ROTATE_GameObject_Saw.__name__ = !0;
-  ROTATE_GameObject_Saw.__super__ = da;
-  ROTATE_GameObject_Saw.prototype = __inherit(da.prototype, {
+  ROTATE_GameObject_Saw.__super__ = ROTATE_AngleTooltip;
+  ROTATE_GameObject_Saw.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
     isTrigger: function (a) {
       return !0;
     },
@@ -4667,46 +4670,49 @@
   });
 
   var ROTATE_GameObject_Spikes = function () {
-    da.call(this);
+    ROTATE_AngleTooltip.call(this);
   };
   ROTATE_GameObject_Spikes.__name__ = !0;
-  ROTATE_GameObject_Spikes.__super__ = da;
-  ROTATE_GameObject_Spikes.prototype = __inherit(da.prototype, {
-    isTrigger: function (a) {
-      return !0;
+  ROTATE_GameObject_Spikes.__super__ = ROTATE_AngleTooltip;
+  ROTATE_GameObject_Spikes.prototype = __inherit(
+    ROTATE_AngleTooltip.prototype,
+    {
+      isTrigger: function (a) {
+        return !0;
+      },
+      render: function (a, b, c) {
+        null == c && (c = !0);
+        this.renderRotated(
+          a,
+          b,
+          (c ? Math.floor((b.x + b.y) % 4) : 0) * ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+        );
+      },
+      getColliders: function (a) {
+        var b = ROTATE_GameConstants.tileSize;
+        var c = b / 2,
+          d = 0.5 * b,
+          e = (b - d) / 2;
+        3 == a.getMeta(0)
+          ? ((a = new Bounds(0, e, c, d)), (b = new Bounds(c, 0, c, b)))
+          : 2 == a.getMeta(0)
+            ? ((a = new Bounds(e, b - c, d, c)), (b = new Bounds(0, 0, b, c)))
+            : 1 == a.getMeta(0)
+              ? ((a = new Bounds(b - c, e, c, d)), (b = new Bounds(0, 0, c, b)))
+              : ((a = new Bounds(e, 0, d, c)), (b = new Bounds(0, c, b, c)));
+        return [new La(a), new La(b)];
+      },
+      onTrigger: function (a) {
+        ROTATE_GameController.i.killPlayer();
+        return !1;
+      },
+      __class__: ROTATE_GameObject_Spikes,
     },
-    render: function (a, b, c) {
-      null == c && (c = !0);
-      this.renderRotated(
-        a,
-        b,
-        (c ? Math.floor((b.x + b.y) % 4) : 0) * ROTATE_GameConstants.tileSize,
-        ROTATE_GameConstants.tileSize,
-      );
-    },
-    getColliders: function (a) {
-      var b = ROTATE_GameConstants.tileSize;
-      var c = b / 2,
-        d = 0.5 * b,
-        e = (b - d) / 2;
-      3 == a.getMeta(0)
-        ? ((a = new Bounds(0, e, c, d)), (b = new Bounds(c, 0, c, b)))
-        : 2 == a.getMeta(0)
-          ? ((a = new Bounds(e, b - c, d, c)), (b = new Bounds(0, 0, b, c)))
-          : 1 == a.getMeta(0)
-            ? ((a = new Bounds(b - c, e, c, d)), (b = new Bounds(0, 0, c, b)))
-            : ((a = new Bounds(e, 0, d, c)), (b = new Bounds(0, c, b, c)));
-      return [new La(a), new La(b)];
-    },
-    onTrigger: function (a) {
-      ROTATE_GameController.i.killPlayer();
-      return !1;
-    },
-    __class__: ROTATE_GameObject_Spikes,
-  });
+  );
 
   var ROTATE_GameObject_Stairs = function () {
-    da.call(this);
+    ROTATE_AngleTooltip.call(this);
   };
   ROTATE_GameObject_Stairs.__name__ = !0;
   ROTATE_GameObject_Stairs.__super__ = ROTATE_GameObject_Ramp;
@@ -20666,6 +20672,7 @@
     },
     __class__: ROTATE_ActiveGameObject,
   });
+
   var ac = function () {
     this.tip = new ROTATE_ImageObject(ROTATE_Images.configTip);
     ROTATE_CanvasObject.call(this);
@@ -20679,14 +20686,14 @@
     setup: function (a) {
       var b = Math.round(a.bubbleWidth / 2);
       this.graphics.clear();
-      this.graphics.beginFill(8421504);
+      this.graphics.beginFill(0x808080);
       this.graphics.drawRect(
         -b - 2,
         -a.bubbleHeight - this.tip.get_height() - 2,
         a.bubbleWidth + 4,
         a.bubbleHeight + 4,
       );
-      this.graphics.beginFill(2105376);
+      this.graphics.beginFill(0x202020);
       this.graphics.drawRect(
         -b,
         -a.bubbleHeight - this.tip.get_height(),
