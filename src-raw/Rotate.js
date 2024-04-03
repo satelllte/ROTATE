@@ -788,26 +788,28 @@
     },
     __class__: ROTATE_CanvasObject,
   });
-  var I = function (a) {
-    this.imageWidth = this.imageHeight = 0;
-    var b = this;
+
+  var ROTATE_ImageObject = function (image) {
+    this.imageWidth = 0;
+    this.imageHeight = 0;
+    var _self = this;
     ROTATE_CanvasObject.call(this);
-    null != a && this.create(a);
+    null != image && this.create(image);
     this.addEventListener('render', function (c) {
-      b.render(c.surface);
+      _self.render(c.surface);
     });
   };
-  I.__name__ = !0;
-  I.fromFile = function (a, b) {
-    var c = new I(null);
+  ROTATE_ImageObject.__name__ = !0;
+  ROTATE_ImageObject.fromFile = function (a, b) {
+    var c = new ROTATE_ImageObject(null);
     ROTATE_Manager.loadImage(a, function (d) {
       c.create(d);
       null != b && b();
     });
     return c;
   };
-  I.__super__ = ROTATE_CanvasObject;
-  I.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_ImageObject.__super__ = ROTATE_CanvasObject;
+  ROTATE_ImageObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     get_rect: function () {
       return new Bounds(
         0,
@@ -855,8 +857,9 @@
             this.clipRect.height != this.imageHeight,
         );
     },
-    __class__: I,
+    __class__: ROTATE_ImageObject,
   });
+
   var ROTATE_Event = function (type) {
     this.type = type;
   };
@@ -2533,7 +2536,7 @@
     ROTATE_Awards.bubble.graphics.drawRect(0, 0, c - 4, 64);
     null != ROTATE_Awards.bubbleIcon &&
       ROTATE_Awards.bubble.removeChild(ROTATE_Awards.bubbleIcon);
-    ROTATE_Awards.bubbleIcon = new I(b);
+    ROTATE_Awards.bubbleIcon = new ROTATE_ImageObject(b);
     ROTATE_Awards.bubbleIcon.set_x(8);
     ROTATE_Awards.bubbleIcon.set_y(8);
     ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleIcon);
@@ -4034,7 +4037,7 @@
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
-      var e = new I(ROTATE_Images.configArrow);
+      var e = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -4044,7 +4047,7 @@
       e.set_x(d.x + 11);
       e.set_y(d.y + 4);
       a.addChild(e);
-      var f = new I(ROTATE_Images.configArrow);
+      var f = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       f.mouseEnabled = f.buttonMode = !0;
       f.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -4065,7 +4068,7 @@
       m.set_x(this.bubbleWidth - 31);
       m.set_y(e.y);
       a.addChild(m);
-      c = new I(ROTATE_Images.configArrow);
+      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -4075,7 +4078,7 @@
       c.set_x(m.x + 11);
       c.set_y(m.y + 4);
       a.addChild(c);
-      f = new I(ROTATE_Images.configArrow);
+      f = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       f.mouseEnabled = f.buttonMode = !0;
       f.addEventListener('mouseDown', function (p) {
         1 < p.which ||
@@ -4096,7 +4099,7 @@
       k.set_x(this.bubbleWidth - 31);
       k.set_y(c.y);
       a.addChild(k);
-      e = new I(ROTATE_Images.configArrow);
+      e = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (p) {
         1 < p.which || (b.set_angle(b.angle + 1), k.set_text(b.angle + ''));
@@ -4104,7 +4107,7 @@
       e.set_x(k.x + 11);
       e.set_y(k.y + 4);
       a.addChild(e);
-      c = new I(ROTATE_Images.configArrow);
+      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (p) {
         1 < p.which || (b.set_angle(b.angle - 1), k.set_text(b.angle + ''));
@@ -4143,7 +4146,7 @@
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
-      c = new I(ROTATE_Images.configArrow);
+      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (e) {
         1 < e.which || (b.set_angle(b.angle + 1), d.set_text(b.angle + ''));
@@ -4151,7 +4154,7 @@
       c.set_x(d.x + 11);
       c.set_y(12);
       a.addChild(c);
-      c = new I(ROTATE_Images.configArrow);
+      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (e) {
         1 < e.which || (b.set_angle(b.angle - 1), d.set_text(b.angle + ''));
@@ -4357,7 +4360,7 @@
       d.set_x(this.bubbleWidth - 31);
       d.set_y(c.y);
       a.addChild(d);
-      var e = new I(ROTATE_Images.configArrow);
+      var e = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (k) {
         1 < k.which ||
@@ -4367,7 +4370,7 @@
       e.set_x(d.x + 11);
       e.set_y(d.y + 4);
       a.addChild(e);
-      var f = new I(ROTATE_Images.configArrow);
+      var f = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       f.mouseEnabled = f.buttonMode = !0;
       f.addEventListener('mouseDown', function (k) {
         1 < k.which ||
@@ -4388,7 +4391,7 @@
       m.set_x(this.bubbleWidth - 31);
       m.set_y(e.y);
       a.addChild(m);
-      c = new I(ROTATE_Images.configArrow);
+      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       c.mouseEnabled = c.buttonMode = !0;
       c.addEventListener('mouseDown', function (k) {
         1 < k.which || ((b.on = !b.on), m.set_text(b.on ? '1' : '0'));
@@ -4396,7 +4399,7 @@
       c.set_x(m.x + 11);
       c.set_y(m.y + 4);
       a.addChild(c);
-      e = new I(ROTATE_Images.configArrow);
+      e = new ROTATE_ImageObject(ROTATE_Images.configArrow);
       e.mouseEnabled = e.buttonMode = !0;
       e.addEventListener('mouseDown', function (k) {
         1 < k.which || ((b.on = !b.on), m.set_text(b.on ? '1' : '0'));
@@ -4560,7 +4563,7 @@
         d.set_x(this.bubbleWidth - 31);
         d.set_y(c.y);
         a.addChild(d);
-        c = new I(ROTATE_Images.configArrow);
+        c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
         c.mouseEnabled = c.buttonMode = !0;
         c.addEventListener('mouseDown', function (e) {
           1 < e.which || (b.set_value(b.value + 1), d.set_text(b.value + ''));
@@ -4568,7 +4571,7 @@
         c.set_x(d.x + 11);
         c.set_y(12);
         a.addChild(c);
-        c = new I(ROTATE_Images.configArrow);
+        c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
         c.mouseEnabled = c.buttonMode = !0;
         c.addEventListener('mouseDown', function (e) {
           1 < e.which || (b.set_value(b.value - 1), d.set_text(b.value + ''));
@@ -5312,31 +5315,36 @@
       this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
       this.s1 = !0;
       this.s2 = this.s3 = this.s4 = this.s5 = !1;
-      null == this.c1 && (this.c1 = new I(ROTATE_Images.controls1));
+      null == this.c1 &&
+        (this.c1 = new ROTATE_ImageObject(ROTATE_Images.controls1));
       this.c1.set_x(3.5 * ROTATE_GameConstants.tileSize);
       this.c1.set_y(9 * ROTATE_GameConstants.tileSize);
       this.c1.set_alpha(this.a1);
       a.overlay.addChild(this.c1);
-      null == this.c2 && (this.c2 = new I(ROTATE_Images.controls2));
+      null == this.c2 &&
+        (this.c2 = new ROTATE_ImageObject(ROTATE_Images.controls2));
       this.c2.set_x(10 * ROTATE_GameConstants.tileSize);
       this.c2.set_y(11 * ROTATE_GameConstants.tileSize);
       this.c2.set_alpha(this.a2);
       a.overlay.addChild(this.c2);
-      null == this.c3 && (this.c3 = new I(ROTATE_Images.controls3));
+      null == this.c3 &&
+        (this.c3 = new ROTATE_ImageObject(ROTATE_Images.controls3));
       this.c3.set_x(18.5 * ROTATE_GameConstants.tileSize);
       this.c3.set_y(9 * ROTATE_GameConstants.tileSize);
       this.c3.set_alpha(this.a3);
       this.c3.clipRect.width = 48;
       ROTATE_Game.instance.invert && (this.c3.clipRect.x = 48);
       a.overlay.addChild(this.c3);
-      null == this.c4 && (this.c4 = new I(ROTATE_Images.controls4));
+      null == this.c4 &&
+        (this.c4 = new ROTATE_ImageObject(ROTATE_Images.controls4));
       this.c4.set_x(29 * ROTATE_GameConstants.tileSize);
       this.c4.set_y(ROTATE_GameConstants.tileSize);
       this.c4.set_alpha(this.a4);
       this.c4.clipRect.width = 48;
       ROTATE_Game.instance.invert && (this.c4.clipRect.x = 48);
       a.overlay.addChild(this.c4);
-      null == this.c5 && (this.c5 = new I(ROTATE_Images.controls5));
+      null == this.c5 &&
+        (this.c5 = new ROTATE_ImageObject(ROTATE_Images.controls5));
       this.c5.set_x(24.5 * ROTATE_GameConstants.tileSize);
       this.c5.set_y(5 * ROTATE_GameConstants.tileSize);
       this.c5.set_alpha(this.a5);
@@ -17115,7 +17123,8 @@
       var a = ROTATE_Game.instance.currentScreen;
       this.a1 = 0;
       this.s1 = this.s2 = !1;
-      null == this.c1 && (this.c1 = new I(ROTATE_Images.controls5));
+      null == this.c1 &&
+        (this.c1 = new ROTATE_ImageObject(ROTATE_Images.controls5));
       this.c1.set_x(28.5 * ROTATE_GameConstants.tileSize);
       this.c1.set_y(28 * ROTATE_GameConstants.tileSize);
       this.c1.set_alpha(this.a1);
@@ -18810,19 +18819,19 @@
   var mb = function (a) {
     null == a && (a = !1);
     this.mute = new Ba();
-    this.more = new I(ROTATE_Images.linkLWS);
+    this.more = new ROTATE_ImageObject(ROTATE_Images.linkLWS);
     this.moreText = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Game published by',
       1,
     );
-    this.soundtrack = new I(ROTATE_Images.soundtrack);
+    this.soundtrack = new ROTATE_ImageObject(ROTATE_Images.soundtrack);
     this.text2 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Special thanks to the playtesters\nand Patreon contributors!',
       1,
     );
-    this.joshua = new I(ROTATE_Images.linkJoshua2);
+    this.joshua = new ROTATE_ImageObject(ROTATE_Images.linkJoshua2);
     this.text1 = new ROTATE_Text(
       ROTATE_Game.fontMain,
       'Design, code, & music by',
@@ -18846,7 +18855,7 @@
           ROTATE_Canvas.width,
           ROTATE_Canvas.height,
         );
-        var b = new I(ROTATE_Images.vignette);
+        var b = new ROTATE_ImageObject(ROTATE_Images.vignette);
         b.set_alpha(0.75);
         this.bg.addChild(b);
         this.btnBack.text.set_text('MENU');
@@ -19523,8 +19532,8 @@
     this.cat = new ROTATE_CatAnimationObject();
     this.player = new ua(ROTATE_Images.player, 32, 48);
     this.artPlants = new ua(ROTATE_Images.endingPlants, 504, 24);
-    this.artMain = new I(ROTATE_Images.endingMain);
-    this.vignette = new I(ROTATE_Images.vignette);
+    this.artMain = new ROTATE_ImageObject(ROTATE_Images.endingMain);
+    this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
     this.bg = new ROTATE_CanvasObject();
     this.cameraX = this.cameraY = 0;
     this.camera = new ROTATE_CanvasObject();
@@ -19781,7 +19790,7 @@
           f = Math.floor(e[0] / 4),
           m = e[0] % 4,
           k = e[0] <= ROTATE_Levels.unlocked,
-          p = new I(ROTATE_Images.level);
+          p = new ROTATE_ImageObject(ROTATE_Images.level);
         p.set_x(b + m * (p.get_width() + 24));
         p.set_y(c + f * (p.get_height() + 20));
         k
@@ -19817,7 +19826,7 @@
     this.btnCredits = new ROTATE_Button('CREDITS');
     this.btnExtras = new ROTATE_Button('EXTRAS');
     this.btnPlay = new ROTATE_Button('PLAY');
-    this.logo = new I(ROTATE_Images.logo);
+    this.logo = new ROTATE_ImageObject(ROTATE_Images.logo);
     this.bg = new Na();
     P.call(this);
   };
@@ -19887,7 +19896,7 @@
     this.speedrunFinal = -1;
     this.doors = [];
     this.cat = null;
-    this.vignette = new I(ROTATE_Images.vignette);
+    this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
     this.red = new ROTATE_CanvasObject();
     this.overlay = new ROTATE_CanvasObject();
     this.textHolder = new ROTATE_CanvasObject();
@@ -20264,7 +20273,7 @@
     this.length = 1.5;
     P.call(this);
     this.lws = a;
-    a = new I(ROTATE_Images.splashLWS);
+    a = new ROTATE_ImageObject(ROTATE_Images.splashLWS);
     a.set_x(Math.round((ROTATE_Canvas.width - a.get_width()) / 2));
     a.set_y(Math.round((ROTATE_Canvas.height - a.get_height()) / 2));
     this.addChild(a);
@@ -20283,7 +20292,7 @@
     __class__: $b,
   });
   var vb = function () {
-    this.start = new I(ROTATE_Images.start);
+    this.start = new ROTATE_ImageObject(ROTATE_Images.start);
     this.pivot = new ROTATE_CanvasObject();
     P.call(this);
   };
@@ -20524,10 +20533,12 @@
 
   var Xb = function (a) {
     ROTATE_CanvasObject.call(this);
-    var b = new I(ROTATE_Images.awardFrame);
+    var b = new ROTATE_ImageObject(ROTATE_Images.awardFrame);
     b.set_x(-b.get_width() / 2);
     this.addChild(b);
-    b = new I(a.unlocked ? a.icon : ROTATE_Images.awardIconLocked);
+    b = new ROTATE_ImageObject(
+      a.unlocked ? a.icon : ROTATE_Images.awardIconLocked,
+    );
     b.set_x(-b.get_width() / 2);
     b.set_y(8);
     this.addChild(b);
@@ -20654,7 +20665,7 @@
     __class__: ROTATE_ActiveGameObject,
   });
   var ac = function () {
-    this.tip = new I(ROTATE_Images.configTip);
+    this.tip = new ROTATE_ImageObject(ROTATE_Images.configTip);
     ROTATE_CanvasObject.call(this);
     this.tip.set_x(-this.tip.get_width() / 2);
     this.tip.set_y(-this.tip.get_height());
@@ -20858,7 +20869,7 @@
     this.theme.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
     this.theme.xAlign = ROTATE_Text.X_ALIGN_CENTER;
     this.addChild(this.theme);
-    var c = new I(ROTATE_Images.configArrow);
+    var c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
     c.mouseEnabled = c.buttonMode = !0;
     c.set_x(this.theme.x + 46);
     c.set_y(this.theme.y + 4);
@@ -20866,7 +20877,7 @@
       2 > d.which && b(-1);
     });
     this.addChild(c);
-    c = new I(ROTATE_Images.configArrow);
+    c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
     c.mouseEnabled = c.buttonMode = !0;
     c.set_scaleX(-1);
     c.set_x(this.theme.x - 46);
@@ -20913,7 +20924,7 @@
     __class__: ROTATE_EditorBarUpper,
   });
   var Ya = function () {
-    I.call(this, ROTATE_Images.trash);
+    ROTATE_ImageObject.call(this, ROTATE_Images.trash);
     this.set_x(ROTATE_Canvas.width - 120);
     this.set_y(ROTATE_Canvas.height - this.get_height() - 12);
     for (var a = !1, b = 0, c = ROTATE_Awards.all; b < c.length; ) {
@@ -20944,13 +20955,13 @@
       : this.set_alpha(0.33);
   };
   Ya.__name__ = !0;
-  Ya.__super__ = I;
-  Ya.prototype = __inherit(I.prototype, {
+  Ya.__super__ = ROTATE_ImageObject;
+  Ya.prototype = __inherit(ROTATE_ImageObject.prototype, {
     __class__: Ya,
   });
   var bc = function (a) {
     this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
-    this.toggle = new I(ROTATE_Images.configToggle);
+    this.toggle = new ROTATE_ImageObject(ROTATE_Images.configToggle);
     var b = this;
     ROTATE_CanvasObject.call(this);
     this.set_x(ROTATE_Canvas.width - this.get_width() - 12);
@@ -21032,7 +21043,7 @@
   var ROTATE_Button = function (title, b) {
     null == b && (b = 0);
     ROTATE_CanvasObject.call(this);
-    this.main = new I(ROTATE_Images.menuBtn);
+    this.main = new ROTATE_ImageObject(ROTATE_Images.menuBtn);
     this.main.set_x(-this.main.get_width() / 2);
     this.main.set_y(-this.main.get_height() / 2);
     this.main.mouseEnabled = this.main.buttonMode = !0;
@@ -21058,7 +21069,7 @@
     null == a && (a = 0);
     var b = this;
     ROTATE_CanvasObject.call(this);
-    this.sfx = new I(ROTATE_Images.mute);
+    this.sfx = new ROTATE_ImageObject(ROTATE_Images.mute);
     this.sfx.set_clipRect(
       new Bounds(ROTATE_Game.instance.muteSFX ? 28 : 0, 30 * a, 28, 30),
     );
@@ -21072,7 +21083,7 @@
     this.sfx.set_x(ROTATE_Canvas.width - this.sfx.get_width() - 12);
     this.sfx.set_y(ROTATE_Canvas.height - this.sfx.get_height() - 12);
     this.addChild(this.sfx);
-    this.music = new I(ROTATE_Images.mute);
+    this.music = new ROTATE_ImageObject(ROTATE_Images.mute);
     this.music.set_clipRect(
       new Bounds(ROTATE_Game.instance.muteMusic ? 84 : 56, 30 * a, 28, 30),
     );
@@ -21124,7 +21135,7 @@
     a.set_y(-4);
     a.set_alpha(0.5);
     this.addChild(a);
-    var b = new I(ROTATE_Images.configToggle);
+    var b = new ROTATE_ImageObject(ROTATE_Images.configToggle);
     b.clipRect.width = 22;
     ROTATE_Game.instance.invert && (b.clipRect.x = 22);
     b.set_alpha(0.75);
@@ -21238,7 +21249,7 @@
   });
 
   var ROTATE_Sponsor = function () {
-    I.call(this, ROTATE_Images.linkJoshua);
+    ROTATE_ImageObject.call(this, ROTATE_Images.linkJoshua);
     this.clipRect.height /= 2;
     this.set_x(8);
     this.set_y(ROTATE_Canvas.height - this.get_height() - 8);
@@ -21251,8 +21262,8 @@
     });
   };
   ROTATE_Sponsor.__name__ = !0;
-  ROTATE_Sponsor.__super__ = I;
-  ROTATE_Sponsor.prototype = __inherit(I.prototype, {
+  ROTATE_Sponsor.__super__ = ROTATE_ImageObject;
+  ROTATE_Sponsor.prototype = __inherit(ROTATE_ImageObject.prototype, {
     __class__: ROTATE_Sponsor,
   });
 
