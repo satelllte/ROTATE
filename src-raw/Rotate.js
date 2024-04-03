@@ -4253,14 +4253,14 @@
     __class__: ROTATE_GameObject_Solid,
   });
 
-  var Bb = function () {
+  var ROTATE_GameObject_Number = function () {
     this.value = 1;
     X.call(this);
     this.configurable = !0;
   };
-  Bb.__name__ = !0;
-  Bb.__super__ = ROTATE_GameObject_Solid;
-  Bb.prototype = D(ROTATE_GameObject_Solid.prototype, {
+  ROTATE_GameObject_Number.__name__ = !0;
+  ROTATE_GameObject_Number.__super__ = ROTATE_GameObject_Solid;
+  ROTATE_GameObject_Number.prototype = D(ROTATE_GameObject_Solid.prototype, {
     set_value: function (a) {
       return (this.value = 0 > a ? 99 : 99 < a ? 0 : a);
     },
@@ -4353,7 +4353,7 @@
     getConfigMeta: function () {
       return [this.value];
     },
-    __class__: Bb,
+    __class__: ROTATE_GameObject_Number,
   });
 
   var ROTATE_GameObject_Platform = function () {
@@ -20932,7 +20932,10 @@
     9,
     new ROTATE_GameObject_Door(),
   );
-  ROTATE_GameObjects.number = ROTATE_GameObjects.register(7, new Bb());
+  ROTATE_GameObjects.number = ROTATE_GameObjects.register(
+    7,
+    new ROTATE_GameObject_Number(),
+  );
   ROTATE_GameObjects.vent = ROTATE_GameObjects.register(10, new Hb());
   ROTATE_GameObjects.fan = ROTATE_GameObjects.register(11, new zb());
 
