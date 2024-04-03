@@ -112,23 +112,22 @@
     transparent,
     gameInstance,
   ) {
-    Canvas.started ||
-      1 > width ||
-      1 > height ||
-      null == gameInstance ||
-      ((Canvas.transparent = transparent),
-      (Canvas.width = width),
-      (Canvas.height = height),
-      Canvas.set_background(background),
-      (Canvas.stage = gameInstance),
-      window.setTimeout(function () {
-        window.focus();
-      }, 0),
-      Canvas.setup(container),
-      gameInstance.triggerEvent(new Y('added')),
-      t._init(),
-      Canvas.loop(),
-      (Canvas.started = !0));
+    if (Canvas.started) return;
+    if (gameInstance === null) return;
+
+    Canvas.transparent = transparent;
+    Canvas.width = width;
+    Canvas.height = height;
+    Canvas.set_background(background);
+    Canvas.stage = gameInstance;
+    window.setTimeout(function () {
+      window.focus();
+    }, 0);
+    Canvas.setup(container);
+    gameInstance.triggerEvent(new Y('added'));
+    t._init();
+    Canvas.loop();
+    Canvas.started = true;
   };
   Canvas.setup = function (container) {
     Canvas.parent = container;
