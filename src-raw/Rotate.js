@@ -9257,7 +9257,7 @@
     kill: function () {},
     __class__: ROTATE_Level14,
   };
-  var Ob = function () {
+  var ROTATE_Level15 = function () {
     this.startDir = -1;
     this.finishRow = 19;
     this.finishCol = 22;
@@ -10747,9 +10747,9 @@
     ];
     this.theme = 1;
   };
-  Ob.__name__ = !0;
-  Ob.__interfaces__ = [ea];
-  Ob.prototype = {
+  ROTATE_Level15.__name__ = !0;
+  ROTATE_Level15.__interfaces__ = [ea];
+  ROTATE_Level15.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(2), "I don't understand."),
@@ -10769,7 +10769,7 @@
       return ROTATE_Levels.level16;
     },
     kill: function () {},
-    __class__: Ob,
+    __class__: ROTATE_Level15,
   };
   var Pb = function () {
     this.startDir = 1;
@@ -20828,7 +20828,7 @@
   ROTATE_Levels.level12 = new ROTATE_Level12();
   ROTATE_Levels.level13 = new ROTATE_Level13();
   ROTATE_Levels.level14 = new ROTATE_Level14();
-  ROTATE_Levels.level15 = new Ob();
+  ROTATE_Levels.level15 = new ROTATE_Level15();
   ROTATE_Levels.level16 = new Pb();
   ROTATE_Levels.list = [
     ROTATE_Levels.level1,
