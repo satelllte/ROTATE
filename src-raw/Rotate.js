@@ -20810,7 +20810,7 @@
       ROTATE_Canvas.width,
       ROTATE_EditorBarLower.HEIGHT,
     );
-    this.gridToggle = new bc(a);
+    this.gridToggle = new ROTATE_GridToggle(a);
     this.addChild(this.gridToggle);
     this.selector.set_x(12);
     this.selector.set_y(
@@ -20923,6 +20923,7 @@
   ROTATE_EditorBarUpper.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     __class__: ROTATE_EditorBarUpper,
   });
+
   var Ya = function () {
     ROTATE_ImageObject.call(this, ROTATE_Images.trash);
     this.set_x(ROTATE_Canvas.width - 120);
@@ -20959,7 +20960,8 @@
   Ya.prototype = __inherit(ROTATE_ImageObject.prototype, {
     __class__: Ya,
   });
-  var bc = function (a) {
+
+  var ROTATE_GridToggle = function (a) {
     this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
     this.toggle = new ROTATE_ImageObject(ROTATE_Images.configToggle);
     var b = this;
@@ -20987,13 +20989,13 @@
     this.label.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
     this.addChild(this.label);
   };
-  bc.__name__ = !0;
-  bc.__super__ = ROTATE_CanvasObject;
-  bc.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_GridToggle.__name__ = !0;
+  ROTATE_GridToggle.__super__ = ROTATE_CanvasObject;
+  ROTATE_GridToggle.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     getBoundsSelf: function () {
       return new Bounds(0, 0, 76, 30);
     },
-    __class__: bc,
+    __class__: ROTATE_GridToggle,
   });
 
   var ROTATE_BackgroundObject = function () {
