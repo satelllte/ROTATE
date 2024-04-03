@@ -2117,7 +2117,7 @@
           (b.pauseOnInit = !0);
         null != b.currentScreen && b.currentScreen.pausable && b.pause();
       });
-      this.changeScreen(new vb(), !1);
+      this.changeScreen(new ROTATE_ScreenFirst(), !1);
     },
     pause: function (a) {
       null == a && (a = !0);
@@ -20385,14 +20385,15 @@
     },
     __class__: $b,
   });
-  var vb = function () {
+
+  var ROTATE_ScreenFirst = function () {
     this.start = new ROTATE_ImageObject(ROTATE_Images.start);
     this.pivot = new ROTATE_CanvasObject();
     P.call(this);
   };
-  vb.__name__ = !0;
-  vb.__super__ = P;
-  vb.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenFirst.__name__ = !0;
+  ROTATE_ScreenFirst.__super__ = P;
+  ROTATE_ScreenFirst.prototype = __inherit(P.prototype, {
     init: function () {
       this.timer = Time.get_currentMS();
       this.pivot.set_x(ROTATE_Canvas.width / 2);
@@ -20425,7 +20426,7 @@
             (a.start.mouseEnabled = !1));
         }));
     },
-    __class__: vb,
+    __class__: ROTATE_ScreenFirst,
   });
 
   var ROTATE_ScreenGameBeginning = function (speedrun) {
