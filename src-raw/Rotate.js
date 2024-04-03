@@ -4620,6 +4620,8 @@
     __class__: Ib,
   });
 
+  // #region Levels
+
   var ROTATE_BaseLevelInterface = function () {};
   ROTATE_BaseLevelInterface.__name__ = !0;
   ROTATE_BaseLevelInterface.prototype = {
@@ -17859,6 +17861,9 @@
   };
   var ROTATE_Levels = function () {};
   ROTATE_Levels.__name__ = !0;
+
+  // #endregion Levels
+
   var cb = function () {};
   cb.__name__ = !0;
   cb.prototype = {
