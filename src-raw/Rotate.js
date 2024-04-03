@@ -21125,7 +21125,7 @@
     },
     __class__: Ba,
   });
-  var cc = function () {
+  var ROTATE_InvertCheckbox = function () {
     ROTATE_CanvasObject.call(this);
     this.set_x(12);
     this.set_y(12);
@@ -21147,19 +21147,19 @@
         ROTATE_Game.instance.saveProgress());
     });
   };
-  cc.__name__ = !0;
-  cc.__super__ = ROTATE_CanvasObject;
-  cc.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_InvertCheckbox.__name__ = !0;
+  ROTATE_InvertCheckbox.__super__ = ROTATE_CanvasObject;
+  ROTATE_InvertCheckbox.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     getBoundsSelf: function () {
       return new Bounds(0, 0, 198, 22);
     },
-    __class__: cc,
+    __class__: ROTATE_InvertCheckbox,
   });
 
   var ROTATE_PauseMenu = function () {
     this.sponsor = new ROTATE_Sponsor();
     this.mute = new Ba(1);
-    this.invert = new cc();
+    this.invert = new ROTATE_InvertCheckbox();
     this.btnQuit = new ROTATE_Button('QUIT', 0);
     this.btnRedo = new ROTATE_Button('RESTART', 0);
     this.btnPlay = new ROTATE_Button('CONTINUE', 0);
