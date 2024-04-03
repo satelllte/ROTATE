@@ -10771,7 +10771,7 @@
     kill: function () {},
     __class__: ROTATE_Level15,
   };
-  var Pb = function () {
+  var ROTATE_Level16 = function () {
     this.startDir = 1;
     this.finishRow = 2;
     this.finishCol = 38;
@@ -12503,9 +12503,9 @@
     ];
     this.theme = 1;
   };
-  Pb.__name__ = !0;
-  Pb.__interfaces__ = [ea];
-  Pb.prototype = {
+  ROTATE_Level16.__name__ = !0;
+  ROTATE_Level16.__interfaces__ = [ea];
+  ROTATE_Level16.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(4), "I'm tired of trying to convince you."),
@@ -12529,7 +12529,7 @@
       return null;
     },
     kill: function () {},
-    __class__: Pb,
+    __class__: ROTATE_Level16,
   };
   var ROTATE_Level2 = function () {
     this.startDir = 1;
@@ -20829,7 +20829,7 @@
   ROTATE_Levels.level13 = new ROTATE_Level13();
   ROTATE_Levels.level14 = new ROTATE_Level14();
   ROTATE_Levels.level15 = new ROTATE_Level15();
-  ROTATE_Levels.level16 = new Pb();
+  ROTATE_Levels.level16 = new ROTATE_Level16();
   ROTATE_Levels.list = [
     ROTATE_Levels.level1,
     ROTATE_Levels.level2,
