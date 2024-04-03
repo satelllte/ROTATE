@@ -19784,7 +19784,7 @@
     __class__: ROTATE_ScreenExtras,
   });
 
-  var pb = function () {
+  var ROTATE_ScreenLevels = function () {
     this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
@@ -19794,9 +19794,9 @@
     this.bg = new ROTATE_BackgroundObject();
     P.call(this);
   };
-  pb.__name__ = !0;
-  pb.__super__ = P;
-  pb.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenLevels.__name__ = !0;
+  ROTATE_ScreenLevels.__super__ = P;
+  ROTATE_ScreenLevels.prototype = __inherit(P.prototype, {
     init: function () {
       ca.playTheme();
       this.addChild(this.bg);
@@ -19860,7 +19860,7 @@
         p.addChild(e);
       }
     },
-    __class__: pb,
+    __class__: ROTATE_ScreenLevels,
   });
 
   var ca = function () {
@@ -19911,7 +19911,7 @@
         1 < a.which ||
           (0 == ROTATE_Levels.unlocked
             ? (ca.stopTheme(), ROTATE_Game.instance.changeScreen(new Qa()))
-            : ROTATE_Game.instance.changeScreen(new pb()));
+            : ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLevels()));
       });
       this.addChild(this.btnPlay);
       this.btnExtras.set_x(this.btnPlay.x);
@@ -21277,7 +21277,7 @@
             : a
               ? new ROTATE_ScreenExtras()
               : 0 < ROTATE_Levels.unlocked
-                ? new pb()
+                ? new ROTATE_ScreenLevels()
                 : new ca(),
           !0,
           ((gameInstance = ROTATE_Game.instance),
