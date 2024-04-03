@@ -151,7 +151,7 @@
     ROTATE_Canvas.set_imageSmoothingEnabled(
       ROTATE_Canvas.imageSmoothingEnabled,
     );
-    ROTATE_Canvas.surface = new Ea(ROTATE_Canvas.ctx);
+    ROTATE_Canvas.surface = new Surface(ROTATE_Canvas.ctx);
     N._reset();
     ROTATE_Canvas.input = new qb(ROTATE_Canvas.canvas);
     G._init();
@@ -1203,13 +1203,13 @@
     },
     __class__: Ga,
   };
-  var Ea = function (a) {
+  var Surface = function (ctx) {
     this._transform = new Transform();
-    this._ctx = a;
+    this._ctx = ctx;
     this.reset();
   };
-  Ea.__name__ = !0;
-  Ea.prototype = {
+  Surface.__name__ = !0;
+  Surface.prototype = {
     save: function () {
       this._transform.save();
       this._ctx.save();
@@ -1317,7 +1317,7 @@
         a += d;
         b += d;
         this.beginPath();
-        this.arc(a, b, c, 0.1, Ea.PI2 + 0.1);
+        this.arc(a, b, c, 0.1, Surface.PI2 + 0.1);
         this.applyPath();
       }
     },
@@ -1343,7 +1343,7 @@
         this.save();
         this.translate(a + c / 2, b + d / 2);
         this.scale(c / d, 1);
-        this.arc(0, 0, d / 2, 0.1, Ea.PI2 + 0.1);
+        this.arc(0, 0, d / 2, 0.1, Surface.PI2 + 0.1);
         this.restore();
         this.applyPath();
       }
@@ -1400,7 +1400,7 @@
       }
       return b;
     },
-    __class__: Ea,
+    __class__: Surface,
   };
   var Transform = function () {
     this.states = [];
@@ -3397,7 +3397,7 @@
         c.oImageSmoothingEnabled =
         c.imageSmoothingEnabled =
           !1;
-      L.bakeSurface = new Ea(L.bakeCtx);
+      L.bakeSurface = new Surface(L.bakeCtx);
     }
     c = l.get_width() + 2;
     L.bakeCanvas.width = c * n.tileSize;
@@ -3413,7 +3413,7 @@
       L.gridCanvas.width = A.editorLevel.tiles[0].length * n.tileSize + 2;
       L.gridCanvas.height = A.editorLevel.tiles.length * n.tileSize + 2;
       L.gridCtx = L.gridCanvas.getContext('2d', null);
-      L.gridSurface = new Ea(L.gridCtx);
+      L.gridSurface = new Surface(L.gridCtx);
       L.gridSurface.beginFill(2105376, 0.2);
       c = 0;
       for (var d = A.editorLevel.tiles.length + 1; c < d; )
@@ -20529,7 +20529,7 @@
   G.keys = [];
   G.keysOld = [];
   Ga.FUNC = 1;
-  Ea.PI2 = 2 * Math.PI;
+  Surface.PI2 = 2 * Math.PI;
   za.CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
   za.BYTES = ya.ofString(za.CHARS);
   E.__toStr = {}.toString;
