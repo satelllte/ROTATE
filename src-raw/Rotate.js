@@ -18853,8 +18853,9 @@
     },
     __class__: ROTATE_ScreenAwards,
   });
-  var mb = function (a) {
-    null == a && (a = !1);
+
+  var ROTATE_ScreenCredits = function (fromEnd) {
+    null == fromEnd && (fromEnd = !1);
     this.mute = new ROTATE_MuteButtons();
     this.more = new ROTATE_ImageObject(ROTATE_Images.linkLWS);
     this.moreText = new ROTATE_Text(
@@ -18876,11 +18877,11 @@
     );
     this.btnBack = new ROTATE_Button('BACK');
     P.call(this);
-    this.fromEnd = a;
+    this.fromEnd = fromEnd;
   };
-  mb.__name__ = !0;
-  mb.__super__ = P;
-  mb.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenCredits.__name__ = !0;
+  ROTATE_ScreenCredits.__super__ = P;
+  ROTATE_ScreenCredits.prototype = __inherit(P.prototype, {
     init: function () {
       var a = this;
       if (this.fromEnd) {
@@ -18982,7 +18983,7 @@
       this.addChild(this.btnBack);
       this.addChild(this.mute);
     },
-    __class__: mb,
+    __class__: ROTATE_ScreenCredits,
   });
 
   var qa = function () {
@@ -19678,7 +19679,13 @@
         this.first &&
           ((ROTATE_Awards.awardEscape.unlocked = !1),
           ROTATE_Awards.awardEscape.unlock()),
-        ROTATE_Game.instance.changeScreen(new mb(!0), !0, null, !0, !0),
+        ROTATE_Game.instance.changeScreen(
+          new ROTATE_ScreenCredits(!0),
+          !0,
+          null,
+          !0,
+          !0,
+        ),
         ROTATE_Game.instance.timerHolder.removeChildren());
     },
     tick: function () {
@@ -19940,7 +19947,8 @@
       this.btnCredits.set_x(this.btnExtras.x);
       this.btnCredits.set_y(this.btnExtras.y + 60);
       this.btnCredits.addEventListener('click', function (a) {
-        2 > a.which && ROTATE_Game.instance.changeScreen(new mb());
+        2 > a.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenCredits());
       });
       this.addChild(this.btnCredits);
       this.addChild(this.mute);
