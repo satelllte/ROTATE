@@ -13044,11 +13044,17 @@
           'You will realize I was right.',
         ),
         new ROTATE_SpeechPart(
-          new lb(22, 7, 1, 3),
+          new ROTATE_ConditionCollisionWithChannels(22, 7, 1, 3),
           "You can't escape your purpose.",
         ),
       ]);
-      this.cat = new ROTATE_Cat(28, 6, -1, 1, new lb(22, 7, 1, 3));
+      this.cat = new ROTATE_Cat(
+        28,
+        6,
+        -1,
+        1,
+        new ROTATE_ConditionCollisionWithChannels(22, 7, 1, 3),
+      );
     },
     tick: function () {},
     update: function () {
@@ -18640,21 +18646,30 @@
     __class__: ROTATE_ConditionCollision,
   };
 
-  var lb = function (a, b, c, d, e) {
-    ROTATE_ConditionCollision.call(this, a, b, c, d, e);
+  var ROTATE_ConditionCollisionWithChannels = function (
+    x,
+    y,
+    width,
+    height,
+    rotation,
+  ) {
+    ROTATE_ConditionCollision.call(this, x, y, width, height, rotation);
   };
-  lb.__name__ = !0;
-  lb.__super__ = ROTATE_ConditionCollision;
-  lb.prototype = __inherit(ROTATE_ConditionCollision.prototype, {
-    test: function () {
-      return ROTATE_ConditionCollision.prototype.test.call(this) &&
-        ROTATE_ScreenPrimaryGame.i.getChannelStatus(0) &&
-        ROTATE_ScreenPrimaryGame.i.getChannelStatus(1)
-        ? ROTATE_ScreenPrimaryGame.i.getChannelStatus(2)
-        : !1;
+  ROTATE_ConditionCollisionWithChannels.__name__ = !0;
+  ROTATE_ConditionCollisionWithChannels.__super__ = ROTATE_ConditionCollision;
+  ROTATE_ConditionCollisionWithChannels.prototype = __inherit(
+    ROTATE_ConditionCollision.prototype,
+    {
+      test: function () {
+        return ROTATE_ConditionCollision.prototype.test.call(this) &&
+          ROTATE_ScreenPrimaryGame.i.getChannelStatus(0) &&
+          ROTATE_ScreenPrimaryGame.i.getChannelStatus(1)
+          ? ROTATE_ScreenPrimaryGame.i.getChannelStatus(2)
+          : !1;
+      },
+      __class__: ROTATE_ConditionCollisionWithChannels,
     },
-    __class__: lb,
-  });
+  );
 
   var ROTATE_ConditionDelayedCollision = function (
     delay,
@@ -18762,7 +18777,6 @@
     b.addChild(this.field);
     null != a[0] && a[0].cond.start();
   };
-
   ROTATE_Speech.__name__ = !0;
   ROTATE_Speech.prototype = {
     update: function () {
