@@ -1967,7 +1967,7 @@
   gc.prototype = {
     __class__: gc,
   };
-  var g = function () {
+  var Game = function () {
     this.muteMusic =
       this.muteSFX =
       this.ieMenu =
@@ -1985,38 +1985,38 @@
     this.hasPaused = this.paused = !1;
     x.call(this);
   };
-  g.__name__ = !0;
-  g.main = function () {
-    g.i = new g();
-    g.i.addEventListener('added', ((Ja = g.i), T(Ja, Ja.init)));
+  Game.__name__ = !0;
+  Game.main = function () {
+    Game.i = new Game();
+    Game.i.addEventListener('added', ((Ja = Game.i), T(Ja, Ja.init)));
     Canvas.start(
       document.getElementById('game'),
       504 /* width */,
       504 /* height */,
       0x202020 /* background */,
       false /* transparent */,
-      g.i,
+      Game.i,
     );
   };
-  g.smootherStep = function (a) {
+  Game.smootherStep = function (a) {
     return a * a * a * (a * (6 * a - 15) + 10);
   };
-  g.quantize = function (a) {
+  Game.quantize = function (a) {
     return Math.floor(a / n.tileSize);
   };
-  g.getInputX = function () {
+  Game.getInputX = function () {
     return (
       (G.keyDown(37) || G.keyDown(65) ? -1 : 0) +
       (G.keyDown(39) || G.keyDown(68) ? 1 : 0)
     );
   };
-  g.getInputY = function () {
+  Game.getInputY = function () {
     return (
       (G.keyDown(38) || G.keyDown(87) ? -1 : 0) +
       (G.keyDown(40) || G.keyDown(83) ? 1 : 0)
     );
   };
-  g.formatMS = function (a) {
+  Game.formatMS = function (a) {
     var b = '';
     a = Math.round(a);
     var c = Math.floor(a / 1e3),
@@ -2034,8 +2034,8 @@
     10 > a && (b += '0');
     return (b += a);
   };
-  g.__super__ = x;
-  g.prototype = D(x.prototype, {
+  Game.__super__ = x;
+  Game.prototype = D(x.prototype, {
     get_gameTimeMS: function () {
       return this.paused
         ? this.pauseStart - this.pausedTime
@@ -2051,8 +2051,8 @@
     },
     loaded: function (a) {
       var b = this;
-      g.nosave = !ra.test();
-      g.nosave || this.loadProgress();
+      Game.nosave = !ra.test();
+      Game.nosave || this.loadProgress();
       a = (function () {
         var c = -1,
           d = window.navigator.userAgent,
@@ -2065,8 +2065,8 @@
             (c = parseInt(d.substring(c + 3, d.indexOf('.', c)), 10)));
         return -1 < c ? c : void 0;
       })();
-      g.ie = 0 < a && 11 >= a;
-      g.ie && (this.muteSFX = this.muteMusic = !0);
+      Game.ie = 0 < a && 11 >= a;
+      Game.ie && (this.muteSFX = this.muteMusic = !0);
       this.lastTick = N.get_currentMS();
       this.addEventListener('enterFrame', T(this, this.update));
       window.document.getElementById('game').style.display = 'block';
@@ -2156,7 +2156,7 @@
             (N.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2),
             1,
           )),
-          this.fader.set_alpha(g.smootherStep(a)),
+          this.fader.set_alpha(Game.smootherStep(a)),
           1 == a &&
             ((a = this.targetScreen),
             (this.targetScreen = null),
@@ -2167,7 +2167,7 @@
               1,
             1,
           )),
-          this.fader.set_alpha(1 - g.smootherStep(a)),
+          this.fader.set_alpha(1 - Game.smootherStep(a)),
           1 == a &&
             ((this.fading = this.fader.mouseEnabled = !1),
             this.currentScreen.ready()));
@@ -2300,9 +2300,9 @@
       this.invert = !1;
     },
     warnNoSave: function (a) {
-      if (g.nosave) {
+      if (Game.nosave) {
         var b = new r(
-          g.fontMain,
+          Game.fontMain,
           'Enable cookies & site data\nto save your progress!',
           2,
         );
@@ -2315,7 +2315,7 @@
     toggleSFX: function (a) {
       null == a && (a = !0);
       this.muteSFX = !this.muteSFX;
-      if (g.ie) {
+      if (Game.ie) {
         if (this.muteSFX)
           for (var b = 0, c = u.SFX; b < c.length; ) {
             var d = c[b];
@@ -2325,7 +2325,7 @@
       } else
         for (b = 0, c = u.SFX; b < c.length; )
           (d = c[b]), ++b, d.mute(this.muteSFX);
-      g.ie
+      Game.ie
         ? this.muteMusic &&
           (this.muteSFX
             ? u.surface.stop()
@@ -2336,24 +2336,24 @@
     toggleMusic: function (a) {
       null == a && (a = !0);
       this.muteMusic = !this.muteMusic;
-      g.ie
+      Game.ie
         ? this.muteMusic
           ? (u.themeMenu.stop(), u.themeGame1.stop(), u.themeGame2.stop())
-          : (g.i.ieMenu && !u.themeMenu.playing() && u.themeMenu.play(),
-            g.i.ieGame1 && !u.themeGame1.playing() && u.themeGame1.play(),
-            g.i.ieGame2 && !u.themeGame2.playing() && u.themeGame2.play())
+          : (Game.i.ieMenu && !u.themeMenu.playing() && u.themeMenu.play(),
+            Game.i.ieGame1 && !u.themeGame1.playing() && u.themeGame1.play(),
+            Game.i.ieGame2 && !u.themeGame2.playing() && u.themeGame2.play())
         : (u.themeMenu.mute(this.muteMusic),
           u.themeGame1.mute(this.muteMusic),
           u.themeGame2.mute(this.muteMusic));
-      g.ie
+      Game.ie
         ? this.muteSFX &&
           (this.muteMusic
             ? u.surface.stop()
-            : g.i.ieSurface && !u.surface.playing() && u.surface.play())
+            : Game.i.ieSurface && !u.surface.playing() && u.surface.play())
         : u.surface.mute(this.muteMusic && this.muteSFX);
       a && this.saveProgress();
     },
-    __class__: g,
+    __class__: Game,
   });
   var u = function () {};
   u.__name__ = !0;
@@ -2414,8 +2414,9 @@
     unlock: function () {
       if (this.unlocked) return !1;
       this.unlocked = !0;
-      g.i.saveProgress();
-      E.__instanceof(g.i.currentScreen, ib) && g.i.currentScreen.refresh();
+      Game.i.saveProgress();
+      E.__instanceof(Game.i.currentScreen, ib) &&
+        Game.i.currentScreen.refresh();
       v.queueNotify(this);
       return !0;
     },
@@ -2428,12 +2429,12 @@
       ((v.bubble = new x()),
       (v.bubble.mouseEnabled = !0),
       a.addChild(v.bubble),
-      (v.bubbleTitle = new r(g.fontMain, 'NEW AWARD')),
+      (v.bubbleTitle = new r(Game.fontMain, 'NEW AWARD')),
       v.bubbleTitle.set_x(68),
       v.bubbleTitle.set_y(4),
       v.bubbleTitle.set_alpha(0.5),
       v.bubble.addChild(v.bubbleTitle),
-      (v.bubbleName = new r(g.fontMain, '')),
+      (v.bubbleName = new r(Game.fontMain, '')),
       v.bubbleName.set_x(68),
       v.bubbleName.set_y(28),
       v.bubble.addChild(v.bubbleName),
@@ -2475,10 +2476,11 @@
         ? ((a = c <= v.FADE_MS ? 0 : c <= v.FADE_MS + v.STAY_MS ? 1 : 2),
           (a =
             0 == a
-              ? g.smootherStep(c / v.FADE_MS)
+              ? Game.smootherStep(c / v.FADE_MS)
               : 1 == a
                 ? 1
-                : 1 - g.smootherStep((c - v.FADE_MS - v.STAY_MS) / v.FADE_MS)))
+                : 1 -
+                  Game.smootherStep((c - v.FADE_MS - v.STAY_MS) / v.FADE_MS)))
         : null != v.queue &&
           0 < v.queue.length &&
           ((c = v.queue.shift()),
@@ -2537,7 +2539,7 @@
     },
     set_animation: function (a) {
       this.animation != a &&
-        ((this.animTimer = g.i.get_gameTimeMS()), (this.animChanged = !0));
+        ((this.animTimer = Game.i.get_gameTimeMS()), (this.animChanged = !0));
       return (this.animation = a);
     },
     render: function (a) {
@@ -2547,7 +2549,7 @@
         0 < this.animation.frames.length
       ) {
         for (
-          var b = g.i.get_gameTimeMS() - this.animTimer, c = 0, d = !1;
+          var b = Game.i.get_gameTimeMS() - this.animTimer, c = 0, d = !1;
           b > this.animation.delays[c];
 
         )
@@ -2639,14 +2641,14 @@
     signalOn: function (a, b) {
       var c = a + 'x' + b;
       0 > this.signals.indexOf(c) &&
-        (this.get_status() || (this.lastChanged = g.i.get_gameTime()),
+        (this.get_status() || (this.lastChanged = Game.i.get_gameTime()),
         this.signals.push(c));
     },
     signalOff: function (a, b) {
       var c = this.signals.indexOf(a + 'x' + b);
       -1 < c &&
         (this.signals.splice(c, 1),
-        this.get_status() || (this.lastChanged = g.i.get_gameTime()));
+        this.get_status() || (this.lastChanged = Game.i.get_gameTime()));
     },
     __class__: hc,
   };
@@ -2734,7 +2736,7 @@
     ua.call(this, q.player, 32, 48);
     this.set_animation(J.ANIM_IDLE);
     this.onChange = T(this, this.aminChange);
-    this.spawnTime = g.i.get_gameTimeMS();
+    this.spawnTime = Game.i.get_gameTimeMS();
     this.adjust();
   };
   J.__name__ = !0;
@@ -2781,9 +2783,10 @@
     aminChange: function (a) {
       this.animation == J.ANIM_RUN &&
         0 == a &&
-        100 < g.i.get_gameTimeMS() - this.lastStep &&
-        ((g.ie && g.i.muteSFX) || u.steps.play(0 == this.step ? 'a' : 'b'),
-        (this.lastStep = g.i.get_gameTimeMS()),
+        100 < Game.i.get_gameTimeMS() - this.lastStep &&
+        ((Game.ie && Game.i.muteSFX) ||
+          u.steps.play(0 == this.step ? 'a' : 'b'),
+        (this.lastStep = Game.i.get_gameTimeMS()),
         (this.step = 0 == this.step ? 1 : 0));
     },
     adjust: function () {
@@ -2794,7 +2797,7 @@
       if (
         !l.rotating &&
         !this.dead &&
-        ((this.horizontal = this.finished ? 0 : g.getInputX()),
+        ((this.horizontal = this.finished ? 0 : Game.getInputX()),
         0 != this.horizontal
           ? this.set_scaleX(0 < this.horizontal ? 1 : -1)
           : this.grounded &&
@@ -2809,8 +2812,8 @@
         }
         this.touchingFinish() &&
           ((this.finished = !0),
-          (g.ie && g.i.muteSFX) || u.exit.play(),
-          g.i.currentScreen.finished());
+          (Game.ie && Game.i.muteSFX) || u.exit.play(),
+          Game.i.currentScreen.finished());
       }
     },
     touchingFinish: function () {
@@ -2843,12 +2846,12 @@
         !this.finished &&
         this.grounded &&
         this.jumpKeyDown() &&
-        g.i.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY &&
-        g.i.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2
+        Game.i.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY &&
+        Game.i.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2
           ? ((this.dy = -J.JUMP_SPEED),
-            (this.jumpTimer = g.i.get_gameTime()),
-            (g.ie && g.i.muteSFX) || u.steps.play('a'),
-            (this.lastStep = g.i.get_gameTimeMS()))
+            (this.jumpTimer = Game.i.get_gameTime()),
+            (Game.ie && Game.i.muteSFX) || u.steps.play('a'),
+            (this.lastStep = Game.i.get_gameTimeMS()))
           : this.dy < J.GRAVITY_MAX &&
             ((this.dy += J.GRAVITY),
             this.dy > J.GRAVITY_MAX && (this.dy = J.GRAVITY_MAX));
@@ -2916,7 +2919,7 @@
             f = this.get_localX();
           }
         this.get_localY() - p < -n.E && (this.grounded = !0);
-        b = g.i.get_gameTimeMS();
+        b = Game.i.get_gameTimeMS();
         c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
         if (0 <= this.dy && !this.grounded) {
           d = this.get_localY();
@@ -2944,10 +2947,10 @@
         this.updateTouching();
         this.grounded &&
           !a &&
-          (100 < g.i.get_gameTimeMS() - this.spawnTime &&
-            ((g.ie && g.i.muteSFX) || u.steps.play('b'),
-            (this.lastStep = g.i.get_gameTimeMS())),
-          (this.jumpTimer2 = g.i.get_gameTime()));
+          (100 < Game.i.get_gameTimeMS() - this.spawnTime &&
+            ((Game.ie && Game.i.muteSFX) || u.steps.play('b'),
+            (this.lastStep = Game.i.get_gameTimeMS())),
+          (this.jumpTimer2 = Game.i.get_gameTime()));
         this.grounded
           ? 0 != this.horizontal && 0.75 < Math.abs(this.dx)
             ? this.set_animation(J.ANIM_RUN)
@@ -3030,10 +3033,10 @@
     isColliding: function (a, b, c) {
       null == c && (c = -1);
       a = null == a ? this.getHitBounds() : a;
-      var d = g.quantize(a.get_left()),
-        e = g.quantize(a.get_right() - n.E),
-        f = g.quantize(a.get_top()),
-        m = g.quantize(a.get_bottom() - n.E);
+      var d = Game.quantize(a.get_left()),
+        e = Game.quantize(a.get_right() - n.E),
+        f = Game.quantize(a.get_top()),
+        m = Game.quantize(a.get_bottom() - n.E);
       for (m += 1; f < m; )
         for (var k = f++, p = d, y = e + 1; p < y; ) {
           var H = p++;
@@ -3054,10 +3057,10 @@
       this.touchingOld = this.touching;
       this.touching = [];
       var a = this.getHitBounds(),
-        b = g.quantize(a.get_left()),
-        c = g.quantize(a.get_right() - n.E),
-        d = g.quantize(a.get_top()),
-        e = g.quantize(a.get_bottom() - n.E);
+        b = Game.quantize(a.get_left()),
+        c = Game.quantize(a.get_right() - n.E),
+        d = Game.quantize(a.get_top()),
+        e = Game.quantize(a.get_bottom() - n.E);
       for (e += 1; d < e; )
         for (var f = d++, m = b, k = c + 1; m < k; ) {
           var p = m++,
@@ -3162,8 +3165,9 @@
       if (
         !this.grounded ||
         this.jumpKeyDown() ||
-        g.i.get_gameTime() - this.rotateTimer < J.ROTATE_DELAY + n.rotateTime ||
-        g.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2
+        Game.i.get_gameTime() - this.rotateTimer <
+          J.ROTATE_DELAY + n.rotateTime ||
+        Game.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2
       )
         return !1;
       var b = this.x2,
@@ -3191,10 +3195,10 @@
       this.set_scaleX(a);
       this.adjust();
       this.set_animation(J.ANIM_ROTATE);
-      this.rotateTimer = g.i.get_gameTime();
-      (g.ie && g.i.muteSFX) || u.steps.play('a');
-      this.lastStep = g.i.get_gameTimeMS();
-      (g.ie && g.i.muteSFX) || u.rotate.play();
+      this.rotateTimer = Game.i.get_gameTime();
+      (Game.ie && Game.i.muteSFX) || u.steps.play('a');
+      this.lastStep = Game.i.get_gameTimeMS();
+      (Game.ie && Game.i.muteSFX) || u.rotate.play();
     },
     onRotateStart2: function () {
       this.rotStartY = this.get_localY();
@@ -3345,7 +3349,7 @@
     L.bakeCanvas.height = c * n.tileSize;
     L.bakeSurface.reset();
     L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
-    if (null == L.gridCanvas && E.__instanceof(g.i.currentScreen, A)) {
+    if (null == L.gridCanvas && E.__instanceof(Game.i.currentScreen, A)) {
       L.gridCanvas = window.document.createElement('canvas');
       L.gridCanvas.width = A.editorLevel.tiles[0].length * n.tileSize + 2;
       L.gridCanvas.height = A.editorLevel.tiles.length * n.tileSize + 2;
@@ -3418,8 +3422,8 @@
           null != L.gridCanvas &&
           a.drawImage(L.gridCanvas, null, 0, 0);
         if (
-          E.__instanceof(g.i.currentScreen, w) &&
-          ((c = g.i.currentScreen),
+          E.__instanceof(Game.i.currentScreen, w) &&
+          ((c = Game.i.currentScreen),
           !l.rotating && !c.player.dead && !c.player.finished)
         ) {
           k = 0;
@@ -3442,7 +3446,7 @@
         null,
         -q.interact.width / 2,
         Math.round(
-          -e / 2 - q.interact.height + 2 * Math.sin(8 * g.i.get_gameTime()),
+          -e / 2 - q.interact.height + 2 * Math.sin(8 * Game.i.get_gameTime()),
         ) + d,
       );
       a.rotate((l.rotation * Math.PI) / 2);
@@ -3651,16 +3655,16 @@
           var m = this.isOpen(b),
             k = 0.5 * d - 0.16666666666666666;
           c = m ? 0 : k;
-          if (E.__instanceof(g.i.currentScreen, w)) {
+          if (E.__instanceof(Game.i.currentScreen, w)) {
             var p = w.i.channels,
               y = b.getMeta(0);
             p = p.h[y];
             null != p &&
               ((c = Math.min(
                 1,
-                (g.i.get_gameTime() - p.lastChanged) / n.doorSlideTime,
+                (Game.i.get_gameTime() - p.lastChanged) / n.doorSlideTime,
               )),
-              (c = g.smootherStep(c)),
+              (c = Game.smootherStep(c)),
               (c = m ? (1 - c) * k : c * k));
           }
           m = c;
@@ -3678,7 +3682,7 @@
           a.drawImage(q.blocks, new z(4 * f, 3 * f, f, f), c * f, 0);
           a.drawImage(q.blocks, new z(5 * f, 3 * f, f, f), (d - c - 1) * f, 0);
           if (
-            E.__instanceof(g.i.currentScreen, A) &&
+            E.__instanceof(Game.i.currentScreen, A) &&
             (A.renderBlockText(a, b.getMeta(0) + ''), 1 < d)
           )
             for (b = 1; b < d; ) (c = b++), A.renderBlockRed(a, c * f, 0);
@@ -3713,7 +3717,7 @@
       }
     },
     isOpen: function (a) {
-      return E.__instanceof(g.i.currentScreen, w) &&
+      return E.__instanceof(Game.i.currentScreen, w) &&
         w.i.getChannelStatus(a.getMeta(0))
         ? !0
         : !1;
@@ -3728,11 +3732,11 @@
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(g.fontMain, 'Channel');
+        c = new r(Game.fontMain, 'Channel');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(g.fontMain, this.channel + '');
+      var d = new r(Game.fontMain, this.channel + '');
       d.align = r.ALIGN_CENTER;
       d.xAlign = r.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
@@ -3759,11 +3763,11 @@
       f.set_x(d.x - 11);
       f.set_y(e.y);
       a.addChild(f);
-      e = new r(g.fontMain, 'Length');
+      e = new r(Game.fontMain, 'Length');
       e.set_x(16);
       e.set_y(c.y + 30);
       a.addChild(e);
-      var m = new r(g.fontMain, this.length + '');
+      var m = new r(Game.fontMain, this.length + '');
       m.align = r.ALIGN_CENTER;
       m.xAlign = r.X_ALIGN_CENTER;
       m.set_x(this.bubbleWidth - 31);
@@ -3790,11 +3794,11 @@
       f.set_x(m.x - 11);
       f.set_y(c.y);
       a.addChild(f);
-      c = new r(g.fontMain, 'Angle');
+      c = new r(Game.fontMain, 'Angle');
       c.set_x(32);
       c.set_y(e.y + 30);
       a.addChild(c);
-      var k = new r(g.fontMain, this.angle + '');
+      var k = new r(Game.fontMain, this.angle + '');
       k.align = r.ALIGN_CENTER;
       k.xAlign = r.X_ALIGN_CENTER;
       k.set_x(this.bubbleWidth - 31);
@@ -3836,11 +3840,11 @@
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(g.fontMain, 'Angle');
+        c = new r(Game.fontMain, 'Angle');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(g.fontMain, this.angle + '');
+      var d = new r(Game.fontMain, this.angle + '');
       d.align = r.ALIGN_CENTER;
       d.xAlign = r.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
@@ -3894,9 +3898,9 @@
       null == c && (c = !0);
       b = b.getMeta(0) % 4;
       c =
-        !c || E.__instanceof(g.i.currentScreen, A)
+        !c || E.__instanceof(Game.i.currentScreen, A)
           ? 0
-          : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
+          : Math.floor(Game.i.get_gameTimeMS() / 50) % 3;
       a.drawImage(
         q.blocks,
         new z(
@@ -3950,7 +3954,7 @@
     onInteract: function (a) {
       var b = a.y * l.get_width() + a.x,
         c = l.leversChanged.h[b];
-      if (!(null != c && g.i.get_gameTime() - c < Za.TOGGLE_TIMER)) {
+      if (!(null != c && Game.i.get_gameTime() - c < Za.TOGGLE_TIMER)) {
         c = w.i.channels;
         var d = a.getMeta(0),
           e = c.h[d];
@@ -3959,7 +3963,7 @@
           ? w.i.signalOn(a.x, a.y, a.getMeta(0))
           : w.i.signalOff(a.x, a.y, a.getMeta(0));
         var f = l.leversChanged,
-          m = g.i.get_gameTime();
+          m = Game.i.get_gameTime();
         f.h[b] = m;
         null == e && ((b = w.i.channels), (e = a.getMeta(0)), (e = b.h[e]));
         e = null != e && e.get_status();
@@ -3971,9 +3975,9 @@
               break;
             }
         c
-          ? (g.ie && g.i.muteSFX) || u.leverOn.play()
-          : (g.ie && g.i.muteSFX) || u.leverOff.play();
-        !b || (g.ie && g.i.muteSFX) || u.door.play();
+          ? (Game.ie && Game.i.muteSFX) || u.leverOn.play()
+          : (Game.ie && Game.i.muteSFX) || u.leverOff.play();
+        !b || (Game.ie && Game.i.muteSFX) || u.door.play();
         l.setBlockMeta(a.x, a.y, [a.getMeta(0), c ? 1 : 0]);
       }
     },
@@ -3993,7 +3997,7 @@
       ];
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(g.i.currentScreen, A);
+      return !E.__instanceof(Game.i.currentScreen, A);
     },
     render: function (a, b, c) {
       null == c && (c = !0);
@@ -4005,16 +4009,16 @@
         0,
       );
       c &&
-        E.__instanceof(g.i.currentScreen, A) &&
+        E.__instanceof(Game.i.currentScreen, A) &&
         A.renderBlockText(a, b.getMeta(0) + '');
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(g.fontMain, 'Channel');
+        c = new r(Game.fontMain, 'Channel');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(g.fontMain, this.channel + '');
+      var d = new r(Game.fontMain, this.channel + '');
       d.align = r.ALIGN_CENTER;
       d.xAlign = r.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
@@ -4041,11 +4045,11 @@
       f.set_x(d.x - 11);
       f.set_y(e.y);
       a.addChild(f);
-      e = new r(g.fontMain, 'State');
+      e = new r(Game.fontMain, 'State');
       e.set_x(32);
       e.set_y(c.y + 30);
       a.addChild(e);
-      var m = new r(g.fontMain, this.on ? '1' : '0');
+      var m = new r(Game.fontMain, this.on ? '1' : '0');
       m.align = r.ALIGN_CENTER;
       m.xAlign = r.X_ALIGN_CENTER;
       m.set_x(this.bubbleWidth - 31);
@@ -4178,11 +4182,11 @@
     },
     setupBubble: function (a) {
       var b = this,
-        c = new r(g.fontMain, 'Value');
+        c = new r(Game.fontMain, 'Value');
       c.set_x(8);
       c.set_y(8);
       a.addChild(c);
-      var d = new r(g.fontMain, this.value + '');
+      var d = new r(Game.fontMain, this.value + '');
       d.align = r.ALIGN_CENTER;
       d.xAlign = r.X_ALIGN_CENTER;
       d.set_x(this.bubbleWidth - 31);
@@ -4250,9 +4254,9 @@
     },
     render: function (a, b, c) {
       null == c && (c = !0);
-      var d = g.i.get_gameTimeMS() / 40;
+      var d = Game.i.get_gameTimeMS() / 40;
       c =
-        !c || E.__instanceof(g.i.currentScreen, A)
+        !c || E.__instanceof(Game.i.currentScreen, A)
           ? 0
           : Math.floor(d - (d < n.E ? 0 : n.E)) % 3;
       this.renderRotated(a, b, (4 + c) * n.tileSize, n.tileSize);
@@ -4265,7 +4269,7 @@
       return !1;
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(g.i.currentScreen, A);
+      return !E.__instanceof(Game.i.currentScreen, A);
     },
     __class__: Db,
   });
@@ -4437,7 +4441,7 @@
   Ib.__super__ = x;
   Ib.prototype = D(x.prototype, {
     update: function (a) {
-      if (!g.i.paused)
+      if (!Game.i.paused)
         for (a = this.particles.length; 0 <= --a; ) {
           var b = this.particles[a];
           0 >= b.life ? this.particles.splice(a, 1) : b.update();
@@ -4534,7 +4538,7 @@
       this.speech.update();
     },
     finished: function () {
-      g.i.changeScreen(new A());
+      Game.i.changeScreen(new A());
       return null;
     },
     kill: function () {},
@@ -4854,7 +4858,7 @@
   ha.__interfaces__ = [ea];
   ha.prototype = {
     start: function () {
-      var a = g.i.currentScreen;
+      var a = Game.i.currentScreen;
       this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
       this.s1 = !0;
       this.s2 = this.s3 = this.s4 = this.s5 = !1;
@@ -4873,14 +4877,14 @@
       this.c3.set_y(9 * n.tileSize);
       this.c3.set_alpha(this.a3);
       this.c3.clipRect.width = 48;
-      g.i.invert && (this.c3.clipRect.x = 48);
+      Game.i.invert && (this.c3.clipRect.x = 48);
       a.overlay.addChild(this.c3);
       null == this.c4 && (this.c4 = new I(q.controls4));
       this.c4.set_x(29 * n.tileSize);
       this.c4.set_y(n.tileSize);
       this.c4.set_alpha(this.a4);
       this.c4.clipRect.width = 48;
-      g.i.invert && (this.c4.clipRect.x = 48);
+      Game.i.invert && (this.c4.clipRect.x = 48);
       a.overlay.addChild(this.c4);
       null == this.c5 && (this.c5 = new I(q.controls5));
       this.c5.set_x(24.5 * n.tileSize);
@@ -4890,7 +4894,7 @@
       this.speech = new U([new C(new M(1), 'Make your way to the exit.')]);
     },
     tick: function () {
-      var a = 0.25 * Math.sin(8 * g.i.get_gameTime()) + 0.75;
+      var a = 0.25 * Math.sin(8 * Game.i.get_gameTime()) + 0.75;
       this.s1 && 1 > this.a1
         ? ((this.a1 += ha.fadeSpeed), 1 < this.a1 && (this.a1 = 1))
         : !this.s1 &&
@@ -4940,7 +4944,7 @@
               !l.rotating &&
               0 == l.rotation &&
               ((this.s4 = !1), (this.s5 = !0));
-      this.c3.clipRect.x = this.c4.clipRect.x = g.i.invert ? 48 : 0;
+      this.c3.clipRect.x = this.c4.clipRect.x = Game.i.invert ? 48 : 0;
     },
     finished: function () {
       return B.level2;
@@ -9098,7 +9102,7 @@
           (!this.done2 &&
             this.cond2.test() &&
             ((this.done2 = !0),
-            (g.ie && g.i.muteSFX) || (u.cat.volume(0.5), u.cat.play())),
+            (Game.ie && Game.i.muteSFX) || (u.cat.volume(0.5), u.cat.play())),
           !this.done3 && this.cond3.test())
         ) {
           this.done3 = !0;
@@ -12381,7 +12385,7 @@
       this.cat.update();
     },
     finished: function () {
-      g.i.changeScreen(new bb(E.__cast(g.i.currentScreen, w).speedrun));
+      Game.i.changeScreen(new bb(E.__cast(Game.i.currentScreen, w).speedrun));
       return null;
     },
     kill: function () {},
@@ -16512,7 +16516,7 @@
   Aa.__interfaces__ = [ea];
   Aa.prototype = {
     start: function () {
-      var a = g.i.currentScreen;
+      var a = Game.i.currentScreen;
       this.a1 = 0;
       this.s1 = this.s2 = !1;
       null == this.c1 && (this.c1 = new I(q.controls5));
@@ -16530,7 +16534,7 @@
       this.cat = new ta(30, 26, -1, 1, new ia(28, 22, 3, 1));
     },
     tick: function () {
-      var a = 0.25 * Math.sin(8 * g.i.get_gameTime()) + 0.75;
+      var a = 0.25 * Math.sin(8 * Game.i.get_gameTime()) + 0.75;
       this.s1 && 1 > this.a1
         ? ((this.a1 += ha.fadeSpeed), 1 < this.a1 && (this.a1 = 1))
         : !this.s1 &&
@@ -16542,7 +16546,7 @@
       this.speech.update();
       this.cat.update();
       this.s1
-        ? g.i.currentScreen.getChannelStatus(0) ||
+        ? Game.i.currentScreen.getChannelStatus(0) ||
           ((this.s1 = !1), (this.s2 = !0))
         : !this.s2 &&
           w.i.player.x >= 28 * n.tileSize &&
@@ -17891,8 +17895,8 @@
         !w.i.player.getHitBounds().intersects(this.bounds) ||
         (-1 != this.rotation && l.rotation != this.rotation) ||
         l.rotating ||
-        ((this.hit = !0), (this.timer = g.i.get_gameTime()));
-      return this.hit ? g.i.get_gameTime() - this.timer >= this.delay : !1;
+        ((this.hit = !0), (this.timer = Game.i.get_gameTime()));
+      return this.hit ? Game.i.get_gameTime() - this.timer >= this.delay : !1;
     },
     __class__: V,
   };
@@ -17904,7 +17908,7 @@
   Xa.__interfaces__ = [db];
   Xa.prototype = {
     start: function () {
-      this.timer = g.i.get_gameTime();
+      this.timer = Game.i.get_gameTime();
     },
     test: function () {
       var a = w.i.channels.h[this.channel];
@@ -17919,10 +17923,10 @@
   M.__interfaces__ = [db];
   M.prototype = {
     start: function () {
-      this.timer = g.i.get_gameTime();
+      this.timer = Game.i.get_gameTime();
     },
     test: function () {
-      return g.i.get_gameTime() - this.timer >= this.delay;
+      return Game.i.get_gameTime() - this.timer >= this.delay;
     },
     __class__: M,
   };
@@ -17940,15 +17944,15 @@
     this.char2 = this.timer = 0;
     this['char'] = 0;
     this.msg = '';
-    this.field = new r(g.fontMain, '', 2);
+    this.field = new r(Game.fontMain, '', 2);
     this.index = 0;
     this.events = a;
     this.field.set_alpha(0);
     this.field.xAlign = r.X_ALIGN_CENTER;
     this.field.align = r.ALIGN_CENTER;
     this.field.set_x(Canvas.width / 2);
-    null == b && E.__instanceof(g.i.currentScreen, w)
-      ? ((b = g.i.currentScreen.textHolder),
+    null == b && E.__instanceof(Game.i.currentScreen, w)
+      ? ((b = Game.i.currentScreen.textHolder),
         (this.field.yAlign = r.Y_ALIGN_TOP),
         this.field.set_y(Canvas.height - 96))
       : ((this.field.yAlign = r.Y_ALIGN_MIDDLE),
@@ -17960,8 +17964,8 @@
   U.prototype = {
     update: function () {
       var a = !0;
-      E.__instanceof(g.i.currentScreen, w) &&
-        (a = !g.i.currentScreen.player.dead);
+      E.__instanceof(Game.i.currentScreen, w) &&
+        (a = !Game.i.currentScreen.player.dead);
       a &&
         null != this.events[this.index] &&
         this.events[this.index].cond.test() &&
@@ -17969,7 +17973,7 @@
           (this.field.set_text(''),
           (this.msg = this.events[this.index].text),
           (this['char'] = this.char2 = 0),
-          (this.timer = g.i.get_gameTimeMS()),
+          (this.timer = Game.i.get_gameTimeMS()),
           this.field.set_alpha(1)),
         this.index++,
         null != this.events[this.index] &&
@@ -17979,7 +17983,7 @@
         (0 == this['char'] ||
           ' ' == this.msg.charAt(this['char']) ||
           '\n' == this.msg.charAt(this['char']) ||
-          g.i.get_gameTimeMS() - this.timer >= U.TIME_TYPE)
+          Game.i.get_gameTimeMS() - this.timer >= U.TIME_TYPE)
       ) {
         a = this.field;
         a.set_text(a.text + this.msg.charAt(this['char']));
@@ -17991,21 +17995,21 @@
             for (a = this.lastTone; a == this.lastTone; )
               a = Math.round(7 * Math.random());
             this.lastTone = a;
-            (g.ie && g.i.muteSFX) || u.voice.play(this.tones[a]);
+            (Game.ie && Game.i.muteSFX) || u.voice.play(this.tones[a]);
           }
           this.char2++;
         }
         this['char']++;
-        this.timer = g.i.get_gameTimeMS();
+        this.timer = Game.i.get_gameTimeMS();
       }
       this['char'] == this.msg.length &&
-        g.i.get_gameTimeMS() - this.timer > U.TIME_STAY &&
+        Game.i.get_gameTimeMS() - this.timer > U.TIME_STAY &&
         ((a = Math.min(
           1,
-          (g.i.get_gameTimeMS() - this.timer - U.TIME_STAY) / U.TIME_FADE,
+          (Game.i.get_gameTimeMS() - this.timer - U.TIME_STAY) / U.TIME_FADE,
         )),
-        this.field.set_alpha(g.smootherStep(1 - a)));
-      E.__instanceof(g.i.currentScreen, w) &&
+        this.field.set_alpha(Game.smootherStep(1 - a)));
+      E.__instanceof(Game.i.currentScreen, w) &&
         (this.field.graphics.clear(),
         '' != this.field.text &&
           ((a = this.field.getBoundsSelf()),
@@ -18047,7 +18051,7 @@
     this.mute = new Ba();
     this.sponsor = new Ma();
     this.btnBack = new ba('BACK');
-    this.title = new r(g.fontMain, 'AWARDS', 1);
+    this.title = new r(Game.fontMain, 'AWARDS', 1);
     this.bg = new Na();
     this.content = new x();
     this.pivot = new x();
@@ -18072,13 +18076,13 @@
       this.btnBack.set_x(Math.round(Canvas.width / 2));
       this.btnBack.set_y(Canvas.height - 88);
       this.btnBack.addEventListener('click', function (a) {
-        2 > a.which && g.i.changeScreen(new Oa());
+        2 > a.which && Game.i.changeScreen(new Oa());
       });
       this.content.addChild(this.btnBack);
       this.content.addChild(this.sponsor);
       this.content.addChild(this.mute);
       this.refresh();
-      g.i.warnNoSave(this);
+      Game.i.warnNoSave(this);
     },
     refresh: function () {
       for (var a = 0, b = this.awardDisplays; a < b.length; ) {
@@ -18108,10 +18112,10 @@
     update: function () {
       if (this.rotating) {
         var a = Math.min(
-            (g.i.get_gameTime() - this.rotateStart) / n.rotateTime,
+            (Game.i.get_gameTime() - this.rotateStart) / n.rotateTime,
             1,
           ),
-          b = g.smootherStep(a);
+          b = Game.smootherStep(a);
         this.pivot.set_rotation(
           this.rotateStartAngle +
             (this.rotateEndAngle - this.rotateStartAngle) * b,
@@ -18124,13 +18128,13 @@
           this.rotating = !1;
         }
       } else if (
-        ((a = G.keyPressed(g.i.invert ? 69 : 81)),
-        (b = G.keyPressed(g.i.invert ? 81 : 69)),
+        ((a = G.keyPressed(Game.i.invert ? 69 : 81)),
+        (b = G.keyPressed(Game.i.invert ? 81 : 69)),
         a || b)
       )
         v.awardRotate.unlock(),
           (this.rotating = !0),
-          (this.rotateStart = g.i.get_gameTime()),
+          (this.rotateStart = Game.i.get_gameTime()),
           (this.rotateDir = a ? -1 : 1),
           (this.rotateStartAngle = this.pivot.rotation),
           (this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir),
@@ -18148,15 +18152,15 @@
     null == a && (a = !1);
     this.mute = new Ba();
     this.more = new I(q.linkLWS);
-    this.moreText = new r(g.fontMain, 'Game published by', 1);
+    this.moreText = new r(Game.fontMain, 'Game published by', 1);
     this.soundtrack = new I(q.soundtrack);
     this.text2 = new r(
-      g.fontMain,
+      Game.fontMain,
       'Special thanks to the playtesters\nand Patreon contributors!',
       1,
     );
     this.joshua = new I(q.linkJoshua2);
-    this.text1 = new r(g.fontMain, 'Design, code, & music by', 1);
+    this.text1 = new r(Game.fontMain, 'Design, code, & music by', 1);
     this.btnBack = new ba('BACK');
     P.call(this);
     this.fromEnd = a;
@@ -18236,14 +18240,14 @@
         2 > c.which &&
           (a.fromEnd &&
             u.surface.playing() &&
-            (g.ie
+            (Game.ie
               ? u.surface.stop()
               : (u.surface.fade(1, 0, Math.round(n.screenFadeTime / 2)),
                 u.surface.once('fade', function () {
                   u.surface.stop();
                 }))),
-          g.ie && (g.i.ieSurface = !1),
-          g.i.changeScreen(a.fromEnd ? new Oa() : new ca()));
+          Game.ie && (Game.i.ieSurface = !1),
+          Game.i.changeScreen(a.fromEnd ? new Oa() : new ca()));
       });
       this.addChild(this.btnBack);
       this.addChild(this.mute);
@@ -18279,10 +18283,10 @@
     doRotation: function (a) {
       if (l.rotating) {
         var b = Math.min(
-            (g.i.get_gameTime() - this.rotateStart) / n.rotateTime,
+            (Game.i.get_gameTime() - this.rotateStart) / n.rotateTime,
             1,
           ),
-          c = g.smootherStep(b);
+          c = Game.smootherStep(b);
         this.pivot.set_rotation(
           this.rotateStartAngle +
             (this.rotateEndAngle - this.rotateStartAngle) * c,
@@ -18297,12 +18301,12 @@
           if (null != a) a.onRotateEnd();
         }
       } else if (
-        ((b = G.keyPressed(g.i.invert ? 69 : 81)),
-        (c = G.keyPressed(g.i.invert ? 81 : 69)),
+        ((b = G.keyPressed(Game.i.invert ? 69 : 81)),
+        (c = G.keyPressed(Game.i.invert ? 81 : 69)),
         (b || c) && (null == a || a.canRotate(b ? -1 : 1)))
       ) {
         l.rotating = !0;
-        this.rotateStart = g.i.get_gameTime();
+        this.rotateStart = Game.i.get_gameTime();
         this.rotateDir = b ? -1 : 1;
         this.rotateStartAngle = this.pivot.rotation;
         this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir;
@@ -18327,7 +18331,7 @@
   A.__name__ = !0;
   A.renderBlockText = function (a, b) {
     A.renderBlockRed(a, 0, 0);
-    r.drawText(a, g.fontMain, b, 2, 0, 0);
+    r.drawText(a, Game.fontMain, b, 2, 0, 0);
   };
   A.renderBlockRed = function (a, b, c) {
     a.beginFill(10428448, 0.4);
@@ -18377,7 +18381,7 @@
           var p = new eb('Are you sure you want\nto clear the level?');
           p.onYes = function () {
             A.editorLevel.reset();
-            g.i.changeScreen(new A(), !1);
+            Game.i.changeScreen(new A(), !1);
           };
           p.onNo = function () {
             a.removeChild(p);
@@ -18405,7 +18409,7 @@
         };
         b.onLoad = function (c) {
           return a.tryLoadLevel(c)
-            ? (b.kill(), g.i.changeScreen(new A(), !1), !0)
+            ? (b.kill(), Game.i.changeScreen(new A(), !1), !0)
             : !1;
         };
         this.dialog = b;
@@ -18479,8 +18483,8 @@
       qa.prototype.update.call(this);
       if (null == this.dialog) {
         this.doRotation();
-        this.horizontal = g.getInputX();
-        this.vertical = g.getInputY();
+        this.horizontal = Game.getInputX();
+        this.vertical = Game.getInputY();
         var b = Canvas.input.mouseX,
           c = Canvas.input.mouseY;
         if (
@@ -18598,7 +18602,7 @@
           (this.barLower.gridToggle.toggle.clipRect.x = A.showGrid
             ? this.barLower.gridToggle.toggle.clipRect.width
             : 0));
-        G.keyPressed(13) && g.i.changeScreen(new w(A.editorLevel));
+        G.keyPressed(13) && Game.i.changeScreen(new w(A.editorLevel));
       }
     },
     tryLoadLevel: function (a) {
@@ -18721,7 +18725,7 @@
   bb.__super__ = P;
   bb.prototype = D(P.prototype, {
     init: function () {
-      g.ie && u.themeGame2.volume(0.5);
+      Game.ie && u.themeGame2.volume(0.5);
       this.cond1.start();
       this.speech = new U(
         [
@@ -18732,15 +18736,15 @@
       );
       this.speedrun && 42e4 >= B.speedrunBest && v.awardSpeedrun.unlock();
       if ((this.first = !v.awardEscape.unlocked))
-        (v.awardEscape.unlocked = !0), g.i.saveProgress();
+        (v.awardEscape.unlocked = !0), Game.i.saveProgress();
     },
     update: function () {
       this.speech.update();
       !this.done1 &&
         this.cond1.test() &&
         ((this.done1 = !0),
-        g.i.changeScreen(new ob(this.first), !0, null, !0),
-        (g.ie && g.i.muteSFX) ||
+        Game.i.changeScreen(new ob(this.first), !0, null, !0),
+        (Game.ie && Game.i.muteSFX) ||
           (u.exit.volume(0.5),
           u.exit.play(),
           u.exit.once('end', function () {
@@ -18750,13 +18754,13 @@
     kill: function () {
       u.themeGame2.stop();
       u.themeGame2.volume(1);
-      g.ie && (g.i.ieGame2 = !1);
+      Game.ie && (Game.i.ieGame2 = !1);
     },
     __class__: bb,
   });
   var ob = function (a) {
     null == a && (a = !1);
-    this.hint = new r(g.fontMain, 'Press [SPACE] to continue...');
+    this.hint = new r(Game.fontMain, 'Press [SPACE] to continue...');
     this.catTrigger = !1;
     this.cat = new S();
     this.player = new ua(q.player, 32, 48);
@@ -18777,7 +18781,7 @@
   ob.__super__ = P;
   ob.prototype = D(P.prototype, {
     init: function () {
-      this.start = g.i.get_gameTime();
+      this.start = Game.i.get_gameTime();
       this.bg.graphics.beginFill(16777215);
       this.bg.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
       this.addChild(this.bg);
@@ -18815,14 +18819,15 @@
       this.hint.set_alpha(0);
       this.addChild(this.hint);
       u.surface.volume(1);
-      g.ie && g.i.muteSFX && g.i.muteMusic
-        ? (g.i.ieSurface = !0)
+      Game.ie && Game.i.muteSFX && Game.i.muteMusic
+        ? (Game.i.ieSurface = !0)
         : (u.surface.play(),
-          g.ie || u.surface.fade(0, 1, Math.round(n.screenFadeTimeSlow / 2)));
+          Game.ie ||
+            u.surface.fade(0, 1, Math.round(n.screenFadeTimeSlow / 2)));
     },
     update: function () {
       var a = this,
-        b = g.i.get_gameTime() - this.start;
+        b = Game.i.get_gameTime() - this.start;
       !this.catTrigger &&
         8 <= b &&
         ((this.catTrigger = !0),
@@ -18835,15 +18840,15 @@
         }));
       var c = b - this.delay;
       this.hint.set_alpha(
-        0 > c ? 0 : 0.33 * g.smootherStep(Math.min(c / 2.5, 1)),
+        0 > c ? 0 : 0.33 * Game.smootherStep(Math.min(c / 2.5, 1)),
       );
       !this.done &&
         b >= this.delay &&
         G.keyPressed(32) &&
         ((this.done = !0),
         this.first && ((v.awardEscape.unlocked = !1), v.awardEscape.unlock()),
-        g.i.changeScreen(new mb(!0), !0, null, !0, !0),
-        g.i.timerHolder.removeChildren());
+        Game.i.changeScreen(new mb(!0), !0, null, !0, !0),
+        Game.i.timerHolder.removeChildren());
     },
     tick: function () {
       var a = 0.75 * n.cameraSpeed;
@@ -18861,23 +18866,27 @@
     this.erase = new Ya();
     this.mute = new Ba();
     this.sponsor = new Ma();
-    this.bestTime = new r(g.fontMain, 'Best time: ', 2);
+    this.bestTime = new r(Game.fontMain, 'Best time: ', 2);
     this.text3 = new r(
-      g.fontMain,
+      Game.fontMain,
       'Finish the game as\nquickly as you can.',
       1,
     );
     this.btn3 = new ba('SPEEDRUN');
-    this.text2 = new r(g.fontMain, 'Build custom levels\nand share codes.', 1);
+    this.text2 = new r(
+      Game.fontMain,
+      'Build custom levels\nand share codes.',
+      1,
+    );
     this.btn2 = new ba('EDITOR');
     this.text1 = new r(
-      g.fontMain,
+      Game.fontMain,
       "See all the awards\nthat you've earned.",
       1,
     );
     this.btn1 = new ba('AWARDS');
     this.btnBack = new ba('BACK');
-    this.title = new r(g.fontMain, 'EXTRAS', 1);
+    this.title = new r(Game.fontMain, 'EXTRAS', 1);
     this.bg = new Na();
     P.call(this);
   };
@@ -18894,7 +18903,7 @@
       this.btn1.set_x(134);
       this.btn1.set_y(133);
       this.btn1.addEventListener('click', function (b) {
-        2 > b.which && g.i.changeScreen(new ib());
+        2 > b.which && Game.i.changeScreen(new ib());
       });
       this.addChild(this.btn1);
       this.text1.set_x(this.btn1.x + 110);
@@ -18903,7 +18912,7 @@
       this.btn2.set_x(this.btn1.x);
       this.btn2.set_y(this.btn1.y + 92);
       this.btn2.addEventListener('click', function (b) {
-        2 > b.which && (ca.stopTheme(), g.i.changeScreen(new A()));
+        2 > b.which && (ca.stopTheme(), Game.i.changeScreen(new A()));
       });
       this.addChild(this.btn2);
       this.text2.set_x(this.text1.x);
@@ -18912,7 +18921,7 @@
       this.btn3.set_x(this.btn2.x);
       this.btn3.set_y(this.btn2.y + 92);
       this.btn3.addEventListener('click', function (b) {
-        2 > b.which && (ca.stopTheme(), g.i.changeScreen(new Qa(!0)));
+        2 > b.which && (ca.stopTheme(), Game.i.changeScreen(new Qa(!0)));
       });
       this.addChild(this.btn3);
       this.text3.set_x(this.text2.x);
@@ -18924,20 +18933,20 @@
       var a = this.bestTime;
       a.set_text(
         a.text +
-          (-1 < B.speedrunBest ? g.formatMS(B.speedrunBest) : '--:--:----'),
+          (-1 < B.speedrunBest ? Game.formatMS(B.speedrunBest) : '--:--:----'),
       );
       0 > B.speedrunBest && this.bestTime.set_alpha(0.5);
       this.addChild(this.bestTime);
       this.btnBack.set_x(Math.round(Canvas.width / 2));
       this.btnBack.set_y(Canvas.height - 80);
       this.btnBack.addEventListener('click', function (b) {
-        2 > b.which && g.i.changeScreen(new ca());
+        2 > b.which && Game.i.changeScreen(new ca());
       });
       this.addChild(this.btnBack);
       this.addChild(this.sponsor);
       this.addChild(this.mute);
       this.addChild(this.erase);
-      g.i.warnNoSave(this);
+      Game.i.warnNoSave(this);
     },
     __class__: Oa,
   });
@@ -18947,7 +18956,7 @@
     this.sponsor = new Ma();
     this.tiles = new x();
     this.btnBack = new ba('BACK');
-    this.title = new r(g.fontMain, 'LEVEL SELECT', 1);
+    this.title = new r(Game.fontMain, 'LEVEL SELECT', 1);
     this.bg = new Na();
     P.call(this);
   };
@@ -18965,13 +18974,13 @@
       this.btnBack.set_x(Math.round(Canvas.width / 2));
       this.btnBack.set_y(Canvas.height - 84);
       this.btnBack.addEventListener('click', function (a) {
-        2 > a.which && g.i.changeScreen(new ca());
+        2 > a.which && Game.i.changeScreen(new ca());
       });
       this.addChild(this.btnBack);
       this.addChild(this.sponsor);
       this.addChild(this.mute);
       this.addChild(this.erase);
-      g.i.warnNoSave(this);
+      Game.i.warnNoSave(this);
       this.refresh();
     },
     refresh: function () {
@@ -19000,14 +19009,14 @@
                   1 < H.which ||
                     (ca.stopTheme(),
                     0 == y[0]
-                      ? g.i.changeScreen(new Qa())
+                      ? Game.i.changeScreen(new Qa())
                       : w.play(B.list[y[0]]));
                 };
               })(e),
             ))
           : p.set_alpha(0.5);
         this.tiles.addChild(p);
-        e = new r(g.fontMain, '' + (e[0] + 1));
+        e = new r(Game.fontMain, '' + (e[0] + 1));
         e.xAlign = r.X_ALIGN_CENTER;
         e.yAlign = r.Y_ALIGN_MIDDLE;
         e.set_x(Math.round(p.get_width() / 2));
@@ -19031,12 +19040,12 @@
   ca.__name__ = !0;
   ca.playTheme = function () {
     u.themeMenu.playing() ||
-      ((g.ie && g.i.muteMusic) || u.themeMenu.play(),
-      g.ie && (g.i.ieMenu = !0));
+      ((Game.ie && Game.i.muteMusic) || u.themeMenu.play(),
+      Game.ie && (Game.i.ieMenu = !0));
   };
   ca.stopTheme = function () {
-    g.ie
-      ? (u.themeMenu.stop(), (g.i.ieMenu = !1))
+    Game.ie
+      ? (u.themeMenu.stop(), (Game.i.ieMenu = !1))
       : (u.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
         u.themeMenu.once('fade', function () {
           u.themeMenu.stop();
@@ -19057,25 +19066,25 @@
       this.btnPlay.addEventListener('click', function (a) {
         1 < a.which ||
           (0 == B.unlocked
-            ? (ca.stopTheme(), g.i.changeScreen(new Qa()))
-            : g.i.changeScreen(new pb()));
+            ? (ca.stopTheme(), Game.i.changeScreen(new Qa()))
+            : Game.i.changeScreen(new pb()));
       });
       this.addChild(this.btnPlay);
       this.btnExtras.set_x(this.btnPlay.x);
       this.btnExtras.set_y(this.btnPlay.y + 60);
       this.btnExtras.addEventListener('click', function (a) {
-        2 > a.which && g.i.changeScreen(new Oa());
+        2 > a.which && Game.i.changeScreen(new Oa());
       });
       this.addChild(this.btnExtras);
       this.btnCredits.set_x(this.btnExtras.x);
       this.btnCredits.set_y(this.btnExtras.y + 60);
       this.btnCredits.addEventListener('click', function (a) {
-        2 > a.which && g.i.changeScreen(new mb());
+        2 > a.which && Game.i.changeScreen(new mb());
       });
       this.addChild(this.btnCredits);
       this.addChild(this.mute);
       this.addChild(this.erase);
-      g.i.warnNoSave(this);
+      Game.i.warnNoSave(this);
     },
     __class__: ca,
   });
@@ -19108,7 +19117,7 @@
   w.play = function (a, b, c) {
     null == c && (c = -1);
     null == b && (b = !1);
-    null != a && g.i.changeScreen(new w(a, b, c));
+    null != a && Game.i.changeScreen(new w(a, b, c));
   };
   w.playTheme = function (a) {
     w.stopped &&
@@ -19117,18 +19126,18 @@
         : 1 == a &&
           u.themeGame2.playing() &&
           (u.themeGame2.stop(), (w.canceled = !0)),
-      g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1),
+      Game.ie && (Game.i.ieGame1 = Game.i.ieGame2 = !1),
       (w.stopped = !1));
     0 == a
       ? (u.themeGame1.volume(1),
         u.themeGame1.playing() ||
-          ((g.ie && g.i.muteMusic) || u.themeGame1.play(),
-          g.ie && (g.i.ieGame1 = !0)))
+          ((Game.ie && Game.i.muteMusic) || u.themeGame1.play(),
+          Game.ie && (Game.i.ieGame1 = !0)))
       : 1 == a &&
         (u.themeGame2.volume(1),
         u.themeGame2.playing() ||
-          ((g.ie && g.i.muteMusic) || u.themeGame2.play(),
-          g.ie && (g.i.ieGame2 = !0)));
+          ((Game.ie && Game.i.muteMusic) || u.themeGame2.play(),
+          Game.ie && (Game.i.ieGame2 = !0)));
   };
   w.stopTheme = function () {
     var a = u.themeGame1.playing()
@@ -19138,9 +19147,9 @@
         : null;
     if (null != a) {
       var b =
-        E.__instanceof(g.i.currentScreen, w) &&
-        E.__instanceof(g.i.targetScreen, bb);
-      if (g.ie) b || a.stop();
+        E.__instanceof(Game.i.currentScreen, w) &&
+        E.__instanceof(Game.i.targetScreen, bb);
+      if (Game.ie) b || a.stop();
       else {
         var c = a.volume();
         a.fade(c, 0, Math.floor(n.screenFadeTime / 2) + (b ? 1e4 : 0));
@@ -19151,7 +19160,7 @@
       w.stopped = !0;
       w.canceled = !1;
     } else w.stopped = w.canceled = !1;
-    g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1);
+    Game.ie && (Game.i.ieGame1 = Game.i.ieGame2 = !1);
   };
   w.__super__ = qa;
   w.prototype = D(qa.prototype, {
@@ -19200,18 +19209,21 @@
       this.addChild(this.red);
       if (this.speedrun) {
         if (-1 == this.speedrunStart || 0 == B.list.indexOf(l.level))
-          this.speedrunStart = g.i.get_gameTimeMS();
-        this.timerText = new r(g.fontMain, '', 2);
+          this.speedrunStart = Game.i.get_gameTimeMS();
+        this.timerText = new r(Game.fontMain, '', 2);
         this.timerText.align = r.ALIGN_RIGHT;
         this.timerText.xAlign = r.X_ALIGN_RIGHT;
         this.timerText.set_x(Canvas.width - 12);
         this.timerText.set_y(8);
-        g.i.timerHolder.addChild(this.timerText);
+        Game.i.timerHolder.addChild(this.timerText);
         this.updateTimer();
       } else
         l.level != B.level1 ||
-          g.i.hasPaused ||
-          ((this.pauseText = new r(g.fontMain, 'Press [ESC] or [P] to pause')),
+          Game.i.hasPaused ||
+          ((this.pauseText = new r(
+            Game.fontMain,
+            'Press [ESC] or [P] to pause',
+          )),
           (this.pauseText.xAlign = r.X_ALIGN_CENTER),
           this.pauseText.set_x(Math.round(Canvas.width / 2)),
           this.pauseText.set_y(8),
@@ -19221,16 +19233,16 @@
     updateTimer: function () {
       this.speedrun &&
         this.timerText.set_text(
-          g.formatMS(g.i.get_gameTimeMS() - this.speedrunStart),
+          Game.formatMS(Game.i.get_gameTimeMS() - this.speedrunStart),
         );
     },
     killPlayer: function (a) {
       null == a && (a = !1);
       if (!this.player.dead) {
         this.player.dead = !0;
-        this.deathTime = g.i.get_gameTime();
+        this.deathTime = Game.i.get_gameTime();
         this.player.visible = !1;
-        (g.ie && g.i.muteSFX) || u.death.play();
+        (Game.ie && Game.i.muteSFX) || u.death.play();
         var b = 0,
           c = 0;
         0 == l.rotation
@@ -19257,8 +19269,8 @@
       }
     },
     restart: function (a) {
-      a = g.i.paused ? ((Ja = g.i), T(Ja, Ja.unpause)) : null;
-      g.i.changeScreen(
+      a = Game.i.paused ? ((Ja = Game.i), T(Ja, Ja.unpause)) : null;
+      Game.i.changeScreen(
         new w(l.level, this.speedrun, this.speedrunStart),
         !0,
         a,
@@ -19272,13 +19284,15 @@
         if (this.speedrun && a == B.list.length) {
           if (
             ((this.speedrunFinal =
-              g.i.get_gameTimeMS() - this.speedrunStart + n.screenFadeTime / 2),
+              Game.i.get_gameTimeMS() -
+              this.speedrunStart +
+              n.screenFadeTime / 2),
             0 > B.speedrunBest || this.speedrunFinal < B.speedrunBest)
           )
             (B.speedrunBest = this.speedrunFinal), (b = this.newBest = !0);
         } else
           a > B.unlocked && a < B.list.length && ((B.unlocked = a), (b = !0));
-        b && g.i.saveProgress();
+        b && Game.i.saveProgress();
       }
       a = l.level.finished();
       null != a && w.play(a, this.speedrun, this.speedrunStart);
@@ -19289,15 +19303,15 @@
         var a =
           1 -
           Math.min(
-            (g.i.get_gameTime() - this.deathTime) / w.DEATH_SHAKE_TIME,
+            (Game.i.get_gameTime() - this.deathTime) / w.DEATH_SHAKE_TIME,
             1,
           );
         this.red.set_alpha(a);
-        a = g.smootherStep(a);
+        a = Game.smootherStep(a);
         this.shakeX = Math.random() * w.DEATH_SHAKE_AMOUNT * a;
         this.shakeY = Math.random() * w.DEATH_SHAKE_AMOUNT * a;
-        g.i.get_gameTime() - this.deathTime >= w.DEATH_TIME &&
-          null == g.i.targetScreen &&
+        Game.i.get_gameTime() - this.deathTime >= w.DEATH_TIME &&
+          null == Game.i.targetScreen &&
           this.restart(!0);
       } else this.player.finished || this.doRotation(this.player);
       this.player.update();
@@ -19353,7 +19367,7 @@
       var b = this;
       null != this.cat &&
         (0 != a && this.cat.set_scaleX(a),
-        (g.ie && g.i.muteSFX) || u.cat.play(),
+        (Game.ie && Game.i.muteSFX) || u.cat.play(),
         (this.cat.onFinish = function () {
           b.level.removeChild(b.cat);
           b.cat = null;
@@ -19370,13 +19384,13 @@
       if (this.speedrun)
         if (-1 < this.speedrunFinal) {
           if (
-            (this.timerText.set_text(g.formatMS(this.speedrunFinal)),
+            (this.timerText.set_text(Game.formatMS(this.speedrunFinal)),
             this.newBest)
           ) {
             var a = this.timerText;
             a.set_text(a.text + '\nNew best time!');
           }
-        } else g.i.timerHolder.removeChild(this.timerText);
+        } else Game.i.timerHolder.removeChild(this.timerText);
     },
     prekill: function () {
       w.continueTheme ? (w.stopped = w.canceled = !1) : w.stopTheme();
@@ -19404,7 +19418,7 @@
     update: function () {
       !this.done &&
         N.get_current() - this.timer > this.length &&
-        ((this.done = !0), g.i.changeScreen(new ca()));
+        ((this.done = !0), Game.i.changeScreen(new ca()));
     },
     __class__: $b,
   });
@@ -19428,7 +19442,9 @@
     },
     update: function () {
       var a = this,
-        b = g.smootherStep(Math.min(1, (N.get_currentMS() - this.timer) / 250));
+        b = Game.smootherStep(
+          Math.min(1, (N.get_currentMS() - this.timer) / 250),
+        );
       this.pivot.set_rotation(-90 + 90 * b);
       this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
       this.start.set_alpha(b);
@@ -19442,7 +19458,7 @@
             u.exit.once('end', function () {
               u.exit.volume(1);
             }),
-            g.i.changeScreen(new $b()),
+            Game.i.changeScreen(new $b()),
             (a.start.mouseEnabled = !1));
         }));
     },
@@ -19477,7 +19493,7 @@
         this.cond2.test() &&
         ((this.done2 = !0),
         w.playTheme(0),
-        g.ie || u.themeGame1.fade(0, 1, 1e3));
+        Game.ie || u.themeGame1.fade(0, 1, 1e3));
       this.speech.update();
       !this.done1 &&
         this.cond1.test() &&
@@ -19641,7 +19657,7 @@
     b.set_x(-b.get_width() / 2);
     b.set_y(8);
     this.addChild(b);
-    b = new r(g.fontMain, a.name, 1);
+    b = new r(Game.fontMain, a.name, 1);
     b.align = r.ALIGN_CENTER;
     b.xAlign = r.X_ALIGN_CENTER;
     b.set_y(64);
@@ -19763,7 +19779,7 @@
     this.graphics.beginFill(1052688, 0.95);
     this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
     this.mouseEnabled = !0;
-    this.title = new r(g.fontMain, a);
+    this.title = new r(Game.fontMain, a);
     this.title.xAlign = r.X_ALIGN_CENTER;
     this.title.set_x(Math.round(Canvas.width / 2));
     this.title.set_y(36);
@@ -19799,7 +19815,7 @@
   var Yb = function () {
     this.btnLoad = new ba('LOAD');
     this.btnCancel = new ba('CANCEL');
-    this.invalid = new r(g.fontMain, 'Level code is invalid!', 2);
+    this.invalid = new r(Game.fontMain, 'Level code is invalid!', 2);
     var a = this;
     Da.call(this, 'LOAD LEVEL');
     this.invalid.xAlign = r.X_ALIGN_CENTER;
@@ -19874,11 +19890,11 @@
     __class__: Pa,
   });
   var R = function (a, b) {
-    this.btnLoad = new r(g.fontMain, 'Load');
-    this.btnSave = new r(g.fontMain, 'Save');
-    this.btnPlay = new r(g.fontMain, 'Play');
-    this.btnClear = new r(g.fontMain, 'Clear');
-    this.btnExit = new r(g.fontMain, 'Exit');
+    this.btnLoad = new r(Game.fontMain, 'Load');
+    this.btnSave = new r(Game.fontMain, 'Save');
+    this.btnPlay = new r(Game.fontMain, 'Play');
+    this.btnClear = new r(Game.fontMain, 'Clear');
+    this.btnExit = new r(Game.fontMain, 'Exit');
     x.call(this);
     this.mouseEnabled = !0;
     this.graphics.beginFill(2105376);
@@ -19888,7 +19904,7 @@
     this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
     this.btnExit.hitPadding = R.BTN_PAD;
     this.btnExit.addEventListener('click', function (d) {
-      2 > d.which && g.i.changeScreen(new Oa());
+      2 > d.which && Game.i.changeScreen(new Oa());
     });
     this.addChild(this.btnExit);
     this.btnClear.set_x(
@@ -19899,7 +19915,7 @@
     this.btnClear.hitPadding = R.BTN_PAD;
     this.btnClear.set_alpha(R.TEXT_GREY);
     this.addChild(this.btnClear);
-    this.theme = new r(g.fontMain, R.THEMES[a]);
+    this.theme = new r(Game.fontMain, R.THEMES[a]);
     this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
     this.theme.set_y(R.EDGE_PAD_Y);
     this.theme.xAlign = r.X_ALIGN_CENTER;
@@ -19968,13 +19984,13 @@
           if (2 > e.which) {
             var f = new eb('Do you want to erase ALL of\nyour saved progress?');
             f.onNo = function () {
-              g.i.currentScreen.removeChild(f);
+              Game.i.currentScreen.removeChild(f);
             };
             f.onYes = function () {
-              g.i.clearProgress();
-              g.i.changeScreen(new ca());
+              Game.i.clearProgress();
+              Game.i.changeScreen(new ca());
             };
-            g.i.currentScreen.addChild(f);
+            Game.i.currentScreen.addChild(f);
           }
         }))
       : this.set_alpha(0.33);
@@ -19985,7 +20001,7 @@
     __class__: Ya,
   });
   var bc = function (a) {
-    this.label = new r(g.fontMain, 'Grid');
+    this.label = new r(Game.fontMain, 'Grid');
     this.toggle = new I(q.configToggle);
     var b = this;
     x.call(this);
@@ -20060,7 +20076,7 @@
     this.main.set_y(-this.main.get_height() / 2);
     this.main.mouseEnabled = this.main.buttonMode = !0;
     this.addChild(this.main);
-    var c = (this.text = new r(g.fontMain, a.toUpperCase(), b));
+    var c = (this.text = new r(Game.fontMain, a.toUpperCase(), b));
     c.set_y(c.y - 2);
     this.text.align = r.ALIGN_CENTER;
     this.text.xAlign = r.X_ALIGN_CENTER;
@@ -20077,11 +20093,11 @@
     var b = this;
     x.call(this);
     this.sfx = new I(q.mute);
-    this.sfx.set_clipRect(new z(g.i.muteSFX ? 28 : 0, 30 * a, 28, 30));
+    this.sfx.set_clipRect(new z(Game.i.muteSFX ? 28 : 0, 30 * a, 28, 30));
     this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
     this.sfx.addEventListener('click', function (c) {
       2 > c.which &&
-        (g.ie && !g.i.ieUnmuted
+        (Game.ie && !Game.i.ieUnmuted
           ? b.showWarn(T(b, b.toggleSFX))
           : b.toggleSFX());
     });
@@ -20089,11 +20105,11 @@
     this.sfx.set_y(Canvas.height - this.sfx.get_height() - 12);
     this.addChild(this.sfx);
     this.music = new I(q.mute);
-    this.music.set_clipRect(new z(g.i.muteMusic ? 84 : 56, 30 * a, 28, 30));
+    this.music.set_clipRect(new z(Game.i.muteMusic ? 84 : 56, 30 * a, 28, 30));
     this.music.mouseEnabled = this.music.buttonMode = !0;
     this.music.addEventListener('click', function (c) {
       2 > c.which &&
-        (g.ie && !g.i.ieUnmuted
+        (Game.ie && !Game.i.ieUnmuted
           ? b.showWarn(T(b, b.toggleMusic))
           : b.toggleMusic());
     });
@@ -20109,22 +20125,22 @@
         'Audio may slow down the game\nin Internet Explorer. Continue?',
       );
       b.onNo = function () {
-        g.i.removeChild(b);
+        Game.i.removeChild(b);
       };
       b.onYes = function () {
-        g.i.removeChild(b);
-        g.i.ieUnmuted = !0;
+        Game.i.removeChild(b);
+        Game.i.ieUnmuted = !0;
         null != a && a();
       };
-      g.i.addChild(b);
+      Game.i.addChild(b);
     },
     toggleSFX: function () {
-      g.i.toggleSFX();
-      this.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
+      Game.i.toggleSFX();
+      this.sfx.clipRect.x = Game.i.muteSFX ? 28 : 0;
     },
     toggleMusic: function () {
-      g.i.toggleMusic();
-      this.music.clipRect.x = g.i.muteMusic ? 84 : 56;
+      Game.i.toggleMusic();
+      this.music.clipRect.x = Game.i.muteMusic ? 84 : 56;
     },
     __class__: Ba,
   });
@@ -20133,21 +20149,21 @@
     this.set_x(12);
     this.set_y(12);
     this.mouseEnabled = this.buttonMode = !0;
-    var a = new r(g.fontMain, 'Invert [Q] & [E]?');
+    var a = new r(Game.fontMain, 'Invert [Q] & [E]?');
     a.set_x(30);
     a.set_y(-4);
     a.set_alpha(0.5);
     this.addChild(a);
     var b = new I(q.configToggle);
     b.clipRect.width = 22;
-    g.i.invert && (b.clipRect.x = 22);
+    Game.i.invert && (b.clipRect.x = 22);
     b.set_alpha(0.75);
     this.addChild(b);
     this.addEventListener('click', function (c) {
       2 > c.which &&
-        ((g.i.invert = !g.i.invert),
-        (b.clipRect.x = g.i.invert ? 22 : 0),
-        g.i.saveProgress());
+        ((Game.i.invert = !Game.i.invert),
+        (b.clipRect.x = Game.i.invert ? 22 : 0),
+        Game.i.saveProgress());
     });
   };
   cc.__name__ = !0;
@@ -20165,7 +20181,7 @@
     this.btnQuit = new ba('QUIT', 0);
     this.btnRedo = new ba('RESTART', 0);
     this.btnPlay = new ba('CONTINUE', 0);
-    this.text = new r(g.fontMain, 'GAME PAUSED');
+    this.text = new r(Game.fontMain, 'GAME PAUSED');
     x.call(this);
     this.graphics.beginFill(1052688, 0.85);
     this.graphics.drawRect(0, 0, Canvas.width, Canvas.height);
@@ -20180,15 +20196,15 @@
     this.btnPlay.set_x(this.text.x);
     this.btnPlay.set_y(this.text.y + 60);
     this.btnPlay.addEventListener('click', function (a) {
-      2 > a.which && g.i.unpause();
+      2 > a.which && Game.i.unpause();
     });
     this.addChild(this.btnPlay);
     this.btnRedo.set_x(this.btnPlay.x);
     this.btnRedo.set_y(this.btnPlay.y + 60);
     this.btnRedo.addEventListener('click', function (a) {
       2 > a.which &&
-        E.__instanceof(g.i.currentScreen, w) &&
-        g.i.currentScreen.restart(!1);
+        E.__instanceof(Game.i.currentScreen, w) &&
+        Game.i.currentScreen.restart(!1);
     });
     this.addChild(this.btnRedo);
     this.btnQuit.set_x(this.btnRedo.x);
@@ -20196,11 +20212,11 @@
     this.btnQuit.addEventListener('click', function (a) {
       2 > a.which &&
         ((a =
-          (E.__instanceof(g.i.currentScreen, w) &&
-            E.__cast(g.i.currentScreen, w).speedrun) ||
-          (E.__instanceof(g.i.currentScreen, Qa) &&
-            E.__cast(g.i.currentScreen, Qa).speedrun)),
-        g.i.changeScreen(
+          (E.__instanceof(Game.i.currentScreen, w) &&
+            E.__cast(Game.i.currentScreen, w).speedrun) ||
+          (E.__instanceof(Game.i.currentScreen, Qa) &&
+            E.__cast(Game.i.currentScreen, Qa).speedrun)),
+        Game.i.changeScreen(
           l.level == A.editorLevel
             ? new A()
             : a
@@ -20209,7 +20225,7 @@
                 ? new pb()
                 : new ca(),
           !0,
-          ((Ja = g.i), T(Ja, Ja.unpause)),
+          ((Ja = Game.i), T(Ja, Ja.unpause)),
         ));
     });
     this.addChild(this.btnQuit);
@@ -20217,20 +20233,20 @@
     this.addChild(this.mute);
     this.addChild(this.sponsor);
     this.sponsor.clipRect.y = this.sponsor.clipRect.height;
-    g.i.warnNoSave(this);
+    Game.i.warnNoSave(this);
   };
   ub.__name__ = !0;
   ub.__super__ = x;
   ub.prototype = D(x.prototype, {
     onPause: function () {
-      this.mute.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
-      this.mute.music.clipRect.x = g.i.muteMusic ? 84 : 56;
-      var a = E.__instanceof(g.i.currentScreen, w);
+      this.mute.sfx.clipRect.x = Game.i.muteSFX ? 28 : 0;
+      this.mute.music.clipRect.x = Game.i.muteMusic ? 84 : 56;
+      var a = E.__instanceof(Game.i.currentScreen, w);
       this.btnRedo.set_alpha(a ? 1 : 0.25);
       this.btnRedo.main.mouseEnabled = a;
       a =
-        E.__instanceof(g.i.currentScreen, bb) ||
-        E.__instanceof(g.i.currentScreen, ob);
+        E.__instanceof(Game.i.currentScreen, bb) ||
+        E.__instanceof(Game.i.currentScreen, ob);
       this.btnQuit.set_alpha(a ? 0.25 : 1);
       this.btnQuit.main.mouseEnabled = !a;
     },
@@ -20257,7 +20273,7 @@
   var eb = function (a) {
     this.btnNo = new ba('NO');
     this.btnYes = new ba('YES');
-    this.main = new r(g.fontMain, '', 2);
+    this.main = new r(Game.fontMain, '', 2);
     var b = this;
     x.call(this);
     this.main.set_text(a);
@@ -20400,14 +20416,14 @@
   q.controls3 = t.loadImage('img/controls-3.png');
   q.controls4 = t.loadImage('img/controls-4.png');
   q.controls5 = t.loadImage('img/controls-5.png');
-  g.fontMain = new gc(
+  Game.fontMain = new gc(
     'fonts/simple-pixels.png',
     'fonts/simple-pixels.json',
     2,
     112,
   );
-  g.nosave = !1;
-  g.ie = !1;
+  Game.nosave = !1;
+  Game.ie = !1;
   u.themeMenu = t.loadSound({
     src: ['music/menu.ogg', 'music/menu.mp3'],
     loop: !0,
@@ -20638,5 +20654,5 @@
   R.BTN_PAD = 8;
   R.TEXT_GREY = 0.75;
   R.THEMES = ['Theme A', 'Theme B'];
-  g.main();
+  Game.main();
 })(window);
