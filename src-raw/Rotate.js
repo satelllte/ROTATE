@@ -2105,7 +2105,7 @@
       this.addEventListener('enterFrame', Bind(this, this.update));
       window.document.getElementById('game').style.display = 'block';
       window.document.getElementById('loader').style.display = 'none';
-      this.pauseMenu = new ub();
+      this.pauseMenu = new ROTATE_PauseMenu();
       this.addChild(this.pauseMenu);
       this.fader.mouseEnabled = !0;
       this.addChild(this.fader);
@@ -21155,7 +21155,8 @@
     },
     __class__: cc,
   });
-  var ub = function () {
+
+  var ROTATE_PauseMenu = function () {
     this.sponsor = new ROTATE_Sponsor();
     this.mute = new Ba(1);
     this.invert = new cc();
@@ -21227,9 +21228,9 @@
     this.sponsor.clipRect.y = this.sponsor.clipRect.height;
     ROTATE_Game.instance.warnNoSave(this);
   };
-  ub.__name__ = !0;
-  ub.__super__ = ROTATE_CanvasObject;
-  ub.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_PauseMenu.__name__ = !0;
+  ROTATE_PauseMenu.__super__ = ROTATE_CanvasObject;
+  ROTATE_PauseMenu.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     onPause: function () {
       this.mute.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
       this.mute.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
@@ -21245,7 +21246,7 @@
       this.btnQuit.set_alpha(a ? 0.25 : 1);
       this.btnQuit.main.mouseEnabled = !a;
     },
-    __class__: ub,
+    __class__: ROTATE_PauseMenu,
   });
 
   var ROTATE_Sponsor = function () {
