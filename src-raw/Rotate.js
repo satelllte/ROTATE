@@ -4713,26 +4713,37 @@
   ROTATE_GameObjects.getBlock = function (a) {
     return ROTATE_GameObjects.registry[a];
   };
-  var ab = function (a, b, c, d, e, f, m, k, p) {
-    null == k && (k = 0);
-    null == m && (m = 0);
+
+  var ROTATE_ParticleSystem = function (
+    size,
+    life,
+    x,
+    y,
+    dx,
+    dy,
+    gravityX,
+    gravityY,
+    handler,
+  ) {
+    null == gravityY && (gravityY = 0);
+    null == gravityX && (gravityX = 0);
     this.freeze = !1;
-    this.size = a;
-    this.life = b;
-    this.x = this.lastX = c;
-    this.y = this.lastY = d;
-    this.dx = e;
-    this.dy = f;
-    this.gravityX = m;
-    this.gravityY = k;
-    this.handler = p;
+    this.size = size;
+    this.life = life;
+    this.x = this.lastX = x;
+    this.y = this.lastY = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.gravityX = gravityX;
+    this.gravityY = gravityY;
+    this.handler = handler;
   };
-  ab.__name__ = !0;
-  ab.prototype = {
+  ROTATE_ParticleSystem.__name__ = !0;
+  ROTATE_ParticleSystem.prototype = {
     update: function () {
       if (!this.freeze || 0 >= this.life)
-        (this.dx += this.gravityX * ab.GRAVITY_MULT),
-          (this.dy += this.gravityY * ab.GRAVITY_MULT),
+        (this.dx += this.gravityX * ROTATE_ParticleSystem.GRAVITY_MULT),
+          (this.dy += this.gravityY * ROTATE_ParticleSystem.GRAVITY_MULT),
           (this.x += this.dx),
           (this.y += this.dy),
           null != this.handler && this.handler(this),
@@ -4740,8 +4751,9 @@
           (this.lastX = this.x),
           (this.lastY = this.y);
     },
-    __class__: ab,
+    __class__: ROTATE_ParticleSystem,
   };
+
   var Ib = function (a, b, c, d, e, f, m, k, p) {
     null == p && (p = 1);
     null == k && (k = !1);
@@ -4754,7 +4766,7 @@
       var H = Math.random() * Math.PI * 2,
         K = 3 * (0.7 * Math.random() + 0.3) * p,
         W = 20 * Math.random();
-      H = new ab(
+      H = new ROTATE_ParticleSystem(
         6 * (0.6 * Math.random() + 0.4),
         Math.round(50 * (0.5 * Math.random() + 0.5)),
         a + Math.cos(H) * W,
@@ -21489,7 +21501,7 @@
     new ROTATE_GameObject_Fan(),
   );
 
-  ab.GRAVITY_MULT = 0.2;
+  ROTATE_ParticleSystem.GRAVITY_MULT = 0.2;
   ROTATE_EditorLevel.WORLD_SIZE = 42;
 
   ROTATE_Level1.fadeSpeed = 0.1;
