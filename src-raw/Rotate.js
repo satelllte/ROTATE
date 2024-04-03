@@ -3517,46 +3517,57 @@
     }
   };
 
-  var L = function (a) {
+  var ROTATE_Renderer = function (camera) {
     this.showGrid = !1;
-    var b = this;
+    var _self = this;
     ROTATE_CanvasObject.call(this);
-    if (null == L.bakeCanvas) {
-      L.bakeCanvas = window.document.createElement('canvas');
-      L.bakeCtx = L.bakeCanvas.getContext('2d', null);
-      var c = L.bakeCtx;
+    if (null == ROTATE_Renderer.bakeCanvas) {
+      ROTATE_Renderer.bakeCanvas = window.document.createElement('canvas');
+      ROTATE_Renderer.bakeCtx = ROTATE_Renderer.bakeCanvas.getContext(
+        '2d',
+        null,
+      );
+      var c = ROTATE_Renderer.bakeCtx;
       c.webkitImageSmoothingEnabled =
         c.mozImageSmoothingEnabled =
         c.msImageSmoothingEnabled =
         c.oImageSmoothingEnabled =
         c.imageSmoothingEnabled =
           !1;
-      L.bakeSurface = new Surface(L.bakeCtx);
+      ROTATE_Renderer.bakeSurface = new Surface(ROTATE_Renderer.bakeCtx);
     }
     c = ROTATE_LevelEditorManager.get_width() + 2;
-    L.bakeCanvas.width = c * ROTATE_GameConstants.tileSize;
+    ROTATE_Renderer.bakeCanvas.width = c * ROTATE_GameConstants.tileSize;
     c = ROTATE_LevelEditorManager.get_height() + 2;
-    L.bakeCanvas.height = c * ROTATE_GameConstants.tileSize;
-    L.bakeSurface.reset();
-    L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
+    ROTATE_Renderer.bakeCanvas.height = c * ROTATE_GameConstants.tileSize;
+    ROTATE_Renderer.bakeSurface.reset();
+    ROTATE_Renderer.bakeSurface.clearRect(
+      0,
+      0,
+      ROTATE_Renderer.bakeCanvas.width,
+      ROTATE_Renderer.bakeCanvas.height,
+    );
     if (
-      null == L.gridCanvas &&
+      null == ROTATE_Renderer.gridCanvas &&
       JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
         ROTATE_Editor,
       )
     ) {
-      L.gridCanvas = window.document.createElement('canvas');
-      L.gridCanvas.width =
+      ROTATE_Renderer.gridCanvas = window.document.createElement('canvas');
+      ROTATE_Renderer.gridCanvas.width =
         ROTATE_Editor.editorLevel.tiles[0].length *
           ROTATE_GameConstants.tileSize +
         2;
-      L.gridCanvas.height =
+      ROTATE_Renderer.gridCanvas.height =
         ROTATE_Editor.editorLevel.tiles.length * ROTATE_GameConstants.tileSize +
         2;
-      L.gridCtx = L.gridCanvas.getContext('2d', null);
-      L.gridSurface = new Surface(L.gridCtx);
-      L.gridSurface.beginFill(2105376, 0.2);
+      ROTATE_Renderer.gridCtx = ROTATE_Renderer.gridCanvas.getContext(
+        '2d',
+        null,
+      );
+      ROTATE_Renderer.gridSurface = new Surface(ROTATE_Renderer.gridCtx);
+      ROTATE_Renderer.gridSurface.beginFill(2105376, 0.2);
       c = 0;
       for (var d = ROTATE_Editor.editorLevel.tiles.length + 1; c < d; )
         for (
@@ -3566,8 +3577,13 @@
         ) {
           var k = f++ * ROTATE_GameConstants.tileSize,
             p = e * ROTATE_GameConstants.tileSize;
-          L.gridSurface.drawRect(k, p, 2, ROTATE_GameConstants.tileSize);
-          L.gridSurface.drawRect(
+          ROTATE_Renderer.gridSurface.drawRect(
+            k,
+            p,
+            2,
+            ROTATE_GameConstants.tileSize,
+          );
+          ROTATE_Renderer.gridSurface.drawRect(
             k + 2,
             p,
             ROTATE_GameConstants.tileSize - 2,
@@ -3576,16 +3592,16 @@
         }
     }
     this.addEventListener('render', function (y) {
-      b.render(y.surface, a);
+      _self.render(y.surface, camera);
     });
   };
-  L.__name__ = !0;
-  L.__super__ = ROTATE_CanvasObject;
-  L.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+  ROTATE_Renderer.__name__ = !0;
+  ROTATE_Renderer.__super__ = ROTATE_CanvasObject;
+  ROTATE_Renderer.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     render: function (a, b) {
       if (null != ROTATE_LevelEditorManager.level) {
         a.drawImage(
-          L.bakeCanvas,
+          ROTATE_Renderer.bakeCanvas,
           null,
           -ROTATE_GameConstants.tileSize,
           -ROTATE_GameConstants.tileSize,
@@ -3642,8 +3658,8 @@
             ));
         }
         this.showGrid &&
-          null != L.gridCanvas &&
-          a.drawImage(L.gridCanvas, null, 0, 0);
+          null != ROTATE_Renderer.gridCanvas &&
+          a.drawImage(ROTATE_Renderer.gridCanvas, null, 0, 0);
         if (
           JSObjectUtils.__instanceof(
             ROTATE_Game.instance.currentScreen,
@@ -3688,23 +3704,33 @@
       a.translate(-(b + 0.5) * e, -(c + 0.5) * e);
     },
     updateAllBlocks: function () {
-      L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
-      L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
+      ROTATE_Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
+      ROTATE_Renderer.bakeSurface.clearRect(
+        0,
+        0,
+        ROTATE_Renderer.bakeCanvas.width,
+        ROTATE_Renderer.bakeCanvas.height,
+      );
       if (null != ROTATE_LevelEditorManager.level) {
         for (
           var a =
               1 == ROTATE_LevelEditorManager.level.theme
                 ? ROTATE_Images.bgBricks
                 : ROTATE_Images.bgTiles,
-            b = Math.ceil(L.bakeCanvas.width / a.width),
+            b = Math.ceil(ROTATE_Renderer.bakeCanvas.width / a.width),
             c = 0,
-            d = Math.ceil(L.bakeCanvas.height / a.height);
+            d = Math.ceil(ROTATE_Renderer.bakeCanvas.height / a.height);
           c < d;
 
         )
           for (var e = c++, f = 0, m = b; f < m; ) {
             var k = f++;
-            L.bakeSurface.drawImage(a, null, k * a.width, e * a.height);
+            ROTATE_Renderer.bakeSurface.drawImage(
+              a,
+              null,
+              k * a.width,
+              e * a.height,
+            );
           }
         this.renderDecals();
         a = -1;
@@ -3720,12 +3746,12 @@
               null != k &&
                 k.shouldRender(m) &&
                 !k.alwaysUpdate(m) &&
-                (L.bakeSurface.translate(
+                (ROTATE_Renderer.bakeSurface.translate(
                   (f + 1) * ROTATE_GameConstants.tileSize,
                   (c + 1) * ROTATE_GameConstants.tileSize,
                 ),
-                k.render(L.bakeSurface, m),
-                L.bakeSurface.translate(
+                k.render(ROTATE_Renderer.bakeSurface, m),
+                ROTATE_Renderer.bakeSurface.translate(
                   -(f + 1) * ROTATE_GameConstants.tileSize,
                   -(c + 1) * ROTATE_GameConstants.tileSize,
                 ));
@@ -3733,8 +3759,8 @@
     },
     updateBlockPlus: function (a, b, c) {
       null == c && (c = !1);
-      L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
-      L.bakeSurface.clearRect(
+      ROTATE_Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
+      ROTATE_Renderer.bakeSurface.clearRect(
         a * ROTATE_GameConstants.tileSize,
         b * ROTATE_GameConstants.tileSize,
         3 * ROTATE_GameConstants.tileSize,
@@ -3747,7 +3773,7 @@
             var y = ROTATE_LevelEditorManager.getBlockData(p, f),
               H = y.get_block();
             if (null != H) {
-              L.bakeSurface.translate(
+              ROTATE_Renderer.bakeSurface.translate(
                 (p + 1) * ROTATE_GameConstants.tileSize,
                 (f + 1) * ROTATE_GameConstants.tileSize,
               );
@@ -3755,7 +3781,7 @@
                 1 == ROTATE_LevelEditorManager.level.theme
                   ? ROTATE_Images.bgBricks
                   : ROTATE_Images.bgTiles;
-              L.bakeSurface.drawImage(
+              ROTATE_Renderer.bakeSurface.drawImage(
                 K,
                 new Bounds(
                   ((p + 1) * ROTATE_GameConstants.tileSize) % K.width,
@@ -3768,8 +3794,8 @@
               );
               H.shouldRender(y) &&
                 !H.alwaysUpdate(y) &&
-                H.render(L.bakeSurface, y);
-              L.bakeSurface.translate(
+                H.render(ROTATE_Renderer.bakeSurface, y);
+              ROTATE_Renderer.bakeSurface.translate(
                 -(p + 1) * ROTATE_GameConstants.tileSize,
                 -(f + 1) * ROTATE_GameConstants.tileSize,
               );
@@ -3780,13 +3806,13 @@
     },
     renderDecals: function () {
       var a = ROTATE_GameConstants.tileSize;
-      L.bakeSurface.drawImage(
+      ROTATE_Renderer.bakeSurface.drawImage(
         ROTATE_Images.blocks,
         new Bounds(a, 2 * a, a, 2 * a),
         (ROTATE_LevelEditorManager.level.startCol + 1) * a,
         ROTATE_LevelEditorManager.level.startRow * a,
       );
-      L.bakeSurface.drawImage(
+      ROTATE_Renderer.bakeSurface.drawImage(
         ROTATE_Images.blocks,
         new Bounds(2 * a, 2 * a, a, 2 * a),
         (ROTATE_LevelEditorManager.level.finishCol + 1) * a,
@@ -3796,7 +3822,7 @@
         ROTATE_LevelEditorManager.level,
         ROTATE_Level8,
       ) &&
-        L.bakeSurface.drawImage(
+        ROTATE_Renderer.bakeSurface.drawImage(
           ROTATE_Images.blocks,
           new Bounds(2 * a, 2 * a, a, 2 * a),
           (ROTATE_Level8.fakeCol + 1) * a,
@@ -3811,7 +3837,7 @@
         ROTATE_LevelEditorManager.get_height() * ROTATE_GameConstants.tileSize,
       );
     },
-    __class__: L,
+    __class__: ROTATE_Renderer,
   });
 
   var ROTATE_Tooltip = function () {
@@ -18977,7 +19003,7 @@
       this.level.set_x(-this.camera.x);
       this.level.set_y(-this.camera.y);
       this.camera.addChild(this.level);
-      this.renderer = new L(this.camera);
+      this.renderer = new ROTATE_Renderer(this.camera);
       this.renderer.updateAllBlocks();
       this.level.addChild(this.renderer);
     },
