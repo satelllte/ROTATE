@@ -20008,7 +20008,8 @@
   Xb.prototype = D(ROTATE_CanvasObject.prototype, {
     __class__: Xb,
   });
-  var O = function () {
+
+  var ROTATE_ActiveGameObject = function () {
     this.bubble = new ac();
     var a = this;
     ROTATE_CanvasObject.call(this);
@@ -20018,12 +20019,21 @@
     this.addChild(this.bubble);
     this.addEventListener('mouseDown', function (b) {
       if (b.target == a && 2 > b.which) {
-        var c = O.selected;
-        O.set_selected(Math.floor(a.globalToLocal(b.x, b.y).x / O.size4));
-        a.bubble.set_x(Math.round((O.selected + 0.5) * O.size4));
+        var c = ROTATE_ActiveGameObject.selected;
+        ROTATE_ActiveGameObject.set_selected(
+          Math.floor(
+            a.globalToLocal(b.x, b.y).x / ROTATE_ActiveGameObject.size4,
+          ),
+        );
+        a.bubble.set_x(
+          Math.round(
+            (ROTATE_ActiveGameObject.selected + 0.5) *
+              ROTATE_ActiveGameObject.size4,
+          ),
+        );
         b =
           a.get_selection().configurable &&
-          (O.selected == c ? !a.bubble.visible : !0);
+          (ROTATE_ActiveGameObject.selected == c ? !a.bubble.visible : !0);
         a.bubble.visible = b;
         a.bubble.visible && a.bubble.setup(a.get_selection());
       }
@@ -20032,48 +20042,74 @@
       a.render(b.surface);
     });
   };
-  O.__name__ = !0;
-  O.set_selected = function (a) {
-    return (O.selected =
-      0 > a ? 0 : a >= O.list.length ? O.list.length - 1 : a);
+  ROTATE_ActiveGameObject.__name__ = !0;
+  ROTATE_ActiveGameObject.set_selected = function (a) {
+    return (ROTATE_ActiveGameObject.selected =
+      0 > a
+        ? 0
+        : a >= ROTATE_ActiveGameObject.list.length
+          ? ROTATE_ActiveGameObject.list.length - 1
+          : a);
   };
-  O.__super__ = ROTATE_CanvasObject;
-  O.prototype = D(ROTATE_CanvasObject.prototype, {
+  ROTATE_ActiveGameObject.__super__ = ROTATE_CanvasObject;
+  ROTATE_ActiveGameObject.prototype = D(ROTATE_CanvasObject.prototype, {
     get_selection: function () {
-      return O.list[O.selected];
+      return ROTATE_ActiveGameObject.list[ROTATE_ActiveGameObject.selected];
     },
     render: function (a) {
       a.beginFill(12525600, 0.75);
       a.drawRect(
-        (InputKeys.keyDown(16) ? 0 : O.selected) * O.size4,
+        (InputKeys.keyDown(16) ? 0 : ROTATE_ActiveGameObject.selected) *
+          ROTATE_ActiveGameObject.size4,
         0,
-        O.size4,
-        O.size4,
+        ROTATE_ActiveGameObject.size4,
+        ROTATE_ActiveGameObject.size4,
       );
       a.translate(2, 2);
       a.beginFill(14671839);
-      for (var b = 0, c = O.list.length; b < c; ) {
+      for (var b = 0, c = ROTATE_ActiveGameObject.list.length; b < c; ) {
         var d = b++,
-          e = O.list[d];
-        0 < d && a.translate(O.size4, 0);
+          e = ROTATE_ActiveGameObject.list[d];
+        0 < d && a.translate(ROTATE_ActiveGameObject.size4, 0);
         e.rotatePreview() &&
-          (a.translate(O.size2, O.size2),
+          (a.translate(
+            ROTATE_ActiveGameObject.size2,
+            ROTATE_ActiveGameObject.size2,
+          ),
           a.rotate((l.rotation * Math.PI) / 2),
-          a.translate(-O.size2, -O.size2));
+          a.translate(
+            -ROTATE_ActiveGameObject.size2,
+            -ROTATE_ActiveGameObject.size2,
+          ));
         a.drawRect(0, 0, n.tileSize, n.tileSize);
         e.render(a, new wb(0, 0, e.id, e.getConfigMeta()), !1);
         e.rotatePreview() &&
-          (a.translate(O.size2, O.size2),
+          (a.translate(
+            ROTATE_ActiveGameObject.size2,
+            ROTATE_ActiveGameObject.size2,
+          ),
           a.rotate((-l.rotation * Math.PI) / 2),
-          a.translate(-O.size2, -O.size2));
+          a.translate(
+            -ROTATE_ActiveGameObject.size2,
+            -ROTATE_ActiveGameObject.size2,
+          ));
       }
-      a.translate((O.list.length - 1) * -O.size4, 0);
+      a.translate(
+        (ROTATE_ActiveGameObject.list.length - 1) *
+          -ROTATE_ActiveGameObject.size4,
+        0,
+      );
       a.translate(-2, -2);
     },
     getBoundsSelf: function () {
-      return new Bounds(0, 0, O.list.length * (n.tileSize + 4), n.tileSize + 4);
+      return new Bounds(
+        0,
+        0,
+        ROTATE_ActiveGameObject.list.length * (n.tileSize + 4),
+        n.tileSize + 4,
+      );
     },
-    __class__: O,
+    __class__: ROTATE_ActiveGameObject,
   });
   var ac = function () {
     this.tip = new I(ROTATE_Images.configTip);
@@ -20209,7 +20245,7 @@
     __class__: Zb,
   });
   var ROTATE_EditorBarLower = function (a) {
-    this.selector = new O();
+    this.selector = new ROTATE_ActiveGameObject();
     var b = this;
     ROTATE_CanvasObject.call(this);
     this.set_y(ROTATE_Canvas.height - ROTATE_EditorBarLower.HEIGHT);
@@ -21107,9 +21143,9 @@
   ROTATE_Text.Y_ALIGN_MIDDLE = 1;
   ROTATE_Text.Y_ALIGN_BOTTOM = 2;
 
-  O.size2 = n.tileSize / 2;
-  O.size4 = n.tileSize + 4;
-  O.list = [
+  ROTATE_ActiveGameObject.size2 = n.tileSize / 2;
+  ROTATE_ActiveGameObject.size4 = n.tileSize + 4;
+  ROTATE_ActiveGameObject.list = [
     ROTATE_GameObjects.air,
     ROTATE_GameObjects.solid,
     ROTATE_GameObjects.start,
@@ -21125,7 +21161,7 @@
     ROTATE_GameObjects.vent,
     ROTATE_GameObjects.fan,
   ];
-  O.selected = 1;
+  ROTATE_ActiveGameObject.selected = 1;
 
   ROTATE_EditorBarLower.HEIGHT = 48;
 
