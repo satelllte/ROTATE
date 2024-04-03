@@ -1502,7 +1502,7 @@
   lc.__name__ = !0;
   var ya = function (a) {
     this.length = a.byteLength;
-    this.b = new ec(a);
+    this.b = new Uint8Array(a);
     this.b.bufferValue = a;
     a.hxBytes = this;
     a.bytes = this.b;
@@ -1524,7 +1524,7 @@
               b.push(128 | ((d >> 6) & 63))),
           b.push(128 | (d & 63)));
     }
-    return new ya(new ec(b).buffer);
+    return new ya(new Uint8Array(b).buffer);
   };
   ya.prototype = {
     getString: function (a, b) {
@@ -1913,9 +1913,9 @@
   };
   wa.__name__ = !0;
   wa.sliceImpl = function (a, b) {
-    var c = new ec(this, a, null == b ? null : b - a),
+    var c = new Uint8Array(this, a, null == b ? null : b - a),
       d = new tb(c.byteLength);
-    new ec(d).set(c);
+    new Uint8Array(d).set(c);
     return d;
   };
   wa.prototype = {
@@ -1923,54 +1923,6 @@
       return new wa(this.a.slice(a, b));
     },
     __class__: wa,
-  };
-  var Ia = function () {};
-  Ia.__name__ = !0;
-  Ia._new = function (a, b, c) {
-    if ('number' == typeof a) {
-      c = [];
-      for (b = 0; b < a; ) {
-        var d = b++;
-        c[d] = 0;
-      }
-      c.byteLength = c.length;
-      c.byteOffset = 0;
-      c.buffer = new wa(c);
-    } else if (E.__instanceof(a, wa))
-      null == b && (b = 0),
-        null == c && (c = a.byteLength - b),
-        (c = 0 == b ? a.a : a.a.slice(b, b + c)),
-        (c.byteLength = c.length),
-        (c.byteOffset = b),
-        (c.buffer = a);
-    else if (a instanceof Array && null == a.__enum__)
-      (c = a.slice()),
-        (c.byteLength = c.length),
-        (c.byteOffset = 0),
-        (c.buffer = new wa(c));
-    else throw new Z('TODO ' + la.string(a));
-    c.subarray = Ia._subarray;
-    c.set = Ia._set;
-    return c;
-  };
-  Ia._set = function (a, b) {
-    if (E.__instanceof(a.buffer, wa)) {
-      if (a.byteLength + b > this.byteLength)
-        throw new Z('set() outside of range');
-      for (var c = 0, d = a.byteLength; c < d; ) {
-        var e = c++;
-        this[e + b] = a[e];
-      }
-    } else if (a instanceof Array && null == a.__enum__) {
-      if (a.length + b > this.byteLength) throw new Z('set() outside of range');
-      c = 0;
-      for (d = a.length; c < d; ) (e = c++), (this[e + b] = a[e]);
-    } else throw new Z('TODO');
-  };
-  Ia._subarray = function (a, b) {
-    var c = Ia._new(this.slice(a, b));
-    c.byteOffset = a;
-    return c;
   };
 
   var ROTATE_GameConstants = function () {};
@@ -21282,7 +21234,7 @@
     na = {},
     tb = window.ArrayBuffer || wa;
   null == tb.prototype.slice && (tb.prototype.slice = wa.sliceImpl);
-  var ec = window.Uint8Array || Ia._new;
+
   ROTATE_Canvas.started = !1;
   ROTATE_Canvas.imageSmoothingEnabled = !0;
   ROTATE_Canvas.lastCursor = 'default';
@@ -21325,7 +21277,6 @@
   StringUtils.BYTES = ya.ofString(StringUtils.CHARS);
 
   E.__toStr = {}.toString;
-  Ia.BYTES_PER_ELEMENT = 1;
 
   ROTATE_GameConstants.E = 1e-8;
   ROTATE_GameConstants.screenFadeTime = 700;
