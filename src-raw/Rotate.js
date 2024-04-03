@@ -1970,8 +1970,9 @@
     c.byteOffset = a;
     return c;
   };
-  var n = function () {};
-  n.__name__ = !0;
+
+  var ROTATE_GameConstants = function () {};
+  ROTATE_GameConstants.__name__ = !0;
 
   var ROTATE_Images = function () {};
   ROTATE_Images.__name__ = !0;
@@ -2045,7 +2046,7 @@
     return a * a * a * (a * (6 * a - 15) + 10);
   };
   ROTATE_Game.quantize = function (a) {
-    return Math.floor(a / n.tileSize);
+    return Math.floor(a / ROTATE_GameConstants.tileSize);
   };
   ROTATE_Game.getInputX = function () {
     return (
@@ -2162,7 +2163,9 @@
         (this.pauseMenu.visible = !1));
     },
     getFadeSpeed: function () {
-      return this.fadingSlow ? n.screenFadeTimeSlow : n.screenFadeTime;
+      return this.fadingSlow
+        ? ROTATE_GameConstants.screenFadeTimeSlow
+        : ROTATE_GameConstants.screenFadeTime;
     },
     changeScreen: function (a, b, c, d, e) {
       null == e && (e = !1);
@@ -2237,12 +2240,16 @@
         (this.paused ? this.unpause() : this.pause());
       if (!this.paused) {
         null != this.currentScreen && this.currentScreen.update();
-        for (a = 0; this.get_gameTimeMS() - this.lastTick >= n.tickMS; )
+        for (
+          a = 0;
+          this.get_gameTimeMS() - this.lastTick >= ROTATE_GameConstants.tickMS;
+
+        )
           if (
-            ((this.lastTick += n.tickMS),
+            ((this.lastTick += ROTATE_GameConstants.tickMS),
             null != this.currentScreen && this.currentScreen.tick(),
             ++a,
-            a == n.ticksMax)
+            a == ROTATE_GameConstants.ticksMax)
           ) {
             this.lastTick = this.get_gameTimeMS();
             break;
@@ -2892,7 +2899,8 @@
     },
     adjust: function () {
       this.origin.x = this.frameW / 2;
-      this.origin.y = this.frameH - (l.rotating ? n.rotateOffset : 0);
+      this.origin.y =
+        this.frameH - (l.rotating ? ROTATE_GameConstants.rotateOffset : 0);
     },
     update: function () {
       if (
@@ -2926,9 +2934,10 @@
         this.finished ||
         !this.grounded ||
         0 != l.rotation ||
-        Math.floor(this.x2 / n.tileSize) != l.level.finishCol
+        Math.floor(this.x2 / ROTATE_GameConstants.tileSize) != l.level.finishCol
         ? !1
-        : Math.floor(this.y2 / n.tileSize) == l.level.finishRow + 1;
+        : Math.floor(this.y2 / ROTATE_GameConstants.tileSize) ==
+            l.level.finishRow + 1;
     },
     tick: function () {
       if (!l.rotating && !this.dead) {
@@ -3023,7 +3032,7 @@
               (this.set_localX(f), (b = this.dx = 0));
             f = this.get_localX();
           }
-        this.get_localY() - p < -n.E && (this.grounded = !0);
+        this.get_localY() - p < -ROTATE_GameConstants.E && (this.grounded = !0);
         b = ROTATE_Game.instance.get_gameTimeMS();
         c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
         if (0 <= this.dy && !this.grounded) {
@@ -3092,7 +3101,8 @@
       var f = 0 == d || 2 == d,
         m = f ? J.HIT_W : J.HIT_H;
       f = f ? J.HIT_H : J.HIT_W;
-      a = (a && l.rotating) || (!a && e) ? n.rotateOffset : 0;
+      a =
+        (a && l.rotating) || (!a && e) ? ROTATE_GameConstants.rotateOffset : 0;
       return 3 == d
         ? new Bounds(b - a, c - f / 2, m, f)
         : 2 == d
@@ -3142,9 +3152,9 @@
       null == c && (c = -1);
       a = null == a ? this.getHitBounds() : a;
       var d = ROTATE_Game.quantize(a.get_left()),
-        e = ROTATE_Game.quantize(a.get_right() - n.E),
+        e = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.E),
         f = ROTATE_Game.quantize(a.get_top()),
-        m = ROTATE_Game.quantize(a.get_bottom() - n.E);
+        m = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.E);
       for (m += 1; f < m; )
         for (var k = f++, p = d, y = e + 1; p < y; ) {
           var H = p++;
@@ -3166,9 +3176,9 @@
       this.touching = [];
       var a = this.getHitBounds(),
         b = ROTATE_Game.quantize(a.get_left()),
-        c = ROTATE_Game.quantize(a.get_right() - n.E),
+        c = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.E),
         d = ROTATE_Game.quantize(a.get_top()),
-        e = ROTATE_Game.quantize(a.get_bottom() - n.E);
+        e = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.E);
       for (e += 1; d < e; )
         for (var f = d++, m = b, k = c + 1; m < k; ) {
           var p = m++,
@@ -3198,8 +3208,8 @@
           if (E.__instanceof(k, La)) {
             if (
               ((k = k.bounds.copy()),
-              (k.x += b * n.tileSize),
-              (k.y += c * n.tileSize),
+              (k.x += b * ROTATE_GameConstants.tileSize),
+              (k.y += c * ROTATE_GameConstants.tileSize),
               a.intersects(k))
             )
               return !0;
@@ -3208,14 +3218,14 @@
             1 == k.dir && (p = new Q(a.get_left(), a.get_bottom()));
             2 == k.dir && (p = new Q(a.get_left(), a.get_top()));
             3 == k.dir && (p = new Q(a.get_right(), a.get_top()));
-            p.x -= b * n.tileSize;
-            p.y -= c * n.tileSize;
+            p.x -= b * ROTATE_GameConstants.tileSize;
+            p.y -= c * ROTATE_GameConstants.tileSize;
             if (k.testPoint(p)) return !0;
           } else if (E.__instanceof(k, jb)) {
             if (
               ((p = k.bounds.copy()),
-              (p.x += b * n.tileSize),
-              (p.y += c * n.tileSize),
+              (p.x += b * ROTATE_GameConstants.tileSize),
+              (p.y += c * ROTATE_GameConstants.tileSize),
               a.intersects(p))
             ) {
               var y = 1 == l.rotation || 3 == l.rotation,
@@ -3239,7 +3249,7 @@
           } else if (
             E.__instanceof(k, kb) &&
             ((p = k),
-            (k = n.tileSize),
+            (k = ROTATE_GameConstants.tileSize),
             (y = a.copy()),
             (y.x -= b * k),
             (y.y -= c * k),
@@ -3277,19 +3287,19 @@
         !this.grounded ||
         this.jumpKeyDown() ||
         ROTATE_Game.instance.get_gameTime() - this.rotateTimer <
-          J.ROTATE_DELAY + n.rotateTime ||
+          J.ROTATE_DELAY + ROTATE_GameConstants.rotateTime ||
         ROTATE_Game.instance.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2
       )
         return !1;
       var b = this.x2,
         c = this.y2;
-      this.set_localY(this.get_localY() - n.rotateOffset);
+      this.set_localY(this.get_localY() - ROTATE_GameConstants.rotateOffset);
       var d = l.rotation,
         e = l;
       e.set_rotation(e.rotation + a);
       l.rotating = !0;
       a = 0;
-      for (e = this.isColliding(); e && a < n.rotateOffset; )
+      for (e = this.isColliding(); e && a < ROTATE_GameConstants.rotateOffset; )
         (e = this.get_localY()),
           this.set_localY(e - 1),
           ++a,
@@ -3302,7 +3312,7 @@
       return !e;
     },
     onRotateStart: function (a) {
-      this.set_localY(this.get_localY() - n.rotateOffset);
+      this.set_localY(this.get_localY() - ROTATE_GameConstants.rotateOffset);
       this.set_scaleX(a);
       this.adjust();
       this.set_animation(J.ANIM_ROTATE);
@@ -3322,7 +3332,9 @@
     onRotateEnd: function () {
       this.dx = this.dy = 0;
       this.grounded = !1;
-      this.set_localY(this.rotStartY - this.rotateAdjust + n.rotateOffset);
+      this.set_localY(
+        this.rotStartY - this.rotateAdjust + ROTATE_GameConstants.rotateOffset,
+      );
       this.adjust();
     },
     __class__: J,
@@ -3457,9 +3469,9 @@
       L.bakeSurface = new Surface(L.bakeCtx);
     }
     c = l.get_width() + 2;
-    L.bakeCanvas.width = c * n.tileSize;
+    L.bakeCanvas.width = c * ROTATE_GameConstants.tileSize;
     c = l.get_height() + 2;
-    L.bakeCanvas.height = c * n.tileSize;
+    L.bakeCanvas.height = c * ROTATE_GameConstants.tileSize;
     L.bakeSurface.reset();
     L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
     if (
@@ -3468,9 +3480,12 @@
     ) {
       L.gridCanvas = window.document.createElement('canvas');
       L.gridCanvas.width =
-        ROTATE_Editor.editorLevel.tiles[0].length * n.tileSize + 2;
+        ROTATE_Editor.editorLevel.tiles[0].length *
+          ROTATE_GameConstants.tileSize +
+        2;
       L.gridCanvas.height =
-        ROTATE_Editor.editorLevel.tiles.length * n.tileSize + 2;
+        ROTATE_Editor.editorLevel.tiles.length * ROTATE_GameConstants.tileSize +
+        2;
       L.gridCtx = L.gridCanvas.getContext('2d', null);
       L.gridSurface = new Surface(L.gridCtx);
       L.gridSurface.beginFill(2105376, 0.2);
@@ -3481,10 +3496,15 @@
           f < m;
 
         ) {
-          var k = f++ * n.tileSize,
-            p = e * n.tileSize;
-          L.gridSurface.drawRect(k, p, 2, n.tileSize);
-          L.gridSurface.drawRect(k + 2, p, n.tileSize - 2, 2);
+          var k = f++ * ROTATE_GameConstants.tileSize,
+            p = e * ROTATE_GameConstants.tileSize;
+          L.gridSurface.drawRect(k, p, 2, ROTATE_GameConstants.tileSize);
+          L.gridSurface.drawRect(
+            k + 2,
+            p,
+            ROTATE_GameConstants.tileSize - 2,
+            2,
+          );
         }
     }
     this.addEventListener('render', function (y) {
@@ -3496,7 +3516,12 @@
   L.prototype = D(ROTATE_CanvasObject.prototype, {
     render: function (a, b) {
       if (null != l.level) {
-        a.drawImage(L.bakeCanvas, null, -n.tileSize, -n.tileSize);
+        a.drawImage(
+          L.bakeCanvas,
+          null,
+          -ROTATE_GameConstants.tileSize,
+          -ROTATE_GameConstants.tileSize,
+        );
         var c = null;
         if (!l.rotating) {
           c = l.rotation;
@@ -3504,10 +3529,16 @@
             1 == c || 2 == c ? ROTATE_Canvas.width : 0,
             2 == c || 3 == c ? ROTATE_Canvas.height : 0,
           );
-          var d = Math.floor(c.x / n.tileSize),
-            e = Math.floor((c.x + ROTATE_Canvas.width - n.E) / n.tileSize),
-            f = Math.floor(c.y / n.tileSize),
-            m = Math.floor((c.y + ROTATE_Canvas.height - n.E) / n.tileSize);
+          var d = Math.floor(c.x / ROTATE_GameConstants.tileSize),
+            e = Math.floor(
+              (c.x + ROTATE_Canvas.width - ROTATE_GameConstants.E) /
+                ROTATE_GameConstants.tileSize,
+            ),
+            f = Math.floor(c.y / ROTATE_GameConstants.tileSize),
+            m = Math.floor(
+              (c.y + ROTATE_Canvas.height - ROTATE_GameConstants.E) /
+                ROTATE_GameConstants.tileSize,
+            );
           c = function (fa, ka) {
             return fa >= d && ka >= f && fa <= e ? ka <= m : !1;
           };
@@ -3532,9 +3563,15 @@
               }
             else y = c(p.x, p.y);
           y &&
-            (a.translate(p.x * n.tileSize, p.y * n.tileSize),
+            (a.translate(
+              p.x * ROTATE_GameConstants.tileSize,
+              p.y * ROTATE_GameConstants.tileSize,
+            ),
             p.get_block().render(a, p),
-            a.translate(-p.x * n.tileSize, -p.y * n.tileSize));
+            a.translate(
+              -p.x * ROTATE_GameConstants.tileSize,
+              -p.y * ROTATE_GameConstants.tileSize,
+            ));
         }
         this.showGrid &&
           null != L.gridCanvas &&
@@ -3556,7 +3593,7 @@
     },
     renderArrow: function (a, b, c, d) {
       null == d && (d = 0);
-      var e = n.tileSize;
+      var e = ROTATE_GameConstants.tileSize;
       a.translate((b + 0.5) * e, (c + 0.5) * e);
       a.rotate((-l.rotation * Math.PI) / 2);
       a.drawImage(
@@ -3602,13 +3639,13 @@
                 k.shouldRender(m) &&
                 !k.alwaysUpdate(m) &&
                 (L.bakeSurface.translate(
-                  (f + 1) * n.tileSize,
-                  (c + 1) * n.tileSize,
+                  (f + 1) * ROTATE_GameConstants.tileSize,
+                  (c + 1) * ROTATE_GameConstants.tileSize,
                 ),
                 k.render(L.bakeSurface, m),
                 L.bakeSurface.translate(
-                  -(f + 1) * n.tileSize,
-                  -(c + 1) * n.tileSize,
+                  -(f + 1) * ROTATE_GameConstants.tileSize,
+                  -(c + 1) * ROTATE_GameConstants.tileSize,
                 ));
       }
     },
@@ -3616,10 +3653,10 @@
       null == c && (c = !1);
       L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
       L.bakeSurface.clearRect(
-        a * n.tileSize,
-        b * n.tileSize,
-        3 * n.tileSize,
-        3 * n.tileSize,
+        a * ROTATE_GameConstants.tileSize,
+        b * ROTATE_GameConstants.tileSize,
+        3 * ROTATE_GameConstants.tileSize,
+        3 * ROTATE_GameConstants.tileSize,
       );
       for (var d = b - 1, e = b + 2; d < e; )
         for (var f = d++, m = a - 1, k = a + 2; m < k; ) {
@@ -3629,8 +3666,8 @@
               H = y.get_block();
             if (null != H) {
               L.bakeSurface.translate(
-                (p + 1) * n.tileSize,
-                (f + 1) * n.tileSize,
+                (p + 1) * ROTATE_GameConstants.tileSize,
+                (f + 1) * ROTATE_GameConstants.tileSize,
               );
               var K =
                 1 == l.level.theme
@@ -3639,10 +3676,10 @@
               L.bakeSurface.drawImage(
                 K,
                 new Bounds(
-                  ((p + 1) * n.tileSize) % K.width,
-                  ((f + 1) * n.tileSize) % K.height,
-                  n.tileSize,
-                  n.tileSize,
+                  ((p + 1) * ROTATE_GameConstants.tileSize) % K.width,
+                  ((f + 1) * ROTATE_GameConstants.tileSize) % K.height,
+                  ROTATE_GameConstants.tileSize,
+                  ROTATE_GameConstants.tileSize,
                 ),
                 0,
                 0,
@@ -3651,8 +3688,8 @@
                 !H.alwaysUpdate(y) &&
                 H.render(L.bakeSurface, y);
               L.bakeSurface.translate(
-                -(p + 1) * n.tileSize,
-                -(f + 1) * n.tileSize,
+                -(p + 1) * ROTATE_GameConstants.tileSize,
+                -(f + 1) * ROTATE_GameConstants.tileSize,
               );
             }
           }
@@ -3660,7 +3697,7 @@
       this.renderDecals();
     },
     renderDecals: function () {
-      var a = n.tileSize;
+      var a = ROTATE_GameConstants.tileSize;
       L.bakeSurface.drawImage(
         ROTATE_Images.blocks,
         new Bounds(a, 2 * a, a, 2 * a),
@@ -3685,8 +3722,8 @@
       return new Bounds(
         0,
         0,
-        l.get_width() * n.tileSize,
-        l.get_height() * n.tileSize,
+        l.get_width() * ROTATE_GameConstants.tileSize,
+        l.get_height() * ROTATE_GameConstants.tileSize,
       );
     },
     __class__: L,
@@ -3709,7 +3746,16 @@
       return !1;
     },
     getColliders: function (a) {
-      return [new La(new Bounds(0, 0, n.tileSize, n.tileSize))];
+      return [
+        new La(
+          new Bounds(
+            0,
+            0,
+            ROTATE_GameConstants.tileSize,
+            ROTATE_GameConstants.tileSize,
+          ),
+        ),
+      ];
     },
     onTrigger: function (a) {
       return !0;
@@ -3775,7 +3821,7 @@
       var d = b.getMeta(1);
       if (!(0 >= d)) {
         var e = b.getMeta(2),
-          f = n.tileSize;
+          f = ROTATE_GameConstants.tileSize;
         a.translate(f / 2, f / 2);
         a.rotate((e * Math.PI) / 2);
         a.translate(-f / 2, -f / 2);
@@ -3791,7 +3837,7 @@
               ((c = Math.min(
                 1,
                 (ROTATE_Game.instance.get_gameTime() - p.lastChanged) /
-                  n.doorSlideTime,
+                  ROTATE_GameConstants.doorSlideTime,
               )),
               (c = ROTATE_Game.smootherStep(c)),
               (c = m ? (1 - c) * k : c * k));
@@ -4023,7 +4069,7 @@
       return [this.angle];
     },
     renderRotated: function (a, b, c, d) {
-      var e = n.tileSize,
+      var e = ROTATE_GameConstants.tileSize,
         f = e / 2;
       a.translate(f, f);
       a.rotate((b.getMeta(0) * Math.PI) / 2);
@@ -4056,10 +4102,10 @@
       a.drawImage(
         ROTATE_Images.blocks,
         new Bounds(
-          ((0 < b && 3 > b ? 1 : 0) + 2 * c) * n.tileSize,
-          (5 + (1 < b ? 1 : 0)) * n.tileSize,
-          n.tileSize,
-          n.tileSize,
+          ((0 < b && 3 > b ? 1 : 0) + 2 * c) * ROTATE_GameConstants.tileSize,
+          (5 + (1 < b ? 1 : 0)) * ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
         ),
         0,
         0,
@@ -4077,7 +4123,12 @@
     render: function (a, b, c) {
       a.drawImage(
         ROTATE_Images.blocks,
-        new Bounds(0, 3 * n.tileSize, n.tileSize, n.tileSize),
+        new Bounds(
+          0,
+          3 * ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+        ),
         0,
         0,
       );
@@ -4152,10 +4203,10 @@
       return [
         new La(
           new Bounds(
-            0.15 * n.tileSize,
-            0.15 * n.tileSize,
-            0.7 * n.tileSize,
-            0.7 * n.tileSize,
+            0.15 * ROTATE_GameConstants.tileSize,
+            0.15 * ROTATE_GameConstants.tileSize,
+            0.7 * ROTATE_GameConstants.tileSize,
+            0.7 * ROTATE_GameConstants.tileSize,
           ),
         ),
       ];
@@ -4169,10 +4220,10 @@
       a.drawImage(
         ROTATE_Images.blocks,
         new Bounds(
-          (d ? 4 : 3) * n.tileSize,
-          2 * n.tileSize,
-          n.tileSize,
-          n.tileSize,
+          (d ? 4 : 3) * ROTATE_GameConstants.tileSize,
+          2 * ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
         ),
         0,
         0,
@@ -4267,8 +4318,8 @@
       f = e || m ? (m ? (e ? (f ? 0 : 1) : 2) : 3) : 4;
       y = p || b ? (b ? (p ? (y ? 0 : 1) : 2) : 3) : 4;
       m = p || m ? (m ? (p ? (k ? 0 : 1) : 2) : 3) : 4;
-      k = n.tileSize;
-      p = n.tileSize / 2;
+      k = ROTATE_GameConstants.tileSize;
+      p = ROTATE_GameConstants.tileSize / 2;
       a.drawImage(
         ROTATE_Images.blocks,
         new Bounds((e || b ? (b ? (e ? (d ? 0 : 1) : 2) : 3) : 4) * k, 0, p, p),
@@ -4307,7 +4358,12 @@
         ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
         : a.drawImage(
             ROTATE_Images.blocks,
-            new Bounds(0, 0, n.tileSize, n.tileSize),
+            new Bounds(
+              0,
+              0,
+              ROTATE_GameConstants.tileSize,
+              ROTATE_GameConstants.tileSize,
+            ),
             0,
             0,
             !1,
@@ -4316,7 +4372,12 @@
       0 > b
         ? (a.drawImage(
             ROTATE_Images.blocks,
-            new Bounds(100, 4 * n.tileSize, 10, n.tileSize),
+            new Bounds(
+              100,
+              4 * ROTATE_GameConstants.tileSize,
+              10,
+              ROTATE_GameConstants.tileSize,
+            ),
             14,
             0,
             !1,
@@ -4324,7 +4385,12 @@
           -1 == b &&
             a.drawImage(
               ROTATE_Images.blocks,
-              new Bounds(110, 4 * n.tileSize, 10, n.tileSize),
+              new Bounds(
+                110,
+                4 * ROTATE_GameConstants.tileSize,
+                10,
+                ROTATE_GameConstants.tileSize,
+              ),
               0,
               0,
               !1,
@@ -4332,14 +4398,24 @@
           -2 == b &&
             a.drawImage(
               ROTATE_Images.blocks,
-              new Bounds(120, 4 * n.tileSize, 10, n.tileSize),
+              new Bounds(
+                120,
+                4 * ROTATE_GameConstants.tileSize,
+                10,
+                ROTATE_GameConstants.tileSize,
+              ),
               0,
               0,
               !1,
             ))
         : (a.drawImage(
             ROTATE_Images.blocks,
-            new Bounds((b % 10) * 10, 4 * n.tileSize, 10, n.tileSize),
+            new Bounds(
+              (b % 10) * 10,
+              4 * ROTATE_GameConstants.tileSize,
+              10,
+              ROTATE_GameConstants.tileSize,
+            ),
             14,
             0,
             !1,
@@ -4348,9 +4424,9 @@
             ROTATE_Images.blocks,
             new Bounds(
               10 * Math.min(Math.floor(0.1 * b), 9),
-              4 * n.tileSize,
+              4 * ROTATE_GameConstants.tileSize,
               10,
-              n.tileSize,
+              ROTATE_GameConstants.tileSize,
             ),
             0,
             0,
@@ -4400,7 +4476,7 @@
   ROTATE_GameObject_Platform.__super__ = da;
   ROTATE_GameObject_Platform.prototype = D(da.prototype, {
     render: function (a, b, c) {
-      this.renderRotated(a, b, 7 * n.tileSize, 0);
+      this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
     },
     getColliders: function (a) {
       return [new jb(a.getMeta(0))];
@@ -4415,7 +4491,7 @@
   ROTATE_GameObject_Ramp.__super__ = da;
   ROTATE_GameObject_Ramp.prototype = D(da.prototype, {
     render: function (a, b, c) {
-      this.renderRotated(a, b, 6 * n.tileSize, 0);
+      this.renderRotated(a, b, 6 * ROTATE_GameConstants.tileSize, 0);
     },
     getColliders: function (a) {
       return [new Wa(a.getMeta(0))];
@@ -4438,8 +4514,15 @@
       c =
         !c || E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor)
           ? 0
-          : Math.floor(d - (d < n.E ? 0 : n.E)) % 3;
-      this.renderRotated(a, b, (4 + c) * n.tileSize, n.tileSize);
+          : Math.floor(
+              d - (d < ROTATE_GameConstants.E ? 0 : ROTATE_GameConstants.E),
+            ) % 3;
+      this.renderRotated(
+        a,
+        b,
+        (4 + c) * ROTATE_GameConstants.tileSize,
+        ROTATE_GameConstants.tileSize,
+      );
     },
     getColliders: function (a) {
       return [new kb(a.getMeta(0))];
@@ -4468,12 +4551,12 @@
       this.renderRotated(
         a,
         b,
-        (c ? Math.floor((b.x + b.y) % 4) : 0) * n.tileSize,
-        n.tileSize,
+        (c ? Math.floor((b.x + b.y) % 4) : 0) * ROTATE_GameConstants.tileSize,
+        ROTATE_GameConstants.tileSize,
       );
     },
     getColliders: function (a) {
-      var b = n.tileSize;
+      var b = ROTATE_GameConstants.tileSize;
       var c = b / 2,
         d = 0.5 * b,
         e = (b - d) / 2;
@@ -4500,14 +4583,14 @@
   ROTATE_GameObject_Stairs.__super__ = ROTATE_GameObject_Ramp;
   ROTATE_GameObject_Stairs.prototype = D(ROTATE_GameObject_Ramp.prototype, {
     render: function (a, b, c) {
-      c = n.tileSize;
+      c = ROTATE_GameConstants.tileSize;
       var d = c / 2;
       a.translate(d, d);
       1 < b.getMeta(0) && a.rotate(Math.PI);
       (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
       a.drawImage(
         ROTATE_Images.blocks,
-        new Bounds(5 * n.tileSize, 0, c, c),
+        new Bounds(5 * ROTATE_GameConstants.tileSize, 0, c, c),
         -d,
         -d,
       );
@@ -4526,7 +4609,12 @@
     render: function (a, b, c) {
       a.drawImage(
         ROTATE_Images.blocks,
-        new Bounds(0, 2 * n.tileSize, n.tileSize, n.tileSize),
+        new Bounds(
+          0,
+          2 * ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+        ),
         0,
         0,
       );
@@ -4549,14 +4637,24 @@
         ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
         : a.drawImage(
             ROTATE_Images.blocks,
-            new Bounds(0, 0, n.tileSize, n.tileSize),
+            new Bounds(
+              0,
+              0,
+              ROTATE_GameConstants.tileSize,
+              ROTATE_GameConstants.tileSize,
+            ),
             0,
             0,
             !1,
           );
       a.drawImage(
         ROTATE_Images.blocks,
-        new Bounds(5 * n.tileSize, 2 * n.tileSize, n.tileSize, n.tileSize),
+        new Bounds(
+          5 * ROTATE_GameConstants.tileSize,
+          2 * ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+        ),
         0,
         0,
         !1,
@@ -4645,13 +4743,16 @@
         }
     },
     collsionHandler: function (a) {
-      var b = Math.floor(a.x / n.tileSize),
-        c = Math.floor(a.y / n.tileSize);
+      var b = Math.floor(a.x / ROTATE_GameConstants.tileSize),
+        c = Math.floor(a.y / ROTATE_GameConstants.tileSize);
       if (l.isInBounds(b, c)) {
         var d = l.getBlockData(b, c),
           e = d.get_block();
         if (e.collides(d) && !e.isTrigger(d)) {
-          var f = new Q(a.x - b * n.tileSize, a.y - c * n.tileSize);
+          var f = new Q(
+            a.x - b * ROTATE_GameConstants.tileSize,
+            a.y - c * ROTATE_GameConstants.tileSize,
+          );
           d = e.getColliders(d);
           for (e = 0; e < d.length; ) {
             var m = d[e];
@@ -4659,7 +4760,10 @@
             if (
               m.testPoint(
                 f,
-                new Q(a.lastX - b * n.tileSize, a.lastY - c * n.tileSize),
+                new Q(
+                  a.lastX - b * ROTATE_GameConstants.tileSize,
+                  a.lastY - c * ROTATE_GameConstants.tileSize,
+                ),
               )
             ) {
               a.freeze = !0;
@@ -5065,32 +5169,32 @@
       this.s1 = !0;
       this.s2 = this.s3 = this.s4 = this.s5 = !1;
       null == this.c1 && (this.c1 = new I(ROTATE_Images.controls1));
-      this.c1.set_x(3.5 * n.tileSize);
-      this.c1.set_y(9 * n.tileSize);
+      this.c1.set_x(3.5 * ROTATE_GameConstants.tileSize);
+      this.c1.set_y(9 * ROTATE_GameConstants.tileSize);
       this.c1.set_alpha(this.a1);
       a.overlay.addChild(this.c1);
       null == this.c2 && (this.c2 = new I(ROTATE_Images.controls2));
-      this.c2.set_x(10 * n.tileSize);
-      this.c2.set_y(11 * n.tileSize);
+      this.c2.set_x(10 * ROTATE_GameConstants.tileSize);
+      this.c2.set_y(11 * ROTATE_GameConstants.tileSize);
       this.c2.set_alpha(this.a2);
       a.overlay.addChild(this.c2);
       null == this.c3 && (this.c3 = new I(ROTATE_Images.controls3));
-      this.c3.set_x(18.5 * n.tileSize);
-      this.c3.set_y(9 * n.tileSize);
+      this.c3.set_x(18.5 * ROTATE_GameConstants.tileSize);
+      this.c3.set_y(9 * ROTATE_GameConstants.tileSize);
       this.c3.set_alpha(this.a3);
       this.c3.clipRect.width = 48;
       ROTATE_Game.instance.invert && (this.c3.clipRect.x = 48);
       a.overlay.addChild(this.c3);
       null == this.c4 && (this.c4 = new I(ROTATE_Images.controls4));
-      this.c4.set_x(29 * n.tileSize);
-      this.c4.set_y(n.tileSize);
+      this.c4.set_x(29 * ROTATE_GameConstants.tileSize);
+      this.c4.set_y(ROTATE_GameConstants.tileSize);
       this.c4.set_alpha(this.a4);
       this.c4.clipRect.width = 48;
       ROTATE_Game.instance.invert && (this.c4.clipRect.x = 48);
       a.overlay.addChild(this.c4);
       null == this.c5 && (this.c5 = new I(ROTATE_Images.controls5));
-      this.c5.set_x(24.5 * n.tileSize);
-      this.c5.set_y(5 * n.tileSize);
+      this.c5.set_x(24.5 * ROTATE_GameConstants.tileSize);
+      this.c5.set_y(5 * ROTATE_GameConstants.tileSize);
       this.c5.set_alpha(this.a5);
       a.overlay.addChild(this.c5);
       this.speech = new U([new C(new M(1), 'Make your way to the exit.')]);
@@ -5130,18 +5234,18 @@
     },
     update: function () {
       this.speech.update();
-      this.s1 && w.i.player.x > 10 * n.tileSize
+      this.s1 && w.i.player.x > 10 * ROTATE_GameConstants.tileSize
         ? ((this.s1 = !1), (this.s2 = !0))
-        : this.s2 && w.i.player.x > 17 * n.tileSize
+        : this.s2 && w.i.player.x > 17 * ROTATE_GameConstants.tileSize
           ? ((this.s2 = !1), (this.s3 = !0))
           : this.s3 &&
-              w.i.player.x > 27 * n.tileSize &&
+              w.i.player.x > 27 * ROTATE_GameConstants.tileSize &&
               w.i.player.grounded &&
               !l.rotating &&
               1 == l.rotation
             ? ((this.s3 = !1), (this.s4 = !0))
             : this.s4 &&
-              w.i.player.x > 22 * n.tileSize &&
+              w.i.player.x > 22 * ROTATE_GameConstants.tileSize &&
               w.i.player.grounded &&
               !l.rotating &&
               0 == l.rotation &&
@@ -16727,8 +16831,8 @@
       this.a1 = 0;
       this.s1 = this.s2 = !1;
       null == this.c1 && (this.c1 = new I(ROTATE_Images.controls5));
-      this.c1.set_x(28.5 * n.tileSize);
-      this.c1.set_y(28 * n.tileSize);
+      this.c1.set_x(28.5 * ROTATE_GameConstants.tileSize);
+      this.c1.set_y(28 * ROTATE_GameConstants.tileSize);
       this.c1.set_alpha(this.a1);
       a.overlay.addChild(this.c1);
       this.speech = new U([
@@ -16756,8 +16860,8 @@
         ? ROTATE_Game.instance.currentScreen.getChannelStatus(0) ||
           ((this.s1 = !1), (this.s2 = !0))
         : !this.s2 &&
-          w.i.player.x >= 28 * n.tileSize &&
-          w.i.player.y >= 24 * n.tileSize &&
+          w.i.player.x >= 28 * ROTATE_GameConstants.tileSize &&
+          w.i.player.y >= 24 * ROTATE_GameConstants.tileSize &&
           (this.s1 = !0);
     },
     finished: function () {
@@ -17954,7 +18058,12 @@
     __class__: kb,
   };
   var jb = function (a) {
-    this.bounds = new Bounds(0, 0, n.tileSize, n.tileSize);
+    this.bounds = new Bounds(
+      0,
+      0,
+      ROTATE_GameConstants.tileSize,
+      ROTATE_GameConstants.tileSize,
+    );
     this.dir = a;
   };
   jb.__name__ = !0;
@@ -18009,12 +18118,15 @@
       return (this.dir = 0 > a || 3 < a ? 0 : a);
     },
     testPoint: function (a, b) {
-      return (0 == this.dir && a.x + a.y > n.tileSize) ||
-        (1 == this.dir && n.tileSize - a.x + a.y > n.tileSize) ||
-        (2 == this.dir && a.x + a.y < n.tileSize)
+      return (0 == this.dir && a.x + a.y > ROTATE_GameConstants.tileSize) ||
+        (1 == this.dir &&
+          ROTATE_GameConstants.tileSize - a.x + a.y >
+            ROTATE_GameConstants.tileSize) ||
+        (2 == this.dir && a.x + a.y < ROTATE_GameConstants.tileSize)
         ? !0
         : 3 == this.dir
-          ? n.tileSize - a.x + a.y < n.tileSize
+          ? ROTATE_GameConstants.tileSize - a.x + a.y <
+            ROTATE_GameConstants.tileSize
           : !1;
     },
     __class__: Wa,
@@ -18050,10 +18162,10 @@
   var ia = function (a, b, c, d, e) {
     null == e && (e = -1);
     this.bounds = new Bounds(
-      a * n.tileSize,
-      b * n.tileSize,
-      c * n.tileSize,
-      d * n.tileSize,
+      a * ROTATE_GameConstants.tileSize,
+      b * ROTATE_GameConstants.tileSize,
+      c * ROTATE_GameConstants.tileSize,
+      d * ROTATE_GameConstants.tileSize,
     );
     this.rotation = e;
   };
@@ -18089,10 +18201,10 @@
     this.hit = !1;
     this.delay = a;
     this.bounds = new Bounds(
-      b * n.tileSize,
-      c * n.tileSize,
-      d * n.tileSize,
-      e * n.tileSize,
+      b * ROTATE_GameConstants.tileSize,
+      c * ROTATE_GameConstants.tileSize,
+      d * ROTATE_GameConstants.tileSize,
+      e * ROTATE_GameConstants.tileSize,
     );
     this.rotation = f;
   };
@@ -18329,7 +18441,7 @@
       if (this.rotating) {
         var a = Math.min(
             (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
-              n.rotateTime,
+              ROTATE_GameConstants.rotateTime,
             1,
           ),
           b = ROTATE_Game.smootherStep(a);
@@ -18483,7 +18595,7 @@
               : (ROTATE_Audio.surface.fade(
                   1,
                   0,
-                  Math.round(n.screenFadeTime / 2),
+                  Math.round(ROTATE_GameConstants.screenFadeTime / 2),
                 ),
                 ROTATE_Audio.surface.once('fade', function () {
                   ROTATE_Audio.surface.stop();
@@ -18531,7 +18643,7 @@
       if (l.rotating) {
         var b = Math.min(
             (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
-              n.rotateTime,
+              ROTATE_GameConstants.rotateTime,
             1,
           ),
           c = ROTATE_Game.smootherStep(b);
@@ -18587,7 +18699,12 @@
   };
   ROTATE_Editor.renderBlockRed = function (a, b, c) {
     a.beginFill(10428448, 0.4);
-    a.drawRect(b, c, n.tileSize, n.tileSize);
+    a.drawRect(
+      b,
+      c,
+      ROTATE_GameConstants.tileSize,
+      ROTATE_GameConstants.tileSize,
+    );
     a.endFill();
   };
   ROTATE_Editor.__super__ = qa;
@@ -18604,8 +18721,8 @@
             this.doors.push(new Va(m));
         }
       qa.prototype.init.call(this);
-      this.cameraX = -(l.level.startCol + 0.5) * n.tileSize;
-      this.cameraY = -(l.level.startRow - 0.5) * n.tileSize;
+      this.cameraX = -(l.level.startCol + 0.5) * ROTATE_GameConstants.tileSize;
+      this.cameraY = -(l.level.startRow - 0.5) * ROTATE_GameConstants.tileSize;
       this.mouseEnabled = !0;
       this.addEventListener('mouseDown', function (k) {
         2 > k.which && k.target == a && (a.drawing = !0);
@@ -18765,8 +18882,8 @@
         ) {
           if (null == l.level) return;
           b = this.renderer.globalToLocal(b, c);
-          var d = Math.floor(b.x / n.tileSize),
-            e = Math.floor(b.y / n.tileSize);
+          var d = Math.floor(b.x / ROTATE_GameConstants.tileSize),
+            e = Math.floor(b.y / ROTATE_GameConstants.tileSize);
           if (l.isInBounds(d, e)) {
             var f = [];
             b = null;
@@ -19080,24 +19197,27 @@
       this.addChild(this.pivot);
       this.pivot.addChild(this.camera);
       this.camera.addChild(this.artMain);
-      this.artPlants.set_y(11 * n.tileSize);
+      this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
       this.artPlants.set_animation(new sa([0, 1, 2], [250, 250, 250]));
       this.camera.addChild(this.artPlants);
-      this.cat.x2 = this.cat.set_x(17.5 * n.tileSize);
-      this.cat.set_y(12 * n.tileSize);
+      this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
+      this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
       this.cat.set_scaleX(-1);
       this.cat.set_animation(S.ANIM_IDLE);
       this.camera.addChild(this.cat);
       this.player.origin.x = this.player.frameW / 2;
       this.player.origin.y = this.player.frameH;
       this.player.set_animation(J.ANIM_IDLE);
-      this.player.set_x(10.5 * n.tileSize);
-      this.player.set_y(12 * n.tileSize);
+      this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
+      this.player.set_y(12 * ROTATE_GameConstants.tileSize);
       this.camera.addChild(this.player);
       this.camera.set_x(Math.round((this.cameraX = -this.player.x)));
       this.camera.set_y(
         Math.round(
-          (this.cameraY = -this.player.y + n.rotateOffset + 2 * n.tileSize),
+          (this.cameraY =
+            -this.player.y +
+            ROTATE_GameConstants.rotateOffset +
+            2 * ROTATE_GameConstants.tileSize),
         ),
       );
       this.vignette.set_alpha(0.75);
@@ -19118,7 +19238,7 @@
             ROTATE_Audio.surface.fade(
               0,
               1,
-              Math.round(n.screenFadeTimeSlow / 2),
+              Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
             ));
     },
     update: function () {
@@ -19149,9 +19269,10 @@
         ROTATE_Game.instance.timerHolder.removeChildren());
     },
     tick: function () {
-      var a = 0.75 * n.cameraSpeed;
+      var a = 0.75 * ROTATE_GameConstants.cameraSpeed;
       this.cameraX += (-this.player.x - this.cameraX) * a;
-      this.cameraY += (-this.player.y + n.rotateOffset - this.cameraY) * a;
+      this.cameraY +=
+        (-this.player.y + ROTATE_GameConstants.rotateOffset - this.cameraY) * a;
       this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
     },
     postUpdate: function () {
@@ -19352,7 +19473,11 @@
   ca.stopTheme = function () {
     ROTATE_Game.ie
       ? (ROTATE_Audio.themeMenu.stop(), (ROTATE_Game.instance.ieMenu = !1))
-      : (ROTATE_Audio.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
+      : (ROTATE_Audio.themeMenu.fade(
+          1,
+          0,
+          Math.floor(ROTATE_GameConstants.screenFadeTime / 2),
+        ),
         ROTATE_Audio.themeMenu.once('fade', function () {
           ROTATE_Audio.themeMenu.stop();
           ROTATE_Audio.themeMenu.volume(1);
@@ -19463,7 +19588,11 @@
       if (ROTATE_Game.ie) b || a.stop();
       else {
         var c = a.volume();
-        a.fade(c, 0, Math.floor(n.screenFadeTime / 2) + (b ? 1e4 : 0));
+        a.fade(
+          c,
+          0,
+          Math.floor(ROTATE_GameConstants.screenFadeTime / 2) + (b ? 1e4 : 0),
+        );
         a.once('fade', function () {
           w.canceled || (a.stop(), a.volume(1));
         });
@@ -19500,17 +19629,19 @@
       this.player = new J();
       this.player.set_x(
         (this.player.x2 = this.player.lastX =
-          (l.level.startCol + 0.5) * n.tileSize),
+          (l.level.startCol + 0.5) * ROTATE_GameConstants.tileSize),
       );
       this.player.set_y(
         (this.player.y2 = this.player.lastY =
-          (l.level.startRow + 1) * n.tileSize),
+          (l.level.startRow + 1) * ROTATE_GameConstants.tileSize),
       );
       this.player.set_scaleX(0 > l.level.startDir ? -1 : 1);
       this.level.addChild(this.player);
       a = this.findCameraGoal();
       this.camera.set_x(Math.round((this.cameraX = a.x)));
-      this.camera.set_y(Math.round((this.cameraY = a.y + 2 * n.tileSize)));
+      this.camera.set_y(
+        Math.round((this.cameraY = a.y + 2 * ROTATE_GameConstants.tileSize)),
+      );
       this.level.addChild(this.blood);
       this.level.addChild(this.overlay);
       this.vignette.set_alpha(0.75);
@@ -19613,7 +19744,7 @@
             ((this.speedrunFinal =
               ROTATE_Game.instance.get_gameTimeMS() -
               this.speedrunStart +
-              n.screenFadeTime / 2),
+              ROTATE_GameConstants.screenFadeTime / 2),
             0 > ROTATE_Levels.speedrunBest ||
               this.speedrunFinal < ROTATE_Levels.speedrunBest)
           )
@@ -19653,8 +19784,8 @@
       l.level.tick();
       null != this.cat && this.cat.tick();
       var a = this.findCameraGoal();
-      this.cameraX += (a.x - this.cameraX) * n.cameraSpeed;
-      this.cameraY += (a.y - this.cameraY) * n.cameraSpeed;
+      this.cameraX += (a.x - this.cameraX) * ROTATE_GameConstants.cameraSpeed;
+      this.cameraY += (a.y - this.cameraY) * ROTATE_GameConstants.cameraSpeed;
     },
     postUpdate: function () {
       this.player.postUpdate();
@@ -19667,7 +19798,7 @@
       var a = this.player.localToGlobal(0, 0);
       a = this.camera.globalToLocal(
         a.x,
-        a.y - (l.rotating ? 0 : n.rotateOffset),
+        a.y - (l.rotating ? 0 : ROTATE_GameConstants.rotateOffset),
       );
       a.x *= -1;
       a.y *= -1;
@@ -19688,8 +19819,8 @@
     },
     catAppear: function (a, b, c) {
       this.cat = new S();
-      this.cat.set_x((this.cat.x2 = (a + 0.5) * n.tileSize));
-      this.cat.set_y((b + 1) * n.tileSize);
+      this.cat.set_x((this.cat.x2 = (a + 0.5) * ROTATE_GameConstants.tileSize));
+      this.cat.set_y((b + 1) * ROTATE_GameConstants.tileSize);
       this.cat.set_scaleX(c);
       this.cat.set_animation(S.ANIM_IDLE);
       this.level.addChild(this.cat);
@@ -20081,7 +20212,12 @@
             -ROTATE_ActiveGameObject.size2,
             -ROTATE_ActiveGameObject.size2,
           ));
-        a.drawRect(0, 0, n.tileSize, n.tileSize);
+        a.drawRect(
+          0,
+          0,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+        );
         e.render(a, new wb(0, 0, e.id, e.getConfigMeta()), !1);
         e.rotatePreview() &&
           (a.translate(
@@ -20105,8 +20241,9 @@
       return new Bounds(
         0,
         0,
-        ROTATE_ActiveGameObject.list.length * (n.tileSize + 4),
-        n.tileSize + 4,
+        ROTATE_ActiveGameObject.list.length *
+          (ROTATE_GameConstants.tileSize + 4),
+        ROTATE_GameConstants.tileSize + 4,
       );
     },
     __class__: ROTATE_ActiveGameObject,
@@ -20793,16 +20930,17 @@
   za.BYTES = ya.ofString(za.CHARS);
   E.__toStr = {}.toString;
   Ia.BYTES_PER_ELEMENT = 1;
-  n.E = 1e-8;
-  n.screenFadeTime = 700;
-  n.screenFadeTimeSlow = 1600;
-  n.tileSize = 24;
-  n.tickMS = 16.666666666666668;
-  n.ticksMax = 12;
-  n.cameraSpeed = 0.075;
-  n.rotateTime = 0.5;
-  n.rotateOffset = 1.5 * n.tileSize;
-  n.doorSlideTime = 0.2;
+
+  ROTATE_GameConstants.E = 1e-8;
+  ROTATE_GameConstants.screenFadeTime = 700;
+  ROTATE_GameConstants.screenFadeTimeSlow = 1600;
+  ROTATE_GameConstants.tileSize = 24;
+  ROTATE_GameConstants.tickMS = 16.666666666666668;
+  ROTATE_GameConstants.ticksMax = 12;
+  ROTATE_GameConstants.cameraSpeed = 0.075;
+  ROTATE_GameConstants.rotateTime = 0.5;
+  ROTATE_GameConstants.rotateOffset = 1.5 * ROTATE_GameConstants.tileSize;
+  ROTATE_GameConstants.doorSlideTime = 0.2;
 
   ROTATE_Images.start = ROTATE_Manager.loadImage('img/start.png');
   ROTATE_Images.splashLWS = ROTATE_Manager.loadImage('img/splash-lws.png');
@@ -21143,8 +21281,8 @@
   ROTATE_Text.Y_ALIGN_MIDDLE = 1;
   ROTATE_Text.Y_ALIGN_BOTTOM = 2;
 
-  ROTATE_ActiveGameObject.size2 = n.tileSize / 2;
-  ROTATE_ActiveGameObject.size4 = n.tileSize + 4;
+  ROTATE_ActiveGameObject.size2 = ROTATE_GameConstants.tileSize / 2;
+  ROTATE_ActiveGameObject.size4 = ROTATE_GameConstants.tileSize + 4;
   ROTATE_ActiveGameObject.list = [
     ROTATE_GameObjects.air,
     ROTATE_GameObjects.solid,
