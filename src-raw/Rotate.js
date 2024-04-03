@@ -4412,12 +4412,13 @@
     },
     __class__: Db,
   });
-  var Eb = function () {
+
+  var ROTATE_GameObject_Spikes = function () {
     da.call(this);
   };
-  Eb.__name__ = !0;
-  Eb.__super__ = da;
-  Eb.prototype = D(da.prototype, {
+  ROTATE_GameObject_Spikes.__name__ = !0;
+  ROTATE_GameObject_Spikes.__super__ = da;
+  ROTATE_GameObject_Spikes.prototype = D(da.prototype, {
     isTrigger: function (a) {
       return !0;
     },
@@ -4448,8 +4449,9 @@
       w.i.killPlayer();
       return !1;
     },
-    __class__: Eb,
+    __class__: ROTATE_GameObject_Spikes,
   });
+
   var ROTATE_GameObject_Stairs = function () {
     da.call(this);
   };
@@ -20910,7 +20912,10 @@
     4,
     new ROTATE_GameObject_Platform(),
   );
-  ROTATE_GameObjects.spikes = ROTATE_GameObjects.register(5, new Eb());
+  ROTATE_GameObjects.spikes = ROTATE_GameObjects.register(
+    5,
+    new ROTATE_GameObject_Spikes(),
+  );
   ROTATE_GameObjects.saw = ROTATE_GameObjects.register(6, new Db());
   ROTATE_GameObjects.lever = ROTATE_GameObjects.register(8, new Za());
   ROTATE_GameObjects.door = ROTATE_GameObjects.register(9, new yb());
