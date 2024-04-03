@@ -889,18 +889,19 @@
   ROTATE_ManagerEvent.prototype = D(ROTATE_Event.prototype, {
     __class__: ROTATE_ManagerEvent,
   });
-  var Ha = function (a, b, c, d, e) {
-    null == e && (e = 0);
-    this.type = a;
-    this.target = b;
-    this.x = c;
-    this.y = d;
-    this.which = e;
+
+  var ROTATE_MouseEvent = function (type, target, x, y, which) {
+    null == which && (which = 0);
+    this.type = type;
+    this.target = target;
+    this.x = x;
+    this.y = y;
+    this.which = which;
   };
-  Ha.__name__ = !0;
-  Ha.__super__ = ROTATE_Event;
-  Ha.prototype = D(ROTATE_Event.prototype, {
-    __class__: Ha,
+  ROTATE_MouseEvent.__name__ = !0;
+  ROTATE_MouseEvent.__super__ = ROTATE_Event;
+  ROTATE_MouseEvent.prototype = D(ROTATE_Event.prototype, {
+    __class__: ROTATE_MouseEvent,
   });
 
   var ROTATE_RenderEvent = function (type, surface) {
@@ -1126,7 +1127,7 @@
     },
     makeMouseEvent: function (a, b) {
       null == b && (b = 0);
-      return new Ha(a, null, this.mouseX, this.mouseY, b);
+      return new ROTATE_MouseEvent(a, null, this.mouseX, this.mouseY, b);
     },
     onKeyDown: function (a) {
       if (this.isFocused) {
@@ -21272,10 +21273,11 @@
   ROTATE_ManagerEvent.FINISHED = 'finished';
   ROTATE_ManagerEvent.PROGRESS = 'progress';
 
-  Ha.CLICK = 'click';
-  Ha.MOUSE_DOWN = 'mouseDown';
-  Ha.MOUSE_UP = 'mouseUp';
-  Ha.MOVE = 'move';
+  ROTATE_MouseEvent.CLICK = 'click';
+  ROTATE_MouseEvent.MOUSE_DOWN = 'mouseDown';
+  ROTATE_MouseEvent.MOUSE_UP = 'mouseUp';
+  ROTATE_MouseEvent.MOVE = 'move';
+
   ROTATE_RenderEvent.RENDER = 'render';
 
   InputKeys.inited = !1;
