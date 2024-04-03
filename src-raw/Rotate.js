@@ -12985,7 +12985,7 @@
     },
     finished: function () {
       ROTATE_Game.instance.changeScreen(
-        new bb(
+        new ROTATE_ScreenGameFinished(
           JSObjectUtils.__cast(
             ROTATE_Game.instance.currentScreen,
             ROTATE_ScreenPrimaryGame,
@@ -19525,17 +19525,17 @@
     __class__: ROTATE_ScreenEditor,
   });
 
-  var bb = function (a) {
-    null == a && (a = !1);
+  var ROTATE_ScreenGameFinished = function (speedrun) {
+    null == speedrun && (speedrun = !1);
     this.done1 = this.first = !1;
     this.cond1 = new ROTATE_SpeechDelay(10);
     P.call(this);
     this.pausable = !0;
-    this.speedrun = a;
+    this.speedrun = speedrun;
   };
-  bb.__name__ = !0;
-  bb.__super__ = P;
-  bb.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenGameFinished.__name__ = !0;
+  ROTATE_ScreenGameFinished.__super__ = P;
+  ROTATE_ScreenGameFinished.prototype = __inherit(P.prototype, {
     init: function () {
       ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
       this.cond1.start();
@@ -19577,7 +19577,7 @@
       ROTATE_Audio.themeGame2.volume(1);
       ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !1);
     },
-    __class__: bb,
+    __class__: ROTATE_ScreenGameFinished,
   });
 
   var ob = function (a) {
@@ -20039,7 +20039,11 @@
         JSObjectUtils.__instanceof(
           ROTATE_Game.instance.currentScreen,
           ROTATE_ScreenPrimaryGame,
-        ) && JSObjectUtils.__instanceof(ROTATE_Game.instance.targetScreen, bb);
+        ) &&
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.targetScreen,
+          ROTATE_ScreenGameFinished,
+        );
       if (ROTATE_Game.ie) b || a.stop();
       else {
         var c = a.volume();
@@ -21362,8 +21366,10 @@
       this.btnRedo.set_alpha(a ? 1 : 0.25);
       this.btnRedo.main.mouseEnabled = a;
       a =
-        JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, bb) ||
-        JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, ob);
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_ScreenGameFinished,
+        ) || JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, ob);
       this.btnQuit.set_alpha(a ? 0.25 : 1);
       this.btnQuit.main.mouseEnabled = !a;
     },
