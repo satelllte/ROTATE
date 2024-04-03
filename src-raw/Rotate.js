@@ -104,7 +104,7 @@
     }
     return a;
   };
-  Canvas.start = function (a, width, height, background, e, f) {
+  Canvas.start = function (container, width, height, background, e, f) {
     Canvas.started ||
       1 > width ||
       1 > height ||
@@ -117,15 +117,14 @@
       window.setTimeout(function () {
         window.focus();
       }, 0),
-      Canvas.setup(a),
+      Canvas.setup(container),
       f.triggerEvent(new Y('added')),
       t._init(),
       Canvas.loop(),
       (Canvas.started = !0));
   };
-  Canvas.setup = function (a) {
-    null == a && (a = window.document.body);
-    Canvas.parent = a;
+  Canvas.setup = function (container) {
+    Canvas.parent = container;
     var b = window.document.body;
     b.style.margin = '0';
     b.style.overflow = 'hidden';
@@ -136,7 +135,7 @@
     Canvas.c.style.left = Canvas.c.style.top = '0';
     Canvas.c.style.transform = 'translateZ(0px)';
     Canvas.c.style.cursor = 'default';
-    a.appendChild(Canvas.c);
+    container.appendChild(Canvas.c);
     Canvas.ctx = Canvas.c.getContext('2d', {
       alpha: Canvas.transparent,
     });
@@ -1981,7 +1980,7 @@
     g.i = new g();
     g.i.addEventListener('added', ((Ja = g.i), T(Ja, Ja.init)));
     Canvas.start(
-      (g.element = window.document.getElementById('game')),
+      document.getElementById('game'),
       504 /* width */,
       504 /* height */,
       0x202020 /* background */,
