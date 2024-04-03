@@ -18756,7 +18756,7 @@
   ib.__super__ = P;
   ib.prototype = __inherit(P.prototype, {
     init: function () {
-      ca.playTheme();
+      ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
       this.pivot.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.pivot.set_y(Math.round(ROTATE_Canvas.height / 2));
@@ -18894,7 +18894,9 @@
         b.set_alpha(0.75);
         this.bg.addChild(b);
         this.btnBack.text.set_text('MENU');
-      } else ca.playTheme(), (this.bg = new ROTATE_BackgroundObject());
+      } else
+        ROTATE_ScreenMainMenu.playTheme(),
+          (this.bg = new ROTATE_BackgroundObject());
       this.addChild(this.bg);
       this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.text1.set_y(80);
@@ -18972,7 +18974,7 @@
                 }))),
           ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
           ROTATE_Game.instance.changeScreen(
-            a.fromEnd ? new ROTATE_ScreenExtras() : new ca(),
+            a.fromEnd ? new ROTATE_ScreenExtras() : new ROTATE_ScreenMainMenu(),
           ));
       });
       this.addChild(this.btnBack);
@@ -19722,7 +19724,7 @@
   ROTATE_ScreenExtras.__super__ = P;
   ROTATE_ScreenExtras.prototype = __inherit(P.prototype, {
     init: function () {
-      ca.playTheme();
+      ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
       this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
@@ -19741,7 +19743,7 @@
       this.btn2.set_y(this.btn1.y + 92);
       this.btn2.addEventListener('click', function (b) {
         2 > b.which &&
-          (ca.stopTheme(),
+          (ROTATE_ScreenMainMenu.stopTheme(),
           ROTATE_Game.instance.changeScreen(new ROTATE_Editor()));
       });
       this.addChild(this.btn2);
@@ -19752,7 +19754,8 @@
       this.btn3.set_y(this.btn2.y + 92);
       this.btn3.addEventListener('click', function (b) {
         2 > b.which &&
-          (ca.stopTheme(), ROTATE_Game.instance.changeScreen(new Qa(!0)));
+          (ROTATE_ScreenMainMenu.stopTheme(),
+          ROTATE_Game.instance.changeScreen(new Qa(!0)));
       });
       this.addChild(this.btn3);
       this.text3.set_x(this.text2.x);
@@ -19773,7 +19776,8 @@
       this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.btnBack.set_y(ROTATE_Canvas.height - 80);
       this.btnBack.addEventListener('click', function (b) {
-        2 > b.which && ROTATE_Game.instance.changeScreen(new ca());
+        2 > b.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
       });
       this.addChild(this.btnBack);
       this.addChild(this.sponsor);
@@ -19798,7 +19802,7 @@
   ROTATE_ScreenLevels.__super__ = P;
   ROTATE_ScreenLevels.prototype = __inherit(P.prototype, {
     init: function () {
-      ca.playTheme();
+      ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
       this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
       this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
@@ -19808,7 +19812,8 @@
       this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
       this.btnBack.set_y(ROTATE_Canvas.height - 84);
       this.btnBack.addEventListener('click', function (a) {
-        2 > a.which && ROTATE_Game.instance.changeScreen(new ca());
+        2 > a.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
       });
       this.addChild(this.btnBack);
       this.addChild(this.sponsor);
@@ -19843,7 +19848,7 @@
               (function (y) {
                 return function (H) {
                   1 < H.which ||
-                    (ca.stopTheme(),
+                    (ROTATE_ScreenMainMenu.stopTheme(),
                     0 == y[0]
                       ? ROTATE_Game.instance.changeScreen(new Qa())
                       : ROTATE_GameController.play(ROTATE_Levels.list[y[0]]));
@@ -19863,7 +19868,7 @@
     __class__: ROTATE_ScreenLevels,
   });
 
-  var ca = function () {
+  var ROTATE_ScreenMainMenu = function () {
     this.erase = new ROTATE_EraseButton();
     this.mute = new ROTATE_MuteButtons();
     this.sponsor = new ROTATE_Sponsor();
@@ -19874,14 +19879,14 @@
     this.bg = new ROTATE_BackgroundObject();
     P.call(this);
   };
-  ca.__name__ = !0;
-  ca.playTheme = function () {
+  ROTATE_ScreenMainMenu.__name__ = !0;
+  ROTATE_ScreenMainMenu.playTheme = function () {
     ROTATE_Audio.themeMenu.playing() ||
       ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
         ROTATE_Audio.themeMenu.play(),
       ROTATE_Game.ie && (ROTATE_Game.instance.ieMenu = !0));
   };
-  ca.stopTheme = function () {
+  ROTATE_ScreenMainMenu.stopTheme = function () {
     ROTATE_Game.ie
       ? (ROTATE_Audio.themeMenu.stop(), (ROTATE_Game.instance.ieMenu = !1))
       : (ROTATE_Audio.themeMenu.fade(
@@ -19894,10 +19899,10 @@
           ROTATE_Audio.themeMenu.volume(1);
         }));
   };
-  ca.__super__ = P;
-  ca.prototype = __inherit(P.prototype, {
+  ROTATE_ScreenMainMenu.__super__ = P;
+  ROTATE_ScreenMainMenu.prototype = __inherit(P.prototype, {
     init: function () {
-      ca.playTheme();
+      ROTATE_ScreenMainMenu.playTheme();
       this.addChild(this.bg);
       this.addChild(this.sponsor);
       this.logo.set_x(
@@ -19910,7 +19915,8 @@
       this.btnPlay.addEventListener('click', function (a) {
         1 < a.which ||
           (0 == ROTATE_Levels.unlocked
-            ? (ca.stopTheme(), ROTATE_Game.instance.changeScreen(new Qa()))
+            ? (ROTATE_ScreenMainMenu.stopTheme(),
+              ROTATE_Game.instance.changeScreen(new Qa()))
             : ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLevels()));
       });
       this.addChild(this.btnPlay);
@@ -19931,7 +19937,7 @@
       this.addChild(this.erase);
       ROTATE_Game.instance.warnNoSave(this);
     },
-    __class__: ca,
+    __class__: ROTATE_ScreenMainMenu,
   });
 
   var ROTATE_GameController = function (a, b, c) {
@@ -20333,7 +20339,8 @@
     update: function () {
       !this.done &&
         Time.get_current() - this.timer > this.length &&
-        ((this.done = !0), ROTATE_Game.instance.changeScreen(new ca()));
+        ((this.done = !0),
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu()));
     },
     __class__: $b,
   });
@@ -21007,7 +21014,7 @@
             };
             f.onYes = function () {
               ROTATE_Game.instance.clearProgress();
-              ROTATE_Game.instance.changeScreen(new ca());
+              ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
             };
             ROTATE_Game.instance.currentScreen.addChild(f);
           }
@@ -21278,7 +21285,7 @@
               ? new ROTATE_ScreenExtras()
               : 0 < ROTATE_Levels.unlocked
                 ? new ROTATE_ScreenLevels()
-                : new ca(),
+                : new ROTATE_ScreenMainMenu(),
           !0,
           ((gameInstance = ROTATE_Game.instance),
           Bind(gameInstance, gameInstance.unpause)),
