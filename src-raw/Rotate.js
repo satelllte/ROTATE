@@ -277,7 +277,7 @@
       b._ctx.globalAlpha *= a.alpha;
       b.reset(!0);
       a.graphics._paint(b);
-      a.triggerEvent(new fb('render', b));
+      a.triggerEvent(new ROTATE_RenderEvent('render', b));
       for (var d = 0, e = a._children; d < e.length; ) {
         var f = e[d];
         ++d;
@@ -902,15 +902,17 @@
   Ha.prototype = D(ROTATE_Event.prototype, {
     __class__: Ha,
   });
-  var fb = function (a, b) {
-    this.type = a;
-    this.surface = b;
+
+  var ROTATE_RenderEvent = function (type, surface) {
+    this.type = type;
+    this.surface = surface;
   };
-  fb.__name__ = !0;
-  fb.__super__ = ROTATE_Event;
-  fb.prototype = D(ROTATE_Event.prototype, {
-    __class__: fb,
+  ROTATE_RenderEvent.__name__ = !0;
+  ROTATE_RenderEvent.__super__ = ROTATE_Event;
+  ROTATE_RenderEvent.prototype = D(ROTATE_Event.prototype, {
+    __class__: ROTATE_RenderEvent,
   });
+
   var Q = function (a, b) {
     this.x = a;
     this.y = b;
@@ -21274,7 +21276,7 @@
   Ha.MOUSE_DOWN = 'mouseDown';
   Ha.MOUSE_UP = 'mouseUp';
   Ha.MOVE = 'move';
-  fb.RENDER = 'render';
+  ROTATE_RenderEvent.RENDER = 'render';
 
   InputKeys.inited = !1;
   InputKeys.keys = [];
