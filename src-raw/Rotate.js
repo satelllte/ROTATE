@@ -618,8 +618,8 @@
   var ROTATE_CanvasObject = function () {
     this.graphics = new rb();
     this._children = [];
-    this._transformReverse = new gb();
-    this._transform = new gb();
+    this._transformReverse = new Transform();
+    this._transform = new Transform();
     this.mouseEnabled = this.buttonMode = !1;
     this.alpha = 1;
     this.visible = !0;
@@ -1203,7 +1203,7 @@
     __class__: Ga,
   };
   var Ea = function (a) {
-    this._transform = new gb();
+    this._transform = new Transform();
     this._ctx = a;
     this.reset();
   };
@@ -1401,12 +1401,12 @@
     },
     __class__: Ea,
   };
-  var gb = function () {
+  var Transform = function () {
     this.states = [];
     this.matrix = [1, 0, 0, 1, 0, 0];
   };
-  gb.__name__ = !0;
-  gb.prototype = {
+  Transform.__name__ = !0;
+  Transform.prototype = {
     getMatrix: function () {
       return this.matrix.slice(0);
     },
@@ -1481,7 +1481,7 @@
         this.matrix[1] * a + this.matrix[3] * b + this.matrix[5],
       );
     },
-    __class__: gb,
+    __class__: Transform,
   };
   var lc = function () {};
   lc.__name__ = !0;
