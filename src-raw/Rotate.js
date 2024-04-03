@@ -19960,9 +19960,9 @@
     __class__: ROTATE_ScreenMainMenu,
   });
 
-  var ROTATE_ScreenPrimaryGame = function (a, b, c) {
-    null == c && (c = -1);
-    null == b && (b = !1);
+  var ROTATE_ScreenPrimaryGame = function (tempLevel, speedrun, speedrunStart) {
+    null == speedrunStart && (speedrunStart = -1);
+    null == speedrun && (speedrun = !1);
     this.channels = new hb();
     this.newBest = !1;
     this.speedrunFinal = -1;
@@ -19976,12 +19976,12 @@
     this.shakeX = this.shakeY = 0;
     this.deathTime = -1;
     qa.call(this);
-    this.tempLevel = a;
+    this.tempLevel = tempLevel;
     this.pausable = !0;
-    this.speedrun = b;
-    this.speedrunStart = c;
-    (0 == a.theme && ROTATE_Audio.themeGame1.playing()) ||
-    (1 == a.theme && ROTATE_Audio.themeGame2.playing())
+    this.speedrun = speedrun;
+    this.speedrunStart = speedrunStart;
+    (0 == tempLevel.theme && ROTATE_Audio.themeGame1.playing()) ||
+    (1 == tempLevel.theme && ROTATE_Audio.themeGame2.playing())
       ? (ROTATE_ScreenPrimaryGame.continueTheme = !0)
       : (ROTATE_ScreenPrimaryGame.continueTheme = !1);
   };
