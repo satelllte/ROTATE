@@ -355,11 +355,12 @@
   ROTATE_Canvas.triggerMouseEvent = function (a, b) {
     for (var c = (b.target = a); null != c; ) c.triggerEvent(b), (c = c.parent);
   };
-  var Sa = function () {
+
+  var ROTATE_EventTarget = function () {
     this.listeners = new Ra();
   };
-  Sa.__name__ = !0;
-  Sa.prototype = {
+  ROTATE_EventTarget.__name__ = !0;
+  ROTATE_EventTarget.prototype = {
     addEventListener: function (a, b) {
       var c = this.listeners;
       if (null != na[a] ? !c.existsReserved(a) : !c.h.hasOwnProperty(a)) {
@@ -390,8 +391,9 @@
           (d = c[b]), ++b, d(a);
       }
     },
-    __class__: Sa,
+    __class__: ROTATE_EventTarget,
   };
+
   var ROTATE_Manager = function () {};
   ROTATE_Manager.__name__ = !0;
   ROTATE_Manager.triggerEvent = function (a) {
@@ -648,8 +650,8 @@
     this.listeners = new Ra();
   };
   ROTATE_CanvasObject.__name__ = !0;
-  ROTATE_CanvasObject.__super__ = Sa;
-  ROTATE_CanvasObject.prototype = __inherit(Sa.prototype, {
+  ROTATE_CanvasObject.__super__ = ROTATE_EventTarget;
+  ROTATE_CanvasObject.prototype = __inherit(ROTATE_EventTarget.prototype, {
     set_x: function (a) {
       this.x != a && ((this.x = a), this._updateTransform());
       return this.x;
@@ -1086,8 +1088,8 @@
     window.addEventListener('keyup', Bind(this, this.onKeyUp));
   };
   CanvasInput.__name__ = !0;
-  CanvasInput.__super__ = Sa;
-  CanvasInput.prototype = __inherit(Sa.prototype, {
+  CanvasInput.__super__ = ROTATE_EventTarget;
+  CanvasInput.prototype = __inherit(ROTATE_EventTarget.prototype, {
     set_mouseX: function (a) {
       return (this.mouseX = Math.floor(a));
     },
@@ -18387,6 +18389,7 @@
   cb.prototype = {
     __class__: cb,
   };
+
   var La = function (a) {
     this.bounds = a;
   };
@@ -18398,6 +18401,7 @@
     },
     __class__: La,
   };
+
   var kb = function (a) {
     this.dir = a;
   };
@@ -18409,6 +18413,7 @@
     },
     __class__: kb,
   };
+
   var jb = function (a) {
     this.bounds = new Bounds(
       0,
@@ -18460,6 +18465,7 @@
     },
     __class__: jb,
   };
+
   var Wa = function (a) {
     this.set_dir(a);
   };
@@ -18483,6 +18489,7 @@
     },
     __class__: Wa,
   };
+
   var ta = function (a, b, c, d, e) {
     this.appeared = this.disappeared = !1;
     this.c = a;
@@ -18506,11 +18513,13 @@
     },
     __class__: ta,
   };
+
   var db = function () {};
   db.__name__ = !0;
   db.prototype = {
     __class__: db,
   };
+
   var ia = function (a, b, c, d, e) {
     null == e && (e = -1);
     this.bounds = new Bounds(
@@ -18536,6 +18545,7 @@
     },
     __class__: ia,
   };
+
   var lb = function (a, b, c, d, e) {
     ia.call(this, a, b, c, d, e);
   };
@@ -18563,6 +18573,7 @@
     );
     this.rotation = f;
   };
+
   V.__name__ = !0;
   V.__interfaces__ = [db];
   V.prototype = {
@@ -18582,6 +18593,7 @@
     },
     __class__: V,
   };
+
   var Xa = function (a) {
     this.timer = -1;
     this.channel = a;
@@ -21481,7 +21493,7 @@
   ROTATE_Manager.inited = !1;
   ROTATE_Manager.finished = !1;
   ROTATE_Manager.tasks = [];
-  ROTATE_Manager.events = new Sa();
+  ROTATE_Manager.events = new ROTATE_EventTarget();
 
   Time.startTime = 0;
   Time.lastTime = 0;
