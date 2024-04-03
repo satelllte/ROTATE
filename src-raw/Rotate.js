@@ -2375,20 +2375,22 @@
       this.muteSFX = !this.muteSFX;
       if (ROTATE_Game.ie) {
         if (this.muteSFX)
-          for (var b = 0, c = u.SFX; b < c.length; ) {
+          for (var b = 0, c = ROTATE_Audio.SFX; b < c.length; ) {
             var d = c[b];
             ++b;
             d.stop();
           }
       } else
-        for (b = 0, c = u.SFX; b < c.length; )
+        for (b = 0, c = ROTATE_Audio.SFX; b < c.length; )
           (d = c[b]), ++b, d.mute(this.muteSFX);
       ROTATE_Game.ie
         ? this.muteMusic &&
           (this.muteSFX
-            ? u.surface.stop()
-            : this.ieSurface && !u.surface.playing() && u.surface.play())
-        : u.surface.mute(this.muteSFX && this.muteMusic);
+            ? ROTATE_Audio.surface.stop()
+            : this.ieSurface &&
+              !ROTATE_Audio.surface.playing() &&
+              ROTATE_Audio.surface.play())
+        : ROTATE_Audio.surface.mute(this.muteSFX && this.muteMusic);
       a && this.saveProgress();
     },
     toggleMusic: function (a) {
@@ -2396,33 +2398,35 @@
       this.muteMusic = !this.muteMusic;
       ROTATE_Game.ie
         ? this.muteMusic
-          ? (u.themeMenu.stop(), u.themeGame1.stop(), u.themeGame2.stop())
+          ? (ROTATE_Audio.themeMenu.stop(),
+            ROTATE_Audio.themeGame1.stop(),
+            ROTATE_Audio.themeGame2.stop())
           : (ROTATE_Game.instance.ieMenu &&
-              !u.themeMenu.playing() &&
-              u.themeMenu.play(),
+              !ROTATE_Audio.themeMenu.playing() &&
+              ROTATE_Audio.themeMenu.play(),
             ROTATE_Game.instance.ieGame1 &&
-              !u.themeGame1.playing() &&
-              u.themeGame1.play(),
+              !ROTATE_Audio.themeGame1.playing() &&
+              ROTATE_Audio.themeGame1.play(),
             ROTATE_Game.instance.ieGame2 &&
-              !u.themeGame2.playing() &&
-              u.themeGame2.play())
-        : (u.themeMenu.mute(this.muteMusic),
-          u.themeGame1.mute(this.muteMusic),
-          u.themeGame2.mute(this.muteMusic));
+              !ROTATE_Audio.themeGame2.playing() &&
+              ROTATE_Audio.themeGame2.play())
+        : (ROTATE_Audio.themeMenu.mute(this.muteMusic),
+          ROTATE_Audio.themeGame1.mute(this.muteMusic),
+          ROTATE_Audio.themeGame2.mute(this.muteMusic));
       ROTATE_Game.ie
         ? this.muteSFX &&
           (this.muteMusic
-            ? u.surface.stop()
+            ? ROTATE_Audio.surface.stop()
             : ROTATE_Game.instance.ieSurface &&
-              !u.surface.playing() &&
-              u.surface.play())
-        : u.surface.mute(this.muteMusic && this.muteSFX);
+              !ROTATE_Audio.surface.playing() &&
+              ROTATE_Audio.surface.play())
+        : ROTATE_Audio.surface.mute(this.muteMusic && this.muteSFX);
       a && this.saveProgress();
     },
     __class__: ROTATE_Game,
   });
-  var u = function () {};
-  u.__name__ = !0;
+  var ROTATE_Audio = function () {};
+  ROTATE_Audio.__name__ = !0;
   var ra = function () {};
   ra.__name__ = !0;
   ra.getItem = function (a) {
@@ -2863,7 +2867,7 @@
         0 == a &&
         100 < ROTATE_Game.instance.get_gameTimeMS() - this.lastStep &&
         ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          u.steps.play(0 == this.step ? 'a' : 'b'),
+          ROTATE_Audio.steps.play(0 == this.step ? 'a' : 'b'),
         (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()),
         (this.step = 0 == this.step ? 1 : 0));
     },
@@ -2892,7 +2896,8 @@
         }
         this.touchingFinish() &&
           ((this.finished = !0),
-          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) || u.exit.play(),
+          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+            ROTATE_Audio.exit.play(),
           ROTATE_Game.instance.currentScreen.finished());
       }
     },
@@ -2931,7 +2936,7 @@
           ? ((this.dy = -J.JUMP_SPEED),
             (this.jumpTimer = ROTATE_Game.instance.get_gameTime()),
             (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-              u.steps.play('a'),
+              ROTATE_Audio.steps.play('a'),
             (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()))
           : this.dy < J.GRAVITY_MAX &&
             ((this.dy += J.GRAVITY),
@@ -3032,7 +3037,7 @@
           !a &&
           (100 < ROTATE_Game.instance.get_gameTimeMS() - this.spawnTime &&
             ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-              u.steps.play('b'),
+              ROTATE_Audio.steps.play('b'),
             (this.lastStep = ROTATE_Game.instance.get_gameTimeMS())),
           (this.jumpTimer2 = ROTATE_Game.instance.get_gameTime()));
         this.grounded
@@ -3283,9 +3288,11 @@
       this.adjust();
       this.set_animation(J.ANIM_ROTATE);
       this.rotateTimer = ROTATE_Game.instance.get_gameTime();
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) || u.steps.play('a');
+      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+        ROTATE_Audio.steps.play('a');
       this.lastStep = ROTATE_Game.instance.get_gameTimeMS();
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) || u.rotate.play();
+      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+        ROTATE_Audio.rotate.play();
     },
     onRotateStart2: function () {
       this.rotStartY = this.get_localY();
@@ -4082,10 +4089,13 @@
               break;
             }
         c
-          ? (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) || u.leverOn.play()
+          ? (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+            ROTATE_Audio.leverOn.play()
           : (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-            u.leverOff.play();
-        !b || (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) || u.door.play();
+            ROTATE_Audio.leverOff.play();
+        !b ||
+          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+          ROTATE_Audio.door.play();
         l.setBlockMeta(a.x, a.y, [a.getMeta(0), c ? 1 : 0]);
       }
     },
@@ -9230,7 +9240,7 @@
             this.cond2.test() &&
             ((this.done2 = !0),
             (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-              (u.cat.volume(0.5), u.cat.play())),
+              (ROTATE_Audio.cat.volume(0.5), ROTATE_Audio.cat.play())),
           !this.done3 && this.cond3.test())
         ) {
           this.done3 = !0;
@@ -15343,7 +15353,7 @@
         new C(new V(2, 8, 1, 1, 7, 3), 'It is constantly interfering.'),
       ]);
       this.cat = new ta(14, 24, -1, 1, new ia(13, 1, 1, 4));
-      u.cat.volume(0.25);
+      ROTATE_Audio.cat.volume(0.25);
     },
     tick: function () {},
     update: function () {
@@ -18128,7 +18138,7 @@
               a = Math.round(7 * Math.random());
             this.lastTone = a;
             (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-              u.voice.play(this.tones[a]);
+              ROTATE_Audio.voice.play(this.tones[a]);
           }
           this.char2++;
         }
@@ -18389,12 +18399,16 @@
       this.btnBack.addEventListener('click', function (c) {
         2 > c.which &&
           (a.fromEnd &&
-            u.surface.playing() &&
+            ROTATE_Audio.surface.playing() &&
             (ROTATE_Game.ie
-              ? u.surface.stop()
-              : (u.surface.fade(1, 0, Math.round(n.screenFadeTime / 2)),
-                u.surface.once('fade', function () {
-                  u.surface.stop();
+              ? ROTATE_Audio.surface.stop()
+              : (ROTATE_Audio.surface.fade(
+                  1,
+                  0,
+                  Math.round(n.screenFadeTime / 2),
+                ),
+                ROTATE_Audio.surface.once('fade', function () {
+                  ROTATE_Audio.surface.stop();
                 }))),
           ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
           ROTATE_Game.instance.changeScreen(a.fromEnd ? new Oa() : new ca()));
@@ -18889,7 +18903,7 @@
   bb.__super__ = P;
   bb.prototype = D(P.prototype, {
     init: function () {
-      ROTATE_Game.ie && u.themeGame2.volume(0.5);
+      ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
       this.cond1.start();
       this.speech = new U(
         [
@@ -18909,15 +18923,15 @@
         ((this.done1 = !0),
         ROTATE_Game.instance.changeScreen(new ob(this.first), !0, null, !0),
         (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          (u.exit.volume(0.5),
-          u.exit.play(),
-          u.exit.once('end', function () {
-            u.exit.volume(1);
+          (ROTATE_Audio.exit.volume(0.5),
+          ROTATE_Audio.exit.play(),
+          ROTATE_Audio.exit.once('end', function () {
+            ROTATE_Audio.exit.volume(1);
           })));
     },
     kill: function () {
-      u.themeGame2.stop();
-      u.themeGame2.volume(1);
+      ROTATE_Audio.themeGame2.stop();
+      ROTATE_Audio.themeGame2.volume(1);
       ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !1);
     },
     __class__: bb,
@@ -18987,14 +19001,18 @@
       this.hint.set_y(ROTATE_Canvas.height - 24);
       this.hint.set_alpha(0);
       this.addChild(this.hint);
-      u.surface.volume(1);
+      ROTATE_Audio.surface.volume(1);
       ROTATE_Game.ie &&
       ROTATE_Game.instance.muteSFX &&
       ROTATE_Game.instance.muteMusic
         ? (ROTATE_Game.instance.ieSurface = !0)
-        : (u.surface.play(),
+        : (ROTATE_Audio.surface.play(),
           ROTATE_Game.ie ||
-            u.surface.fade(0, 1, Math.round(n.screenFadeTimeSlow / 2)));
+            ROTATE_Audio.surface.fade(
+              0,
+              1,
+              Math.round(n.screenFadeTimeSlow / 2),
+            ));
     },
     update: function () {
       var a = this,
@@ -19214,17 +19232,18 @@
   };
   ca.__name__ = !0;
   ca.playTheme = function () {
-    u.themeMenu.playing() ||
-      ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) || u.themeMenu.play(),
+    ROTATE_Audio.themeMenu.playing() ||
+      ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
+        ROTATE_Audio.themeMenu.play(),
       ROTATE_Game.ie && (ROTATE_Game.instance.ieMenu = !0));
   };
   ca.stopTheme = function () {
     ROTATE_Game.ie
-      ? (u.themeMenu.stop(), (ROTATE_Game.instance.ieMenu = !1))
-      : (u.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
-        u.themeMenu.once('fade', function () {
-          u.themeMenu.stop();
-          u.themeMenu.volume(1);
+      ? (ROTATE_Audio.themeMenu.stop(), (ROTATE_Game.instance.ieMenu = !1))
+      : (ROTATE_Audio.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
+        ROTATE_Audio.themeMenu.once('fade', function () {
+          ROTATE_Audio.themeMenu.stop();
+          ROTATE_Audio.themeMenu.volume(1);
         }));
   };
   ca.__super__ = P;
@@ -19285,8 +19304,8 @@
     this.pausable = !0;
     this.speedrun = b;
     this.speedrunStart = c;
-    (0 == a.theme && u.themeGame1.playing()) ||
-    (1 == a.theme && u.themeGame2.playing())
+    (0 == a.theme && ROTATE_Audio.themeGame1.playing()) ||
+    (1 == a.theme && ROTATE_Audio.themeGame2.playing())
       ? (w.continueTheme = !0)
       : (w.continueTheme = !1);
   };
@@ -19298,32 +19317,32 @@
   };
   w.playTheme = function (a) {
     w.stopped &&
-      (0 == a && u.themeGame1.playing()
-        ? (u.themeGame1.stop(), (w.canceled = !0))
+      (0 == a && ROTATE_Audio.themeGame1.playing()
+        ? (ROTATE_Audio.themeGame1.stop(), (w.canceled = !0))
         : 1 == a &&
-          u.themeGame2.playing() &&
-          (u.themeGame2.stop(), (w.canceled = !0)),
+          ROTATE_Audio.themeGame2.playing() &&
+          (ROTATE_Audio.themeGame2.stop(), (w.canceled = !0)),
       ROTATE_Game.ie &&
         (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1),
       (w.stopped = !1));
     0 == a
-      ? (u.themeGame1.volume(1),
-        u.themeGame1.playing() ||
+      ? (ROTATE_Audio.themeGame1.volume(1),
+        ROTATE_Audio.themeGame1.playing() ||
           ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-            u.themeGame1.play(),
+            ROTATE_Audio.themeGame1.play(),
           ROTATE_Game.ie && (ROTATE_Game.instance.ieGame1 = !0)))
       : 1 == a &&
-        (u.themeGame2.volume(1),
-        u.themeGame2.playing() ||
+        (ROTATE_Audio.themeGame2.volume(1),
+        ROTATE_Audio.themeGame2.playing() ||
           ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-            u.themeGame2.play(),
+            ROTATE_Audio.themeGame2.play(),
           ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !0)));
   };
   w.stopTheme = function () {
-    var a = u.themeGame1.playing()
-      ? u.themeGame1
-      : u.themeGame2.playing()
-        ? u.themeGame2
+    var a = ROTATE_Audio.themeGame1.playing()
+      ? ROTATE_Audio.themeGame1
+      : ROTATE_Audio.themeGame2.playing()
+        ? ROTATE_Audio.themeGame2
         : null;
     if (null != a) {
       var b =
@@ -19430,7 +19449,8 @@
         this.player.dead = !0;
         this.deathTime = ROTATE_Game.instance.get_gameTime();
         this.player.visible = !1;
-        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) || u.death.play();
+        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+          ROTATE_Audio.death.play();
         var b = 0,
           c = 0;
         0 == l.rotation
@@ -19559,7 +19579,8 @@
       var b = this;
       null != this.cat &&
         (0 != a && this.cat.set_scaleX(a),
-        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) || u.cat.play(),
+        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+          ROTATE_Audio.cat.play(),
         (this.cat.onFinish = function () {
           b.level.removeChild(b.cat);
           b.cat = null;
@@ -19571,8 +19592,8 @@
       w.i = null;
       l.level.kill();
       l.set_level(null);
-      u.cat.volume(1);
-      u.exit.volume(1);
+      ROTATE_Audio.cat.volume(1);
+      ROTATE_Audio.exit.volume(1);
       if (this.speedrun)
         if (-1 < this.speedrunFinal) {
           if (
@@ -19645,10 +19666,10 @@
         ((this.start.buttonMode = this.start.mouseEnabled = !0),
         this.start.addEventListener('click', function (c) {
           2 > c.which &&
-            (u.exit.volume(1e-4),
-            u.exit.play(),
-            u.exit.once('end', function () {
-              u.exit.volume(1);
+            (ROTATE_Audio.exit.volume(1e-4),
+            ROTATE_Audio.exit.play(),
+            ROTATE_Audio.exit.once('end', function () {
+              ROTATE_Audio.exit.volume(1);
             }),
             ROTATE_Game.instance.changeScreen(new $b()),
             (a.start.mouseEnabled = !1));
@@ -19685,7 +19706,7 @@
         this.cond2.test() &&
         ((this.done2 = !0),
         w.playTheme(0),
-        ROTATE_Game.ie || u.themeGame1.fade(0, 1, 1e3));
+        ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
       this.speech.update();
       !this.done1 &&
         this.cond1.test() &&
@@ -20622,6 +20643,7 @@
   q.controls3 = ROTATE_Manager.loadImage('img/controls-3.png');
   q.controls4 = ROTATE_Manager.loadImage('img/controls-4.png');
   q.controls5 = ROTATE_Manager.loadImage('img/controls-5.png');
+
   ROTATE_Game.fontMain = new gc(
     'fonts/simple-pixels.png',
     'fonts/simple-pixels.json',
@@ -20630,53 +20652,54 @@
   );
   ROTATE_Game.nosave = !1;
   ROTATE_Game.ie = !1;
-  u.themeMenu = ROTATE_Manager.loadSound({
+
+  ROTATE_Audio.themeMenu = ROTATE_Manager.loadSound({
     src: ['music/menu.ogg', 'music/menu.mp3'],
     loop: !0,
   });
-  u.themeGame1 = ROTATE_Manager.loadSound({
+  ROTATE_Audio.themeGame1 = ROTATE_Manager.loadSound({
     src: ['music/game-1.ogg', 'music/game-1.mp3'],
     loop: !0,
     volume: 0.8,
   });
-  u.themeGame2 = ROTATE_Manager.loadSound({
+  ROTATE_Audio.themeGame2 = ROTATE_Manager.loadSound({
     src: ['music/game-2.ogg', 'music/game-2.mp3'],
     loop: !0,
     volume: 0.75,
   });
-  u.surface = ROTATE_Manager.loadSound({
+  ROTATE_Audio.surface = ROTATE_Manager.loadSound({
     src: ['sfx/surface.ogg', 'sfx/surface.mp3'],
     loop: !0,
   });
-  u.steps = ROTATE_Manager.loadSound({
+  ROTATE_Audio.steps = ROTATE_Manager.loadSound({
     src: ['sfx/steps.ogg', 'sfx/steps.mp3'],
     sprite: {
       a: [0, 400],
       b: [475, 400],
     },
   });
-  u.death = ROTATE_Manager.loadSound({
+  ROTATE_Audio.death = ROTATE_Manager.loadSound({
     src: ['sfx/death.ogg', 'sfx/death.mp3'],
   });
-  u.rotate = ROTATE_Manager.loadSound({
+  ROTATE_Audio.rotate = ROTATE_Manager.loadSound({
     src: ['sfx/rotate.ogg', 'sfx/rotate.mp3'],
   });
-  u.exit = ROTATE_Manager.loadSound({
+  ROTATE_Audio.exit = ROTATE_Manager.loadSound({
     src: ['sfx/exit.ogg', 'sfx/exit.mp3'],
   });
-  u.door = ROTATE_Manager.loadSound({
+  ROTATE_Audio.door = ROTATE_Manager.loadSound({
     src: ['sfx/door.ogg', 'sfx/door.mp3'],
   });
-  u.cat = ROTATE_Manager.loadSound({
+  ROTATE_Audio.cat = ROTATE_Manager.loadSound({
     src: ['sfx/cat.ogg', 'sfx/cat.mp3'],
   });
-  u.leverOn = ROTATE_Manager.loadSound({
+  ROTATE_Audio.leverOn = ROTATE_Manager.loadSound({
     src: ['sfx/lever-on.ogg', 'sfx/lever-on.mp3'],
   });
-  u.leverOff = ROTATE_Manager.loadSound({
+  ROTATE_Audio.leverOff = ROTATE_Manager.loadSound({
     src: ['sfx/lever-off.ogg', 'sfx/lever-off.mp3'],
   });
-  u.voice = ROTATE_Manager.loadSound({
+  ROTATE_Audio.voice = ROTATE_Manager.loadSound({
     src: ['sfx/voice.ogg', 'sfx/voice.mp3'],
     sprite: {
       a: [0, 1e3],
@@ -20690,17 +20713,18 @@
     },
     volume: 0.9,
   });
-  u.SFX = [
-    u.steps,
-    u.death,
-    u.rotate,
-    u.exit,
-    u.door,
-    u.cat,
-    u.leverOn,
-    u.leverOff,
-    u.voice,
+  ROTATE_Audio.SFX = [
+    ROTATE_Audio.steps,
+    ROTATE_Audio.death,
+    ROTATE_Audio.rotate,
+    ROTATE_Audio.exit,
+    ROTATE_Audio.door,
+    ROTATE_Audio.cat,
+    ROTATE_Audio.leverOn,
+    ROTATE_Audio.leverOff,
+    ROTATE_Audio.voice,
   ];
+
   v.awardEscape = new Ka('The Beginning', q.awardIconEscape);
   v.awardSpeedrun = new Ka('Seven or\nLess', q.awardIconSpeedrun);
   v.awardEditor = new Ka('Architect', q.awardIconEditor);
