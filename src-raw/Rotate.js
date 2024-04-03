@@ -4028,12 +4028,12 @@
     },
     __class__: zb,
   });
-  var Ab = function () {
+  var ROTATE_GameObject_Finish = function () {
     X.call(this);
   };
-  Ab.__name__ = !0;
-  Ab.__super__ = X;
-  Ab.prototype = D(X.prototype, {
+  ROTATE_GameObject_Finish.__name__ = !0;
+  ROTATE_GameObject_Finish.__super__ = X;
+  ROTATE_GameObject_Finish.prototype = D(X.prototype, {
     render: function (a, b, c) {
       a.drawImage(
         q.blocks,
@@ -4045,7 +4045,7 @@
     shouldRender: function (a) {
       return !1;
     },
-    __class__: Ab,
+    __class__: ROTATE_GameObject_Finish,
   });
   var Za = function () {
     this.on = !1;
@@ -20879,7 +20879,10 @@
     -1,
     new ROTATE_GameObject_Start(),
   );
-  ROTATE_GameObjects.finish = ROTATE_GameObjects.register(-2, new Ab());
+  ROTATE_GameObjects.finish = ROTATE_GameObjects.register(
+    -2,
+    new ROTATE_GameObject_Finish(),
+  );
   ROTATE_GameObjects.air = ROTATE_GameObjects.register(0, new xb());
   ROTATE_GameObjects.solid = ROTATE_GameObjects.register(1, new va());
   ROTATE_GameObjects.stairs = ROTATE_GameObjects.register(2, new Fb());
