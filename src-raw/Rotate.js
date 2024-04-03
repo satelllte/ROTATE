@@ -4447,12 +4447,12 @@
     },
     __class__: Eb,
   });
-  var Fb = function () {
+  var ROTATE_GameObject_Stairs = function () {
     da.call(this);
   };
-  Fb.__name__ = !0;
-  Fb.__super__ = $a;
-  Fb.prototype = D($a.prototype, {
+  ROTATE_GameObject_Stairs.__name__ = !0;
+  ROTATE_GameObject_Stairs.__super__ = $a;
+  ROTATE_GameObject_Stairs.prototype = D($a.prototype, {
     render: function (a, b, c) {
       c = n.tileSize;
       var d = c / 2;
@@ -4464,7 +4464,7 @@
       1 < b.getMeta(0) && a.rotate(-Math.PI);
       a.translate(-d, -d);
     },
-    __class__: Fb,
+    __class__: ROTATE_GameObject_Stairs,
   });
   var ROTATE_GameObject_Start = function () {
     X.call(this);
@@ -20895,7 +20895,10 @@
     1,
     new ROTATE_GameObject_Solid(),
   );
-  ROTATE_GameObjects.stairs = ROTATE_GameObjects.register(2, new Fb());
+  ROTATE_GameObjects.stairs = ROTATE_GameObjects.register(
+    2,
+    new ROTATE_GameObject_Stairs(),
+  );
   ROTATE_GameObjects.ramp = ROTATE_GameObjects.register(3, new $a());
   ROTATE_GameObjects.platform = ROTATE_GameObjects.register(4, new Cb());
   ROTATE_GameObjects.spikes = ROTATE_GameObjects.register(5, new Eb());
