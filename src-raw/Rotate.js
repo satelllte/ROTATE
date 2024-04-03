@@ -447,13 +447,13 @@
     };
     WebFont.load(a);
   };
-  ROTATE_Manager.loadTextFile = function (a, b) {
+  ROTATE_Manager.loadTextFile = function (url, onLoad) {
     var c = ROTATE_Manager.createTask(),
       d = new XMLHttpRequest();
-    d.open('GET', a);
+    d.open('GET', url);
     d.onload = function () {
       ROTATE_Manager.closeTask(c);
-      null != b && b(d.responseText);
+      null != onLoad && onLoad(d.responseText);
     };
     d.send();
   };
@@ -1979,19 +1979,19 @@
   var ROTATE_Images = function () {};
   ROTATE_Images.__name__ = !0;
 
-  var gc = function (a, b, c, d) {
+  var ROTATE_Font = function (image, data, c, d) {
     null == d && (d = 0);
     null == c && (c = 1);
     var e = this;
-    this.image = ROTATE_Manager.loadImage(a);
+    this.image = ROTATE_Manager.loadImage(image);
     this.colorOffset = d;
-    ROTATE_Manager.loadTextFile(b, function (f) {
-      f = JSON.parse(f);
-      e.lineHeight = f.l * c;
-      f = f.c;
+    ROTATE_Manager.loadTextFile(data, function (text) {
+      text = JSON.parse(text);
+      e.lineHeight = text.l * c;
+      text = text.c;
       e.chars = [];
-      for (var m = 0; m < f.length; ) {
-        var k = f[m];
+      for (var m = 0; m < text.length; ) {
+        var k = text[m];
         ++m;
         k.x *= c;
         k.y *= c;
@@ -2004,9 +2004,9 @@
       }
     });
   };
-  gc.__name__ = !0;
-  gc.prototype = {
-    __class__: gc,
+  ROTATE_Font.__name__ = !0;
+  ROTATE_Font.prototype = {
+    __class__: ROTATE_Font,
   };
   var ROTATE_Game = function () {
     this.muteMusic = false;
@@ -21393,7 +21393,7 @@
   ROTATE_Images.controls4 = ROTATE_Manager.loadImage('img/controls-4.png');
   ROTATE_Images.controls5 = ROTATE_Manager.loadImage('img/controls-5.png');
 
-  ROTATE_Game.fontMain = new gc(
+  ROTATE_Game.fontMain = new ROTATE_Font(
     'fonts/simple-pixels.png',
     'fonts/simple-pixels.json',
     2,
