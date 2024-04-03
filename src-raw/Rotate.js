@@ -43,7 +43,7 @@
   }
 
   var dc = function () {
-      return E.__string_rec(this, '');
+      return JSObjectUtils.__string_rec(this, '');
     },
     ja = function () {};
   ja.__name__ = !0;
@@ -75,7 +75,7 @@
   var la = function () {};
   la.__name__ = !0;
   la.string = function (a) {
-    return E.__string_rec(a, '');
+    return JSObjectUtils.__string_rec(a, '');
   };
   la.parseInt = function (a) {
     var b = parseInt(a, 10);
@@ -255,7 +255,7 @@
         );
       ROTATE_Canvas.surface.beginFill(
         ROTATE_Canvas.background & 16777215,
-        E.__cast(a, kc) / 255,
+        JSObjectUtils.__cast(a, kc) / 255,
       );
     } else
       ROTATE_Canvas.surface.beginFill(ROTATE_Canvas.background & 16777215, 1);
@@ -1779,16 +1779,17 @@
   Z.prototype = __inherit(Error.prototype, {
     __class__: Z,
   });
-  var E = function () {};
-  E.__name__ = !0;
-  E.getClass = function (a) {
+
+  var JSObjectUtils = function () {};
+  JSObjectUtils.__name__ = !0;
+  JSObjectUtils.getClass = function (a) {
     if (a instanceof Array && null == a.__enum__) return Array;
     var b = a.__class__;
     if (null != b) return b;
-    a = E.__nativeClassName(a);
-    return null != a ? E.__resolveNativeClass(a) : null;
+    a = JSObjectUtils.__nativeClassName(a);
+    return null != a ? JSObjectUtils.__resolveNativeClass(a) : null;
   };
-  E.__string_rec = function (a, b) {
+  JSObjectUtils.__string_rec = function (a, b) {
     if (null == a) return 'null';
     if (5 <= b.length) return '<...>';
     var c = typeof a;
@@ -1806,8 +1807,8 @@
               var f = d++;
               c =
                 2 != f
-                  ? c + (',' + E.__string_rec(a[f], b))
-                  : c + E.__string_rec(a[f], b);
+                  ? c + (',' + JSObjectUtils.__string_rec(a[f], b))
+                  : c + JSObjectUtils.__string_rec(a[f], b);
             }
             return c + ')';
           }
@@ -1815,7 +1816,8 @@
           d = '[';
           b += '\t';
           for (e = 0; e < c; )
-            (f = e++), (d += (0 < f ? ',' : '') + E.__string_rec(a[f], b));
+            (f = e++),
+              (d += (0 < f ? ',' : '') + JSObjectUtils.__string_rec(a[f], b));
           return d + ']';
         }
         try {
@@ -1842,7 +1844,7 @@
             '__interfaces__' == c ||
             '__properties__' == c ||
             (2 != d.length && (d += ', \n'),
-            (d += b + c + ' : ' + E.__string_rec(a[c], b)));
+            (d += b + c + ' : ' + JSObjectUtils.__string_rec(a[c], b)));
         b = b.substring(1);
         return d + ('\n' + b + '}');
       case 'string':
@@ -1851,7 +1853,7 @@
         return String(a);
     }
   };
-  E.__interfLoop = function (a, b) {
+  JSObjectUtils.__interfLoop = function (a, b) {
     if (null == a) return !1;
     if (a == b) return !0;
     var c = a.__interfaces__;
@@ -1859,11 +1861,11 @@
       for (var d = 0, e = c.length; d < e; ) {
         var f = d++;
         f = c[f];
-        if (f == b || E.__interfLoop(f, b)) return !0;
+        if (f == b || JSObjectUtils.__interfLoop(f, b)) return !0;
       }
-    return E.__interfLoop(a.__super__, b);
+    return JSObjectUtils.__interfLoop(a.__super__, b);
   };
-  E.__instanceof = function (a, b) {
+  JSObjectUtils.__instanceof = function (a, b) {
     if (null == b) return !1;
     switch (b) {
       case Array:
@@ -1881,9 +1883,17 @@
       default:
         if (null != a)
           if ('function' == typeof b) {
-            if (a instanceof b || E.__interfLoop(E.getClass(a), b)) return !0;
+            if (
+              a instanceof b ||
+              JSObjectUtils.__interfLoop(JSObjectUtils.getClass(a), b)
+            )
+              return !0;
           } else {
-            if ('object' == typeof b && E.__isNativeObj(b) && a instanceof b)
+            if (
+              'object' == typeof b &&
+              JSObjectUtils.__isNativeObj(b) &&
+              a instanceof b
+            )
               return !0;
           }
         else return !1;
@@ -1893,22 +1903,23 @@
           : a.__enum__ == b;
     }
   };
-  E.__cast = function (a, b) {
-    if (E.__instanceof(a, b)) return a;
+  JSObjectUtils.__cast = function (a, b) {
+    if (JSObjectUtils.__instanceof(a, b)) return a;
     throw new Z('Cannot cast ' + la.string(a) + ' to ' + la.string(b));
   };
-  E.__nativeClassName = function (a) {
-    a = E.__toStr.call(a).slice(8, -1);
+  JSObjectUtils.__nativeClassName = function (a) {
+    a = JSObjectUtils.__toStr.call(a).slice(8, -1);
     return 'Object' == a || 'Function' == a || 'Math' == a || 'JSON' == a
       ? null
       : a;
   };
-  E.__isNativeObj = function (a) {
-    return null != E.__nativeClassName(a);
+  JSObjectUtils.__isNativeObj = function (a) {
+    return null != JSObjectUtils.__nativeClassName(a);
   };
-  E.__resolveNativeClass = function (a) {
+  JSObjectUtils.__resolveNativeClass = function (a) {
     return window[a];
   };
+
   var wa = function (a) {
     if (a instanceof Array && null == a.__enum__)
       (this.a = a), (this.byteLength = a.length);
@@ -2115,7 +2126,10 @@
             null != this.pauseMenu &&
               ((this.pauseMenu.visible = !0), this.pauseMenu.onPause()),
             (this.hasPaused = !0),
-            E.__instanceof(this.currentScreen, ROTATE_GameController) &&
+            JSObjectUtils.__instanceof(
+              this.currentScreen,
+              ROTATE_GameController,
+            ) &&
               null != ROTATE_GameController.i.pauseText &&
               (ROTATE_GameController.i.pauseText.parent.removeChild(
                 ROTATE_GameController.i.pauseText,
@@ -2465,7 +2479,7 @@
       if (this.unlocked) return !1;
       this.unlocked = !0;
       ROTATE_Game.instance.saveProgress();
-      E.__instanceof(ROTATE_Game.instance.currentScreen, ib) &&
+      JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, ib) &&
         ROTATE_Game.instance.currentScreen.refresh();
       ROTATE_Awards.queueNotify(this);
       return !0;
@@ -3112,7 +3126,7 @@
             : new Bounds(b - m / 2, c - f + a, m, f);
     },
     rampCheck: function (a) {
-      return E.__instanceof(a, Wa)
+      return JSObjectUtils.__instanceof(a, Wa)
         ? (0 != ROTATE_LevelEditorManager.rotation ||
             (0 != a.dir && 1 != a.dir)) &&
           (1 != ROTATE_LevelEditorManager.rotation ||
@@ -3131,7 +3145,7 @@
       return !this.rampCheck(a);
     },
     rampCheckDX: function (a) {
-      return E.__instanceof(a, Wa)
+      return JSObjectUtils.__instanceof(a, Wa)
         ? (0 == ROTATE_LevelEditorManager.rotation &&
             ((0 < this.dx && 0 == a.dir) || (0 > this.dx && 1 == a.dir))) ||
           (1 == ROTATE_LevelEditorManager.rotation &&
@@ -3208,7 +3222,7 @@
         var k = f[m];
         ++m;
         if (null != k && (null == d || d(k)))
-          if (E.__instanceof(k, La)) {
+          if (JSObjectUtils.__instanceof(k, La)) {
             if (
               ((k = k.bounds.copy()),
               (k.x += b * ROTATE_GameConstants.tileSize),
@@ -3216,7 +3230,7 @@
               a.intersects(k))
             )
               return !0;
-          } else if (E.__instanceof(k, Wa)) {
+          } else if (JSObjectUtils.__instanceof(k, Wa)) {
             var p = new Q(a.get_right(), a.get_bottom());
             1 == k.dir && (p = new Q(a.get_left(), a.get_bottom()));
             2 == k.dir && (p = new Q(a.get_left(), a.get_top()));
@@ -3224,7 +3238,7 @@
             p.x -= b * ROTATE_GameConstants.tileSize;
             p.y -= c * ROTATE_GameConstants.tileSize;
             if (k.testPoint(p)) return !0;
-          } else if (E.__instanceof(k, jb)) {
+          } else if (JSObjectUtils.__instanceof(k, jb)) {
             if (
               ((p = k.bounds.copy()),
               (p.x += b * ROTATE_GameConstants.tileSize),
@@ -3254,7 +3268,7 @@
                 return !0;
             }
           } else if (
-            E.__instanceof(k, kb) &&
+            JSObjectUtils.__instanceof(k, kb) &&
             ((p = k),
             (k = ROTATE_GameConstants.tileSize),
             (y = a.copy()),
@@ -3523,7 +3537,10 @@
     L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
     if (
       null == L.gridCanvas &&
-      E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor)
+      JSObjectUtils.__instanceof(
+        ROTATE_Game.instance.currentScreen,
+        ROTATE_Editor,
+      )
     ) {
       L.gridCanvas = window.document.createElement('canvas');
       L.gridCanvas.width =
@@ -3624,7 +3641,7 @@
           null != L.gridCanvas &&
           a.drawImage(L.gridCanvas, null, 0, 0);
         if (
-          E.__instanceof(
+          JSObjectUtils.__instanceof(
             ROTATE_Game.instance.currentScreen,
             ROTATE_GameController,
           ) &&
@@ -3771,7 +3788,10 @@
         (ROTATE_LevelEditorManager.level.finishCol + 1) * a,
         ROTATE_LevelEditorManager.level.finishRow * a,
       );
-      E.__instanceof(ROTATE_LevelEditorManager.level, ROTATE_Level8) &&
+      JSObjectUtils.__instanceof(
+        ROTATE_LevelEditorManager.level,
+        ROTATE_Level8,
+      ) &&
         L.bakeSurface.drawImage(
           ROTATE_Images.blocks,
           new Bounds(2 * a, 2 * a, a, 2 * a),
@@ -3891,7 +3911,7 @@
             k = 0.5 * d - 0.16666666666666666;
           c = m ? 0 : k;
           if (
-            E.__instanceof(
+            JSObjectUtils.__instanceof(
               ROTATE_Game.instance.currentScreen,
               ROTATE_GameController,
             )
@@ -3938,7 +3958,10 @@
             0,
           );
           if (
-            E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor) &&
+            JSObjectUtils.__instanceof(
+              ROTATE_Game.instance.currentScreen,
+              ROTATE_Editor,
+            ) &&
             (ROTATE_Editor.renderBlockText(a, b.getMeta(0) + ''), 1 < d)
           )
             for (b = 1; b < d; )
@@ -3979,7 +4002,7 @@
       }
     },
     isOpen: function (a) {
-      return E.__instanceof(
+      return JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
         ROTATE_GameController,
       ) && ROTATE_GameController.i.getChannelStatus(a.getMeta(0))
@@ -4168,7 +4191,11 @@
       null == c && (c = !0);
       b = b.getMeta(0) % 4;
       c =
-        !c || E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor)
+        !c ||
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_Editor,
+        )
           ? 0
           : Math.floor(ROTATE_Game.instance.get_gameTimeMS() / 50) % 3;
       a.drawImage(
@@ -4291,7 +4318,10 @@
       ];
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor);
+      return !JSObjectUtils.__instanceof(
+        ROTATE_Game.instance.currentScreen,
+        ROTATE_Editor,
+      );
     },
     render: function (a, b, c) {
       null == c && (c = !0);
@@ -4308,7 +4338,10 @@
         0,
       );
       c &&
-        E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor) &&
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_Editor,
+        ) &&
         ROTATE_Editor.renderBlockText(a, b.getMeta(0) + '');
     },
     setupBubble: function (a) {
@@ -4413,7 +4446,7 @@
       if (!ROTATE_LevelEditorManager.isInBounds(a, b)) return !0;
       a = ROTATE_LevelEditorManager.getBlockData(a, b);
       b = a.get_block();
-      if (E.__instanceof(b, ROTATE_GameObject_Solid)) return !0;
+      if (JSObjectUtils.__instanceof(b, ROTATE_GameObject_Solid)) return !0;
       a.getMeta(0);
       return !1;
     },
@@ -4594,7 +4627,11 @@
       null == c && (c = !0);
       var d = ROTATE_Game.instance.get_gameTimeMS() / 40;
       c =
-        !c || E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor)
+        !c ||
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_Editor,
+        )
           ? 0
           : Math.floor(
               d - (d < ROTATE_GameConstants.E ? 0 : ROTATE_GameConstants.E),
@@ -4614,7 +4651,10 @@
       return !1;
     },
     alwaysUpdate: function (a) {
-      return !E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_Editor);
+      return !JSObjectUtils.__instanceof(
+        ROTATE_Game.instance.currentScreen,
+        ROTATE_Editor,
+      );
     },
     __class__: ROTATE_GameObject_Saw,
   });
@@ -12896,7 +12936,7 @@
     finished: function () {
       ROTATE_Game.instance.changeScreen(
         new bb(
-          E.__cast(
+          JSObjectUtils.__cast(
             ROTATE_Game.instance.currentScreen,
             ROTATE_GameController,
           ).speedrun,
@@ -18543,7 +18583,10 @@
     this.field.align = ROTATE_Text.ALIGN_CENTER;
     this.field.set_x(ROTATE_Canvas.width / 2);
     null == b &&
-    E.__instanceof(ROTATE_Game.instance.currentScreen, ROTATE_GameController)
+    JSObjectUtils.__instanceof(
+      ROTATE_Game.instance.currentScreen,
+      ROTATE_GameController,
+    )
       ? ((b = ROTATE_Game.instance.currentScreen.textHolder),
         (this.field.yAlign = ROTATE_Text.Y_ALIGN_TOP),
         this.field.set_y(ROTATE_Canvas.height - 96))
@@ -18557,7 +18600,7 @@
   ROTATE_Speech.prototype = {
     update: function () {
       var a = !0;
-      E.__instanceof(
+      JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
         ROTATE_GameController,
       ) && (a = !ROTATE_Game.instance.currentScreen.player.dead);
@@ -18610,7 +18653,7 @@
             ROTATE_Speech.TIME_FADE,
         )),
         this.field.set_alpha(ROTATE_Game.smootherStep(1 - a)));
-      E.__instanceof(
+      JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
         ROTATE_GameController,
       ) &&
@@ -19895,10 +19938,10 @@
         : null;
     if (null != a) {
       var b =
-        E.__instanceof(
+        JSObjectUtils.__instanceof(
           ROTATE_Game.instance.currentScreen,
           ROTATE_GameController,
-        ) && E.__instanceof(ROTATE_Game.instance.targetScreen, bb);
+        ) && JSObjectUtils.__instanceof(ROTATE_Game.instance.targetScreen, bb);
       if (ROTATE_Game.ie) b || a.stop();
       else {
         var c = a.volume();
@@ -21118,7 +21161,7 @@
     this.btnRedo.set_y(this.btnPlay.y + 60);
     this.btnRedo.addEventListener('click', function (a) {
       2 > a.which &&
-        E.__instanceof(
+        JSObjectUtils.__instanceof(
           ROTATE_Game.instance.currentScreen,
           ROTATE_GameController,
         ) &&
@@ -21130,14 +21173,17 @@
     this.btnQuit.addEventListener('click', function (a) {
       2 > a.which &&
         ((a =
-          (E.__instanceof(
+          (JSObjectUtils.__instanceof(
             ROTATE_Game.instance.currentScreen,
             ROTATE_GameController,
           ) &&
-            E.__cast(ROTATE_Game.instance.currentScreen, ROTATE_GameController)
-              .speedrun) ||
-          (E.__instanceof(ROTATE_Game.instance.currentScreen, Qa) &&
-            E.__cast(ROTATE_Game.instance.currentScreen, Qa).speedrun)),
+            JSObjectUtils.__cast(
+              ROTATE_Game.instance.currentScreen,
+              ROTATE_GameController,
+            ).speedrun) ||
+          (JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, Qa) &&
+            JSObjectUtils.__cast(ROTATE_Game.instance.currentScreen, Qa)
+              .speedrun)),
         ROTATE_Game.instance.changeScreen(
           ROTATE_LevelEditorManager.level == ROTATE_Editor.editorLevel
             ? new ROTATE_Editor()
@@ -21164,15 +21210,15 @@
     onPause: function () {
       this.mute.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
       this.mute.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
-      var a = E.__instanceof(
+      var a = JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
         ROTATE_GameController,
       );
       this.btnRedo.set_alpha(a ? 1 : 0.25);
       this.btnRedo.main.mouseEnabled = a;
       a =
-        E.__instanceof(ROTATE_Game.instance.currentScreen, bb) ||
-        E.__instanceof(ROTATE_Game.instance.currentScreen, ob);
+        JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, bb) ||
+        JSObjectUtils.__instanceof(ROTATE_Game.instance.currentScreen, ob);
       this.btnQuit.set_alpha(a ? 0.25 : 1);
       this.btnQuit.main.mouseEnabled = !a;
     },
@@ -21306,7 +21352,7 @@
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
   StringUtils.BYTES = ya.ofString(StringUtils.CHARS);
 
-  E.__toStr = {}.toString;
+  JSObjectUtils.__toStr = {}.toString;
 
   ROTATE_GameConstants.E = 1e-8;
   ROTATE_GameConstants.screenFadeTime = 700;
