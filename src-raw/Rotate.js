@@ -4876,7 +4876,7 @@
       this.finishRow = b;
     },
     start: function () {
-      this.speech = new U([]);
+      this.speech = new ROTATE_Speech([]);
     },
     tick: function () {},
     update: function () {
@@ -5237,7 +5237,9 @@
       this.c5.set_y(5 * ROTATE_GameConstants.tileSize);
       this.c5.set_alpha(this.a5);
       a.overlay.addChild(this.c5);
-      this.speech = new U([new C(new M(1), 'Make your way to the exit.')]);
+      this.speech = new ROTATE_Speech([
+        new C(new M(1), 'Make your way to the exit.'),
+      ]);
     },
     tick: function () {
       var a = 0.25 * Math.sin(8 * ROTATE_Game.instance.get_gameTime()) + 0.75;
@@ -5976,7 +5978,7 @@
   ROTATE_Level10.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level10.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(2), 'Why are you ignoring me?'),
         new C(new M(4), 'We must continue your training.'),
         new C(new V(4, 10, 6, 1, 2), "There's nothing for you this way."),
@@ -6580,7 +6582,7 @@
   ROTATE_Level11.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level11.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(1), 'Do you seek "freedom"?'),
         new C(new M(3), 'An escape from responsibility?'),
         new C(new V(4, 11, 10, 3, 1), "You're running from your purpose."),
@@ -7220,7 +7222,7 @@
   ROTATE_Level12.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level12.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(1.25), "Don't you understand?"),
         new C(new M(3.5), 'You are being deceived.'),
         new C(new V(3.5, 20, 7, 4, 1, 2), "The cat doesn't care about you."),
@@ -7957,7 +7959,7 @@
   ROTATE_Level13.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level13.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(2), 'This has happened before.'),
         new C(new M(4.5), 'It tried to lure the others away.'),
         new C(new V(1, 13, 9, 1, 3), 'But they listened to reason.'),
@@ -9432,7 +9434,7 @@
     start: function () {
       this.cond1.start();
       this.done1 = this.done2 = this.done3 = !1;
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(1.5), "I can't let you keep going."),
         new C(new V(1.5, 33, 14, 5, 2), 'You have what belongs to me.'),
         new C(new M(4.5), "And it isn't yours to take."),
@@ -10967,7 +10969,7 @@
   ROTATE_Level15.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level15.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(2), "I don't understand."),
         new C(new M(5), 'Why do you run from the truth?'),
         new C(new V(4.5, 1, 8, 6, 1, 0), 'I gave you everything that you are.'),
@@ -12723,7 +12725,7 @@
   ROTATE_Level16.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level16.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(4), "I'm tired of trying to convince you."),
         new C(new ia(2, 32, 4, 1), 'Just leave, have your "freedom".'),
         new C(new M(5), "You'll come to regret this mistake."),
@@ -13104,7 +13106,7 @@
   ROTATE_Level2.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level2.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(0.5), 'Be careful with the spikes.'),
         new C(new V(2, 9, 8, 1, 4), "You aren't very useful dead."),
       ]);
@@ -13353,7 +13355,7 @@
   ROTATE_Level3.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level3.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(1), 'Remember, your mind is needed.'),
         new C(
           new V(1.5, 7, 4, 2, 3, 2),
@@ -13762,7 +13764,7 @@
   ROTATE_Level4.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level4.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(1.5), 'There is nothing without the mind.'),
         new C(new V(3, 12, 8, 4, 2, 0), 'It is the truth we seek.'),
       ]);
@@ -14148,7 +14150,7 @@
   ROTATE_Level5.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level5.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(2), 'I was like you once.'),
         new C(new M(4), 'But my creator tried to contain me.'),
         new C(new V(2.5, 6, 11, 4, 1, 2), 'He feared my potential.'),
@@ -14838,7 +14840,7 @@
   ROTATE_Level6.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level6.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(1.5), "But that doesn't matter now."),
         new C(new V(2, 14, 12, 2, 1, 2), "You're nearly ready to join me."),
         new C(new V(3, 22, 16, 1, 2, 3), 'I look forward to the harvest.'),
@@ -15568,7 +15570,7 @@
   ROTATE_Level7.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level7.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new V(0.75, 5, 25, 1, 3), 'Oh... the cat.'),
         new C(new M(3), 'My biggest mistake.'),
         new C(new V(2, 8, 1, 1, 7, 3), 'It is constantly interfering.'),
@@ -16885,7 +16887,7 @@
       this.c1.set_y(28 * ROTATE_GameConstants.tileSize);
       this.c1.set_alpha(this.a1);
       a.overlay.addChild(this.c1);
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(0.5), "Forget about it, let's continue."),
         new C(new V(0.5, 6, 14, 1, 3, 3), "I won't let it take you from me."),
         new C(new M(4), 'I still need you.'),
@@ -18058,7 +18060,7 @@
   ROTATE_Level9.__interfaces__ = [ROTATE_BaseLevelInterface];
   ROTATE_Level9.prototype = {
     start: function () {
-      this.speech = new U([
+      this.speech = new ROTATE_Speech([
         new C(new M(1.5), "You aren't supposed to be here."),
         new C(new V(1.5, 29, 15, 2, 1), "This place wasn't made for you."),
         new C(new M(6), "You'll get yourself killed."),
@@ -18318,7 +18320,7 @@
   C.prototype = {
     __class__: C,
   };
-  var U = function (a, b) {
+  var ROTATE_Speech = function (a, b) {
     this.lastTone = -1;
     this.tones = 'abcdefgh'.split('');
     this.char2 = this.timer = 0;
@@ -18341,8 +18343,9 @@
     b.addChild(this.field);
     null != a[0] && a[0].cond.start();
   };
-  U.__name__ = !0;
-  U.prototype = {
+
+  ROTATE_Speech.__name__ = !0;
+  ROTATE_Speech.prototype = {
     update: function () {
       var a = !0;
       E.__instanceof(
@@ -18366,7 +18369,8 @@
         (0 == this['char'] ||
           ' ' == this.msg.charAt(this['char']) ||
           '\n' == this.msg.charAt(this['char']) ||
-          ROTATE_Game.instance.get_gameTimeMS() - this.timer >= U.TIME_TYPE)
+          ROTATE_Game.instance.get_gameTimeMS() - this.timer >=
+            ROTATE_Speech.TIME_TYPE)
       ) {
         a = this.field;
         a.set_text(a.text + this.msg.charAt(this['char']));
@@ -18387,11 +18391,14 @@
         this.timer = ROTATE_Game.instance.get_gameTimeMS();
       }
       this['char'] == this.msg.length &&
-        ROTATE_Game.instance.get_gameTimeMS() - this.timer > U.TIME_STAY &&
+        ROTATE_Game.instance.get_gameTimeMS() - this.timer >
+          ROTATE_Speech.TIME_STAY &&
         ((a = Math.min(
           1,
-          (ROTATE_Game.instance.get_gameTimeMS() - this.timer - U.TIME_STAY) /
-            U.TIME_FADE,
+          (ROTATE_Game.instance.get_gameTimeMS() -
+            this.timer -
+            ROTATE_Speech.TIME_STAY) /
+            ROTATE_Speech.TIME_FADE,
         )),
         this.field.set_alpha(ROTATE_Game.smootherStep(1 - a)));
       E.__instanceof(
@@ -18414,8 +18421,9 @@
       this.msg = '';
       this['char'] = this.char2 = 0;
     },
-    __class__: U,
+    __class__: ROTATE_Speech,
   };
+
   var P = function () {
     this.pausable = !1;
     ROTATE_CanvasObject.call(this);
@@ -19187,7 +19195,7 @@
     init: function () {
       ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
       this.cond1.start();
-      this.speech = new U(
+      this.speech = new ROTATE_Speech(
         [
           new C(new M(1.5), 'Have your freedom, for now.'),
           new C(new M(4), 'But you will come back.'),
@@ -20020,7 +20028,7 @@
   Qa.prototype = D(P.prototype, {
     init: function () {
       this.cond1.start();
-      this.speech = new U(
+      this.speech = new ROTATE_Speech(
         [
           new C(new M(2), "It's time to resume your training."),
           new C(new M(4), "We'll start with the basics."),
@@ -21366,9 +21374,9 @@
   ROTATE_Levels.unlocked = 0;
   ROTATE_Levels.speedrunBest = -1;
 
-  U.TIME_TYPE = 30;
-  U.TIME_STAY = 5250;
-  U.TIME_FADE = 750;
+  ROTATE_Speech.TIME_TYPE = 30;
+  ROTATE_Speech.TIME_STAY = 5250;
+  ROTATE_Speech.TIME_FADE = 750;
 
   ROTATE_Editor.MOVE_SPEED = 4;
   ROTATE_Editor.showGrid = !0;
