@@ -5095,7 +5095,7 @@
     },
     __class__: ROTATE_Level1,
   };
-  var Jb = function () {
+  var ROTATE_Level10 = function () {
     this.startDir = 1;
     this.finishRow = 16;
     this.finishCol = 11;
@@ -5756,9 +5756,9 @@
     ];
     this.theme = 1;
   };
-  Jb.__name__ = !0;
-  Jb.__interfaces__ = [ea];
-  Jb.prototype = {
+  ROTATE_Level10.__name__ = !0;
+  ROTATE_Level10.__interfaces__ = [ea];
+  ROTATE_Level10.prototype = {
     start: function () {
       this.speech = new U([
         new C(new M(2), 'Why are you ignoring me?'),
@@ -5778,7 +5778,7 @@
       return ROTATE_Levels.level11;
     },
     kill: function () {},
-    __class__: Jb,
+    __class__: ROTATE_Level10,
   };
   var Kb = function () {
     this.startDir = 1;
@@ -20823,7 +20823,7 @@
   ROTATE_Levels.level7 = new ROTATE_Level7();
   ROTATE_Levels.level8 = new ROTATE_Level8();
   ROTATE_Levels.level9 = new ROTATE_Level9();
-  ROTATE_Levels.level10 = new Jb();
+  ROTATE_Levels.level10 = new ROTATE_Level10();
   ROTATE_Levels.level11 = new Kb();
   ROTATE_Levels.level12 = new Lb();
   ROTATE_Levels.level13 = new Mb();
