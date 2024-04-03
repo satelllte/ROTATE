@@ -128,21 +128,21 @@
     var body = document.body;
     body.style.margin = '0';
     body.style.overflow = 'hidden';
-    Canvas.c = window.document.createElement('canvas');
-    Canvas.c.width = Canvas.width;
-    Canvas.c.height = Canvas.height;
-    Canvas.c.style.position = 'absolute';
-    Canvas.c.style.left = Canvas.c.style.top = '0';
-    Canvas.c.style.transform = 'translateZ(0px)';
-    Canvas.c.style.cursor = 'default';
-    container.appendChild(Canvas.c);
-    Canvas.ctx = Canvas.c.getContext('2d', {
+    Canvas.canvas = document.createElement('canvas');
+    Canvas.canvas.width = Canvas.width;
+    Canvas.canvas.height = Canvas.height;
+    Canvas.canvas.style.position = 'absolute';
+    Canvas.canvas.style.left = Canvas.canvas.style.top = '0';
+    Canvas.canvas.style.transform = 'translateZ(0px)';
+    Canvas.canvas.style.cursor = 'default';
+    container.appendChild(Canvas.canvas);
+    Canvas.ctx = Canvas.canvas.getContext('2d', {
       alpha: Canvas.transparent,
     });
     Canvas.set_imageSmoothingEnabled(Canvas.imageSmoothingEnabled);
     Canvas.surface = new Ea(Canvas.ctx);
     N._reset();
-    Canvas.input = new qb(Canvas.c);
+    Canvas.input = new qb(Canvas.canvas);
     G._init();
     Canvas.input.addEventListener('click', Canvas.onClick);
     Canvas.input.addEventListener('mouseDown', Canvas.onMouseDown);
@@ -170,14 +170,17 @@
     var c = Math.round(Canvas.width * Canvas.scale);
     a = Math.round(Canvas.height * Canvas.scale);
     Canvas.scale != b &&
-      ((Canvas.c.style.width = c + 'px'), (Canvas.c.style.height = a + 'px'));
+      ((Canvas.canvas.style.width = c + 'px'),
+      (Canvas.canvas.style.height = a + 'px'));
     b = Math.floor((window.innerWidth - c) / 2);
     b != Canvas.offsetX &&
-      ((Canvas.c.style.left = Math.floor((window.innerWidth - c) / 2) + 'px'),
+      ((Canvas.canvas.style.left =
+        Math.floor((window.innerWidth - c) / 2) + 'px'),
       (Canvas.offsetX = b));
     c = Math.floor((window.innerHeight - a) / 2);
     c != Canvas.offsetY &&
-      ((Canvas.c.style.top = Math.floor((window.innerHeight - a) / 2) + 'px'),
+      ((Canvas.canvas.style.top =
+        Math.floor((window.innerHeight - a) / 2) + 'px'),
       (Canvas.offsetY = c));
     Canvas.updateMouseSprite();
     a =
@@ -185,7 +188,7 @@
         ? 'pointer'
         : 'default';
     a != Canvas.lastCursor &&
-      ((Canvas.c.style.cursor = a), (Canvas.lastCursor = a));
+      ((Canvas.canvas.style.cursor = a), (Canvas.lastCursor = a));
     var d = new Y('enterFrame');
     Canvas.stage.cascadingCallback(function (e) {
       e.triggerEvent(d);
