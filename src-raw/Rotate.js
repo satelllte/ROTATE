@@ -8,7 +8,7 @@
     b.toString !== Object.prototype.toString && (d.toString = b.toString);
     return d;
   }
-  function T(a, b) {
+  function Bind(a, b) {
     if (null == b) return null;
     null == b.__id__ && (b.__id__ = pc++);
     var c;
@@ -1017,9 +1017,9 @@
     var b = this;
     this.listeners = new Ra();
     this.c = a;
-    window.addEventListener('focus', T(this, this.onFocus));
-    window.addEventListener('blur', T(this, this.onBlur));
-    window.addEventListener('pagehide', T(this, this.onBlur));
+    window.addEventListener('focus', Bind(this, this.onFocus));
+    window.addEventListener('blur', Bind(this, this.onBlur));
+    window.addEventListener('pagehide', Bind(this, this.onBlur));
     window.addEventListener('contextmenu', function (c) {
       var d = c.target.tagName.toLowerCase();
       if ('canvas' != d && 'body' != d && 'html' != d) return !0;
@@ -1027,13 +1027,13 @@
       c.preventDefault();
       return !1;
     });
-    window.addEventListener('click', T(this, this.onClick));
-    window.addEventListener('mousedown', T(this, this.onMouseDown));
-    window.addEventListener('mouseup', T(this, this.onMouseUp));
-    window.addEventListener('mousemove', T(this, this.onMouseMove));
-    window.addEventListener('mouseover', T(this, this.onMouseMove));
-    window.addEventListener('keydown', T(this, this.onKeyDown));
-    window.addEventListener('keyup', T(this, this.onKeyUp));
+    window.addEventListener('click', Bind(this, this.onClick));
+    window.addEventListener('mousedown', Bind(this, this.onMouseDown));
+    window.addEventListener('mouseup', Bind(this, this.onMouseUp));
+    window.addEventListener('mousemove', Bind(this, this.onMouseMove));
+    window.addEventListener('mouseover', Bind(this, this.onMouseMove));
+    window.addEventListener('keydown', Bind(this, this.onKeyDown));
+    window.addEventListener('keyup', Bind(this, this.onKeyUp));
   };
   qb.__name__ = !0;
   qb.__super__ = Sa;
@@ -1989,7 +1989,7 @@
     Game.instance = new Game();
     Game.instance.addEventListener(
       'added',
-      ((gameInstance = Game.instance), T(gameInstance, gameInstance.init)),
+      ((gameInstance = Game.instance), Bind(gameInstance, gameInstance.init)),
     );
     Canvas.start(
       document.getElementById('game'),
@@ -2047,9 +2047,9 @@
       return 0.001 * this.get_gameTimeMS();
     },
     init: function (a) {
-      this.removeEventListener('added', T(this, this.init));
+      this.removeEventListener('added', Bind(this, this.init));
       Canvas.set_imageSmoothingEnabled(!1);
-      t.addEventListener('finished', T(this, this.loaded));
+      t.addEventListener('finished', Bind(this, this.loaded));
     },
     loaded: function (a) {
       var b = this;
@@ -2070,7 +2070,7 @@
       Game.ie = 0 < a && 11 >= a;
       Game.ie && (this.muteSFX = this.muteMusic = !0);
       this.lastTick = N.get_currentMS();
-      this.addEventListener('enterFrame', T(this, this.update));
+      this.addEventListener('enterFrame', Bind(this, this.update));
       window.document.getElementById('game').style.display = 'block';
       window.document.getElementById('loader').style.display = 'none';
       this.pauseMenu = new ub();
@@ -2748,7 +2748,7 @@
         0;
     ua.call(this, q.player, 32, 48);
     this.set_animation(J.ANIM_IDLE);
-    this.onChange = T(this, this.aminChange);
+    this.onChange = Bind(this, this.aminChange);
     this.spawnTime = Game.instance.get_gameTimeMS();
     this.adjust();
   };
@@ -2907,21 +2907,21 @@
                 : (k = -1 > b ? -1 : b);
             this.set_localX(this.get_localX() + k);
             b -= k;
-            if (this.isColliding(null, T(this, this.rampCheckDX), 0))
+            if (this.isColliding(null, Bind(this, this.rampCheckDX), 0))
               if (
                 ((k = 0),
                 this.set_localY(this.get_localY() - e),
-                this.isColliding(null, T(this, this.nonRampCheckDX), 0))
+                this.isColliding(null, Bind(this, this.nonRampCheckDX), 0))
               )
                 this.set_localY(this.get_localY() + e);
               else {
                 k -= e;
-                if (this.isColliding(null, T(this, this.rampCheckDX), 0)) {
+                if (this.isColliding(null, Bind(this, this.rampCheckDX), 0)) {
                   var y = this.get_localY();
                   this.set_localY(y - 1);
-                  this.isColliding(null, T(this, this.nonRampCheckDX), 0)
+                  this.isColliding(null, Bind(this, this.nonRampCheckDX), 0)
                     ? ((y = this.get_localY()), this.set_localY(y + 1))
-                    : this.isColliding(null, T(this, this.rampCheckDX), 0)
+                    : this.isColliding(null, Bind(this, this.rampCheckDX), 0)
                       ? (this.set_localY(m), (k = 0))
                       : --k;
                 }
@@ -2945,10 +2945,12 @@
                 : 1;
             this.set_localY(Math.round(this.get_localY() + f));
             m += f;
-            k = this.isColliding(null, T(this, this.nonRampCheck), 1);
+            k = this.isColliding(null, Bind(this, this.nonRampCheck), 1);
             if (!c && k) break;
             p =
-              c && k ? !0 : this.isColliding(null, T(this, this.rampCheck), 1);
+              c && k
+                ? !0
+                : this.isColliding(null, Bind(this, this.rampCheck), 1);
           }
           p
             ? (this.set_localY(this.get_localY() - f),
@@ -4447,11 +4449,11 @@
         e + Math.sin(H) * K,
         f,
         m,
-        k ? T(this, this.collsionHandler) : null,
+        k ? Bind(this, this.collsionHandler) : null,
       );
       this.particles.push(H);
     }
-    this.addEventListener('enterFrame', T(this, this.update));
+    this.addEventListener('enterFrame', Bind(this, this.update));
     this.addEventListener('render', function (aa) {
       y.render(aa.surface);
     });
@@ -18383,7 +18385,7 @@
       this.addEventListener('mouseDown', function (k) {
         2 > k.which && k.target == a && (a.drawing = !0);
       });
-      Canvas.input.addEventListener('mouseUp', T(this, this.mouseUp));
+      Canvas.input.addEventListener('mouseUp', Bind(this, this.mouseUp));
       this.renderer.showGrid = A.showGrid;
       this.barUpper = new R(A.editorLevel.theme, function (k) {
         A.editorLevel.theme = 1 - A.editorLevel.theme;
@@ -18733,7 +18735,7 @@
       }
     },
     kill: function () {
-      Canvas.input.removeEventListener('mouseUp', T(this, this.mouseUp));
+      Canvas.input.removeEventListener('mouseUp', Bind(this, this.mouseUp));
       l.set_level(null);
     },
     __class__: A,
@@ -19296,7 +19298,7 @@
     restart: function (a) {
       a = Game.instance.paused
         ? ((gameInstance = Game.instance),
-          T(gameInstance, gameInstance.unpause))
+          Bind(gameInstance, gameInstance.unpause))
         : null;
       Game.instance.changeScreen(
         new w(l.level, this.speedrun, this.speedrunStart),
@@ -20129,7 +20131,7 @@
     this.sfx.addEventListener('click', function (c) {
       2 > c.which &&
         (Game.ie && !Game.instance.ieUnmuted
-          ? b.showWarn(T(b, b.toggleSFX))
+          ? b.showWarn(Bind(b, b.toggleSFX))
           : b.toggleSFX());
     });
     this.sfx.set_x(Canvas.width - this.sfx.get_width() - 12);
@@ -20143,7 +20145,7 @@
     this.music.addEventListener('click', function (c) {
       2 > c.which &&
         (Game.ie && !Game.instance.ieUnmuted
-          ? b.showWarn(T(b, b.toggleMusic))
+          ? b.showWarn(Bind(b, b.toggleMusic))
           : b.toggleMusic());
     });
     this.music.set_x(this.sfx.x - this.music.get_width() - 12);
@@ -20259,7 +20261,7 @@
                 : new ca(),
           !0,
           ((gameInstance = Game.instance),
-          T(gameInstance, gameInstance.unpause)),
+          Bind(gameInstance, gameInstance.unpause)),
         ));
     });
     this.addChild(this.btnQuit);
