@@ -45,7 +45,7 @@
     return c;
   }
 
-  var dc = function () {
+  var toStringNoop = function () {
     return JSObjectUtils.__string_rec(this, '');
   };
 
@@ -1801,18 +1801,18 @@
     __constructs__: ['Blocked', 'Overflow', 'OutsideBounds', 'Custom'],
     Blocked: ['Blocked', 0],
   };
-  ErrorTypes.Blocked.toString = dc;
+  ErrorTypes.Blocked.toString = toStringNoop;
   ErrorTypes.Blocked.__enum__ = ErrorTypes;
   ErrorTypes.Overflow = ['Overflow', 1];
-  ErrorTypes.Overflow.toString = dc;
+  ErrorTypes.Overflow.toString = toStringNoop;
   ErrorTypes.Overflow.__enum__ = ErrorTypes;
   ErrorTypes.OutsideBounds = ['OutsideBounds', 2];
-  ErrorTypes.OutsideBounds.toString = dc;
+  ErrorTypes.OutsideBounds.toString = toStringNoop;
   ErrorTypes.OutsideBounds.__enum__ = ErrorTypes;
   ErrorTypes.Custom = function (a) {
     a = ['Custom', 3, a];
     a.__enum__ = ErrorTypes;
-    a.toString = dc;
+    a.toString = toStringNoop;
     return a;
   };
 
@@ -1981,6 +1981,8 @@
   JSObjectUtils.__resolveNativeClass = function (a) {
     return window[a];
   };
+
+  console.debug('JSObjectUtils: ', JSObjectUtils);
 
   var ROTATE_GameConstants = function () {};
   ROTATE_GameConstants.__name__ = !0;
