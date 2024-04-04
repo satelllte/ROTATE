@@ -18554,37 +18554,37 @@
   jb.prototype = {
     testPoint: function (a, b) {
       if (null == b) return !1;
-      var c = this.bounds;
+      var bounds = this.bounds;
       if (0 == ROTATE_LevelEditorManager.rotation) {
         if (
-          (0 == this.dir && b.y <= c.get_top()) ||
-          (1 == this.dir && b.x >= c.get_right()) ||
-          (2 == this.dir && b.y >= c.get_bottom()) ||
-          (3 == this.dir && b.x <= c.get_left())
+          (0 == this.dir && b.y <= bounds.get_top()) ||
+          (1 == this.dir && b.x >= bounds.get_right()) ||
+          (2 == this.dir && b.y >= bounds.get_bottom()) ||
+          (3 == this.dir && b.x <= bounds.get_left())
         )
           return !0;
       } else if (1 == ROTATE_LevelEditorManager.rotation) {
         if (
-          (3 == this.dir && b.x <= c.get_left()) ||
-          (0 == this.dir && b.y <= c.get_top()) ||
-          (1 == this.dir && b.x >= c.get_right()) ||
-          (2 == this.dir && b.y >= c.get_bottom())
+          (3 == this.dir && b.x <= bounds.get_left()) ||
+          (0 == this.dir && b.y <= bounds.get_top()) ||
+          (1 == this.dir && b.x >= bounds.get_right()) ||
+          (2 == this.dir && b.y >= bounds.get_bottom())
         )
           return !0;
       } else if (2 == ROTATE_LevelEditorManager.rotation) {
         if (
-          (2 == this.dir && b.y >= c.get_bottom()) ||
-          (3 == this.dir && b.x <= c.get_left()) ||
-          (0 == this.dir && b.y <= c.get_top()) ||
-          (1 == this.dir && b.x / 2 >= c.get_right())
+          (2 == this.dir && b.y >= bounds.get_bottom()) ||
+          (3 == this.dir && b.x <= bounds.get_left()) ||
+          (0 == this.dir && b.y <= bounds.get_top()) ||
+          (1 == this.dir && b.x / 2 >= bounds.get_right())
         )
           return !0;
       } else if (
         3 == ROTATE_LevelEditorManager.rotation &&
-        ((1 == this.dir && b.x >= c.get_right()) ||
-          (2 == this.dir && b.y >= c.get_bottom()) ||
-          (3 == this.dir && b.x <= c.get_left()) ||
-          (0 == this.dir && b.y <= c.get_top()))
+        ((1 == this.dir && b.x >= bounds.get_right()) ||
+          (2 == this.dir && b.y >= bounds.get_bottom()) ||
+          (3 == this.dir && b.x <= bounds.get_left()) ||
+          (0 == this.dir && b.y <= bounds.get_top()))
       )
         return !0;
       return !1;
