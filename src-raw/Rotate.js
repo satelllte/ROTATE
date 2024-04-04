@@ -1840,39 +1840,44 @@
     a = JSObjectUtils.__nativeClassName(a);
     return null != a ? JSObjectUtils.__resolveNativeClass(a) : null;
   };
-  JSObjectUtils.__string_rec = function (a, b) {
-    if (null == a) return 'null';
-    if (5 <= b.length) return '<...>';
-    var c = typeof a;
-    'function' == c && (a.__name__ || a.__ename__) && (c = 'object');
-    switch (c) {
+  JSObjectUtils.__string_rec = function (entity, values) {
+    if (null == entity) return 'null';
+    if (5 <= values.length) return '<...>';
+    var entityType = typeof entity;
+    'function' == entityType &&
+      (entity.__name__ || entity.__ename__) &&
+      (entityType = 'object');
+    switch (entityType) {
       case 'function':
         return '<function>';
       case 'object':
-        if (a instanceof Array) {
-          if (a.__enum__) {
-            if (2 == a.length) return a[0];
-            c = a[0] + '(';
-            b += '\t';
-            for (var d = 2, e = a.length; d < e; ) {
+        if (entity instanceof Array) {
+          if (entity.__enum__) {
+            if (2 == entity.length) return entity[0];
+            entityType = entity[0] + '(';
+            values += '\t';
+            for (var d = 2, e = entity.length; d < e; ) {
               var f = d++;
-              c =
+              entityType =
                 2 != f
-                  ? c + (',' + JSObjectUtils.__string_rec(a[f], b))
-                  : c + JSObjectUtils.__string_rec(a[f], b);
+                  ? entityType +
+                    (',' + JSObjectUtils.__string_rec(entity[f], values))
+                  : entityType + JSObjectUtils.__string_rec(entity[f], values);
             }
-            return c + ')';
+            return entityType + ')';
           }
-          c = a.length;
+          entityType = entity.length;
           d = '[';
-          b += '\t';
-          for (e = 0; e < c; )
+          values += '\t';
+          for (e = 0; e < entityType; )
             (f = e++),
-              (d += (0 < f ? ',' : '') + JSObjectUtils.__string_rec(a[f], b));
+              (d +=
+                (0 < f ? ',' : '') +
+                JSObjectUtils.__string_rec(entity[f], values));
           return d + ']';
         }
         try {
-          d = a.toString;
+          d = entity.toString;
         } catch (m) {
           return '???';
         }
@@ -1880,28 +1885,32 @@
           null != d &&
           d != Object.toString &&
           'function' == typeof d &&
-          ((c = a.toString()), '[object Object]' != c)
+          ((entityType = entity.toString()), '[object Object]' != entityType)
         )
-          return c;
-        c = null;
+          return entityType;
+        entityType = null;
         d = '{\n';
-        b += '\t';
-        e = null != a.hasOwnProperty;
-        for (c in a)
-          (e && !a.hasOwnProperty(c)) ||
-            'prototype' == c ||
-            '__class__' == c ||
-            '__super__' == c ||
-            '__interfaces__' == c ||
-            '__properties__' == c ||
+        values += '\t';
+        e = null != entity.hasOwnProperty;
+        for (entityType in entity)
+          (e && !entity.hasOwnProperty(entityType)) ||
+            'prototype' == entityType ||
+            '__class__' == entityType ||
+            '__super__' == entityType ||
+            '__interfaces__' == entityType ||
+            '__properties__' == entityType ||
             (2 != d.length && (d += ', \n'),
-            (d += b + c + ' : ' + JSObjectUtils.__string_rec(a[c], b)));
-        b = b.substring(1);
-        return d + ('\n' + b + '}');
+            (d +=
+              values +
+              entityType +
+              ' : ' +
+              JSObjectUtils.__string_rec(entity[entityType], values)));
+        values = values.substring(1);
+        return d + ('\n' + values + '}');
       case 'string':
-        return a;
+        return entity;
       default:
-        return String(a);
+        return String(entity);
     }
   };
   JSObjectUtils.__interfLoop = function (a, b) {
