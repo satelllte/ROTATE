@@ -1553,15 +1553,15 @@
   var MapInterface = function () {};
   MapInterface.__name__ = !0;
 
-  var ya = function (a) {
+  var StringBytesObject = function (a) {
     this.length = a.byteLength;
     this.b = new Uint8Array(a);
     this.b.bufferValue = a;
     a.hxBytes = this;
     a.bytes = this.b;
   };
-  ya.__name__ = !0;
-  ya.ofString = function (a) {
+  StringBytesObject.__name__ = !0;
+  StringBytesObject.ofString = function (a) {
     for (var b = [], c = 0; c < a.length; ) {
       var d = a.charCodeAt(c++);
       55296 <= d &&
@@ -1577,9 +1577,9 @@
               b.push(128 | ((d >> 6) & 63))),
           b.push(128 | (d & 63)));
     }
-    return new ya(new Uint8Array(b).buffer);
+    return new StringBytesObject(new Uint8Array(b).buffer);
   };
-  ya.prototype = {
+  StringBytesObject.prototype = {
     getString: function (a, b) {
       if (0 > a || 0 > b || a + b > this.length)
         throw new ROTATE_Error(ErrorTypes.OutsideBounds);
@@ -1613,7 +1613,7 @@
     toString: function () {
       return this.getString(0, this.length);
     },
-    __class__: ya,
+    __class__: StringBytesObject,
   };
 
   var CharUtils = function () {};
@@ -1636,7 +1636,9 @@
     if (b)
       for (; 61 == StringUtils2.charCodeAt(a, a.length - 1); )
         a = StringUtils2.substr(a, 0, -1);
-    return new CharEncoder(CharUtils.BYTES).decodeBytes(ya.ofString(a));
+    return new CharEncoder(CharUtils.BYTES).decodeBytes(
+      StringBytesObject.ofString(a),
+    );
   };
 
   var CharEncoder = function (a) {
@@ -1653,7 +1655,9 @@
         var b = this.nbits,
           c = this.base,
           d = ((8 * a.length) / b) | 0,
-          e = new ya(new ArrayBuffer(d + (0 == (8 * a.length) % b ? 0 : 1))),
+          e = new StringBytesObject(
+            new ArrayBuffer(d + (0 == (8 * a.length) % b ? 0 : 1)),
+          ),
           f = 0,
           m = 0,
           k = (1 << b) - 1,
@@ -1687,7 +1691,7 @@
       for (
         var c = this.tbl,
           d = (a.length * b) >> 3,
-          e = new ya(new ArrayBuffer(d)),
+          e = new StringBytesObject(new ArrayBuffer(d)),
           f = 0,
           m = 0,
           k = 0,
@@ -2373,7 +2377,7 @@
       this.muteSFX && (a.muteSFX = !0);
       LocalStorage.setItem(
         'lws:rotate',
-        CharUtils.encode(ya.ofString(JSON.stringify(a))),
+        CharUtils.encode(StringBytesObject.ofString(JSON.stringify(a))),
       );
     },
     clearProgress: function () {
@@ -21685,7 +21689,7 @@
 
   CharUtils.CHARS =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-  CharUtils.BYTES = ya.ofString(CharUtils.CHARS);
+  CharUtils.BYTES = StringBytesObject.ofString(CharUtils.CHARS);
 
   JSObjectUtils.__toStr = {}.toString;
 
