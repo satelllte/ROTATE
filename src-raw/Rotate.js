@@ -1739,23 +1739,23 @@
     __class__: hb,
   };
 
-  var fc = function (a, b) {
-    this.map = a;
-    this.keys = b;
+  var ROTATE_EventMapIterator = function (map, keys) {
+    this.map = map;
+    this.keys = keys;
     this.index = 0;
-    this.count = b.length;
+    this.count = keys.length;
   };
-  fc.__name__ = !0;
-  fc.prototype = {
+  ROTATE_EventMapIterator.__name__ = !0;
+  ROTATE_EventMapIterator.prototype = {
     hasNext: function () {
       return this.index < this.count;
     },
     next: function () {
-      var a = this.map,
-        b = this.keys[this.index++];
-      return null != ROTATE_ObjectReserved[b] ? a.getReserved(b) : a.h[b];
+      var map = this.map;
+      var b = this.keys[this.index++];
+      return null != ROTATE_ObjectReserved[b] ? map.getReserved(b) : map.h[b];
     },
-    __class__: fc,
+    __class__: ROTATE_EventMapIterator,
   };
 
   var ROTATE_EventMap = function () {
@@ -3682,7 +3682,7 @@
           };
         }
         var k = ROTATE_LevelEditorManager.updateQueue;
-        for (k = new fc(k, k.arrayKeys()); k.hasNext(); ) {
+        for (k = new ROTATE_EventMapIterator(k, k.arrayKeys()); k.hasNext(); ) {
           var p = k.next(),
             y = ROTATE_LevelEditorManager.rotating;
           if (!y)
