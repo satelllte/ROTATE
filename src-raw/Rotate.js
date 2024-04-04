@@ -1582,7 +1582,7 @@
   ya.prototype = {
     getString: function (a, b) {
       if (0 > a || 0 > b || a + b > this.length)
-        throw new ROTATE_Error(oa.OutsideBounds);
+        throw new ROTATE_Error(ErrorTypes.OutsideBounds);
       for (
         var c = '', d = this.b, e = String.fromCharCode, f = a, m = a + b;
         f < m;
@@ -1796,22 +1796,22 @@
     __class__: ROTATE_EventMap,
   };
 
-  var oa = {
+  var ErrorTypes = {
     __ename__: !0,
     __constructs__: ['Blocked', 'Overflow', 'OutsideBounds', 'Custom'],
     Blocked: ['Blocked', 0],
   };
-  oa.Blocked.toString = dc;
-  oa.Blocked.__enum__ = oa;
-  oa.Overflow = ['Overflow', 1];
-  oa.Overflow.toString = dc;
-  oa.Overflow.__enum__ = oa;
-  oa.OutsideBounds = ['OutsideBounds', 2];
-  oa.OutsideBounds.toString = dc;
-  oa.OutsideBounds.__enum__ = oa;
-  oa.Custom = function (a) {
+  ErrorTypes.Blocked.toString = dc;
+  ErrorTypes.Blocked.__enum__ = ErrorTypes;
+  ErrorTypes.Overflow = ['Overflow', 1];
+  ErrorTypes.Overflow.toString = dc;
+  ErrorTypes.Overflow.__enum__ = ErrorTypes;
+  ErrorTypes.OutsideBounds = ['OutsideBounds', 2];
+  ErrorTypes.OutsideBounds.toString = dc;
+  ErrorTypes.OutsideBounds.__enum__ = ErrorTypes;
+  ErrorTypes.Custom = function (a) {
     a = ['Custom', 3, a];
-    a.__enum__ = oa;
+    a.__enum__ = ErrorTypes;
     a.toString = dc;
     return a;
   };
