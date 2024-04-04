@@ -1982,8 +1982,6 @@
     return window[a];
   };
 
-  console.debug('JSObjectUtils: ', JSObjectUtils);
-
   var ROTATE_GameConstants = function () {};
   ROTATE_GameConstants.__name__ = !0;
 
