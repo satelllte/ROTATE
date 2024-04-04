@@ -1711,12 +1711,12 @@
     __class__: CharEncoder,
   };
 
-  var hb = function () {
+  var ROTATE_KeysMap = function () {
     this.h = {};
   };
-  hb.__name__ = !0;
-  hb.__interfaces__ = [lc];
-  hb.prototype = {
+  ROTATE_KeysMap.__name__ = !0;
+  ROTATE_KeysMap.__interfaces__ = [lc];
+  ROTATE_KeysMap.prototype = {
     keys: function () {
       var a = [],
         b;
@@ -1736,7 +1736,7 @@
         },
       };
     },
-    __class__: hb,
+    __class__: ROTATE_KeysMap,
   };
 
   var ROTATE_EventMapIterator = function (map, keys) {
@@ -3554,7 +3554,7 @@
   };
   ROTATE_LevelEditorManager.onPlay = function () {
     if (null != ROTATE_LevelEditorManager.level) {
-      ROTATE_LevelEditorManager.leversChanged = new hb();
+      ROTATE_LevelEditorManager.leversChanged = new ROTATE_KeysMap();
       for (var a = 0, b = ROTATE_LevelEditorManager.tiles.length; a < b; )
         for (
           var c = a++, d = 0, e = ROTATE_LevelEditorManager.tiles[c].length;
@@ -20147,7 +20147,7 @@
   var ROTATE_ScreenPrimaryGame = function (tempLevel, speedrun, speedrunStart) {
     null == speedrunStart && (speedrunStart = -1);
     null == speedrun && (speedrun = !1);
-    this.channels = new hb();
+    this.channels = new ROTATE_KeysMap();
     this.newBest = !1;
     this.speedrunFinal = -1;
     this.doors = [];
