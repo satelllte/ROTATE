@@ -1550,8 +1550,8 @@
     __class__: Transform,
   };
 
-  var lc = function () {};
-  lc.__name__ = !0;
+  var MapInterface = function () {};
+  MapInterface.__name__ = !0;
 
   var ya = function (a) {
     this.length = a.byteLength;
@@ -1715,7 +1715,7 @@
     this.h = {};
   };
   ROTATE_KeysMap.__name__ = !0;
-  ROTATE_KeysMap.__interfaces__ = [lc];
+  ROTATE_KeysMap.__interfaces__ = [MapInterface];
   ROTATE_KeysMap.prototype = {
     keys: function () {
       var a = [],
@@ -1762,7 +1762,7 @@
     this.h = {};
   };
   ROTATE_EventMap.__name__ = !0;
-  ROTATE_EventMap.__interfaces__ = [lc];
+  ROTATE_EventMap.__interfaces__ = [MapInterface];
   ROTATE_EventMap.prototype = {
     setReserved: function (a, b) {
       null == this.rh && (this.rh = {});
