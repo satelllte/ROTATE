@@ -3321,7 +3321,7 @@
                 return !0;
             }
           } else if (
-            JSObjectUtils.__instanceof(k, kb) &&
+            JSObjectUtils.__instanceof(k, ColliderNoop) &&
             ((p = k),
             (k = ROTATE_GameConstants.tileSize),
             (y = a.copy()),
@@ -4739,7 +4739,7 @@
       );
     },
     getColliders: function (a) {
-      return [new kb(a.getMeta(0))];
+      return [new ColliderNoop(a.getMeta(0))];
     },
     onTrigger: function (a) {
       ROTATE_ScreenPrimaryGame.i.killPlayer(!0);
@@ -18530,15 +18530,15 @@
     __class__: Collider,
   };
 
-  var kb = function (a) {
+  var ColliderNoop = function (a) {
     this.dir = a;
   };
-  kb.__name__ = !0;
-  kb.prototype = {
+  ColliderNoop.__name__ = !0;
+  ColliderNoop.prototype = {
     testPoint: function (a, b) {
       return !1;
     },
-    __class__: kb,
+    __class__: ColliderNoop,
   };
 
   var jb = function (a) {
