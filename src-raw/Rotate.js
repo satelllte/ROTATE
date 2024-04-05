@@ -2804,15 +2804,15 @@
     __class__: Signaler,
   };
 
-  var Va = function (blockData) {
+  var Door = function (blockData) {
     this.x = blockData.x;
     this.y = blockData.y;
     this.channel = blockData.getMeta(0);
     this.length = blockData.getMeta(1);
     this.angle = blockData.getMeta(2);
   };
-  Va.__name__ = !0;
-  Va.canPlace = function (a, b, c) {
+  Door.__name__ = !0;
+  Door.canPlace = function (a, b, c) {
     if (!ROTATE_LevelEditorManager.isInBounds(a, b)) return !1;
     var d = c[1];
     c = c[2];
@@ -2843,7 +2843,7 @@
     }
     return !0;
   };
-  Va.prototype = {
+  Door.prototype = {
     contains: function (a, b) {
       return 3 == this.angle
         ? a == this.x && b <= this.y
@@ -2873,7 +2873,7 @@
               : a(this.x + d, this.y);
       }
     },
-    __class__: Va,
+    __class__: Door,
   };
 
   var ROTATE_Player = function () {
@@ -19261,7 +19261,7 @@
           m = ROTATE_LevelEditorManager.getBlockData(m, d);
           m.get_block() == ROTATE_GameObjects.door &&
             0 < m.getMeta(1) &&
-            this.doors.push(new Va(m));
+            this.doors.push(new Door(m));
         }
       ROTATE_ScreenGameBase.prototype.init.call(this);
       this.cameraX =
@@ -19494,12 +19494,12 @@
               var y = ROTATE_GameObjects.getBlock(m).getConfigMeta();
               k = ROTATE_LevelEditorManager.getBlockData(d, e);
               (k.id == m && k.metaEquals(y)) ||
-                (c == ROTATE_GameObjects.door && !Va.canPlace(d, e, y)) ||
+                (c == ROTATE_GameObjects.door && !Door.canPlace(d, e, y)) ||
                 (f.push(k),
                 ROTATE_LevelEditorManager.setBlock(d, e, m, y, !0),
                 this.renderer.updateBlockPlus(d, e),
                 c == ROTATE_GameObjects.door &&
-                  ((b = new Va(ROTATE_LevelEditorManager.getBlockData(d, e))),
+                  ((b = new Door(ROTATE_LevelEditorManager.getBlockData(d, e))),
                   this.doors.push(b),
                   b.forEach(function (aa, fa) {
                     if (aa != d || fa != e) {
@@ -20265,7 +20265,7 @@
             f = ROTATE_LevelEditorManager.getBlockData(f, c);
             f.get_block() == ROTATE_GameObjects.door &&
               0 < f.getMeta(1) &&
-              this.doors.push(new Va(f));
+              this.doors.push(new Door(f));
           }
         ROTATE_LevelEditorManager.level.start();
         ROTATE_ScreenGameBase.prototype.init.call(this);
