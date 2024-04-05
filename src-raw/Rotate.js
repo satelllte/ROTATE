@@ -2777,10 +2777,10 @@
     },
   );
 
-  var hc = function (a) {
+  var hc = function (id) {
     this.lastChanged = -1;
     this.signals = [];
-    this.id = a;
+    this.id = id;
   };
   hc.__name__ = !0;
   hc.prototype = {
@@ -2804,12 +2804,12 @@
     __class__: hc,
   };
 
-  var Va = function (a) {
-    this.x = a.x;
-    this.y = a.y;
-    this.channel = a.getMeta(0);
-    this.length = a.getMeta(1);
-    this.angle = a.getMeta(2);
+  var Va = function (blockData) {
+    this.x = blockData.x;
+    this.y = blockData.y;
+    this.channel = blockData.getMeta(0);
+    this.length = blockData.getMeta(1);
+    this.angle = blockData.getMeta(2);
   };
   Va.__name__ = !0;
   Va.canPlace = function (a, b, c) {
@@ -3179,7 +3179,7 @@
             : new Bounds(b - m / 2, c - f + a, m, f);
     },
     rampCheck: function (a) {
-      return JSObjectUtils.__instanceof(a, Wa)
+      return JSObjectUtils.__instanceof(a, Collider3)
         ? (0 != ROTATE_LevelEditorManager.rotation ||
             (0 != a.dir && 1 != a.dir)) &&
           (1 != ROTATE_LevelEditorManager.rotation ||
@@ -3198,7 +3198,7 @@
       return !this.rampCheck(a);
     },
     rampCheckDX: function (a) {
-      return JSObjectUtils.__instanceof(a, Wa)
+      return JSObjectUtils.__instanceof(a, Collider3)
         ? (0 == ROTATE_LevelEditorManager.rotation &&
             ((0 < this.dx && 0 == a.dir) || (0 > this.dx && 1 == a.dir))) ||
           (1 == ROTATE_LevelEditorManager.rotation &&
@@ -3283,7 +3283,7 @@
               a.intersects(k))
             )
               return !0;
-          } else if (JSObjectUtils.__instanceof(k, Wa)) {
+          } else if (JSObjectUtils.__instanceof(k, Collider3)) {
             var p = new Vector2(a.get_right(), a.get_bottom());
             1 == k.dir && (p = new Vector2(a.get_left(), a.get_bottom()));
             2 == k.dir && (p = new Vector2(a.get_left(), a.get_top()));
@@ -3291,7 +3291,7 @@
             p.x -= b * ROTATE_GameConstants.tileSize;
             p.y -= c * ROTATE_GameConstants.tileSize;
             if (k.testPoint(p)) return !0;
-          } else if (JSObjectUtils.__instanceof(k, jb)) {
+          } else if (JSObjectUtils.__instanceof(k, Collider2)) {
             if (
               ((p = k.bounds.copy()),
               (p.x += b * ROTATE_GameConstants.tileSize),
@@ -4685,7 +4685,7 @@
         this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
       },
       getColliders: function (a) {
-        return [new jb(a.getMeta(0))];
+        return [new Collider2(a.getMeta(0))];
       },
       __class__: ROTATE_GameObject_Platform,
     },
@@ -4701,7 +4701,7 @@
       this.renderRotated(a, b, 6 * ROTATE_GameConstants.tileSize, 0);
     },
     getColliders: function (a) {
-      return [new Wa(a.getMeta(0))];
+      return [new Collider3(a.getMeta(0))];
     },
     __class__: ROTATE_GameObject_Ramp,
   });
@@ -18541,17 +18541,17 @@
     __class__: ColliderNoop,
   };
 
-  var jb = function (a) {
+  var Collider2 = function (dir) {
     this.bounds = new Bounds(
       0,
       0,
       ROTATE_GameConstants.tileSize,
       ROTATE_GameConstants.tileSize,
     );
-    this.dir = a;
+    this.dir = dir;
   };
-  jb.__name__ = !0;
-  jb.prototype = {
+  Collider2.__name__ = !0;
+  Collider2.prototype = {
     testPoint: function (a, b) {
       if (null == b) return !1;
       var bounds = this.bounds;
@@ -18589,14 +18589,14 @@
         return !0;
       return !1;
     },
-    __class__: jb,
+    __class__: Collider2,
   };
 
-  var Wa = function (a) {
+  var Collider3 = function (a) {
     this.set_dir(a);
   };
-  Wa.__name__ = !0;
-  Wa.prototype = {
+  Collider3.__name__ = !0;
+  Collider3.prototype = {
     set_dir: function (a) {
       return (this.dir = 0 > a || 3 < a ? 0 : a);
     },
@@ -18612,7 +18612,7 @@
             ROTATE_GameConstants.tileSize
           : !1;
     },
-    __class__: Wa,
+    __class__: Collider3,
   };
 
   var ROTATE_Cat = function (a, b, c, d, endCondition) {
