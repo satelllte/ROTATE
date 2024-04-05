@@ -2777,13 +2777,13 @@
     },
   );
 
-  var hc = function (id) {
+  var Signaler = function (id) {
     this.lastChanged = -1;
     this.signals = [];
     this.id = id;
   };
-  hc.__name__ = !0;
-  hc.prototype = {
+  Signaler.__name__ = !0;
+  Signaler.prototype = {
     get_status: function () {
       return 0 < this.signals.length;
     },
@@ -2801,7 +2801,7 @@
         this.get_status() ||
           (this.lastChanged = ROTATE_Game.instance.get_gameTime()));
     },
-    __class__: hc,
+    __class__: Signaler,
   };
 
   var Va = function (blockData) {
@@ -20476,7 +20476,7 @@
       },
       signalOn: function (a, b, c) {
         var d = this.channels.h[c];
-        null == d && ((d = new hc(c)), (this.channels.h[c] = d));
+        null == d && ((d = new Signaler(c)), (this.channels.h[c] = d));
         d.signalOn(a, b);
       },
       signalOff: function (a, b, c) {
