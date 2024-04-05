@@ -162,7 +162,8 @@
     ROTATE_Canvas.canvas.width = ROTATE_Canvas.width;
     ROTATE_Canvas.canvas.height = ROTATE_Canvas.height;
     ROTATE_Canvas.canvas.style.position = 'absolute';
-    ROTATE_Canvas.canvas.style.left = ROTATE_Canvas.canvas.style.top = '0';
+    ROTATE_Canvas.canvas.style.left = '0';
+    ROTATE_Canvas.canvas.style.top = '0';
     ROTATE_Canvas.canvas.style.transform = 'translateZ(0px)';
     ROTATE_Canvas.canvas.style.cursor = 'default';
     container.appendChild(ROTATE_Canvas.canvas);
