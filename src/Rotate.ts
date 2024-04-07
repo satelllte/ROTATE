@@ -2808,31 +2808,40 @@ ROTATE_Awards.update = function () {
   }
 };
 
-var BlockData = function (x, y, id, meta) {
-  this.x = x;
-  this.y = y;
-  this.id = id;
-  this.meta = null == meta ? [] : meta;
-};
-BlockData.__name__ = !0;
-BlockData.prototype = {
-  get_block: function () {
+class BlockData {
+  public x: number; // TODO: possibly mark as readonly
+  public y: number; // TODO: possibly mark as readonly
+  public id: number; // TODO: possibly mark as readonly
+  public meta: number[]; // TODO: possibly mark as readonly
+
+  constructor(x: number, y: number, id: number, meta?: number[] = []) {
+    this.x = x;
+    this.y = y;
+    this.id = id;
+    this.meta = meta;
+  }
+
+  public get_block(): Tooltip {
     return ROTATE_GameObjects.getBlock(this.id);
-  },
-  getMeta: function (index) {
+  }
+
+  public getMeta(index: number): number {
+    // TODO: remove redundant null checks once types fully covered
     return null != this.meta && null != this.meta[index] ? this.meta[index] : 0;
-  },
-  metaEquals: function (a) {
-    if (null == this.meta && null == a) return !0;
-    if (this.meta.length != a.length) return !1;
-    for (var b = 0, c = a.length; b < c; ) {
+  }
+
+  // TODO: define signature
+  public metaEquals(meta?: number[]): boolean {
+    // TODO: improve implementation
+    if (null == this.meta && null == meta) return true;
+    if (this.meta.length != meta.length) return false;
+    for (var b = 0, c = meta.length; b < c; ) {
       var d = b++;
-      if (a[d] != this.meta[d]) return !1;
+      if (meta[d] != this.meta[d]) return false;
     }
-    return !0;
-  },
-  __class__: BlockData,
-};
+    return true;
+  }
+}
 
 var ROTATE_AnimatedObject = function (image, frameW, frameH) {
   this.animChanged = false;
@@ -4062,6 +4071,7 @@ ROTATE_Renderer.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   __class__: ROTATE_Renderer,
 });
 
+// TODO: rename to "Block", "GameObject" or "GameObjectBase"
 class Tooltip {
   public bubbleHeight: number = 46;
   public bubbleWidth: number = 124;
