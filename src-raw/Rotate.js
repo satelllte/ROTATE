@@ -498,9 +498,9 @@
     Time.lastTime = 0;
   };
   Time._update = function () {
-    var a = Time.get_currentMS();
-    Time.elapsedTime = a - Time.lastTime;
-    Time.lastTime = a;
+    var currentMs = Time.get_currentMS();
+    Time.elapsedTime = currentMs - Time.lastTime;
+    Time.lastTime = currentMs;
   };
   Time.absoluteTime = function () {
     return new Date().getTime();
@@ -2118,7 +2118,7 @@
     },
     init: function (a) {
       this.removeEventListener('added', Bind(this, this.init));
-      ROTATE_Canvas.set_imageSmoothingEnabled(!1);
+      ROTATE_Canvas.set_imageSmoothingEnabled(false);
       ROTATE_Manager.addEventListener('finished', Bind(this, this.loaded));
     },
     loaded: function (a) {
@@ -2460,6 +2460,7 @@
     },
     __class__: ROTATE_Game,
   });
+
   var ROTATE_Audio = function () {};
   ROTATE_Audio.__name__ = !0;
 
