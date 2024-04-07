@@ -555,95 +555,145 @@ CanvasUtils.pointInTransformedBounds = function (a, b, c) {
       );
 };
 
-var Graphics = function () {
-  this.clear();
-};
-Graphics.__name__ = !0;
-Graphics.prototype = {
-  get_length: function () {
-    return this.items.length;
-  },
-  get_skipDraw: function () {
-    return this.filling ? false : !this.stroking;
-  },
-  clear: function () {
+class GraphicsSurfaceExecutor {
+  public readonly method: string; // TODO: define type properly
+  public readonly params: any; // TODO: define type properly
+
+  // TODO: define type properly
+  constructor(method: string, params: any) {
+    this.method = method;
+    this.params = params;
+  }
+
+  public execute(surface: Surface): void {
+    // TODO: figure out why .apply() must be used instead of straight call
+    // @ts-expect-error // TODO: define type properly
+    surface[this.method].apply(surface, this.params);
+    // surface[this.method](this.params);
+  }
+}
+
+class Graphics {
+  public static readonly PI2: number = 2 * Math.PI;
+
+  public items: GraphicsSurfaceExecutor[] = [];
+  public bounds: Bounds = new Bounds(0, 0, 0, 0);
+  private filling: boolean = false; // TODO: rename to "_filling"
+  private stroking: boolean = false; // TODO: rename to "_stroking"
+
+  constructor() {
+    this.clear();
+  }
+
+  public clear(): void {
     this.items = [];
     this.filling = false;
     this.stroking = false;
     this.bounds = new Bounds(0, 0, 0, 0);
-  },
-  _paint: function (a) {
-    for (var b = 0, c = this.items; b < c.length; ) {
-      var d = c[b];
-      ++b;
-      d.execute(a);
+  }
+
+  public get_length(): number {
+    return this.items.length;
+  }
+
+  public get_skipDraw(): boolean {
+    return this.filling ? false : !this.stroking;
+  }
+
+  // TODO: define signature
+  public _paint(surface: Surface) {
+    for (var i = 0; i < this.items.length; i++) {
+      this.items[i].execute(surface);
     }
-    a.endFill();
-    a.endStroke();
-  },
-  call: function (a, b) {
-    this.items.push(ROTATE_FunctionWrapper.callFunc(a, b));
-  },
-  beginFill: function (a, b) {
+    surface.endFill();
+    surface.endStroke();
+  }
+
+  // TODO: define signature
+  public call(a, b) {
+    this.items.push(new GraphicsSurfaceExecutor(a, b));
+  }
+
+  // TODO: define signature
+  public beginFill(a, b) {
     null == b && (b = 1);
     null == a && (a = 0);
     this.call('beginFill', [a, b]);
     this.filling = true;
-  },
-  endFill: function () {
+  }
+
+  // TODO: define signature
+  public endFill(): void {
     this.call('endFill');
     this.filling = false;
-  },
-  beginStroke: function (a, b, c) {
+  }
+
+  // TODO: define signature
+  public beginStroke(a, b, c) {
     null == c && (c = 1);
     null == b && (b = 0);
     null == a && (a = 1);
     this.call('beginStroke', [a, b, c]);
     this.stroking = true;
-  },
-  endStroke: function () {
+  }
+
+  // TODO: define signature
+  public endStroke() {
     this.call('endStroke');
     this.stroking = false;
-  },
-  drawRect: function (x: number, y: number, width: number, height: number) {
+  }
+
+  // TODO: define signature
+  public drawRect(x: number, y: number, width: number, height: number) {
     this.get_skipDraw() ||
       (this.bounds.combine(new Bounds(x, y, width, height)),
       this.call('drawRect', [x, y, width, height]));
-  },
-  drawPath: function (a, b) {
+  }
+
+  // TODO: define signature
+  public drawPath(a, b) {
     null == b && (b = !0);
     this.get_skipDraw() ||
       (this.bounds.combine(Bounds.containingPoints(a)),
       this.call('drawPath', [a, b]));
-  },
-  drawCircle: function (a, b, c) {
+  }
+
+  // TODO: define signature
+  public drawCircle(a, b, c) {
     this.get_skipDraw() ||
       (this.bounds.combine(new Bounds(a - c, b - c, 2 * c, 2 * c)),
       this.call('drawCircle', [a, b, c]));
-  },
-  drawArc: function (a, b, c, d, e, f, m) {
+  }
+
+  // TODO: define signature
+  public drawArc(a, b, c, d, e, f, m) {
     null == m && (m = !1);
     null == f && (f = !1);
     this.get_skipDraw() ||
       (this.bounds.combine(new Bounds(a - c, b - c, 2 * c, 2 * c)),
       this.call('drawArc', [a, b, c, d, e, f, m]));
-  },
-  drawEllipse: function (x: number, y: number, width: number, height: number) {
+  }
+
+  // TODO: define signature
+  public drawEllipse(x: number, y: number, width: number, height: number) {
     this.get_skipDraw() ||
       (this.bounds.combine(new Bounds(x, y, width, height)),
       this.call('drawEllipse', [x, y, width, height]));
-  },
-  drawImage: function (a, b, c) {
+  }
+
+  // TODO: define signature
+  public drawImage(a, b, c) {
     this.call('drawImage', [a, b, c]);
-  },
-  drawText: function (a, b, c, d, e, f, m, k) {
+  }
+
+  // TODO: define signature
+  public drawText(a, b, c, d, e, f, m, k) {
     null == k && (k = 1.25);
     null == m && (m = 'left');
     null == f && (f = 'normal');
     this.get_skipDraw() || this.call('drawText', [a, b, c, d, e, f, m, k]);
-  },
-  __class__: Graphics,
-};
+  }
+}
 
 var ROTATE_CanvasObject = function () {
   this.graphics = new Graphics();
@@ -1269,24 +1319,6 @@ InputKeys.keyPressed = function (a) {
 };
 InputKeys.keyReleased = function (a) {
   return InputKeys.keyDown(a) ? !1 : InputKeys.keyDownOld(a);
-};
-
-var ROTATE_FunctionWrapper = function (type, name) {
-  this.type = type;
-  this.name = name;
-};
-ROTATE_FunctionWrapper.__name__ = !0;
-ROTATE_FunctionWrapper.callFunc = function (name, params) {
-  var c = new ROTATE_FunctionWrapper(ROTATE_FunctionWrapper.FUNC, name);
-  c.params = params;
-  return c;
-};
-ROTATE_FunctionWrapper.prototype = {
-  execute: function (a) {
-    this.type == ROTATE_FunctionWrapper.FUNC &&
-      a[this.name].apply(a, this.params);
-  },
-  __class__: ROTATE_FunctionWrapper,
 };
 
 class Surface {
@@ -21695,8 +21727,6 @@ Time.startTime = 0;
 Time.lastTime = 0;
 Time.elapsedTime = 0;
 
-Graphics.PI2 = 2 * Math.PI;
-
 ROTATE_Event.ADDED = 'added';
 ROTATE_Event.REMOVED = 'removed';
 ROTATE_Event.ENTER_FRAME = 'enterFrame';
@@ -21721,8 +21751,6 @@ ROTATE_RenderEvent.RENDER = 'render';
 InputKeys.inited = !1;
 InputKeys.keys = [];
 InputKeys.keysOld = [];
-
-ROTATE_FunctionWrapper.FUNC = 1;
 
 CharUtils.CHARS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
