@@ -944,45 +944,55 @@ ROTATE_RenderEvent.prototype = __inherit(ROTATE_Event.prototype, {
   __class__: ROTATE_RenderEvent,
 });
 
-var Vector2 = function (x, y) {
-  this.x = x;
-  this.y = y;
-};
-Vector2.__name__ = !0;
-Vector2.dot = function (a, b) {
-  return a.x * b.x + a.y * b.y;
-};
-Vector2.distance = function (a, b) {
-  return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
-};
-Vector2.prototype = {
-  copy: function () {
+class Vector2 {
+  public x: number; // TODO: make readonly and access through getter only
+  public y: number; // TODO: make readonly and access through getter only
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
+  copy(): Vector2 {
     return new Vector2(this.x, this.y);
-  },
-  equals: function (a) {
-    return null != a && a.x == this.x ? a.y == this.y : !1;
-  },
-  add: function (a) {
-    return new Vector2(this.x + a.x, this.y + a.y);
-  },
-  subtract: function (a) {
-    return new Vector2(this.x - a.x, this.y - a.y);
-  },
-  multiply: function (a) {
-    return new Vector2(this.x * a.x, this.y * a.y);
-  },
-  divide: function (a) {
-    return new Vector2(this.x / a.x, this.y / a.y);
-  },
-  __class__: Vector2,
-};
+  }
+
+  equals(v: Vector2): boolean {
+    // TODO: remove null check (once type-safety is covered)
+    return null != v && v.x == this.x ? v.y == this.y : false;
+  }
+
+  add(v: Vector2): Vector2 {
+    return new Vector2(this.x + v.x, this.y + v.y);
+  }
+
+  subtract(v: Vector2): Vector2 {
+    return new Vector2(this.x - v.x, this.y - v.y);
+  }
+
+  multiply(v: Vector2): Vector2 {
+    return new Vector2(this.x * v.x, this.y * v.y);
+  }
+
+  divide(v: Vector2): Vector2 {
+    return new Vector2(this.x / v.x, this.y / v.y);
+  }
+
+  public static dot(a: Vector2, b: Vector2): number {
+    return a.x * b.x + a.y * b.y;
+  }
+
+  public static distance(a: Vector2, b: Vector2): number {
+    return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+  }
+}
 
 // TODO: consider renaming to "Bound" or "Bounding"
 class Bounds {
-  public x: number;
-  public y: number;
-  public width: number;
-  public height: number;
+  public x: number; // TODO: make readonly and access through getter only
+  public y: number; // TODO: make readonly and access through getter only
+  public width: number; // TODO: make readonly and access through getter only
+  public height: number; // TODO: make readonly and access through getter only
 
   constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
@@ -1023,8 +1033,7 @@ class Bounds {
     this.width = x - this.x;
   }
 
-  // TODO: define types
-  public get_center() {
+  public get_center(): Vector2 {
     return new Vector2(
       (this.get_left() + this.get_right()) / 2,
       (this.get_top() + this.get_bottom()) / 2,
@@ -1040,6 +1049,7 @@ class Bounds {
   }
 
   public contains(bounds: Bounds): boolean {
+    // TODO: remove null check (once type-safety is covered)
     return null != bounds &&
       bounds.x >= this.x &&
       bounds.y >= this.y &&
@@ -1049,6 +1059,7 @@ class Bounds {
   }
 
   public equals(bounds: Bounds): boolean {
+    // TODO: remove null check (once type-safety is covered)
     return null != bounds &&
       bounds.x == this.x &&
       bounds.y == this.y &&
