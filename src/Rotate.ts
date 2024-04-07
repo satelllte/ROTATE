@@ -1438,47 +1438,52 @@ class Surface {
     if (this.stroking) this._ctx.stroke();
   }
 
-  // TODO: define signature
-  public drawPath(a, b): void {
-    null == b && (b = !0);
-    if (!(this.get_skipDraw() || 2 > a.length)) {
-      var c = this.get_strokeOffset();
-      this.beginPath();
-      this.moveTo(a[0].x + c, a[0].y + c);
-      for (var d = 1, e = a.length; d < e; ) {
-        var f = d++;
-        this.lineTo(a[f].x + c, a[f].y + c);
-      }
-      b && this.closePath();
-      this.applyPath();
+  public drawPath(boundsList: Bounds[], shouldClosePath: boolean = true): void {
+    if (this.get_skipDraw()) return;
+    if (boundsList.length < 2) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    this.beginPath();
+    this.moveTo(boundsList[0].x + strokeOffset, boundsList[0].y + strokeOffset);
+    for (let i = 1; i < boundsList.length; i++) {
+      this.lineTo(
+        boundsList[i].x + strokeOffset,
+        boundsList[i].y + strokeOffset,
+      );
     }
+    if (shouldClosePath) this.closePath();
+    this.applyPath();
   }
 
-  // TODO: define signature
-  public drawCircle(a, b, c): void {
-    if (!this.get_skipDraw()) {
-      var d = this.get_strokeOffset();
-      a += d;
-      b += d;
-      this.beginPath();
-      this.arc(a, b, c, 0.1, Surface.PI2 + 0.1);
-      this.applyPath();
-    }
+  public drawCircle(x: number, y: number, radius: number): void {
+    if (this.get_skipDraw()) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+    this.beginPath();
+    this.arc(x, y, radius, 0.1, Surface.PI2 + 0.1);
+    this.applyPath();
   }
 
-  // TODO: define signature
-  public drawArc(a, b, c, d, e, f, m): void {
-    null == m && (m = !1);
-    null == f && (f = !1);
-    if (!this.get_skipDraw()) {
-      var k = this.get_strokeOffset();
-      a += k;
-      b += k;
-      this.beginPath();
-      m && this.moveTo(a, b);
-      this.arc(a, b, c, d, e, f);
-      this.applyPath();
-    }
+  public drawArc(
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number,
+    endAngle: number,
+    counterclockwise: boolean = false,
+    moveToXY: boolean = false,
+  ): void {
+    if (this.get_skipDraw()) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+    this.beginPath();
+    if (moveToXY) this.moveTo(x, y);
+    this.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+    this.applyPath();
   }
 
   // TODO: define signature
