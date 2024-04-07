@@ -22,6 +22,8 @@ const COLOR = {
   border: 0x808080,
 } as const satisfies Record<string, number>;
 
+const PI2 = Math.PI * 2.0;
+
 const getColorString = (
   rgb: number,
   alpha: number = 1.0,
@@ -140,8 +142,6 @@ class Transform {
 }
 
 class Surface {
-  public static readonly PI2: number = 2 * Math.PI;
-
   private _transform: Transform;
   private _ctx: CanvasRenderingContext2D;
   private filling: boolean = false; // TODO: rename to "_filling"
@@ -300,7 +300,7 @@ class Surface {
     x += strokeOffset;
     y += strokeOffset;
     this.beginPath();
-    this.arc(x, y, radius, 0.1, Surface.PI2 + 0.1);
+    this.arc(x, y, radius, 0.1, PI2 + 0.1);
     this.applyPath();
   }
 
@@ -339,7 +339,7 @@ class Surface {
     this.save();
     this.translate(x + width / 2, y + height / 2);
     this.scale(width / height, 1);
-    this.arc(0, 0, height / 2, 0.1, Surface.PI2 + 0.1);
+    this.arc(0, 0, height / 2, 0.1, PI2 + 0.1);
     this.restore();
     this.applyPath();
   }
@@ -459,8 +459,6 @@ class GraphicsSurfaceExecutor {
 }
 
 class Graphics {
-  public static readonly PI2: number = 2 * Math.PI;
-
   public items: GraphicsSurfaceExecutor[] = [];
   public bounds: Bounds = new Bounds(0, 0, 0, 0);
   private filling: boolean = false; // TODO: rename to "_filling"
