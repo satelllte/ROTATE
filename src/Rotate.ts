@@ -29,6 +29,10 @@ const getColorString = (
   return `rgba(${(rgb & 0xff0000) >>> 16},${(rgb & 0xff00) >>> 8},${rgb & 0xff},${alpha})`;
 };
 
+const clamp = (x: number, min: number, max: number): number =>
+  Math.max(min, Math.min(max, x));
+const clamp01 = (x: number): number => clamp(x, 0, 1);
+
 function __inherit(parentPrototype, selfPrototype) {
   function c() {}
   c.prototype = parentPrototype;
@@ -1366,7 +1370,7 @@ class Surface {
   }
 
   public beginFill(rgb: number = COLOR.black, alpha: number = 1.0): void {
-    0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
+    alpha = clamp01(alpha);
     this._ctx.fillStyle = getColorString(rgb & 0xffffff, alpha);
     this.filling = true;
   }
@@ -1380,7 +1384,7 @@ class Surface {
     rgb: number = COLOR.black,
     alpha: number = 1.0,
   ) {
-    0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
+    alpha = clamp01(alpha);
     this._ctx.strokeStyle = getColorString(rgb & COLOR.white, alpha);
     this._ctx.lineWidth = width;
     this.strokeWidth = width;
