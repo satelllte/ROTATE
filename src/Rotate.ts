@@ -554,19 +554,6 @@ CanvasUtils.pointInTransformedBounds = function (a, b, c) {
         b.apply(c.get_left(), c.get_bottom()),
       );
 };
-CanvasUtils.drawImageSafe = function (a, b, c, d, e, f, m, k) {
-  0 >= e ||
-    0 >= f ||
-    0 >= c + e ||
-    c >= b.width ||
-    0 >= d + f ||
-    d >= b.height ||
-    ((c += 0 > c ? -c : 0),
-    (d += 0 > d ? -d : 0),
-    c + e > b.width && (e = b.width - c),
-    d + f > b.height && (f = b.height - d),
-    a.drawImage(b, c, d, e, f, m, k, e, f));
-};
 
 var Graphics = function () {
   this.clear();
@@ -1506,33 +1493,68 @@ class Surface {
     this.applyPath();
   }
 
-  // TODO: define signature
-  public drawImage(a, b, c, d, e): void {
-    null == e && (e = !0);
-    null != b
-      ? e
-        ? CanvasUtils.drawImageSafe(
-            this._ctx,
-            a,
-            b.x,
-            b.y,
-            b.width,
-            b.height,
-            c,
-            d,
-          )
-        : this._ctx.drawImage(
-            a,
-            b.x,
-            b.y,
-            b.width,
-            b.height,
-            c,
-            d,
-            b.width,
-            b.height,
-          )
-      : this._ctx.drawImage(a, c, d);
+  private static _drawImageSafe(
+    ctx: CanvasRenderingContext2D,
+    image: CanvasImageSource,
+    sx: number,
+    sy: number,
+    sw: number,
+    sh: number,
+    dx: number,
+    dy: number,
+  ): void {
+    // TODO: simplify the implementation
+    0 >= sw ||
+      0 >= sh ||
+      0 >= sx + sw ||
+      sx >= image.width ||
+      0 >= sy + sh ||
+      sy >= image.height ||
+      ((sx += 0 > sx ? -sx : 0),
+      (sy += 0 > sy ? -sy : 0),
+      sx + sw > image.width && (sw = image.width - sx),
+      sy + sh > image.height && (sh = image.height - sy),
+      ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh));
+  }
+
+  public drawImage(
+    image: CanvasImageSource,
+    bounds?: Bounds,
+    dx: number,
+    dy: number,
+    safe: boolean = true,
+  ): void {
+    if (!bounds) {
+      this._ctx.drawImage(image, dx, dy);
+      return;
+    }
+
+    if (safe) {
+      // TODO: remove if this is not needed at all
+      Surface._drawImageSafe(
+        this._ctx,
+        image,
+        bounds.x,
+        bounds.y,
+        bounds.width,
+        bounds.height,
+        dx,
+        dy,
+      );
+      return;
+    }
+
+    this._ctx.drawImage(
+      image,
+      bounds.x,
+      bounds.y,
+      bounds.width,
+      bounds.height,
+      dx,
+      dy,
+      bounds.width,
+      bounds.height,
+    );
   }
 
   // TODO: define signature
