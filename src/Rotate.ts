@@ -1486,20 +1486,24 @@ class Surface {
     this.applyPath();
   }
 
-  // TODO: define signature
-  public drawEllipse(a, b, c, d): void {
-    if (!this.get_skipDraw()) {
-      var e = this.get_strokeOffset();
-      a += e;
-      b += e;
-      this.beginPath();
-      this.save();
-      this.translate(a + c / 2, b + d / 2);
-      this.scale(c / d, 1);
-      this.arc(0, 0, d / 2, 0.1, Surface.PI2 + 0.1);
-      this.restore();
-      this.applyPath();
-    }
+  public drawEllipse(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    if (this.get_skipDraw()) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+    this.beginPath();
+    this.save();
+    this.translate(x + width / 2, y + height / 2);
+    this.scale(width / height, 1);
+    this.arc(0, 0, height / 2, 0.1, Surface.PI2 + 0.1);
+    this.restore();
+    this.applyPath();
   }
 
   // TODO: define signature
