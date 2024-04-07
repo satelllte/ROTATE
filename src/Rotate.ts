@@ -1298,101 +1298,144 @@ ROTATE_FunctionWrapper.prototype = {
   __class__: ROTATE_FunctionWrapper,
 };
 
-var Surface = function (ctx) {
-  this._transform = new Transform();
-  this._ctx = ctx;
-  this.reset();
-};
-Surface.__name__ = !0;
-Surface.prototype = {
-  save: function () {
+class Surface {
+  public static readonly PI2: number = 2 * Math.PI;
+
+  private _transform: Transform;
+  private _ctx: CanvasRenderingContext2D;
+  private filling: boolean = false; // TODO: rename to "_filling"
+  private stroking: boolean = false; // TODO: rename to "_stroking"
+
+  constructor(ctx: CanvasRenderingContext2D) {
+    this._transform = new Transform();
+    this._ctx = ctx;
+    this.reset();
+  }
+
+  public save(): void {
     this._transform.save();
     this._ctx.save();
-  },
-  restore: function () {
+  }
+
+  public restore(): void {
     this._transform.restore();
     this._ctx.restore();
-  },
-  setTransform: function (a, b, c, d, e, f) {
+  }
+
+  public setTransform(
+    a: number,
+    b: number,
+    c: number,
+    d: number,
+    e: number,
+    f: number,
+  ): void {
     this._transform.set(a, b, c, d, e, f);
     this._ctx.setTransform(a, b, c, d, e, f);
-  },
-  translate: function (a, b) {
-    if (0 != a || 0 != b)
-      this._transform.translate(a, b), this._ctx.translate(a, b);
-  },
-  scale: function (a, b) {
-    if (1 != a || 1 != b) this._transform.scale(a, b), this._ctx.scale(a, b);
-  },
-  rotate: function (a) {
-    0 != a && (this._transform.rotate(a), this._ctx.rotate(a));
-  },
-  get_skipDraw: function () {
-    return this.filling ? !1 : !this.stroking;
-  },
-  get_strokeOffset: function () {
+  }
+
+  public translate(x: number, y: number): void {
+    if (0 != x || 0 != y)
+      this._transform.translate(x, y), this._ctx.translate(x, y);
+  }
+
+  public scale(x: number, y: number): void {
+    if (1 != x || 1 != y) this._transform.scale(x, y), this._ctx.scale(x, y);
+  }
+
+  public rotate(rad: number): void {
+    0 != rad && (this._transform.rotate(rad), this._ctx.rotate(rad));
+  }
+
+  public get_skipDraw(): boolean {
+    return this.filling ? false : !this.stroking;
+  }
+
+  public get_strokeOffset(): 0.5 | 0 {
     return this.stroking && 0 != Math.round(this.strokeWidth) % 2 ? 0.5 : 0;
-  },
-  reset: function (a) {
-    null == a && (a = !1);
-    a || this.setTransform(1, 0, 0, 1, 0, 0);
-    this.filling = this.stroking = !1;
-  },
-  clearRect: function (a, b, c, d) {
-    this._ctx.clearRect(a, b, c, d);
-  },
-  beginFill: function (a, b) {
-    null == b && (b = 1);
-    null == a && (a = 0);
-    0 > b ? (b = 0) : 1 < b && (b = 1);
-    this._ctx.fillStyle = CanvasUtils.getColorString(a & 16777215, b);
-    this.filling = !0;
-  },
-  endFill: function () {
-    this.filling = !1;
-  },
-  beginStroke: function (a, b, c) {
-    null == c && (c = 1);
-    null == b && (b = 0);
-    null == a && (a = 1);
-    0 > c ? (c = 0) : 1 < c && (c = 1);
-    this._ctx.strokeStyle = CanvasUtils.getColorString(b & 16777215, c);
-    this._ctx.lineWidth = this.strokeWidth = a;
-    this.stroking = !0;
-  },
-  endStroke: function () {
-    this.stroking = !1;
-  },
-  drawRect: function (a, b, c, d) {
-    if (!this.get_skipDraw()) {
-      var e = this.get_strokeOffset();
-      a += e;
-      b += e;
-      this.filling && this._ctx.fillRect(a, b, c, d);
-      this.stroking && this._ctx.strokeRect(a, b, c, d);
-    }
-  },
-  beginPath: function () {
+  }
+
+  public reset(skipTransformReset: boolean = false): void {
+    if (!skipTransformReset) this.setTransform(1, 0, 0, 1, 0, 0);
+    this.filling = false;
+    this.stroking = false;
+  }
+
+  public clearRect(x: number, y: number, w: number, h: number): void {
+    this._ctx.clearRect(x, y, w, h);
+  }
+
+  public beginFill(rgb: number = 0x000000, alpha: number = 1.0): void {
+    0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
+    this._ctx.fillStyle = CanvasUtils.getColorString(rgb & 0xffffff, alpha);
+    this.filling = true;
+  }
+
+  public endFill(): void {
+    this.filling = false;
+  }
+
+  public beginStroke(
+    width: number = 1,
+    rgb: number = 0x000000,
+    alpha: number = 1.0,
+  ) {
+    0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
+    this._ctx.strokeStyle = CanvasUtils.getColorString(rgb & 0xffffff, alpha);
+    this._ctx.lineWidth = width;
+    this.strokeWidth = width;
+    this.stroking = true;
+  }
+
+  public endStroke(): void {
+    this.stroking = false;
+  }
+
+  public drawRect(x: number, y: number, w: number, h: number): void {
+    if (this.get_skipDraw()) return;
+
+    var strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+
+    if (this.filling) this._ctx.fillRect(x, y, w, h);
+    if (this.stroking) this._ctx.strokeRect(x, y, w, h);
+  }
+
+  public beginPath(): void {
     this._ctx.beginPath();
-  },
-  closePath: function () {
+  }
+
+  public closePath(): void {
     this._ctx.closePath();
-  },
-  moveTo: function (a, b) {
-    this._ctx.moveTo(a, b);
-  },
-  lineTo: function (a, b) {
-    this._ctx.lineTo(a, b);
-  },
-  arc: function (a, b, c, d, e, f) {
-    null == f && (f = !1);
-    this._ctx.arc(a, b, c, d, e, f);
-  },
-  applyPath: function () {
-    this.filling && this._ctx.fill();
-    this.stroking && this._ctx.stroke();
-  },
-  drawPath: function (a, b) {
+  }
+
+  public moveTo(x: number, y: number): void {
+    this._ctx.moveTo(x, y);
+  }
+
+  public lineTo(x: number, y: number): void {
+    this._ctx.lineTo(x, y);
+  }
+
+  public arc(
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number,
+    endAngle: number,
+    counterclockwise: boolean = false,
+  ): void {
+    this._ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+  }
+
+  public applyPath(): void {
+    if (this.filling) this._ctx.fill();
+    if (this.stroking) this._ctx.stroke();
+  }
+
+  // TODO: define signature
+  public drawPath(a, b): void {
     null == b && (b = !0);
     if (!(this.get_skipDraw() || 2 > a.length)) {
       var c = this.get_strokeOffset();
@@ -1405,8 +1448,10 @@ Surface.prototype = {
       b && this.closePath();
       this.applyPath();
     }
-  },
-  drawCircle: function (a, b, c) {
+  }
+
+  // TODO: define signature
+  public drawCircle(a, b, c): void {
     if (!this.get_skipDraw()) {
       var d = this.get_strokeOffset();
       a += d;
@@ -1415,8 +1460,10 @@ Surface.prototype = {
       this.arc(a, b, c, 0.1, Surface.PI2 + 0.1);
       this.applyPath();
     }
-  },
-  drawArc: function (a, b, c, d, e, f, m) {
+  }
+
+  // TODO: define signature
+  public drawArc(a, b, c, d, e, f, m): void {
     null == m && (m = !1);
     null == f && (f = !1);
     if (!this.get_skipDraw()) {
@@ -1428,8 +1475,10 @@ Surface.prototype = {
       this.arc(a, b, c, d, e, f);
       this.applyPath();
     }
-  },
-  drawEllipse: function (a, b, c, d) {
+  }
+
+  // TODO: define signature
+  public drawEllipse(a, b, c, d): void {
     if (!this.get_skipDraw()) {
       var e = this.get_strokeOffset();
       a += e;
@@ -1442,8 +1491,10 @@ Surface.prototype = {
       this.restore();
       this.applyPath();
     }
-  },
-  drawImage: function (a, b, c, d, e) {
+  }
+
+  // TODO: define signature
+  public drawImage(a, b, c, d, e): void {
     null == e && (e = !0);
     null != b
       ? e
@@ -1469,8 +1520,10 @@ Surface.prototype = {
             b.height,
           )
       : this._ctx.drawImage(a, c, d);
-  },
-  drawText: function (a, b, c, d, e, f, m, k) {
+  }
+
+  // TODO: define signature
+  public drawText(a, b, c, d, e, f, m, k): void {
     null == k && (k = 1.25);
     null == m && (m = 'left');
     null == f && (f = 'normal');
@@ -1491,8 +1544,10 @@ Surface.prototype = {
         this.filling && this._ctx.fillText(p, b, c + f * e * k);
         this.stroking && this._ctx.strokeText(p, b, c + f * e * k);
       }
-  },
-  getTextWidth: function (a, b, c) {
+  }
+
+  // TODO: define signature
+  public getTextWidth(a, b, c) {
     b = c + 'px ' + b;
     this._ctx.font != b && (this._ctx.font = b);
     a = a.split('\n');
@@ -1503,9 +1558,8 @@ Surface.prototype = {
       e > b && (b = e);
     }
     return b;
-  },
-  __class__: Surface,
-};
+  }
+}
 
 type TransformMatrix = [number, number, number, number, number, number];
 class Transform {
@@ -1517,15 +1571,15 @@ class Transform {
     this._states = [];
   }
 
-  public getMatrix() {
+  public getMatrix(): TransformMatrix {
     return this.matrix.slice(0);
   }
 
-  public get(a) {
-    return 0 > a || 5 < a ? 0 : this.matrix[a];
+  public get(index: number): number {
+    return 0 > index || 5 < index ? 0 : this.matrix[index];
   }
 
-  public set(a, b, c, d, e, f) {
+  public set(a: number, b: number, c: number, d: number, e: number, f: number) {
     this.matrix[0] = a;
     this.matrix[1] = b;
     this.matrix[2] = c;
@@ -1534,7 +1588,14 @@ class Transform {
     this.matrix[5] = f;
   }
 
-  public multiply(a, b, c, d, e, f) {
+  public multiply(
+    a: number,
+    b: number,
+    c: number,
+    d: number,
+    e: number,
+    f: number,
+  ) {
     this.set(
       this.matrix[0] * a + this.matrix[2] * b,
       this.matrix[1] * a + this.matrix[3] * b,
@@ -1549,7 +1610,7 @@ class Transform {
     this.set(1, 0, 0, 1, 0, 0);
   }
 
-  public translate(x: number, y: number) {
+  public translate(x: number, y: number): void {
     (0 == x && 0 == y) || this.multiply(1, 0, 0, 1, x, y);
   }
 
@@ -21640,8 +21701,6 @@ InputKeys.keys = [];
 InputKeys.keysOld = [];
 
 ROTATE_FunctionWrapper.FUNC = 1;
-
-Surface.PI2 = 2 * Math.PI;
 
 CharUtils.CHARS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
