@@ -614,10 +614,10 @@ Graphics.prototype = {
     this.call('endStroke');
     this.stroking = false;
   },
-  drawRect: function (a, b, c, d) {
+  drawRect: function (x: number, y: number, width: number, height: number) {
     this.get_skipDraw() ||
-      (this.bounds.combine(new Bounds(a, b, c, d)),
-      this.call('drawRect', [a, b, c, d]));
+      (this.bounds.combine(new Bounds(x, y, width, height)),
+      this.call('drawRect', [x, y, width, height]));
   },
   drawPath: function (a, b) {
     null == b && (b = !0);
@@ -637,10 +637,10 @@ Graphics.prototype = {
       (this.bounds.combine(new Bounds(a - c, b - c, 2 * c, 2 * c)),
       this.call('drawArc', [a, b, c, d, e, f, m]));
   },
-  drawEllipse: function (a, b, c, d) {
+  drawEllipse: function (x: number, y: number, width: number, height: number) {
     this.get_skipDraw() ||
-      (this.bounds.combine(new Bounds(a, b, c, d)),
-      this.call('drawEllipse', [a, b, c, d]));
+      (this.bounds.combine(new Bounds(x, y, width, height)),
+      this.call('drawEllipse', [x, y, width, height]));
   },
   drawImage: function (a, b, c) {
     this.call('drawImage', [a, b, c]);
@@ -977,103 +977,144 @@ Vector2.prototype = {
   __class__: Vector2,
 };
 
-var Bounds = function (x, y, width, height) {
-  this.x = x;
-  this.y = y;
-  this.width = width;
-  this.height = height;
-};
-Bounds.__name__ = !0;
-Bounds.combineMultiple = function (a) {
-  for (var b = 0, c = 0, d = 0, e = 0, f = 0, m = a.length; f < m; ) {
-    var k = f++,
-      p = a[k];
-    if (0 == k || p.get_top() < b) b = p.get_top();
-    if (0 == k || p.get_left() < c) c = p.get_left();
-    if (0 == k || p.get_bottom() > d) d = p.get_bottom();
-    if (0 == k || p.get_right() > e) e = p.get_right();
-  }
-  return new Bounds(c, b, e - c, d - b);
-};
-Bounds.containingPoints = function (a) {
-  for (
-    var b = a[0].y, c = a[0].x, d = a[0].y, e = a[0].x, f = 0;
-    f < a.length;
+// TODO: consider renaming to "Bound" or "Bounding"
+class Bounds {
+  public x: number;
+  public y: number;
+  public width: number;
+  public height: number;
 
-  ) {
-    var m = a[f];
-    ++f;
-    m.y < b ? (b = m.y) : m.y > d && (d = m.y);
-    m.x < c ? (c = m.x) : m.x > e && (e = m.x);
+  constructor(x: number, y: number, width: number, height: number) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
   }
-  return new Bounds(c, b, e - c, d - b);
-};
-Bounds.prototype = {
-  get_top: function () {
+
+  public get_top(): number {
     return this.y;
-  },
-  set_top: function (a) {
-    return (this.y = a);
-  },
-  get_left: function () {
+  }
+
+  public set_top(y: number): void {
+    this.y = y;
+  }
+
+  public get_left(): number {
     return this.x;
-  },
-  set_left: function (a) {
-    return (this.x = a);
-  },
-  get_bottom: function () {
+  }
+
+  public set_left(x: number): void {
+    this.x = x;
+  }
+
+  public get_bottom(): number {
     return this.y + this.height;
-  },
-  set_bottom: function (a) {
-    this.height = a - this.y;
-    return a;
-  },
-  get_right: function () {
+  }
+
+  public set_bottom(y: number): void {
+    this.height = y - this.y;
+  }
+
+  public get_right(): number {
     return this.x + this.width;
-  },
-  set_right: function (a) {
-    this.width = a - this.x;
-    return a;
-  },
-  get_center: function () {
+  }
+
+  public set_right(x: number): void {
+    this.width = x - this.x;
+  }
+
+  // TODO: define types
+  public get_center() {
     return new Vector2(
       (this.get_left() + this.get_right()) / 2,
       (this.get_top() + this.get_bottom()) / 2,
     );
-  },
-  intersects: function (a) {
-    return a.get_left() < this.get_right() &&
-      a.get_right() > this.get_left() &&
-      a.get_top() < this.get_bottom()
-      ? a.get_bottom() > this.get_top()
-      : !1;
-  },
-  contains: function (a) {
-    return null != a && a.x >= this.x && a.y >= this.y && a.x < this.get_right()
-      ? a.y < this.get_bottom()
-      : !1;
-  },
-  equals: function (a) {
-    return null != a && a.x == this.x && a.y == this.y && a.width == this.width
-      ? a.height == this.height
-      : !1;
-  },
-  combine: function (a) {
-    var b = a.get_top() < this.get_top() ? a.get_top() : this.get_top(),
-      c = a.get_left() < this.get_left() ? a.get_left() : this.get_left(),
-      d =
-        a.get_bottom() > this.get_bottom() ? a.get_bottom() : this.get_bottom();
-    a = a.get_right() > this.get_right() ? a.get_right() : this.get_right();
-    this.set_top(b);
-    this.set_left(c);
-    this.set_bottom(d);
-    this.set_right(a);
-  },
-  copy: function () {
+  }
+
+  public intersects(bounds: Bounds): boolean {
+    return bounds.get_left() < this.get_right() &&
+      bounds.get_right() > this.get_left() &&
+      bounds.get_top() < this.get_bottom()
+      ? bounds.get_bottom() > this.get_top()
+      : false;
+  }
+
+  public contains(bounds: Bounds): boolean {
+    return null != bounds &&
+      bounds.x >= this.x &&
+      bounds.y >= this.y &&
+      bounds.x < this.get_right()
+      ? bounds.y < this.get_bottom()
+      : false;
+  }
+
+  public equals(bounds: Bounds): boolean {
+    return null != bounds &&
+      bounds.x == this.x &&
+      bounds.y == this.y &&
+      bounds.width == this.width
+      ? bounds.height == this.height
+      : false;
+  }
+
+  public combine(bounds: Bounds): void {
+    const top =
+      bounds.get_top() < this.get_top() ? bounds.get_top() : this.get_top();
+    const left =
+      bounds.get_left() < this.get_left() ? bounds.get_left() : this.get_left();
+    const bottom =
+      bounds.get_bottom() > this.get_bottom()
+        ? bounds.get_bottom()
+        : this.get_bottom();
+    const right =
+      bounds.get_right() > this.get_right()
+        ? bounds.get_right()
+        : this.get_right();
+    this.set_top(top);
+    this.set_left(left);
+    this.set_bottom(bottom);
+    this.set_right(right);
+  }
+
+  public copy(): Bounds {
     return new Bounds(this.x, this.y, this.width, this.height);
-  },
-  __class__: Bounds,
-};
+  }
+
+  public static combineMultiple(boundsList: Bounds[]): Bounds {
+    for (
+      var b = 0, c = 0, d = 0, e = 0, f = 0, m = boundsList.length;
+      f < m;
+
+    ) {
+      var k = f++,
+        p = boundsList[k];
+      if (0 == k || p.get_top() < b) b = p.get_top();
+      if (0 == k || p.get_left() < c) c = p.get_left();
+      if (0 == k || p.get_bottom() > d) d = p.get_bottom();
+      if (0 == k || p.get_right() > e) e = p.get_right();
+    }
+    return new Bounds(c, b, e - c, d - b);
+  }
+
+  public static containingPoints(boundsList: Bounds[]): Bounds {
+    for (
+      var b = boundsList[0].y,
+        c = boundsList[0].x,
+        d = boundsList[0].y,
+        e = boundsList[0].x,
+        f = 0;
+      f < boundsList.length;
+
+    ) {
+      var m = boundsList[f];
+      ++f;
+      m.y < b ? (b = m.y) : m.y > d && (d = m.y);
+      m.x < c ? (c = m.x) : m.x > e && (e = m.x);
+    }
+    return new Bounds(c, b, e - c, d - b);
+  }
+}
+
 var CanvasInput = function (canvas) {
   this.mouseX = this.mouseY = 0;
   this.isFocused = !1;
