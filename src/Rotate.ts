@@ -1558,6 +1558,7 @@ class Surface {
     );
   }
 
+  // TODO: remove if this is not needed at all
   // TODO: define signature
   public drawText(a, b, c, d, e, f, m, k): void {
     null == k && (k = 1.25);
