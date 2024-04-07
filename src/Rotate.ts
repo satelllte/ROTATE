@@ -4212,30 +4212,43 @@ ROTATE_Tooltip.prototype = {
   __class__: ROTATE_Tooltip,
 };
 
-var ROTATE_GameObject_Door = function () {
-  this.angle = 0;
-  this.length = 3;
-  this.channel = 0;
-  ROTATE_Tooltip.call(this);
-  this.bubbleWidth = 148;
-  this.bubbleHeight = 106;
-  this.configurable = !0;
-};
-ROTATE_GameObject_Door.__name__ = !0;
-ROTATE_GameObject_Door.__super__ = ROTATE_Tooltip;
-ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
-  set_angle: function (a) {
-    return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
-  },
-  collides: function (a) {
+type ROTATE_Angle = 0 | 1 | 2 | 3;
+
+class GameObject_Door extends Tooltip {
+  public angle: ROTATE_Angle; // TODO: possibly mark as readonly
+  public length: number; // TODO: possibly mark as readonly
+  public channel: number; // TODO: possibly mark as readonly
+
+  constructor() {
+    super();
+
+    this.bubbleWidth = 148;
+    this.bubbleHeight = 106;
+    this.configurable = true;
+
+    this.angle = 0;
+    this.length = 3;
+    this.channel = 0;
+  }
+
+  public set_angle(angle: ROTATE_Angle): void {
+    this.angle = 0 > angle ? 3 : 3 < angle ? 0 : angle;
+  }
+
+  // TODO: define signature
+  public collides(a) {
     var b = this.isOpen(a);
     !b && this.isStuck(a) && ROTATE_ScreenPrimaryGame.i.killPlayer();
     return !b;
-  },
-  alwaysUpdate: function (a) {
-    return !0;
-  },
-  render: function (a, b, c) {
+  }
+
+  // TODO: define signature
+  public alwaysUpdate(a): boolean {
+    return true;
+  }
+
+  // TODO: define signature
+  public render(a, b, c) {
     null == c && (c = !0);
     var d = b.getMeta(1);
     if (!(0 >= d)) {
@@ -4338,16 +4351,20 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
       a.rotate((-e * Math.PI) / 2);
       a.translate(-f / 2, -f / 2);
     }
-  },
-  isOpen: function (a) {
+  }
+
+  // TODO: define signature
+  public isOpen(a): boolean {
     return JSObjectUtils.__instanceof(
       ROTATE_Game.instance.currentScreen,
       ROTATE_ScreenPrimaryGame,
     ) && ROTATE_ScreenPrimaryGame.i.getChannelStatus(a.getMeta(0))
-      ? !0
-      : !1;
-  },
-  isStuck: function (a) {
+      ? true
+      : false;
+  }
+
+  // TODO: define signature
+  public isStuck(a): boolean {
     for (
       var b = 0, c = ROTATE_ScreenPrimaryGame.i.player.touching;
       b < c.length;
@@ -4355,13 +4372,15 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     ) {
       var d = c[b];
       ++b;
-      if (d.get_block() == this && d.getMeta(0) == a.getMeta(0)) return !0;
+      if (d.get_block() == this && d.getMeta(0) == a.getMeta(0)) return true;
     }
-    return !1;
-  },
-  setupBubble: function (a) {
-    var b = this,
-      c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
+    return false;
+  }
+
+  // TODO: define signature
+  public setupBubble(a): void {
+    var _this = this;
+    var c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
     c.set_x(8);
     c.set_y(8);
     a.addChild(c);
@@ -4375,8 +4394,8 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     e.mouseEnabled = e.buttonMode = !0;
     e.addEventListener('mouseDown', function (p) {
       1 < p.which ||
-        ((b.channel = 99 <= b.channel ? 0 : b.channel + 1),
-        d.set_text(b.channel + ''));
+        ((_this.channel = 99 <= _this.channel ? 0 : _this.channel + 1),
+        d.set_text(_this.channel + ''));
     });
     e.set_x(d.x + 11);
     e.set_y(d.y + 4);
@@ -4385,8 +4404,8 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     f.mouseEnabled = f.buttonMode = !0;
     f.addEventListener('mouseDown', function (p) {
       1 < p.which ||
-        ((b.channel = 0 >= b.channel ? 99 : b.channel - 1),
-        d.set_text(b.channel + ''));
+        ((_this.channel = 0 >= _this.channel ? 99 : _this.channel - 1),
+        d.set_text(_this.channel + ''));
     });
     f.set_scaleX(-1);
     f.set_x(d.x - 11);
@@ -4406,8 +4425,8 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     c.mouseEnabled = c.buttonMode = !0;
     c.addEventListener('mouseDown', function (p) {
       1 < p.which ||
-        ((b.length = 9 <= b.length ? 1 : b.length + 1),
-        m.set_text(b.length + ''));
+        ((_this.length = 9 <= _this.length ? 1 : _this.length + 1),
+        m.set_text(_this.length + ''));
     });
     c.set_x(m.x + 11);
     c.set_y(m.y + 4);
@@ -4416,8 +4435,8 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     f.mouseEnabled = f.buttonMode = !0;
     f.addEventListener('mouseDown', function (p) {
       1 < p.which ||
-        ((b.length = 1 >= b.length ? 9 : b.length - 1),
-        m.set_text(b.length + ''));
+        ((_this.length = 1 >= _this.length ? 9 : _this.length - 1),
+        m.set_text(_this.length + ''));
     });
     f.set_scaleX(-1);
     f.set_x(m.x - 11);
@@ -4436,7 +4455,8 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     e = new ROTATE_ImageObject(ROTATE_Images.configArrow);
     e.mouseEnabled = e.buttonMode = !0;
     e.addEventListener('mouseDown', function (p) {
-      1 < p.which || (b.set_angle(b.angle + 1), k.set_text(b.angle + ''));
+      1 < p.which ||
+        (_this.set_angle(_this.angle + 1), k.set_text(_this.angle + ''));
     });
     e.set_x(k.x + 11);
     e.set_y(k.y + 4);
@@ -4444,18 +4464,20 @@ ROTATE_GameObject_Door.prototype = __inherit(ROTATE_Tooltip.prototype, {
     c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
     c.mouseEnabled = c.buttonMode = !0;
     c.addEventListener('mouseDown', function (p) {
-      1 < p.which || (b.set_angle(b.angle - 1), k.set_text(b.angle + ''));
+      1 < p.which ||
+        (_this.set_angle(_this.angle - 1), k.set_text(_this.angle + ''));
     });
     c.set_scaleX(-1);
     c.set_x(k.x - 11);
     c.set_y(e.y);
     a.addChild(c);
-  },
-  getConfigMeta: function () {
+  }
+
+  // TODO: define signature
+  public getConfigMeta() {
     return [this.channel, this.length, this.angle];
-  },
-  __class__: ROTATE_GameObject_Door,
-});
+  }
+}
 
 var ROTATE_AngleTooltip = function () {
   this.angle = 0;
@@ -22144,10 +22166,7 @@ ROTATE_GameObjects.lever = ROTATE_GameObjects.register(
   8,
   new ROTATE_GameObject_Lever(),
 );
-ROTATE_GameObjects.door = ROTATE_GameObjects.register(
-  9,
-  new ROTATE_GameObject_Door(),
-);
+ROTATE_GameObjects.door = ROTATE_GameObjects.register(9, new GameObject_Door());
 ROTATE_GameObjects.number = ROTATE_GameObjects.register(
   7,
   new ROTATE_GameObject_Number(),
