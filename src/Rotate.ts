@@ -1374,7 +1374,7 @@ class Surface {
 
   public beginFill(rgb: number = COLOR.black, alpha: number = 1.0): void {
     0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
-    this._ctx.fillStyle = CanvasUtils.getColorString(rgb & 0xffffff, alpha);
+    this._ctx.fillStyle = CanvasUtils.getColorString(rgb & 0xffffff, alpha); // TODO: create "colorToString" util function
     this.filling = true;
   }
 
@@ -1391,7 +1391,7 @@ class Surface {
     this._ctx.strokeStyle = CanvasUtils.getColorString(
       rgb & COLOR.white,
       alpha,
-    );
+    ); // TODO: create "colorToString" util function
     this._ctx.lineWidth = width;
     this.strokeWidth = width;
     this.stroking = true;
