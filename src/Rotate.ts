@@ -1,4 +1,4 @@
-const KEY_CODES = {
+const KEY_CODE = {
   ArrowDown: 40,
   ArrowLeft: 37,
   ArrowRight: 39,
@@ -2182,21 +2182,20 @@ ROTATE_Game.quantize = function (a) {
 };
 ROTATE_Game.getInputX = function () {
   return (
-    (InputKeys.keyDown(KEY_CODES.ArrowLeft) || InputKeys.keyDown(KEY_CODES.KeyA)
+    (InputKeys.keyDown(KEY_CODE.ArrowLeft) || InputKeys.keyDown(KEY_CODE.KeyA)
       ? -1
       : 0) +
-    (InputKeys.keyDown(KEY_CODES.ArrowRight) ||
-    InputKeys.keyDown(KEY_CODES.KeyD)
+    (InputKeys.keyDown(KEY_CODE.ArrowRight) || InputKeys.keyDown(KEY_CODE.KeyD)
       ? 1
       : 0)
   );
 };
 ROTATE_Game.getInputY = function () {
   return (
-    (InputKeys.keyDown(KEY_CODES.ArrowUp) || InputKeys.keyDown(KEY_CODES.KeyW)
+    (InputKeys.keyDown(KEY_CODE.ArrowUp) || InputKeys.keyDown(KEY_CODE.KeyW)
       ? -1
       : 0) +
-    (InputKeys.keyDown(KEY_CODES.ArrowDown) || InputKeys.keyDown(KEY_CODES.KeyS)
+    (InputKeys.keyDown(KEY_CODE.ArrowDown) || InputKeys.keyDown(KEY_CODE.KeyS)
       ? 1
       : 0)
   );
@@ -3071,8 +3070,8 @@ ROTATE_Player.prototype = __inherit(ROTATE_AnimatedObject.prototype, {
           this.animation != ROTATE_Player.ANIM_IDLE &&
           this.set_animation(ROTATE_Player.ANIM_IDLE),
       !this.finished &&
-        (InputKeys.keyPressed(KEY_CODES.ArrowDown) ||
-          InputKeys.keyPressed(KEY_CODES.KeyS)))
+        (InputKeys.keyPressed(KEY_CODE.ArrowDown) ||
+          InputKeys.keyPressed(KEY_CODE.KeyS)))
     ) {
       for (var a = 0, b = this.touching; a < b.length; ) {
         var c = b[a];
@@ -3448,10 +3447,10 @@ ROTATE_Player.prototype = __inherit(ROTATE_AnimatedObject.prototype, {
       : Vector2.distance(b, new Vector2(a.get_left(), a.get_bottom())) < c;
   },
   jumpKeyDown: function () {
-    return InputKeys.keyDown(KEY_CODES.ArrowUp) ||
-      InputKeys.keyDown(KEY_CODES.KeyW)
+    return InputKeys.keyDown(KEY_CODE.ArrowUp) ||
+      InputKeys.keyDown(KEY_CODE.KeyW)
       ? !0
-      : InputKeys.keyDown(KEY_CODES.Space);
+      : InputKeys.keyDown(KEY_CODE.Space);
   },
   canRotate: function (a) {
     if (
@@ -19065,10 +19064,10 @@ ROTATE_ScreenAwards.prototype = __inherit(ROTATE_ScreenBase.prototype, {
       }
     } else if (
       ((a = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODES.KeyE : KEY_CODES.KeyQ,
+        ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
       )),
       (b = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODES.KeyQ : KEY_CODES.KeyE,
+        ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
       )),
       a || b)
     )
@@ -19267,10 +19266,10 @@ ROTATE_ScreenGameBase.prototype = __inherit(ROTATE_ScreenBase.prototype, {
       }
     } else if (
       ((b = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODES.KeyE : KEY_CODES.KeyQ,
+        ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
       )),
       (c = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODES.KeyQ : KEY_CODES.KeyE,
+        ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
       )),
       (b || c) && (null == a || a.canRotate(b ? -1 : 1)))
     ) {
@@ -19608,9 +19607,9 @@ ROTATE_ScreenEditor.prototype = __inherit(ROTATE_ScreenGameBase.prototype, {
             }
         }
       }
-      InputKeys.keyPressed(KEY_CODES.KeyL) && this.showLoadDialog();
-      InputKeys.keyPressed(KEY_CODES.KeyC) && this.showSaveDialog();
-      InputKeys.keyPressed(KEY_CODES.KeyG) &&
+      InputKeys.keyPressed(KEY_CODE.KeyL) && this.showLoadDialog();
+      InputKeys.keyPressed(KEY_CODE.KeyC) && this.showSaveDialog();
+      InputKeys.keyPressed(KEY_CODE.KeyG) &&
         ((this.renderer.showGrid = ROTATE_ScreenEditor.showGrid =
           !ROTATE_ScreenEditor.showGrid),
         (this.barLower.gridToggle.toggle.clipRect.x =
@@ -19913,7 +19912,7 @@ ROTATE_ScreenGameLastScene.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     );
     !this.done &&
       b >= this.delay &&
-      InputKeys.keyPressed(KEY_CODES.Space) &&
+      InputKeys.keyPressed(KEY_CODE.Space) &&
       ((this.done = !0),
       this.first &&
         ((ROTATE_Awards.awardEscape.unlocked = !1),
