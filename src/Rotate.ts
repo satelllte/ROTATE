@@ -1506,27 +1506,35 @@ Surface.prototype = {
   },
   __class__: Surface,
 };
-var Transform = function () {
-  this.states = [];
-  this.matrix = [1, 0, 0, 1, 0, 0];
-};
-Transform.__name__ = !0;
-Transform.prototype = {
-  getMatrix: function () {
+
+type TransformMatrix = [number, number, number, number, number, number];
+class Transform {
+  public matrix: TransformMatrix; // TODO: make readonly and access through getter only
+  private _states: TransformMatrix[];
+
+  constructor() {
+    this.matrix = [1, 0, 0, 1, 0, 0];
+    this._states = [];
+  }
+
+  public getMatrix() {
     return this.matrix.slice(0);
-  },
-  get: function (a) {
+  }
+
+  public get(a) {
     return 0 > a || 5 < a ? 0 : this.matrix[a];
-  },
-  set: function (a, b, c, d, e, f) {
+  }
+
+  public set(a, b, c, d, e, f) {
     this.matrix[0] = a;
     this.matrix[1] = b;
     this.matrix[2] = c;
     this.matrix[3] = d;
     this.matrix[4] = e;
     this.matrix[5] = f;
-  },
-  multiply: function (a, b, c, d, e, f) {
+  }
+
+  public multiply(a, b, c, d, e, f) {
     this.set(
       this.matrix[0] * a + this.matrix[2] * b,
       this.matrix[1] * a + this.matrix[3] * b,
@@ -1535,52 +1543,68 @@ Transform.prototype = {
       this.matrix[0] * e + this.matrix[2] * f + this.matrix[4],
       this.matrix[1] * e + this.matrix[3] * f + this.matrix[5],
     );
-  },
-  identity: function () {
+  }
+
+  public identity(): void {
     this.set(1, 0, 0, 1, 0, 0);
-  },
-  translate: function (a, b) {
-    (0 == a && 0 == b) || this.multiply(1, 0, 0, 1, a, b);
-  },
-  scale: function (a, b) {
-    (1 == a && 1 == b) || this.multiply(a, 0, 0, b, 0, 0);
-  },
-  rotate: function (a) {
-    0 != a &&
-      this.multiply(Math.cos(a), Math.sin(a), -Math.sin(a), Math.cos(a), 0, 0);
-  },
-  save: function () {
-    this.states.push(this.matrix.slice(0));
-  },
-  restore: function () {
-    var a = this.states.pop();
-    null != a ? (this.matrix = a) : this.identity();
-  },
-  equals: function (a) {
-    return this.matrix[0] == a.get(0) &&
-      this.matrix[1] == a.get(1) &&
-      this.matrix[2] == a.get(2) &&
-      this.matrix[3] == a.get(3) &&
-      this.matrix[4] == a.get(4)
-      ? this.matrix[5] == a.get(5)
-      : !1;
-  },
-  copy: function (a) {
-    this.matrix[0] = a.get(0);
-    this.matrix[1] = a.get(1);
-    this.matrix[2] = a.get(2);
-    this.matrix[3] = a.get(3);
-    this.matrix[4] = a.get(4);
-    this.matrix[5] = a.get(5);
-  },
-  apply: function (a, b) {
+  }
+
+  public translate(x: number, y: number) {
+    (0 == x && 0 == y) || this.multiply(1, 0, 0, 1, x, y);
+  }
+
+  public scale(x: number, y: number): void {
+    (1 == x && 1 == y) || this.multiply(x, 0, 0, y, 0, 0);
+  }
+
+  public rotate(rad: number): void {
+    0 != rad &&
+      this.multiply(
+        Math.cos(rad),
+        Math.sin(rad),
+        -Math.sin(rad),
+        Math.cos(rad),
+        0,
+        0,
+      );
+  }
+
+  public save(): void {
+    this._states.push(this.matrix.slice(0));
+  }
+
+  public restore(): void {
+    const latest = this._states.pop();
+    if (!latest) this.identity();
+    this.matrix = latest;
+  }
+
+  public equals(t: Transform): boolean {
+    return this.matrix[0] == t.get(0) &&
+      this.matrix[1] == t.get(1) &&
+      this.matrix[2] == t.get(2) &&
+      this.matrix[3] == t.get(3) &&
+      this.matrix[4] == t.get(4)
+      ? this.matrix[5] == t.get(5)
+      : false;
+  }
+
+  public copy(t: Transform): void {
+    this.matrix[0] = t.get(0);
+    this.matrix[1] = t.get(1);
+    this.matrix[2] = t.get(2);
+    this.matrix[3] = t.get(3);
+    this.matrix[4] = t.get(4);
+    this.matrix[5] = t.get(5);
+  }
+
+  public apply(a: number, b: number): Vector2 {
     return new Vector2(
       this.matrix[0] * a + this.matrix[2] * b + this.matrix[4],
       this.matrix[1] * a + this.matrix[3] * b + this.matrix[5],
     );
-  },
-  __class__: Transform,
-};
+  }
+}
 
 var MapInterface = function () {};
 MapInterface.__name__ = !0;
