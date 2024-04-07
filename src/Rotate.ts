@@ -33,6 +33,567 @@ const clamp = (x: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, x));
 const clamp01 = (x: number): number => clamp(x, 0, 1);
 
+type TransformMatrix = [number, number, number, number, number, number];
+class Transform {
+  public matrix: TransformMatrix; // TODO: make readonly and access through getter only
+  private _states: TransformMatrix[];
+
+  constructor() {
+    this.matrix = [1, 0, 0, 1, 0, 0];
+    this._states = [];
+  }
+
+  public getMatrix(): TransformMatrix {
+    return this.matrix.slice(0);
+  }
+
+  public get(index: number): number {
+    return 0 > index || 5 < index ? 0 : this.matrix[index];
+  }
+
+  public set(a: number, b: number, c: number, d: number, e: number, f: number) {
+    this.matrix[0] = a;
+    this.matrix[1] = b;
+    this.matrix[2] = c;
+    this.matrix[3] = d;
+    this.matrix[4] = e;
+    this.matrix[5] = f;
+  }
+
+  public multiply(
+    a: number,
+    b: number,
+    c: number,
+    d: number,
+    e: number,
+    f: number,
+  ) {
+    this.set(
+      this.matrix[0] * a + this.matrix[2] * b,
+      this.matrix[1] * a + this.matrix[3] * b,
+      this.matrix[0] * c + this.matrix[2] * d,
+      this.matrix[1] * c + this.matrix[3] * d,
+      this.matrix[0] * e + this.matrix[2] * f + this.matrix[4],
+      this.matrix[1] * e + this.matrix[3] * f + this.matrix[5],
+    );
+  }
+
+  public identity(): void {
+    this.set(1, 0, 0, 1, 0, 0);
+  }
+
+  public translate(x: number, y: number): void {
+    (0 == x && 0 == y) || this.multiply(1, 0, 0, 1, x, y);
+  }
+
+  public scale(x: number, y: number): void {
+    (1 == x && 1 == y) || this.multiply(x, 0, 0, y, 0, 0);
+  }
+
+  public rotate(rad: number): void {
+    0 != rad &&
+      this.multiply(
+        Math.cos(rad),
+        Math.sin(rad),
+        -Math.sin(rad),
+        Math.cos(rad),
+        0,
+        0,
+      );
+  }
+
+  public save(): void {
+    this._states.push(this.matrix.slice(0));
+  }
+
+  public restore(): void {
+    const latest = this._states.pop();
+    if (!latest) this.identity();
+    this.matrix = latest;
+  }
+
+  public equals(t: Transform): boolean {
+    return this.matrix[0] == t.get(0) &&
+      this.matrix[1] == t.get(1) &&
+      this.matrix[2] == t.get(2) &&
+      this.matrix[3] == t.get(3) &&
+      this.matrix[4] == t.get(4)
+      ? this.matrix[5] == t.get(5)
+      : false;
+  }
+
+  public copy(t: Transform): void {
+    this.matrix[0] = t.get(0);
+    this.matrix[1] = t.get(1);
+    this.matrix[2] = t.get(2);
+    this.matrix[3] = t.get(3);
+    this.matrix[4] = t.get(4);
+    this.matrix[5] = t.get(5);
+  }
+
+  public apply(a: number, b: number): Vector2 {
+    return new Vector2(
+      this.matrix[0] * a + this.matrix[2] * b + this.matrix[4],
+      this.matrix[1] * a + this.matrix[3] * b + this.matrix[5],
+    );
+  }
+}
+
+class Surface {
+  public static readonly PI2: number = 2 * Math.PI;
+
+  private _transform: Transform;
+  private _ctx: CanvasRenderingContext2D;
+  private filling: boolean = false; // TODO: rename to "_filling"
+  private stroking: boolean = false; // TODO: rename to "_stroking"
+  private strokeWidth: number = 0; // TODO: rename to "strokeWidth"
+
+  constructor(ctx: CanvasRenderingContext2D) {
+    this._transform = new Transform();
+    this._ctx = ctx;
+    this.reset();
+  }
+
+  public save(): void {
+    this._transform.save();
+    this._ctx.save();
+  }
+
+  public restore(): void {
+    this._transform.restore();
+    this._ctx.restore();
+  }
+
+  public setTransform(
+    a: number,
+    b: number,
+    c: number,
+    d: number,
+    e: number,
+    f: number,
+  ): void {
+    this._transform.set(a, b, c, d, e, f);
+    this._ctx.setTransform(a, b, c, d, e, f);
+  }
+
+  public translate(x: number, y: number): void {
+    if (0 != x || 0 != y)
+      this._transform.translate(x, y), this._ctx.translate(x, y);
+  }
+
+  public scale(x: number, y: number): void {
+    if (1 != x || 1 != y) this._transform.scale(x, y), this._ctx.scale(x, y);
+  }
+
+  public rotate(rad: number): void {
+    0 != rad && (this._transform.rotate(rad), this._ctx.rotate(rad));
+  }
+
+  public get_skipDraw(): boolean {
+    return this.filling ? false : !this.stroking;
+  }
+
+  public get_strokeOffset(): 0.5 | 0 {
+    return this.stroking && 0 != Math.round(this.strokeWidth) % 2 ? 0.5 : 0;
+  }
+
+  public reset(skipTransformReset: boolean = false): void {
+    if (!skipTransformReset) this.setTransform(1, 0, 0, 1, 0, 0);
+    this.filling = false;
+    this.stroking = false;
+  }
+
+  public clearRect(x: number, y: number, w: number, h: number): void {
+    this._ctx.clearRect(x, y, w, h);
+  }
+
+  public beginFill(rgb: number = COLOR.black, alpha: number = 1.0): void {
+    alpha = clamp01(alpha);
+    this._ctx.fillStyle = getColorString(rgb & 0xffffff, alpha);
+    this.filling = true;
+  }
+
+  public endFill(): void {
+    this.filling = false;
+  }
+
+  public beginStroke(
+    width: number = 1,
+    rgb: number = COLOR.black,
+    alpha: number = 1.0,
+  ) {
+    alpha = clamp01(alpha);
+    this._ctx.strokeStyle = getColorString(rgb & COLOR.white, alpha);
+    this._ctx.lineWidth = width;
+    this.strokeWidth = width;
+    this.stroking = true;
+  }
+
+  public endStroke(): void {
+    this.stroking = false;
+  }
+
+  public drawRect(x: number, y: number, w: number, h: number): void {
+    if (this.get_skipDraw()) return;
+
+    var strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+
+    if (this.filling) this._ctx.fillRect(x, y, w, h);
+    if (this.stroking) this._ctx.strokeRect(x, y, w, h);
+  }
+
+  public beginPath(): void {
+    this._ctx.beginPath();
+  }
+
+  public closePath(): void {
+    this._ctx.closePath();
+  }
+
+  public moveTo(x: number, y: number): void {
+    this._ctx.moveTo(x, y);
+  }
+
+  public lineTo(x: number, y: number): void {
+    this._ctx.lineTo(x, y);
+  }
+
+  public arc(
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number,
+    endAngle: number,
+    counterclockwise: boolean = false,
+  ): void {
+    this._ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+  }
+
+  public applyPath(): void {
+    if (this.filling) this._ctx.fill();
+    if (this.stroking) this._ctx.stroke();
+  }
+
+  public drawPath(boundsList: Bounds[], shouldClosePath: boolean = true): void {
+    if (this.get_skipDraw()) return;
+    if (boundsList.length < 2) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    this.beginPath();
+    this.moveTo(boundsList[0].x + strokeOffset, boundsList[0].y + strokeOffset);
+    for (let i = 1; i < boundsList.length; i++) {
+      this.lineTo(
+        boundsList[i].x + strokeOffset,
+        boundsList[i].y + strokeOffset,
+      );
+    }
+    if (shouldClosePath) this.closePath();
+    this.applyPath();
+  }
+
+  public drawCircle(x: number, y: number, radius: number): void {
+    if (this.get_skipDraw()) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+    this.beginPath();
+    this.arc(x, y, radius, 0.1, Surface.PI2 + 0.1);
+    this.applyPath();
+  }
+
+  public drawArc(
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number,
+    endAngle: number,
+    counterclockwise: boolean = false,
+    moveToXY: boolean = false,
+  ): void {
+    if (this.get_skipDraw()) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+    this.beginPath();
+    if (moveToXY) this.moveTo(x, y);
+    this.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+    this.applyPath();
+  }
+
+  public drawEllipse(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    if (this.get_skipDraw()) return;
+
+    const strokeOffset = this.get_strokeOffset();
+    x += strokeOffset;
+    y += strokeOffset;
+    this.beginPath();
+    this.save();
+    this.translate(x + width / 2, y + height / 2);
+    this.scale(width / height, 1);
+    this.arc(0, 0, height / 2, 0.1, Surface.PI2 + 0.1);
+    this.restore();
+    this.applyPath();
+  }
+
+  // TODO: remove if this is not needed at all
+  private static _drawImageSafe(
+    ctx: CanvasRenderingContext2D,
+    image: CanvasImageSource,
+    sx: number,
+    sy: number,
+    sw: number,
+    sh: number,
+    dx: number,
+    dy: number,
+  ): void {
+    // TODO: simplify the implementation
+    0 >= sw ||
+      0 >= sh ||
+      0 >= sx + sw ||
+      sx >= image.width ||
+      0 >= sy + sh ||
+      sy >= image.height ||
+      ((sx += 0 > sx ? -sx : 0),
+      (sy += 0 > sy ? -sy : 0),
+      sx + sw > image.width && (sw = image.width - sx),
+      sy + sh > image.height && (sh = image.height - sy),
+      ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh));
+  }
+
+  public drawImage(
+    image: CanvasImageSource,
+    bounds: Bounds | null,
+    dx: number,
+    dy: number,
+    safe: boolean = true,
+  ): void {
+    if (!bounds) {
+      this._ctx.drawImage(image, dx, dy);
+      return;
+    }
+
+    if (safe) {
+      // TODO: remove if this is not needed at all
+      Surface._drawImageSafe(
+        this._ctx,
+        image,
+        bounds.x,
+        bounds.y,
+        bounds.width,
+        bounds.height,
+        dx,
+        dy,
+      );
+      return;
+    }
+
+    this._ctx.drawImage(
+      image,
+      bounds.x,
+      bounds.y,
+      bounds.width,
+      bounds.height,
+      dx,
+      dy,
+      bounds.width,
+      bounds.height,
+    );
+  }
+
+  // TODO: remove if this is not needed at all
+  // TODO: define signature
+  // public drawText(a, b, c, d, e, f, m, k): void {
+  //   null == k && (k = 1.25);
+  //   null == m && (m = 'left');
+  //   null == f && (f = 'normal');
+  //   if (!this.get_skipDraw())
+  //     for (
+  //       d = ('normal' != f ? f + ' ' : '') + e + 'px ' + d,
+  //         this._ctx.font != d && (this._ctx.font = d),
+  //         this._ctx.textBaseline = 'top',
+  //         this._ctx.textAlign = m,
+  //         a = a.split('\n'),
+  //         m = 0,
+  //         d = a.length;
+  //       m < d;
+
+  //     ) {
+  //       f = m++;
+  //       var p = a[f];
+  //       this.filling && this._ctx.fillText(p, b, c + f * e * k);
+  //       this.stroking && this._ctx.strokeText(p, b, c + f * e * k);
+  //     }
+  // }
+}
+
+const _noopSurface = new Surface(
+  document.createElement('canvas').getContext('2d')!,
+);
+type SurfaceInstance = typeof _noopSurface;
+
+class GraphicsSurfaceExecutor {
+  public readonly method: string; // TODO: define type properly
+  public readonly args: unknown; // TODO: define type properly
+
+  // TODO: define type properly
+  constructor(method: string, args: unknown) {
+    this.method = method;
+    this.args = args;
+  }
+
+  public execute(surface: Surface): void {
+    // TODO: figure out why .apply() must be used instead of straight call
+    // @ts-expect-error // TODO: define types
+    surface[this.method].apply(surface, this.args);
+    // surface[this.method](this.args);
+  }
+}
+
+class Graphics {
+  public static readonly PI2: number = 2 * Math.PI;
+
+  public items: GraphicsSurfaceExecutor[] = [];
+  public bounds: Bounds = new Bounds(0, 0, 0, 0);
+  private filling: boolean = false; // TODO: rename to "_filling"
+  private stroking: boolean = false; // TODO: rename to "_stroking"
+
+  constructor() {
+    this.clear();
+  }
+
+  public clear(): void {
+    this.items = [];
+    this.filling = false;
+    this.stroking = false;
+    this.bounds = new Bounds(0, 0, 0, 0);
+  }
+
+  public get_length(): number {
+    return this.items.length;
+  }
+
+  public get_skipDraw(): boolean {
+    return this.filling ? false : !this.stroking;
+  }
+
+  // TODO: rename to "paint", since this is a public method
+  public _paint(surface: Surface): void {
+    for (var i = 0; i < this.items.length; i++) {
+      this.items[i].execute(surface);
+    }
+    surface.endFill();
+    surface.endStroke();
+  }
+
+  public call<TMethod extends keyof SurfaceInstance>(
+    method: TMethod,
+    args: Parameters<SurfaceInstance[TMethod]>,
+  ): void {
+    this.items.push(new GraphicsSurfaceExecutor(method, args));
+  }
+
+  public beginFill(rgb?: number, alpha?: number): void {
+    this.call('beginFill', [rgb, alpha]);
+    this.filling = true;
+  }
+
+  public endFill(): void {
+    this.call('endFill', []);
+    this.filling = false;
+  }
+
+  public beginStroke(width?: number, rgb?: number, alpha?: number): void {
+    this.call('beginStroke', [width, rgb, alpha]);
+    this.stroking = true;
+  }
+
+  public endStroke(): void {
+    this.call('endStroke', []);
+    this.stroking = false;
+  }
+
+  public drawRect(x: number, y: number, width: number, height: number): void {
+    if (this.get_skipDraw()) return;
+    this.bounds.combine(new Bounds(x, y, width, height));
+    this.call('drawRect', [x, y, width, height]);
+  }
+
+  public drawPath(boundsList: Bounds[], shouldClosePath?: boolean): void {
+    if (this.get_skipDraw()) return;
+    this.bounds.combine(Bounds.containingPoints(boundsList));
+    this.call('drawPath', [boundsList, shouldClosePath]);
+  }
+
+  public drawCircle(x: number, y: number, radius: number): void {
+    if (this.get_skipDraw()) return;
+    this.bounds.combine(
+      new Bounds(x - radius, y - radius, 2 * radius, 2 * radius),
+    );
+    this.call('drawCircle', [x, y, radius]);
+  }
+
+  public drawArc(
+    x: number,
+    y: number,
+    radius: number,
+    startAngle: number,
+    endAngle: number,
+    counterclockwise: boolean = false,
+    moveToXY: boolean = false,
+  ): void {
+    if (this.get_skipDraw()) return;
+    this.bounds.combine(
+      new Bounds(x - radius, y - radius, 2 * radius, 2 * radius),
+    );
+    this.call('drawArc', [
+      x,
+      y,
+      radius,
+      startAngle,
+      endAngle,
+      counterclockwise,
+      moveToXY,
+    ]);
+  }
+
+  public drawEllipse(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    if (this.get_skipDraw()) return;
+    this.bounds.combine(new Bounds(x, y, width, height));
+    this.call('drawEllipse', [x, y, width, height]);
+  }
+
+  // TODO: remove if this not needed at all
+  // TODO: define signature
+  // public drawImage(a, b, c) {
+  //   this.call('drawImage', [a, b, c]);
+  // }
+
+  // TODO: remove if this not needed at all
+  // TODO: define signature
+  // public drawText(a, b, c, d, e, f, m, k) {
+  //   null == k && (k = 1.25);
+  //   null == m && (m = 'left');
+  //   null == f && (f = 'normal');
+  //   this.get_skipDraw() || this.call('drawText', [a, b, c, d, e, f, m, k]);
+  // }
+}
+
+// ---------------------------------------------------------------------------
+
 function __inherit(parentPrototype, selfPrototype) {
   function c() {}
   c.prototype = parentPrototype;
@@ -554,146 +1115,6 @@ CanvasUtils.pointInTransformedBounds = function (a, b, c) {
         b.apply(c.get_left(), c.get_bottom()),
       );
 };
-
-class GraphicsSurfaceExecutor {
-  public readonly method: string; // TODO: define type properly
-  public readonly params: any; // TODO: define type properly
-
-  // TODO: define type properly
-  constructor(method: string, params: any) {
-    this.method = method;
-    this.params = params;
-  }
-
-  public execute(surface: Surface): void {
-    // TODO: figure out why .apply() must be used instead of straight call
-    // @ts-expect-error // TODO: define type properly
-    surface[this.method].apply(surface, this.params);
-    // surface[this.method](this.params);
-  }
-}
-
-class Graphics {
-  public static readonly PI2: number = 2 * Math.PI;
-
-  public items: GraphicsSurfaceExecutor[] = [];
-  public bounds: Bounds = new Bounds(0, 0, 0, 0);
-  private filling: boolean = false; // TODO: rename to "_filling"
-  private stroking: boolean = false; // TODO: rename to "_stroking"
-
-  constructor() {
-    this.clear();
-  }
-
-  public clear(): void {
-    this.items = [];
-    this.filling = false;
-    this.stroking = false;
-    this.bounds = new Bounds(0, 0, 0, 0);
-  }
-
-  public get_length(): number {
-    return this.items.length;
-  }
-
-  public get_skipDraw(): boolean {
-    return this.filling ? false : !this.stroking;
-  }
-
-  // TODO: define signature
-  public _paint(surface: Surface) {
-    for (var i = 0; i < this.items.length; i++) {
-      this.items[i].execute(surface);
-    }
-    surface.endFill();
-    surface.endStroke();
-  }
-
-  // TODO: define signature
-  public call(a, b) {
-    this.items.push(new GraphicsSurfaceExecutor(a, b));
-  }
-
-  // TODO: define signature
-  public beginFill(a, b) {
-    null == b && (b = 1);
-    null == a && (a = 0);
-    this.call('beginFill', [a, b]);
-    this.filling = true;
-  }
-
-  // TODO: define signature
-  public endFill(): void {
-    this.call('endFill');
-    this.filling = false;
-  }
-
-  // TODO: define signature
-  public beginStroke(a, b, c) {
-    null == c && (c = 1);
-    null == b && (b = 0);
-    null == a && (a = 1);
-    this.call('beginStroke', [a, b, c]);
-    this.stroking = true;
-  }
-
-  // TODO: define signature
-  public endStroke() {
-    this.call('endStroke');
-    this.stroking = false;
-  }
-
-  // TODO: define signature
-  public drawRect(x: number, y: number, width: number, height: number) {
-    this.get_skipDraw() ||
-      (this.bounds.combine(new Bounds(x, y, width, height)),
-      this.call('drawRect', [x, y, width, height]));
-  }
-
-  // TODO: define signature
-  public drawPath(a, b) {
-    null == b && (b = !0);
-    this.get_skipDraw() ||
-      (this.bounds.combine(Bounds.containingPoints(a)),
-      this.call('drawPath', [a, b]));
-  }
-
-  // TODO: define signature
-  public drawCircle(a, b, c) {
-    this.get_skipDraw() ||
-      (this.bounds.combine(new Bounds(a - c, b - c, 2 * c, 2 * c)),
-      this.call('drawCircle', [a, b, c]));
-  }
-
-  // TODO: define signature
-  public drawArc(a, b, c, d, e, f, m) {
-    null == m && (m = !1);
-    null == f && (f = !1);
-    this.get_skipDraw() ||
-      (this.bounds.combine(new Bounds(a - c, b - c, 2 * c, 2 * c)),
-      this.call('drawArc', [a, b, c, d, e, f, m]));
-  }
-
-  // TODO: define signature
-  public drawEllipse(x: number, y: number, width: number, height: number) {
-    this.get_skipDraw() ||
-      (this.bounds.combine(new Bounds(x, y, width, height)),
-      this.call('drawEllipse', [x, y, width, height]));
-  }
-
-  // TODO: define signature
-  public drawImage(a, b, c) {
-    this.call('drawImage', [a, b, c]);
-  }
-
-  // TODO: define signature
-  public drawText(a, b, c, d, e, f, m, k) {
-    null == k && (k = 1.25);
-    null == m && (m = 'left');
-    null == f && (f = 'normal');
-    this.get_skipDraw() || this.call('drawText', [a, b, c, d, e, f, m, k]);
-  }
-}
 
 var ROTATE_CanvasObject = function () {
   this.graphics = new Graphics();
@@ -1320,407 +1741,6 @@ InputKeys.keyPressed = function (a) {
 InputKeys.keyReleased = function (a) {
   return InputKeys.keyDown(a) ? !1 : InputKeys.keyDownOld(a);
 };
-
-class Surface {
-  public static readonly PI2: number = 2 * Math.PI;
-
-  private _transform: Transform;
-  private _ctx: CanvasRenderingContext2D;
-  private filling: boolean = false; // TODO: rename to "_filling"
-  private stroking: boolean = false; // TODO: rename to "_stroking"
-
-  constructor(ctx: CanvasRenderingContext2D) {
-    this._transform = new Transform();
-    this._ctx = ctx;
-    this.reset();
-  }
-
-  public save(): void {
-    this._transform.save();
-    this._ctx.save();
-  }
-
-  public restore(): void {
-    this._transform.restore();
-    this._ctx.restore();
-  }
-
-  public setTransform(
-    a: number,
-    b: number,
-    c: number,
-    d: number,
-    e: number,
-    f: number,
-  ): void {
-    this._transform.set(a, b, c, d, e, f);
-    this._ctx.setTransform(a, b, c, d, e, f);
-  }
-
-  public translate(x: number, y: number): void {
-    if (0 != x || 0 != y)
-      this._transform.translate(x, y), this._ctx.translate(x, y);
-  }
-
-  public scale(x: number, y: number): void {
-    if (1 != x || 1 != y) this._transform.scale(x, y), this._ctx.scale(x, y);
-  }
-
-  public rotate(rad: number): void {
-    0 != rad && (this._transform.rotate(rad), this._ctx.rotate(rad));
-  }
-
-  public get_skipDraw(): boolean {
-    return this.filling ? false : !this.stroking;
-  }
-
-  public get_strokeOffset(): 0.5 | 0 {
-    return this.stroking && 0 != Math.round(this.strokeWidth) % 2 ? 0.5 : 0;
-  }
-
-  public reset(skipTransformReset: boolean = false): void {
-    if (!skipTransformReset) this.setTransform(1, 0, 0, 1, 0, 0);
-    this.filling = false;
-    this.stroking = false;
-  }
-
-  public clearRect(x: number, y: number, w: number, h: number): void {
-    this._ctx.clearRect(x, y, w, h);
-  }
-
-  public beginFill(rgb: number = COLOR.black, alpha: number = 1.0): void {
-    alpha = clamp01(alpha);
-    this._ctx.fillStyle = getColorString(rgb & 0xffffff, alpha);
-    this.filling = true;
-  }
-
-  public endFill(): void {
-    this.filling = false;
-  }
-
-  public beginStroke(
-    width: number = 1,
-    rgb: number = COLOR.black,
-    alpha: number = 1.0,
-  ) {
-    alpha = clamp01(alpha);
-    this._ctx.strokeStyle = getColorString(rgb & COLOR.white, alpha);
-    this._ctx.lineWidth = width;
-    this.strokeWidth = width;
-    this.stroking = true;
-  }
-
-  public endStroke(): void {
-    this.stroking = false;
-  }
-
-  public drawRect(x: number, y: number, w: number, h: number): void {
-    if (this.get_skipDraw()) return;
-
-    var strokeOffset = this.get_strokeOffset();
-    x += strokeOffset;
-    y += strokeOffset;
-
-    if (this.filling) this._ctx.fillRect(x, y, w, h);
-    if (this.stroking) this._ctx.strokeRect(x, y, w, h);
-  }
-
-  public beginPath(): void {
-    this._ctx.beginPath();
-  }
-
-  public closePath(): void {
-    this._ctx.closePath();
-  }
-
-  public moveTo(x: number, y: number): void {
-    this._ctx.moveTo(x, y);
-  }
-
-  public lineTo(x: number, y: number): void {
-    this._ctx.lineTo(x, y);
-  }
-
-  public arc(
-    x: number,
-    y: number,
-    radius: number,
-    startAngle: number,
-    endAngle: number,
-    counterclockwise: boolean = false,
-  ): void {
-    this._ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
-  }
-
-  public applyPath(): void {
-    if (this.filling) this._ctx.fill();
-    if (this.stroking) this._ctx.stroke();
-  }
-
-  public drawPath(boundsList: Bounds[], shouldClosePath: boolean = true): void {
-    if (this.get_skipDraw()) return;
-    if (boundsList.length < 2) return;
-
-    const strokeOffset = this.get_strokeOffset();
-    this.beginPath();
-    this.moveTo(boundsList[0].x + strokeOffset, boundsList[0].y + strokeOffset);
-    for (let i = 1; i < boundsList.length; i++) {
-      this.lineTo(
-        boundsList[i].x + strokeOffset,
-        boundsList[i].y + strokeOffset,
-      );
-    }
-    if (shouldClosePath) this.closePath();
-    this.applyPath();
-  }
-
-  public drawCircle(x: number, y: number, radius: number): void {
-    if (this.get_skipDraw()) return;
-
-    const strokeOffset = this.get_strokeOffset();
-    x += strokeOffset;
-    y += strokeOffset;
-    this.beginPath();
-    this.arc(x, y, radius, 0.1, Surface.PI2 + 0.1);
-    this.applyPath();
-  }
-
-  public drawArc(
-    x: number,
-    y: number,
-    radius: number,
-    startAngle: number,
-    endAngle: number,
-    counterclockwise: boolean = false,
-    moveToXY: boolean = false,
-  ): void {
-    if (this.get_skipDraw()) return;
-
-    const strokeOffset = this.get_strokeOffset();
-    x += strokeOffset;
-    y += strokeOffset;
-    this.beginPath();
-    if (moveToXY) this.moveTo(x, y);
-    this.arc(x, y, radius, startAngle, endAngle, counterclockwise);
-    this.applyPath();
-  }
-
-  public drawEllipse(
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    if (this.get_skipDraw()) return;
-
-    const strokeOffset = this.get_strokeOffset();
-    x += strokeOffset;
-    y += strokeOffset;
-    this.beginPath();
-    this.save();
-    this.translate(x + width / 2, y + height / 2);
-    this.scale(width / height, 1);
-    this.arc(0, 0, height / 2, 0.1, Surface.PI2 + 0.1);
-    this.restore();
-    this.applyPath();
-  }
-
-  // TODO: remove if this is not needed at all
-  private static _drawImageSafe(
-    ctx: CanvasRenderingContext2D,
-    image: CanvasImageSource,
-    sx: number,
-    sy: number,
-    sw: number,
-    sh: number,
-    dx: number,
-    dy: number,
-  ): void {
-    // TODO: simplify the implementation
-    0 >= sw ||
-      0 >= sh ||
-      0 >= sx + sw ||
-      sx >= image.width ||
-      0 >= sy + sh ||
-      sy >= image.height ||
-      ((sx += 0 > sx ? -sx : 0),
-      (sy += 0 > sy ? -sy : 0),
-      sx + sw > image.width && (sw = image.width - sx),
-      sy + sh > image.height && (sh = image.height - sy),
-      ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh));
-  }
-
-  public drawImage(
-    image: CanvasImageSource,
-    bounds?: Bounds,
-    dx: number,
-    dy: number,
-    safe: boolean = true,
-  ): void {
-    if (!bounds) {
-      this._ctx.drawImage(image, dx, dy);
-      return;
-    }
-
-    if (safe) {
-      // TODO: remove if this is not needed at all
-      Surface._drawImageSafe(
-        this._ctx,
-        image,
-        bounds.x,
-        bounds.y,
-        bounds.width,
-        bounds.height,
-        dx,
-        dy,
-      );
-      return;
-    }
-
-    this._ctx.drawImage(
-      image,
-      bounds.x,
-      bounds.y,
-      bounds.width,
-      bounds.height,
-      dx,
-      dy,
-      bounds.width,
-      bounds.height,
-    );
-  }
-
-  // TODO: remove if this is not needed at all
-  // TODO: define signature
-  public drawText(a, b, c, d, e, f, m, k): void {
-    null == k && (k = 1.25);
-    null == m && (m = 'left');
-    null == f && (f = 'normal');
-    if (!this.get_skipDraw())
-      for (
-        d = ('normal' != f ? f + ' ' : '') + e + 'px ' + d,
-          this._ctx.font != d && (this._ctx.font = d),
-          this._ctx.textBaseline = 'top',
-          this._ctx.textAlign = m,
-          a = a.split('\n'),
-          m = 0,
-          d = a.length;
-        m < d;
-
-      ) {
-        f = m++;
-        var p = a[f];
-        this.filling && this._ctx.fillText(p, b, c + f * e * k);
-        this.stroking && this._ctx.strokeText(p, b, c + f * e * k);
-      }
-  }
-}
-
-type TransformMatrix = [number, number, number, number, number, number];
-class Transform {
-  public matrix: TransformMatrix; // TODO: make readonly and access through getter only
-  private _states: TransformMatrix[];
-
-  constructor() {
-    this.matrix = [1, 0, 0, 1, 0, 0];
-    this._states = [];
-  }
-
-  public getMatrix(): TransformMatrix {
-    return this.matrix.slice(0);
-  }
-
-  public get(index: number): number {
-    return 0 > index || 5 < index ? 0 : this.matrix[index];
-  }
-
-  public set(a: number, b: number, c: number, d: number, e: number, f: number) {
-    this.matrix[0] = a;
-    this.matrix[1] = b;
-    this.matrix[2] = c;
-    this.matrix[3] = d;
-    this.matrix[4] = e;
-    this.matrix[5] = f;
-  }
-
-  public multiply(
-    a: number,
-    b: number,
-    c: number,
-    d: number,
-    e: number,
-    f: number,
-  ) {
-    this.set(
-      this.matrix[0] * a + this.matrix[2] * b,
-      this.matrix[1] * a + this.matrix[3] * b,
-      this.matrix[0] * c + this.matrix[2] * d,
-      this.matrix[1] * c + this.matrix[3] * d,
-      this.matrix[0] * e + this.matrix[2] * f + this.matrix[4],
-      this.matrix[1] * e + this.matrix[3] * f + this.matrix[5],
-    );
-  }
-
-  public identity(): void {
-    this.set(1, 0, 0, 1, 0, 0);
-  }
-
-  public translate(x: number, y: number): void {
-    (0 == x && 0 == y) || this.multiply(1, 0, 0, 1, x, y);
-  }
-
-  public scale(x: number, y: number): void {
-    (1 == x && 1 == y) || this.multiply(x, 0, 0, y, 0, 0);
-  }
-
-  public rotate(rad: number): void {
-    0 != rad &&
-      this.multiply(
-        Math.cos(rad),
-        Math.sin(rad),
-        -Math.sin(rad),
-        Math.cos(rad),
-        0,
-        0,
-      );
-  }
-
-  public save(): void {
-    this._states.push(this.matrix.slice(0));
-  }
-
-  public restore(): void {
-    const latest = this._states.pop();
-    if (!latest) this.identity();
-    this.matrix = latest;
-  }
-
-  public equals(t: Transform): boolean {
-    return this.matrix[0] == t.get(0) &&
-      this.matrix[1] == t.get(1) &&
-      this.matrix[2] == t.get(2) &&
-      this.matrix[3] == t.get(3) &&
-      this.matrix[4] == t.get(4)
-      ? this.matrix[5] == t.get(5)
-      : false;
-  }
-
-  public copy(t: Transform): void {
-    this.matrix[0] = t.get(0);
-    this.matrix[1] = t.get(1);
-    this.matrix[2] = t.get(2);
-    this.matrix[3] = t.get(3);
-    this.matrix[4] = t.get(4);
-    this.matrix[5] = t.get(5);
-  }
-
-  public apply(a: number, b: number): Vector2 {
-    return new Vector2(
-      this.matrix[0] * a + this.matrix[2] * b + this.matrix[4],
-      this.matrix[1] * a + this.matrix[3] * b + this.matrix[5],
-    );
-  }
-}
 
 var MapInterface = function () {};
 MapInterface.__name__ = !0;
