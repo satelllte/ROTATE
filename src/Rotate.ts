@@ -4062,6 +4062,96 @@ ROTATE_Renderer.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   __class__: ROTATE_Renderer,
 });
 
+class Tooltip {
+  public bubbleHeight: number = 46;
+  public bubbleWidth: number = 124;
+  public configurable: boolean = false;
+
+  constructor() {}
+
+  public shouldRender(): boolean {
+    return true;
+  }
+
+  // TODO: define signature
+  public render(a, b, c): void {}
+
+  // TODO: define signature
+  public collides(a): boolean {
+    return true;
+  }
+
+  // TODO: define signature
+  public isTrigger(a): boolean {
+    return false;
+  }
+
+  // TODO: define signature
+  public getColliders(a) {
+    return [
+      new Collider(
+        new Bounds(
+          0,
+          0,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+        ),
+      ),
+    ];
+  }
+
+  // TODO: define signature
+  public onTrigger(a): boolean {
+    return true;
+  }
+
+  // TODO: define signature
+  public setupBubble(a) {}
+
+  // TODO: define signature
+  public getConfigMeta() {
+    return [];
+  }
+
+  // TODO: define signature
+  public alwaysUpdate(a) {
+    return false;
+  }
+
+  // TODO: define signature
+  public onPlay(a) {}
+
+  // TODO: define signature
+  public rotatePreview() {
+    return !0;
+  }
+
+  // TODO: define signature
+  public showArrow(a) {
+    return false;
+  }
+
+  // TODO: define signature
+  public onInteract(a) {}
+}
+
+class GameObject_Air extends Tooltip {
+  constructor() {
+    super();
+  }
+
+  // TODO: define signature
+  public collides(a) {
+    return false;
+  }
+
+  // TODO: define signature
+  public shouldRender(a) {
+    return false;
+  }
+}
+
+// DEPRECATED | TODO: remove once all inherited classes upgraded to "Tooltip" base
 var ROTATE_Tooltip = function () {
   this.bubbleHeight = 46;
   this.bubbleWidth = 124;
@@ -4111,21 +4201,6 @@ ROTATE_Tooltip.prototype = {
   onInteract: function (a) {},
   __class__: ROTATE_Tooltip,
 };
-
-var ROTATE_GameObject_Air = function () {
-  ROTATE_Tooltip.call(this);
-};
-ROTATE_GameObject_Air.__name__ = !0;
-ROTATE_GameObject_Air.__super__ = ROTATE_Tooltip;
-ROTATE_GameObject_Air.prototype = __inherit(ROTATE_Tooltip.prototype, {
-  collides: function (a) {
-    return !1;
-  },
-  shouldRender: function (a) {
-    return !1;
-  },
-  __class__: ROTATE_GameObject_Air,
-});
 
 var ROTATE_GameObject_Door = function () {
   this.angle = 0;
@@ -22030,10 +22105,7 @@ ROTATE_GameObjects.finish = ROTATE_GameObjects.register(
   -2,
   new ROTATE_GameObject_Finish(),
 );
-ROTATE_GameObjects.air = ROTATE_GameObjects.register(
-  0,
-  new ROTATE_GameObject_Air(),
-);
+ROTATE_GameObjects.air = ROTATE_GameObjects.register(0, new GameObject_Air());
 ROTATE_GameObjects.solid = ROTATE_GameObjects.register(
   1,
   new ROTATE_GameObject_Solid(),
