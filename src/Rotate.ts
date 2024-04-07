@@ -22,6 +22,13 @@ const COLOR = {
   border: 0x808080,
 } as const satisfies Record<string, number>;
 
+const getColorString = (
+  rgb: number,
+  alpha: number = 1.0,
+): `rgba(${number},${number},${number},${number})` => {
+  return `rgba(${(rgb & 0xff0000) >>> 16},${(rgb & 0xff00) >>> 8},${rgb & 0xff},${alpha})`;
+};
+
 function __inherit(parentPrototype, selfPrototype) {
   function c() {}
   c.prototype = parentPrototype;
@@ -521,20 +528,6 @@ Time.get_elapsedMS = function () {
 
 var CanvasUtils = function () {};
 CanvasUtils.__name__ = !0;
-CanvasUtils.getColorString = function (a, b) {
-  null == b && (b = 1);
-  return (
-    'rgba(' +
-    ((a & 16711680) >>> 16) +
-    ', ' +
-    ((a & 65280) >>> 8) +
-    ', ' +
-    (a & 255) +
-    ', ' +
-    b +
-    ')'
-  );
-};
 CanvasUtils.pointInQuad = function (a, b, c, d, e) {
   e = c.subtract(b);
   b = a.subtract(b);
@@ -1374,7 +1367,7 @@ class Surface {
 
   public beginFill(rgb: number = COLOR.black, alpha: number = 1.0): void {
     0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
-    this._ctx.fillStyle = CanvasUtils.getColorString(rgb & 0xffffff, alpha); // TODO: create "colorToString" util function
+    this._ctx.fillStyle = getColorString(rgb & 0xffffff, alpha);
     this.filling = true;
   }
 
@@ -1388,10 +1381,7 @@ class Surface {
     alpha: number = 1.0,
   ) {
     0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
-    this._ctx.strokeStyle = CanvasUtils.getColorString(
-      rgb & COLOR.white,
-      alpha,
-    ); // TODO: create "colorToString" util function
+    this._ctx.strokeStyle = getColorString(rgb & COLOR.white, alpha);
     this._ctx.lineWidth = width;
     this.strokeWidth = width;
     this.stroking = true;
