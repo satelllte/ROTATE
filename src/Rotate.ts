@@ -1582,20 +1582,6 @@ class Surface {
         this.stroking && this._ctx.strokeText(p, b, c + f * e * k);
       }
   }
-
-  // TODO: define signature
-  public getTextWidth(a, b, c) {
-    b = c + 'px ' + b;
-    this._ctx.font != b && (this._ctx.font = b);
-    a = a.split('\n');
-    c = b = 0;
-    for (var d = a.length; c < d; ) {
-      var e = c++;
-      e = this._ctx.measureText(a[e]).width;
-      e > b && (b = e);
-    }
-    return b;
-  }
 }
 
 type TransformMatrix = [number, number, number, number, number, number];
