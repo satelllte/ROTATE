@@ -105,12 +105,15 @@ class Transform {
   }
 
   public save(): void {
-    this._states.push(this.matrix.slice(0));
+    this._states.push([...this.matrix]);
   }
 
   public restore(): void {
     const latest = this._states.pop();
-    if (!latest) this.identity();
+    if (!latest) {
+      this.identity();
+      return;
+    }
     this.matrix = latest;
   }
 
@@ -359,12 +362,16 @@ class Surface {
     0 >= sw ||
       0 >= sh ||
       0 >= sx + sw ||
+      // @ts-expect-error
       sx >= image.width ||
       0 >= sy + sh ||
+      // @ts-expect-error
       sy >= image.height ||
       ((sx += 0 > sx ? -sx : 0),
       (sy += 0 > sy ? -sy : 0),
+      // @ts-expect-error
       sx + sw > image.width && (sw = image.width - sx),
+      // @ts-expect-error
       sy + sh > image.height && (sh = image.height - sy),
       ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh));
   }
