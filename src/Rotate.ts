@@ -46,7 +46,7 @@ class Transform {
   }
 
   public getMatrix(): TransformMatrix {
-    return this.matrix.slice(0);
+    return [...this.matrix];
   }
 
   public get(index: number): number {
