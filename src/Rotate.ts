@@ -15,6 +15,13 @@ const KEY_CODE = {
   Space: 32,
 } as const satisfies Record<string, number>;
 
+const COLOR = {
+  black: 0x000000,
+  white: 0xffffff,
+  background: 0x202020,
+  border: 0x808080,
+} as const satisfies Record<string, number>;
+
 function __inherit(parentPrototype, selfPrototype) {
   function c() {}
   c.prototype = parentPrototype;
@@ -1365,7 +1372,7 @@ class Surface {
     this._ctx.clearRect(x, y, w, h);
   }
 
-  public beginFill(rgb: number = 0x000000, alpha: number = 1.0): void {
+  public beginFill(rgb: number = COLOR.black, alpha: number = 1.0): void {
     0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
     this._ctx.fillStyle = CanvasUtils.getColorString(rgb & 0xffffff, alpha);
     this.filling = true;
@@ -1377,11 +1384,14 @@ class Surface {
 
   public beginStroke(
     width: number = 1,
-    rgb: number = 0x000000,
+    rgb: number = COLOR.black,
     alpha: number = 1.0,
   ) {
     0 > alpha ? (alpha = 0) : 1 < alpha && (alpha = 1); // TODO: create "clamp01" function
-    this._ctx.strokeStyle = CanvasUtils.getColorString(rgb & 0xffffff, alpha);
+    this._ctx.strokeStyle = CanvasUtils.getColorString(
+      rgb & COLOR.white,
+      alpha,
+    );
     this._ctx.lineWidth = width;
     this.strokeWidth = width;
     this.stroking = true;
@@ -2169,7 +2179,7 @@ ROTATE_Game.main = function () {
     document.getElementById('game'),
     504 /* width */,
     504 /* height */,
-    0x202020 /* background */,
+    COLOR.background /* background */,
     false /* transparent */,
     ROTATE_Game.instance,
   );
@@ -20994,14 +21004,14 @@ Bubble.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   setup: function (a) {
     var b = Math.round(a.bubbleWidth / 2);
     this.graphics.clear();
-    this.graphics.beginFill(0x808080);
+    this.graphics.beginFill(COLOR.border);
     this.graphics.drawRect(
       -b - 2,
       -a.bubbleHeight - this.tip.get_height() - 2,
       a.bubbleWidth + 4,
       a.bubbleHeight + 4,
     );
-    this.graphics.beginFill(0x202020);
+    this.graphics.beginFill(COLOR.background);
     this.graphics.drawRect(
       -b,
       -a.bubbleHeight - this.tip.get_height(),
