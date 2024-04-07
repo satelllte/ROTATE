@@ -1493,6 +1493,7 @@ class Surface {
     this.applyPath();
   }
 
+  // TODO: remove if this is not needed at all
   private static _drawImageSafe(
     ctx: CanvasRenderingContext2D,
     image: CanvasImageSource,
