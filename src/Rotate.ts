@@ -4084,7 +4084,7 @@ class Tooltip {
   }
 
   // TODO: define signature
-  public render(a, b, c): void {}
+  public render(surface: Surface, blockData: BlockData, c): void {}
 
   // TODO: define signature
   public collides(a): boolean {
@@ -4119,7 +4119,7 @@ class Tooltip {
   public setupBubble(a) {}
 
   // TODO: define signature
-  public getConfigMeta() {
+  public getConfigMeta(): number[] {
     return [];
   }
 
@@ -4248,17 +4248,17 @@ class GameObject_Door extends Tooltip {
   }
 
   // TODO: define signature
-  public render(a, b, c) {
+  public render(surface: Surface, blockData: BlockData, c) {
     null == c && (c = !0);
-    var d = b.getMeta(1);
+    var d = blockData.getMeta(1);
     if (!(0 >= d)) {
-      var e = b.getMeta(2),
+      var e = blockData.getMeta(2),
         f = ROTATE_GameConstants.tileSize;
-      a.translate(f / 2, f / 2);
-      a.rotate((e * Math.PI) / 2);
-      a.translate(-f / 2, -f / 2);
+      surface.translate(f / 2, f / 2);
+      surface.rotate((e * Math.PI) / 2);
+      surface.translate(-f / 2, -f / 2);
       if (c) {
-        var m = this.isOpen(b),
+        var m = this.isOpen(blockData),
           k = 0.5 * d - 0.16666666666666666;
         c = m ? 0 : k;
         if (
@@ -4268,7 +4268,7 @@ class GameObject_Door extends Tooltip {
           )
         ) {
           var p = ROTATE_ScreenPrimaryGame.i.channels,
-            y = b.getMeta(0);
+            y = blockData.getMeta(0);
           p = p.h[y];
           null != p &&
             ((c = Math.min(
@@ -4282,13 +4282,13 @@ class GameObject_Door extends Tooltip {
         m = c;
         for (k = 0; 0 < m; )
           (p = 1 < m ? 1 : m),
-            a.drawImage(
+            surface.drawImage(
               ROTATE_Images.blocks,
               new Bounds(3 * f, 3 * f, p * f, f),
               k,
               0,
             ),
-            a.drawImage(
+            surface.drawImage(
               ROTATE_Images.blocks,
               new Bounds((4 - p) * f, 3 * f, p * f, f),
               d * f - k - p * f,
@@ -4296,13 +4296,13 @@ class GameObject_Door extends Tooltip {
             ),
             (m -= p),
             (k += p * f);
-        a.drawImage(
+        surface.drawImage(
           ROTATE_Images.blocks,
           new Bounds(4 * f, 3 * f, f, f),
           c * f,
           0,
         );
-        a.drawImage(
+        surface.drawImage(
           ROTATE_Images.blocks,
           new Bounds(5 * f, 3 * f, f, f),
           (d - c - 1) * f,
@@ -4313,30 +4313,35 @@ class GameObject_Door extends Tooltip {
             ROTATE_Game.instance.currentScreen,
             ROTATE_ScreenEditor,
           ) &&
-          (ROTATE_ScreenEditor.renderBlockText(a, b.getMeta(0) + ''), 1 < d)
+          (ROTATE_ScreenEditor.renderBlockText(
+            surface,
+            blockData.getMeta(0) + '',
+          ),
+          1 < d)
         )
-          for (b = 1; b < d; )
-            (c = b++), ROTATE_ScreenEditor.renderBlockRed(a, c * f, 0);
+          for (blockData = 1; blockData < d; )
+            (c = blockData++),
+              ROTATE_ScreenEditor.renderBlockRed(surface, c * f, 0);
       } else
-        a.drawImage(
+        surface.drawImage(
           ROTATE_Images.blocks,
           new Bounds(3 * f, 3 * f, 0.33333333333333337 * f, f),
           0,
           0,
         ),
-          a.drawImage(
+          surface.drawImage(
             ROTATE_Images.blocks,
             new Bounds(4 * f, 3 * f, f, f),
             0.33333333333333337 * f,
             0,
           ),
-          a.drawImage(
+          surface.drawImage(
             ROTATE_Images.blocks,
             new Bounds(5 * f, 3 * f, f, f),
             -0.33333333333333337 * f,
             0,
           ),
-          a.drawImage(
+          surface.drawImage(
             ROTATE_Images.blocks,
             new Bounds(
               3.6666666666666665 * f,
@@ -4347,24 +4352,24 @@ class GameObject_Door extends Tooltip {
             0.6666666666666666 * f,
             0,
           );
-      a.translate(f / 2, f / 2);
-      a.rotate((-e * Math.PI) / 2);
-      a.translate(-f / 2, -f / 2);
+      surface.translate(f / 2, f / 2);
+      surface.rotate((-e * Math.PI) / 2);
+      surface.translate(-f / 2, -f / 2);
     }
   }
 
-  // TODO: define signature
-  public isOpen(a): boolean {
+  public isOpen(blockData: BlockData): boolean {
+    // TODO: implement properly
     return JSObjectUtils.__instanceof(
       ROTATE_Game.instance.currentScreen,
       ROTATE_ScreenPrimaryGame,
-    ) && ROTATE_ScreenPrimaryGame.i.getChannelStatus(a.getMeta(0))
+    ) && ROTATE_ScreenPrimaryGame.i.getChannelStatus(blockData.getMeta(0))
       ? true
       : false;
   }
 
-  // TODO: define signature
-  public isStuck(a): boolean {
+  public isStuck(blockData: BlockData): boolean {
+    // TODO: implement properly
     for (
       var b = 0, c = ROTATE_ScreenPrimaryGame.i.player.touching;
       b < c.length;
@@ -4372,13 +4377,14 @@ class GameObject_Door extends Tooltip {
     ) {
       var d = c[b];
       ++b;
-      if (d.get_block() == this && d.getMeta(0) == a.getMeta(0)) return true;
+      if (d.get_block() == this && d.getMeta(0) == blockData.getMeta(0))
+        return true;
     }
     return false;
   }
 
   // TODO: define signature
-  public setupBubble(a): void {
+  public setupBubble(a /* ROTATE_CanvasObject */): void {
     var _this = this;
     var c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
     c.set_x(8);
@@ -4473,8 +4479,7 @@ class GameObject_Door extends Tooltip {
     a.addChild(c);
   }
 
-  // TODO: define signature
-  public getConfigMeta() {
+  public getConfigMeta(): number[] {
     return [this.channel, this.length, this.angle];
   }
 }
