@@ -2039,7 +2039,7 @@ class BlockData {
     this.meta = meta;
   }
 
-  public get_block(): Tooltip {
+  public get_block(): Block {
     return ROTATE_GameObjects.getBlock(this.id);
   }
 
@@ -3290,7 +3290,7 @@ ROTATE_Renderer.prototype = __inherit(ROTATE_CanvasObject.prototype, {
 });
 
 // TODO: rename to "Block", "GameObject" or "GameObjectBase"
-class Tooltip {
+class Block {
   public bubbleHeight: number = 46;
   public bubbleWidth: number = 124;
   public configurable: boolean = false;
@@ -3356,7 +3356,7 @@ class Tooltip {
   public onInteract(blockData: BlockData): void {}
 }
 
-class GameObject_Air extends Tooltip {
+class GameObject_Air extends Block {
   constructor() {
     super();
   }
@@ -3423,7 +3423,7 @@ ROTATE_Tooltip.prototype = {
 
 type ROTATE_Angle = 0 | 1 | 2 | 3;
 
-class GameObject_Door extends Tooltip {
+class GameObject_Door extends Block {
   public angle: ROTATE_Angle; // TODO: possibly mark as readonly
   public length: number; // TODO: possibly mark as readonly
   public channel: number; // TODO: possibly mark as readonly
