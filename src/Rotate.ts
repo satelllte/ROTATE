@@ -21280,7 +21280,6 @@ class ROTATE_GameObjectsRegistry {
     return ROTATE_GameObjectsRegistry._registry.get(index);
   }
 }
-
 class ROTATE_GameObjects {
   public static readonly start = ROTATE_GameObjectsRegistry.register(
     -1,
