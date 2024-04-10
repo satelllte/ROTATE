@@ -21265,11 +21265,6 @@ class ROTATE_GameObjects {
   );
 }
 
-console.debug(
-  'ROTATE_GameObjectsRegistry | _registry: ',
-  ROTATE_GameObjectsRegistry._registry,
-);
-
 ROTATE_Particle.GRAVITY_MULT = 0.2;
 ROTATE_EditorLevel.WORLD_SIZE = 42;
 
