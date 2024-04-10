@@ -80,3 +80,17 @@ export const subString = (
   // TODO: don't use deprecated method here
   return str.substr(startPositionIndex, endPositionIndex);
 };
+
+// TODO: test
+export const getOneTimeIterator = <T>(arr: T[]) => {
+  return {
+    cur: 0,
+    arr: arr,
+    hasNext: function () {
+      return this.cur < this.arr.length;
+    },
+    next: function () {
+      return this.arr[this.cur++];
+    },
+  };
+};

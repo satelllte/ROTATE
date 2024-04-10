@@ -4,6 +4,7 @@ import {
   clamp,
   clamp01,
   getColorString,
+  getOneTimeIterator,
   pointInTransformedBounds,
   subString,
 } from './utils';
@@ -47,21 +48,6 @@ function Bind(a, b) {
 
 var toStringNoop = function () {
   return JSObjectUtils.__string_rec(this, '');
-};
-
-var StringUtils2 = function () {};
-StringUtils2.__name__ = !0;
-StringUtils2.iter = function (a) {
-  return {
-    cur: 0,
-    arr: a,
-    hasNext: function () {
-      return this.cur < this.arr.length;
-    },
-    next: function () {
-      return this.arr[this.cur++];
-    },
-  };
 };
 
 var Utils = function () {};
@@ -1112,7 +1098,7 @@ ROTATE_KeysMap.prototype = {
     var a = [],
       b;
     for (b in this.h) this.h.hasOwnProperty(b) && a.push(b | 0);
-    return StringUtils2.iter(a);
+    return getOneTimeIterator(a);
   },
   iterator: function () {
     return {
