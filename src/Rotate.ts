@@ -2040,7 +2040,7 @@ class BlockData {
   }
 
   public get_block(): Block {
-    return ROTATE_GameObjects.getBlock(this.id);
+    return ROTATE_GameObjectsRegistry.getBlock(this.id);
   }
 
   public getMeta(index: number): number {
@@ -2895,7 +2895,7 @@ ROTATE_LevelEditorManager.getBlockData = function (a, b) {
   );
 };
 ROTATE_LevelEditorManager.getBlock = function (a, b) {
-  return ROTATE_GameObjects.getBlock(
+  return ROTATE_GameObjectsRegistry.getBlock(
     ROTATE_LevelEditorManager.getBlockID(a, b),
   );
 };
@@ -2916,7 +2916,7 @@ ROTATE_LevelEditorManager.setBlock = function (a, b, c, d, e) {
       (ROTATE_LevelEditorManager.level.tiles[b][a] =
         ROTATE_LevelEditorManager.tiles[b][a].slice(0));
     a = ROTATE_LevelEditorManager.getBlockData(a, b);
-    ROTATE_GameObjects.getBlock(c).alwaysUpdate(a) &&
+    ROTATE_GameObjectsRegistry.getBlock(c).alwaysUpdate(a) &&
       ((c = ROTATE_LevelEditorManager.updateQueue),
       null != ROTATE_ObjectReserved[f] ? c.setReserved(f, a) : (c.h[f] = a));
   }
@@ -3289,8 +3289,8 @@ ROTATE_Renderer.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   __class__: ROTATE_Renderer,
 });
 
-// TODO: rename to "Block", "GameObject" or "GameObjectBase"
 class Block {
+  public id: number = 0;
   public bubbleHeight: number = 46;
   public bubbleWidth: number = 124;
   public configurable: boolean = false;
@@ -4375,17 +4375,6 @@ ROTATE_GameObject_Vent.prototype = __inherit(
     __class__: ROTATE_GameObject_Vent,
   },
 );
-
-var ROTATE_GameObjects = function () {};
-ROTATE_GameObjects.__name__ = !0;
-ROTATE_GameObjects.register = function (a, b) {
-  return null == ROTATE_GameObjects.registry[a]
-    ? ((ROTATE_GameObjects.registry[a] = b), (b.id = a), b)
-    : null;
-};
-ROTATE_GameObjects.getBlock = function (a) {
-  return ROTATE_GameObjects.registry[a];
-};
 
 var ROTATE_Particle = function (
   size,
@@ -18960,9 +18949,9 @@ ROTATE_ScreenEditor.prototype = __inherit(ROTATE_ScreenGameBase.prototype, {
               this.renderer.updateBlockPlus(d, e));
           else if (
             ROTATE_LevelEditorManager.isReplacable(d, e) &&
-            ((c = ROTATE_GameObjects.getBlock(m)), null != c)
+            ((c = ROTATE_GameObjectsRegistry.getBlock(m)), null != c)
           ) {
-            var y = ROTATE_GameObjects.getBlock(m).getConfigMeta();
+            var y = ROTATE_GameObjectsRegistry.getBlock(m).getConfigMeta();
             k = ROTATE_LevelEditorManager.getBlockData(d, e);
             (k.id == m && k.metaEquals(y)) ||
               (c == ROTATE_GameObjects.door && !Door.canPlace(d, e, y)) ||
@@ -21275,57 +21264,81 @@ ROTATE_LevelEditorManager.rotation = 0;
 
 ROTATE_GameObject_Lever.TOGGLE_TIMER = 0.67;
 
-ROTATE_GameObjects.registry = [];
-ROTATE_GameObjects.start = ROTATE_GameObjects.register(
-  -1,
-  new ROTATE_GameObject_Start(),
-);
-ROTATE_GameObjects.finish = ROTATE_GameObjects.register(
-  -2,
-  new ROTATE_GameObject_Finish(),
-);
-ROTATE_GameObjects.air = ROTATE_GameObjects.register(0, new GameObject_Air());
-ROTATE_GameObjects.solid = ROTATE_GameObjects.register(
-  1,
-  new ROTATE_GameObject_Solid(),
-);
-ROTATE_GameObjects.stairs = ROTATE_GameObjects.register(
-  2,
-  new ROTATE_GameObject_Stairs(),
-);
-ROTATE_GameObjects.ramp = ROTATE_GameObjects.register(
-  3,
-  new ROTATE_GameObject_Ramp(),
-);
-ROTATE_GameObjects.platform = ROTATE_GameObjects.register(
-  4,
-  new ROTATE_GameObject_Platform(),
-);
-ROTATE_GameObjects.spikes = ROTATE_GameObjects.register(
-  5,
-  new ROTATE_GameObject_Spikes(),
-);
-ROTATE_GameObjects.saw = ROTATE_GameObjects.register(
-  6,
-  new ROTATE_GameObject_Saw(),
-);
-ROTATE_GameObjects.lever = ROTATE_GameObjects.register(
-  8,
-  new ROTATE_GameObject_Lever(),
-);
-ROTATE_GameObjects.door = ROTATE_GameObjects.register(9, new GameObject_Door());
-ROTATE_GameObjects.number = ROTATE_GameObjects.register(
-  7,
-  new ROTATE_GameObject_Number(),
-);
-ROTATE_GameObjects.vent = ROTATE_GameObjects.register(
-  10,
-  new ROTATE_GameObject_Vent(),
-);
-ROTATE_GameObjects.fan = ROTATE_GameObjects.register(
-  11,
-  new ROTATE_GameObject_Fan(),
-);
+// TODO: simplify the logic of ROTATE_GameObjectsRegistry and ROTATE_GameObjects.
+// Once the codebase will be more stable and typed, the ID's for each object could be leveraged via TypeScript union
+class ROTATE_GameObjectsRegistry {
+  private static _registry: Map<number, Block> = new Map();
+
+  public static register(index: number, block: Block): Block | null {
+    if (ROTATE_GameObjectsRegistry._registry.has(index)) return null;
+    ROTATE_GameObjectsRegistry._registry.set(index, block);
+    block.id = index;
+    return block;
+  }
+
+  public static getBlock(index: number): Block {
+    return ROTATE_GameObjectsRegistry._registry.get(index);
+  }
+}
+
+class ROTATE_GameObjects {
+  public static readonly start = ROTATE_GameObjectsRegistry.register(
+    -1,
+    new ROTATE_GameObject_Start(),
+  );
+  public static readonly finish = ROTATE_GameObjectsRegistry.register(
+    -2,
+    new ROTATE_GameObject_Finish(),
+  );
+  public static readonly air = ROTATE_GameObjectsRegistry.register(
+    0,
+    new GameObject_Air(),
+  );
+  public static readonly solid = ROTATE_GameObjectsRegistry.register(
+    1,
+    new ROTATE_GameObject_Solid(),
+  );
+  public static readonly stairs = ROTATE_GameObjectsRegistry.register(
+    2,
+    new ROTATE_GameObject_Stairs(),
+  );
+  public static readonly ramp = ROTATE_GameObjectsRegistry.register(
+    3,
+    new ROTATE_GameObject_Ramp(),
+  );
+  public static readonly platform = ROTATE_GameObjectsRegistry.register(
+    4,
+    new ROTATE_GameObject_Platform(),
+  );
+  public static readonly spikes = ROTATE_GameObjectsRegistry.register(
+    5,
+    new ROTATE_GameObject_Spikes(),
+  );
+  public static readonly saw = ROTATE_GameObjectsRegistry.register(
+    6,
+    new ROTATE_GameObject_Saw(),
+  );
+  public static readonly lever = ROTATE_GameObjectsRegistry.register(
+    8,
+    new ROTATE_GameObject_Lever(),
+  );
+  public static readonly door = ROTATE_GameObjectsRegistry.register(
+    9,
+    new GameObject_Door(),
+  );
+  public static readonly number = ROTATE_GameObjectsRegistry.register(
+    7,
+    new ROTATE_GameObject_Number(),
+  );
+  public static readonly vent = ROTATE_GameObjectsRegistry.register(
+    10,
+    new ROTATE_GameObject_Vent(),
+  );
+  public static readonly fan = ROTATE_GameObjectsRegistry.register(
+    11,
+    new ROTATE_GameObject_Fan(),
+  );
+}
 
 ROTATE_Particle.GRAVITY_MULT = 0.2;
 ROTATE_EditorLevel.WORLD_SIZE = 42;
