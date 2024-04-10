@@ -4307,14 +4307,12 @@ ROTATE_GameObject_Stairs.prototype = __inherit(
     __class__: ROTATE_GameObject_Stairs,
   },
 );
-var ROTATE_GameObject_Start = function () {
-  DEPRECATED__Block.call(this);
-};
-ROTATE_GameObject_Start.__name__ = !0;
-ROTATE_GameObject_Start.__super__ = DEPRECATED__Block;
-ROTATE_GameObject_Start.prototype = __inherit(DEPRECATED__Block.prototype, {
-  render: function (a, b, c) {
-    a.drawImage(
+
+class GameObject_Start extends Block {
+  // TODO: define signature
+  public render(surface: Surface, blockData: BlockData, c: any): void {
+    surface.drawImage(
+      // TODO: define type
       ROTATE_Images.blocks,
       new Bounds(
         0,
@@ -4325,12 +4323,12 @@ ROTATE_GameObject_Start.prototype = __inherit(DEPRECATED__Block.prototype, {
       0,
       0,
     );
-  },
-  shouldRender: function (a) {
-    return !1;
-  },
-  __class__: ROTATE_GameObject_Start,
-});
+  }
+
+  public shouldRender(blockData: BlockData): boolean {
+    return false;
+  }
+}
 
 var ROTATE_GameObject_Vent = function () {
   DEPRECATED__Block.call(this);
@@ -21269,7 +21267,7 @@ class ROTATE_GameObjectsRegistry {
 class ROTATE_GameObjects {
   public static readonly start = ROTATE_GameObjectsRegistry.register(
     -1,
-    new ROTATE_GameObject_Start(),
+    new GameObject_Start(),
   );
   public static readonly finish = ROTATE_GameObjectsRegistry.register(
     -2,
@@ -21324,6 +21322,11 @@ class ROTATE_GameObjects {
     new ROTATE_GameObject_Fan(),
   );
 }
+
+console.debug(
+  'ROTATE_GameObjectsRegistry | _registry: ',
+  ROTATE_GameObjectsRegistry._registry,
+);
 
 ROTATE_Particle.GRAVITY_MULT = 0.2;
 ROTATE_EditorLevel.WORLD_SIZE = 42;
