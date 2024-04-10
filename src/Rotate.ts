@@ -1,4 +1,4 @@
-import {COLOR, KEY_CODE, PI2} from './constants';
+import {COLOR, KEY_CODE, PI2, ROTATE_GameConstants} from './constants';
 import {clamp, clamp01, getColorString} from './utils';
 import {Bounds} from './Bounds';
 import {Vector2} from './Vector2';
@@ -1402,9 +1402,6 @@ JSObjectUtils.__isNativeObj = function (a) {
 JSObjectUtils.__resolveNativeClass = function (a) {
   return window[a];
 };
-
-var ROTATE_GameConstants = function () {};
-ROTATE_GameConstants.__name__ = !0;
 
 var ROTATE_Images = function () {};
 ROTATE_Images.__name__ = !0;
@@ -21097,17 +21094,6 @@ CharUtils.CHARS =
 CharUtils.BYTES = StringBytesObject.ofString(CharUtils.CHARS);
 
 JSObjectUtils.__toStr = {}.toString;
-
-ROTATE_GameConstants.EPSILON = 1e-8;
-ROTATE_GameConstants.screenFadeTime = 700;
-ROTATE_GameConstants.screenFadeTimeSlow = 1600;
-ROTATE_GameConstants.tileSize = 24;
-ROTATE_GameConstants.tickMS = 16.666666666666668;
-ROTATE_GameConstants.ticksMax = 12;
-ROTATE_GameConstants.cameraSpeed = 0.075;
-ROTATE_GameConstants.rotateTime = 0.5;
-ROTATE_GameConstants.rotateOffset = 1.5 * ROTATE_GameConstants.tileSize;
-ROTATE_GameConstants.doorSlideTime = 0.2;
 
 ROTATE_Images.start = ROTATE_Manager.loadImage('img/start.png');
 ROTATE_Images.splashLWS = ROTATE_Manager.loadImage('img/splash-lws.png');

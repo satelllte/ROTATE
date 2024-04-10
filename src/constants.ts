@@ -23,3 +23,17 @@ export const KEY_CODE = {
 } as const satisfies Record<string, number>;
 
 export const PI2 = Math.PI * 2.0;
+
+const tileSize = 24;
+export const ROTATE_GameConstants = {
+  EPSILON: 1e-8,
+  screenFadeTime: 700,
+  screenFadeTimeSlow: 1600,
+  tileSize,
+  rotateOffset: 1.5 * tileSize,
+  tickMS: 16.666666666666668,
+  ticksMax: 12,
+  cameraSpeed: 0.075,
+  rotateTime: 0.5,
+  doorSlideTime: 0.2,
+} as const satisfies Record<string, number>;
