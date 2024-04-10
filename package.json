@@ -8,8 +8,12 @@
     "format": "prettier . --write"
   },
   "devDependencies": {
+    "@types/howler": "2.0.4",
     "prettier": "3.2.5",
     "typescript": "5.4.4",
     "vite": "5.2.8"
+  },
+  "dependencies": {
+    "howler": "2.0.4"
   }
 }

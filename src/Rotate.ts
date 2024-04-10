@@ -5,6 +5,7 @@ import {Vector2} from './Vector2';
 import {Transform} from './Transform';
 import {Surface} from './Surface';
 import {Graphics} from './Graphics';
+import {ROTATE_Audio} from './ROTATE_Audio';
 
 // ---------------------------------------------------------------------------
 
@@ -469,13 +470,6 @@ ROTATE_Manager.loadTextFile = function (url, onLoad) {
     null != onLoad && onLoad(d.responseText);
   };
   d.send();
-};
-ROTATE_Manager.loadSound = function (a) {
-  var b = ROTATE_Manager.createTask();
-  a.onload = function () {
-    ROTATE_Manager.closeTask(b);
-  };
-  return new Howl(a);
 };
 
 var Time = function () {};
@@ -1876,9 +1870,6 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   },
   __class__: ROTATE_Game,
 });
-
-var ROTATE_Audio = function () {};
-ROTATE_Audio.__name__ = !0;
 
 var LocalStorage = function () {};
 LocalStorage.__name__ = !0;
@@ -21183,78 +21174,6 @@ ROTATE_Game.fontMain = new ROTATE_Font(
 );
 ROTATE_Game.nosave = !1;
 ROTATE_Game.ie = !1;
-
-ROTATE_Audio.themeMenu = ROTATE_Manager.loadSound({
-  src: ['music/menu.ogg', 'music/menu.mp3'],
-  loop: !0,
-});
-ROTATE_Audio.themeGame1 = ROTATE_Manager.loadSound({
-  src: ['music/game-1.ogg', 'music/game-1.mp3'],
-  loop: !0,
-  volume: 0.8,
-});
-ROTATE_Audio.themeGame2 = ROTATE_Manager.loadSound({
-  src: ['music/game-2.ogg', 'music/game-2.mp3'],
-  loop: !0,
-  volume: 0.75,
-});
-ROTATE_Audio.surface = ROTATE_Manager.loadSound({
-  src: ['sfx/surface.ogg', 'sfx/surface.mp3'],
-  loop: !0,
-});
-ROTATE_Audio.steps = ROTATE_Manager.loadSound({
-  src: ['sfx/steps.ogg', 'sfx/steps.mp3'],
-  sprite: {
-    a: [0, 400],
-    b: [475, 400],
-  },
-});
-ROTATE_Audio.death = ROTATE_Manager.loadSound({
-  src: ['sfx/death.ogg', 'sfx/death.mp3'],
-});
-ROTATE_Audio.rotate = ROTATE_Manager.loadSound({
-  src: ['sfx/rotate.ogg', 'sfx/rotate.mp3'],
-});
-ROTATE_Audio.exit = ROTATE_Manager.loadSound({
-  src: ['sfx/exit.ogg', 'sfx/exit.mp3'],
-});
-ROTATE_Audio.door = ROTATE_Manager.loadSound({
-  src: ['sfx/door.ogg', 'sfx/door.mp3'],
-});
-ROTATE_Audio.cat = ROTATE_Manager.loadSound({
-  src: ['sfx/cat.ogg', 'sfx/cat.mp3'],
-});
-ROTATE_Audio.leverOn = ROTATE_Manager.loadSound({
-  src: ['sfx/lever-on.ogg', 'sfx/lever-on.mp3'],
-});
-ROTATE_Audio.leverOff = ROTATE_Manager.loadSound({
-  src: ['sfx/lever-off.ogg', 'sfx/lever-off.mp3'],
-});
-ROTATE_Audio.voice = ROTATE_Manager.loadSound({
-  src: ['sfx/voice.ogg', 'sfx/voice.mp3'],
-  sprite: {
-    a: [0, 1e3],
-    b: [1111, 1e3],
-    c: [2222, 1e3],
-    d: [3333, 1e3],
-    e: [4444, 1e3],
-    f: [5555, 1e3],
-    g: [6666, 1e3],
-    h: [7777, 1e3],
-  },
-  volume: 0.9,
-});
-ROTATE_Audio.SFX = [
-  ROTATE_Audio.steps,
-  ROTATE_Audio.death,
-  ROTATE_Audio.rotate,
-  ROTATE_Audio.exit,
-  ROTATE_Audio.door,
-  ROTATE_Audio.cat,
-  ROTATE_Audio.leverOn,
-  ROTATE_Audio.leverOff,
-  ROTATE_Audio.voice,
-];
 
 ROTATE_Awards.awardEscape = new ROTATE_Award(
   'The Beginning',
