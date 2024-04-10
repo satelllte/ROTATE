@@ -339,7 +339,9 @@ ROTATE_EventTarget.prototype = {
     ) {
       c = this.listeners;
       var d = [];
-      null != ROTATE_ObjectAlwaysEmpty[a] ? c.setReserved(a, d) : (c.h[a] = d);
+      null != ROTATE_ObjectAlwaysEmpty[a] /* false */
+        ? c.setReserved(a, d) /* never called */
+        : (c.h[a] = d);
     }
     c = this.listeners;
     (null != ROTATE_ObjectAlwaysEmpty[a] ? c.getReserved(a) : c.h[a]).push(b);
@@ -1111,10 +1113,12 @@ ROTATE_EventMap.__name__ = !0;
 ROTATE_EventMap.__interfaces__ = [MapInterface];
 ROTATE_EventMap.prototype = {
   setReserved: function (a, b) {
+    console.debug('ROTATE_EventMap | setReserved | a,b: ', a, b);
     null == this.rh && (this.rh = {});
     this.rh['$' + a] = b;
   },
   getReserved: function (a) {
+    console.debug('ROTATE_EventMap | getReserved | a: ', a);
     return null == this.rh ? null : this.rh['$' + a];
   },
   existsReserved: function (a) {
@@ -1126,6 +1130,7 @@ ROTATE_EventMap.prototype = {
     return null == this.rh ? !1 : this.rh.hasOwnProperty('$' + a);
   },
   remove: function (a) {
+    console.debug('ROTATE_EventMap | remove | a: ', a);
     if (null != ROTATE_ObjectAlwaysEmpty[a]) {
       a = '$' + a;
       if (null == this.rh || !this.rh.hasOwnProperty(a)) return !1;
@@ -2772,8 +2777,8 @@ ROTATE_LevelEditorManager.set_level = function (a) {
         else if (m.get_block().alwaysUpdate(m)) {
           var p = ROTATE_LevelEditorManager.updateQueue;
           k = k + 'x' + d;
-          null != ROTATE_ObjectAlwaysEmpty[k]
-            ? p.setReserved(k, m)
+          null != ROTATE_ObjectAlwaysEmpty[k] /* false */
+            ? p.setReserved(k, m) /* never called */
             : (p.h[k] = m);
         }
       }
@@ -2847,7 +2852,9 @@ ROTATE_LevelEditorManager.setBlock = function (a, b, c, d, e) {
     a = ROTATE_LevelEditorManager.getBlockData(a, b);
     ROTATE_GameObjectsRegistry.getBlock(c).alwaysUpdate(a) &&
       ((c = ROTATE_LevelEditorManager.updateQueue),
-      null != ROTATE_ObjectAlwaysEmpty[f] ? c.setReserved(f, a) : (c.h[f] = a));
+      null != ROTATE_ObjectAlwaysEmpty[f] /* false */
+        ? c.setReserved(f, a) /* never called */
+        : (c.h[f] = a));
   }
 };
 ROTATE_LevelEditorManager.setBlockMeta = function (a, b, c, d) {
@@ -2869,7 +2876,9 @@ ROTATE_LevelEditorManager.setBlockMeta = function (a, b, c, d) {
       : d.h.hasOwnProperty(c)) &&
     ((d = ROTATE_LevelEditorManager.updateQueue),
     (a = ROTATE_LevelEditorManager.getBlockData(a, b)),
-    null != ROTATE_ObjectAlwaysEmpty[c] ? d.setReserved(c, a) : (d.h[c] = a));
+    null != ROTATE_ObjectAlwaysEmpty[c] /* false */
+      ? d.setReserved(c, a) /* never called */
+      : (d.h[c] = a));
 };
 ROTATE_LevelEditorManager.isReplacable = function (a, b) {
   return a != ROTATE_LevelEditorManager.level.startCol ||
