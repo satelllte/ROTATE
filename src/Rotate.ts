@@ -1,5 +1,10 @@
 import {COLOR, KEY_CODE, PI2, ROTATE_GameConstants} from './constants';
-import {clamp, clamp01, getColorString} from './utils';
+import {
+  clamp,
+  clamp01,
+  getColorString,
+  pointInTransformedBounds,
+} from './utils';
 import {Bounds} from './Bounds';
 import {Vector2} from './Vector2';
 import {Transform} from './Transform';
@@ -295,7 +300,7 @@ ROTATE_Canvas.updateMouseSpriteStep = function (a, b) {
       var c = a.getBounds();
       c.width -= 1e-4;
       c.height -= 1e-4;
-      CanvasUtils.pointInTransformedBounds(
+      pointInTransformedBounds(
         new Vector2(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
         a._transform,
         c,
@@ -498,31 +503,6 @@ Time.get_elapsed = function () {
 };
 Time.get_elapsedMS = function () {
   return Time.elapsedTime;
-};
-
-var CanvasUtils = function () {};
-CanvasUtils.__name__ = !0;
-CanvasUtils.pointInQuad = function (a, b, c, d, e) {
-  e = c.subtract(b);
-  b = a.subtract(b);
-  d = d.subtract(c);
-  c = a.subtract(c);
-  a = Vector2.dot(e, b);
-  e = Vector2.dot(e, e);
-  c = Vector2.dot(d, c);
-  d = Vector2.dot(d, d);
-  return 0 <= a && a <= e && 0 <= c ? c <= d : !1;
-};
-CanvasUtils.pointInTransformedBounds = function (a, b, c) {
-  return null == a || null == b || null == c || 0 == c.width || 0 == c.height
-    ? !1
-    : CanvasUtils.pointInQuad(
-        a,
-        b.apply(c.get_left(), c.get_top()),
-        b.apply(c.get_right(), c.get_top()),
-        b.apply(c.get_right(), c.get_bottom()),
-        b.apply(c.get_left(), c.get_bottom()),
-      );
 };
 
 var ROTATE_CanvasObject = function () {
