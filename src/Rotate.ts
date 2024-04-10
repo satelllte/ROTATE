@@ -4079,25 +4079,23 @@ class Tooltip {
 
   constructor() {}
 
-  public shouldRender(): boolean {
+  public shouldRender(blockData: BlockData): boolean {
     return true;
   }
 
   // TODO: define signature
   public render(surface: Surface, blockData: BlockData, c): void {}
 
-  // TODO: define signature
-  public collides(a): boolean {
+  public collides(blockData: BlockData): boolean {
     return true;
   }
 
-  // TODO: define signature
-  public isTrigger(a): boolean {
+  public isTrigger(blockData: BlockData): boolean {
     return false;
   }
 
   // TODO: define signature
-  public getColliders(a) {
+  public getColliders(blockData: BlockData) {
     return [
       new Collider(
         new Bounds(
@@ -4110,39 +4108,34 @@ class Tooltip {
     ];
   }
 
-  // TODO: define signature
-  public onTrigger(a): boolean {
+  public onTrigger(blockData: BlockData): boolean {
     return true;
   }
 
   // TODO: define signature
-  public setupBubble(a) {}
+  public setupBubble(a /* ROTATE_CanvasObject */) {}
 
   // TODO: define signature
   public getConfigMeta(): number[] {
     return [];
   }
 
-  // TODO: define signature
-  public alwaysUpdate(a) {
+  public alwaysUpdate(blockData: BlockData): boolean {
     return false;
   }
 
-  // TODO: define signature
-  public onPlay(a) {}
+  public onPlay(blockData: BlockData): void {}
 
-  // TODO: define signature
-  public rotatePreview() {
-    return !0;
+  public rotatePreview(): boolean {
+    return true;
   }
 
   // TODO: define signature
-  public showArrow(a) {
+  public showArrow(a): boolean {
     return false;
   }
 
-  // TODO: define signature
-  public onInteract(a) {}
+  public onInteract(blockData: BlockData): void {}
 }
 
 class GameObject_Air extends Tooltip {
@@ -4150,13 +4143,11 @@ class GameObject_Air extends Tooltip {
     super();
   }
 
-  // TODO: define signature
-  public collides(a) {
+  public collides(blockData: BlockData): boolean {
     return false;
   }
 
-  // TODO: define signature
-  public shouldRender(a) {
+  public shouldRender(blockData: BlockData): boolean {
     return false;
   }
 }
@@ -4236,14 +4227,13 @@ class GameObject_Door extends Tooltip {
   }
 
   // TODO: define signature
-  public collides(a) {
-    var b = this.isOpen(a);
-    !b && this.isStuck(a) && ROTATE_ScreenPrimaryGame.i.killPlayer();
+  public collides(blockData: BlockData) {
+    var b = this.isOpen(blockData);
+    !b && this.isStuck(blockData) && ROTATE_ScreenPrimaryGame.i.killPlayer();
     return !b;
   }
 
-  // TODO: define signature
-  public alwaysUpdate(a): boolean {
+  public alwaysUpdate(blockData: BlockData): boolean {
     return true;
   }
 
