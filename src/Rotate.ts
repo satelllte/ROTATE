@@ -3783,14 +3783,9 @@ ROTATE_GameObject_Fan.prototype = __inherit(ROTATE_GameObject_Angle.prototype, {
   __class__: ROTATE_GameObject_Fan,
 });
 
-var ROTATE_GameObject_Finish = function () {
-  DEPRECATED__Block.call(this);
-};
-ROTATE_GameObject_Finish.__name__ = !0;
-ROTATE_GameObject_Finish.__super__ = DEPRECATED__Block;
-ROTATE_GameObject_Finish.prototype = __inherit(DEPRECATED__Block.prototype, {
-  render: function (a, b, c) {
-    a.drawImage(
+class GameObject_Finish extends Block {
+  public render(surface: Surface, blockData: BlockData, c: any): void {
+    surface.drawImage(
       ROTATE_Images.blocks,
       new Bounds(
         0,
@@ -3801,12 +3796,12 @@ ROTATE_GameObject_Finish.prototype = __inherit(DEPRECATED__Block.prototype, {
       0,
       0,
     );
-  },
-  shouldRender: function (a) {
-    return !1;
-  },
-  __class__: ROTATE_GameObject_Finish,
-});
+  }
+
+  public shouldRender(blockData: BlockData): boolean {
+    return false;
+  }
+}
 
 var ROTATE_GameObject_Lever = function () {
   this.on = !1;
@@ -21271,7 +21266,7 @@ class ROTATE_GameObjects {
   );
   public static readonly finish = ROTATE_GameObjectsRegistry.register(
     -2,
-    new ROTATE_GameObject_Finish(),
+    new GameObject_Finish(),
   );
   public static readonly air = ROTATE_GameObjectsRegistry.register(
     0,
