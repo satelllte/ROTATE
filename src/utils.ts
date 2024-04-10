@@ -94,3 +94,13 @@ export const getOneTimeIterator = <T>(arr: T[]) => {
     },
   };
 };
+
+// TODO: test
+export const parseInteger = (str: string): number | null => {
+  // TODO: re-implement properly
+  var b = parseInt(str, 10);
+  0 != b ||
+    (120 != charCodeAt(str, 1) && 88 != charCodeAt(str, 1)) ||
+    (b = parseInt(str));
+  return isNaN(b) ? null : b;
+};
