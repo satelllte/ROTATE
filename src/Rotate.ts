@@ -3803,52 +3803,65 @@ class GameObject_Finish extends Block {
   }
 }
 
-var ROTATE_GameObject_Lever = function () {
-  this.on = !1;
-  this.channel = 0;
-  DEPRECATED__Block.call(this);
-  this.bubbleWidth = 148;
-  this.bubbleHeight = 76;
-  this.configurable = !0;
-};
-ROTATE_GameObject_Lever.__name__ = !0;
-ROTATE_GameObject_Lever.__super__ = DEPRECATED__Block;
-ROTATE_GameObject_Lever.prototype = __inherit(DEPRECATED__Block.prototype, {
-  isTrigger: function (a) {
-    return !0;
-  },
-  showArrow: function (a) {
-    return !0;
-  },
-  onInteract: function (a) {
-    var b = a.y * ROTATE_LevelEditorManager.get_width() + a.x,
+class GameObject_Lever extends Block {
+  private static readonly _TOGGLE_TIMER = 0.67;
+
+  public on = false; // TODO: mark as private or readonly
+  public channel = 0; // TODO: mark as private or readonly
+
+  constructor() {
+    super();
+    this.bubbleWidth = 148;
+    this.bubbleHeight = 76;
+    this.configurable = true;
+  }
+
+  public isTrigger(blockData: BlockData): boolean {
+    return true;
+  }
+
+  // TODO: define signature
+  public showArrow(a: any): boolean {
+    return true;
+  }
+
+  public onInteract(blockData: BlockData): void {
+    // TODO: re-implement properly
+    var b = blockData.y * ROTATE_LevelEditorManager.get_width() + blockData.x,
       c = ROTATE_LevelEditorManager.leversChanged.h[b];
     if (
       !(
         null != c &&
-        ROTATE_Game.instance.get_gameTime() - c <
-          ROTATE_GameObject_Lever.TOGGLE_TIMER
+        ROTATE_Game.instance.get_gameTime() - c < GameObject_Lever._TOGGLE_TIMER
       )
     ) {
       c = ROTATE_ScreenPrimaryGame.i.channels;
-      var d = a.getMeta(0),
+      var d = blockData.getMeta(0),
         e = c.h[d];
       d = null != e && e.get_status();
-      (c = 1 > a.getMeta(1))
-        ? ROTATE_ScreenPrimaryGame.i.signalOn(a.x, a.y, a.getMeta(0))
-        : ROTATE_ScreenPrimaryGame.i.signalOff(a.x, a.y, a.getMeta(0));
+      (c = 1 > blockData.getMeta(1))
+        ? ROTATE_ScreenPrimaryGame.i.signalOn(
+            blockData.x,
+            blockData.y,
+            blockData.getMeta(0),
+          )
+        : ROTATE_ScreenPrimaryGame.i.signalOff(
+            blockData.x,
+            blockData.y,
+            blockData.getMeta(0),
+          );
       var f = ROTATE_LevelEditorManager.leversChanged,
         m = ROTATE_Game.instance.get_gameTime();
       f.h[b] = m;
       null == e &&
         ((b = ROTATE_ScreenPrimaryGame.i.channels),
-        (e = a.getMeta(0)),
+        (e = blockData.getMeta(0)),
         (e = b.h[e]));
       e = null != e && e.get_status();
       b = !1;
       if (d != e)
         for (d = 0, e = ROTATE_ScreenPrimaryGame.i.doors; d < e.length; )
-          if (((f = e[d]), ++d, f.channel == a.getMeta(0))) {
+          if (((f = e[d]), ++d, f.channel == blockData.getMeta(0))) {
             b = !0;
             break;
           }
@@ -3860,17 +3873,25 @@ ROTATE_GameObject_Lever.prototype = __inherit(DEPRECATED__Block.prototype, {
       !b ||
         (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
         ROTATE_Audio.door.play();
-      ROTATE_LevelEditorManager.setBlockMeta(a.x, a.y, [
-        a.getMeta(0),
+      ROTATE_LevelEditorManager.setBlockMeta(blockData.x, blockData.y, [
+        blockData.getMeta(0),
         c ? 1 : 0,
       ]);
     }
-  },
-  onPlay: function (a) {
-    0 < a.getMeta(1) &&
-      ROTATE_ScreenPrimaryGame.i.signalOn(a.x, a.y, a.getMeta(0));
-  },
-  getColliders: function (a) {
+  }
+
+  public onPlay(blockData: BlockData): void {
+    // TODO: re-implement properly
+    0 < blockData.getMeta(1) &&
+      ROTATE_ScreenPrimaryGame.i.signalOn(
+        blockData.x,
+        blockData.y,
+        blockData.getMeta(0),
+      );
+  }
+
+  // TODO: define signature
+  public getColliders(blockData: BlockData) {
     return [
       new Collider(
         new Bounds(
@@ -3881,17 +3902,22 @@ ROTATE_GameObject_Lever.prototype = __inherit(DEPRECATED__Block.prototype, {
         ),
       ),
     ];
-  },
-  alwaysUpdate: function (a) {
+  }
+
+  public alwaysUpdate(blockData: BlockData): boolean {
+    // TODO: re-implement properly
     return !JSObjectUtils.__instanceof(
       ROTATE_Game.instance.currentScreen,
       ROTATE_ScreenEditor,
     );
-  },
-  render: function (a, b, c) {
+  }
+
+  // TODO: define signature
+  public render(surface: Surface, blockData: BlockData, c: any): void {
+    // TODO: re-implement properly
     null == c && (c = !0);
-    var d = 0 < b.getMeta(1);
-    a.drawImage(
+    var d = 0 < blockData.getMeta(1);
+    surface.drawImage(
       ROTATE_Images.blocks,
       new Bounds(
         (d ? 4 : 3) * ROTATE_GameConstants.tileSize,
@@ -3907,9 +3933,12 @@ ROTATE_GameObject_Lever.prototype = __inherit(DEPRECATED__Block.prototype, {
         ROTATE_Game.instance.currentScreen,
         ROTATE_ScreenEditor,
       ) &&
-      ROTATE_ScreenEditor.renderBlockText(a, b.getMeta(0) + '');
-  },
-  setupBubble: function (a) {
+      ROTATE_ScreenEditor.renderBlockText(surface, blockData.getMeta(0) + '');
+  }
+
+  // TODO: define signature
+  public setupBubble(a: any /* ROTATE_CanvasObject */): void {
+    // TODO: re-implement properly
     var b = this,
       c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
     c.set_x(8);
@@ -3969,12 +3998,12 @@ ROTATE_GameObject_Lever.prototype = __inherit(DEPRECATED__Block.prototype, {
     e.set_x(m.x - 11);
     e.set_y(c.y);
     a.addChild(e);
-  },
-  getConfigMeta: function () {
+  }
+
+  public getConfigMeta(): number[] {
     return [this.channel, this.on ? 1 : 0];
-  },
-  __class__: ROTATE_GameObject_Lever,
-});
+  }
+}
 
 var ROTATE_GameObject_Solid = function () {
   DEPRECATED__Block.call(this);
@@ -21241,8 +21270,6 @@ ROTATE_Player.ANIM_ROTATE = new ROTATE_Animation(
 ROTATE_LevelEditorManager.rotating = !1;
 ROTATE_LevelEditorManager.rotation = 0;
 
-ROTATE_GameObject_Lever.TOGGLE_TIMER = 0.67;
-
 // TODO: simplify the logic of ROTATE_GameObjectsRegistry and ROTATE_GameObjects.
 // Once the codebase will be more stable and typed, the ID's for each object could be leveraged via TypeScript union
 class ROTATE_GameObjectsRegistry {
@@ -21298,7 +21325,7 @@ class ROTATE_GameObjects {
   );
   public static readonly lever = ROTATE_GameObjectsRegistry.register(
     8,
-    new ROTATE_GameObject_Lever(),
+    new GameObject_Lever(),
   );
   public static readonly door = ROTATE_GameObjectsRegistry.register(
     9,
