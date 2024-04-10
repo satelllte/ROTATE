@@ -1,9 +1,11 @@
 import {COLOR, KEY_CODE, PI2, ROTATE_GameConstants} from './constants';
 import {
+  charCodeAt,
   clamp,
   clamp01,
   getColorString,
   pointInTransformedBounds,
+  subString,
 } from './utils';
 import {Bounds} from './Bounds';
 import {Vector2} from './Vector2';
@@ -49,16 +51,6 @@ var toStringNoop = function () {
 
 var StringUtils2 = function () {};
 StringUtils2.__name__ = !0;
-StringUtils2.charCodeAt = function (str, index) {
-  return str.charCodeAt(index);
-};
-StringUtils2.substr = function (a, b, c) {
-  if (null == c) c = a.length;
-  else if (0 > c)
-    if (0 == b) c = a.length + c;
-    else return '';
-  return a.substr(b, c);
-};
 StringUtils2.iter = function (a) {
   return {
     cur: 0,
@@ -80,8 +72,7 @@ Utils.string = function (a) {
 Utils.parseInt = function (a) {
   var b = parseInt(a, 10);
   0 != b ||
-    (120 != StringUtils2.charCodeAt(a, 1) &&
-      88 != StringUtils2.charCodeAt(a, 1)) ||
+    (120 != charCodeAt(a, 1) && 88 != charCodeAt(a, 1)) ||
     (b = parseInt(a));
   return isNaN(b) ? null : b;
 };
@@ -89,17 +80,17 @@ Utils.parseInt = function (a) {
 var StringUtils = function () {};
 StringUtils.__name__ = !0;
 StringUtils.isSpace = function (a, b) {
-  var c = StringUtils2.charCodeAt(a, b);
+  var c = charCodeAt(a, b);
   return 8 < c && 14 > c ? !0 : 32 == c;
 };
 StringUtils.ltrim = function (a) {
   for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, c); ) ++c;
-  return 0 < c ? StringUtils2.substr(a, c, b - c) : a;
+  return 0 < c ? subString(a, c, b - c) : a;
 };
 StringUtils.rtrim = function (a) {
   for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, b - c - 1); )
     ++c;
-  return 0 < c ? StringUtils2.substr(a, 0, b - c) : a;
+  return 0 < c ? subString(a, 0, b - c) : a;
 };
 StringUtils.trim = function (a) {
   return StringUtils.ltrim(StringUtils.rtrim(a));
@@ -700,7 +691,7 @@ ROTATE_ImageObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
       this.image = a;
       var b = a.width,
         c = a.height;
-      'svg' == StringUtils2.substr(a.src, a.src.length - 3, null) &&
+      'svg' == subString(a.src, a.src.length - 3, null) &&
         (window.document.body.appendChild(a),
         (b = a.offsetWidth),
         (c = a.offsetHeight),
@@ -1032,9 +1023,7 @@ CharUtils.encode = function (a, b) {
 };
 CharUtils.decode = function (a, b) {
   null == b && (b = !0);
-  if (b)
-    for (; 61 == StringUtils2.charCodeAt(a, a.length - 1); )
-      a = StringUtils2.substr(a, 0, -1);
+  if (b) for (; 61 == charCodeAt(a, a.length - 1); ) a = subString(a, 0, -1);
   return new CharEncoder(CharUtils.BYTES).decodeBytes(
     StringBytesObject.ofString(a),
   );
@@ -20125,7 +20114,7 @@ ROTATE_Text.drawText = function (a, b, c, d, e, f) {
     var K = y++;
     '\n' == c.charAt(K)
       ? (++p, (m = 0), (k += b.lineHeight))
-      : ((K = StringUtils2.charCodeAt(c, K)),
+      : ((K = charCodeAt(c, K)),
         (K = b.chars[K]),
         null != K &&
           (a.drawImage(
@@ -20169,9 +20158,7 @@ ROTATE_Text.prototype = __inherit(ROTATE_CanvasObject.prototype, {
           (a = d = 0),
           (c += this.lineHeight);
       else if (
-        ((m = StringUtils2.charCodeAt(this.text, m)),
-        (m = this.font.chars[m]),
-        null != m)
+        ((m = charCodeAt(this.text, m)), (m = this.font.chars[m]), null != m)
       ) {
         var k = m.xo + m.w;
         d += a + k;
@@ -20199,7 +20186,7 @@ ROTATE_Text.prototype = __inherit(ROTATE_CanvasObject.prototype, {
         ? (++e,
           (c = -this.getLineOffset(this.lineWidths[e])),
           (d += this.lineHeight))
-        : ((k = StringUtils2.charCodeAt(this.text, k)),
+        : ((k = charCodeAt(this.text, k)),
           (k = this.font.chars[k]),
           null != k &&
             (a.drawImage(

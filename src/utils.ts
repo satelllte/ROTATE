@@ -2,11 +2,14 @@ import {type Bounds} from './Bounds';
 import {type Transform} from './Transform';
 import {Vector2} from './Vector2';
 
+// TODO: test this function
 export const clamp = (x: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, x));
 
+// TODO: test this function
 export const clamp01 = (x: number): number => clamp(x, 0, 1);
 
+// TODO: test this function
 export const getColorString = (
   rgb: number,
   alpha: number = 1.0,
@@ -14,6 +17,7 @@ export const getColorString = (
   return `rgba(${(rgb & 0xff0000) >>> 16},${(rgb & 0xff00) >>> 8},${rgb & 0xff},${alpha})`;
 };
 
+// TODO: test this function
 export const pointInTransformedBounds = (
   point: Vector2,
   transform: Transform,
@@ -52,4 +56,27 @@ const pointInQuad = (
   const _p2 = Vector2.dot(p3, p2);
   const _p3 = Vector2.dot(p3, p3);
   return 0 <= p && p <= _p4 && 0 <= _p2 ? _p2 <= _p3 : false;
+};
+
+// TODO: test this function
+export const charCodeAt = (str: string, positionIndex: number) => {
+  return str.charCodeAt(positionIndex);
+};
+
+// TODO: test this function
+export const subString = (
+  str: string,
+  startPositionIndex: number,
+  endPositionIndex: number = str.length,
+) => {
+  // TODO: re-implement properly
+  if (0 > endPositionIndex) {
+    if (0 == startPositionIndex) {
+      endPositionIndex = str.length + endPositionIndex;
+    } else {
+      return '';
+    }
+  }
+  // TODO: don't use deprecated method here
+  return str.substr(startPositionIndex, endPositionIndex);
 };
