@@ -378,6 +378,8 @@ ROTATE_EventTarget.prototype = {
   __class__: ROTATE_EventTarget,
 };
 
+// TODO: add "loadSound" method and createTask with (new Howl()).onLoad callback
+// TODO: rename to "ROTATE_Loader" or "ROTATE_LoadManager"
 var ROTATE_Manager = function () {};
 ROTATE_Manager.__name__ = !0;
 ROTATE_Manager.triggerEvent = function (a) {
@@ -429,7 +431,6 @@ ROTATE_Manager.loadImage = function (a, b) {
   }
   return c;
 };
-// TODO: add "loadSound" method and createTask with (new Howl()).onLoad callback
 ROTATE_Manager.loadWebFonts = function (a, b) {
   var c = ROTATE_Manager.createTask();
   a.active = function () {
