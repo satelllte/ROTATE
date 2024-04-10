@@ -333,26 +333,26 @@ ROTATE_EventTarget.prototype = {
   addEventListener: function (a, b) {
     var c = this.listeners;
     if (
-      null != ROTATE_ObjectReserved[a]
+      null != ROTATE_ObjectAlwaysEmpty[a]
         ? !c.existsReserved(a)
         : !c.h.hasOwnProperty(a)
     ) {
       c = this.listeners;
       var d = [];
-      null != ROTATE_ObjectReserved[a] ? c.setReserved(a, d) : (c.h[a] = d);
+      null != ROTATE_ObjectAlwaysEmpty[a] ? c.setReserved(a, d) : (c.h[a] = d);
     }
     c = this.listeners;
-    (null != ROTATE_ObjectReserved[a] ? c.getReserved(a) : c.h[a]).push(b);
+    (null != ROTATE_ObjectAlwaysEmpty[a] ? c.getReserved(a) : c.h[a]).push(b);
   },
   removeEventListener: function (a, b) {
     var c = this.listeners;
     if (
-      null != ROTATE_ObjectReserved[a]
+      null != ROTATE_ObjectAlwaysEmpty[a]
         ? c.existsReserved(a)
         : c.h.hasOwnProperty(a)
     ) {
       c = this.listeners;
-      c = null != ROTATE_ObjectReserved[a] ? c.getReserved(a) : c.h[a];
+      c = null != ROTATE_ObjectAlwaysEmpty[a] ? c.getReserved(a) : c.h[a];
       var d = c.indexOf(b);
       0 > d || c.splice(d, 1);
     }
@@ -361,7 +361,7 @@ ROTATE_EventTarget.prototype = {
     var b = this.listeners,
       c = a.type;
     if (
-      null != ROTATE_ObjectReserved[c]
+      null != ROTATE_ObjectAlwaysEmpty[c]
         ? b.existsReserved(c)
         : b.h.hasOwnProperty(c)
     ) {
@@ -369,7 +369,7 @@ ROTATE_EventTarget.prototype = {
       c = this.listeners;
       var d = a.type;
       for (
-        c = null != ROTATE_ObjectReserved[d] ? c.getReserved(d) : c.h[d];
+        c = null != ROTATE_ObjectAlwaysEmpty[d] ? c.getReserved(d) : c.h[d];
         b < c.length;
 
       )
@@ -1099,7 +1099,7 @@ ROTATE_EventMapIterator.prototype = {
   next: function () {
     var map = this.map;
     var b = this.keys[this.index++];
-    return null != ROTATE_ObjectReserved[b] ? map.getReserved(b) : map.h[b];
+    return null != ROTATE_ObjectAlwaysEmpty[b] ? map.getReserved(b) : map.h[b];
   },
   __class__: ROTATE_EventMapIterator,
 };
@@ -1121,12 +1121,12 @@ ROTATE_EventMap.prototype = {
     console.debug('ROTATE_EventMap | existsReserved | a: ', a);
     console.debug(
       'ROTATE_EventMap | existsReserved | ROTATE_ObjectReserved: ',
-      ROTATE_ObjectReserved,
+      ROTATE_ObjectAlwaysEmpty,
     );
     return null == this.rh ? !1 : this.rh.hasOwnProperty('$' + a);
   },
   remove: function (a) {
-    if (null != ROTATE_ObjectReserved[a]) {
+    if (null != ROTATE_ObjectAlwaysEmpty[a]) {
       a = '$' + a;
       if (null == this.rh || !this.rh.hasOwnProperty(a)) return !1;
       delete this.rh[a];
@@ -2772,7 +2772,9 @@ ROTATE_LevelEditorManager.set_level = function (a) {
         else if (m.get_block().alwaysUpdate(m)) {
           var p = ROTATE_LevelEditorManager.updateQueue;
           k = k + 'x' + d;
-          null != ROTATE_ObjectReserved[k] ? p.setReserved(k, m) : (p.h[k] = m);
+          null != ROTATE_ObjectAlwaysEmpty[k]
+            ? p.setReserved(k, m)
+            : (p.h[k] = m);
         }
       }
   } else ROTATE_LevelEditorManager.level = null;
@@ -2831,7 +2833,7 @@ ROTATE_LevelEditorManager.setBlock = function (a, b, c, d, e) {
   if (ROTATE_LevelEditorManager.isInBounds(a, b)) {
     var f = a + 'x' + b,
       m = ROTATE_LevelEditorManager.updateQueue;
-    (null != ROTATE_ObjectReserved[f]
+    (null != ROTATE_ObjectAlwaysEmpty[f]
       ? m.existsReserved(f)
       : m.h.hasOwnProperty(f)) &&
       ROTATE_LevelEditorManager.updateQueue.remove(f);
@@ -2845,7 +2847,7 @@ ROTATE_LevelEditorManager.setBlock = function (a, b, c, d, e) {
     a = ROTATE_LevelEditorManager.getBlockData(a, b);
     ROTATE_GameObjectsRegistry.getBlock(c).alwaysUpdate(a) &&
       ((c = ROTATE_LevelEditorManager.updateQueue),
-      null != ROTATE_ObjectReserved[f] ? c.setReserved(f, a) : (c.h[f] = a));
+      null != ROTATE_ObjectAlwaysEmpty[f] ? c.setReserved(f, a) : (c.h[f] = a));
   }
 };
 ROTATE_LevelEditorManager.setBlockMeta = function (a, b, c, d) {
@@ -2862,12 +2864,12 @@ ROTATE_LevelEditorManager.setBlockMeta = function (a, b, c, d) {
         ROTATE_LevelEditorManager.tiles[b][a].slice(0)),
     (c = a + 'x' + b),
     (d = ROTATE_LevelEditorManager.updateQueue),
-    null != ROTATE_ObjectReserved[c]
+    null != ROTATE_ObjectAlwaysEmpty[c]
       ? d.existsReserved(c)
       : d.h.hasOwnProperty(c)) &&
     ((d = ROTATE_LevelEditorManager.updateQueue),
     (a = ROTATE_LevelEditorManager.getBlockData(a, b)),
-    null != ROTATE_ObjectReserved[c] ? d.setReserved(c, a) : (d.h[c] = a));
+    null != ROTATE_ObjectAlwaysEmpty[c] ? d.setReserved(c, a) : (d.h[c] = a));
 };
 ROTATE_LevelEditorManager.isReplacable = function (a, b) {
   return a != ROTATE_LevelEditorManager.level.startCol ||
@@ -20991,7 +20993,7 @@ ROTATE_Boolean.__ename__ = ['Bool'];
 var ROTATE_Class = {__name__: ['Class']};
 
 var ROTATE_ObjectNoop = {};
-var ROTATE_ObjectReserved = {};
+var ROTATE_ObjectAlwaysEmpty = {};
 
 ROTATE_Canvas.started = !1;
 ROTATE_Canvas.imageSmoothingEnabled = !0;
