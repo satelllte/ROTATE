@@ -453,6 +453,7 @@ ROTATE_Manager.loadImage = function (a, b) {
   }
   return c;
 };
+// TODO: add "loadSound" method and createTask with (new Howl()).onLoad callback
 ROTATE_Manager.loadWebFonts = function (a, b) {
   var c = ROTATE_Manager.createTask();
   a.active = function () {
