@@ -3692,14 +3692,14 @@ class GameObject_Door extends Block {
   }
 }
 
-var ROTATE_AngleTooltip = function () {
+var ROTATE_GameObject_Angle = function () {
   this.angle = 0;
   DEPRECATED__Block.call(this);
   this.configurable = !0;
 };
-ROTATE_AngleTooltip.__name__ = !0;
-ROTATE_AngleTooltip.__super__ = DEPRECATED__Block;
-ROTATE_AngleTooltip.prototype = __inherit(DEPRECATED__Block.prototype, {
+ROTATE_GameObject_Angle.__name__ = !0;
+ROTATE_GameObject_Angle.__super__ = DEPRECATED__Block;
+ROTATE_GameObject_Angle.prototype = __inherit(DEPRECATED__Block.prototype, {
   set_angle: function (a) {
     return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
   },
@@ -3745,15 +3745,15 @@ ROTATE_AngleTooltip.prototype = __inherit(DEPRECATED__Block.prototype, {
     a.rotate((-b.getMeta(0) * Math.PI) / 2);
     a.translate(-f, -f);
   },
-  __class__: ROTATE_AngleTooltip,
+  __class__: ROTATE_GameObject_Angle,
 });
 
 var ROTATE_GameObject_Fan = function () {
-  ROTATE_AngleTooltip.call(this);
+  ROTATE_GameObject_Angle.call(this);
 };
 ROTATE_GameObject_Fan.__name__ = !0;
-ROTATE_GameObject_Fan.__super__ = ROTATE_AngleTooltip;
-ROTATE_GameObject_Fan.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
+ROTATE_GameObject_Fan.__super__ = ROTATE_GameObject_Angle;
+ROTATE_GameObject_Fan.prototype = __inherit(ROTATE_GameObject_Angle.prototype, {
   alwaysUpdate: function (a) {
     return !0;
   },
@@ -4158,12 +4158,12 @@ ROTATE_GameObject_Number.prototype = __inherit(
 );
 
 var ROTATE_GameObject_Platform = function () {
-  ROTATE_AngleTooltip.call(this);
+  ROTATE_GameObject_Angle.call(this);
 };
 ROTATE_GameObject_Platform.__name__ = !0;
-ROTATE_GameObject_Platform.__super__ = ROTATE_AngleTooltip;
+ROTATE_GameObject_Platform.__super__ = ROTATE_GameObject_Angle;
 ROTATE_GameObject_Platform.prototype = __inherit(
-  ROTATE_AngleTooltip.prototype,
+  ROTATE_GameObject_Angle.prototype,
   {
     render: function (a, b, c) {
       this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
@@ -4176,26 +4176,29 @@ ROTATE_GameObject_Platform.prototype = __inherit(
 );
 
 var ROTATE_GameObject_Ramp = function () {
-  ROTATE_AngleTooltip.call(this);
+  ROTATE_GameObject_Angle.call(this);
 };
 ROTATE_GameObject_Ramp.__name__ = !0;
-ROTATE_GameObject_Ramp.__super__ = ROTATE_AngleTooltip;
-ROTATE_GameObject_Ramp.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
-  render: function (a, b, c) {
-    this.renderRotated(a, b, 6 * ROTATE_GameConstants.tileSize, 0);
+ROTATE_GameObject_Ramp.__super__ = ROTATE_GameObject_Angle;
+ROTATE_GameObject_Ramp.prototype = __inherit(
+  ROTATE_GameObject_Angle.prototype,
+  {
+    render: function (a, b, c) {
+      this.renderRotated(a, b, 6 * ROTATE_GameConstants.tileSize, 0);
+    },
+    getColliders: function (a) {
+      return [new Collider3(a.getMeta(0))];
+    },
+    __class__: ROTATE_GameObject_Ramp,
   },
-  getColliders: function (a) {
-    return [new Collider3(a.getMeta(0))];
-  },
-  __class__: ROTATE_GameObject_Ramp,
-});
+);
 
 var ROTATE_GameObject_Saw = function () {
-  ROTATE_AngleTooltip.call(this);
+  ROTATE_GameObject_Angle.call(this);
 };
 ROTATE_GameObject_Saw.__name__ = !0;
-ROTATE_GameObject_Saw.__super__ = ROTATE_AngleTooltip;
-ROTATE_GameObject_Saw.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
+ROTATE_GameObject_Saw.__super__ = ROTATE_GameObject_Angle;
+ROTATE_GameObject_Saw.prototype = __inherit(ROTATE_GameObject_Angle.prototype, {
   isTrigger: function (a) {
     return !0;
   },
@@ -4239,46 +4242,49 @@ ROTATE_GameObject_Saw.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
 });
 
 var ROTATE_GameObject_Spikes = function () {
-  ROTATE_AngleTooltip.call(this);
+  ROTATE_GameObject_Angle.call(this);
 };
 ROTATE_GameObject_Spikes.__name__ = !0;
-ROTATE_GameObject_Spikes.__super__ = ROTATE_AngleTooltip;
-ROTATE_GameObject_Spikes.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
-  isTrigger: function (a) {
-    return !0;
+ROTATE_GameObject_Spikes.__super__ = ROTATE_GameObject_Angle;
+ROTATE_GameObject_Spikes.prototype = __inherit(
+  ROTATE_GameObject_Angle.prototype,
+  {
+    isTrigger: function (a) {
+      return !0;
+    },
+    render: function (a, b, c) {
+      null == c && (c = !0);
+      this.renderRotated(
+        a,
+        b,
+        (c ? Math.floor((b.x + b.y) % 4) : 0) * ROTATE_GameConstants.tileSize,
+        ROTATE_GameConstants.tileSize,
+      );
+    },
+    getColliders: function (a) {
+      var b = ROTATE_GameConstants.tileSize;
+      var c = b / 2,
+        d = 0.5 * b,
+        e = (b - d) / 2;
+      3 == a.getMeta(0)
+        ? ((a = new Bounds(0, e, c, d)), (b = new Bounds(c, 0, c, b)))
+        : 2 == a.getMeta(0)
+          ? ((a = new Bounds(e, b - c, d, c)), (b = new Bounds(0, 0, b, c)))
+          : 1 == a.getMeta(0)
+            ? ((a = new Bounds(b - c, e, c, d)), (b = new Bounds(0, 0, c, b)))
+            : ((a = new Bounds(e, 0, d, c)), (b = new Bounds(0, c, b, c)));
+      return [new Collider(a), new Collider(b)];
+    },
+    onTrigger: function (a) {
+      ROTATE_ScreenPrimaryGame.i.killPlayer();
+      return !1;
+    },
+    __class__: ROTATE_GameObject_Spikes,
   },
-  render: function (a, b, c) {
-    null == c && (c = !0);
-    this.renderRotated(
-      a,
-      b,
-      (c ? Math.floor((b.x + b.y) % 4) : 0) * ROTATE_GameConstants.tileSize,
-      ROTATE_GameConstants.tileSize,
-    );
-  },
-  getColliders: function (a) {
-    var b = ROTATE_GameConstants.tileSize;
-    var c = b / 2,
-      d = 0.5 * b,
-      e = (b - d) / 2;
-    3 == a.getMeta(0)
-      ? ((a = new Bounds(0, e, c, d)), (b = new Bounds(c, 0, c, b)))
-      : 2 == a.getMeta(0)
-        ? ((a = new Bounds(e, b - c, d, c)), (b = new Bounds(0, 0, b, c)))
-        : 1 == a.getMeta(0)
-          ? ((a = new Bounds(b - c, e, c, d)), (b = new Bounds(0, 0, c, b)))
-          : ((a = new Bounds(e, 0, d, c)), (b = new Bounds(0, c, b, c)));
-    return [new Collider(a), new Collider(b)];
-  },
-  onTrigger: function (a) {
-    ROTATE_ScreenPrimaryGame.i.killPlayer();
-    return !1;
-  },
-  __class__: ROTATE_GameObject_Spikes,
-});
+);
 
 var ROTATE_GameObject_Stairs = function () {
-  ROTATE_AngleTooltip.call(this);
+  ROTATE_GameObject_Angle.call(this);
 };
 ROTATE_GameObject_Stairs.__name__ = !0;
 ROTATE_GameObject_Stairs.__super__ = ROTATE_GameObject_Ramp;
