@@ -3370,14 +3370,14 @@ class GameObject_Air extends Block {
   }
 }
 
-// DEPRECATED | TODO: remove once all inherited classes upgraded to "Tooltip" base
-var ROTATE_Tooltip = function () {
+// DEPRECATED | TODO: remove once all inherited classes upgraded to "Block" base
+var DEPRECATED__Block = function () {
   this.bubbleHeight = 46;
   this.bubbleWidth = 124;
   this.configurable = !1;
 };
-ROTATE_Tooltip.__name__ = !0;
-ROTATE_Tooltip.prototype = {
+DEPRECATED__Block.__name__ = !0;
+DEPRECATED__Block.prototype = {
   shouldRender: function (a) {
     return !0;
   },
@@ -3418,7 +3418,7 @@ ROTATE_Tooltip.prototype = {
     return !1;
   },
   onInteract: function (a) {},
-  __class__: ROTATE_Tooltip,
+  __class__: DEPRECATED__Block,
 };
 
 type ROTATE_Angle = 0 | 1 | 2 | 3;
@@ -3694,12 +3694,12 @@ class GameObject_Door extends Block {
 
 var ROTATE_AngleTooltip = function () {
   this.angle = 0;
-  ROTATE_Tooltip.call(this);
+  DEPRECATED__Block.call(this);
   this.configurable = !0;
 };
 ROTATE_AngleTooltip.__name__ = !0;
-ROTATE_AngleTooltip.__super__ = ROTATE_Tooltip;
-ROTATE_AngleTooltip.prototype = __inherit(ROTATE_Tooltip.prototype, {
+ROTATE_AngleTooltip.__super__ = DEPRECATED__Block;
+ROTATE_AngleTooltip.prototype = __inherit(DEPRECATED__Block.prototype, {
   set_angle: function (a) {
     return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
   },
@@ -3787,11 +3787,11 @@ ROTATE_GameObject_Fan.prototype = __inherit(ROTATE_AngleTooltip.prototype, {
 });
 
 var ROTATE_GameObject_Finish = function () {
-  ROTATE_Tooltip.call(this);
+  DEPRECATED__Block.call(this);
 };
 ROTATE_GameObject_Finish.__name__ = !0;
-ROTATE_GameObject_Finish.__super__ = ROTATE_Tooltip;
-ROTATE_GameObject_Finish.prototype = __inherit(ROTATE_Tooltip.prototype, {
+ROTATE_GameObject_Finish.__super__ = DEPRECATED__Block;
+ROTATE_GameObject_Finish.prototype = __inherit(DEPRECATED__Block.prototype, {
   render: function (a, b, c) {
     a.drawImage(
       ROTATE_Images.blocks,
@@ -3814,14 +3814,14 @@ ROTATE_GameObject_Finish.prototype = __inherit(ROTATE_Tooltip.prototype, {
 var ROTATE_GameObject_Lever = function () {
   this.on = !1;
   this.channel = 0;
-  ROTATE_Tooltip.call(this);
+  DEPRECATED__Block.call(this);
   this.bubbleWidth = 148;
   this.bubbleHeight = 76;
   this.configurable = !0;
 };
 ROTATE_GameObject_Lever.__name__ = !0;
-ROTATE_GameObject_Lever.__super__ = ROTATE_Tooltip;
-ROTATE_GameObject_Lever.prototype = __inherit(ROTATE_Tooltip.prototype, {
+ROTATE_GameObject_Lever.__super__ = DEPRECATED__Block;
+ROTATE_GameObject_Lever.prototype = __inherit(DEPRECATED__Block.prototype, {
   isTrigger: function (a) {
     return !0;
   },
@@ -3985,11 +3985,11 @@ ROTATE_GameObject_Lever.prototype = __inherit(ROTATE_Tooltip.prototype, {
 });
 
 var ROTATE_GameObject_Solid = function () {
-  ROTATE_Tooltip.call(this);
+  DEPRECATED__Block.call(this);
 };
 ROTATE_GameObject_Solid.__name__ = !0;
-ROTATE_GameObject_Solid.__super__ = ROTATE_Tooltip;
-ROTATE_GameObject_Solid.prototype = __inherit(ROTATE_Tooltip.prototype, {
+ROTATE_GameObject_Solid.__super__ = DEPRECATED__Block;
+ROTATE_GameObject_Solid.prototype = __inherit(DEPRECATED__Block.prototype, {
   render: function (a, b, c) {
     null == c && (c = !0);
     var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0),
@@ -4028,7 +4028,7 @@ ROTATE_GameObject_Solid.prototype = __inherit(ROTATE_Tooltip.prototype, {
 
 var ROTATE_GameObject_Number = function () {
   this.value = 1;
-  ROTATE_Tooltip.call(this);
+  DEPRECATED__Block.call(this);
   this.configurable = !0;
 };
 ROTATE_GameObject_Number.__name__ = !0;
@@ -4305,11 +4305,11 @@ ROTATE_GameObject_Stairs.prototype = __inherit(
   },
 );
 var ROTATE_GameObject_Start = function () {
-  ROTATE_Tooltip.call(this);
+  DEPRECATED__Block.call(this);
 };
 ROTATE_GameObject_Start.__name__ = !0;
-ROTATE_GameObject_Start.__super__ = ROTATE_Tooltip;
-ROTATE_GameObject_Start.prototype = __inherit(ROTATE_Tooltip.prototype, {
+ROTATE_GameObject_Start.__super__ = DEPRECATED__Block;
+ROTATE_GameObject_Start.prototype = __inherit(DEPRECATED__Block.prototype, {
   render: function (a, b, c) {
     a.drawImage(
       ROTATE_Images.blocks,
@@ -4330,7 +4330,7 @@ ROTATE_GameObject_Start.prototype = __inherit(ROTATE_Tooltip.prototype, {
 });
 
 var ROTATE_GameObject_Vent = function () {
-  ROTATE_Tooltip.call(this);
+  DEPRECATED__Block.call(this);
 };
 ROTATE_GameObject_Vent.__name__ = !0;
 ROTATE_GameObject_Vent.__super__ = ROTATE_GameObject_Solid;
