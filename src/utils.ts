@@ -104,3 +104,40 @@ export const parseInteger = (str: string): number | null => {
     (b = parseInt(str));
   return isNaN(b) ? null : b;
 };
+
+// TODO: test
+export const isSpace = (str: string, positionIndex: number): boolean => {
+  // TODO: re-implement properly
+  var charCode = charCodeAt(str, positionIndex);
+  return 8 < charCode && 14 > charCode ? !0 : 32 == charCode;
+};
+
+// TODO: test
+export const ltrim = (str: string): string => {
+  // TODO: re-implement properly
+  for (var b = str.length, c = 0; c < b && isSpace(str, c); ) ++c;
+  return 0 < c ? subString(str, c, b - c) : str;
+};
+
+// TODO: test
+export const rtrim = (str: string): string => {
+  // TODO: re-implement properly
+  for (var b = str.length, c = 0; c < b && isSpace(str, b - c - 1); ) ++c;
+  return 0 < c ? subString(str, 0, b - c) : str;
+};
+
+// TODO: test
+export const trim = (str: string): string => {
+  // TODO: re-implement properly
+  return ltrim(rtrim(str));
+};
+
+// TODO: test
+export const replace = function (
+  str: string,
+  pattern: string,
+  replacement: string,
+): string {
+  // TODO: re-implement properly
+  return str.split(pattern).join(replacement);
+};

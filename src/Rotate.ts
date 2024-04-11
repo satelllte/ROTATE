@@ -7,7 +7,9 @@ import {
   getOneTimeIterator,
   parseInteger,
   pointInTransformedBounds,
+  replace,
   subString,
+  trim,
 } from './utils';
 import {Bounds} from './Bounds';
 import {Vector2} from './Vector2';
@@ -65,28 +67,6 @@ var Utils = function () {};
 Utils.__name__ = !0;
 Utils.string = function (a) {
   return JSObjectUtils.__string_rec(a, '');
-};
-
-var StringUtils = function () {};
-StringUtils.__name__ = !0;
-StringUtils.isSpace = function (a, b) {
-  var c = charCodeAt(a, b);
-  return 8 < c && 14 > c ? !0 : 32 == c;
-};
-StringUtils.ltrim = function (a) {
-  for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, c); ) ++c;
-  return 0 < c ? subString(a, c, b - c) : a;
-};
-StringUtils.rtrim = function (a) {
-  for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, b - c - 1); )
-    ++c;
-  return 0 < c ? subString(a, 0, b - c) : a;
-};
-StringUtils.trim = function (a) {
-  return StringUtils.ltrim(StringUtils.rtrim(a));
-};
-StringUtils.replace = function (a, b, c) {
-  return a.split(b).join(c);
 };
 
 var ROTATE_Canvas = function () {};
@@ -1794,7 +1774,7 @@ ROTATE_Awards.queueNotify = function (a) {
     ROTATE_Awards.queue.push(a);
 };
 ROTATE_Awards.adjustBubble = function (a, b) {
-  ROTATE_Awards.bubbleName.set_text(StringUtils.replace(a, '\n', ' '));
+  ROTATE_Awards.bubbleName.set_text(replace(a, '\n', ' '));
   ROTATE_Awards.bubble.graphics.clear();
   var c =
     Math.max(
@@ -18859,30 +18839,26 @@ ROTATE_ScreenEditor.prototype = __inherit(ROTATE_ScreenGameBase.prototype, {
         );
     }
   },
-  tryLoadLevel: function (a) {
-    a = StringUtils.replace(
-      StringUtils.replace(StringUtils.trim(a), '\n', ''),
-      '\t',
-      '',
-    );
-    var b = a.split('|');
+  tryLoadLevel: function (codeString) {
+    codeString = replace(replace(trim(codeString), '\n', ''), '\t', '');
+    var b = codeString.split('|');
     if (2 > b.length) return !1;
     var c = b[0].split(',');
     if (4 > c.length) return !1;
-    a = parseInteger(c[0]);
+    codeString = parseInteger(c[0]);
     var d = parseInteger(c[1]),
       e = parseInteger(c[2]),
       f = parseInteger(c[3]);
     if (
-      null == a ||
+      null == codeString ||
       null == d ||
       null == e ||
       null == f ||
-      0 > a ||
+      0 > codeString ||
       0 > e ||
       1 > d ||
       1 > f ||
-      (a == e && (d == f || 1 == Math.abs(d - f)))
+      (codeString == e && (d == f || 1 == Math.abs(d - f)))
     )
       return !1;
     var m = 0,
@@ -18917,18 +18893,18 @@ ROTATE_ScreenEditor.prototype = __inherit(ROTATE_ScreenGameBase.prototype, {
         }
       }
     }
-    if (1 > c || c > ROTATE_EditorLevel.WORLD_SIZE || a >= c || e >= c)
+    if (1 > c || c > ROTATE_EditorLevel.WORLD_SIZE || codeString >= c || e >= c)
       return !1;
     for (y = 0; y < H; ) for (K = y++; b[K].length < c; ) b[K].push([0]);
     m = Math.min(m, ROTATE_EditorLevel.WORLD_SIZE - c);
     k = Math.min(k, ROTATE_EditorLevel.WORLD_SIZE - H);
     if (
-      a >= c ||
+      codeString >= c ||
       d >= H ||
       e >= c ||
       f >= H ||
-      0 != b[d][a][0] ||
-      0 != b[d - 1][a][0] ||
+      0 != b[d][codeString][0] ||
+      0 != b[d - 1][codeString][0] ||
       0 != b[f][e][0] ||
       0 != b[f - 1][e][0]
     )
@@ -18946,7 +18922,14 @@ ROTATE_ScreenEditor.prototype = __inherit(ROTATE_ScreenGameBase.prototype, {
     for (c = 0; c < b.length; )
       for (H = b[c], ++c; H.length < ROTATE_EditorLevel.WORLD_SIZE; )
         H.push([1]);
-    ROTATE_ScreenEditor.editorLevel.load(b, a + m, d + k, e + m, f + k, p);
+    ROTATE_ScreenEditor.editorLevel.load(
+      b,
+      codeString + m,
+      d + k,
+      e + m,
+      f + k,
+      p,
+    );
     return !0;
   },
   tick: function () {
