@@ -26,6 +26,7 @@ import {
   ROTATE_RenderEvent,
 } from './ROTATE_Event';
 import {ROTATE_EventMap} from './ROTATE_EventMap';
+import {ROTATE_EventTarget} from './ROTATE_EventTarget';
 import {Time} from './Time';
 
 // ---------------------------------------------------------------------------
@@ -320,11 +321,12 @@ ROTATE_Canvas.triggerMouseEvent = function (a, b) {
   for (var c = (b.target = a); null != c; ) c.triggerEvent(b), (c = c.parent);
 };
 
-var ROTATE_EventTarget = function () {
+// TODO: remove it one everyone uses "ROTATE_EventTarget" instead
+var DEPRECATED__ROTATE_EventTarget = function () {
   this.listeners = new ROTATE_EventMap();
 };
-ROTATE_EventTarget.__name__ = !0;
-ROTATE_EventTarget.prototype = {
+DEPRECATED__ROTATE_EventTarget.__name__ = !0;
+DEPRECATED__ROTATE_EventTarget.prototype = {
   addEventListener: function (type, listener) {
     var listeners = this.listeners;
     if (!listeners.h.hasOwnProperty(type)) {
@@ -355,7 +357,7 @@ ROTATE_EventTarget.prototype = {
         (d = type[listeners]), ++listeners, d(event);
     }
   },
-  __class__: ROTATE_EventTarget,
+  __class__: DEPRECATED__ROTATE_EventTarget,
 };
 
 // TODO: add "loadSound" method and createTask with (new Howl()).onLoad callback
@@ -444,149 +446,152 @@ var ROTATE_CanvasObject = function () {
   this.listeners = new ROTATE_EventMap();
 };
 ROTATE_CanvasObject.__name__ = !0;
-ROTATE_CanvasObject.__super__ = ROTATE_EventTarget;
-ROTATE_CanvasObject.prototype = __inherit(ROTATE_EventTarget.prototype, {
-  set_x: function (a) {
-    this.x != a && ((this.x = a), this._updateTransform());
-    return this.x;
-  },
-  set_y: function (a) {
-    this.y != a && ((this.y = a), this._updateTransform());
-    return this.y;
-  },
-  set_scaleX: function (a) {
-    this.scaleX != a && ((this.scaleX = a), this._updateTransform());
-    return this.scaleX;
-  },
-  set_scaleY: function (a) {
-    this.scaleY != a && ((this.scaleY = a), this._updateTransform());
-    return this.scaleY;
-  },
-  set_rotation: function (a) {
-    this.rotation != a && ((this.rotation = a), this._updateTransform());
-    return this.rotation;
-  },
-  set_alpha: function (a) {
-    return (this.alpha = 0 > a ? 0 : 1 < a ? 1 : a);
-  },
-  get_stage: function () {
-    return ROTATE_Canvas.stage;
-  },
-  get_width: function () {
-    return this.getBounds().width * this.scaleX;
-  },
-  set_width: function (a) {
-    this.set_scaleX(a / this.getBounds().width);
-    return a;
-  },
-  get_height: function () {
-    return this.getBounds().height * this.scaleY;
-  },
-  set_height: function (a) {
-    this.set_scaleY(a / this.getBounds().height);
-    return a;
-  },
-  addChild: function (a) {
-    null != a &&
-      a != this.get_stage() &&
-      a != this &&
-      (null != a.parent && a.parent.removeChild(a),
-      this._children.push(a),
-      (a.parent = this),
-      a._updateTransform(),
-      a.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
-  },
-  addChildAt: function (a, b) {
-    null != a &&
-      a != this.get_stage() &&
-      a != this &&
-      (null != a.parent && a.parent.removeChild(a),
-      this._children.splice(b, 0, a),
-      (a.parent = this),
-      a._updateTransform(),
-      a.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
-  },
-  removeChild: function (a) {
-    null != a &&
-      a.parent == this &&
-      ((a.parent = null),
-      this._children.splice(this._children.indexOf(a), 1),
-      a._updateTransform(),
-      a.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED)));
-  },
-  removeChildAt: function (a) {
-    if (0 <= a && a < this._children.length) {
-      var b = this._children[a];
-      b.parent = null;
-      b._updateTransform();
-      this._children.splice(a, 1);
-      b.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED));
-    }
-  },
-  removeChildren: function () {
-    for (var a = this._children.length; 0 <= a--; )
-      this.removeChild(this._children[a]);
-  },
-  getChildIndex: function (a) {
-    return this._children.indexOf(a);
-  },
-  setChildIndex: function (a, b) {
-    var c = this.getChildIndex(a);
-    0 <= c && (this._children.splice(c, 1), this._children.splice(b, 0, a));
-  },
-  swapDepths: function (a, b) {
-    var c = this.getChildIndex(a),
-      d = this.getChildIndex(b);
-    0 <= c && 0 <= d && ((this._children[c] = b), (this._children[d] = a));
-  },
-  globalToLocal: function (a, b) {
-    return this._transformReverse.apply(a, b);
-  },
-  localToGlobal: function (a, b) {
-    return this._transform.apply(a, b);
-  },
-  _updateTransform: function () {
-    null != this.parent
-      ? this._transform.copy(this.parent._transform)
-      : this._transform.identity();
-    this._transform.translate(this.x, this.y);
-    this._transform.rotate((this.rotation * Math.PI) / 180);
-    this._transform.scale(this.scaleX, this.scaleY);
-    this._transformReverse.identity();
-    for (var a = this; null != a; )
-      this._transformReverse.scale(1 / a.scaleX, 1 / a.scaleY),
-        this._transformReverse.rotate((-a.rotation * Math.PI) / 180),
-        this._transformReverse.translate(-a.x, -a.y),
-        (a = a.parent);
-    a = 0;
-    for (var b = this._children; a < b.length; ) {
-      var c = b[a];
-      ++a;
-      c._updateTransform();
-    }
-  },
-  getBoundsSelf: function () {
-    return new Bounds(0, 0, 0, 0);
-  },
-  getBounds: function () {
-    var a = [this.getBoundsSelf(), this.graphics.bounds];
-    return Bounds.combineMultiple(a);
-  },
-  hitTestPoint: function (a) {
-    return this.getBounds().contains(a);
-  },
-  cascadingCallback: function (a) {
-    if (null != a) {
-      a(this);
-      for (var b = 0, c = this._children; b < c.length; ) {
-        var d = c[b];
-        ++b;
-        d.cascadingCallback(a);
+ROTATE_CanvasObject.__super__ = DEPRECATED__ROTATE_EventTarget;
+ROTATE_CanvasObject.prototype = __inherit(
+  DEPRECATED__ROTATE_EventTarget.prototype,
+  {
+    set_x: function (a) {
+      this.x != a && ((this.x = a), this._updateTransform());
+      return this.x;
+    },
+    set_y: function (a) {
+      this.y != a && ((this.y = a), this._updateTransform());
+      return this.y;
+    },
+    set_scaleX: function (a) {
+      this.scaleX != a && ((this.scaleX = a), this._updateTransform());
+      return this.scaleX;
+    },
+    set_scaleY: function (a) {
+      this.scaleY != a && ((this.scaleY = a), this._updateTransform());
+      return this.scaleY;
+    },
+    set_rotation: function (a) {
+      this.rotation != a && ((this.rotation = a), this._updateTransform());
+      return this.rotation;
+    },
+    set_alpha: function (a) {
+      return (this.alpha = 0 > a ? 0 : 1 < a ? 1 : a);
+    },
+    get_stage: function () {
+      return ROTATE_Canvas.stage;
+    },
+    get_width: function () {
+      return this.getBounds().width * this.scaleX;
+    },
+    set_width: function (a) {
+      this.set_scaleX(a / this.getBounds().width);
+      return a;
+    },
+    get_height: function () {
+      return this.getBounds().height * this.scaleY;
+    },
+    set_height: function (a) {
+      this.set_scaleY(a / this.getBounds().height);
+      return a;
+    },
+    addChild: function (a) {
+      null != a &&
+        a != this.get_stage() &&
+        a != this &&
+        (null != a.parent && a.parent.removeChild(a),
+        this._children.push(a),
+        (a.parent = this),
+        a._updateTransform(),
+        a.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
+    },
+    addChildAt: function (a, b) {
+      null != a &&
+        a != this.get_stage() &&
+        a != this &&
+        (null != a.parent && a.parent.removeChild(a),
+        this._children.splice(b, 0, a),
+        (a.parent = this),
+        a._updateTransform(),
+        a.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
+    },
+    removeChild: function (a) {
+      null != a &&
+        a.parent == this &&
+        ((a.parent = null),
+        this._children.splice(this._children.indexOf(a), 1),
+        a._updateTransform(),
+        a.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED)));
+    },
+    removeChildAt: function (a) {
+      if (0 <= a && a < this._children.length) {
+        var b = this._children[a];
+        b.parent = null;
+        b._updateTransform();
+        this._children.splice(a, 1);
+        b.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED));
       }
-    }
+    },
+    removeChildren: function () {
+      for (var a = this._children.length; 0 <= a--; )
+        this.removeChild(this._children[a]);
+    },
+    getChildIndex: function (a) {
+      return this._children.indexOf(a);
+    },
+    setChildIndex: function (a, b) {
+      var c = this.getChildIndex(a);
+      0 <= c && (this._children.splice(c, 1), this._children.splice(b, 0, a));
+    },
+    swapDepths: function (a, b) {
+      var c = this.getChildIndex(a),
+        d = this.getChildIndex(b);
+      0 <= c && 0 <= d && ((this._children[c] = b), (this._children[d] = a));
+    },
+    globalToLocal: function (a, b) {
+      return this._transformReverse.apply(a, b);
+    },
+    localToGlobal: function (a, b) {
+      return this._transform.apply(a, b);
+    },
+    _updateTransform: function () {
+      null != this.parent
+        ? this._transform.copy(this.parent._transform)
+        : this._transform.identity();
+      this._transform.translate(this.x, this.y);
+      this._transform.rotate((this.rotation * Math.PI) / 180);
+      this._transform.scale(this.scaleX, this.scaleY);
+      this._transformReverse.identity();
+      for (var a = this; null != a; )
+        this._transformReverse.scale(1 / a.scaleX, 1 / a.scaleY),
+          this._transformReverse.rotate((-a.rotation * Math.PI) / 180),
+          this._transformReverse.translate(-a.x, -a.y),
+          (a = a.parent);
+      a = 0;
+      for (var b = this._children; a < b.length; ) {
+        var c = b[a];
+        ++a;
+        c._updateTransform();
+      }
+    },
+    getBoundsSelf: function () {
+      return new Bounds(0, 0, 0, 0);
+    },
+    getBounds: function () {
+      var a = [this.getBoundsSelf(), this.graphics.bounds];
+      return Bounds.combineMultiple(a);
+    },
+    hitTestPoint: function (a) {
+      return this.getBounds().contains(a);
+    },
+    cascadingCallback: function (a) {
+      if (null != a) {
+        a(this);
+        for (var b = 0, c = this._children; b < c.length; ) {
+          var d = c[b];
+          ++b;
+          d.cascadingCallback(a);
+        }
+      }
+    },
+    __class__: ROTATE_CanvasObject,
   },
-  __class__: ROTATE_CanvasObject,
-});
+);
 
 var ROTATE_ImageObject = function (image) {
   this.imageWidth = 0;
@@ -684,8 +689,8 @@ var CanvasInput = function (canvas) {
   window.addEventListener('keyup', Bind(this, this.onKeyUp));
 };
 CanvasInput.__name__ = !0;
-CanvasInput.__super__ = ROTATE_EventTarget;
-CanvasInput.prototype = __inherit(ROTATE_EventTarget.prototype, {
+CanvasInput.__super__ = DEPRECATED__ROTATE_EventTarget;
+CanvasInput.prototype = __inherit(DEPRECATED__ROTATE_EventTarget.prototype, {
   set_mouseX: function (a) {
     return (this.mouseX = Math.floor(a));
   },
