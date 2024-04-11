@@ -15,6 +15,14 @@ import {Transform} from './Transform';
 import {Surface} from './Surface';
 import {Graphics} from './Graphics';
 import {ROTATE_Audio} from './ROTATE_Audio';
+import {
+  ROTATE_Event,
+  ROTATE_FocusingEvent,
+  ROTATE_KeyEvent,
+  ROTATE_ManagerEvent,
+  ROTATE_MouseEvent,
+  ROTATE_RenderEvent,
+} from './ROTATE_Event';
 import {ROTATE_EventMap} from './ROTATE_EventMap';
 import {Time} from './Time';
 
@@ -119,7 +127,7 @@ ROTATE_Canvas.start = function (
     window.focus();
   }, 0);
   ROTATE_Canvas.setup(container);
-  gameInstance.triggerEvent(new ROTATE_Event('added'));
+  gameInstance.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED));
   ROTATE_Manager._init();
   ROTATE_Canvas.loop();
   ROTATE_Canvas.started = true;
@@ -155,13 +163,19 @@ ROTATE_Canvas.loop = function () {
   Time.update();
   if (ROTATE_Manager.get_done())
     ROTATE_Canvas.wasLoaded ||
-      (ROTATE_Manager.triggerEvent(new ROTATE_ManagerEvent('progress', 1)),
+      (ROTATE_Manager.triggerEvent(
+        new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, 1),
+      ),
       (ROTATE_Canvas.lastProgress = 1),
-      ROTATE_Manager.triggerEvent(new ROTATE_ManagerEvent('finished', 1)));
+      ROTATE_Manager.triggerEvent(
+        new ROTATE_ManagerEvent(ROTATE_ManagerEvent.FINISHED, 1),
+      ));
   else {
     var a = ROTATE_Manager.get_progress();
     a != ROTATE_Canvas.lastProgress &&
-      (ROTATE_Manager.triggerEvent(new ROTATE_ManagerEvent('progress', a)),
+      (ROTATE_Manager.triggerEvent(
+        new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, a),
+      ),
       (ROTATE_Canvas.lastProgress = a));
   }
   ROTATE_Canvas.wasLoaded = ROTATE_Manager.get_done();
@@ -193,11 +207,11 @@ ROTATE_Canvas.loop = function () {
       : 'default';
   a != ROTATE_Canvas.lastCursor &&
     ((ROTATE_Canvas.canvas.style.cursor = a), (ROTATE_Canvas.lastCursor = a));
-  var d = new ROTATE_Event('enterFrame');
+  var d = new ROTATE_Event(ROTATE_Event.ENTER_FRAME);
   ROTATE_Canvas.stage.cascadingCallback(function (e) {
     e.triggerEvent(d);
   });
-  d = new ROTATE_Event('exitFrame');
+  d = new ROTATE_Event(ROTATE_Event.EXIT_FRAME);
   ROTATE_Canvas.stage.cascadingCallback(function (e) {
     e.triggerEvent(d);
   });
@@ -251,7 +265,7 @@ ROTATE_Canvas.renderSprite = function (a, b) {
     b._ctx.globalAlpha *= a.alpha;
     b.reset(!0);
     a.graphics._paint(b);
-    a.triggerEvent(new ROTATE_RenderEvent('render', b));
+    a.triggerEvent(new ROTATE_RenderEvent(ROTATE_RenderEvent.RENDER, b));
     for (var d = 0, e = a._children; d < e.length; ) {
       var f = e[d];
       ++d;
@@ -500,7 +514,7 @@ ROTATE_CanvasObject.prototype = __inherit(ROTATE_EventTarget.prototype, {
       this._children.push(a),
       (a.parent = this),
       a._updateTransform(),
-      a.triggerEvent(new ROTATE_Event('added')));
+      a.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
   },
   addChildAt: function (a, b) {
     null != a &&
@@ -510,7 +524,7 @@ ROTATE_CanvasObject.prototype = __inherit(ROTATE_EventTarget.prototype, {
       this._children.splice(b, 0, a),
       (a.parent = this),
       a._updateTransform(),
-      a.triggerEvent(new ROTATE_Event('added')));
+      a.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
   },
   removeChild: function (a) {
     null != a &&
@@ -518,7 +532,7 @@ ROTATE_CanvasObject.prototype = __inherit(ROTATE_EventTarget.prototype, {
       ((a.parent = null),
       this._children.splice(this._children.indexOf(a), 1),
       a._updateTransform(),
-      a.triggerEvent(new ROTATE_Event('removed')));
+      a.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED)));
   },
   removeChildAt: function (a) {
     if (0 <= a && a < this._children.length) {
@@ -526,7 +540,7 @@ ROTATE_CanvasObject.prototype = __inherit(ROTATE_EventTarget.prototype, {
       b.parent = null;
       b._updateTransform();
       this._children.splice(a, 1);
-      b.triggerEvent(new ROTATE_Event('removed'));
+      b.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED));
     }
   },
   removeChildren: function () {
@@ -665,67 +679,6 @@ ROTATE_ImageObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   __class__: ROTATE_ImageObject,
 });
 
-var ROTATE_Event = function (type) {
-  this.type = type;
-};
-ROTATE_Event.__name__ = !0;
-ROTATE_Event.prototype = {
-  __class__: ROTATE_Event,
-};
-
-var ROTATE_FocusingEvent = function (type) {
-  this.type = type;
-};
-ROTATE_FocusingEvent.__name__ = !0;
-ROTATE_FocusingEvent.__super__ = ROTATE_Event;
-ROTATE_FocusingEvent.prototype = __inherit(ROTATE_Event.prototype, {
-  __class__: ROTATE_FocusingEvent,
-});
-
-var ROTATE_KeyEvent = function (type, keyCode) {
-  this.type = type;
-  this.keyCode = keyCode;
-};
-ROTATE_KeyEvent.__name__ = !0;
-ROTATE_KeyEvent.__super__ = ROTATE_Event;
-ROTATE_KeyEvent.prototype = __inherit(ROTATE_Event.prototype, {
-  __class__: ROTATE_KeyEvent,
-});
-
-var ROTATE_ManagerEvent = function (type, progress) {
-  this.type = type;
-  this.progress = progress;
-};
-ROTATE_ManagerEvent.__name__ = !0;
-ROTATE_ManagerEvent.__super__ = ROTATE_Event;
-ROTATE_ManagerEvent.prototype = __inherit(ROTATE_Event.prototype, {
-  __class__: ROTATE_ManagerEvent,
-});
-
-var ROTATE_MouseEvent = function (type, target, x, y, which) {
-  null == which && (which = 0);
-  this.type = type;
-  this.target = target;
-  this.x = x;
-  this.y = y;
-  this.which = which;
-};
-ROTATE_MouseEvent.__name__ = !0;
-ROTATE_MouseEvent.__super__ = ROTATE_Event;
-ROTATE_MouseEvent.prototype = __inherit(ROTATE_Event.prototype, {
-  __class__: ROTATE_MouseEvent,
-});
-
-var ROTATE_RenderEvent = function (type, surface) {
-  this.type = type;
-  this.surface = surface;
-};
-ROTATE_RenderEvent.__name__ = !0;
-ROTATE_RenderEvent.__super__ = ROTATE_Event;
-ROTATE_RenderEvent.prototype = __inherit(ROTATE_Event.prototype, {
-  __class__: ROTATE_RenderEvent,
-});
-
 var CanvasInput = function (canvas) {
   this.mouseX = this.mouseY = 0;
   this.isFocused = !1;
@@ -766,11 +719,11 @@ CanvasInput.prototype = __inherit(ROTATE_EventTarget.prototype, {
   },
   onFocus: function () {
     this.isFocused = !0;
-    this.triggerEvent(new ROTATE_FocusingEvent('focus'));
+    this.triggerEvent(new ROTATE_FocusingEvent(ROTATE_FocusingEvent.FOCUS));
   },
   onBlur: function () {
     this.isFocused = !1;
-    this.triggerEvent(new ROTATE_FocusingEvent('blur'));
+    this.triggerEvent(new ROTATE_FocusingEvent(ROTATE_FocusingEvent.BLUR));
   },
   onClick: function (a) {
     if (!this.isFocused) this.onFocus();
@@ -809,7 +762,9 @@ CanvasInput.prototype = __inherit(ROTATE_EventTarget.prototype, {
       var b = window.document.activeElement.tagName.toLowerCase();
       'input' != b &&
         'textarea' != b &&
-        (this.triggerEvent(new ROTATE_KeyEvent('keyDown', a.keyCode)),
+        (this.triggerEvent(
+          new ROTATE_KeyEvent(ROTATE_KeyEvent.KEY_DOWN, a.keyCode),
+        ),
         this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault());
     }
   },
@@ -818,7 +773,9 @@ CanvasInput.prototype = __inherit(ROTATE_EventTarget.prototype, {
       var b = window.document.activeElement.tagName.toLowerCase();
       'input' != b &&
         'textarea' != b &&
-        (this.triggerEvent(new ROTATE_KeyEvent('keyUp', a.keyCode)),
+        (this.triggerEvent(
+          new ROTATE_KeyEvent(ROTATE_KeyEvent.KEY_UP, a.keyCode),
+        ),
         this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault());
     }
   },
@@ -20940,27 +20897,6 @@ ROTATE_Manager.inited = !1;
 ROTATE_Manager.finished = !1;
 ROTATE_Manager.tasks = [];
 ROTATE_Manager.events = new ROTATE_EventTarget();
-
-ROTATE_Event.ADDED = 'added';
-ROTATE_Event.REMOVED = 'removed';
-ROTATE_Event.ENTER_FRAME = 'enterFrame';
-ROTATE_Event.EXIT_FRAME = 'exitFrame';
-
-ROTATE_FocusingEvent.FOCUS = 'focus';
-ROTATE_FocusingEvent.BLUR = 'blur';
-
-ROTATE_KeyEvent.KEY_DOWN = 'keyDown';
-ROTATE_KeyEvent.KEY_UP = 'keyUp';
-
-ROTATE_ManagerEvent.FINISHED = 'finished';
-ROTATE_ManagerEvent.PROGRESS = 'progress';
-
-ROTATE_MouseEvent.CLICK = 'click';
-ROTATE_MouseEvent.MOUSE_DOWN = 'mouseDown';
-ROTATE_MouseEvent.MOUSE_UP = 'mouseUp';
-ROTATE_MouseEvent.MOVE = 'move';
-
-ROTATE_RenderEvent.RENDER = 'render';
 
 InputKeys.inited = !1;
 InputKeys.keys = [];
