@@ -923,48 +923,65 @@ class CanvasInput extends ROTATE_EventTarget {
   }
 }
 
-var InputKeys = function () {};
-InputKeys.__name__ = !0;
-InputKeys._init = function () {
-  InputKeys.inited ||
-    (ROTATE_Canvas.input.addEventListener('keyDown', InputKeys.onKeyDown),
-    ROTATE_Canvas.input.addEventListener('keyUp', InputKeys.onKeyUp),
-    ROTATE_Canvas.input.addEventListener('blur', InputKeys.reset),
-    ROTATE_Canvas.stage.addEventListener('exitFrame', InputKeys.update),
-    (InputKeys.inited = !0));
-};
-InputKeys.onKeyDown = function (a) {
-  InputKeys.keyDown(a.keyCode) || InputKeys.keys.push(a.keyCode);
-};
-InputKeys.onKeyUp = function (a) {
-  a = InputKeys.keys.indexOf(a.keyCode);
-  -1 < a && InputKeys.keys.splice(a, 1);
-};
-InputKeys.reset = function (a) {
-  InputKeys.keys = [];
-};
-InputKeys.update = function () {
-  InputKeys.keysOld = InputKeys.keys.slice(0);
-  if (
-    null != window.document.activeElement &&
-    null != window.document.activeElement.tagName
-  ) {
-    var a = window.document.activeElement.tagName.toLowerCase();
-    ('input' != a && 'textarea' != a) || InputKeys.reset(null);
+class InputKeys {
+  public static inited = false;
+  public static keys: number[] = [];
+  public static keysOld: number[] = [];
+
+  public static _init() {
+    if (!ROTATE_Canvas.input)
+      throw new Error('ROTATE_Canvas.input is not initialized');
+    if (!ROTATE_Canvas.stage)
+      throw new Error('ROTATE_Canvas.stage is not initialized');
+
+    InputKeys.inited ||
+      // @ts-expect-error type '(a: ROTATE_KeyEvent) => void' is not assignable to parameter of type 'ListenerCallbackFn'
+      (ROTATE_Canvas.input.addEventListener('keyDown', InputKeys.onKeyDown),
+      // @ts-expect-error type '(a: ROTATE_KeyEvent) => void' is not assignable to parameter of type 'ListenerCallbackFn'
+      ROTATE_Canvas.input.addEventListener('keyUp', InputKeys.onKeyUp),
+      ROTATE_Canvas.input.addEventListener('blur', InputKeys.reset),
+      // @ts-expect-error 'addEventListener' does not exist on type '{}'
+      ROTATE_Canvas.stage.addEventListener('exitFrame', InputKeys.update),
+      (InputKeys.inited = true));
   }
-};
-InputKeys.keyDown = function (a) {
-  return -1 < InputKeys.keys.indexOf(a);
-};
-InputKeys.keyDownOld = function (a) {
-  return -1 < InputKeys.keysOld.indexOf(a);
-};
-InputKeys.keyPressed = function (a) {
-  return InputKeys.keyDown(a) ? !InputKeys.keyDownOld(a) : !1;
-};
-InputKeys.keyReleased = function (a) {
-  return InputKeys.keyDown(a) ? !1 : InputKeys.keyDownOld(a);
-};
+  public static onKeyDown(a: ROTATE_KeyEvent) {
+    InputKeys.keyDown(a.keyCode) || InputKeys.keys.push(a.keyCode);
+  }
+
+  public static onKeyUp(a: ROTATE_KeyEvent) {
+    const key = InputKeys.keys.indexOf(a.keyCode);
+    -1 < key && InputKeys.keys.splice(key, 1);
+  }
+
+  public static reset() {
+    InputKeys.keys = [];
+  }
+
+  public static update() {
+    InputKeys.keysOld = InputKeys.keys.slice(0);
+    if (
+      null != window.document.activeElement &&
+      null != window.document.activeElement.tagName
+    ) {
+      var a = window.document.activeElement.tagName.toLowerCase();
+      ('input' != a && 'textarea' != a) || InputKeys.reset();
+    }
+  }
+
+  public static keyDown(a: number) {
+    return -1 < InputKeys.keys.indexOf(a);
+  }
+
+  public static keyDownOld(a: number) {
+    return -1 < InputKeys.keysOld.indexOf(a);
+  }
+  public static keyPressed(a: number) {
+    return InputKeys.keyDown(a) ? !InputKeys.keyDownOld(a) : !1;
+  }
+  public static keyReleased(a: number) {
+    return InputKeys.keyDown(a) ? !1 : InputKeys.keyDownOld(a);
+  }
+}
 
 var MapInterface = function () {};
 MapInterface.__name__ = !0;
@@ -21021,10 +21038,6 @@ ROTATE_Manager.inited = !1;
 ROTATE_Manager.finished = !1;
 ROTATE_Manager.tasks = [];
 ROTATE_Manager.events = new ROTATE_EventTarget();
-
-InputKeys.inited = !1;
-InputKeys.keys = [];
-InputKeys.keysOld = [];
 
 CharUtils.CHARS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
