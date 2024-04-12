@@ -28,6 +28,7 @@ import {
 } from './ROTATE_Event';
 import {ROTATE_EventMap} from './ROTATE_EventMap';
 import {ROTATE_EventTarget} from './ROTATE_EventTarget';
+import {ROTATE_Font} from './ROTATE_Font';
 import {ROTATE_Images} from './ROTATE_Images';
 import {ROTATE_Manager} from './ROTATE_Manager';
 import {Time} from './Time';
@@ -1298,36 +1299,6 @@ JSObjectUtils.__isNativeObj = function (a) {
 };
 JSObjectUtils.__resolveNativeClass = function (a) {
   return window[a];
-};
-
-var ROTATE_Font = function (image, data, c, d) {
-  null == d && (d = 0);
-  null == c && (c = 1);
-  var e = this;
-  this.image = ROTATE_Manager.loadImage(image);
-  this.colorOffset = d;
-  ROTATE_Manager.loadTextFile(data, function (text) {
-    text = JSON.parse(text);
-    e.lineHeight = text.l * c;
-    text = text.c;
-    e.chars = [];
-    for (var m = 0; m < text.length; ) {
-      var k = text[m];
-      ++m;
-      k.x *= c;
-      k.y *= c;
-      k.w *= c;
-      k.h *= c;
-      k.xo *= c;
-      k.yo *= c;
-      k.xa *= c;
-      e.chars[k.c] = k;
-    }
-  });
-};
-ROTATE_Font.__name__ = !0;
-ROTATE_Font.prototype = {
-  __class__: ROTATE_Font,
 };
 
 var ROTATE_Game = function () {
