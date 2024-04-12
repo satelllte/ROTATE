@@ -61,6 +61,7 @@ export class Graphics {
 
   public call<TMethod extends keyof SurfaceInstance>(
     method: TMethod,
+    // @ts-expect-error Type 'Surface[TMethod]' does not satisfy the constraint (because Surface._ctx is public)
     args: Parameters<SurfaceInstance[TMethod]>,
   ): void {
     this.items.push(new GraphicsSurfaceExecutor(method, args));
