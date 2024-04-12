@@ -27,6 +27,7 @@ import {
 } from './ROTATE_Event';
 import {ROTATE_EventMap} from './ROTATE_EventMap';
 import {ROTATE_EventTarget} from './ROTATE_EventTarget';
+import {ROTATE_Manager} from './ROTATE_Manager';
 import {Time} from './Time';
 
 // ---------------------------------------------------------------------------
@@ -460,78 +461,6 @@ DEPRECATED__ROTATE_EventTarget.prototype = {
     }
   },
   __class__: DEPRECATED__ROTATE_EventTarget,
-};
-
-// TODO: add "loadSound" method and createTask with (new Howl()).onLoad callback
-// ROTATE_Manager.loadSound = function (a) {
-//   var b = ROTATE_Manager.createTask();
-//   a.onload = function () {
-//     ROTATE_Manager.closeTask(b);
-//   };
-//   return new Howl(a);
-// };
-// -------
-// TODO: rename to "ROTATE_Loader" or "ROTATE_LoadManager"
-var ROTATE_Manager = function () {};
-ROTATE_Manager.__name__ = !0;
-ROTATE_Manager.triggerEvent = function (a) {
-  ROTATE_Manager.events.triggerEvent(a);
-};
-ROTATE_Manager.addEventListener = function (a, b) {
-  ROTATE_Manager.events.addEventListener(a, b);
-};
-ROTATE_Manager.removeEventListener = function (a, b) {
-  ROTATE_Manager.events.removeEventListener(a, b);
-};
-ROTATE_Manager._init = function () {
-  ROTATE_Manager.inited || (ROTATE_Manager.inited = !0);
-};
-ROTATE_Manager.createTask = function () {
-  ROTATE_Manager.tasks.push(!1);
-  return ROTATE_Manager.tasks.length - 1;
-};
-ROTATE_Manager.closeTask = function (a) {
-  0 <= a && a < ROTATE_Manager.tasks.length && (ROTATE_Manager.tasks[a] = !0);
-};
-ROTATE_Manager.get_done = function () {
-  if (!ROTATE_Manager.inited) return !1;
-  if (ROTATE_Manager.finished) return !0;
-  for (var a = 0, b = ROTATE_Manager.tasks.length; a < b; ) {
-    var c = a++;
-    if (!ROTATE_Manager.tasks[c]) return !1;
-  }
-  return (ROTATE_Manager.finished = !0);
-};
-ROTATE_Manager.get_progress = function () {
-  if (!ROTATE_Manager.inited) return 0;
-  if (ROTATE_Manager.finished) return 1;
-  for (var a = 0, b = 0, c = ROTATE_Manager.tasks.length; b < c; ) {
-    var d = b++;
-    ROTATE_Manager.tasks[d] && ++a;
-  }
-  return a / ROTATE_Manager.tasks.length;
-};
-ROTATE_Manager.loadImage = function (a, b) {
-  var c = new Image();
-  c.src = a;
-  if (!ROTATE_Manager.finished) {
-    var d = ROTATE_Manager.createTask();
-    c.onload = function () {
-      ROTATE_Manager.closeTask(d);
-      null != b && b(c);
-    };
-  }
-  return c;
-};
-ROTATE_Manager.loadTextFile = function (url, onLoad) {
-  var c = ROTATE_Manager.createTask(),
-    d = new XMLHttpRequest();
-  d.open('GET', url);
-  d.onload = function () {
-    ROTATE_Manager.closeTask(c);
-    null != onLoad && onLoad(d.responseText);
-  };
-  d.send();
 };
 
 var ROTATE_CanvasObject = function () {
@@ -21024,11 +20953,6 @@ ROTATE_Boolean.__ename__ = ['Bool'];
 var ROTATE_Class = {__name__: ['Class']};
 
 var ROTATE_ObjectNoop = {};
-
-ROTATE_Manager.inited = !1;
-ROTATE_Manager.finished = !1;
-ROTATE_Manager.tasks = [];
-ROTATE_Manager.events = new ROTATE_EventTarget();
 
 CharUtils.CHARS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
