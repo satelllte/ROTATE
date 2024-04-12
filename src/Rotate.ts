@@ -33,6 +33,7 @@ import {ROTATE_Font} from './ROTATE_Font';
 import {ROTATE_Images} from './ROTATE_Images';
 import {ROTATE_Manager} from './ROTATE_Manager';
 import {Time} from './Time';
+import {LocalStorage} from './LocalStorage';
 
 // ---------------------------------------------------------------------------
 
@@ -1718,54 +1719,6 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   },
   __class__: ROTATE_Game,
 });
-
-var LocalStorage = function () {};
-LocalStorage.__name__ = !0;
-LocalStorage.getItem = function (a) {
-  try {
-    return window.localStorage.getItem(a);
-  } catch (b) {
-    b instanceof ROTATE_Error && (b = b.val);
-    if ('SecurityError' != b.name && 'DOMException' != b.name)
-      throw ROTATE_Error.wrap(b);
-    return null;
-  }
-};
-LocalStorage.setItem = function (a, b) {
-  try {
-    window.localStorage.setItem(a, b);
-  } catch (c) {
-    if (
-      (c instanceof ROTATE_Error && (c = c.val),
-      'SecurityError' != c.name && 'DOMException' != c.name)
-    )
-      throw ROTATE_Error.wrap(c);
-  }
-};
-LocalStorage.removeItem = function (a) {
-  try {
-    window.localStorage.removeItem(a);
-  } catch (b) {
-    if (
-      (b instanceof ROTATE_Error && (b = b.val),
-      'SecurityError' != b.name && 'DOMException' != b.name)
-    )
-      throw ROTATE_Error.wrap(b);
-  }
-};
-LocalStorage.test = function () {
-  try {
-    window.localStorage.setItem('?', '!');
-    if ('!' != window.localStorage.getItem('?')) return !1;
-    window.localStorage.removeItem('?');
-    return !0;
-  } catch (a) {
-    a instanceof ROTATE_Error && (a = a.val);
-    if ('SecurityError' != a.name && 'DOMException' != a.name)
-      throw ROTATE_Error.wrap(a);
-    return !1;
-  }
-};
 
 var ROTATE_Award = function (name, icon) {
   this.unlocked = !1;
