@@ -133,7 +133,6 @@ class ROTATE_Canvas {
     ROTATE_Canvas.setup(container);
     // @ts-expect-error Property 'triggerEvent' does not exist
     gameInstance.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED));
-    // @ts-expect-error Property '_init' does not exist
     ROTATE_Manager._init();
     ROTATE_Canvas.loop();
     ROTATE_Canvas.started = true;
@@ -182,29 +181,23 @@ class ROTATE_Canvas {
     if (!ROTATE_Canvas.canvas) throw new Error('No canvas. Cannot run loop');
 
     Time.update();
-    // @ts-expect-error Property 'get_done' does not exist
     if (ROTATE_Manager.get_done())
       ROTATE_Canvas.wasLoaded ||
-        // @ts-expect-error Property 'triggerEvent' does not exist
         (ROTATE_Manager.triggerEvent(
           new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, 1),
         ),
         (ROTATE_Canvas.lastProgress = 1),
-        // @ts-expect-error Property 'triggerEvent' does not exist
         ROTATE_Manager.triggerEvent(
           new ROTATE_ManagerEvent(ROTATE_ManagerEvent.FINISHED, 1),
         ));
     else {
-      // @ts-expect-error Property 'get_progress' does not exist
       var a = ROTATE_Manager.get_progress();
       a != ROTATE_Canvas.lastProgress &&
-        // @ts-expect-error Property 'triggerEvent' does not exist
         (ROTATE_Manager.triggerEvent(
           new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, a),
         ),
         (ROTATE_Canvas.lastProgress = a));
     }
-    // @ts-expect-error Property 'get_done' does not exist
     ROTATE_Canvas.wasLoaded = ROTATE_Manager.get_done();
     var b = ROTATE_Canvas.scale;
     ROTATE_Canvas.scale =
