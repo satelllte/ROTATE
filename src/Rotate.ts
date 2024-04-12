@@ -523,14 +523,6 @@ ROTATE_Manager.loadImage = function (a, b) {
   }
   return c;
 };
-ROTATE_Manager.loadWebFonts = function (a, b) {
-  var c = ROTATE_Manager.createTask();
-  a.active = function () {
-    ROTATE_Manager.closeTask(c);
-    null != b && b();
-  };
-  WebFont.load(a);
-};
 ROTATE_Manager.loadTextFile = function (url, onLoad) {
   var c = ROTATE_Manager.createTask(),
     d = new XMLHttpRequest();
