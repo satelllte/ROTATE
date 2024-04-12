@@ -158,7 +158,6 @@ class ROTATE_Canvas {
     ROTATE_Canvas.surface = new Surface(ROTATE_Canvas.ctx);
     Time.reset();
     ROTATE_Canvas.input = new CanvasInput(ROTATE_Canvas.canvas);
-    // @ts-expect-error Property '_init' does not exist
     InputKeys._init();
     // @ts-expect-error type '(event: ROTATE_MouseEvent) => void' is not assignable to parameter of type 'ListenerCallbackFn'
     ROTATE_Canvas.input.addEventListener('click', ROTATE_Canvas.onClick);
@@ -928,7 +927,7 @@ class InputKeys {
   public static keys: number[] = [];
   public static keysOld: number[] = [];
 
-  public static _init() {
+  public static _init(): void {
     if (!ROTATE_Canvas.input)
       throw new Error('ROTATE_Canvas.input is not initialized');
     if (!ROTATE_Canvas.stage)
@@ -944,20 +943,20 @@ class InputKeys {
       ROTATE_Canvas.stage.addEventListener('exitFrame', InputKeys.update),
       (InputKeys.inited = true));
   }
-  public static onKeyDown(a: ROTATE_KeyEvent) {
+  public static onKeyDown(a: ROTATE_KeyEvent): void {
     InputKeys.keyDown(a.keyCode) || InputKeys.keys.push(a.keyCode);
   }
 
-  public static onKeyUp(a: ROTATE_KeyEvent) {
+  public static onKeyUp(a: ROTATE_KeyEvent): void {
     const key = InputKeys.keys.indexOf(a.keyCode);
     -1 < key && InputKeys.keys.splice(key, 1);
   }
 
-  public static reset() {
+  public static reset(): void {
     InputKeys.keys = [];
   }
 
-  public static update() {
+  public static update(): void {
     InputKeys.keysOld = InputKeys.keys.slice(0);
     if (
       null != window.document.activeElement &&
@@ -968,17 +967,17 @@ class InputKeys {
     }
   }
 
-  public static keyDown(a: number) {
+  public static keyDown(a: number): boolean {
     return -1 < InputKeys.keys.indexOf(a);
   }
 
-  public static keyDownOld(a: number) {
+  public static keyDownOld(a: number): boolean {
     return -1 < InputKeys.keysOld.indexOf(a);
   }
-  public static keyPressed(a: number) {
+  public static keyPressed(a: number): boolean {
     return InputKeys.keyDown(a) ? !InputKeys.keyDownOld(a) : !1;
   }
-  public static keyReleased(a: number) {
+  public static keyReleased(a: number): boolean {
     return InputKeys.keyDown(a) ? !1 : InputKeys.keyDownOld(a);
   }
 }
