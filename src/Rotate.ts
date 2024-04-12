@@ -18,6 +18,7 @@ import {Surface} from './Surface';
 import {Graphics} from './Graphics';
 import {ROTATE_Animation} from './ROTATE_Animation';
 import {ROTATE_Audio} from './ROTATE_Audio';
+import {ROTATE_Error} from './ROTATE_Error';
 import {
   ROTATE_Event,
   ROTATE_FocusingEvent,
@@ -1134,21 +1135,6 @@ ErrorTypes.Custom = function (a) {
   a.toString = toStringNoop;
   return a;
 };
-
-var ROTATE_Error = function (a) {
-  Error.call(this);
-  this.val = a;
-  this.message = String(a);
-  Error.captureStackTrace && Error.captureStackTrace(this, ROTATE_Error);
-};
-ROTATE_Error.__name__ = !0;
-ROTATE_Error.wrap = function (a) {
-  return a instanceof Error ? a : new ROTATE_Error(a);
-};
-ROTATE_Error.__super__ = Error;
-ROTATE_Error.prototype = __inherit(Error.prototype, {
-  __class__: ROTATE_Error,
-});
 
 var JSObjectUtils = function () {};
 JSObjectUtils.__name__ = !0;
