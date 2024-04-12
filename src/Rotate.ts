@@ -27,6 +27,7 @@ import {
 } from './ROTATE_Event';
 import {ROTATE_EventMap} from './ROTATE_EventMap';
 import {ROTATE_EventTarget} from './ROTATE_EventTarget';
+import {ROTATE_Images} from './ROTATE_Images';
 import {ROTATE_Manager} from './ROTATE_Manager';
 import {Time} from './Time';
 
@@ -1297,9 +1298,6 @@ JSObjectUtils.__isNativeObj = function (a) {
 JSObjectUtils.__resolveNativeClass = function (a) {
   return window[a];
 };
-
-var ROTATE_Images = function () {};
-ROTATE_Images.__name__ = !0;
 
 var ROTATE_Font = function (image, data, c, d) {
   null == d && (d = 0);
@@ -20959,58 +20957,6 @@ CharUtils.CHARS =
 CharUtils.BYTES = StringBytesObject.ofString(CharUtils.CHARS);
 
 JSObjectUtils.__toStr = {}.toString;
-
-ROTATE_Images.start = ROTATE_Manager.loadImage('img/start.png');
-ROTATE_Images.splashLWS = ROTATE_Manager.loadImage('img/splash-lws.png');
-ROTATE_Images.linkLWS = ROTATE_Manager.loadImage('img/link-lws.png');
-ROTATE_Images.linkJoshua = ROTATE_Manager.loadImage('img/link-joshua.png');
-ROTATE_Images.linkJoshua2 = ROTATE_Manager.loadImage('img/link-joshua-2.png');
-ROTATE_Images.soundtrack = ROTATE_Manager.loadImage('img/soundtrack.png');
-ROTATE_Images.awardFrame = ROTATE_Manager.loadImage('img/award-frame.png');
-ROTATE_Images.awardIconLocked = ROTATE_Manager.loadImage(
-  'img/award-icon-locked.png',
-);
-ROTATE_Images.awardIconEscape = ROTATE_Manager.loadImage(
-  'img/award-icon-escape.png',
-);
-ROTATE_Images.awardIconSpeedrun = ROTATE_Manager.loadImage(
-  'img/award-icon-speedrun.png',
-);
-ROTATE_Images.awardIconEditor = ROTATE_Manager.loadImage(
-  'img/award-icon-editor.png',
-);
-ROTATE_Images.awardIconJoshua = ROTATE_Manager.loadImage(
-  'img/award-icon-joshua.png',
-);
-ROTATE_Images.awardIconSoundtrack = ROTATE_Manager.loadImage(
-  'img/award-icon-soundtrack.png',
-);
-ROTATE_Images.awardIconRotate = ROTATE_Manager.loadImage(
-  'img/award-icon-rotate.png',
-);
-ROTATE_Images.vignette = ROTATE_Manager.loadImage('img/vignette.png');
-ROTATE_Images.bgCells = ROTATE_Manager.loadImage('img/bg-cells.png');
-ROTATE_Images.logo = ROTATE_Manager.loadImage('img/logo.png');
-ROTATE_Images.configTip = ROTATE_Manager.loadImage('img/config-tip.png');
-ROTATE_Images.configArrow = ROTATE_Manager.loadImage('img/config-arrow.png');
-ROTATE_Images.configToggle = ROTATE_Manager.loadImage('img/config-toggle.png');
-ROTATE_Images.menuBtn = ROTATE_Manager.loadImage('img/menu-btn.png');
-ROTATE_Images.level = ROTATE_Manager.loadImage('img/level.png');
-ROTATE_Images.interact = ROTATE_Manager.loadImage('img/interact.png');
-ROTATE_Images.mute = ROTATE_Manager.loadImage('img/mute.png');
-ROTATE_Images.trash = ROTATE_Manager.loadImage('img/trash.png');
-ROTATE_Images.player = ROTATE_Manager.loadImage('img/player.png');
-ROTATE_Images.bgTiles = ROTATE_Manager.loadImage('img/bg-tiles.png');
-ROTATE_Images.bgBricks = ROTATE_Manager.loadImage('img/bg-bricks.png');
-ROTATE_Images.blocks = ROTATE_Manager.loadImage('img/blocks.png');
-ROTATE_Images.cat = ROTATE_Manager.loadImage('img/cat.png');
-ROTATE_Images.endingMain = ROTATE_Manager.loadImage('img/ending-main.png');
-ROTATE_Images.endingPlants = ROTATE_Manager.loadImage('img/ending-plants.png');
-ROTATE_Images.controls1 = ROTATE_Manager.loadImage('img/controls-1.png');
-ROTATE_Images.controls2 = ROTATE_Manager.loadImage('img/controls-2.png');
-ROTATE_Images.controls3 = ROTATE_Manager.loadImage('img/controls-3.png');
-ROTATE_Images.controls4 = ROTATE_Manager.loadImage('img/controls-4.png');
-ROTATE_Images.controls5 = ROTATE_Manager.loadImage('img/controls-5.png');
 
 ROTATE_Game.fontMain = new ROTATE_Font(
   'fonts/simple-pixels.png',
