@@ -16,6 +16,7 @@ import {Vector2} from './Vector2';
 import {Transform} from './Transform';
 import {Surface} from './Surface';
 import {Graphics} from './Graphics';
+import {ROTATE_Animation} from './ROTATE_Animation';
 import {ROTATE_Audio} from './ROTATE_Audio';
 import {
   ROTATE_Event,
@@ -2031,18 +2032,6 @@ ROTATE_AnimatedObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   },
   __class__: ROTATE_AnimatedObject,
 });
-
-var ROTATE_Animation = function (frames, delays, loop) {
-  null == loop && (loop = !0);
-  this.loop = false;
-  this.frames = frames;
-  this.delays = delays;
-  this.loop = loop;
-};
-ROTATE_Animation.__name__ = !0;
-ROTATE_Animation.prototype = {
-  __class__: ROTATE_Animation,
-};
 
 var ROTATE_CatAnimationObject = function () {
   this.horizontal = this.x2 = this.dx = 0;
