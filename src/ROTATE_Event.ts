@@ -46,14 +46,14 @@ export class ROTATE_MouseEvent extends ROTATE_Event {
   public target: null; // TODO: mark as readonly
   public x: number; // TODO: mark as readonly
   public y: number; // TODO: mark as readonly
-  public which: 0 | 1; // TODO: mark as readonly
+  public which: number; // TODO: mark as readonly
 
   constructor(
     type: string,
     target: null,
     x: number,
     y: number,
-    which: 0 | 1 = 0,
+    which: number = 0,
   ) {
     super(type);
     this.target = target;

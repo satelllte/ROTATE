@@ -664,121 +664,154 @@ ROTATE_ImageObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
   __class__: ROTATE_ImageObject,
 });
 
-var CanvasInput = function (canvas) {
-  this.mouseX = this.mouseY = 0;
-  this.isFocused = !1;
-  var _self = this;
-  this.listeners = new ROTATE_EventMap();
-  this.c = canvas;
-  window.addEventListener('focus', Bind(this, this.onFocus));
-  window.addEventListener('blur', Bind(this, this.onBlur));
-  window.addEventListener('pagehide', Bind(this, this.onBlur));
-  window.addEventListener('contextmenu', function (event) {
-    var tag = event.target.tagName.toLowerCase();
-    if (tag !== 'canvas' && tag !== 'body' && tag !== 'html') return true;
-    _self.onMouseUp(event);
-    event.preventDefault();
-    return false;
-  });
-  window.addEventListener('click', Bind(this, this.onClick));
-  window.addEventListener('mousedown', Bind(this, this.onMouseDown));
-  window.addEventListener('mouseup', Bind(this, this.onMouseUp));
-  window.addEventListener('mousemove', Bind(this, this.onMouseMove));
-  window.addEventListener('mouseover', Bind(this, this.onMouseMove));
-  window.addEventListener('keydown', Bind(this, this.onKeyDown));
-  window.addEventListener('keyup', Bind(this, this.onKeyUp));
-};
-CanvasInput.__name__ = !0;
-CanvasInput.__super__ = DEPRECATED__ROTATE_EventTarget;
-CanvasInput.prototype = __inherit(DEPRECATED__ROTATE_EventTarget.prototype, {
-  set_mouseX: function (a) {
-    return (this.mouseX = Math.floor(a));
-  },
-  set_mouseY: function (a) {
-    return (this.mouseY = Math.floor(a));
-  },
-  updateMouse: function (a) {
-    a = ROTATE_Canvas.pageToGame(a.pageX, a.pageY);
-    this.set_mouseX(a.x);
-    this.set_mouseY(a.y);
-  },
-  onFocus: function () {
-    this.isFocused = !0;
-    this.triggerEvent(new ROTATE_FocusingEvent(ROTATE_FocusingEvent.FOCUS));
-  },
-  onBlur: function () {
-    this.isFocused = !1;
-    this.triggerEvent(new ROTATE_FocusingEvent(ROTATE_FocusingEvent.BLUR));
-  },
-  onClick: function (a) {
-    if (!this.isFocused) this.onFocus();
-    this.updateMouse(a);
-    this.triggerEvent(this.makeMouseEvent('click', a.which));
-  },
-  onMouseDown: function (a) {
-    this.updateMouse(a);
-    this.triggerEvent(this.makeMouseEvent('mouseDown', a.which));
-  },
-  onMouseUp: function (a) {
-    this.updateMouse(a);
-    this.triggerEvent(this.makeMouseEvent('mouseUp', a.which));
-    3 == a.which &&
-      (this.onKeyUp({
-        type: 'keyup',
-        keyCode: 16,
-        preventDefault: function () {},
-      }),
-      this.onKeyUp({
-        type: 'keyup',
-        keyCode: 17,
-        preventDefault: function () {},
-      }));
-  },
-  onMouseMove: function (a) {
-    this.updateMouse(a);
-    this.triggerEvent(this.makeMouseEvent('move'));
-  },
-  makeMouseEvent: function (a, b) {
-    null == b && (b = 0);
-    return new ROTATE_MouseEvent(a, null, this.mouseX, this.mouseY, b);
-  },
-  onKeyDown: function (a) {
-    if (this.isFocused) {
-      var b = window.document.activeElement.tagName.toLowerCase();
-      'input' != b &&
-        'textarea' != b &&
-        (this.triggerEvent(
-          new ROTATE_KeyEvent(ROTATE_KeyEvent.KEY_DOWN, a.keyCode),
-        ),
-        this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault());
-    }
-  },
-  onKeyUp: function (a) {
-    if (this.isFocused) {
-      var b = window.document.activeElement.tagName.toLowerCase();
-      'input' != b &&
-        'textarea' != b &&
-        (this.triggerEvent(
-          new ROTATE_KeyEvent(ROTATE_KeyEvent.KEY_UP, a.keyCode),
-        ),
-        this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault());
-    }
-  },
-  captureKey: function (a, b) {
-    return !(
-      (112 <= a && 123 >= a) ||
-      (b &&
-        (48 == a ||
-          96 == a ||
-          187 == a ||
-          107 == a ||
-          189 == a ||
-          109 == a ||
-          84 == a))
+class CanvasInput extends ROTATE_EventTarget {
+  public readonly c: HTMLCanvasElement;
+  public mouseX: number = 0;
+  public mouseY: number = 0;
+  public isFocused: boolean = false;
+  public listeners = new ROTATE_EventMap();
+
+  constructor(canvas: HTMLCanvasElement) {
+    super();
+    this.c = canvas;
+
+    window.addEventListener('focus', this.onFocus.bind(this));
+    window.addEventListener('blur', this.onBlur.bind(this));
+    window.addEventListener('pagehide', this.onBlur.bind(this));
+    window.addEventListener('contextmenu', (event) => {
+      // @ts-expect-error Property 'tagName' does not exist on type 'EventTarget'.ts(2339)
+      var tag = event.target?.tagName.toLowerCase();
+      if (tag !== 'canvas' && tag !== 'body' && tag !== 'html') return true;
+      this.onMouseUp(event);
+      event.preventDefault();
+      return false;
+    });
+    window.addEventListener('click', this.onClick.bind(this));
+    window.addEventListener('mousedown', this.onMouseDown.bind(this));
+    window.addEventListener('mouseup', this.onMouseUp.bind(this));
+    window.addEventListener('mousemove', this.onMouseMove.bind(this));
+    window.addEventListener('mouseover', this.onMouseMove.bind(this));
+    window.addEventListener('keydown', this.onKeyDown.bind(this));
+    window.addEventListener('keyup', this.onKeyUp.bind(this));
+  }
+
+  public set_mouseX(value: number): void {
+    this.mouseX = Math.floor(value);
+  }
+
+  public set_mouseY(value: number): void {
+    this.mouseY = Math.floor(value);
+  }
+
+  public updateMouse(event: MouseEvent): void {
+    const mousePosition: Vector2 = ROTATE_Canvas.pageToGame(
+      event.pageX,
+      event.pageY,
     );
-  },
-  __class__: CanvasInput,
-});
+    this.set_mouseX(mousePosition.x);
+    this.set_mouseY(mousePosition.y);
+  }
+
+  public onFocus() {
+    this.isFocused = true;
+    this.triggerEvent(new ROTATE_FocusingEvent(ROTATE_FocusingEvent.FOCUS));
+  }
+
+  public onBlur() {
+    this.isFocused = false;
+    this.triggerEvent(new ROTATE_FocusingEvent(ROTATE_FocusingEvent.BLUR));
+  }
+
+  public onClick(event: MouseEvent) {
+    if (!this.isFocused) this.onFocus();
+    this.updateMouse(event);
+    // TODO: don't use deprecated "which" field
+    this.triggerEvent(this.makeMouseEvent('click', event.which));
+  }
+
+  public onMouseDown(event: MouseEvent) {
+    this.updateMouse(event);
+    // TODO: don't use deprecated "which" field
+    this.triggerEvent(this.makeMouseEvent('mouseDown', event.which));
+  }
+
+  public onMouseUp(event: MouseEvent) {
+    this.updateMouse(event);
+    this.triggerEvent(this.makeMouseEvent('mouseUp', event.which));
+    // TODO: don't use deprecated "which" field
+    3 == event.which &&
+      (this.onKeyUp(
+        new KeyboardEvent('keyup', {keyCode: 16 /* TODO: use constant */}),
+      ),
+      this.onKeyUp(
+        new KeyboardEvent('keyup', {keyCode: 17 /* TODO: use constant */}),
+      ));
+    // (this.onKeyUp({
+    //   type: 'keyup',
+    //   keyCode: 16, // TODO: use constant
+    //   preventDefault: function () {},
+    // }),
+    // this.onKeyUp({
+    //   type: 'keyup',
+    //   keyCode: 17, // TODO: use constant
+    //   preventDefault: function () {},
+    // }));
+  }
+
+  public onMouseMove(event: MouseEvent) {
+    this.updateMouse(event);
+    this.triggerEvent(this.makeMouseEvent('move'));
+  }
+
+  public makeMouseEvent(type: string, which: number = 0) {
+    null == which && (which = 0);
+    return new ROTATE_MouseEvent(type, null, this.mouseX, this.mouseY, which);
+  }
+
+  public onKeyDown(event: KeyboardEvent) {
+    // TODO: re-implement properly
+    if (this.isFocused) {
+      var tag = window.document.activeElement?.tagName.toLowerCase();
+      'input' != tag &&
+        'textarea' != tag &&
+        (this.triggerEvent(
+          new ROTATE_KeyEvent(ROTATE_KeyEvent.KEY_DOWN, event.keyCode),
+        ),
+        this.captureKey(event.keyCode, event.ctrlKey) &&
+          event.preventDefault());
+    }
+  }
+
+  public onKeyUp(event: KeyboardEvent) {
+    // TODO: re-implement properly
+    if (this.isFocused) {
+      var tag = window.document.activeElement?.tagName.toLowerCase();
+      'input' != tag &&
+        'textarea' != tag &&
+        (this.triggerEvent(
+          new ROTATE_KeyEvent(ROTATE_KeyEvent.KEY_UP, event.keyCode),
+        ),
+        this.captureKey(event.keyCode, event.ctrlKey) &&
+          event.preventDefault());
+    }
+  }
+
+  public captureKey(keyCode: number, ctrlKey: boolean): boolean {
+    // TODO: re-implement properly: use constants for key codes
+    return !(
+      (112 <= keyCode && 123 >= keyCode) ||
+      (ctrlKey &&
+        (48 == keyCode ||
+          96 == keyCode ||
+          187 == keyCode ||
+          107 == keyCode ||
+          189 == keyCode ||
+          109 == keyCode ||
+          84 == keyCode))
+    );
+  }
+}
+
 var InputKeys = function () {};
 InputKeys.__name__ = !0;
 InputKeys._init = function () {
