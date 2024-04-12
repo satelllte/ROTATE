@@ -5,7 +5,7 @@ import {clamp01, getColorString} from './utils';
 
 export class Surface {
   private _transform: Transform;
-  private _ctx: CanvasRenderingContext2D;
+  public _ctx: CanvasRenderingContext2D;
   private filling: boolean = false; // TODO: rename to "_filling"
   private stroking: boolean = false; // TODO: rename to "_stroking"
   private strokeWidth: number = 0; // TODO: rename to "strokeWidth"

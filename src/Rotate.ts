@@ -70,256 +70,359 @@ Utils.string = function (a) {
   return JSObjectUtils.__string_rec(a, '');
 };
 
-var ROTATE_Canvas = function () {};
-ROTATE_Canvas.__name__ = !0;
-ROTATE_Canvas.set_background = function (color) {
-  ROTATE_Canvas.background = color & -1;
-  return ROTATE_Canvas.background;
-};
-ROTATE_Canvas.set_imageSmoothingEnabled = function (a) {
-  ROTATE_Canvas.imageSmoothingEnabled = a;
-  if (null != ROTATE_Canvas.ctx) {
-    var b = ROTATE_Canvas.ctx;
-    b.webkitImageSmoothingEnabled = a;
-    b.mozImageSmoothingEnabled = a;
-    b.msImageSmoothingEnabled = a;
-    b.oImageSmoothingEnabled = a;
-    b.imageSmoothingEnabled = a;
-  }
-  return a;
-};
-ROTATE_Canvas.start = function (
-  container,
-  width,
-  height,
-  background,
-  transparent,
-  gameInstance,
-) {
-  if (ROTATE_Canvas.started) return;
-  if (gameInstance === null) return;
+type PLACEHOLDER_GameInstance = unknown; // TODO: resolve
+type PLACEHOLDER_CanvasObject = unknown; // TODO: resolve
+class ROTATE_Canvas {
+  public static canvas: HTMLCanvasElement | null = null;
+  public static ctx: CanvasRenderingContext2D | null = null;
+  public static parent: HTMLElement | null = null;
+  public static started = false;
+  public static imageSmoothingEnabled = true;
+  public static lastCursor = 'default';
+  public static scale = 1;
+  public static offsetX = 0;
+  public static offsetY = 0;
+  public static wasLoaded = false;
+  public static lastProgress = 0;
+  public static background: number = 0x000000;
+  public static width: number = 0;
+  public static height: number = 0;
+  public static transparent: boolean = false;
+  public static surface: Surface | null = null;
+  public static input: CanvasInput | null = null;
+  public static stage: PLACEHOLDER_GameInstance | null = null;
+  public static mouseSprite: PLACEHOLDER_CanvasObject | null = null;
+  public static clickSprite: PLACEHOLDER_CanvasObject | null = null;
 
-  ROTATE_Canvas.transparent = transparent;
-  ROTATE_Canvas.width = width;
-  ROTATE_Canvas.height = height;
-  ROTATE_Canvas.set_background(background);
-  ROTATE_Canvas.stage = gameInstance;
-  window.setTimeout(function () {
-    window.focus();
-  }, 0);
-  ROTATE_Canvas.setup(container);
-  gameInstance.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED));
-  ROTATE_Manager._init();
-  ROTATE_Canvas.loop();
-  ROTATE_Canvas.started = true;
-};
-ROTATE_Canvas.setup = function (container) {
-  ROTATE_Canvas.parent = container;
-  var body = document.body;
-  body.style.margin = '0';
-  body.style.overflow = 'hidden';
-  ROTATE_Canvas.canvas = document.createElement('canvas');
-  ROTATE_Canvas.canvas.width = ROTATE_Canvas.width;
-  ROTATE_Canvas.canvas.height = ROTATE_Canvas.height;
-  ROTATE_Canvas.canvas.style.position = 'absolute';
-  ROTATE_Canvas.canvas.style.left = '0';
-  ROTATE_Canvas.canvas.style.top = '0';
-  ROTATE_Canvas.canvas.style.transform = 'translateZ(0px)';
-  ROTATE_Canvas.canvas.style.cursor = 'default';
-  container.appendChild(ROTATE_Canvas.canvas);
-  ROTATE_Canvas.ctx = ROTATE_Canvas.canvas.getContext('2d', {
-    alpha: ROTATE_Canvas.transparent,
-  });
-  ROTATE_Canvas.set_imageSmoothingEnabled(ROTATE_Canvas.imageSmoothingEnabled);
-  ROTATE_Canvas.surface = new Surface(ROTATE_Canvas.ctx);
-  Time.reset();
-  ROTATE_Canvas.input = new CanvasInput(ROTATE_Canvas.canvas);
-  InputKeys._init();
-  ROTATE_Canvas.input.addEventListener('click', ROTATE_Canvas.onClick);
-  ROTATE_Canvas.input.addEventListener('mouseDown', ROTATE_Canvas.onMouseDown);
-  ROTATE_Canvas.input.addEventListener('mouseUp', ROTATE_Canvas.onMouseUp);
-  ROTATE_Canvas.input.addEventListener('move', ROTATE_Canvas.onMouseMove);
-};
-ROTATE_Canvas.loop = function () {
-  Time.update();
-  if (ROTATE_Manager.get_done())
-    ROTATE_Canvas.wasLoaded ||
-      (ROTATE_Manager.triggerEvent(
-        new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, 1),
-      ),
-      (ROTATE_Canvas.lastProgress = 1),
-      ROTATE_Manager.triggerEvent(
-        new ROTATE_ManagerEvent(ROTATE_ManagerEvent.FINISHED, 1),
-      ));
-  else {
-    var a = ROTATE_Manager.get_progress();
-    a != ROTATE_Canvas.lastProgress &&
-      (ROTATE_Manager.triggerEvent(
-        new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, a),
-      ),
-      (ROTATE_Canvas.lastProgress = a));
+  public static set_background(color: number): void {
+    // TODO: re-implement properly
+    ROTATE_Canvas.background = color & -1;
   }
-  ROTATE_Canvas.wasLoaded = ROTATE_Manager.get_done();
-  var b = ROTATE_Canvas.scale;
-  ROTATE_Canvas.scale =
-    window.innerWidth / window.innerHeight <
-    ROTATE_Canvas.width / ROTATE_Canvas.height
-      ? window.innerWidth / ROTATE_Canvas.width
-      : window.innerHeight / ROTATE_Canvas.height;
-  var c = Math.round(ROTATE_Canvas.width * ROTATE_Canvas.scale);
-  a = Math.round(ROTATE_Canvas.height * ROTATE_Canvas.scale);
-  ROTATE_Canvas.scale != b &&
-    ((ROTATE_Canvas.canvas.style.width = c + 'px'),
-    (ROTATE_Canvas.canvas.style.height = a + 'px'));
-  b = Math.floor((window.innerWidth - c) / 2);
-  b != ROTATE_Canvas.offsetX &&
-    ((ROTATE_Canvas.canvas.style.left =
-      Math.floor((window.innerWidth - c) / 2) + 'px'),
-    (ROTATE_Canvas.offsetX = b));
-  c = Math.floor((window.innerHeight - a) / 2);
-  c != ROTATE_Canvas.offsetY &&
-    ((ROTATE_Canvas.canvas.style.top =
-      Math.floor((window.innerHeight - a) / 2) + 'px'),
-    (ROTATE_Canvas.offsetY = c));
-  ROTATE_Canvas.updateMouseSprite();
-  a =
-    null != ROTATE_Canvas.mouseSprite && ROTATE_Canvas.mouseSprite.buttonMode
-      ? 'pointer'
-      : 'default';
-  a != ROTATE_Canvas.lastCursor &&
-    ((ROTATE_Canvas.canvas.style.cursor = a), (ROTATE_Canvas.lastCursor = a));
-  var d = new ROTATE_Event(ROTATE_Event.ENTER_FRAME);
-  ROTATE_Canvas.stage.cascadingCallback(function (e) {
-    e.triggerEvent(d);
-  });
-  d = new ROTATE_Event(ROTATE_Event.EXIT_FRAME);
-  ROTATE_Canvas.stage.cascadingCallback(function (e) {
-    e.triggerEvent(d);
-  });
-  ROTATE_Canvas.render();
-  ROTATE_Canvas.requestAnimationFrame(ROTATE_Canvas.loop);
-};
-ROTATE_Canvas.requestAnimationFrame = function (a) {
-  var b = window;
-  (b =
-    b.requestAnimationFrame ||
-    b.webkitRequestAnimationFrame ||
-    b.mozRequestAnimationFrame ||
-    b.oRequestAnimationFrame ||
-    b.msRequestAnimationFrame)
-    ? b(a)
-    : window.setTimeout(a, 16);
-};
-ROTATE_Canvas.render = function () {
-  ROTATE_Canvas.surface.reset();
-  if (ROTATE_Canvas.transparent) {
-    var a = ROTATE_Canvas.background >>> 24;
-    255 > a &&
-      ROTATE_Canvas.surface.clearRect(
-        0,
-        0,
-        ROTATE_Canvas.width,
-        ROTATE_Canvas.height,
-      );
-    ROTATE_Canvas.surface.beginFill(
-      ROTATE_Canvas.background & 16777215,
-      JSObjectUtils.__cast(a, ROTATE_Number) / 255,
+
+  public static set_imageSmoothingEnabled(enabled: boolean): void {
+    ROTATE_Canvas.imageSmoothingEnabled = enabled;
+    if (!ROTATE_Canvas.ctx) return;
+    ROTATE_Canvas.ctx.imageSmoothingEnabled = enabled;
+  }
+
+  public static start(
+    container: HTMLElement,
+    width: number,
+    height: number,
+    background: number,
+    transparent: boolean,
+    gameInstance: PLACEHOLDER_GameInstance,
+  ): void {
+    if (ROTATE_Canvas.started) return;
+    if (gameInstance === null) return;
+
+    ROTATE_Canvas.transparent = transparent;
+    ROTATE_Canvas.width = width;
+    ROTATE_Canvas.height = height;
+    ROTATE_Canvas.set_background(background);
+    ROTATE_Canvas.stage = gameInstance;
+    window.setTimeout(function () {
+      window.focus();
+    }, 0);
+    ROTATE_Canvas.setup(container);
+    // @ts-expect-error Property 'triggerEvent' does not exist
+    gameInstance.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED));
+    // @ts-expect-error Property '_init' does not exist
+    ROTATE_Manager._init();
+    ROTATE_Canvas.loop();
+    ROTATE_Canvas.started = true;
+  }
+
+  public static setup(container: HTMLElement): void {
+    ROTATE_Canvas.parent = container;
+    const body = document.body;
+    body.style.margin = '0';
+    body.style.overflow = 'hidden';
+    ROTATE_Canvas.canvas = document.createElement('canvas');
+    ROTATE_Canvas.canvas.width = ROTATE_Canvas.width;
+    ROTATE_Canvas.canvas.height = ROTATE_Canvas.height;
+    ROTATE_Canvas.canvas.style.position = 'absolute';
+    ROTATE_Canvas.canvas.style.left = '0';
+    ROTATE_Canvas.canvas.style.top = '0';
+    ROTATE_Canvas.canvas.style.transform = 'translateZ(0px)';
+    ROTATE_Canvas.canvas.style.cursor = 'default';
+    container.appendChild(ROTATE_Canvas.canvas);
+    ROTATE_Canvas.ctx = ROTATE_Canvas.canvas.getContext('2d', {
+      alpha: ROTATE_Canvas.transparent,
+    });
+    if (!ROTATE_Canvas.ctx)
+      throw new Error('Was not able to get CanvasRenderingContext2D of canvas');
+    ROTATE_Canvas.set_imageSmoothingEnabled(
+      ROTATE_Canvas.imageSmoothingEnabled,
     );
-  } else
-    ROTATE_Canvas.surface.beginFill(ROTATE_Canvas.background & 16777215, 1);
-  ROTATE_Canvas.surface.drawRect(
-    0,
-    0,
-    ROTATE_Canvas.width,
-    ROTATE_Canvas.height,
-  );
-  ROTATE_Canvas.surface._ctx.globalAlpha = 1;
-  ROTATE_Canvas.renderSprite(ROTATE_Canvas.stage, ROTATE_Canvas.surface);
-};
-ROTATE_Canvas.renderSprite = function (a, b) {
-  if (a.visible && 0 != a.alpha) {
-    b.save();
-    b.translate(a.x, a.y);
-    b.rotate((a.rotation * Math.PI) / 180);
-    b.scale(a.scaleX, a.scaleY);
-    var c = b._ctx.globalAlpha;
-    b._ctx.globalAlpha *= a.alpha;
-    b.reset(!0);
-    a.graphics._paint(b);
-    a.triggerEvent(new ROTATE_RenderEvent(ROTATE_RenderEvent.RENDER, b));
-    for (var d = 0, e = a._children; d < e.length; ) {
-      var f = e[d];
-      ++d;
-      ROTATE_Canvas.renderSprite(f, b);
-    }
-    b.scale(1 / a.scaleX, 1 / a.scaleY);
-    b._ctx.globalAlpha = c;
-    b.restore();
+    ROTATE_Canvas.surface = new Surface(ROTATE_Canvas.ctx);
+    Time.reset();
+    ROTATE_Canvas.input = new CanvasInput(ROTATE_Canvas.canvas);
+    // @ts-expect-error Property '_init' does not exist
+    InputKeys._init();
+    // @ts-expect-error type '(event: ROTATE_MouseEvent) => void' is not assignable to parameter of type 'ListenerCallbackFn'
+    ROTATE_Canvas.input.addEventListener('click', ROTATE_Canvas.onClick);
+    ROTATE_Canvas.input.addEventListener(
+      'mouseDown',
+      // @ts-expect-error type '(event: ROTATE_MouseEvent) => void' is not assignable to parameter of type 'ListenerCallbackFn'
+      ROTATE_Canvas.onMouseDown,
+    );
+    // @ts-expect-error type '(event: ROTATE_MouseEvent) => void' is not assignable to parameter of type 'ListenerCallbackFn'
+    ROTATE_Canvas.input.addEventListener('mouseUp', ROTATE_Canvas.onMouseUp);
+    // @ts-expect-error type '(event: ROTATE_MouseEvent) => void' is not assignable to parameter of type 'ListenerCallbackFn'
+    ROTATE_Canvas.input.addEventListener('move', ROTATE_Canvas.onMouseMove);
   }
-};
-ROTATE_Canvas.updateMouseSprite = function () {
-  var a = ROTATE_Canvas.updateMouseSpriteStep(ROTATE_Canvas.stage, null);
-  null == a && (a = ROTATE_Canvas.stage);
-  ROTATE_Canvas.mouseSprite = a;
-};
-ROTATE_Canvas.updateMouseSpriteStep = function (a, b) {
-  if (a.visible) {
-    if (a.mouseEnabled) {
-      var c = a.getBounds();
-      c.width -= 1e-4;
-      c.height -= 1e-4;
-      pointInTransformedBounds(
-        new Vector2(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
-        a._transform,
-        c,
-      ) && (b = a);
+
+  public static loop(): void {
+    if (!ROTATE_Canvas.canvas) throw new Error('No canvas. Cannot run loop');
+
+    Time.update();
+    // @ts-expect-error Property 'get_done' does not exist
+    if (ROTATE_Manager.get_done())
+      ROTATE_Canvas.wasLoaded ||
+        // @ts-expect-error Property 'triggerEvent' does not exist
+        (ROTATE_Manager.triggerEvent(
+          new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, 1),
+        ),
+        (ROTATE_Canvas.lastProgress = 1),
+        // @ts-expect-error Property 'triggerEvent' does not exist
+        ROTATE_Manager.triggerEvent(
+          new ROTATE_ManagerEvent(ROTATE_ManagerEvent.FINISHED, 1),
+        ));
+    else {
+      // @ts-expect-error Property 'get_progress' does not exist
+      var a = ROTATE_Manager.get_progress();
+      a != ROTATE_Canvas.lastProgress &&
+        // @ts-expect-error Property 'triggerEvent' does not exist
+        (ROTATE_Manager.triggerEvent(
+          new ROTATE_ManagerEvent(ROTATE_ManagerEvent.PROGRESS, a),
+        ),
+        (ROTATE_Canvas.lastProgress = a));
     }
-    c = 0;
-    for (var d = a._children; c < d.length; ) {
-      var e = d[c];
-      ++c;
-      b = ROTATE_Canvas.updateMouseSpriteStep(e, b);
+    // @ts-expect-error Property 'get_done' does not exist
+    ROTATE_Canvas.wasLoaded = ROTATE_Manager.get_done();
+    var b = ROTATE_Canvas.scale;
+    ROTATE_Canvas.scale =
+      window.innerWidth / window.innerHeight <
+      ROTATE_Canvas.width / ROTATE_Canvas.height
+        ? window.innerWidth / ROTATE_Canvas.width
+        : window.innerHeight / ROTATE_Canvas.height;
+    var c = Math.round(ROTATE_Canvas.width * ROTATE_Canvas.scale);
+    a = Math.round(ROTATE_Canvas.height * ROTATE_Canvas.scale);
+    ROTATE_Canvas.scale != b &&
+      ((ROTATE_Canvas.canvas.style.width = c + 'px'),
+      (ROTATE_Canvas.canvas.style.height = a + 'px'));
+    b = Math.floor((window.innerWidth - c) / 2);
+    b != ROTATE_Canvas.offsetX &&
+      ((ROTATE_Canvas.canvas.style.left =
+        Math.floor((window.innerWidth - c) / 2) + 'px'),
+      (ROTATE_Canvas.offsetX = b));
+    c = Math.floor((window.innerHeight - a) / 2);
+    c != ROTATE_Canvas.offsetY &&
+      ((ROTATE_Canvas.canvas.style.top =
+        Math.floor((window.innerHeight - a) / 2) + 'px'),
+      (ROTATE_Canvas.offsetY = c));
+    ROTATE_Canvas.updateMouseSprite();
+    a =
+      null != ROTATE_Canvas.mouseSprite && ROTATE_Canvas.mouseSprite.buttonMode
+        ? 'pointer'
+        : 'default';
+    a != ROTATE_Canvas.lastCursor &&
+      ((ROTATE_Canvas.canvas.style.cursor = a), (ROTATE_Canvas.lastCursor = a));
+    var d = new ROTATE_Event(ROTATE_Event.ENTER_FRAME);
+    // @ts-expect-error 'ROTATE_Canvas.stage' is of type 'unknown'
+    ROTATE_Canvas.stage.cascadingCallback(function (e) {
+      e.triggerEvent(d);
+    });
+    d = new ROTATE_Event(ROTATE_Event.EXIT_FRAME);
+    // @ts-expect-error 'ROTATE_Canvas.stage' is of type 'unknown'
+    ROTATE_Canvas.stage.cascadingCallback(function (e) {
+      e.triggerEvent(d);
+    });
+    ROTATE_Canvas.render();
+    ROTATE_Canvas.requestAnimationFrame(ROTATE_Canvas.loop);
+  }
+
+  public static requestAnimationFrame(a: FrameRequestCallback): void {
+    // TODO: re-implement properly
+    var b = window;
+    (b =
+      b.requestAnimationFrame ||
+      b.webkitRequestAnimationFrame ||
+      b.mozRequestAnimationFrame ||
+      b.oRequestAnimationFrame ||
+      b.msRequestAnimationFrame)
+      ? b(a)
+      : window.setTimeout(a, 16);
+  }
+
+  public static render(): void {
+    if (!ROTATE_Canvas.surface)
+      throw new Error('Cannot render without surface');
+
+    ROTATE_Canvas.surface.reset();
+    if (ROTATE_Canvas.transparent) {
+      var a = ROTATE_Canvas.background >>> 24;
+      255 > a &&
+        ROTATE_Canvas.surface.clearRect(
+          0,
+          0,
+          ROTATE_Canvas.width,
+          ROTATE_Canvas.height,
+        );
+      ROTATE_Canvas.surface.beginFill(
+        ROTATE_Canvas.background & 16777215,
+        // TODO: try without cast
+        // @ts-expect-error Property '__cast' does not exist on type '() => void'.ts(2339)
+        JSObjectUtils.__cast(a, ROTATE_Number) / 255,
+      );
+    } else
+      ROTATE_Canvas.surface.beginFill(ROTATE_Canvas.background & 16777215, 1);
+    ROTATE_Canvas.surface.drawRect(
+      0,
+      0,
+      ROTATE_Canvas.width,
+      ROTATE_Canvas.height,
+    );
+    ROTATE_Canvas.surface._ctx.globalAlpha = 1;
+    ROTATE_Canvas.renderSprite(ROTATE_Canvas.stage, ROTATE_Canvas.surface);
+  }
+
+  public static renderSprite(
+    gameInstance: PLACEHOLDER_GameInstance,
+    surface: Surface,
+  ) {
+    // TODO: re-implement properly
+    // @ts-expect-error 'gameInstance' is of type 'unknown'
+    if (gameInstance.visible && 0 != gameInstance.alpha) {
+      surface.save();
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      surface.translate(gameInstance.x, gameInstance.y);
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      surface.rotate((gameInstance.rotation * Math.PI) / 180);
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      surface.scale(gameInstance.scaleX, gameInstance.scaleY);
+      var c = surface._ctx.globalAlpha;
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      surface._ctx.globalAlpha *= gameInstance.alpha;
+      surface.reset(!0);
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      gameInstance.graphics._paint(surface);
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      gameInstance.triggerEvent(
+        new ROTATE_RenderEvent(ROTATE_RenderEvent.RENDER, surface),
+      );
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      for (var d = 0, e = gameInstance._children; d < e.length; ) {
+        var f = e[d];
+        ++d;
+        ROTATE_Canvas.renderSprite(f, surface);
+      }
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      surface.scale(1 / gameInstance.scaleX, 1 / gameInstance.scaleY);
+      surface._ctx.globalAlpha = c;
+      surface.restore();
     }
   }
-  return b;
-};
-ROTATE_Canvas.pageToGame = function (a, b) {
-  return new Vector2(
-    (a - ROTATE_Canvas.offsetX) / ROTATE_Canvas.scale,
-    (b - ROTATE_Canvas.offsetY) / ROTATE_Canvas.scale,
-  );
-};
-ROTATE_Canvas.onClick = function (a) {
-  ROTATE_Canvas.updateMouseSprite();
-  null != ROTATE_Canvas.clickSprite &&
-    ROTATE_Canvas.mouseSprite == ROTATE_Canvas.clickSprite &&
-    ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.clickSprite, a);
-};
-ROTATE_Canvas.onMouseDown = function (a) {
-  window.getSelection().removeAllRanges();
-  var b = window.document.activeElement,
-    c = b.tagName.toLowerCase();
-  1 != a.which ||
-    ('input' != c && 'textarea' != c) ||
-    b.setSelectionRange(0, 0);
-  ROTATE_Canvas.updateMouseSprite();
-  ROTATE_Canvas.clickSprite = ROTATE_Canvas.mouseSprite;
-  null != ROTATE_Canvas.mouseSprite &&
-    ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, a);
-};
-ROTATE_Canvas.onMouseUp = function (a) {
-  ROTATE_Canvas.updateMouseSprite();
-  null != ROTATE_Canvas.mouseSprite &&
-    ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, a);
-};
-ROTATE_Canvas.onMouseMove = function (a) {
-  ROTATE_Canvas.updateMouseSprite();
-  null != ROTATE_Canvas.mouseSprite &&
-    ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, a);
-};
-ROTATE_Canvas.triggerMouseEvent = function (a, b) {
-  for (var c = (b.target = a); null != c; ) c.triggerEvent(b), (c = c.parent);
-};
+
+  public static updateMouseSprite(): void {
+    // TODO: re-implement properly
+    var canvasObject = ROTATE_Canvas.updateMouseSpriteStep(
+      ROTATE_Canvas.stage,
+      null,
+    );
+    null == canvasObject && (canvasObject = ROTATE_Canvas.stage);
+    ROTATE_Canvas.mouseSprite = canvasObject;
+  }
+
+  // TODO: define signature
+  public static updateMouseSpriteStep(
+    gameInstance: PLACEHOLDER_GameInstance,
+    canvasObject: PLACEHOLDER_CanvasObject | null,
+  ): PLACEHOLDER_CanvasObject | null {
+    // TODO: re-implement properly
+    if (!ROTATE_Canvas.input) throw new Error('No input object initialized');
+
+    // @ts-expect-error 'gameInstance' is of type 'unknown'
+    if (gameInstance.visible) {
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      if (gameInstance.mouseEnabled) {
+        // @ts-expect-error 'gameInstance' is of type 'unknown'
+        var c = gameInstance.getBounds();
+        c.width -= 1e-4;
+        c.height -= 1e-4;
+        pointInTransformedBounds(
+          new Vector2(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
+          // @ts-expect-error 'gameInstance' is of type 'unknown'
+          gameInstance._transform,
+          c,
+        ) && (canvasObject = gameInstance);
+      }
+      c = 0;
+      // @ts-expect-error 'gameInstance' is of type 'unknown'
+      for (var d = gameInstance._children; c < d.length; ) {
+        var e = d[c];
+        ++c;
+        canvasObject = ROTATE_Canvas.updateMouseSpriteStep(e, canvasObject);
+      }
+    }
+    return canvasObject;
+  }
+
+  public static pageToGame(pageX: number, pageY: number): Vector2 {
+    return new Vector2(
+      (pageX - ROTATE_Canvas.offsetX) / ROTATE_Canvas.scale,
+      (pageY - ROTATE_Canvas.offsetY) / ROTATE_Canvas.scale,
+    );
+  }
+
+  public static onClick(event: ROTATE_MouseEvent): void {
+    // TODO: re-implement properly
+    ROTATE_Canvas.updateMouseSprite();
+    null != ROTATE_Canvas.clickSprite &&
+      ROTATE_Canvas.mouseSprite == ROTATE_Canvas.clickSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.clickSprite, event);
+  }
+
+  public static onMouseDown(event: ROTATE_MouseEvent) {
+    // TODO: re-implement properly
+    window.getSelection()?.removeAllRanges();
+    var b = window.document.activeElement,
+      c = b.tagName.toLowerCase();
+    1 != event.which ||
+      ('input' != c && 'textarea' != c) ||
+      b.setSelectionRange(0, 0);
+    ROTATE_Canvas.updateMouseSprite();
+    ROTATE_Canvas.clickSprite = ROTATE_Canvas.mouseSprite;
+    null != ROTATE_Canvas.mouseSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, event);
+  }
+
+  public static onMouseUp(event: ROTATE_MouseEvent) {
+    // TODO: re-implement properly
+    ROTATE_Canvas.updateMouseSprite();
+    null != ROTATE_Canvas.mouseSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, event);
+  }
+
+  public static onMouseMove(event: ROTATE_MouseEvent) {
+    // TODO: re-implement properly
+    ROTATE_Canvas.updateMouseSprite();
+    null != ROTATE_Canvas.mouseSprite &&
+      ROTATE_Canvas.triggerMouseEvent(ROTATE_Canvas.mouseSprite, event);
+  }
+
+  public static triggerMouseEvent(
+    mouseSprite: PLACEHOLDER_CanvasObject,
+    event: ROTATE_MouseEvent,
+  ) {
+    // TODO: re-implement properly
+    // @ts-expect-error Type 'unknown' is not assignable to type 'null'
+    for (var c = (event.target = mouseSprite); null != c; )
+      // @ts-expect-error does not exist on type '{}' (unknown)
+      c.triggerEvent(event), (c = c.parent);
+  }
+}
 
 // TODO: remove it one everyone uses "ROTATE_EventTarget" instead
 var DEPRECATED__ROTATE_EventTarget = function () {
@@ -361,6 +464,14 @@ DEPRECATED__ROTATE_EventTarget.prototype = {
 };
 
 // TODO: add "loadSound" method and createTask with (new Howl()).onLoad callback
+// ROTATE_Manager.loadSound = function (a) {
+//   var b = ROTATE_Manager.createTask();
+//   a.onload = function () {
+//     ROTATE_Manager.closeTask(b);
+//   };
+//   return new Howl(a);
+// };
+// -------
 // TODO: rename to "ROTATE_Loader" or "ROTATE_LoadManager"
 var ROTATE_Manager = function () {};
 ROTATE_Manager.__name__ = !0;
@@ -20906,14 +21017,6 @@ var ROTATE_Class = {__name__: ['Class']};
 
 var ROTATE_ObjectNoop = {};
 
-ROTATE_Canvas.started = !1;
-ROTATE_Canvas.imageSmoothingEnabled = !0;
-ROTATE_Canvas.lastCursor = 'default';
-ROTATE_Canvas.scale = 1;
-ROTATE_Canvas.offsetX = 0;
-ROTATE_Canvas.offsetY = 0;
-ROTATE_Canvas.wasLoaded = !1;
-ROTATE_Canvas.lastProgress = 0;
 ROTATE_Manager.inited = !1;
 ROTATE_Manager.finished = !1;
 ROTATE_Manager.tasks = [];
