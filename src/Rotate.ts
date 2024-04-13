@@ -79,8 +79,6 @@ Utils.string = function (a) {
   return JSObjectUtils.__string_rec(a, '');
 };
 
-type PLACEHOLDER_GameInstance = unknown; // TODO: resolve
-type PLACEHOLDER_CanvasObject = unknown; // TODO: resolve
 class ROTATE_Canvas {
   public static canvas: HTMLCanvasElement | null = null;
   public static ctx: CanvasRenderingContext2D | null = null;
@@ -99,9 +97,9 @@ class ROTATE_Canvas {
   public static transparent: boolean = false;
   public static surface: Surface | null = null;
   public static input: CanvasInput | null = null;
-  public static stage: PLACEHOLDER_GameInstance | null = null;
-  public static mouseSprite: PLACEHOLDER_CanvasObject | null = null;
-  public static clickSprite: PLACEHOLDER_CanvasObject | null = null;
+  public static stage: ROTATE_Game | null = null;
+  public static mouseSprite: ROTATE_CanvasObject | null = null;
+  public static clickSprite: ROTATE_CanvasObject | null = null;
 
   public static set_background(color: number): void {
     // TODO: re-implement properly
@@ -120,7 +118,7 @@ class ROTATE_Canvas {
     height: number,
     background: number,
     transparent: boolean,
-    gameInstance: PLACEHOLDER_GameInstance,
+    gameInstance: ROTATE_Game,
   ): void {
     if (ROTATE_Canvas.started) return;
     if (gameInstance === null) return;
@@ -134,7 +132,6 @@ class ROTATE_Canvas {
       window.focus();
     }, 0);
     ROTATE_Canvas.setup(container);
-    // @ts-expect-error Property 'triggerEvent' does not exist
     gameInstance.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED));
     ROTATE_Manager._init();
     ROTATE_Canvas.loop();
@@ -289,37 +286,25 @@ class ROTATE_Canvas {
     ROTATE_Canvas.renderSprite(ROTATE_Canvas.stage, ROTATE_Canvas.surface);
   }
 
-  public static renderSprite(
-    gameInstance: PLACEHOLDER_GameInstance,
-    surface: Surface,
-  ) {
+  public static renderSprite(gameInstance: ROTATE_Game, surface: Surface) {
     // TODO: re-implement properly
-    // @ts-expect-error 'gameInstance' is of type 'unknown'
     if (gameInstance.visible && 0 != gameInstance.alpha) {
       surface.save();
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       surface.translate(gameInstance.x, gameInstance.y);
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       surface.rotate((gameInstance.rotation * Math.PI) / 180);
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       surface.scale(gameInstance.scaleX, gameInstance.scaleY);
       var c = surface._ctx.globalAlpha;
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       surface._ctx.globalAlpha *= gameInstance.alpha;
       surface.reset(!0);
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       gameInstance.graphics._paint(surface);
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       gameInstance.triggerEvent(
         new ROTATE_RenderEvent(ROTATE_RenderEvent.RENDER, surface),
       );
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       for (var d = 0, e = gameInstance._children; d < e.length; ) {
         var f = e[d];
         ++d;
         ROTATE_Canvas.renderSprite(f, surface);
       }
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       surface.scale(1 / gameInstance.scaleX, 1 / gameInstance.scaleY);
       surface._ctx.globalAlpha = c;
       surface.restore();
@@ -338,29 +323,24 @@ class ROTATE_Canvas {
 
   // TODO: define signature
   public static updateMouseSpriteStep(
-    gameInstance: PLACEHOLDER_GameInstance,
-    canvasObject: PLACEHOLDER_CanvasObject | null,
-  ): PLACEHOLDER_CanvasObject | null {
+    gameInstance: ROTATE_Game,
+    canvasObject: ROTATE_CanvasObject | null,
+  ): ROTATE_CanvasObject | null {
     // TODO: re-implement properly
     if (!ROTATE_Canvas.input) throw new Error('No input object initialized');
 
-    // @ts-expect-error 'gameInstance' is of type 'unknown'
     if (gameInstance.visible) {
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       if (gameInstance.mouseEnabled) {
-        // @ts-expect-error 'gameInstance' is of type 'unknown'
         var c = gameInstance.getBounds();
         c.width -= 1e-4;
         c.height -= 1e-4;
         pointInTransformedBounds(
           new Vector2(ROTATE_Canvas.input.mouseX, ROTATE_Canvas.input.mouseY),
-          // @ts-expect-error 'gameInstance' is of type 'unknown'
           gameInstance._transform,
           c,
         ) && (canvasObject = gameInstance);
       }
       c = 0;
-      // @ts-expect-error 'gameInstance' is of type 'unknown'
       for (var d = gameInstance._children; c < d.length; ) {
         var e = d[c];
         ++c;
@@ -414,13 +394,11 @@ class ROTATE_Canvas {
   }
 
   public static triggerMouseEvent(
-    mouseSprite: PLACEHOLDER_CanvasObject,
+    mouseSprite: ROTATE_CanvasObject,
     event: ROTATE_MouseEvent,
   ) {
     // TODO: re-implement properly
-    // @ts-expect-error Type 'unknown' is not assignable to type 'null'
     for (var c = (event.target = mouseSprite); null != c; )
-      // @ts-expect-error does not exist on type '{}' (unknown)
       c.triggerEvent(event), (c = c.parent);
   }
 }
