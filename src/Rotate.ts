@@ -36,6 +36,7 @@ import {Time} from './Time';
 import {LocalStorage} from './LocalStorage';
 import {StringBytesObject} from './StringBytesObject';
 import {CharEncoder} from './CharEncoder';
+import {CharUtils} from './CharUtils';
 
 // ---------------------------------------------------------------------------
 
@@ -1055,28 +1056,6 @@ class InputKeys {
 
 var MapInterface = function () {};
 MapInterface.__name__ = !0;
-
-var CharUtils = function () {};
-CharUtils.__name__ = !0;
-CharUtils.encode = function (a, b) {
-  null == b && (b = !0);
-  var c = new CharEncoder(CharUtils.BYTES).encodeBytes(a).toString();
-  if (b)
-    switch (a.length % 3) {
-      case 1:
-        c += '==';
-        break;
-      case 2:
-        c += '=';
-    }
-  return c;
-};
-CharUtils.decode = function (a: string, b: boolean = true) {
-  if (b) for (; 61 == charCodeAt(a, a.length - 1); ) a = subString(a, 0, -1);
-  return new CharEncoder(CharUtils.BYTES).decodeBytes(
-    StringBytesObject.ofString(a),
-  );
-};
 
 var ROTATE_KeysMap = function () {
   this.h = {};
@@ -21025,10 +21004,6 @@ ROTATE_Boolean.__ename__ = ['Bool'];
 var ROTATE_Class = {__name__: ['Class']};
 
 var ROTATE_ObjectNoop = {};
-
-CharUtils.CHARS =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-CharUtils.BYTES = StringBytesObject.ofString(CharUtils.CHARS);
 
 JSObjectUtils.__toStr = {}.toString;
 
