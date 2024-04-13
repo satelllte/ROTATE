@@ -34,6 +34,7 @@ import {ROTATE_Images} from './ROTATE_Images';
 import {ROTATE_Manager} from './ROTATE_Manager';
 import {Time} from './Time';
 import {LocalStorage} from './LocalStorage';
+import {StringBytesObject} from './StringBytesObject';
 
 // ---------------------------------------------------------------------------
 
@@ -1053,69 +1054,6 @@ class InputKeys {
 
 var MapInterface = function () {};
 MapInterface.__name__ = !0;
-
-var StringBytesObject = function (a) {
-  this.length = a.byteLength;
-  this.b = new Uint8Array(a);
-  this.b.bufferValue = a;
-  a.hxBytes = this;
-  a.bytes = this.b;
-};
-StringBytesObject.__name__ = !0;
-StringBytesObject.ofString = function (a) {
-  for (var b = [], c = 0; c < a.length; ) {
-    var d = a.charCodeAt(c++);
-    55296 <= d &&
-      56319 >= d &&
-      (d = ((d - 55232) << 10) | (a.charCodeAt(c++) & 1023));
-    127 >= d
-      ? b.push(d)
-      : (2047 >= d
-          ? b.push(192 | (d >> 6))
-          : (65535 >= d
-              ? b.push(224 | (d >> 12))
-              : (b.push(240 | (d >> 18)), b.push(128 | ((d >> 12) & 63))),
-            b.push(128 | ((d >> 6) & 63))),
-        b.push(128 | (d & 63)));
-  }
-  return new StringBytesObject(new Uint8Array(b).buffer);
-};
-StringBytesObject.prototype = {
-  getString: function (a, b) {
-    if (0 > a || 0 > b || a + b > this.length)
-      throw new ROTATE_Error(ErrorTypes.OutsideBounds);
-    for (
-      var c = '', d = this.b, e = String.fromCharCode, f = a, m = a + b;
-      f < m;
-
-    ) {
-      var k = d[f++];
-      if (128 > k) {
-        if (0 == k) break;
-        c += e(k);
-      } else if (224 > k) c += e(((k & 63) << 6) | (d[f++] & 127));
-      else if (240 > k) {
-        var p = d[f++];
-        c += e(((k & 31) << 12) | ((p & 127) << 6) | (d[f++] & 127));
-      } else {
-        p = d[f++];
-        var y = d[f++];
-        k =
-          ((k & 15) << 18) |
-          ((p & 127) << 12) |
-          ((y & 127) << 6) |
-          (d[f++] & 127);
-        c += e((k >> 10) + 55232);
-        c += e((k & 1023) | 56320);
-      }
-    }
-    return c;
-  },
-  toString: function () {
-    return this.getString(0, this.length);
-  },
-  __class__: StringBytesObject,
-};
 
 var CharUtils = function () {};
 CharUtils.__name__ = !0;
