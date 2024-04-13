@@ -2,6 +2,7 @@ export const COLOR = {
   black: 0x000000,
   white: 0xffffff,
   background: 0x202020,
+  darkGray: 0x101010,
   border: 0x808080,
 } as const satisfies Record<string, number>;
 

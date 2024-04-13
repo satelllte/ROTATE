@@ -461,7 +461,153 @@ DEPRECATED__ROTATE_EventTarget.prototype = {
   __class__: DEPRECATED__ROTATE_EventTarget,
 };
 
-var ROTATE_CanvasObject = function () {
+class ROTATE_CanvasObject extends ROTATE_EventTarget {
+  public graphics = new Graphics();
+  public _children: ROTATE_CanvasObject[] = [];
+  public parent: ROTATE_CanvasObject | null = null;
+  public _transformReverse = new Transform();
+  public _transform = new Transform();
+  public mouseEnabled = false;
+  public buttonMode = false;
+  public alpha = 1;
+  public visible = true;
+  public rotation = 0;
+  public scaleX = 1;
+  public scaleY = 1;
+  public x = 0;
+  public y = 0;
+  public listeners = new ROTATE_EventMap();
+
+  public set_x(x: number) {
+    this.x != x && ((this.x = x), this._updateTransform());
+    return this.x;
+  }
+  public set_y(y: number) {
+    this.y != y && ((this.y = y), this._updateTransform());
+    return this.y;
+  }
+  public set_scaleX(scaleX: number) {
+    this.scaleX != scaleX && ((this.scaleX = scaleX), this._updateTransform());
+    return this.scaleX;
+  }
+  public set_scaleY(scaleY: number) {
+    this.scaleY != scaleY && ((this.scaleY = scaleY), this._updateTransform());
+    return this.scaleY;
+  }
+  public set_rotation(rotation: number) {
+    this.rotation != rotation &&
+      ((this.rotation = rotation), this._updateTransform());
+    return this.rotation;
+  }
+  public set_alpha(alpha: number) {
+    return (this.alpha = 0 > alpha ? 0 : 1 < alpha ? 1 : alpha);
+  }
+  public get_stage() {
+    return ROTATE_Canvas.stage;
+  }
+  public get_width() {
+    return this.getBounds().width * this.scaleX;
+  }
+  public set_width(width: number) {
+    this.set_scaleX(width / this.getBounds().width);
+    return width;
+  }
+  public get_height() {
+    return this.getBounds().height * this.scaleY;
+  }
+  public set_height(height: number) {
+    this.set_scaleY(height / this.getBounds().height);
+    return height;
+  }
+  public addChild(node: ROTATE_CanvasObject) {
+    null != node &&
+      node != this.get_stage() &&
+      node != this &&
+      (null != node.parent && node.parent.removeChild(node),
+      this._children.push(node),
+      (node.parent = this),
+      node._updateTransform(),
+      node.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
+  }
+  public addChildAt(node: ROTATE_CanvasObject, index: number) {
+    null != node &&
+      node != this.get_stage() &&
+      node != this &&
+      (null != node.parent && node.parent.removeChild(node),
+      this._children.splice(index, 0, node),
+      (node.parent = this),
+      node._updateTransform(),
+      node.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
+  }
+  public removeChild(node: ROTATE_CanvasObject) {
+    null != node &&
+      node.parent == this &&
+      ((node.parent = null),
+      this._children.splice(this._children.indexOf(node), 1),
+      node._updateTransform(),
+      node.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED)));
+  }
+  public removeChildren() {
+    for (var a = this._children.length; 0 <= a--; )
+      this.removeChild(this._children[a]);
+  }
+  public getChildIndex(node: ROTATE_CanvasObject) {
+    return this._children.indexOf(node);
+  }
+  public setChildIndex(node: ROTATE_CanvasObject, index: number) {
+    var c = this.getChildIndex(node);
+    0 <= c &&
+      (this._children.splice(c, 1), this._children.splice(index, 0, node));
+  }
+  public globalToLocal(a: number, b: number) {
+    return this._transformReverse.apply(a, b);
+  }
+  public localToGlobal(a: number, b: number) {
+    return this._transform.apply(a, b);
+  }
+  public _updateTransform() {
+    null != this.parent
+      ? this._transform.copy(this.parent._transform)
+      : this._transform.identity();
+    this._transform.translate(this.x, this.y);
+    this._transform.rotate((this.rotation * Math.PI) / 180);
+    this._transform.scale(this.scaleX, this.scaleY);
+    this._transformReverse.identity();
+    for (var a = this; null != a; )
+      this._transformReverse.scale(1 / a.scaleX, 1 / a.scaleY),
+        this._transformReverse.rotate((-a.rotation * Math.PI) / 180),
+        this._transformReverse.translate(-a.x, -a.y),
+        (a = a.parent);
+    a = 0;
+    for (var b = this._children; a < b.length; ) {
+      var c = b[a];
+      ++a;
+      c._updateTransform();
+    }
+  }
+  public getBoundsSelf() {
+    return new Bounds(0, 0, 0, 0);
+  }
+  public getBounds() {
+    var a = [this.getBoundsSelf(), this.graphics.bounds];
+    return Bounds.combineMultiple(a);
+  }
+  public hitTestPoint(bounds: Bounds) {
+    return this.getBounds().contains(bounds);
+  }
+  public cascadingCallback(a) {
+    if (null != a) {
+      a(this);
+      for (var b = 0, c = this._children; b < c.length; ) {
+        var d = c[b];
+        ++b;
+        d.cascadingCallback(a);
+      }
+    }
+  }
+}
+
+var DEPRECATED__ROTATE_CanvasObject = function () {
   this.graphics = new Graphics();
   this._children = [];
   this._transformReverse = new Transform();
@@ -474,9 +620,9 @@ var ROTATE_CanvasObject = function () {
   this.x = this.y = 0;
   this.listeners = new ROTATE_EventMap();
 };
-ROTATE_CanvasObject.__name__ = !0;
-ROTATE_CanvasObject.__super__ = DEPRECATED__ROTATE_EventTarget;
-ROTATE_CanvasObject.prototype = __inherit(
+DEPRECATED__ROTATE_CanvasObject.__name__ = !0;
+DEPRECATED__ROTATE_CanvasObject.__super__ = DEPRECATED__ROTATE_EventTarget;
+DEPRECATED__ROTATE_CanvasObject.prototype = __inherit(
   DEPRECATED__ROTATE_EventTarget.prototype,
   {
     set_x: function (a) {
@@ -547,15 +693,16 @@ ROTATE_CanvasObject.prototype = __inherit(
         a._updateTransform(),
         a.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED)));
     },
-    removeChildAt: function (a) {
-      if (0 <= a && a < this._children.length) {
-        var b = this._children[a];
-        b.parent = null;
-        b._updateTransform();
-        this._children.splice(a, 1);
-        b.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED));
-      }
-    },
+    // TODO: remove entirely
+    // removeChildAt: function (a) {
+    //   if (0 <= a && a < this._children.length) {
+    //     var b = this._children[a];
+    //     b.parent = null;
+    //     b._updateTransform();
+    //     this._children.splice(a, 1);
+    //     b.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED));
+    //   }
+    // },
     removeChildren: function () {
       for (var a = this._children.length; 0 <= a--; )
         this.removeChild(this._children[a]);
@@ -567,11 +714,11 @@ ROTATE_CanvasObject.prototype = __inherit(
       var c = this.getChildIndex(a);
       0 <= c && (this._children.splice(c, 1), this._children.splice(b, 0, a));
     },
-    swapDepths: function (a, b) {
-      var c = this.getChildIndex(a),
-        d = this.getChildIndex(b);
-      0 <= c && 0 <= d && ((this._children[c] = b), (this._children[d] = a));
-    },
+    // swapDepths: function (a, b) {
+    //   var c = this.getChildIndex(a),
+    //     d = this.getChildIndex(b);
+    //   0 <= c && 0 <= d && ((this._children[c] = b), (this._children[d] = a));
+    // },
     globalToLocal: function (a, b) {
       return this._transformReverse.apply(a, b);
     },
@@ -618,7 +765,7 @@ ROTATE_CanvasObject.prototype = __inherit(
         }
       }
     },
-    __class__: ROTATE_CanvasObject,
+    __class__: DEPRECATED__ROTATE_CanvasObject,
   },
 );
 
@@ -626,7 +773,7 @@ var ROTATE_ImageObject = function (image) {
   this.imageWidth = 0;
   this.imageHeight = 0;
   var _self = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   null != image && this.create(image);
   this.addEventListener('render', function (c) {
     _self.render(c.surface);
@@ -641,57 +788,60 @@ ROTATE_ImageObject.fromFile = function (a, b) {
   });
   return c;
 };
-ROTATE_ImageObject.__super__ = ROTATE_CanvasObject;
-ROTATE_ImageObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  get_rect: function () {
-    return new Bounds(
-      0,
-      0,
-      null != this.clipRect ? this.clipRect.width : 0,
-      null != this.clipRect ? this.clipRect.height : 0,
-    );
-  },
-  set_clipRect: function (a) {
-    return (this.clipRect = a);
-  },
-  create: function (a) {
-    if (null == this.image) {
-      this.image = a;
-      var b = a.width,
-        c = a.height;
-      'svg' == subString(a.src, a.src.length - 3, null) &&
-        (window.document.body.appendChild(a),
-        (b = a.offsetWidth),
-        (c = a.offsetHeight),
-        window.document.body.removeChild(a));
-      this.imageWidth = b;
-      this.imageHeight = c;
-      this.set_clipRect(new Bounds(0, 0, b, c));
-    }
-  },
-  getBoundsSelf: function () {
-    return new Bounds(
-      0,
-      0,
-      null != this.image ? this.clipRect.width : 0,
-      null != this.image ? this.clipRect.height : 0,
-    );
-  },
-  render: function (a) {
-    null != this.image &&
-      a.drawImage(
-        this.image,
-        this.clipRect,
+ROTATE_ImageObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_ImageObject.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    get_rect: function () {
+      return new Bounds(
         0,
         0,
-        0 != this.clipRect.x ||
-          0 != this.clipRect.y ||
-          this.clipRect.width != this.imageWidth ||
-          this.clipRect.height != this.imageHeight,
+        null != this.clipRect ? this.clipRect.width : 0,
+        null != this.clipRect ? this.clipRect.height : 0,
       );
+    },
+    set_clipRect: function (a) {
+      return (this.clipRect = a);
+    },
+    create: function (a) {
+      if (null == this.image) {
+        this.image = a;
+        var b = a.width,
+          c = a.height;
+        'svg' == subString(a.src, a.src.length - 3, null) &&
+          (window.document.body.appendChild(a),
+          (b = a.offsetWidth),
+          (c = a.offsetHeight),
+          window.document.body.removeChild(a));
+        this.imageWidth = b;
+        this.imageHeight = c;
+        this.set_clipRect(new Bounds(0, 0, b, c));
+      }
+    },
+    getBoundsSelf: function () {
+      return new Bounds(
+        0,
+        0,
+        null != this.image ? this.clipRect.width : 0,
+        null != this.image ? this.clipRect.height : 0,
+      );
+    },
+    render: function (a) {
+      null != this.image &&
+        a.drawImage(
+          this.image,
+          this.clipRect,
+          0,
+          0,
+          0 != this.clipRect.x ||
+            0 != this.clipRect.y ||
+            this.clipRect.width != this.imageWidth ||
+            this.clipRect.height != this.imageHeight,
+        );
+    },
+    __class__: ROTATE_ImageObject,
   },
-  __class__: ROTATE_ImageObject,
-});
+);
 
 class CanvasInput extends ROTATE_EventTarget {
   public readonly c: HTMLCanvasElement;
@@ -982,8 +1132,7 @@ CharUtils.encode = function (a, b) {
     }
   return c;
 };
-CharUtils.decode = function (a, b) {
-  null == b && (b = !0);
+CharUtils.decode = function (a: string, b: boolean = true) {
   if (b) for (; 61 == charCodeAt(a, a.length - 1); ) a = subString(a, 0, -1);
   return new CharEncoder(CharUtils.BYTES).decodeBytes(
     StringBytesObject.ofString(a),
@@ -1281,106 +1430,138 @@ JSObjectUtils.__resolveNativeClass = function (a) {
   return window[a];
 };
 
-var ROTATE_Game = function () {
-  this.muteMusic = false;
-  this.muteSFX = false;
-  this.ieMenu = false;
-  this.ieGame1 = false;
-  this.ieGame2 = false;
-  this.ieSurface = false;
-  this.ieUnmuted = false;
-  this.invert = false;
-  this.fader = new ROTATE_CanvasObject();
-  this.fading = false;
-  this.fadingSlow = false;
-  this.timerHolder = new ROTATE_CanvasObject();
-  this.pauseOnInit = false;
-  this.pausedTime = 0;
-  this.hasPaused = false;
-  this.paused = false;
-  ROTATE_CanvasObject.call(this);
-};
-ROTATE_Game.__name__ = !0;
-ROTATE_Game.main = function () {
-  ROTATE_Game.instance = new ROTATE_Game();
-  ROTATE_Game.instance.addEventListener(
-    'added',
-    ((gameInstance = ROTATE_Game.instance),
-    Bind(gameInstance, gameInstance.init)),
+type PLACEHOLDER_ROTATE_PauseMenu = unknown;
+type PLACEHOLDER_ROTATE_ScreenBase = unknown;
+class ROTATE_Game extends ROTATE_CanvasObject {
+  public static instance = new ROTATE_Game();
+  public static fontMain = new ROTATE_Font(
+    'fonts/simple-pixels.png',
+    'fonts/simple-pixels.json',
+    2,
+    112,
   );
-  ROTATE_Canvas.start(
-    document.getElementById('game'),
-    504 /* width */,
-    504 /* height */,
-    COLOR.background /* background */,
-    false /* transparent */,
-    ROTATE_Game.instance,
-  );
-};
-ROTATE_Game.smootherStep = function (a) {
-  return a * a * a * (a * (6 * a - 15) + 10);
-};
-ROTATE_Game.quantize = function (a) {
-  return Math.floor(a / ROTATE_GameConstants.tileSize);
-};
-ROTATE_Game.getInputX = function () {
-  return (
-    (InputKeys.keyDown(KEY_CODE.ArrowLeft) || InputKeys.keyDown(KEY_CODE.KeyA)
-      ? -1
-      : 0) +
-    (InputKeys.keyDown(KEY_CODE.ArrowRight) || InputKeys.keyDown(KEY_CODE.KeyD)
-      ? 1
-      : 0)
-  );
-};
-ROTATE_Game.getInputY = function () {
-  return (
-    (InputKeys.keyDown(KEY_CODE.ArrowUp) || InputKeys.keyDown(KEY_CODE.KeyW)
-      ? -1
-      : 0) +
-    (InputKeys.keyDown(KEY_CODE.ArrowDown) || InputKeys.keyDown(KEY_CODE.KeyS)
-      ? 1
-      : 0)
-  );
-};
-ROTATE_Game.formatMS = function (a) {
-  var b = '';
-  a = Math.round(a);
-  var c = Math.floor(a / 1e3),
-    d = Math.floor(c / 60),
-    e = Math.floor(d / 60);
-  0 < e && (b += e + ':');
-  d %= 60;
-  10 > d && (b += '0');
-  b = b + d + ':';
-  c %= 60;
-  10 > c && (b += '0');
-  b = b + c + ':';
-  a %= 1e3;
-  100 > a && (b += '0');
-  10 > a && (b += '0');
-  return (b += a);
-};
-ROTATE_Game.__super__ = ROTATE_CanvasObject;
-ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  get_gameTimeMS: function () {
+  public static nosave = false;
+  public static ie = false; // TODO: remove all the Internet Explorer related logic, since it's officially dead
+
+  public muteMusic = false;
+  public muteSFX = false;
+  public ieMenu = false;
+  public ieGame1 = false;
+  public ieGame2 = false;
+  public ieSurface = false;
+  public ieUnmuted = false;
+  public invert = false;
+  public fader = new ROTATE_CanvasObject();
+  public fading = false;
+  public fadingSlow = false;
+  public timerHolder = new ROTATE_CanvasObject();
+  public pauseMenu: PLACEHOLDER_ROTATE_PauseMenu | null = null;
+  public pauseOnInit = false;
+  public pausedTime = 0;
+  public pauseStart = 0;
+  public fadeStart = 0;
+  public lastTick = 0;
+  public hasPaused = false;
+  public paused = false;
+  public targetScreen: PLACEHOLDER_ROTATE_ScreenBase | null = null;
+  public currentScreen: PLACEHOLDER_ROTATE_ScreenBase | null = null;
+  public screenCallback: (() => void) | null = null;
+
+  public static main() {
+    // TODO: re-implement properly
+    ROTATE_Game.instance = new ROTATE_Game();
+    ROTATE_Game.instance.addEventListener('added', () => {
+      ROTATE_Game.instance.init();
+    });
+
+    const container = document.getElementById('game');
+    if (!container) throw new Error('No #game container');
+
+    ROTATE_Canvas.start(
+      container,
+      504 /* width */,
+      504 /* height */,
+      COLOR.background /* background */,
+      false /* transparent */,
+      ROTATE_Game.instance,
+    );
+  }
+
+  public static smootherStep(a: number) {
+    return a * a * a * (a * (6 * a - 15) + 10);
+  }
+
+  public static quantize(a: number) {
+    return Math.floor(a / ROTATE_GameConstants.tileSize);
+  }
+
+  public static getInputX() {
+    return (
+      (InputKeys.keyDown(KEY_CODE.ArrowLeft) || InputKeys.keyDown(KEY_CODE.KeyA)
+        ? -1
+        : 0) +
+      (InputKeys.keyDown(KEY_CODE.ArrowRight) ||
+      InputKeys.keyDown(KEY_CODE.KeyD)
+        ? 1
+        : 0)
+    );
+  }
+
+  public static getInputY() {
+    return (
+      (InputKeys.keyDown(KEY_CODE.ArrowUp) || InputKeys.keyDown(KEY_CODE.KeyW)
+        ? -1
+        : 0) +
+      (InputKeys.keyDown(KEY_CODE.ArrowDown) || InputKeys.keyDown(KEY_CODE.KeyS)
+        ? 1
+        : 0)
+    );
+  }
+
+  public static formatMS(a: number) {
+    var b = '';
+    a = Math.round(a);
+    var c = Math.floor(a / 1e3),
+      d = Math.floor(c / 60),
+      e = Math.floor(d / 60);
+    0 < e && (b += e + ':');
+    d %= 60;
+    10 > d && (b += '0');
+    b = b + d + ':';
+    c %= 60;
+    10 > c && (b += '0');
+    b = b + c + ':';
+    a %= 1e3;
+    100 > a && (b += '0');
+    10 > a && (b += '0');
+    return (b += a);
+  }
+
+  public get_gameTimeMS() {
     return this.paused
       ? this.pauseStart - this.pausedTime
       : Time.getCurrentMS() - this.pausedTime;
-  },
-  get_gameTime: function () {
+  }
+
+  public get_gameTime() {
     return 0.001 * this.get_gameTimeMS();
-  },
-  init: function (a) {
-    this.removeEventListener('added', Bind(this, this.init));
+  }
+
+  public init(): void {
+    // TODO: re-implement properly
+    this.removeEventListener('added', this.init.bind(this));
     ROTATE_Canvas.set_imageSmoothingEnabled(false);
-    ROTATE_Manager.addEventListener('finished', Bind(this, this.loaded));
-  },
-  loaded: function (a) {
-    var b = this;
+    ROTATE_Manager.addEventListener('finished', this.loaded.bind(this));
+  }
+
+  public loaded(): void {
+    // TODO: re-implement properly
+    var _self = this;
+
     ROTATE_Game.nosave = !LocalStorage.test();
     ROTATE_Game.nosave || this.loadProgress();
-    a = (function () {
+
+    const a = (() => {
       var c = -1,
         d = window.navigator.userAgent,
         e = d.indexOf('MSIE '),
@@ -1390,70 +1571,111 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
         : 0 < f &&
           ((c = d.indexOf('rv:')),
           (c = parseInt(d.substring(c + 3, d.indexOf('.', c)), 10)));
-      return -1 < c ? c : void 0;
+      return -1 < c ? c : 0;
     })();
     ROTATE_Game.ie = 0 < a && 11 >= a;
-    ROTATE_Game.ie && (this.muteSFX = this.muteMusic = !0);
+    if (ROTATE_Game.ie) {
+      this.muteSFX = true;
+      this.muteMusic = true;
+    }
+
     this.lastTick = Time.getCurrentMS();
-    this.addEventListener('enterFrame', Bind(this, this.update));
-    window.document.getElementById('game').style.display = 'block';
-    window.document.getElementById('loader').style.display = 'none';
+    this.addEventListener('enterFrame', this.update.bind(this));
+
+    const gameElement = window.document.getElementById('game');
+    if (gameElement) gameElement.style.display = 'block';
+    const loaderElement = window.document.getElementById('loader');
+    if (loaderElement) loaderElement.style.display = 'none';
+
+    // @ts-expect-error 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type
     this.pauseMenu = new ROTATE_PauseMenu();
+    // @ts-expect-error 'unknown' is not assignable to parameter of type 'ROTATE_CanvasObject'
     this.addChild(this.pauseMenu);
-    this.fader.mouseEnabled = !0;
+    this.fader.mouseEnabled = true;
     this.addChild(this.fader);
     this.addChild(this.timerHolder);
+    // @ts-expect-error 'setup' does not exist on type '() => void'
     ROTATE_Awards.setup(this);
-    ROTATE_Canvas.input.addEventListener('blur', function (c) {
-      null != b.targetScreen && b.targetScreen.pausable && (b.pauseOnInit = !0);
-      null != b.currentScreen && b.currentScreen.pausable && b.pause();
+
+    ROTATE_Canvas.input?.addEventListener('blur', () => {
+      null != _self.targetScreen &&
+        // @ts-expect-error 'pausable' does not exist on type '{}'
+        _self.targetScreen.pausable &&
+        (_self.pauseOnInit = !0);
+      null != _self.currentScreen &&
+        // @ts-expect-error 'pausable' does not exist on type '{}'
+        _self.currentScreen.pausable &&
+        _self.pause();
     });
-    this.changeScreen(new ROTATE_ScreenLaunchButton(), !1);
-  },
-  pause: function (a) {
-    null == a && (a = !0);
+
+    this.changeScreen(
+      // @ts-expect-error 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type
+      new ROTATE_ScreenLaunchButton(),
+      false,
+    );
+  }
+
+  // TODO: define signature
+  public pause(a: boolean = true): void {
+    // TODO: re-implement properly
     this.paused ||
+      // @ts-expect-error 'pausable' does not exist on type '{}'
       (a && null != this.targetScreen && this.targetScreen.pausable
         ? (this.pauseOnInit = !0)
         : ((this.paused = !0),
           (this.pauseStart = Time.getCurrentMS()),
           null != this.pauseMenu &&
+            // @ts-expect-error 'visible' does not exist on type '{}'
             ((this.pauseMenu.visible = !0), this.pauseMenu.onPause()),
           (this.hasPaused = !0),
           JSObjectUtils.__instanceof(
             this.currentScreen,
             ROTATE_ScreenPrimaryGame,
           ) &&
+            // @ts-expect-error Property 'i' does not exist
             null != ROTATE_ScreenPrimaryGame.i.pauseText &&
+            // @ts-expect-error Property 'i' does not exist
             (ROTATE_ScreenPrimaryGame.i.pauseText.parent.removeChild(
+              // @ts-expect-error Property 'i' does not exist
               ROTATE_ScreenPrimaryGame.i.pauseText,
             ),
+            // @ts-expect-error Property 'i' does not exist
             (ROTATE_ScreenPrimaryGame.i.pauseText = null))));
-  },
-  unpause: function () {
+  }
+
+  public unpause() {
+    // TODO: re-implement properly
     this.paused &&
       null == this.targetScreen &&
       ((this.paused = !1),
       (this.pausedTime += Time.getCurrentMS() - this.pauseStart),
+      // @ts-expect-error Object is of type 'unknown'
       (this.pauseMenu.visible = !1));
-  },
-  getFadeSpeed: function () {
+  }
+
+  public getFadeSpeed() {
     return this.fadingSlow
       ? ROTATE_GameConstants.screenFadeTimeSlow
       : ROTATE_GameConstants.screenFadeTime;
-  },
-  changeScreen: function (a, b, c, d, e) {
-    null == e && (e = !1);
-    null == d && (d = !1);
-    null == b && (b = !0);
-    this.screenCallback = c;
+  }
+
+  // TODO: define signature
+  public changeScreen(
+    screen: PLACEHOLDER_ROTATE_ScreenBase,
+    b: boolean = true,
+    screenCallback: (() => void) | null = null,
+    fadingSlow: boolean = false,
+    white: boolean = false,
+  ) {
+    // TODO: re-implement properly
+    this.screenCallback = screenCallback;
     b
       ? null == this.targetScreen &&
         ((this.fading = !0),
-        (this.fadingSlow = d),
+        (this.fadingSlow = fadingSlow),
         (this.fadeStart = Time.getCurrentMS()),
         this.fader.graphics.clear(),
-        this.fader.graphics.beginFill(e ? 16777215 : 1052688),
+        this.fader.graphics.beginFill(white ? COLOR.white : COLOR.darkGray),
         this.fader.graphics.drawRect(
           0,
           0,
@@ -1464,30 +1686,43 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
         null == this.currentScreen
           ? (this.fader.set_alpha(1),
             (this.fadeStart -= this.getFadeSpeed() / 2),
-            this.setScreen(a))
-          : ((this.targetScreen = a), this.currentScreen.prekill()))
+            this.setScreen(screen))
+          : // @ts-expect-error Property 'prekill' does not exist on type '{}'
+            ((this.targetScreen = screen), this.currentScreen.prekill()))
       : ((this.fading = !1),
         this.fader.set_alpha(0),
         (this.fader.mouseEnabled = !1),
+        // @ts-expect-error Property 'prekill' does not exist on type '{}'
         null != this.currentScreen && this.currentScreen.prekill(),
         (this.targetScreen = null),
-        this.setScreen(a),
+        this.setScreen(screen),
+        // @ts-expect-error Object is of type 'unknown'
         this.currentScreen.ready());
-  },
-  setScreen: function (a) {
+  }
+
+  public setScreen(screen: PLACEHOLDER_ROTATE_ScreenBase) {
+    // TODO: re-implement properly
     null != this.currentScreen &&
+      // @ts-expect-error Property 'kill' does not exist on type '{}'
       (this.currentScreen.kill(), this.removeChild(this.currentScreen));
-    this.currentScreen = a;
+    this.currentScreen = screen;
+    // @ts-expect-error Argument of type 'unknown' is not assignable to parameter of type 'ROTATE_CanvasObject'
     this.addChildAt(this.currentScreen, 0);
+    // @ts-expect-error Object is of type 'unknown'
     this.currentScreen.init();
     null != this.screenCallback && this.screenCallback();
     this.screenCallback = null;
+    // @ts-expect-error Object is of type 'unknown'
     this.currentScreen.pausable
       ? this.pauseOnInit && this.pause(!1)
       : this.unpause();
     this.pauseOnInit = !1;
-  },
-  update: function (a) {
+  }
+
+  // TODO: define signature
+  public update() {
+    // TODO: re-implement properly
+    var a;
     null != this.targetScreen
       ? ((a = Math.min(
           (Time.getCurrentMS() - this.fadeStart) / (this.getFadeSpeed() / 2),
@@ -1507,12 +1742,15 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
         this.fader.set_alpha(1 - ROTATE_Game.smootherStep(a)),
         1 == a &&
           ((this.fading = this.fader.mouseEnabled = !1),
+          // @ts-expect-error Object is of type 'unknown'
           this.currentScreen.ready()));
     null != this.currentScreen &&
+      // @ts-expect-error Property 'pausable' does not exist
       this.currentScreen.pausable &&
       (InputKeys.keyPressed(80) || InputKeys.keyPressed(27)) &&
       (this.paused ? this.unpause() : this.pause());
     if (!this.paused) {
+      // @ts-expect-error Property 'update' does not exist
       null != this.currentScreen && this.currentScreen.update();
       for (
         a = 0;
@@ -1521,6 +1759,7 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
       )
         if (
           ((this.lastTick += ROTATE_GameConstants.tickMS),
+          // @ts-expect-error Property 'tick' does not exist
           null != this.currentScreen && this.currentScreen.tick(),
           ++a,
           a == ROTATE_GameConstants.ticksMax)
@@ -1528,17 +1767,27 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
           this.lastTick = this.get_gameTimeMS();
           break;
         }
+      // @ts-expect-error Property 'postUpdate' does not exist
       null != this.currentScreen && this.currentScreen.postUpdate();
     }
+    // @ts-expect-error Property 'update' does not exist on type '() => void'
     ROTATE_Awards.update();
-  },
-  migrateProgress: function () {
+  }
+
+  public migrateProgress() {
+    // TODO: re-implement properly
     try {
-      if (null != JSON.parse(window.atob(LocalStorage.getItem('lws:rotate'))))
+      if (
+        // TODO: put "lsw:rotate" into LocalStorage key constant
+        null !=
+        JSON.parse(window.atob(LocalStorage.getItem('lws:rotate') || ''))
+      )
         return;
     } catch (k) {}
+
     try {
-      var a = JSON.parse(window.atob(LocalStorage.getItem('data'))),
+      // TODO: put "data" into LocalStorage key constant
+      var a = JSON.parse(window.atob(LocalStorage.getItem('data') || '')),
         b = a.unlocked;
       if (
         'number' == typeof b &&
@@ -1579,14 +1828,19 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
         null != a.invert && (m.invert = a.invert);
         null != a.muteMusic && (m.muteMusic = a.muteMusic);
         null != a.muteSFX && (m.muteSFX = a.muteSFX);
+        // TODO: put "lsw:rotate" into LocalStorage key constant
         LocalStorage.setItem('lws:rotate', window.btoa(JSON.stringify(m)));
+        // TODO: put "data" into LocalStorage key constant
         LocalStorage.removeItem('data');
       }
     } catch (k) {}
-  },
-  loadProgress: function () {
+  }
+
+  public loadProgress() {
+    // TODO: re-implement properly
     this.migrateProgress();
     try {
+      // TODO: put "lsw:rotate" into LocalStorage key constant
       var a = LocalStorage.getItem('lws:rotate');
       if (null != a && '' != a) {
         var b = JSON.parse(CharUtils.decode(a).toString());
@@ -1613,8 +1867,10 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     } catch (f) {
       f instanceof ROTATE_Error && (f = f.val), console.log(f);
     }
-  },
-  saveProgress: function () {
+  }
+
+  public saveProgress() {
+    // TODO: re-implement properly
     for (var a = [], b = 0, c = ROTATE_Awards.all; b < c.length; ) {
       var d = c[b];
       ++b;
@@ -1629,11 +1885,15 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     this.muteMusic && (a.muteMusic = !0);
     this.muteSFX && (a.muteSFX = !0);
     LocalStorage.setItem(
+      // TODO: put "lsw:rotate" into LocalStorage key constant
       'lws:rotate',
       CharUtils.encode(StringBytesObject.ofString(JSON.stringify(a))),
     );
-  },
-  clearProgress: function () {
+  }
+
+  public clearProgress() {
+    // TODO: re-implement properly
+    // TODO: put "lsw:rotate" into LocalStorage key constant
     LocalStorage.removeItem('lws:rotate');
     for (var a = 0, b = ROTATE_Awards.all; a < b.length; ) {
       var c = b[a];
@@ -1643,22 +1903,25 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
     ROTATE_Levels.unlocked = 0;
     ROTATE_Levels.speedrunBest = -1;
     this.invert = !1;
-  },
-  warnNoSave: function (a) {
+  }
+
+  public warnNoSave(a: ROTATE_CanvasObject) {
+    // TODO: re-implement properly
     if (ROTATE_Game.nosave) {
-      var b = new ROTATE_Text(
+      var text = new ROTATE_Text(
         ROTATE_Game.fontMain,
         'Enable cookies & site data\nto save your progress!',
         2,
       );
-      b.set_x(8);
-      b.set_y(4);
-      b.set_scaleX(b.set_scaleY(0.5));
-      a.addChild(b);
+      text.set_x(8);
+      text.set_y(4);
+      text.set_scaleX(text.set_scaleY(0.5));
+      a.addChild(text);
     }
-  },
-  toggleSFX: function (a) {
-    null == a && (a = !0);
+  }
+
+  public toggleSFX(save: boolean = true) {
+    // TODO: re-implement properly
     this.muteSFX = !this.muteSFX;
     if (ROTATE_Game.ie) {
       if (this.muteSFX)
@@ -1678,10 +1941,11 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
             !ROTATE_Audio.surface.playing() &&
             ROTATE_Audio.surface.play())
       : ROTATE_Audio.surface.mute(this.muteSFX && this.muteMusic);
-    a && this.saveProgress();
-  },
-  toggleMusic: function (a) {
-    null == a && (a = !0);
+    save && this.saveProgress();
+  }
+
+  public toggleMusic(save: boolean = true) {
+    // TODO: re-implement properly
     this.muteMusic = !this.muteMusic;
     ROTATE_Game.ie
       ? this.muteMusic
@@ -1708,10 +1972,9 @@ ROTATE_Game.prototype = __inherit(ROTATE_CanvasObject.prototype, {
             !ROTATE_Audio.surface.playing() &&
             ROTATE_Audio.surface.play())
       : ROTATE_Audio.surface.mute(this.muteMusic && this.muteSFX);
-    a && this.saveProgress();
-  },
-  __class__: ROTATE_Game,
-});
+    save && this.saveProgress();
+  }
+}
 
 var ROTATE_Award = function (name, icon) {
   this.unlocked = !1;
@@ -1738,7 +2001,7 @@ var ROTATE_Awards = function () {};
 ROTATE_Awards.__name__ = !0;
 ROTATE_Awards.setup = function (a) {
   null == ROTATE_Awards.bubble &&
-    ((ROTATE_Awards.bubble = new ROTATE_CanvasObject()),
+    ((ROTATE_Awards.bubble = new DEPRECATED__ROTATE_CanvasObject()),
     (ROTATE_Awards.bubble.mouseEnabled = !0),
     a.addChild(ROTATE_Awards.bubble),
     (ROTATE_Awards.bubbleTitle = new ROTATE_Text(
@@ -1862,7 +2125,7 @@ var ROTATE_AnimatedObject = function (image, frameW, frameH) {
   this.lastF = 0;
   this.origin = new Vector2(0, 0);
   var _self = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.image = image;
   this.frameW = frameW;
   this.frameH = frameH;
@@ -1874,67 +2137,75 @@ var ROTATE_AnimatedObject = function (image, frameW, frameH) {
   });
 };
 ROTATE_AnimatedObject.__name__ = !0;
-ROTATE_AnimatedObject.__super__ = ROTATE_CanvasObject;
-ROTATE_AnimatedObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  set_frame: function (a) {
-    return (this.frame = 0 > a || a >= this.frames ? 0 : a);
-  },
-  set_animation: function (a) {
-    this.animation != a &&
-      ((this.animTimer = ROTATE_Game.instance.get_gameTimeMS()),
-      (this.animChanged = !0));
-    return (this.animation = a);
-  },
-  render: function (a) {
-    if (
-      null != this.animation &&
-      null != this.animation.frames &&
-      0 < this.animation.frames.length
-    ) {
-      for (
-        var b = ROTATE_Game.instance.get_gameTimeMS() - this.animTimer,
-          c = 0,
-          d = !1;
-        b > this.animation.delays[c];
+ROTATE_AnimatedObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_AnimatedObject.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    set_frame: function (a) {
+      return (this.frame = 0 > a || a >= this.frames ? 0 : a);
+    },
+    set_animation: function (a) {
+      this.animation != a &&
+        ((this.animTimer = ROTATE_Game.instance.get_gameTimeMS()),
+        (this.animChanged = !0));
+      return (this.animation = a);
+    },
+    render: function (a) {
+      if (
+        null != this.animation &&
+        null != this.animation.frames &&
+        0 < this.animation.frames.length
+      ) {
+        for (
+          var b = ROTATE_Game.instance.get_gameTimeMS() - this.animTimer,
+            c = 0,
+            d = !1;
+          b > this.animation.delays[c];
 
-      )
-        if (
-          ((b -= this.animation.delays[c]),
-          ++c,
-          c == this.animation.frames.length)
         )
-          if (((d = !0), this.animation.loop)) c = 0;
-          else {
-            c = this.animation.frames.length - 1;
-            break;
-          }
-      this.frame = this.animation.frames[c];
-      if (null != this.onChange && (this.animChanged || this.lastF != c))
-        this.onChange(c);
-      if (!this.animChanged && d && null != this.onFinish) this.onFinish();
-      this.lastF = c;
-    } else this.frame >= this.frames && (this.frame = 0);
-    a.drawImage(
-      this.image,
-      this.getFrameRect(this.frame),
-      -this.origin.x,
-      -this.origin.y,
-    );
-    this.animChanged = !1;
+          if (
+            ((b -= this.animation.delays[c]),
+            ++c,
+            c == this.animation.frames.length)
+          )
+            if (((d = !0), this.animation.loop)) c = 0;
+            else {
+              c = this.animation.frames.length - 1;
+              break;
+            }
+        this.frame = this.animation.frames[c];
+        if (null != this.onChange && (this.animChanged || this.lastF != c))
+          this.onChange(c);
+        if (!this.animChanged && d && null != this.onFinish) this.onFinish();
+        this.lastF = c;
+      } else this.frame >= this.frames && (this.frame = 0);
+      a.drawImage(
+        this.image,
+        this.getFrameRect(this.frame),
+        -this.origin.x,
+        -this.origin.y,
+      );
+      this.animChanged = !1;
+    },
+    getFrameRect: function (a) {
+      return new Bounds(
+        (a % this.cols) * this.frameW,
+        Math.floor(a / this.cols) * this.frameH,
+        this.frameW,
+        this.frameH,
+      );
+    },
+    getBoundsSelf: function () {
+      return new Bounds(
+        -this.origin.x,
+        -this.origin.y,
+        this.frameW,
+        this.frameH,
+      );
+    },
+    __class__: ROTATE_AnimatedObject,
   },
-  getFrameRect: function (a) {
-    return new Bounds(
-      (a % this.cols) * this.frameW,
-      Math.floor(a / this.cols) * this.frameH,
-      this.frameW,
-      this.frameH,
-    );
-  },
-  getBoundsSelf: function () {
-    return new Bounds(-this.origin.x, -this.origin.y, this.frameW, this.frameH);
-  },
-  __class__: ROTATE_AnimatedObject,
-});
+);
 
 var ROTATE_CatAnimationObject = function () {
   this.horizontal = this.x2 = this.dx = 0;
@@ -2748,7 +3019,7 @@ ROTATE_LevelEditorManager.onPlay = function () {
 var ROTATE_Renderer = function (camera) {
   this.showGrid = !1;
   var _self = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   if (null == ROTATE_Renderer.bakeCanvas) {
     ROTATE_Renderer.bakeCanvas = window.document.createElement('canvas');
     ROTATE_Renderer.bakeCtx = ROTATE_Renderer.bakeCanvas.getContext('2d', null);
@@ -2821,249 +3092,252 @@ var ROTATE_Renderer = function (camera) {
   });
 };
 ROTATE_Renderer.__name__ = !0;
-ROTATE_Renderer.__super__ = ROTATE_CanvasObject;
-ROTATE_Renderer.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  render: function (a, b) {
-    if (null != ROTATE_LevelEditorManager.level) {
-      a.drawImage(
-        ROTATE_Renderer.bakeCanvas,
-        null,
-        -ROTATE_GameConstants.tileSize,
-        -ROTATE_GameConstants.tileSize,
-      );
-      var c = null;
-      if (!ROTATE_LevelEditorManager.rotating) {
-        c = ROTATE_LevelEditorManager.rotation;
-        c = b.globalToLocal(
-          1 == c || 2 == c ? ROTATE_Canvas.width : 0,
-          2 == c || 3 == c ? ROTATE_Canvas.height : 0,
+ROTATE_Renderer.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_Renderer.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    render: function (a, b) {
+      if (null != ROTATE_LevelEditorManager.level) {
+        a.drawImage(
+          ROTATE_Renderer.bakeCanvas,
+          null,
+          -ROTATE_GameConstants.tileSize,
+          -ROTATE_GameConstants.tileSize,
         );
-        var d = Math.floor(c.x / ROTATE_GameConstants.tileSize),
-          e = Math.floor(
-            (c.x + ROTATE_Canvas.width - ROTATE_GameConstants.EPSILON) /
-              ROTATE_GameConstants.tileSize,
-          ),
-          f = Math.floor(c.y / ROTATE_GameConstants.tileSize),
-          m = Math.floor(
-            (c.y + ROTATE_Canvas.height - ROTATE_GameConstants.EPSILON) /
-              ROTATE_GameConstants.tileSize,
+        var c = null;
+        if (!ROTATE_LevelEditorManager.rotating) {
+          c = ROTATE_LevelEditorManager.rotation;
+          c = b.globalToLocal(
+            1 == c || 2 == c ? ROTATE_Canvas.width : 0,
+            2 == c || 3 == c ? ROTATE_Canvas.height : 0,
           );
-        c = function (fa, ka) {
-          return fa >= d && ka >= f && fa <= e ? ka <= m : !1;
-        };
-      }
-      var k = ROTATE_LevelEditorManager.updateQueue;
-      for (k = new ROTATE_EventMapIterator(k, k.arrayKeys()); k.hasNext(); ) {
-        var p = k.next(),
-          y = ROTATE_LevelEditorManager.rotating;
-        if (!y)
-          if (p.get_block() == ROTATE_GameObjects.door)
-            for (var H = p.getMeta(1), K = p.getMeta(2), W = 0; W < H; ) {
-              var aa = W++;
-              if (
-                c(
-                  3 == K || 1 == K ? p.x : 2 == K ? p.x - aa : p.x + aa,
-                  2 == K || 0 == K ? p.y : 3 == K ? p.y - aa : p.y + aa,
-                )
-              ) {
-                y = !0;
-                break;
-              }
-            }
-          else y = c(p.x, p.y);
-        y &&
-          (a.translate(
-            p.x * ROTATE_GameConstants.tileSize,
-            p.y * ROTATE_GameConstants.tileSize,
-          ),
-          p.get_block().render(a, p),
-          a.translate(
-            -p.x * ROTATE_GameConstants.tileSize,
-            -p.y * ROTATE_GameConstants.tileSize,
-          ));
-      }
-      this.showGrid &&
-        null != ROTATE_Renderer.gridCanvas &&
-        a.drawImage(ROTATE_Renderer.gridCanvas, null, 0, 0);
-      if (
-        JSObjectUtils.__instanceof(
-          ROTATE_Game.instance.currentScreen,
-          ROTATE_ScreenPrimaryGame,
-        ) &&
-        ((c = ROTATE_Game.instance.currentScreen),
-        !ROTATE_LevelEditorManager.rotating &&
-          !c.player.dead &&
-          !c.player.finished)
-      ) {
-        k = 0;
-        for (p = c.player.touching; k < p.length; )
-          (y = p[k]),
-            ++k,
-            y.get_block().showArrow(y) && this.renderArrow(a, y.x, y.y);
-        c.player.touchingFinish() &&
-          this.renderArrow(
-            a,
-            ROTATE_LevelEditorManager.level.finishCol,
-            ROTATE_LevelEditorManager.level.finishRow - 1,
-            -4,
-          );
-      }
-    }
-  },
-  renderArrow: function (a, b, c, d) {
-    null == d && (d = 0);
-    var e = ROTATE_GameConstants.tileSize;
-    a.translate((b + 0.5) * e, (c + 0.5) * e);
-    a.rotate((-ROTATE_LevelEditorManager.rotation * Math.PI) / 2);
-    a.drawImage(
-      ROTATE_Images.interact,
-      null,
-      -ROTATE_Images.interact.width / 2,
-      Math.round(
-        -e / 2 -
-          ROTATE_Images.interact.height +
-          2 * Math.sin(8 * ROTATE_Game.instance.get_gameTime()),
-      ) + d,
-    );
-    a.rotate((ROTATE_LevelEditorManager.rotation * Math.PI) / 2);
-    a.translate(-(b + 0.5) * e, -(c + 0.5) * e);
-  },
-  updateAllBlocks: function () {
-    ROTATE_Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
-    ROTATE_Renderer.bakeSurface.clearRect(
-      0,
-      0,
-      ROTATE_Renderer.bakeCanvas.width,
-      ROTATE_Renderer.bakeCanvas.height,
-    );
-    if (null != ROTATE_LevelEditorManager.level) {
-      for (
-        var a =
-            1 == ROTATE_LevelEditorManager.level.theme
-              ? ROTATE_Images.bgBricks
-              : ROTATE_Images.bgTiles,
-          b = Math.ceil(ROTATE_Renderer.bakeCanvas.width / a.width),
-          c = 0,
-          d = Math.ceil(ROTATE_Renderer.bakeCanvas.height / a.height);
-        c < d;
-
-      )
-        for (var e = c++, f = 0, m = b; f < m; ) {
-          var k = f++;
-          ROTATE_Renderer.bakeSurface.drawImage(
-            a,
-            null,
-            k * a.width,
-            e * a.height,
-          );
-        }
-      this.renderDecals();
-      a = -1;
-      for (b = ROTATE_LevelEditorManager.get_height() + 1; a < b; )
-        for (
-          c = a++, d = -1, e = ROTATE_LevelEditorManager.get_width() + 1;
-          d < e;
-
-        )
-          (f = d++),
-            (m = ROTATE_LevelEditorManager.getBlockData(f, c)),
-            (k = m.get_block()),
-            null != k &&
-              k.shouldRender(m) &&
-              !k.alwaysUpdate(m) &&
-              (ROTATE_Renderer.bakeSurface.translate(
-                (f + 1) * ROTATE_GameConstants.tileSize,
-                (c + 1) * ROTATE_GameConstants.tileSize,
-              ),
-              k.render(ROTATE_Renderer.bakeSurface, m),
-              ROTATE_Renderer.bakeSurface.translate(
-                -(f + 1) * ROTATE_GameConstants.tileSize,
-                -(c + 1) * ROTATE_GameConstants.tileSize,
-              ));
-    }
-  },
-  updateBlockPlus: function (a, b, c) {
-    null == c && (c = !1);
-    ROTATE_Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
-    ROTATE_Renderer.bakeSurface.clearRect(
-      a * ROTATE_GameConstants.tileSize,
-      b * ROTATE_GameConstants.tileSize,
-      3 * ROTATE_GameConstants.tileSize,
-      3 * ROTATE_GameConstants.tileSize,
-    );
-    for (var d = b - 1, e = b + 2; d < e; )
-      for (var f = d++, m = a - 1, k = a + 2; m < k; ) {
-        var p = m++;
-        if (!c || p != a || f != b) {
-          var y = ROTATE_LevelEditorManager.getBlockData(p, f),
-            H = y.get_block();
-          if (null != H) {
-            ROTATE_Renderer.bakeSurface.translate(
-              (p + 1) * ROTATE_GameConstants.tileSize,
-              (f + 1) * ROTATE_GameConstants.tileSize,
+          var d = Math.floor(c.x / ROTATE_GameConstants.tileSize),
+            e = Math.floor(
+              (c.x + ROTATE_Canvas.width - ROTATE_GameConstants.EPSILON) /
+                ROTATE_GameConstants.tileSize,
+            ),
+            f = Math.floor(c.y / ROTATE_GameConstants.tileSize),
+            m = Math.floor(
+              (c.y + ROTATE_Canvas.height - ROTATE_GameConstants.EPSILON) /
+                ROTATE_GameConstants.tileSize,
             );
-            var K =
+          c = function (fa, ka) {
+            return fa >= d && ka >= f && fa <= e ? ka <= m : !1;
+          };
+        }
+        var k = ROTATE_LevelEditorManager.updateQueue;
+        for (k = new ROTATE_EventMapIterator(k, k.arrayKeys()); k.hasNext(); ) {
+          var p = k.next(),
+            y = ROTATE_LevelEditorManager.rotating;
+          if (!y)
+            if (p.get_block() == ROTATE_GameObjects.door)
+              for (var H = p.getMeta(1), K = p.getMeta(2), W = 0; W < H; ) {
+                var aa = W++;
+                if (
+                  c(
+                    3 == K || 1 == K ? p.x : 2 == K ? p.x - aa : p.x + aa,
+                    2 == K || 0 == K ? p.y : 3 == K ? p.y - aa : p.y + aa,
+                  )
+                ) {
+                  y = !0;
+                  break;
+                }
+              }
+            else y = c(p.x, p.y);
+          y &&
+            (a.translate(
+              p.x * ROTATE_GameConstants.tileSize,
+              p.y * ROTATE_GameConstants.tileSize,
+            ),
+            p.get_block().render(a, p),
+            a.translate(
+              -p.x * ROTATE_GameConstants.tileSize,
+              -p.y * ROTATE_GameConstants.tileSize,
+            ));
+        }
+        this.showGrid &&
+          null != ROTATE_Renderer.gridCanvas &&
+          a.drawImage(ROTATE_Renderer.gridCanvas, null, 0, 0);
+        if (
+          JSObjectUtils.__instanceof(
+            ROTATE_Game.instance.currentScreen,
+            ROTATE_ScreenPrimaryGame,
+          ) &&
+          ((c = ROTATE_Game.instance.currentScreen),
+          !ROTATE_LevelEditorManager.rotating &&
+            !c.player.dead &&
+            !c.player.finished)
+        ) {
+          k = 0;
+          for (p = c.player.touching; k < p.length; )
+            (y = p[k]),
+              ++k,
+              y.get_block().showArrow(y) && this.renderArrow(a, y.x, y.y);
+          c.player.touchingFinish() &&
+            this.renderArrow(
+              a,
+              ROTATE_LevelEditorManager.level.finishCol,
+              ROTATE_LevelEditorManager.level.finishRow - 1,
+              -4,
+            );
+        }
+      }
+    },
+    renderArrow: function (a, b, c, d) {
+      null == d && (d = 0);
+      var e = ROTATE_GameConstants.tileSize;
+      a.translate((b + 0.5) * e, (c + 0.5) * e);
+      a.rotate((-ROTATE_LevelEditorManager.rotation * Math.PI) / 2);
+      a.drawImage(
+        ROTATE_Images.interact,
+        null,
+        -ROTATE_Images.interact.width / 2,
+        Math.round(
+          -e / 2 -
+            ROTATE_Images.interact.height +
+            2 * Math.sin(8 * ROTATE_Game.instance.get_gameTime()),
+        ) + d,
+      );
+      a.rotate((ROTATE_LevelEditorManager.rotation * Math.PI) / 2);
+      a.translate(-(b + 0.5) * e, -(c + 0.5) * e);
+    },
+    updateAllBlocks: function () {
+      ROTATE_Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
+      ROTATE_Renderer.bakeSurface.clearRect(
+        0,
+        0,
+        ROTATE_Renderer.bakeCanvas.width,
+        ROTATE_Renderer.bakeCanvas.height,
+      );
+      if (null != ROTATE_LevelEditorManager.level) {
+        for (
+          var a =
               1 == ROTATE_LevelEditorManager.level.theme
                 ? ROTATE_Images.bgBricks
-                : ROTATE_Images.bgTiles;
+                : ROTATE_Images.bgTiles,
+            b = Math.ceil(ROTATE_Renderer.bakeCanvas.width / a.width),
+            c = 0,
+            d = Math.ceil(ROTATE_Renderer.bakeCanvas.height / a.height);
+          c < d;
+
+        )
+          for (var e = c++, f = 0, m = b; f < m; ) {
+            var k = f++;
             ROTATE_Renderer.bakeSurface.drawImage(
-              K,
-              new Bounds(
-                ((p + 1) * ROTATE_GameConstants.tileSize) % K.width,
-                ((f + 1) * ROTATE_GameConstants.tileSize) % K.height,
-                ROTATE_GameConstants.tileSize,
-                ROTATE_GameConstants.tileSize,
-              ),
-              0,
-              0,
-            );
-            H.shouldRender(y) &&
-              !H.alwaysUpdate(y) &&
-              H.render(ROTATE_Renderer.bakeSurface, y);
-            ROTATE_Renderer.bakeSurface.translate(
-              -(p + 1) * ROTATE_GameConstants.tileSize,
-              -(f + 1) * ROTATE_GameConstants.tileSize,
+              a,
+              null,
+              k * a.width,
+              e * a.height,
             );
           }
-        }
+        this.renderDecals();
+        a = -1;
+        for (b = ROTATE_LevelEditorManager.get_height() + 1; a < b; )
+          for (
+            c = a++, d = -1, e = ROTATE_LevelEditorManager.get_width() + 1;
+            d < e;
+
+          )
+            (f = d++),
+              (m = ROTATE_LevelEditorManager.getBlockData(f, c)),
+              (k = m.get_block()),
+              null != k &&
+                k.shouldRender(m) &&
+                !k.alwaysUpdate(m) &&
+                (ROTATE_Renderer.bakeSurface.translate(
+                  (f + 1) * ROTATE_GameConstants.tileSize,
+                  (c + 1) * ROTATE_GameConstants.tileSize,
+                ),
+                k.render(ROTATE_Renderer.bakeSurface, m),
+                ROTATE_Renderer.bakeSurface.translate(
+                  -(f + 1) * ROTATE_GameConstants.tileSize,
+                  -(c + 1) * ROTATE_GameConstants.tileSize,
+                ));
       }
-    this.renderDecals();
-  },
-  renderDecals: function () {
-    var a = ROTATE_GameConstants.tileSize;
-    ROTATE_Renderer.bakeSurface.drawImage(
-      ROTATE_Images.blocks,
-      new Bounds(a, 2 * a, a, 2 * a),
-      (ROTATE_LevelEditorManager.level.startCol + 1) * a,
-      ROTATE_LevelEditorManager.level.startRow * a,
-    );
-    ROTATE_Renderer.bakeSurface.drawImage(
-      ROTATE_Images.blocks,
-      new Bounds(2 * a, 2 * a, a, 2 * a),
-      (ROTATE_LevelEditorManager.level.finishCol + 1) * a,
-      ROTATE_LevelEditorManager.level.finishRow * a,
-    );
-    JSObjectUtils.__instanceof(
-      ROTATE_LevelEditorManager.level,
-      ROTATE_Level8,
-    ) &&
+    },
+    updateBlockPlus: function (a, b, c) {
+      null == c && (c = !1);
+      ROTATE_Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
+      ROTATE_Renderer.bakeSurface.clearRect(
+        a * ROTATE_GameConstants.tileSize,
+        b * ROTATE_GameConstants.tileSize,
+        3 * ROTATE_GameConstants.tileSize,
+        3 * ROTATE_GameConstants.tileSize,
+      );
+      for (var d = b - 1, e = b + 2; d < e; )
+        for (var f = d++, m = a - 1, k = a + 2; m < k; ) {
+          var p = m++;
+          if (!c || p != a || f != b) {
+            var y = ROTATE_LevelEditorManager.getBlockData(p, f),
+              H = y.get_block();
+            if (null != H) {
+              ROTATE_Renderer.bakeSurface.translate(
+                (p + 1) * ROTATE_GameConstants.tileSize,
+                (f + 1) * ROTATE_GameConstants.tileSize,
+              );
+              var K =
+                1 == ROTATE_LevelEditorManager.level.theme
+                  ? ROTATE_Images.bgBricks
+                  : ROTATE_Images.bgTiles;
+              ROTATE_Renderer.bakeSurface.drawImage(
+                K,
+                new Bounds(
+                  ((p + 1) * ROTATE_GameConstants.tileSize) % K.width,
+                  ((f + 1) * ROTATE_GameConstants.tileSize) % K.height,
+                  ROTATE_GameConstants.tileSize,
+                  ROTATE_GameConstants.tileSize,
+                ),
+                0,
+                0,
+              );
+              H.shouldRender(y) &&
+                !H.alwaysUpdate(y) &&
+                H.render(ROTATE_Renderer.bakeSurface, y);
+              ROTATE_Renderer.bakeSurface.translate(
+                -(p + 1) * ROTATE_GameConstants.tileSize,
+                -(f + 1) * ROTATE_GameConstants.tileSize,
+              );
+            }
+          }
+        }
+      this.renderDecals();
+    },
+    renderDecals: function () {
+      var a = ROTATE_GameConstants.tileSize;
+      ROTATE_Renderer.bakeSurface.drawImage(
+        ROTATE_Images.blocks,
+        new Bounds(a, 2 * a, a, 2 * a),
+        (ROTATE_LevelEditorManager.level.startCol + 1) * a,
+        ROTATE_LevelEditorManager.level.startRow * a,
+      );
       ROTATE_Renderer.bakeSurface.drawImage(
         ROTATE_Images.blocks,
         new Bounds(2 * a, 2 * a, a, 2 * a),
-        (ROTATE_Level8.fakeCol + 1) * a,
-        ROTATE_Level8.fakeRow * a,
+        (ROTATE_LevelEditorManager.level.finishCol + 1) * a,
+        ROTATE_LevelEditorManager.level.finishRow * a,
       );
+      JSObjectUtils.__instanceof(
+        ROTATE_LevelEditorManager.level,
+        ROTATE_Level8,
+      ) &&
+        ROTATE_Renderer.bakeSurface.drawImage(
+          ROTATE_Images.blocks,
+          new Bounds(2 * a, 2 * a, a, 2 * a),
+          (ROTATE_Level8.fakeCol + 1) * a,
+          ROTATE_Level8.fakeRow * a,
+        );
+    },
+    getBoundsSelf: function () {
+      return new Bounds(
+        0,
+        0,
+        ROTATE_LevelEditorManager.get_width() * ROTATE_GameConstants.tileSize,
+        ROTATE_LevelEditorManager.get_height() * ROTATE_GameConstants.tileSize,
+      );
+    },
+    __class__: ROTATE_Renderer,
   },
-  getBoundsSelf: function () {
-    return new Bounds(
-      0,
-      0,
-      ROTATE_LevelEditorManager.get_width() * ROTATE_GameConstants.tileSize,
-      ROTATE_LevelEditorManager.get_height() * ROTATE_GameConstants.tileSize,
-    );
-  },
-  __class__: ROTATE_Renderer,
-});
+);
 
 class Block {
   public id: number = 0;
@@ -4219,7 +4493,7 @@ var ROTATE_ParticleSystem = function (a, b, c, d, e, f, m, k, p) {
   null == k && (k = !1);
   this.particles = [];
   var y = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.color = c;
   for (c = 0; 75 > c; ) {
     c++;
@@ -4245,58 +4519,61 @@ var ROTATE_ParticleSystem = function (a, b, c, d, e, f, m, k, p) {
   });
 };
 ROTATE_ParticleSystem.__name__ = !0;
-ROTATE_ParticleSystem.__super__ = ROTATE_CanvasObject;
-ROTATE_ParticleSystem.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  update: function (a) {
-    if (!ROTATE_Game.instance.paused)
-      for (a = this.particles.length; 0 <= --a; ) {
-        var b = this.particles[a];
-        0 >= b.life ? this.particles.splice(a, 1) : b.update();
-      }
-  },
-  collsionHandler: function (a) {
-    var b = Math.floor(a.x / ROTATE_GameConstants.tileSize),
-      c = Math.floor(a.y / ROTATE_GameConstants.tileSize);
-    if (ROTATE_LevelEditorManager.isInBounds(b, c)) {
-      var d = ROTATE_LevelEditorManager.getBlockData(b, c),
-        e = d.get_block();
-      if (e.collides(d) && !e.isTrigger(d)) {
-        var f = new Vector2(
-          a.x - b * ROTATE_GameConstants.tileSize,
-          a.y - c * ROTATE_GameConstants.tileSize,
-        );
-        d = e.getColliders(d);
-        for (e = 0; e < d.length; ) {
-          var m = d[e];
-          ++e;
-          if (
-            m.testPoint(
-              f,
-              new Vector2(
-                a.lastX - b * ROTATE_GameConstants.tileSize,
-                a.lastY - c * ROTATE_GameConstants.tileSize,
-              ),
-            )
-          ) {
-            a.freeze = !0;
-            break;
+ROTATE_ParticleSystem.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_ParticleSystem.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    update: function (a) {
+      if (!ROTATE_Game.instance.paused)
+        for (a = this.particles.length; 0 <= --a; ) {
+          var b = this.particles[a];
+          0 >= b.life ? this.particles.splice(a, 1) : b.update();
+        }
+    },
+    collsionHandler: function (a) {
+      var b = Math.floor(a.x / ROTATE_GameConstants.tileSize),
+        c = Math.floor(a.y / ROTATE_GameConstants.tileSize);
+      if (ROTATE_LevelEditorManager.isInBounds(b, c)) {
+        var d = ROTATE_LevelEditorManager.getBlockData(b, c),
+          e = d.get_block();
+        if (e.collides(d) && !e.isTrigger(d)) {
+          var f = new Vector2(
+            a.x - b * ROTATE_GameConstants.tileSize,
+            a.y - c * ROTATE_GameConstants.tileSize,
+          );
+          d = e.getColliders(d);
+          for (e = 0; e < d.length; ) {
+            var m = d[e];
+            ++e;
+            if (
+              m.testPoint(
+                f,
+                new Vector2(
+                  a.lastX - b * ROTATE_GameConstants.tileSize,
+                  a.lastY - c * ROTATE_GameConstants.tileSize,
+                ),
+              )
+            ) {
+              a.freeze = !0;
+              break;
+            }
           }
         }
+      } else a.freeze = !0;
+    },
+    render: function (a) {
+      a.beginFill(this.color);
+      for (var b = 0, c = this.particles; b < c.length; ) {
+        var d = c[b];
+        ++b;
+        var e = Math.round(d.size),
+          f = d.size / 2;
+        a.drawRect(Math.round(d.x - f), Math.round(d.y - f), e, e);
       }
-    } else a.freeze = !0;
+    },
+    __class__: ROTATE_ParticleSystem,
   },
-  render: function (a) {
-    a.beginFill(this.color);
-    for (var b = 0, c = this.particles; b < c.length; ) {
-      var d = c[b];
-      ++b;
-      var e = Math.round(d.size),
-        f = d.size / 2;
-      a.drawRect(Math.round(d.x - f), Math.round(d.y - f), e, e);
-    }
-  },
-  __class__: ROTATE_ParticleSystem,
-});
+);
 
 // #region Levels
 
@@ -18155,20 +18432,23 @@ ROTATE_Speech.prototype = {
 
 var ROTATE_ScreenBase = function () {
   this.pausable = !1;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
 };
 ROTATE_ScreenBase.__name__ = !0;
-ROTATE_ScreenBase.__super__ = ROTATE_CanvasObject;
-ROTATE_ScreenBase.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  init: function () {},
-  ready: function () {},
-  update: function () {},
-  tick: function () {},
-  postUpdate: function () {},
-  prekill: function () {},
-  kill: function () {},
-  __class__: ROTATE_ScreenBase,
-});
+ROTATE_ScreenBase.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_ScreenBase.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    init: function () {},
+    ready: function () {},
+    update: function () {},
+    tick: function () {},
+    postUpdate: function () {},
+    prekill: function () {},
+    kill: function () {},
+    __class__: ROTATE_ScreenBase,
+  },
+);
 
 var ROTATE_ScreenAwards = function () {
   this.rotating = !1;
@@ -18179,8 +18459,8 @@ var ROTATE_ScreenAwards = function () {
   this.btnBack = new ROTATE_Button('BACK');
   this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
   this.bg = new ROTATE_BackgroundObject();
-  this.content = new ROTATE_CanvasObject();
-  this.pivot = new ROTATE_CanvasObject();
+  this.content = new DEPRECATED__ROTATE_CanvasObject();
+  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
   ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenAwards.__name__ = !0;
@@ -18308,7 +18588,7 @@ ROTATE_ScreenCredits.prototype = __inherit(ROTATE_ScreenBase.prototype, {
   init: function () {
     var a = this;
     if (this.fromEnd) {
-      this.bg = new ROTATE_CanvasObject();
+      this.bg = new DEPRECATED__ROTATE_CanvasObject();
       this.bg.graphics.beginFill(16777215);
       this.bg.graphics.drawRect(
         0,
@@ -18412,10 +18692,10 @@ ROTATE_ScreenCredits.prototype = __inherit(ROTATE_ScreenBase.prototype, {
 var ROTATE_ScreenGameBase = function () {
   this.cameraX = 0;
   this.cameraY = 0;
-  this.level = new ROTATE_CanvasObject();
-  this.camera = new ROTATE_CanvasObject();
-  this.pivot = new ROTATE_CanvasObject();
-  this.bg = new ROTATE_CanvasObject();
+  this.level = new DEPRECATED__ROTATE_CanvasObject();
+  this.camera = new DEPRECATED__ROTATE_CanvasObject();
+  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
+  this.bg = new DEPRECATED__ROTATE_CanvasObject();
   ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenGameBase.__name__ = !0;
@@ -19016,10 +19296,10 @@ var ROTATE_ScreenGameLastScene = function (a) {
   );
   this.artMain = new ROTATE_ImageObject(ROTATE_Images.endingMain);
   this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
-  this.bg = new ROTATE_CanvasObject();
+  this.bg = new DEPRECATED__ROTATE_CanvasObject();
   this.cameraX = this.cameraY = 0;
-  this.camera = new ROTATE_CanvasObject();
-  this.pivot = new ROTATE_CanvasObject();
+  this.camera = new DEPRECATED__ROTATE_CanvasObject();
+  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
   this.done = !1;
   this.delay = 9.5;
   ROTATE_ScreenBase.call(this);
@@ -19233,7 +19513,7 @@ var ROTATE_ScreenLevels = function () {
   this.erase = new ROTATE_EraseButton();
   this.mute = new ROTATE_MuteButtons();
   this.sponsor = new ROTATE_Sponsor();
-  this.tiles = new ROTATE_CanvasObject();
+  this.tiles = new DEPRECATED__ROTATE_CanvasObject();
   this.btnBack = new ROTATE_Button('BACK');
   this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
   this.bg = new ROTATE_BackgroundObject();
@@ -19393,10 +19673,10 @@ var ROTATE_ScreenPrimaryGame = function (tempLevel, speedrun, speedrunStart) {
   this.doors = [];
   this.cat = null;
   this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
-  this.red = new ROTATE_CanvasObject();
-  this.overlay = new ROTATE_CanvasObject();
-  this.textHolder = new ROTATE_CanvasObject();
-  this.blood = new ROTATE_CanvasObject();
+  this.red = new DEPRECATED__ROTATE_CanvasObject();
+  this.overlay = new DEPRECATED__ROTATE_CanvasObject();
+  this.textHolder = new DEPRECATED__ROTATE_CanvasObject();
+  this.blood = new DEPRECATED__ROTATE_CanvasObject();
   this.shakeX = this.shakeY = 0;
   this.deathTime = -1;
   ROTATE_ScreenGameBase.call(this);
@@ -19802,7 +20082,7 @@ ROTATE_ScreenLogo.prototype = __inherit(ROTATE_ScreenBase.prototype, {
 
 var ROTATE_ScreenLaunchButton = function () {
   this.start = new ROTATE_ImageObject(ROTATE_Images.start);
-  this.pivot = new ROTATE_CanvasObject();
+  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
   ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenLaunchButton.__name__ = !0;
@@ -19906,7 +20186,7 @@ var ROTATE_Text = function (font, text, color) {
       0;
   this.text = '';
   var d = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.set_font(font);
   this.set_text(text);
   this.color = color;
@@ -19934,8 +20214,8 @@ ROTATE_Text.drawText = function (a, b, c, d, e, f) {
           (m += K.xa)));
   }
 };
-ROTATE_Text.__super__ = ROTATE_CanvasObject;
-ROTATE_Text.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+ROTATE_Text.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_Text.prototype = __inherit(DEPRECATED__ROTATE_CanvasObject.prototype, {
   set_font: function (a) {
     this.font = a;
     this.set_lineHeight(a.lineHeight);
@@ -20041,7 +20321,7 @@ ROTATE_Text.prototype = __inherit(ROTATE_CanvasObject.prototype, {
 });
 
 var ROTATE_AwardObject = function (award) {
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   var b = new ROTATE_ImageObject(ROTATE_Images.awardFrame);
   b.set_x(-b.get_width() / 2);
   this.addChild(b);
@@ -20060,15 +20340,18 @@ var ROTATE_AwardObject = function (award) {
   award.unlocked || this.set_alpha(0.5);
 };
 ROTATE_AwardObject.__name__ = !0;
-ROTATE_AwardObject.__super__ = ROTATE_CanvasObject;
-ROTATE_AwardObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  __class__: ROTATE_AwardObject,
-});
+ROTATE_AwardObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_AwardObject.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    __class__: ROTATE_AwardObject,
+  },
+);
 
 var ROTATE_ActiveGameObject = function () {
   this.bubble = new Bubble();
   var a = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.mouseEnabled = this.buttonMode = !0;
   this.bubble.visible = !1;
   this.bubble.mouseEnabled = !0;
@@ -20105,82 +20388,86 @@ ROTATE_ActiveGameObject.set_selected = function (a) {
         ? ROTATE_ActiveGameObject.list.length - 1
         : a);
 };
-ROTATE_ActiveGameObject.__super__ = ROTATE_CanvasObject;
-ROTATE_ActiveGameObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  get_selection: function () {
-    return ROTATE_ActiveGameObject.list[ROTATE_ActiveGameObject.selected];
-  },
-  render: function (a) {
-    a.beginFill(12525600, 0.75);
-    a.drawRect(
-      (InputKeys.keyDown(16) ? 0 : ROTATE_ActiveGameObject.selected) *
-        ROTATE_ActiveGameObject.size4,
-      0,
-      ROTATE_ActiveGameObject.size4,
-      ROTATE_ActiveGameObject.size4,
-    );
-    a.translate(2, 2);
-    a.beginFill(14671839);
-    for (var b = 0, c = ROTATE_ActiveGameObject.list.length; b < c; ) {
-      var d = b++,
-        e = ROTATE_ActiveGameObject.list[d];
-      0 < d && a.translate(ROTATE_ActiveGameObject.size4, 0);
-      e.rotatePreview() &&
-        (a.translate(
-          ROTATE_ActiveGameObject.size2,
-          ROTATE_ActiveGameObject.size2,
-        ),
-        a.rotate((ROTATE_LevelEditorManager.rotation * Math.PI) / 2),
-        a.translate(
-          -ROTATE_ActiveGameObject.size2,
-          -ROTATE_ActiveGameObject.size2,
-        ));
+ROTATE_ActiveGameObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_ActiveGameObject.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    get_selection: function () {
+      return ROTATE_ActiveGameObject.list[ROTATE_ActiveGameObject.selected];
+    },
+    render: function (a) {
+      a.beginFill(12525600, 0.75);
       a.drawRect(
+        (InputKeys.keyDown(16) ? 0 : ROTATE_ActiveGameObject.selected) *
+          ROTATE_ActiveGameObject.size4,
         0,
-        0,
-        ROTATE_GameConstants.tileSize,
-        ROTATE_GameConstants.tileSize,
+        ROTATE_ActiveGameObject.size4,
+        ROTATE_ActiveGameObject.size4,
       );
-      e.render(a, new BlockData(0, 0, e.id, e.getConfigMeta()), !1);
-      e.rotatePreview() &&
-        (a.translate(
-          ROTATE_ActiveGameObject.size2,
-          ROTATE_ActiveGameObject.size2,
-        ),
-        a.rotate((-ROTATE_LevelEditorManager.rotation * Math.PI) / 2),
-        a.translate(
-          -ROTATE_ActiveGameObject.size2,
-          -ROTATE_ActiveGameObject.size2,
-        ));
-    }
-    a.translate(
-      (ROTATE_ActiveGameObject.list.length - 1) *
-        -ROTATE_ActiveGameObject.size4,
-      0,
-    );
-    a.translate(-2, -2);
+      a.translate(2, 2);
+      a.beginFill(14671839);
+      for (var b = 0, c = ROTATE_ActiveGameObject.list.length; b < c; ) {
+        var d = b++,
+          e = ROTATE_ActiveGameObject.list[d];
+        0 < d && a.translate(ROTATE_ActiveGameObject.size4, 0);
+        e.rotatePreview() &&
+          (a.translate(
+            ROTATE_ActiveGameObject.size2,
+            ROTATE_ActiveGameObject.size2,
+          ),
+          a.rotate((ROTATE_LevelEditorManager.rotation * Math.PI) / 2),
+          a.translate(
+            -ROTATE_ActiveGameObject.size2,
+            -ROTATE_ActiveGameObject.size2,
+          ));
+        a.drawRect(
+          0,
+          0,
+          ROTATE_GameConstants.tileSize,
+          ROTATE_GameConstants.tileSize,
+        );
+        e.render(a, new BlockData(0, 0, e.id, e.getConfigMeta()), !1);
+        e.rotatePreview() &&
+          (a.translate(
+            ROTATE_ActiveGameObject.size2,
+            ROTATE_ActiveGameObject.size2,
+          ),
+          a.rotate((-ROTATE_LevelEditorManager.rotation * Math.PI) / 2),
+          a.translate(
+            -ROTATE_ActiveGameObject.size2,
+            -ROTATE_ActiveGameObject.size2,
+          ));
+      }
+      a.translate(
+        (ROTATE_ActiveGameObject.list.length - 1) *
+          -ROTATE_ActiveGameObject.size4,
+        0,
+      );
+      a.translate(-2, -2);
+    },
+    getBoundsSelf: function () {
+      return new Bounds(
+        0,
+        0,
+        ROTATE_ActiveGameObject.list.length *
+          (ROTATE_GameConstants.tileSize + 4),
+        ROTATE_GameConstants.tileSize + 4,
+      );
+    },
+    __class__: ROTATE_ActiveGameObject,
   },
-  getBoundsSelf: function () {
-    return new Bounds(
-      0,
-      0,
-      ROTATE_ActiveGameObject.list.length * (ROTATE_GameConstants.tileSize + 4),
-      ROTATE_GameConstants.tileSize + 4,
-    );
-  },
-  __class__: ROTATE_ActiveGameObject,
-});
+);
 
 var Bubble = function () {
   this.tip = new ROTATE_ImageObject(ROTATE_Images.configTip);
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.tip.set_x(-this.tip.get_width() / 2);
   this.tip.set_y(-this.tip.get_height());
   this.addChild(this.tip);
 };
 Bubble.__name__ = !0;
-Bubble.__super__ = ROTATE_CanvasObject;
-Bubble.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+Bubble.__super__ = DEPRECATED__ROTATE_CanvasObject;
+Bubble.prototype = __inherit(DEPRECATED__ROTATE_CanvasObject.prototype, {
   setup: function (a) {
     var b = Math.round(a.bubbleWidth / 2);
     this.graphics.clear();
@@ -20199,7 +20486,7 @@ Bubble.prototype = __inherit(ROTATE_CanvasObject.prototype, {
       a.bubbleHeight,
     );
     null != this.content && this.removeChild(this.content);
-    this.content = new ROTATE_CanvasObject();
+    this.content = new DEPRECATED__ROTATE_CanvasObject();
     this.content.set_x(-b);
     this.content.set_y(-a.bubbleHeight - this.tip.get_height());
     this.addChild(this.content);
@@ -20210,8 +20497,8 @@ Bubble.prototype = __inherit(ROTATE_CanvasObject.prototype, {
 
 var ROTATE_MenuWithTextarea = function (a, b) {
   null == b && (b = '');
-  ROTATE_CanvasObject.call(this);
-  this.graphics.beginFill(1052688, 0.95);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
+  this.graphics.beginFill(COLOR.darkGray, 0.95);
   this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
   this.mouseEnabled = !0;
   this.title = new ROTATE_Text(ROTATE_Game.fontMain, a);
@@ -20239,14 +20526,17 @@ var ROTATE_MenuWithTextarea = function (a, b) {
   this.area.select();
 };
 ROTATE_MenuWithTextarea.__name__ = !0;
-ROTATE_MenuWithTextarea.__super__ = ROTATE_CanvasObject;
-ROTATE_MenuWithTextarea.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  kill: function () {
-    null != this.area.parentElement &&
-      window.document.body.removeChild(this.area);
+ROTATE_MenuWithTextarea.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_MenuWithTextarea.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    kill: function () {
+      null != this.area.parentElement &&
+        window.document.body.removeChild(this.area);
+    },
+    __class__: ROTATE_MenuWithTextarea,
   },
-  __class__: ROTATE_MenuWithTextarea,
-});
+);
 
 var ROTATE_LoadLevelMenu = function () {
   this.btnLoad = new ROTATE_Button('LOAD');
@@ -20310,7 +20600,7 @@ ROTATE_SaveLevelMenu.prototype = __inherit(ROTATE_MenuWithTextarea.prototype, {
 var ROTATE_EditorBarLower = function (a) {
   this.selector = new ROTATE_ActiveGameObject();
   var b = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.set_y(ROTATE_Canvas.height - ROTATE_EditorBarLower.HEIGHT);
   this.mouseEnabled = !0;
   this.graphics.beginFill(2105376);
@@ -20332,10 +20622,13 @@ var ROTATE_EditorBarLower = function (a) {
   });
 };
 ROTATE_EditorBarLower.__name__ = !0;
-ROTATE_EditorBarLower.__super__ = ROTATE_CanvasObject;
-ROTATE_EditorBarLower.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  __class__: ROTATE_EditorBarLower,
-});
+ROTATE_EditorBarLower.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_EditorBarLower.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    __class__: ROTATE_EditorBarLower,
+  },
+);
 
 var ROTATE_EditorBarUpper = function (a, b) {
   this.btnLoad = new ROTATE_Text(ROTATE_Game.fontMain, 'Load');
@@ -20343,7 +20636,7 @@ var ROTATE_EditorBarUpper = function (a, b) {
   this.btnPlay = new ROTATE_Text(ROTATE_Game.fontMain, 'Play');
   this.btnClear = new ROTATE_Text(ROTATE_Game.fontMain, 'Clear');
   this.btnExit = new ROTATE_Text(ROTATE_Game.fontMain, 'Exit');
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.mouseEnabled = !0;
   this.graphics.beginFill(2105376);
   this.graphics.drawRect(
@@ -20423,10 +20716,13 @@ var ROTATE_EditorBarUpper = function (a, b) {
   this.addChild(this.btnLoad);
 };
 ROTATE_EditorBarUpper.__name__ = !0;
-ROTATE_EditorBarUpper.__super__ = ROTATE_CanvasObject;
-ROTATE_EditorBarUpper.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  __class__: ROTATE_EditorBarUpper,
-});
+ROTATE_EditorBarUpper.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_EditorBarUpper.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    __class__: ROTATE_EditorBarUpper,
+  },
+);
 
 var ROTATE_EraseButton = function () {
   ROTATE_ImageObject.call(this, ROTATE_Images.trash);
@@ -20469,7 +20765,7 @@ var ROTATE_GridToggle = function (a) {
   this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
   this.toggle = new ROTATE_ImageObject(ROTATE_Images.configToggle);
   var b = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.set_x(ROTATE_Canvas.width - this.get_width() - 12);
   this.set_y(8);
   this.mouseEnabled = this.buttonMode = !0;
@@ -20494,60 +20790,68 @@ var ROTATE_GridToggle = function (a) {
   this.addChild(this.label);
 };
 ROTATE_GridToggle.__name__ = !0;
-ROTATE_GridToggle.__super__ = ROTATE_CanvasObject;
-ROTATE_GridToggle.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  getBoundsSelf: function () {
-    return new Bounds(0, 0, 76, 30);
+ROTATE_GridToggle.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_GridToggle.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    getBoundsSelf: function () {
+      return new Bounds(0, 0, 76, 30);
+    },
+    __class__: ROTATE_GridToggle,
   },
-  __class__: ROTATE_GridToggle,
-});
+);
 
 var ROTATE_BackgroundObject = function () {
   var _self = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.addEventListener('render', function (b) {
     _self.render(b.surface);
   });
 };
 ROTATE_BackgroundObject.__name__ = !0;
-ROTATE_BackgroundObject.__super__ = ROTATE_CanvasObject;
-ROTATE_BackgroundObject.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  render: function (a) {
-    for (
-      var b = -Math.round(
-          (30 * Time.getCurrent()) % ROTATE_Images.bgCells.width,
-        ),
-        c = -Math.round(
-          (15 * Time.getCurrent()) % ROTATE_Images.bgCells.height,
-        ),
-        d = 0,
-        e = Math.ceil(ROTATE_Canvas.height / ROTATE_Images.bgCells.height) + 1;
-      d < e;
-
-    )
+ROTATE_BackgroundObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_BackgroundObject.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    render: function (a) {
       for (
-        var f = d++,
-          m = 0,
-          k = Math.ceil(ROTATE_Canvas.width / ROTATE_Images.bgCells.width) + 1;
-        m < k;
+        var b = -Math.round(
+            (30 * Time.getCurrent()) % ROTATE_Images.bgCells.width,
+          ),
+          c = -Math.round(
+            (15 * Time.getCurrent()) % ROTATE_Images.bgCells.height,
+          ),
+          d = 0,
+          e =
+            Math.ceil(ROTATE_Canvas.height / ROTATE_Images.bgCells.height) + 1;
+        d < e;
 
-      ) {
-        var p = m++;
-        a.drawImage(
-          ROTATE_Images.bgCells,
-          null,
-          b + ROTATE_Images.bgCells.width * p,
-          c + ROTATE_Images.bgCells.height * f,
-        );
-      }
-    a.drawImage(ROTATE_Images.vignette, null, 0, 0);
+      )
+        for (
+          var f = d++,
+            m = 0,
+            k =
+              Math.ceil(ROTATE_Canvas.width / ROTATE_Images.bgCells.width) + 1;
+          m < k;
+
+        ) {
+          var p = m++;
+          a.drawImage(
+            ROTATE_Images.bgCells,
+            null,
+            b + ROTATE_Images.bgCells.width * p,
+            c + ROTATE_Images.bgCells.height * f,
+          );
+        }
+      a.drawImage(ROTATE_Images.vignette, null, 0, 0);
+    },
+    __class__: ROTATE_BackgroundObject,
   },
-  __class__: ROTATE_BackgroundObject,
-});
+);
 
 var ROTATE_Button = function (title, b) {
   null == b && (b = 0);
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.main = new ROTATE_ImageObject(ROTATE_Images.menuBtn);
   this.main.set_x(-this.main.get_width() / 2);
   this.main.set_y(-this.main.get_height() / 2);
@@ -20565,15 +20869,15 @@ var ROTATE_Button = function (title, b) {
   this.addChild(this.text);
 };
 ROTATE_Button.__name__ = !0;
-ROTATE_Button.__super__ = ROTATE_CanvasObject;
-ROTATE_Button.prototype = __inherit(ROTATE_CanvasObject.prototype, {
+ROTATE_Button.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_Button.prototype = __inherit(DEPRECATED__ROTATE_CanvasObject.prototype, {
   __class__: ROTATE_Button,
 });
 
 var ROTATE_MuteButtons = function (a) {
   null == a && (a = 0);
   var b = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.sfx = new ROTATE_ImageObject(ROTATE_Images.mute);
   this.sfx.set_clipRect(
     new Bounds(ROTATE_Game.instance.muteSFX ? 28 : 0, 30 * a, 28, 30),
@@ -20604,35 +20908,38 @@ var ROTATE_MuteButtons = function (a) {
   this.addChild(this.music);
 };
 ROTATE_MuteButtons.__name__ = !0;
-ROTATE_MuteButtons.__super__ = ROTATE_CanvasObject;
-ROTATE_MuteButtons.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  showWarn: function (a) {
-    var b = new ROTATE_YesNoOverlay(
-      'Audio may slow down the game\nin Internet Explorer. Continue?',
-    );
-    b.onNo = function () {
-      ROTATE_Game.instance.removeChild(b);
-    };
-    b.onYes = function () {
-      ROTATE_Game.instance.removeChild(b);
-      ROTATE_Game.instance.ieUnmuted = !0;
-      null != a && a();
-    };
-    ROTATE_Game.instance.addChild(b);
+ROTATE_MuteButtons.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_MuteButtons.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    showWarn: function (a) {
+      var b = new ROTATE_YesNoOverlay(
+        'Audio may slow down the game\nin Internet Explorer. Continue?',
+      );
+      b.onNo = function () {
+        ROTATE_Game.instance.removeChild(b);
+      };
+      b.onYes = function () {
+        ROTATE_Game.instance.removeChild(b);
+        ROTATE_Game.instance.ieUnmuted = !0;
+        null != a && a();
+      };
+      ROTATE_Game.instance.addChild(b);
+    },
+    toggleSFX: function () {
+      ROTATE_Game.instance.toggleSFX();
+      this.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
+    },
+    toggleMusic: function () {
+      ROTATE_Game.instance.toggleMusic();
+      this.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
+    },
+    __class__: ROTATE_MuteButtons,
   },
-  toggleSFX: function () {
-    ROTATE_Game.instance.toggleSFX();
-    this.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
-  },
-  toggleMusic: function () {
-    ROTATE_Game.instance.toggleMusic();
-    this.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
-  },
-  __class__: ROTATE_MuteButtons,
-});
+);
 
 var ROTATE_InvertCheckbox = function () {
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.set_x(12);
   this.set_y(12);
   this.mouseEnabled = this.buttonMode = !0;
@@ -20654,13 +20961,16 @@ var ROTATE_InvertCheckbox = function () {
   });
 };
 ROTATE_InvertCheckbox.__name__ = !0;
-ROTATE_InvertCheckbox.__super__ = ROTATE_CanvasObject;
-ROTATE_InvertCheckbox.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  getBoundsSelf: function () {
-    return new Bounds(0, 0, 198, 22);
+ROTATE_InvertCheckbox.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_InvertCheckbox.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    getBoundsSelf: function () {
+      return new Bounds(0, 0, 198, 22);
+    },
+    __class__: ROTATE_InvertCheckbox,
   },
-  __class__: ROTATE_InvertCheckbox,
-});
+);
 
 var ROTATE_PauseMenu = function () {
   this.sponsor = new ROTATE_Sponsor();
@@ -20670,8 +20980,8 @@ var ROTATE_PauseMenu = function () {
   this.btnRedo = new ROTATE_Button('RESTART', 0);
   this.btnPlay = new ROTATE_Button('CONTINUE', 0);
   this.text = new ROTATE_Text(ROTATE_Game.fontMain, 'GAME PAUSED');
-  ROTATE_CanvasObject.call(this);
-  this.graphics.beginFill(1052688, 0.85);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
+  this.graphics.beginFill(COLOR.darkGray, 0.85);
   this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
   this.visible = !1;
   this.mouseEnabled = !0;
@@ -20740,31 +21050,34 @@ var ROTATE_PauseMenu = function () {
   ROTATE_Game.instance.warnNoSave(this);
 };
 ROTATE_PauseMenu.__name__ = !0;
-ROTATE_PauseMenu.__super__ = ROTATE_CanvasObject;
-ROTATE_PauseMenu.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  onPause: function () {
-    this.mute.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
-    this.mute.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
-    var a = JSObjectUtils.__instanceof(
-      ROTATE_Game.instance.currentScreen,
-      ROTATE_ScreenPrimaryGame,
-    );
-    this.btnRedo.set_alpha(a ? 1 : 0.25);
-    this.btnRedo.main.mouseEnabled = a;
-    a =
-      JSObjectUtils.__instanceof(
+ROTATE_PauseMenu.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_PauseMenu.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    onPause: function () {
+      this.mute.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
+      this.mute.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
+      var a = JSObjectUtils.__instanceof(
         ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenGameFinished,
-      ) ||
-      JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenGameLastScene,
+        ROTATE_ScreenPrimaryGame,
       );
-    this.btnQuit.set_alpha(a ? 0.25 : 1);
-    this.btnQuit.main.mouseEnabled = !a;
+      this.btnRedo.set_alpha(a ? 1 : 0.25);
+      this.btnRedo.main.mouseEnabled = a;
+      a =
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_ScreenGameFinished,
+        ) ||
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_ScreenGameLastScene,
+        );
+      this.btnQuit.set_alpha(a ? 0.25 : 1);
+      this.btnQuit.main.mouseEnabled = !a;
+    },
+    __class__: ROTATE_PauseMenu,
   },
-  __class__: ROTATE_PauseMenu,
-});
+);
 
 var ROTATE_Sponsor = function () {
   ROTATE_ImageObject.call(this, ROTATE_Images.linkJoshua);
@@ -20790,9 +21103,9 @@ var ROTATE_YesNoOverlay = function (questionText) {
   this.btnYes = new ROTATE_Button('YES');
   this.main = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
   var _self = this;
-  ROTATE_CanvasObject.call(this);
+  DEPRECATED__ROTATE_CanvasObject.call(this);
   this.main.set_text(questionText);
-  this.graphics.beginFill(1052688, 0.95);
+  this.graphics.beginFill(COLOR.darkGray, 0.95);
   this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
   this.mouseEnabled = !0;
   this.main.align = ROTATE_Text.ALIGN_CENTER;
@@ -20815,10 +21128,13 @@ var ROTATE_YesNoOverlay = function (questionText) {
   this.addChild(this.btnNo);
 };
 ROTATE_YesNoOverlay.__name__ = !0;
-ROTATE_YesNoOverlay.__super__ = ROTATE_CanvasObject;
-ROTATE_YesNoOverlay.prototype = __inherit(ROTATE_CanvasObject.prototype, {
-  __class__: ROTATE_YesNoOverlay,
-});
+ROTATE_YesNoOverlay.__super__ = DEPRECATED__ROTATE_CanvasObject;
+ROTATE_YesNoOverlay.prototype = __inherit(
+  DEPRECATED__ROTATE_CanvasObject.prototype,
+  {
+    __class__: ROTATE_YesNoOverlay,
+  },
+);
 
 var gameInstance;
 
@@ -20849,15 +21165,6 @@ CharUtils.CHARS =
 CharUtils.BYTES = StringBytesObject.ofString(CharUtils.CHARS);
 
 JSObjectUtils.__toStr = {}.toString;
-
-ROTATE_Game.fontMain = new ROTATE_Font(
-  'fonts/simple-pixels.png',
-  'fonts/simple-pixels.json',
-  2,
-  112,
-);
-ROTATE_Game.nosave = !1;
-ROTATE_Game.ie = !1;
 
 ROTATE_Awards.awardEscape = new ROTATE_Award(
   'The Beginning',
