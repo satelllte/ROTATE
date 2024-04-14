@@ -49,6 +49,7 @@ import {ROTATE_Button} from './ROTATE_Button';
 import {ROTATE_YesNoOverlay} from './ROTATE_YesNoOverlay';
 import {ROTATE_MuteButtons} from './ROTATE_MuteButtons';
 import {ROTATE_BackgroundObject} from './ROTATE_BackgroundObject';
+import {ROTATE_ScreenBase} from './ROTATE_ScreenBase';
 
 // ---------------------------------------------------------------------------
 
@@ -17548,13 +17549,13 @@ ROTATE_Speech.prototype = {
   __class__: ROTATE_Speech,
 };
 
-var ROTATE_ScreenBase = function () {
+var DEPRECATED__ROTATE_ScreenBase = function () {
   this.pausable = !1;
   DEPRECATED__ROTATE_CanvasObject.call(this);
 };
-ROTATE_ScreenBase.__name__ = !0;
-ROTATE_ScreenBase.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_ScreenBase.prototype = __inherit(
+DEPRECATED__ROTATE_ScreenBase.__name__ = !0;
+DEPRECATED__ROTATE_ScreenBase.__super__ = DEPRECATED__ROTATE_CanvasObject;
+DEPRECATED__ROTATE_ScreenBase.prototype = __inherit(
   DEPRECATED__ROTATE_CanvasObject.prototype,
   {
     init: function () {},
@@ -17564,7 +17565,7 @@ ROTATE_ScreenBase.prototype = __inherit(
     postUpdate: function () {},
     prekill: function () {},
     kill: function () {},
-    __class__: ROTATE_ScreenBase,
+    __class__: DEPRECATED__ROTATE_ScreenBase,
   },
 );
 
@@ -17579,105 +17580,110 @@ var ROTATE_ScreenAwards = function () {
   this.bg = new ROTATE_BackgroundObject();
   this.content = new ROTATE_CanvasObject();
   this.pivot = new ROTATE_CanvasObject();
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenAwards.__name__ = !0;
-ROTATE_ScreenAwards.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenAwards.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    ROTATE_ScreenMainMenu.playTheme();
-    this.addChild(this.bg);
-    this.pivot.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.pivot.set_y(Math.round(ROTATE_Canvas.height / 2));
-    this.addChild(this.pivot);
-    this.content.set_x(-this.pivot.x);
-    this.content.set_y(-this.pivot.y);
-    this.pivot.addChild(this.content);
-    this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.title.set_y(64);
-    this.content.addChild(this.title);
-    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.btnBack.set_y(ROTATE_Canvas.height - 88);
-    this.btnBack.addEventListener('click', function (a) {
-      2 > a.which &&
-        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
-    });
-    this.content.addChild(this.btnBack);
-    this.content.addChild(this.sponsor);
-    this.content.addChild(this.mute);
-    this.refresh();
-    ROTATE_Game.instance.warnNoSave(this);
-  },
-  refresh: function () {
-    for (var a = 0, b = this.awardDisplays; a < b.length; ) {
-      var c = b[a];
-      ++a;
-      this.content.removeChild(c);
-    }
-    null != this.erase && this.content.removeChild(this.erase);
-    this.erase = new ROTATE_EraseButton();
-    this.content.addChild(this.erase);
-    this.awardDisplays = [];
-    a = Math.floor(ROTATE_Awards.all.length / 3);
-    b = 0;
-    for (c = ROTATE_Awards.all.length; b < c; ) {
-      var d = b++,
-        e = Math.floor(d / 3),
-        f = e < a ? 3 : ROTATE_Awards.all.length - 3 * a,
-        m = new ROTATE_AwardObject(ROTATE_Awards.all[d]);
-      m.set_x(
-        Math.floor(ROTATE_Canvas.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e),
-      );
-      m.set_y(128 + 136 * e);
-      this.content.addChild(m);
-      this.awardDisplays.push(m);
-    }
-  },
-  update: function () {
-    if (this.rotating) {
-      var a = Math.min(
-          (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
-            ROTATE_GameConstants.rotateTime,
-          1,
-        ),
-        b = ROTATE_Game.smootherStep(a);
-      this.pivot.set_rotation(
-        this.rotateStartAngle +
-          (this.rotateEndAngle - this.rotateStartAngle) * b,
-      );
-      if (1 == a) {
-        for (; 0 > this.pivot.rotation; )
-          (a = this.pivot), a.set_rotation(a.rotation + 360);
-        for (; 360 <= this.pivot.rotation; )
-          (a = this.pivot), a.set_rotation(a.rotation - 360);
-        this.rotating = !1;
+ROTATE_ScreenAwards.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenAwards.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      ROTATE_ScreenMainMenu.playTheme();
+      this.addChild(this.bg);
+      this.pivot.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.pivot.set_y(Math.round(ROTATE_Canvas.height / 2));
+      this.addChild(this.pivot);
+      this.content.set_x(-this.pivot.x);
+      this.content.set_y(-this.pivot.y);
+      this.pivot.addChild(this.content);
+      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.title.set_y(64);
+      this.content.addChild(this.title);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 88);
+      this.btnBack.addEventListener('click', function (a) {
+        2 > a.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
+      });
+      this.content.addChild(this.btnBack);
+      this.content.addChild(this.sponsor);
+      this.content.addChild(this.mute);
+      this.refresh();
+      ROTATE_Game.instance.warnNoSave(this);
+    },
+    refresh: function () {
+      for (var a = 0, b = this.awardDisplays; a < b.length; ) {
+        var c = b[a];
+        ++a;
+        this.content.removeChild(c);
       }
-    } else if (
-      ((a = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
-      )),
-      (b = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
-      )),
-      a || b)
-    )
-      ROTATE_Awards.awardRotate.unlock(),
-        (this.rotating = !0),
-        (this.rotateStart = ROTATE_Game.instance.get_gameTime()),
-        (this.rotateDir = a ? -1 : 1),
-        (this.rotateStartAngle = this.pivot.rotation),
-        (this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir),
-        (this.rotationSide += this.rotateDir),
-        (this.rotationSide =
-          0 > this.rotationSide
-            ? 3
-            : 3 < this.rotationSide
-              ? 0
-              : this.rotationSide);
+      null != this.erase && this.content.removeChild(this.erase);
+      this.erase = new ROTATE_EraseButton();
+      this.content.addChild(this.erase);
+      this.awardDisplays = [];
+      a = Math.floor(ROTATE_Awards.all.length / 3);
+      b = 0;
+      for (c = ROTATE_Awards.all.length; b < c; ) {
+        var d = b++,
+          e = Math.floor(d / 3),
+          f = e < a ? 3 : ROTATE_Awards.all.length - 3 * a,
+          m = new ROTATE_AwardObject(ROTATE_Awards.all[d]);
+        m.set_x(
+          Math.floor(ROTATE_Canvas.width / 2) -
+            80 * (f - 1) +
+            160 * (d - 3 * e),
+        );
+        m.set_y(128 + 136 * e);
+        this.content.addChild(m);
+        this.awardDisplays.push(m);
+      }
+    },
+    update: function () {
+      if (this.rotating) {
+        var a = Math.min(
+            (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
+              ROTATE_GameConstants.rotateTime,
+            1,
+          ),
+          b = ROTATE_Game.smootherStep(a);
+        this.pivot.set_rotation(
+          this.rotateStartAngle +
+            (this.rotateEndAngle - this.rotateStartAngle) * b,
+        );
+        if (1 == a) {
+          for (; 0 > this.pivot.rotation; )
+            (a = this.pivot), a.set_rotation(a.rotation + 360);
+          for (; 360 <= this.pivot.rotation; )
+            (a = this.pivot), a.set_rotation(a.rotation - 360);
+          this.rotating = !1;
+        }
+      } else if (
+        ((a = InputKeys.keyPressed(
+          ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
+        )),
+        (b = InputKeys.keyPressed(
+          ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
+        )),
+        a || b)
+      )
+        ROTATE_Awards.awardRotate.unlock(),
+          (this.rotating = !0),
+          (this.rotateStart = ROTATE_Game.instance.get_gameTime()),
+          (this.rotateDir = a ? -1 : 1),
+          (this.rotateStartAngle = this.pivot.rotation),
+          (this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir),
+          (this.rotationSide += this.rotateDir),
+          (this.rotationSide =
+            0 > this.rotationSide
+              ? 3
+              : 3 < this.rotationSide
+                ? 0
+                : this.rotationSide);
+    },
+    __class__: ROTATE_ScreenAwards,
   },
-  __class__: ROTATE_ScreenAwards,
-});
+);
 
 var ROTATE_ScreenCredits = function (fromEnd) {
   null == fromEnd && (fromEnd = !1);
@@ -17697,115 +17703,118 @@ var ROTATE_ScreenCredits = function (fromEnd) {
     1,
   );
   this.btnBack = new ROTATE_Button('BACK');
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
   this.fromEnd = fromEnd;
 };
 ROTATE_ScreenCredits.__name__ = !0;
-ROTATE_ScreenCredits.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenCredits.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    var a = this;
-    if (this.fromEnd) {
-      this.bg = new ROTATE_CanvasObject();
-      this.bg.graphics.beginFill(16777215);
-      this.bg.graphics.drawRect(
-        0,
-        0,
-        ROTATE_Canvas.width,
-        ROTATE_Canvas.height,
+ROTATE_ScreenCredits.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenCredits.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      var a = this;
+      if (this.fromEnd) {
+        this.bg = new ROTATE_CanvasObject();
+        this.bg.graphics.beginFill(16777215);
+        this.bg.graphics.drawRect(
+          0,
+          0,
+          ROTATE_Canvas.width,
+          ROTATE_Canvas.height,
+        );
+        var b = new ROTATE_ImageObject(ROTATE_Images.vignette);
+        b.set_alpha(0.75);
+        this.bg.addChild(b);
+        this.btnBack.text.set_text('MENU');
+      } else
+        ROTATE_ScreenMainMenu.playTheme(),
+          (this.bg = new ROTATE_BackgroundObject());
+      this.addChild(this.bg);
+      this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.text1.set_y(80);
+      this.text1.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.addChild(this.text1);
+      this.joshua.set_x(
+        Math.round((ROTATE_Canvas.width - this.joshua.get_width()) / 2),
       );
-      var b = new ROTATE_ImageObject(ROTATE_Images.vignette);
-      b.set_alpha(0.75);
-      this.bg.addChild(b);
-      this.btnBack.text.set_text('MENU');
-    } else
-      ROTATE_ScreenMainMenu.playTheme(),
-        (this.bg = new ROTATE_BackgroundObject());
-    this.addChild(this.bg);
-    this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.text1.set_y(80);
-    this.text1.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.addChild(this.text1);
-    this.joshua.set_x(
-      Math.round((ROTATE_Canvas.width - this.joshua.get_width()) / 2),
-    );
-    this.joshua.set_y(this.text1.y + 36);
-    this.joshua.mouseEnabled = this.joshua.buttonMode = !0;
-    this.joshua.addEventListener('click', function (c) {
-      1 < c.which ||
-        ((c = window.open('https://criobite.com', '_blank')),
-        ROTATE_Awards.awardJoshua.unlock(),
-        c.focus());
-    });
-    this.addChild(this.joshua);
-    this.text2.set_x(this.text1.x);
-    this.text2.set_y(this.joshua.y + this.joshua.get_height() + 40);
-    this.text2.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.text2.align = ROTATE_Text.ALIGN_CENTER;
-    this.addChild(this.text2);
-    this.text2.mouseEnabled = this.text2.buttonMode = !0;
-    this.text2.addEventListener('click', function (c) {
-      1 < c.which ||
-        window
-          .open('https://www.patreon.com/lightwolfstudios', '_blank')
-          .focus();
-    });
-    this.soundtrack.set_x(
-      ROTATE_Canvas.width - this.soundtrack.get_width() - 6,
-    );
-    this.soundtrack.set_y(8);
-    this.soundtrack.mouseEnabled = this.soundtrack.buttonMode = !0;
-    this.soundtrack.addEventListener('click', function (c) {
-      1 < c.which ||
-        (window
-          .open('https://criobite.com/link/rotate-soundtrack', '_blank')
-          .focus(),
-        ROTATE_Awards.awardSoundtrack.unlock());
-    });
-    this.addChild(this.soundtrack);
-    this.moreText.set_x(this.text1.x);
-    this.moreText.set_y(this.text2.y + this.text2.get_height() + 36);
-    this.moreText.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.moreText.align = ROTATE_Text.ALIGN_CENTER;
-    this.addChild(this.moreText);
-    this.more.set_x(
-      Math.round((ROTATE_Canvas.width - this.more.get_width()) / 2),
-    );
-    this.more.set_y(this.moreText.y + this.moreText.get_height());
-    this.more.mouseEnabled = this.more.buttonMode = !0;
-    this.more.addEventListener('click', function (c) {
-      2 <= c.which ||
-        ((c = window.open('http://lightwolfstudios.com/', '_blank')),
-        ROTATE_Awards.awardJoshua.unlock(),
-        c.focus());
-    });
-    this.addChild(this.more);
-    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.btnBack.set_y(ROTATE_Canvas.height - 64);
-    this.btnBack.addEventListener('click', function (c) {
-      2 > c.which &&
-        (a.fromEnd &&
-          ROTATE_Audio.surface.playing() &&
-          (ROTATE_Game.ie
-            ? ROTATE_Audio.surface.stop()
-            : (ROTATE_Audio.surface.fade(
-                1,
-                0,
-                Math.round(ROTATE_GameConstants.screenFadeTime / 2),
-              ),
-              ROTATE_Audio.surface.once('fade', function () {
-                ROTATE_Audio.surface.stop();
-              }))),
-        ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
-        ROTATE_Game.instance.changeScreen(
-          a.fromEnd ? new ROTATE_ScreenExtras() : new ROTATE_ScreenMainMenu(),
-        ));
-    });
-    this.addChild(this.btnBack);
-    this.addChild(this.mute);
+      this.joshua.set_y(this.text1.y + 36);
+      this.joshua.mouseEnabled = this.joshua.buttonMode = !0;
+      this.joshua.addEventListener('click', function (c) {
+        1 < c.which ||
+          ((c = window.open('https://criobite.com', '_blank')),
+          ROTATE_Awards.awardJoshua.unlock(),
+          c.focus());
+      });
+      this.addChild(this.joshua);
+      this.text2.set_x(this.text1.x);
+      this.text2.set_y(this.joshua.y + this.joshua.get_height() + 40);
+      this.text2.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.text2.align = ROTATE_Text.ALIGN_CENTER;
+      this.addChild(this.text2);
+      this.text2.mouseEnabled = this.text2.buttonMode = !0;
+      this.text2.addEventListener('click', function (c) {
+        1 < c.which ||
+          window
+            .open('https://www.patreon.com/lightwolfstudios', '_blank')
+            .focus();
+      });
+      this.soundtrack.set_x(
+        ROTATE_Canvas.width - this.soundtrack.get_width() - 6,
+      );
+      this.soundtrack.set_y(8);
+      this.soundtrack.mouseEnabled = this.soundtrack.buttonMode = !0;
+      this.soundtrack.addEventListener('click', function (c) {
+        1 < c.which ||
+          (window
+            .open('https://criobite.com/link/rotate-soundtrack', '_blank')
+            .focus(),
+          ROTATE_Awards.awardSoundtrack.unlock());
+      });
+      this.addChild(this.soundtrack);
+      this.moreText.set_x(this.text1.x);
+      this.moreText.set_y(this.text2.y + this.text2.get_height() + 36);
+      this.moreText.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.moreText.align = ROTATE_Text.ALIGN_CENTER;
+      this.addChild(this.moreText);
+      this.more.set_x(
+        Math.round((ROTATE_Canvas.width - this.more.get_width()) / 2),
+      );
+      this.more.set_y(this.moreText.y + this.moreText.get_height());
+      this.more.mouseEnabled = this.more.buttonMode = !0;
+      this.more.addEventListener('click', function (c) {
+        2 <= c.which ||
+          ((c = window.open('http://lightwolfstudios.com/', '_blank')),
+          ROTATE_Awards.awardJoshua.unlock(),
+          c.focus());
+      });
+      this.addChild(this.more);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 64);
+      this.btnBack.addEventListener('click', function (c) {
+        2 > c.which &&
+          (a.fromEnd &&
+            ROTATE_Audio.surface.playing() &&
+            (ROTATE_Game.ie
+              ? ROTATE_Audio.surface.stop()
+              : (ROTATE_Audio.surface.fade(
+                  1,
+                  0,
+                  Math.round(ROTATE_GameConstants.screenFadeTime / 2),
+                ),
+                ROTATE_Audio.surface.once('fade', function () {
+                  ROTATE_Audio.surface.stop();
+                }))),
+          ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
+          ROTATE_Game.instance.changeScreen(
+            a.fromEnd ? new ROTATE_ScreenExtras() : new ROTATE_ScreenMainMenu(),
+          ));
+      });
+      this.addChild(this.btnBack);
+      this.addChild(this.mute);
+    },
+    __class__: ROTATE_ScreenCredits,
   },
-  __class__: ROTATE_ScreenCredits,
-});
+);
 
 var ROTATE_ScreenGameBase = function () {
   this.cameraX = 0;
@@ -17814,73 +17823,81 @@ var ROTATE_ScreenGameBase = function () {
   this.camera = new ROTATE_CanvasObject();
   this.pivot = new ROTATE_CanvasObject();
   this.bg = new ROTATE_CanvasObject();
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenGameBase.__name__ = !0;
-ROTATE_ScreenGameBase.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenGameBase.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    this.bg.graphics.beginFill(0x303030);
-    this.bg.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
-    this.addChild(this.bg);
-    this.pivot.set_x(ROTATE_Canvas.width / 2);
-    this.pivot.set_y(ROTATE_Canvas.height / 2);
-    this.addChild(this.pivot);
-    this.pivot.addChild(this.camera);
-    this.level.set_x(-this.camera.x);
-    this.level.set_y(-this.camera.y);
-    this.camera.addChild(this.level);
-    this.renderer = new ROTATE_Renderer(this.camera);
-    this.renderer.updateAllBlocks();
-    this.level.addChild(this.renderer);
-  },
-  doRotation: function (a) {
-    if (ROTATE_LevelEditorManager.rotating) {
-      var b = Math.min(
-          (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
-            ROTATE_GameConstants.rotateTime,
-          1,
-        ),
-        c = ROTATE_Game.smootherStep(b);
-      this.pivot.set_rotation(
-        this.rotateStartAngle +
-          (this.rotateEndAngle - this.rotateStartAngle) * c,
+ROTATE_ScreenGameBase.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenGameBase.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      this.bg.graphics.beginFill(0x303030);
+      this.bg.graphics.drawRect(
+        0,
+        0,
+        ROTATE_Canvas.width,
+        ROTATE_Canvas.height,
       );
-      null != a && (a.set_rotation(-this.pivot.rotation), a.onRotating(c));
-      if (1 == b) {
-        for (; 0 > this.pivot.rotation; )
-          (b = this.pivot), b.set_rotation(b.rotation + 360);
-        for (; 360 <= this.pivot.rotation; )
-          (b = this.pivot), b.set_rotation(b.rotation - 360);
-        ROTATE_LevelEditorManager.rotating = !1;
-        if (null != a) a.onRotateEnd();
+      this.addChild(this.bg);
+      this.pivot.set_x(ROTATE_Canvas.width / 2);
+      this.pivot.set_y(ROTATE_Canvas.height / 2);
+      this.addChild(this.pivot);
+      this.pivot.addChild(this.camera);
+      this.level.set_x(-this.camera.x);
+      this.level.set_y(-this.camera.y);
+      this.camera.addChild(this.level);
+      this.renderer = new ROTATE_Renderer(this.camera);
+      this.renderer.updateAllBlocks();
+      this.level.addChild(this.renderer);
+    },
+    doRotation: function (a) {
+      if (ROTATE_LevelEditorManager.rotating) {
+        var b = Math.min(
+            (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
+              ROTATE_GameConstants.rotateTime,
+            1,
+          ),
+          c = ROTATE_Game.smootherStep(b);
+        this.pivot.set_rotation(
+          this.rotateStartAngle +
+            (this.rotateEndAngle - this.rotateStartAngle) * c,
+        );
+        null != a && (a.set_rotation(-this.pivot.rotation), a.onRotating(c));
+        if (1 == b) {
+          for (; 0 > this.pivot.rotation; )
+            (b = this.pivot), b.set_rotation(b.rotation + 360);
+          for (; 360 <= this.pivot.rotation; )
+            (b = this.pivot), b.set_rotation(b.rotation - 360);
+          ROTATE_LevelEditorManager.rotating = !1;
+          if (null != a) a.onRotateEnd();
+        }
+      } else if (
+        ((b = InputKeys.keyPressed(
+          ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
+        )),
+        (c = InputKeys.keyPressed(
+          ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
+        )),
+        (b || c) && (null == a || a.canRotate(b ? -1 : 1)))
+      ) {
+        ROTATE_LevelEditorManager.rotating = !0;
+        this.rotateStart = ROTATE_Game.instance.get_gameTime();
+        this.rotateDir = b ? -1 : 1;
+        this.rotateStartAngle = this.pivot.rotation;
+        this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir;
+        if (null != a) a.onRotateStart(this.rotateDir);
+        b = ROTATE_LevelEditorManager;
+        b.set_rotation(b.rotation + this.rotateDir);
+        if (null != a) a.onRotateStart2();
       }
-    } else if (
-      ((b = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
-      )),
-      (c = InputKeys.keyPressed(
-        ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
-      )),
-      (b || c) && (null == a || a.canRotate(b ? -1 : 1)))
-    ) {
-      ROTATE_LevelEditorManager.rotating = !0;
-      this.rotateStart = ROTATE_Game.instance.get_gameTime();
-      this.rotateDir = b ? -1 : 1;
-      this.rotateStartAngle = this.pivot.rotation;
-      this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir;
-      if (null != a) a.onRotateStart(this.rotateDir);
-      b = ROTATE_LevelEditorManager;
-      b.set_rotation(b.rotation + this.rotateDir);
-      if (null != a) a.onRotateStart2();
-    }
+    },
+    postUpdate: function () {
+      this.camera.set_x(Math.round(this.cameraX));
+      this.camera.set_y(Math.round(this.cameraY));
+    },
+    __class__: ROTATE_ScreenGameBase,
   },
-  postUpdate: function () {
-    this.camera.set_x(Math.round(this.cameraX));
-    this.camera.set_y(Math.round(this.cameraY));
-  },
-  __class__: ROTATE_ScreenGameBase,
-});
+);
 
 var ROTATE_ScreenEditor = function () {
   this.doors = [];
@@ -18342,61 +18359,64 @@ var ROTATE_ScreenGameFinished = function (speedrun) {
   null == speedrun && (speedrun = !1);
   this.done1 = this.first = !1;
   this.cond1 = new ROTATE_ConditionDelay(10);
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
   this.pausable = !0;
   this.speedrun = speedrun;
 };
 ROTATE_ScreenGameFinished.__name__ = !0;
-ROTATE_ScreenGameFinished.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenGameFinished.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
-    this.cond1.start();
-    this.speech = new ROTATE_Speech(
-      [
-        new ROTATE_SpeechPart(
-          new ROTATE_ConditionDelay(1.5),
-          'Have your freedom, for now.',
+ROTATE_ScreenGameFinished.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenGameFinished.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
+      this.cond1.start();
+      this.speech = new ROTATE_Speech(
+        [
+          new ROTATE_SpeechPart(
+            new ROTATE_ConditionDelay(1.5),
+            'Have your freedom, for now.',
+          ),
+          new ROTATE_SpeechPart(
+            new ROTATE_ConditionDelay(4),
+            'But you will come back.',
+          ),
+        ],
+        this,
+      );
+      this.speedrun &&
+        42e4 >= ROTATE_Levels.speedrunBest &&
+        ROTATE_Awards.awardSpeedrun.unlock();
+      if ((this.first = !ROTATE_Awards.awardEscape.unlocked))
+        (ROTATE_Awards.awardEscape.unlocked = !0),
+          ROTATE_Game.instance.saveProgress();
+    },
+    update: function () {
+      this.speech.update();
+      !this.done1 &&
+        this.cond1.test() &&
+        ((this.done1 = !0),
+        ROTATE_Game.instance.changeScreen(
+          new ROTATE_ScreenGameLastScene(this.first),
+          !0,
+          null,
+          !0,
         ),
-        new ROTATE_SpeechPart(
-          new ROTATE_ConditionDelay(4),
-          'But you will come back.',
-        ),
-      ],
-      this,
-    );
-    this.speedrun &&
-      42e4 >= ROTATE_Levels.speedrunBest &&
-      ROTATE_Awards.awardSpeedrun.unlock();
-    if ((this.first = !ROTATE_Awards.awardEscape.unlocked))
-      (ROTATE_Awards.awardEscape.unlocked = !0),
-        ROTATE_Game.instance.saveProgress();
+        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+          (ROTATE_Audio.exit.volume(0.5),
+          ROTATE_Audio.exit.play(),
+          ROTATE_Audio.exit.once('end', function () {
+            ROTATE_Audio.exit.volume(1);
+          })));
+    },
+    kill: function () {
+      ROTATE_Audio.themeGame2.stop();
+      ROTATE_Audio.themeGame2.volume(1);
+      ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !1);
+    },
+    __class__: ROTATE_ScreenGameFinished,
   },
-  update: function () {
-    this.speech.update();
-    !this.done1 &&
-      this.cond1.test() &&
-      ((this.done1 = !0),
-      ROTATE_Game.instance.changeScreen(
-        new ROTATE_ScreenGameLastScene(this.first),
-        !0,
-        null,
-        !0,
-      ),
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        (ROTATE_Audio.exit.volume(0.5),
-        ROTATE_Audio.exit.play(),
-        ROTATE_Audio.exit.once('end', function () {
-          ROTATE_Audio.exit.volume(1);
-        })));
-  },
-  kill: function () {
-    ROTATE_Audio.themeGame2.stop();
-    ROTATE_Audio.themeGame2.volume(1);
-    ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !1);
-  },
-  __class__: ROTATE_ScreenGameFinished,
-});
+);
 
 var ROTATE_ScreenGameLastScene = function (a) {
   null == a && (a = !1);
@@ -18420,115 +18440,123 @@ var ROTATE_ScreenGameLastScene = function (a) {
   this.pivot = new ROTATE_CanvasObject();
   this.done = !1;
   this.delay = 9.5;
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
   this.pausable = !0;
   this.first = a;
 };
 ROTATE_ScreenGameLastScene.__name__ = !0;
-ROTATE_ScreenGameLastScene.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenGameLastScene.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    this.start = ROTATE_Game.instance.get_gameTime();
-    this.bg.graphics.beginFill(16777215);
-    this.bg.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
-    this.addChild(this.bg);
-    this.pivot.set_x(ROTATE_Canvas.width / 2);
-    this.pivot.set_y(ROTATE_Canvas.height / 2);
-    this.addChild(this.pivot);
-    this.pivot.addChild(this.camera);
-    this.camera.addChild(this.artMain);
-    this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
-    this.artPlants.set_animation(
-      new ROTATE_Animation([0, 1, 2], [250, 250, 250]),
-    );
-    this.camera.addChild(this.artPlants);
-    this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
-    this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
-    this.cat.set_scaleX(-1);
-    this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
-    this.camera.addChild(this.cat);
-    this.player.origin.x = this.player.frameW / 2;
-    this.player.origin.y = this.player.frameH;
-    this.player.set_animation(ROTATE_Player.ANIM_IDLE);
-    this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
-    this.player.set_y(12 * ROTATE_GameConstants.tileSize);
-    this.camera.addChild(this.player);
-    this.camera.set_x(Math.round((this.cameraX = -this.player.x)));
-    this.camera.set_y(
-      Math.round(
-        (this.cameraY =
-          -this.player.y +
-          ROTATE_GameConstants.rotateOffset +
-          2 * ROTATE_GameConstants.tileSize),
-      ),
-    );
-    this.vignette.set_alpha(0.75);
-    this.addChild(this.vignette);
-    this.hint.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.hint.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
-    this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.hint.set_y(ROTATE_Canvas.height - 24);
-    this.hint.set_alpha(0);
-    this.addChild(this.hint);
-    ROTATE_Audio.surface.volume(1);
-    ROTATE_Game.ie &&
-    ROTATE_Game.instance.muteSFX &&
-    ROTATE_Game.instance.muteMusic
-      ? (ROTATE_Game.instance.ieSurface = !0)
-      : (ROTATE_Audio.surface.play(),
-        ROTATE_Game.ie ||
-          ROTATE_Audio.surface.fade(
-            0,
-            1,
-            Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
-          ));
+ROTATE_ScreenGameLastScene.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenGameLastScene.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      this.start = ROTATE_Game.instance.get_gameTime();
+      this.bg.graphics.beginFill(16777215);
+      this.bg.graphics.drawRect(
+        0,
+        0,
+        ROTATE_Canvas.width,
+        ROTATE_Canvas.height,
+      );
+      this.addChild(this.bg);
+      this.pivot.set_x(ROTATE_Canvas.width / 2);
+      this.pivot.set_y(ROTATE_Canvas.height / 2);
+      this.addChild(this.pivot);
+      this.pivot.addChild(this.camera);
+      this.camera.addChild(this.artMain);
+      this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
+      this.artPlants.set_animation(
+        new ROTATE_Animation([0, 1, 2], [250, 250, 250]),
+      );
+      this.camera.addChild(this.artPlants);
+      this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
+      this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
+      this.cat.set_scaleX(-1);
+      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
+      this.camera.addChild(this.cat);
+      this.player.origin.x = this.player.frameW / 2;
+      this.player.origin.y = this.player.frameH;
+      this.player.set_animation(ROTATE_Player.ANIM_IDLE);
+      this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
+      this.player.set_y(12 * ROTATE_GameConstants.tileSize);
+      this.camera.addChild(this.player);
+      this.camera.set_x(Math.round((this.cameraX = -this.player.x)));
+      this.camera.set_y(
+        Math.round(
+          (this.cameraY =
+            -this.player.y +
+            ROTATE_GameConstants.rotateOffset +
+            2 * ROTATE_GameConstants.tileSize),
+        ),
+      );
+      this.vignette.set_alpha(0.75);
+      this.addChild(this.vignette);
+      this.hint.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.hint.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
+      this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.hint.set_y(ROTATE_Canvas.height - 24);
+      this.hint.set_alpha(0);
+      this.addChild(this.hint);
+      ROTATE_Audio.surface.volume(1);
+      ROTATE_Game.ie &&
+      ROTATE_Game.instance.muteSFX &&
+      ROTATE_Game.instance.muteMusic
+        ? (ROTATE_Game.instance.ieSurface = !0)
+        : (ROTATE_Audio.surface.play(),
+          ROTATE_Game.ie ||
+            ROTATE_Audio.surface.fade(
+              0,
+              1,
+              Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
+            ));
+    },
+    update: function () {
+      var a = this,
+        b = ROTATE_Game.instance.get_gameTime() - this.start;
+      !this.catTrigger &&
+        8 <= b &&
+        ((this.catTrigger = !0),
+        this.cat.set_scaleX(1),
+        (this.cat.horizontal = 1),
+        this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_1),
+        (this.cat.onFinish = function () {
+          a.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_2);
+          a.cat.onFinish = null;
+        }));
+      var c = b - this.delay;
+      this.hint.set_alpha(
+        0 > c ? 0 : 0.33 * ROTATE_Game.smootherStep(Math.min(c / 2.5, 1)),
+      );
+      !this.done &&
+        b >= this.delay &&
+        InputKeys.keyPressed(KEY_CODE.Space) &&
+        ((this.done = !0),
+        this.first &&
+          ((ROTATE_Awards.awardEscape.unlocked = !1),
+          ROTATE_Awards.awardEscape.unlock()),
+        ROTATE_Game.instance.changeScreen(
+          new ROTATE_ScreenCredits(!0),
+          !0,
+          null,
+          !0,
+          !0,
+        ),
+        ROTATE_Game.instance.timerHolder.removeChildren());
+    },
+    tick: function () {
+      var a = 0.75 * ROTATE_GameConstants.cameraSpeed;
+      this.cameraX += (-this.player.x - this.cameraX) * a;
+      this.cameraY +=
+        (-this.player.y + ROTATE_GameConstants.rotateOffset - this.cameraY) * a;
+      this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
+    },
+    postUpdate: function () {
+      this.camera.set_x(Math.round(this.cameraX));
+      this.camera.set_y(Math.round(this.cameraY));
+    },
+    __class__: ROTATE_ScreenGameLastScene,
   },
-  update: function () {
-    var a = this,
-      b = ROTATE_Game.instance.get_gameTime() - this.start;
-    !this.catTrigger &&
-      8 <= b &&
-      ((this.catTrigger = !0),
-      this.cat.set_scaleX(1),
-      (this.cat.horizontal = 1),
-      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_1),
-      (this.cat.onFinish = function () {
-        a.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_2);
-        a.cat.onFinish = null;
-      }));
-    var c = b - this.delay;
-    this.hint.set_alpha(
-      0 > c ? 0 : 0.33 * ROTATE_Game.smootherStep(Math.min(c / 2.5, 1)),
-    );
-    !this.done &&
-      b >= this.delay &&
-      InputKeys.keyPressed(KEY_CODE.Space) &&
-      ((this.done = !0),
-      this.first &&
-        ((ROTATE_Awards.awardEscape.unlocked = !1),
-        ROTATE_Awards.awardEscape.unlock()),
-      ROTATE_Game.instance.changeScreen(
-        new ROTATE_ScreenCredits(!0),
-        !0,
-        null,
-        !0,
-        !0,
-      ),
-      ROTATE_Game.instance.timerHolder.removeChildren());
-  },
-  tick: function () {
-    var a = 0.75 * ROTATE_GameConstants.cameraSpeed;
-    this.cameraX += (-this.player.x - this.cameraX) * a;
-    this.cameraY +=
-      (-this.player.y + ROTATE_GameConstants.rotateOffset - this.cameraY) * a;
-    this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
-  },
-  postUpdate: function () {
-    this.camera.set_x(Math.round(this.cameraX));
-    this.camera.set_y(Math.round(this.cameraY));
-  },
-  __class__: ROTATE_ScreenGameLastScene,
-});
+);
 
 var ROTATE_ScreenExtras = function () {
   this.erase = new ROTATE_EraseButton();
@@ -18556,76 +18584,81 @@ var ROTATE_ScreenExtras = function () {
   this.btnBack = new ROTATE_Button('BACK');
   this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'EXTRAS', 1);
   this.bg = new ROTATE_BackgroundObject();
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenExtras.__name__ = !0;
-ROTATE_ScreenExtras.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenExtras.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    ROTATE_ScreenMainMenu.playTheme();
-    this.addChild(this.bg);
-    this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.title.set_y(56);
-    this.addChild(this.title);
-    this.btn1.set_x(134);
-    this.btn1.set_y(133);
-    this.btn1.addEventListener('click', function (b) {
-      2 > b.which &&
-        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenAwards());
-    });
-    this.addChild(this.btn1);
-    this.text1.set_x(this.btn1.x + 110);
-    this.text1.set_y(this.btn1.y - 29);
-    this.addChild(this.text1);
-    this.btn2.set_x(this.btn1.x);
-    this.btn2.set_y(this.btn1.y + 92);
-    this.btn2.addEventListener('click', function (b) {
-      2 > b.which &&
-        (ROTATE_ScreenMainMenu.stopTheme(),
-        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenEditor()));
-    });
-    this.addChild(this.btn2);
-    this.text2.set_x(this.text1.x);
-    this.text2.set_y(this.btn2.y - 29);
-    this.addChild(this.text2);
-    this.btn3.set_x(this.btn2.x);
-    this.btn3.set_y(this.btn2.y + 92);
-    this.btn3.addEventListener('click', function (b) {
-      2 > b.which &&
-        (ROTATE_ScreenMainMenu.stopTheme(),
-        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenGameBeginning(!0)));
-    });
-    this.addChild(this.btn3);
-    this.text3.set_x(this.text2.x);
-    this.text3.set_y(this.btn3.y - 29);
-    this.addChild(this.text3);
-    this.bestTime.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.bestTime.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.bestTime.set_y(this.btn3.y + 21 + 8);
-    var a = this.bestTime;
-    a.set_text(
-      a.text +
-        (-1 < ROTATE_Levels.speedrunBest
-          ? ROTATE_Game.formatMS(ROTATE_Levels.speedrunBest)
-          : '--:--:----'),
-    );
-    0 > ROTATE_Levels.speedrunBest && this.bestTime.set_alpha(0.5);
-    this.addChild(this.bestTime);
-    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.btnBack.set_y(ROTATE_Canvas.height - 80);
-    this.btnBack.addEventListener('click', function (b) {
-      2 > b.which &&
-        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
-    });
-    this.addChild(this.btnBack);
-    this.addChild(this.sponsor);
-    this.addChild(this.mute);
-    this.addChild(this.erase);
-    ROTATE_Game.instance.warnNoSave(this);
+ROTATE_ScreenExtras.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenExtras.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      ROTATE_ScreenMainMenu.playTheme();
+      this.addChild(this.bg);
+      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.title.set_y(56);
+      this.addChild(this.title);
+      this.btn1.set_x(134);
+      this.btn1.set_y(133);
+      this.btn1.addEventListener('click', function (b) {
+        2 > b.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenAwards());
+      });
+      this.addChild(this.btn1);
+      this.text1.set_x(this.btn1.x + 110);
+      this.text1.set_y(this.btn1.y - 29);
+      this.addChild(this.text1);
+      this.btn2.set_x(this.btn1.x);
+      this.btn2.set_y(this.btn1.y + 92);
+      this.btn2.addEventListener('click', function (b) {
+        2 > b.which &&
+          (ROTATE_ScreenMainMenu.stopTheme(),
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenEditor()));
+      });
+      this.addChild(this.btn2);
+      this.text2.set_x(this.text1.x);
+      this.text2.set_y(this.btn2.y - 29);
+      this.addChild(this.text2);
+      this.btn3.set_x(this.btn2.x);
+      this.btn3.set_y(this.btn2.y + 92);
+      this.btn3.addEventListener('click', function (b) {
+        2 > b.which &&
+          (ROTATE_ScreenMainMenu.stopTheme(),
+          ROTATE_Game.instance.changeScreen(
+            new ROTATE_ScreenGameBeginning(!0),
+          ));
+      });
+      this.addChild(this.btn3);
+      this.text3.set_x(this.text2.x);
+      this.text3.set_y(this.btn3.y - 29);
+      this.addChild(this.text3);
+      this.bestTime.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.bestTime.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.bestTime.set_y(this.btn3.y + 21 + 8);
+      var a = this.bestTime;
+      a.set_text(
+        a.text +
+          (-1 < ROTATE_Levels.speedrunBest
+            ? ROTATE_Game.formatMS(ROTATE_Levels.speedrunBest)
+            : '--:--:----'),
+      );
+      0 > ROTATE_Levels.speedrunBest && this.bestTime.set_alpha(0.5);
+      this.addChild(this.bestTime);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 80);
+      this.btnBack.addEventListener('click', function (b) {
+        2 > b.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
+      });
+      this.addChild(this.btnBack);
+      this.addChild(this.sponsor);
+      this.addChild(this.mute);
+      this.addChild(this.erase);
+      ROTATE_Game.instance.warnNoSave(this);
+    },
+    __class__: ROTATE_ScreenExtras,
   },
-  __class__: ROTATE_ScreenExtras,
-});
+);
 
 var ROTATE_ScreenLevels = function () {
   this.erase = new ROTATE_EraseButton();
@@ -18635,114 +18668,96 @@ var ROTATE_ScreenLevels = function () {
   this.btnBack = new ROTATE_Button('BACK');
   this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
   this.bg = new ROTATE_BackgroundObject();
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenLevels.__name__ = !0;
-ROTATE_ScreenLevels.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenLevels.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    ROTATE_ScreenMainMenu.playTheme();
-    this.addChild(this.bg);
-    this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-    this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.title.set_y(56);
-    this.addChild(this.title);
-    this.addChild(this.tiles);
-    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-    this.btnBack.set_y(ROTATE_Canvas.height - 84);
-    this.btnBack.addEventListener('click', function (a) {
-      2 > a.which &&
-        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
-    });
-    this.addChild(this.btnBack);
-    this.addChild(this.sponsor);
-    this.addChild(this.mute);
-    this.addChild(this.erase);
-    ROTATE_Game.instance.warnNoSave(this);
-    this.refresh();
-  },
-  refresh: function () {
-    this.tiles.removeChildren();
-    for (
-      var a = ROTATE_Levels.list.length,
-        b = Math.round(
-          (ROTATE_Canvas.width - (4 * ROTATE_Images.level.width + 72)) / 2,
-        ),
-        c = this.title.y + 56,
-        d = 0;
-      d < a;
+ROTATE_ScreenLevels.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenLevels.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      ROTATE_ScreenMainMenu.playTheme();
+      this.addChild(this.bg);
+      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.title.set_y(56);
+      this.addChild(this.title);
+      this.addChild(this.tiles);
+      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+      this.btnBack.set_y(ROTATE_Canvas.height - 84);
+      this.btnBack.addEventListener('click', function (a) {
+        2 > a.which &&
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
+      });
+      this.addChild(this.btnBack);
+      this.addChild(this.sponsor);
+      this.addChild(this.mute);
+      this.addChild(this.erase);
+      ROTATE_Game.instance.warnNoSave(this);
+      this.refresh();
+    },
+    refresh: function () {
+      this.tiles.removeChildren();
+      for (
+        var a = ROTATE_Levels.list.length,
+          b = Math.round(
+            (ROTATE_Canvas.width - (4 * ROTATE_Images.level.width + 72)) / 2,
+          ),
+          c = this.title.y + 56,
+          d = 0;
+        d < a;
 
-    ) {
-      var e = [d++],
-        f = Math.floor(e[0] / 4),
-        m = e[0] % 4,
-        k = e[0] <= ROTATE_Levels.unlocked,
-        p = new ROTATE_ImageObject(ROTATE_Images.level);
-      p.set_x(b + m * (p.get_width() + 24));
-      p.set_y(c + f * (p.get_height() + 20));
-      k
-        ? ((p.mouseEnabled = p.buttonMode = !0),
-          p.addEventListener(
-            'click',
-            (function (y) {
-              return function (H) {
-                1 < H.which ||
-                  (ROTATE_ScreenMainMenu.stopTheme(),
-                  0 == y[0]
-                    ? ROTATE_Game.instance.changeScreen(
-                        new ROTATE_ScreenGameBeginning(),
-                      )
-                    : ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.list[y[0]]));
-              };
-            })(e),
-          ))
-        : p.set_alpha(0.5);
-      this.tiles.addChild(p);
-      e = new ROTATE_Text(ROTATE_Game.fontMain, '' + (e[0] + 1));
-      e.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      e.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
-      e.set_x(Math.round(p.get_width() / 2));
-      e.set_y(Math.round(p.get_height() / 2) - 2);
-      p.addChild(e);
-    }
+      ) {
+        var e = [d++],
+          f = Math.floor(e[0] / 4),
+          m = e[0] % 4,
+          k = e[0] <= ROTATE_Levels.unlocked,
+          p = new ROTATE_ImageObject(ROTATE_Images.level);
+        p.set_x(b + m * (p.get_width() + 24));
+        p.set_y(c + f * (p.get_height() + 20));
+        k
+          ? ((p.mouseEnabled = p.buttonMode = !0),
+            p.addEventListener(
+              'click',
+              (function (y) {
+                return function (H) {
+                  1 < H.which ||
+                    (ROTATE_ScreenMainMenu.stopTheme(),
+                    0 == y[0]
+                      ? ROTATE_Game.instance.changeScreen(
+                          new ROTATE_ScreenGameBeginning(),
+                        )
+                      : ROTATE_ScreenPrimaryGame.play(
+                          ROTATE_Levels.list[y[0]],
+                        ));
+                };
+              })(e),
+            ))
+          : p.set_alpha(0.5);
+        this.tiles.addChild(p);
+        e = new ROTATE_Text(ROTATE_Game.fontMain, '' + (e[0] + 1));
+        e.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+        e.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
+        e.set_x(Math.round(p.get_width() / 2));
+        e.set_y(Math.round(p.get_height() / 2) - 2);
+        p.addChild(e);
+      }
+    },
+    __class__: ROTATE_ScreenLevels,
   },
-  __class__: ROTATE_ScreenLevels,
-});
+);
 
-var ROTATE_ScreenMainMenu = function () {
-  this.erase = new ROTATE_EraseButton();
-  this.mute = new ROTATE_MuteButtons();
-  this.sponsor = new ROTATE_Sponsor();
-  this.btnCredits = new ROTATE_Button('CREDITS');
-  this.btnExtras = new ROTATE_Button('EXTRAS');
-  this.btnPlay = new ROTATE_Button('PLAY');
-  this.logo = new ROTATE_ImageObject(ROTATE_Images.logo);
-  this.bg = new ROTATE_BackgroundObject();
-  ROTATE_ScreenBase.call(this);
-};
-ROTATE_ScreenMainMenu.__name__ = !0;
-ROTATE_ScreenMainMenu.playTheme = function () {
-  ROTATE_Audio.themeMenu.playing() ||
-    ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-      ROTATE_Audio.themeMenu.play(),
-    ROTATE_Game.ie && (ROTATE_Game.instance.ieMenu = !0));
-};
-ROTATE_ScreenMainMenu.stopTheme = function () {
-  ROTATE_Game.ie
-    ? (ROTATE_Audio.themeMenu.stop(), (ROTATE_Game.instance.ieMenu = !1))
-    : (ROTATE_Audio.themeMenu.fade(
-        1,
-        0,
-        Math.floor(ROTATE_GameConstants.screenFadeTime / 2),
-      ),
-      ROTATE_Audio.themeMenu.once('fade', function () {
-        ROTATE_Audio.themeMenu.stop();
-        ROTATE_Audio.themeMenu.volume(1);
-      }));
-};
-ROTATE_ScreenMainMenu.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenMainMenu.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
+class ROTATE_ScreenMainMenu extends ROTATE_ScreenBase {
+  public erase = new ROTATE_EraseButton();
+  public mute = new ROTATE_MuteButtons();
+  public sponsor = new ROTATE_Sponsor();
+  public btnCredits = new ROTATE_Button('CREDITS');
+  public btnExtras = new ROTATE_Button('EXTRAS');
+  public btnPlay = new ROTATE_Button('PLAY');
+  public logo = new ROTATE_ImageObject(ROTATE_Images.logo);
+  public bg = new ROTATE_BackgroundObject();
+
+  public init() {
     ROTATE_ScreenMainMenu.playTheme();
     this.addChild(this.bg);
     this.addChild(this.sponsor);
@@ -18778,9 +18793,29 @@ ROTATE_ScreenMainMenu.prototype = __inherit(ROTATE_ScreenBase.prototype, {
     this.addChild(this.mute);
     this.addChild(this.erase);
     ROTATE_Game.instance.warnNoSave(this);
-  },
-  __class__: ROTATE_ScreenMainMenu,
-});
+  }
+
+  public static playTheme() {
+    ROTATE_Audio.themeMenu.playing() ||
+      ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
+        ROTATE_Audio.themeMenu.play(),
+      ROTATE_Game.ie && (ROTATE_Game.instance.ieMenu = !0));
+  }
+
+  public static stopTheme() {
+    ROTATE_Game.ie
+      ? (ROTATE_Audio.themeMenu.stop(), (ROTATE_Game.instance.ieMenu = !1))
+      : (ROTATE_Audio.themeMenu.fade(
+          1,
+          0,
+          Math.floor(ROTATE_GameConstants.screenFadeTime / 2),
+        ),
+        ROTATE_Audio.themeMenu.once('fade', function () {
+          ROTATE_Audio.themeMenu.stop();
+          ROTATE_Audio.themeMenu.volume(1);
+        }));
+  }
+}
 
 var ROTATE_ScreenPrimaryGame = function (tempLevel, speedrun, speedrunStart) {
   null == speedrunStart && (speedrunStart = -1);
@@ -19176,7 +19211,7 @@ var ROTATE_ScreenLogo = function (lws) {
   this.onTimer = null;
   this.done = !1;
   this.length = 1.5;
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
   this.lws = lws;
   lws = new ROTATE_ImageObject(ROTATE_Images.splashLWS);
   lws.set_x(Math.round((ROTATE_Canvas.width - lws.get_width()) / 2));
@@ -19184,62 +19219,68 @@ var ROTATE_ScreenLogo = function (lws) {
   this.addChild(lws);
 };
 ROTATE_ScreenLogo.__name__ = !0;
-ROTATE_ScreenLogo.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenLogo.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  ready: function () {
-    this.timer = Time.getCurrent();
+ROTATE_ScreenLogo.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenLogo.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    ready: function () {
+      this.timer = Time.getCurrent();
+    },
+    update: function () {
+      !this.done &&
+        Time.getCurrent() - this.timer > this.length &&
+        ((this.done = !0),
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu()));
+    },
+    __class__: ROTATE_ScreenLogo,
   },
-  update: function () {
-    !this.done &&
-      Time.getCurrent() - this.timer > this.length &&
-      ((this.done = !0),
-      ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu()));
-  },
-  __class__: ROTATE_ScreenLogo,
-});
+);
 
 var ROTATE_ScreenLaunchButton = function () {
   this.start = new ROTATE_ImageObject(ROTATE_Images.start);
   this.pivot = new ROTATE_CanvasObject();
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenLaunchButton.__name__ = !0;
-ROTATE_ScreenLaunchButton.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenLaunchButton.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    this.timer = Time.getCurrentMS();
-    this.pivot.set_x(ROTATE_Canvas.width / 2);
-    this.pivot.set_y(ROTATE_Canvas.height / 2);
-    this.addChild(this.pivot);
-    this.start.set_x(-this.start.get_width() / 2);
-    this.start.set_y(-this.start.get_height() / 2);
-    this.start.set_alpha(0);
-    this.pivot.addChild(this.start);
+ROTATE_ScreenLaunchButton.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenLaunchButton.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      this.timer = Time.getCurrentMS();
+      this.pivot.set_x(ROTATE_Canvas.width / 2);
+      this.pivot.set_y(ROTATE_Canvas.height / 2);
+      this.addChild(this.pivot);
+      this.start.set_x(-this.start.get_width() / 2);
+      this.start.set_y(-this.start.get_height() / 2);
+      this.start.set_alpha(0);
+      this.pivot.addChild(this.start);
+    },
+    update: function () {
+      var a = this,
+        b = ROTATE_Game.smootherStep(
+          Math.min(1, (Time.getCurrentMS() - this.timer) / 250),
+        );
+      this.pivot.set_rotation(-90 + 90 * b);
+      this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
+      this.start.set_alpha(b);
+      1 != this.start.alpha ||
+        this.start.buttonMode ||
+        ((this.start.buttonMode = this.start.mouseEnabled = !0),
+        this.start.addEventListener('click', function (c) {
+          2 > c.which &&
+            (ROTATE_Audio.exit.volume(1e-4),
+            ROTATE_Audio.exit.play(),
+            ROTATE_Audio.exit.once('end', function () {
+              ROTATE_Audio.exit.volume(1);
+            }),
+            ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLogo()),
+            (a.start.mouseEnabled = !1));
+        }));
+    },
+    __class__: ROTATE_ScreenLaunchButton,
   },
-  update: function () {
-    var a = this,
-      b = ROTATE_Game.smootherStep(
-        Math.min(1, (Time.getCurrentMS() - this.timer) / 250),
-      );
-    this.pivot.set_rotation(-90 + 90 * b);
-    this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
-    this.start.set_alpha(b);
-    1 != this.start.alpha ||
-      this.start.buttonMode ||
-      ((this.start.buttonMode = this.start.mouseEnabled = !0),
-      this.start.addEventListener('click', function (c) {
-        2 > c.which &&
-          (ROTATE_Audio.exit.volume(1e-4),
-          ROTATE_Audio.exit.play(),
-          ROTATE_Audio.exit.once('end', function () {
-            ROTATE_Audio.exit.volume(1);
-          }),
-          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLogo()),
-          (a.start.mouseEnabled = !1));
-      }));
-  },
-  __class__: ROTATE_ScreenLaunchButton,
-});
+);
 
 var ROTATE_ScreenGameBeginning = function (speedrun) {
   null == speedrun && (speedrun = !1);
@@ -19247,49 +19288,52 @@ var ROTATE_ScreenGameBeginning = function (speedrun) {
   this.cond2 = new ROTATE_ConditionDelay(0.5);
   this.done1 = !1;
   this.cond1 = new ROTATE_ConditionDelay(10);
-  ROTATE_ScreenBase.call(this);
+  DEPRECATED__ROTATE_ScreenBase.call(this);
   this.pausable = !0;
   this.speedrun = speedrun;
 };
 ROTATE_ScreenGameBeginning.__name__ = !0;
-ROTATE_ScreenGameBeginning.__super__ = ROTATE_ScreenBase;
-ROTATE_ScreenGameBeginning.prototype = __inherit(ROTATE_ScreenBase.prototype, {
-  init: function () {
-    this.cond1.start();
-    this.speech = new ROTATE_Speech(
-      [
-        new ROTATE_SpeechPart(
-          new ROTATE_ConditionDelay(2),
-          "It's time to resume your training.",
-        ),
-        new ROTATE_SpeechPart(
-          new ROTATE_ConditionDelay(4),
-          "We'll start with the basics.",
-        ),
-      ],
-      this,
-    );
-    this.cond2.start();
+ROTATE_ScreenGameBeginning.__super__ = DEPRECATED__ROTATE_ScreenBase;
+ROTATE_ScreenGameBeginning.prototype = __inherit(
+  DEPRECATED__ROTATE_ScreenBase.prototype,
+  {
+    init: function () {
+      this.cond1.start();
+      this.speech = new ROTATE_Speech(
+        [
+          new ROTATE_SpeechPart(
+            new ROTATE_ConditionDelay(2),
+            "It's time to resume your training.",
+          ),
+          new ROTATE_SpeechPart(
+            new ROTATE_ConditionDelay(4),
+            "We'll start with the basics.",
+          ),
+        ],
+        this,
+      );
+      this.cond2.start();
+    },
+    update: function () {
+      !this.done2 &&
+        this.cond2.test() &&
+        ((this.done2 = !0),
+        ROTATE_ScreenPrimaryGame.playTheme(0),
+        ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
+      this.speech.update();
+      !this.done1 &&
+        this.cond1.test() &&
+        ((this.done1 = !0),
+        ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.level1, this.speedrun));
+    },
+    prekill: function () {
+      ROTATE_ScreenPrimaryGame.continueTheme ||
+        ROTATE_ScreenPrimaryGame.stopTheme();
+    },
+    kill: function () {},
+    __class__: ROTATE_ScreenGameBeginning,
   },
-  update: function () {
-    !this.done2 &&
-      this.cond2.test() &&
-      ((this.done2 = !0),
-      ROTATE_ScreenPrimaryGame.playTheme(0),
-      ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
-    this.speech.update();
-    !this.done1 &&
-      this.cond1.test() &&
-      ((this.done1 = !0),
-      ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.level1, this.speedrun));
-  },
-  prekill: function () {
-    ROTATE_ScreenPrimaryGame.continueTheme ||
-      ROTATE_ScreenPrimaryGame.stopTheme();
-  },
-  kill: function () {},
-  __class__: ROTATE_ScreenGameBeginning,
-});
+);
 
 var ROTATE_ActiveGameObject = function () {
   this.bubble = new Bubble();
