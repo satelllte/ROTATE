@@ -626,7 +626,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
     this.fader.mouseEnabled = true;
     this.addChild(this.fader);
     this.addChild(this.timerHolder);
-    // @ts-expect-error 'setup' does not exist on type '() => void'
     ROTATE_Awards.setup(this);
 
     ROTATE_Canvas.input?.addEventListener('blur', () => {
@@ -640,11 +639,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
         _self.pause();
     });
 
-    this.changeScreen(
-      // @ts-expect-error 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type
-      new ROTATE_ScreenLaunchButton(),
-      false,
-    );
+    this.changeScreen(new ROTATE_ScreenLaunchButton(), false);
   }
 
   // TODO: define signature
@@ -19151,51 +19146,44 @@ class ROTATE_ScreenLogo extends ROTATE_ScreenBase {
   }
 }
 
-var ROTATE_ScreenLaunchButton = function () {
-  this.start = new ROTATE_ImageObject(ROTATE_Images.start);
-  this.pivot = new ROTATE_CanvasObject();
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-};
-ROTATE_ScreenLaunchButton.__name__ = !0;
-ROTATE_ScreenLaunchButton.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenLaunchButton.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      this.timer = Time.getCurrentMS();
-      this.pivot.set_x(ROTATE_Canvas.width / 2);
-      this.pivot.set_y(ROTATE_Canvas.height / 2);
-      this.addChild(this.pivot);
-      this.start.set_x(-this.start.get_width() / 2);
-      this.start.set_y(-this.start.get_height() / 2);
-      this.start.set_alpha(0);
-      this.pivot.addChild(this.start);
-    },
-    update: function () {
-      var a = this,
-        b = ROTATE_Game.smootherStep(
-          Math.min(1, (Time.getCurrentMS() - this.timer) / 250),
-        );
-      this.pivot.set_rotation(-90 + 90 * b);
-      this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
-      this.start.set_alpha(b);
-      1 != this.start.alpha ||
-        this.start.buttonMode ||
-        ((this.start.buttonMode = this.start.mouseEnabled = !0),
-        this.start.addEventListener('click', function (c) {
-          2 > c.which &&
-            (ROTATE_Audio.exit.volume(1e-4),
-            ROTATE_Audio.exit.play(),
-            ROTATE_Audio.exit.once('end', function () {
-              ROTATE_Audio.exit.volume(1);
-            }),
-            ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLogo()),
-            (a.start.mouseEnabled = !1));
-        }));
-    },
-    __class__: ROTATE_ScreenLaunchButton,
-  },
-);
+class ROTATE_ScreenLaunchButton extends ROTATE_ScreenBase {
+  public start = new ROTATE_ImageObject(ROTATE_Images.start);
+  public pivot = new ROTATE_CanvasObject();
+  public timer = Time.getCurrentMS();
+
+  public init() {
+    this.timer = Time.getCurrentMS();
+    this.pivot.set_x(ROTATE_Canvas.width / 2);
+    this.pivot.set_y(ROTATE_Canvas.height / 2);
+    this.addChild(this.pivot);
+    this.start.set_x(-this.start.get_width() / 2);
+    this.start.set_y(-this.start.get_height() / 2);
+    this.start.set_alpha(0);
+    this.pivot.addChild(this.start);
+  }
+
+  public update() {
+    var b = ROTATE_Game.smootherStep(
+      Math.min(1, (Time.getCurrentMS() - this.timer) / 250),
+    );
+    this.pivot.set_rotation(-90 + 90 * b);
+    this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
+    this.start.set_alpha(b);
+    1 != this.start.alpha ||
+      this.start.buttonMode ||
+      ((this.start.buttonMode = this.start.mouseEnabled = !0),
+      this.start.addEventListener('click', (c) => {
+        2 > c.which &&
+          (ROTATE_Audio.exit.volume(1e-4),
+          ROTATE_Audio.exit.play(),
+          ROTATE_Audio.exit.once('end', function () {
+            ROTATE_Audio.exit.volume(1);
+          }),
+          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenLogo()),
+          (this.start.mouseEnabled = !1));
+      }));
+  }
+}
 
 var ROTATE_ScreenGameBeginning = function (speedrun) {
   null == speedrun && (speedrun = !1);
