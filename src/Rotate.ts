@@ -18156,68 +18156,66 @@ class ROTATE_ScreenEditor extends ROTATE_ScreenGameBase {
   }
 }
 
-var ROTATE_ScreenGameFinished = function (speedrun) {
-  null == speedrun && (speedrun = !1);
-  this.done1 = this.first = !1;
-  this.cond1 = new ROTATE_ConditionDelay(10);
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-  this.pausable = !0;
-  this.speedrun = speedrun;
-};
-ROTATE_ScreenGameFinished.__name__ = !0;
-ROTATE_ScreenGameFinished.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenGameFinished.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
-      this.cond1.start();
-      this.speech = new ROTATE_Speech(
-        [
-          new ROTATE_SpeechPart(
-            new ROTATE_ConditionDelay(1.5),
-            'Have your freedom, for now.',
-          ),
-          new ROTATE_SpeechPart(
-            new ROTATE_ConditionDelay(4),
-            'But you will come back.',
-          ),
-        ],
-        this,
-      );
-      this.speedrun &&
-        42e4 >= ROTATE_Levels.speedrunBest &&
-        ROTATE_Awards.awardSpeedrun.unlock();
-      if ((this.first = !ROTATE_Awards.awardEscape.unlocked))
-        (ROTATE_Awards.awardEscape.unlocked = !0),
-          ROTATE_Game.instance.saveProgress();
-    },
-    update: function () {
-      this.speech.update();
-      !this.done1 &&
-        this.cond1.test() &&
-        ((this.done1 = !0),
-        ROTATE_Game.instance.changeScreen(
-          new ROTATE_ScreenGameLastScene(this.first),
-          !0,
-          null,
-          !0,
+class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
+  public done1 = false;
+  public first = false;
+  public cond1 = new ROTATE_ConditionDelay(10);
+
+  constructor(public speedrun: boolean = false) {
+    console.debug('ROTATE_ScreenGameFinished | CONSTRUCTOR');
+    super();
+    this.pausable = true;
+  }
+
+  public init() {
+    ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
+    this.cond1.start();
+    this.speech = new ROTATE_Speech(
+      [
+        new ROTATE_SpeechPart(
+          new ROTATE_ConditionDelay(1.5),
+          'Have your freedom, for now.',
         ),
-        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          (ROTATE_Audio.exit.volume(0.5),
-          ROTATE_Audio.exit.play(),
-          ROTATE_Audio.exit.once('end', function () {
-            ROTATE_Audio.exit.volume(1);
-          })));
-    },
-    kill: function () {
-      ROTATE_Audio.themeGame2.stop();
-      ROTATE_Audio.themeGame2.volume(1);
-      ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !1);
-    },
-    __class__: ROTATE_ScreenGameFinished,
-  },
-);
+        new ROTATE_SpeechPart(
+          new ROTATE_ConditionDelay(4),
+          'But you will come back.',
+        ),
+      ],
+      this,
+    );
+    this.speedrun &&
+      42e4 >= ROTATE_Levels.speedrunBest &&
+      ROTATE_Awards.awardSpeedrun.unlock();
+    if ((this.first = !ROTATE_Awards.awardEscape.unlocked))
+      (ROTATE_Awards.awardEscape.unlocked = !0),
+        ROTATE_Game.instance.saveProgress();
+  }
+
+  public update() {
+    this.speech.update();
+    !this.done1 &&
+      this.cond1.test() &&
+      ((this.done1 = !0),
+      ROTATE_Game.instance.changeScreen(
+        new ROTATE_ScreenGameLastScene(this.first),
+        !0,
+        null,
+        !0,
+      ),
+      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+        (ROTATE_Audio.exit.volume(0.5),
+        ROTATE_Audio.exit.play(),
+        ROTATE_Audio.exit.once('end', function () {
+          ROTATE_Audio.exit.volume(1);
+        })));
+  }
+
+  public kill() {
+    ROTATE_Audio.themeGame2.stop();
+    ROTATE_Audio.themeGame2.volume(1);
+    ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !1);
+  }
+}
 
 var ROTATE_ScreenGameLastScene = function (a) {
   null == a && (a = !1);
