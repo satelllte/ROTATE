@@ -46,6 +46,7 @@ import {ROTATE_Sponsor} from './ROTATE_Sponsor';
 import {Bubble} from './Bubble';
 import {ROTATE_AwardObject} from './ROTATE_AwardObject';
 import {ROTATE_Button} from './ROTATE_Button';
+import {ROTATE_YesNoOverlay} from './ROTATE_YesNoOverlay';
 
 // ---------------------------------------------------------------------------
 
@@ -19952,44 +19953,6 @@ ROTATE_PauseMenu.prototype = __inherit(
       this.btnQuit.main.mouseEnabled = !a;
     },
     __class__: ROTATE_PauseMenu,
-  },
-);
-
-var ROTATE_YesNoOverlay = function (questionText) {
-  this.btnNo = new ROTATE_Button('NO');
-  this.btnYes = new ROTATE_Button('YES');
-  this.main = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
-  var _self = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.main.set_text(questionText);
-  this.graphics.beginFill(COLOR.darkGray, 0.95);
-  this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
-  this.mouseEnabled = !0;
-  this.main.align = ROTATE_Text.ALIGN_CENTER;
-  this.main.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-  this.main.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
-  this.main.set_x(Math.round(ROTATE_Canvas.width / 2));
-  this.main.set_y(Math.round(ROTATE_Canvas.height / 2) - 40);
-  this.addChild(this.main);
-  this.btnYes.set_x(Math.round(ROTATE_Canvas.width / 2) - 96);
-  this.btnYes.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
-  this.btnYes.addEventListener('click', function (c) {
-    if (2 > c.which && null != _self.onYes) _self.onYes();
-  });
-  this.addChild(this.btnYes);
-  this.btnNo.set_x(Math.round(ROTATE_Canvas.width / 2) + 96);
-  this.btnNo.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
-  this.btnNo.addEventListener('click', function (c) {
-    if (2 > c.which && null != _self.onNo) _self.onNo();
-  });
-  this.addChild(this.btnNo);
-};
-ROTATE_YesNoOverlay.__name__ = !0;
-ROTATE_YesNoOverlay.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_YesNoOverlay.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    __class__: ROTATE_YesNoOverlay,
   },
 );
 
