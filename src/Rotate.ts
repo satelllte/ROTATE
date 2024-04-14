@@ -48,6 +48,7 @@ import {ROTATE_AwardObject} from './ROTATE_AwardObject';
 import {ROTATE_Button} from './ROTATE_Button';
 import {ROTATE_YesNoOverlay} from './ROTATE_YesNoOverlay';
 import {ROTATE_MuteButtons} from './ROTATE_MuteButtons';
+import {ROTATE_BackgroundObject} from './ROTATE_BackgroundObject';
 
 // ---------------------------------------------------------------------------
 
@@ -19701,54 +19702,6 @@ class ROTATE_GridToggle extends ROTATE_CanvasObject {
     return new Bounds(0, 0, 76, 30);
   }
 }
-
-var ROTATE_BackgroundObject = function () {
-  var _self = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.addEventListener('render', function (b) {
-    _self.render(b.surface);
-  });
-};
-ROTATE_BackgroundObject.__name__ = !0;
-ROTATE_BackgroundObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_BackgroundObject.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    render: function (a) {
-      for (
-        var b = -Math.round(
-            (30 * Time.getCurrent()) % ROTATE_Images.bgCells.width,
-          ),
-          c = -Math.round(
-            (15 * Time.getCurrent()) % ROTATE_Images.bgCells.height,
-          ),
-          d = 0,
-          e =
-            Math.ceil(ROTATE_Canvas.height / ROTATE_Images.bgCells.height) + 1;
-        d < e;
-
-      )
-        for (
-          var f = d++,
-            m = 0,
-            k =
-              Math.ceil(ROTATE_Canvas.width / ROTATE_Images.bgCells.width) + 1;
-          m < k;
-
-        ) {
-          var p = m++;
-          a.drawImage(
-            ROTATE_Images.bgCells,
-            null,
-            b + ROTATE_Images.bgCells.width * p,
-            c + ROTATE_Images.bgCells.height * f,
-          );
-        }
-      a.drawImage(ROTATE_Images.vignette, null, 0, 0);
-    },
-    __class__: ROTATE_BackgroundObject,
-  },
-);
 
 var ROTATE_InvertCheckbox = function () {
   DEPRECATED__ROTATE_CanvasObject.call(this);
