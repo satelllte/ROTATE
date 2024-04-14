@@ -2137,10 +2137,7 @@ var ROTATE_Renderer = function (camera) {
   );
   if (
     null == ROTATE_Renderer.gridCanvas &&
-    JSObjectUtils.__instanceof(
-      ROTATE_Game.instance.currentScreen,
-      ROTATE_ScreenEditor,
-    )
+    ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
   ) {
     ROTATE_Renderer.gridCanvas = window.document.createElement('canvas');
     ROTATE_Renderer.gridCanvas.width =
@@ -2658,10 +2655,7 @@ class GameObject_Door extends Block {
           0,
         );
         if (
-          JSObjectUtils.__instanceof(
-            ROTATE_Game.instance.currentScreen,
-            ROTATE_ScreenEditor,
-          ) &&
+          ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor &&
           (ROTATE_ScreenEditor.renderBlockText(
             surface,
             blockData.getMeta(0) + '',
@@ -2904,11 +2898,7 @@ ROTATE_GameObject_Fan.prototype = __inherit(ROTATE_GameObject_Angle.prototype, {
     null == c && (c = !0);
     b = b.getMeta(0) % 4;
     c =
-      !c ||
-      JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenEditor,
-      )
+      !c || ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
         ? 0
         : Math.floor(ROTATE_Game.instance.get_gameTimeMS() / 50) % 3;
     a.drawImage(
@@ -3048,11 +3038,7 @@ class GameObject_Lever extends Block {
   }
 
   public alwaysUpdate(blockData: BlockData): boolean {
-    // TODO: re-implement properly
-    return !JSObjectUtils.__instanceof(
-      ROTATE_Game.instance.currentScreen,
-      ROTATE_ScreenEditor,
-    );
+    return ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor;
   }
 
   // TODO: define signature
@@ -3072,10 +3058,7 @@ class GameObject_Lever extends Block {
       0,
     );
     c &&
-      JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenEditor,
-      ) &&
+      ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor &&
       ROTATE_ScreenEditor.renderBlockText(surface, blockData.getMeta(0) + '');
   }
 
@@ -3369,11 +3352,7 @@ ROTATE_GameObject_Saw.prototype = __inherit(ROTATE_GameObject_Angle.prototype, {
     null == c && (c = !0);
     var d = ROTATE_Game.instance.get_gameTimeMS() / 40;
     c =
-      !c ||
-      JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenEditor,
-      )
+      !c || ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
         ? 0
         : Math.floor(
             d -
@@ -3396,10 +3375,7 @@ ROTATE_GameObject_Saw.prototype = __inherit(ROTATE_GameObject_Angle.prototype, {
     return !1;
   },
   alwaysUpdate: function (a) {
-    return !JSObjectUtils.__instanceof(
-      ROTATE_Game.instance.currentScreen,
-      ROTATE_ScreenEditor,
-    );
+    return !(ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor);
   },
   __class__: ROTATE_GameObject_Saw,
 });
