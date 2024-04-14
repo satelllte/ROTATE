@@ -18660,92 +18660,83 @@ ROTATE_ScreenExtras.prototype = __inherit(
   },
 );
 
-var ROTATE_ScreenLevels = function () {
-  this.erase = new ROTATE_EraseButton();
-  this.mute = new ROTATE_MuteButtons();
-  this.sponsor = new ROTATE_Sponsor();
-  this.tiles = new ROTATE_CanvasObject();
-  this.btnBack = new ROTATE_Button('BACK');
-  this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
-  this.bg = new ROTATE_BackgroundObject();
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-};
-ROTATE_ScreenLevels.__name__ = !0;
-ROTATE_ScreenLevels.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenLevels.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      ROTATE_ScreenMainMenu.playTheme();
-      this.addChild(this.bg);
-      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.title.set_y(56);
-      this.addChild(this.title);
-      this.addChild(this.tiles);
-      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.btnBack.set_y(ROTATE_Canvas.height - 84);
-      this.btnBack.addEventListener('click', function (a) {
-        2 > a.which &&
-          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
-      });
-      this.addChild(this.btnBack);
-      this.addChild(this.sponsor);
-      this.addChild(this.mute);
-      this.addChild(this.erase);
-      ROTATE_Game.instance.warnNoSave(this);
-      this.refresh();
-    },
-    refresh: function () {
-      this.tiles.removeChildren();
-      for (
-        var a = ROTATE_Levels.list.length,
-          b = Math.round(
-            (ROTATE_Canvas.width - (4 * ROTATE_Images.level.width + 72)) / 2,
-          ),
-          c = this.title.y + 56,
-          d = 0;
-        d < a;
+class ROTATE_ScreenLevels extends ROTATE_ScreenBase {
+  public erase = new ROTATE_EraseButton();
+  public mute = new ROTATE_MuteButtons();
+  public sponsor = new ROTATE_Sponsor();
+  public tiles = new ROTATE_CanvasObject();
+  public btnBack = new ROTATE_Button('BACK');
+  public title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
+  public bg = new ROTATE_BackgroundObject();
 
-      ) {
-        var e = [d++],
-          f = Math.floor(e[0] / 4),
-          m = e[0] % 4,
-          k = e[0] <= ROTATE_Levels.unlocked,
-          p = new ROTATE_ImageObject(ROTATE_Images.level);
-        p.set_x(b + m * (p.get_width() + 24));
-        p.set_y(c + f * (p.get_height() + 20));
-        k
-          ? ((p.mouseEnabled = p.buttonMode = !0),
-            p.addEventListener(
-              'click',
-              (function (y) {
-                return function (H) {
-                  1 < H.which ||
-                    (ROTATE_ScreenMainMenu.stopTheme(),
-                    0 == y[0]
-                      ? ROTATE_Game.instance.changeScreen(
-                          new ROTATE_ScreenGameBeginning(),
-                        )
-                      : ROTATE_ScreenPrimaryGame.play(
-                          ROTATE_Levels.list[y[0]],
-                        ));
-                };
-              })(e),
-            ))
-          : p.set_alpha(0.5);
-        this.tiles.addChild(p);
-        e = new ROTATE_Text(ROTATE_Game.fontMain, '' + (e[0] + 1));
-        e.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-        e.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
-        e.set_x(Math.round(p.get_width() / 2));
-        e.set_y(Math.round(p.get_height() / 2) - 2);
-        p.addChild(e);
-      }
-    },
-    __class__: ROTATE_ScreenLevels,
-  },
-);
+  public init() {
+    ROTATE_ScreenMainMenu.playTheme();
+    this.addChild(this.bg);
+    this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.title.set_y(56);
+    this.addChild(this.title);
+    this.addChild(this.tiles);
+    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.btnBack.set_y(ROTATE_Canvas.height - 84);
+    this.btnBack.addEventListener('click', function (a) {
+      2 > a.which &&
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
+    });
+    this.addChild(this.btnBack);
+    this.addChild(this.sponsor);
+    this.addChild(this.mute);
+    this.addChild(this.erase);
+    ROTATE_Game.instance.warnNoSave(this);
+    this.refresh();
+  }
+
+  public refresh() {
+    this.tiles.removeChildren();
+    for (
+      var a = ROTATE_Levels.list.length,
+        b = Math.round(
+          (ROTATE_Canvas.width - (4 * ROTATE_Images.level.width + 72)) / 2,
+        ),
+        c = this.title.y + 56,
+        d = 0;
+      d < a;
+
+    ) {
+      var e = [d++],
+        f = Math.floor(e[0] / 4),
+        m = e[0] % 4,
+        k = e[0] <= ROTATE_Levels.unlocked,
+        p = new ROTATE_ImageObject(ROTATE_Images.level);
+      p.set_x(b + m * (p.get_width() + 24));
+      p.set_y(c + f * (p.get_height() + 20));
+      k
+        ? ((p.mouseEnabled = p.buttonMode = !0),
+          p.addEventListener(
+            'click',
+            (function (y) {
+              return function (H) {
+                1 < H.which ||
+                  (ROTATE_ScreenMainMenu.stopTheme(),
+                  0 == y[0]
+                    ? ROTATE_Game.instance.changeScreen(
+                        new ROTATE_ScreenGameBeginning(),
+                      )
+                    : ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.list[y[0]]));
+              };
+            })(e),
+          ))
+        : p.set_alpha(0.5);
+      this.tiles.addChild(p);
+      e = new ROTATE_Text(ROTATE_Game.fontMain, '' + (e[0] + 1));
+      e.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+      e.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
+      e.set_x(Math.round(p.get_width() / 2));
+      e.set_y(Math.round(p.get_height() / 2) - 2);
+      p.addChild(e);
+    }
+  }
+}
 
 class ROTATE_ScreenMainMenu extends ROTATE_ScreenBase {
   public erase = new ROTATE_EraseButton();
