@@ -17574,8 +17574,8 @@ var ROTATE_ScreenAwards = function () {
   this.btnBack = new ROTATE_Button('BACK');
   this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
   this.bg = new ROTATE_BackgroundObject();
-  this.content = new DEPRECATED__ROTATE_CanvasObject();
-  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
+  this.content = new ROTATE_CanvasObject();
+  this.pivot = new ROTATE_CanvasObject();
   ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenAwards.__name__ = !0;
@@ -17703,7 +17703,7 @@ ROTATE_ScreenCredits.prototype = __inherit(ROTATE_ScreenBase.prototype, {
   init: function () {
     var a = this;
     if (this.fromEnd) {
-      this.bg = new DEPRECATED__ROTATE_CanvasObject();
+      this.bg = new ROTATE_CanvasObject();
       this.bg.graphics.beginFill(16777215);
       this.bg.graphics.drawRect(
         0,
@@ -17807,10 +17807,10 @@ ROTATE_ScreenCredits.prototype = __inherit(ROTATE_ScreenBase.prototype, {
 var ROTATE_ScreenGameBase = function () {
   this.cameraX = 0;
   this.cameraY = 0;
-  this.level = new DEPRECATED__ROTATE_CanvasObject();
-  this.camera = new DEPRECATED__ROTATE_CanvasObject();
-  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
-  this.bg = new DEPRECATED__ROTATE_CanvasObject();
+  this.level = new ROTATE_CanvasObject();
+  this.camera = new ROTATE_CanvasObject();
+  this.pivot = new ROTATE_CanvasObject();
+  this.bg = new ROTATE_CanvasObject();
   ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenGameBase.__name__ = !0;
@@ -18411,10 +18411,10 @@ var ROTATE_ScreenGameLastScene = function (a) {
   );
   this.artMain = new ROTATE_ImageObject(ROTATE_Images.endingMain);
   this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
-  this.bg = new DEPRECATED__ROTATE_CanvasObject();
+  this.bg = new ROTATE_CanvasObject();
   this.cameraX = this.cameraY = 0;
-  this.camera = new DEPRECATED__ROTATE_CanvasObject();
-  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
+  this.camera = new ROTATE_CanvasObject();
+  this.pivot = new ROTATE_CanvasObject();
   this.done = !1;
   this.delay = 9.5;
   ROTATE_ScreenBase.call(this);
@@ -18628,7 +18628,7 @@ var ROTATE_ScreenLevels = function () {
   this.erase = new ROTATE_EraseButton();
   this.mute = new ROTATE_MuteButtons();
   this.sponsor = new ROTATE_Sponsor();
-  this.tiles = new DEPRECATED__ROTATE_CanvasObject();
+  this.tiles = new ROTATE_CanvasObject();
   this.btnBack = new ROTATE_Button('BACK');
   this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'LEVEL SELECT', 1);
   this.bg = new ROTATE_BackgroundObject();
@@ -18788,10 +18788,10 @@ var ROTATE_ScreenPrimaryGame = function (tempLevel, speedrun, speedrunStart) {
   this.doors = [];
   this.cat = null;
   this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
-  this.red = new DEPRECATED__ROTATE_CanvasObject();
-  this.overlay = new DEPRECATED__ROTATE_CanvasObject();
-  this.textHolder = new DEPRECATED__ROTATE_CanvasObject();
-  this.blood = new DEPRECATED__ROTATE_CanvasObject();
+  this.red = new ROTATE_CanvasObject();
+  this.overlay = new ROTATE_CanvasObject();
+  this.textHolder = new ROTATE_CanvasObject();
+  this.blood = new ROTATE_CanvasObject();
   this.shakeX = this.shakeY = 0;
   this.deathTime = -1;
   ROTATE_ScreenGameBase.call(this);
@@ -19197,7 +19197,7 @@ ROTATE_ScreenLogo.prototype = __inherit(ROTATE_ScreenBase.prototype, {
 
 var ROTATE_ScreenLaunchButton = function () {
   this.start = new ROTATE_ImageObject(ROTATE_Images.start);
-  this.pivot = new DEPRECATED__ROTATE_CanvasObject();
+  this.pivot = new ROTATE_CanvasObject();
   ROTATE_ScreenBase.call(this);
 };
 ROTATE_ScreenLaunchButton.__name__ = !0;
@@ -19454,7 +19454,7 @@ Bubble.prototype = __inherit(DEPRECATED__ROTATE_CanvasObject.prototype, {
       a.bubbleHeight,
     );
     null != this.content && this.removeChild(this.content);
-    this.content = new DEPRECATED__ROTATE_CanvasObject();
+    this.content = new ROTATE_CanvasObject();
     this.content.set_x(-b);
     this.content.set_y(-a.bubbleHeight - this.tip.get_height());
     this.addChild(this.content);
