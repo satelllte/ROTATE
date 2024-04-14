@@ -27,7 +27,7 @@ import {
   ROTATE_MouseEvent,
   ROTATE_RenderEvent,
 } from './ROTATE_Event';
-import {ROTATE_EventMap} from './ROTATE_EventMap';
+import {ROTATE_EventMap, ROTATE_KeysMap} from './ROTATE_EventMap';
 import {ROTATE_EventTarget} from './ROTATE_EventTarget';
 import {ROTATE_Font} from './ROTATE_Font';
 import {ROTATE_Images} from './ROTATE_Images';
@@ -292,37 +292,6 @@ DEPRECATED__ROTATE_CanvasObject.prototype = __inherit(
     __class__: DEPRECATED__ROTATE_CanvasObject,
   },
 );
-
-var MapInterface = function () {};
-MapInterface.__name__ = !0;
-
-var ROTATE_KeysMap = function () {
-  this.h = {};
-};
-ROTATE_KeysMap.__name__ = !0;
-ROTATE_KeysMap.__interfaces__ = [MapInterface];
-ROTATE_KeysMap.prototype = {
-  keys: function () {
-    var a = [],
-      b;
-    for (b in this.h) this.h.hasOwnProperty(b) && a.push(b | 0);
-    return getOneTimeIterator(a);
-  },
-  iterator: function () {
-    return {
-      ref: this.h,
-      it: this.keys(),
-      hasNext: function () {
-        return this.it.hasNext();
-      },
-      next: function () {
-        var a = this.it.next();
-        return this.ref[a];
-      },
-    };
-  },
-  __class__: ROTATE_KeysMap,
-};
 
 var ROTATE_EventMapIterator = function (map, keys) {
   this.map = map;
@@ -1983,150 +1952,161 @@ ROTATE_Player.prototype = __inherit(ROTATE_AnimatedObject.prototype, {
   __class__: ROTATE_Player,
 });
 
-var ROTATE_LevelEditorManager = function () {};
-ROTATE_LevelEditorManager.__name__ = !0;
-ROTATE_LevelEditorManager.set_level = function (a) {
-  if (null != a) {
-    ROTATE_LevelEditorManager.level = a;
-    ROTATE_LevelEditorManager.set_rotation(0);
-    ROTATE_LevelEditorManager.rotating = !1;
-    ROTATE_LevelEditorManager.tiles = [];
-    for (var b = 0, c = a.tiles.length; b < c; ) {
-      var d = b++;
-      ROTATE_LevelEditorManager.tiles[d] = [];
-      for (var e = 0, f = a.tiles[d].length; e < f; ) {
-        var m = e++;
-        ROTATE_LevelEditorManager.tiles[d][m] = a.tiles[d][m].slice(0);
-      }
-    }
-    ROTATE_LevelEditorManager.updateQueue = new ROTATE_EventMap();
-    b = 0;
-    for (c = ROTATE_LevelEditorManager.get_height(); b < c; )
-      for (d = b++, e = 0, f = ROTATE_LevelEditorManager.get_width(); e < f; ) {
-        var k = e++;
-        m = ROTATE_LevelEditorManager.getBlockData(k, d);
-        if (null == m.get_block() || 0 > m.id)
-          ROTATE_LevelEditorManager.tiles[d][k] = [0];
-        else if (m.get_block().alwaysUpdate(m)) {
-          var p = ROTATE_LevelEditorManager.updateQueue;
-          k = k + 'x' + d;
-          p.h[k] = m;
+type PLACEHOLDER__BaseLevelInterface = unknown;
+class ROTATE_LevelEditorManager {
+  public static rotating = !1;
+  public static rotation = 0;
+  public static level: PLACEHOLDER__BaseLevelInterface | undefined = undefined;
+  public static tiles: number[][][] = [];
+  public static updateQueue = new ROTATE_EventMap();
+
+  public static set_level(level: number) {
+    if (null != level) {
+      ROTATE_LevelEditorManager.level = level;
+      ROTATE_LevelEditorManager.set_rotation(0);
+      ROTATE_LevelEditorManager.rotating = !1;
+      ROTATE_LevelEditorManager.tiles = [];
+      for (var b = 0, c = level.tiles.length; b < c; ) {
+        var d = b++;
+        ROTATE_LevelEditorManager.tiles[d] = [];
+        for (var e = 0, f = level.tiles[d].length; e < f; ) {
+          var m = e++;
+          ROTATE_LevelEditorManager.tiles[d][m] = level.tiles[d][m].slice(0);
         }
       }
-  } else ROTATE_LevelEditorManager.level = null;
-  return a;
-};
-ROTATE_LevelEditorManager.set_rotation = function (a) {
-  for (; 0 > a; ) a += 4;
-  for (; 3 < a; ) a -= 4;
-  ROTATE_LevelEditorManager.rotation = a;
-  return ROTATE_LevelEditorManager.rotation;
-};
-ROTATE_LevelEditorManager.get_height = function () {
-  return null != ROTATE_LevelEditorManager.level
-    ? ROTATE_LevelEditorManager.tiles.length
-    : 0;
-};
-ROTATE_LevelEditorManager.get_width = function () {
-  return null != ROTATE_LevelEditorManager.level
-    ? ROTATE_LevelEditorManager.tiles[0].length
-    : 0;
-};
-ROTATE_LevelEditorManager.isInBounds = function (a, b) {
-  return null != ROTATE_LevelEditorManager.level &&
-    0 <= a &&
-    0 <= b &&
-    a < ROTATE_LevelEditorManager.get_width()
-    ? b < ROTATE_LevelEditorManager.get_height()
-    : !1;
-};
-ROTATE_LevelEditorManager.getBlockID = function (a, b) {
-  return ROTATE_LevelEditorManager.isInBounds(a, b)
-    ? ROTATE_LevelEditorManager.tiles[b][a][0]
-    : 1;
-};
-ROTATE_LevelEditorManager.getBlockMeta = function (a, b) {
-  return !ROTATE_LevelEditorManager.isInBounds(a, b) ||
-    2 > ROTATE_LevelEditorManager.tiles[b][a].length
-    ? []
-    : ROTATE_LevelEditorManager.tiles[b][a].slice(1);
-};
-ROTATE_LevelEditorManager.getBlockData = function (a, b) {
-  return new BlockData(
-    a,
-    b,
-    ROTATE_LevelEditorManager.getBlockID(a, b),
-    ROTATE_LevelEditorManager.getBlockMeta(a, b),
-  );
-};
-ROTATE_LevelEditorManager.getBlock = function (a, b) {
-  return ROTATE_GameObjectsRegistry.getBlock(
-    ROTATE_LevelEditorManager.getBlockID(a, b),
-  );
-};
-ROTATE_LevelEditorManager.setBlock = function (a, b, c, d, e) {
-  null == e && (e = !1);
-  if (ROTATE_LevelEditorManager.isInBounds(a, b)) {
-    var f = a + 'x' + b,
-      m = ROTATE_LevelEditorManager.updateQueue;
-    m.h.hasOwnProperty(f) && ROTATE_LevelEditorManager.updateQueue.remove(f);
-    ROTATE_LevelEditorManager.tiles[b][a] = [c];
-    null != d &&
-      (ROTATE_LevelEditorManager.tiles[b][a] =
-        ROTATE_LevelEditorManager.tiles[b][a].concat(d));
-    e &&
-      (ROTATE_LevelEditorManager.level.tiles[b][a] =
-        ROTATE_LevelEditorManager.tiles[b][a].slice(0));
-    a = ROTATE_LevelEditorManager.getBlockData(a, b);
-    ROTATE_GameObjectsRegistry.getBlock(c).alwaysUpdate(a) &&
-      ((c = ROTATE_LevelEditorManager.updateQueue), (c.h[f] = a));
-  }
-};
-ROTATE_LevelEditorManager.setBlockMeta = function (a, b, c, d) {
-  null == d && (d = !1);
-  ROTATE_LevelEditorManager.isInBounds(a, b) &&
-    ((ROTATE_LevelEditorManager.tiles[b][a] = [
-      ROTATE_LevelEditorManager.tiles[b][a][0],
-    ]),
-    null != c &&
-      (ROTATE_LevelEditorManager.tiles[b][a] =
-        ROTATE_LevelEditorManager.tiles[b][a].concat(c)),
-    d &&
-      (ROTATE_LevelEditorManager.level.tiles[b][a] =
-        ROTATE_LevelEditorManager.tiles[b][a].slice(0)),
-    (c = a + 'x' + b),
-    (d = ROTATE_LevelEditorManager.updateQueue),
-    d.h.hasOwnProperty(c)) &&
-    ((d = ROTATE_LevelEditorManager.updateQueue),
-    (a = ROTATE_LevelEditorManager.getBlockData(a, b)),
-    (d.h[c] = a));
-};
-ROTATE_LevelEditorManager.isReplacable = function (a, b) {
-  return a != ROTATE_LevelEditorManager.level.startCol ||
-    (b != ROTATE_LevelEditorManager.level.startRow &&
-      b != ROTATE_LevelEditorManager.level.startRow - 1)
-    ? a == ROTATE_LevelEditorManager.level.finishCol
-      ? b != ROTATE_LevelEditorManager.level.finishRow
-        ? b != ROTATE_LevelEditorManager.level.finishRow - 1
-        : !1
-      : !0
-    : !1;
-};
-ROTATE_LevelEditorManager.onPlay = function () {
-  if (null != ROTATE_LevelEditorManager.level) {
-    ROTATE_LevelEditorManager.leversChanged = new ROTATE_KeysMap();
-    for (var a = 0, b = ROTATE_LevelEditorManager.tiles.length; a < b; )
-      for (
-        var c = a++, d = 0, e = ROTATE_LevelEditorManager.tiles[c].length;
-        d < e;
+      ROTATE_LevelEditorManager.updateQueue = new ROTATE_EventMap();
+      b = 0;
+      for (c = ROTATE_LevelEditorManager.get_height(); b < c; )
+        for (
+          d = b++, e = 0, f = ROTATE_LevelEditorManager.get_width();
+          e < f;
 
-      ) {
-        var f = d++;
-        f = ROTATE_LevelEditorManager.getBlockData(f, c);
-        if (null != f.get_block()) f.get_block().onPlay(f);
-      }
+        ) {
+          var k = e++;
+          m = ROTATE_LevelEditorManager.getBlockData(k, d);
+          if (null == m.get_block() || 0 > m.id)
+            ROTATE_LevelEditorManager.tiles[d][k] = [0];
+          else if (m.get_block().alwaysUpdate(m)) {
+            var p = ROTATE_LevelEditorManager.updateQueue;
+            k = k + 'x' + d;
+            p.h[k] = m;
+          }
+        }
+    } else ROTATE_LevelEditorManager.level = null;
+    return level;
   }
-};
+  public static set_rotation(a) {
+    for (; 0 > a; ) a += 4;
+    for (; 3 < a; ) a -= 4;
+    ROTATE_LevelEditorManager.rotation = a;
+    return ROTATE_LevelEditorManager.rotation;
+  }
+  public static get_height() {
+    return null != ROTATE_LevelEditorManager.level
+      ? ROTATE_LevelEditorManager.tiles.length
+      : 0;
+  }
+  public static get_width() {
+    return null != ROTATE_LevelEditorManager.level
+      ? ROTATE_LevelEditorManager.tiles[0].length
+      : 0;
+  }
+  public static isInBounds(a, b) {
+    return null != ROTATE_LevelEditorManager.level &&
+      0 <= a &&
+      0 <= b &&
+      a < ROTATE_LevelEditorManager.get_width()
+      ? b < ROTATE_LevelEditorManager.get_height()
+      : !1;
+  }
+  public static getBlockID(a, b) {
+    return ROTATE_LevelEditorManager.isInBounds(a, b)
+      ? ROTATE_LevelEditorManager.tiles[b][a][0]
+      : 1;
+  }
+  public static getBlockMeta(a, b) {
+    return !ROTATE_LevelEditorManager.isInBounds(a, b) ||
+      2 > ROTATE_LevelEditorManager.tiles[b][a].length
+      ? []
+      : ROTATE_LevelEditorManager.tiles[b][a].slice(1);
+  }
+  public static getBlockData(a, b) {
+    return new BlockData(
+      a,
+      b,
+      ROTATE_LevelEditorManager.getBlockID(a, b),
+      ROTATE_LevelEditorManager.getBlockMeta(a, b),
+    );
+  }
+  public static getBlock(a, b) {
+    return ROTATE_GameObjectsRegistry.getBlock(
+      ROTATE_LevelEditorManager.getBlockID(a, b),
+    );
+  }
+  public static setBlock(a, b, c, d, e) {
+    null == e && (e = !1);
+    if (ROTATE_LevelEditorManager.isInBounds(a, b)) {
+      var f = a + 'x' + b,
+        m = ROTATE_LevelEditorManager.updateQueue;
+      m.h.hasOwnProperty(f) && ROTATE_LevelEditorManager.updateQueue.remove(f);
+      ROTATE_LevelEditorManager.tiles[b][a] = [c];
+      null != d &&
+        (ROTATE_LevelEditorManager.tiles[b][a] =
+          ROTATE_LevelEditorManager.tiles[b][a].concat(d));
+      e &&
+        (ROTATE_LevelEditorManager.level.tiles[b][a] =
+          ROTATE_LevelEditorManager.tiles[b][a].slice(0));
+      a = ROTATE_LevelEditorManager.getBlockData(a, b);
+      ROTATE_GameObjectsRegistry.getBlock(c).alwaysUpdate(a) &&
+        ((c = ROTATE_LevelEditorManager.updateQueue), (c.h[f] = a));
+    }
+  }
+  public static setBlockMeta(a, b, c, d) {
+    null == d && (d = !1);
+    ROTATE_LevelEditorManager.isInBounds(a, b) &&
+      ((ROTATE_LevelEditorManager.tiles[b][a] = [
+        ROTATE_LevelEditorManager.tiles[b][a][0],
+      ]),
+      null != c &&
+        (ROTATE_LevelEditorManager.tiles[b][a] =
+          ROTATE_LevelEditorManager.tiles[b][a].concat(c)),
+      d &&
+        (ROTATE_LevelEditorManager.level.tiles[b][a] =
+          ROTATE_LevelEditorManager.tiles[b][a].slice(0)),
+      (c = a + 'x' + b),
+      (d = ROTATE_LevelEditorManager.updateQueue),
+      d.h.hasOwnProperty(c)) &&
+      ((d = ROTATE_LevelEditorManager.updateQueue),
+      (a = ROTATE_LevelEditorManager.getBlockData(a, b)),
+      (d.h[c] = a));
+  }
+  public static isReplacable(a, b) {
+    return a != ROTATE_LevelEditorManager.level.startCol ||
+      (b != ROTATE_LevelEditorManager.level.startRow &&
+        b != ROTATE_LevelEditorManager.level.startRow - 1)
+      ? a == ROTATE_LevelEditorManager.level.finishCol
+        ? b != ROTATE_LevelEditorManager.level.finishRow
+          ? b != ROTATE_LevelEditorManager.level.finishRow - 1
+          : !1
+        : !0
+      : !1;
+  }
+  public static onPlay() {
+    if (null != ROTATE_LevelEditorManager.level) {
+      ROTATE_LevelEditorManager.leversChanged = new ROTATE_KeysMap();
+      for (var a = 0, b = ROTATE_LevelEditorManager.tiles.length; a < b; )
+        for (
+          var c = a++, d = 0, e = ROTATE_LevelEditorManager.tiles[c].length;
+          d < e;
+
+        ) {
+          var f = d++;
+          f = ROTATE_LevelEditorManager.getBlockData(f, c);
+          if (null != f.get_block()) f.get_block().onPlay(f);
+        }
+    }
+  }
+}
 
 var ROTATE_Renderer = function (camera) {
   this.showGrid = !1;
