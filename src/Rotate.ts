@@ -495,7 +495,6 @@ JSObjectUtils.__resolveNativeClass = function (a) {
 };
 
 type PLACEHOLDER_ROTATE_PauseMenu = unknown;
-type PLACEHOLDER_ROTATE_ScreenBase = unknown;
 export class ROTATE_Game extends ROTATE_CanvasObject {
   public static instance = new ROTATE_Game();
   public static fontMain = new ROTATE_Font(
@@ -527,8 +526,8 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   public lastTick = 0;
   public hasPaused = false;
   public paused = false;
-  public targetScreen: PLACEHOLDER_ROTATE_ScreenBase | null = null;
-  public currentScreen: PLACEHOLDER_ROTATE_ScreenBase | null = null;
+  public targetScreen: ROTATE_ScreenBase | null = null;
+  public currentScreen: ROTATE_ScreenBase | null = null;
   public screenCallback: (() => void) | null = null;
 
   public static main() {
@@ -683,7 +682,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   public pause(a: boolean = true): void {
     // TODO: re-implement properly
     this.paused ||
-      // @ts-expect-error 'pausable' does not exist on type '{}'
       (a && null != this.targetScreen && this.targetScreen.pausable
         ? (this.pauseOnInit = !0)
         : ((this.paused = !0),
@@ -725,7 +723,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
 
   // TODO: define signature
   public changeScreen(
-    screen: PLACEHOLDER_ROTATE_ScreenBase,
+    screen: ROTATE_ScreenBase,
     b: boolean = true,
     screenCallback: (() => void) | null = null,
     fadingSlow: boolean = false,
@@ -751,12 +749,10 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
           ? (this.fader.set_alpha(1),
             (this.fadeStart -= this.getFadeSpeed() / 2),
             this.setScreen(screen))
-          : // @ts-expect-error Property 'prekill' does not exist on type '{}'
-            ((this.targetScreen = screen), this.currentScreen.prekill()))
+          : ((this.targetScreen = screen), this.currentScreen.prekill()))
       : ((this.fading = !1),
         this.fader.set_alpha(0),
         (this.fader.mouseEnabled = !1),
-        // @ts-expect-error Property 'prekill' does not exist on type '{}'
         null != this.currentScreen && this.currentScreen.prekill(),
         (this.targetScreen = null),
         this.setScreen(screen),
@@ -764,19 +760,15 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
         this.currentScreen.ready());
   }
 
-  public setScreen(screen: PLACEHOLDER_ROTATE_ScreenBase) {
+  public setScreen(screen: ROTATE_ScreenBase) {
     // TODO: re-implement properly
     null != this.currentScreen &&
-      // @ts-expect-error Property 'kill' does not exist on type '{}'
       (this.currentScreen.kill(), this.removeChild(this.currentScreen));
     this.currentScreen = screen;
-    // @ts-expect-error Argument of type 'unknown' is not assignable to parameter of type 'ROTATE_CanvasObject'
     this.addChildAt(this.currentScreen, 0);
-    // @ts-expect-error Object is of type 'unknown'
     this.currentScreen.init();
     null != this.screenCallback && this.screenCallback();
     this.screenCallback = null;
-    // @ts-expect-error Object is of type 'unknown'
     this.currentScreen.pausable
       ? this.pauseOnInit && this.pause(!1)
       : this.unpause();
