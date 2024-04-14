@@ -58,6 +58,8 @@ import {
   ROTATE_ConditionDelayedCollision,
 } from './ROTATE_Condition';
 import {ROTATE_Particle} from './ROTATE_Particle';
+import {ROTATE_CatAnimationObject} from './ROTATE_CatAnimationObject';
+import {ROTATE_AnimatedObject} from './ROTATE_AnimatedObject';
 
 // ---------------------------------------------------------------------------
 
@@ -1202,129 +1204,6 @@ class BlockData {
   }
 }
 
-var DEPRECATED__ROTATE_AnimatedObject = function (image, frameW, frameH) {
-  this.animChanged = false;
-  this.frame = 0;
-  this.animTimer = 0;
-  this.lastF = 0;
-  this.origin = new Vector2(0, 0);
-  var _self = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.image = image;
-  this.frameW = frameW;
-  this.frameH = frameH;
-  this.cols = Math.floor(this.image.width / frameW);
-  this.rows = Math.floor(this.image.height / frameH);
-  this.frames = this.cols * this.rows;
-  this.addEventListener('render', function (e) {
-    _self.render(e.surface);
-  });
-};
-DEPRECATED__ROTATE_AnimatedObject.__name__ = !0;
-DEPRECATED__ROTATE_AnimatedObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
-DEPRECATED__ROTATE_AnimatedObject.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    set_frame: function (a) {
-      return (this.frame = 0 > a || a >= this.frames ? 0 : a);
-    },
-    set_animation: function (a) {
-      this.animation != a &&
-        ((this.animTimer = ROTATE_Game.instance.get_gameTimeMS()),
-        (this.animChanged = !0));
-      return (this.animation = a);
-    },
-    render: function (a) {
-      if (
-        null != this.animation &&
-        null != this.animation.frames &&
-        0 < this.animation.frames.length
-      ) {
-        for (
-          var b = ROTATE_Game.instance.get_gameTimeMS() - this.animTimer,
-            c = 0,
-            d = !1;
-          b > this.animation.delays[c];
-
-        )
-          if (
-            ((b -= this.animation.delays[c]),
-            ++c,
-            c == this.animation.frames.length)
-          )
-            if (((d = !0), this.animation.loop)) c = 0;
-            else {
-              c = this.animation.frames.length - 1;
-              break;
-            }
-        this.frame = this.animation.frames[c];
-        if (null != this.onChange && (this.animChanged || this.lastF != c))
-          this.onChange(c);
-        if (!this.animChanged && d && null != this.onFinish) this.onFinish();
-        this.lastF = c;
-      } else this.frame >= this.frames && (this.frame = 0);
-      a.drawImage(
-        this.image,
-        this.getFrameRect(this.frame),
-        -this.origin.x,
-        -this.origin.y,
-      );
-      this.animChanged = !1;
-    },
-    getFrameRect: function (a) {
-      return new Bounds(
-        (a % this.cols) * this.frameW,
-        Math.floor(a / this.cols) * this.frameH,
-        this.frameW,
-        this.frameH,
-      );
-    },
-    getBoundsSelf: function () {
-      return new Bounds(
-        -this.origin.x,
-        -this.origin.y,
-        this.frameW,
-        this.frameH,
-      );
-    },
-    __class__: DEPRECATED__ROTATE_AnimatedObject,
-  },
-);
-
-var ROTATE_CatAnimationObject = function () {
-  this.horizontal = this.x2 = this.dx = 0;
-  DEPRECATED__ROTATE_AnimatedObject.call(this, ROTATE_Images.cat, 24, 24);
-  this.origin.x = this.frameW / 2;
-  this.origin.y = this.frameH;
-};
-ROTATE_CatAnimationObject.__name__ = !0;
-ROTATE_CatAnimationObject.__super__ = DEPRECATED__ROTATE_AnimatedObject;
-ROTATE_CatAnimationObject.prototype = __inherit(
-  DEPRECATED__ROTATE_AnimatedObject.prototype,
-  {
-    tick: function () {
-      0 < this.horizontal
-        ? this.dx < ROTATE_CatAnimationObject.SPEED &&
-          (this.dx < -ROTATE_CatAnimationObject.ACCEL
-            ? (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT)
-            : ((this.dx += ROTATE_CatAnimationObject.ACCEL),
-              this.dx > ROTATE_CatAnimationObject.SPEED &&
-                (this.dx = ROTATE_CatAnimationObject.SPEED)))
-        : 0 > this.horizontal
-          ? this.dx > -ROTATE_CatAnimationObject.SPEED &&
-            (this.dx > ROTATE_CatAnimationObject.ACCEL
-              ? (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT)
-              : ((this.dx -= ROTATE_CatAnimationObject.ACCEL),
-                this.dx < -ROTATE_CatAnimationObject.SPEED &&
-                  (this.dx = -ROTATE_CatAnimationObject.SPEED)))
-          : (this.dx *= ROTATE_CatAnimationObject.DECCEL_MULT);
-      this.x2 += this.dx;
-      this.set_x(Math.round(this.x2));
-    },
-    __class__: ROTATE_CatAnimationObject,
-  },
-);
-
 var Signaler = function (id) {
   this.lastChanged = -1;
   this.signals = [];
@@ -1420,547 +1299,597 @@ Door.prototype = {
   __class__: Door,
 };
 
-var ROTATE_Player = function () {
-  this.lastStep = -1;
-  this.step = 0;
-  this.touchingOld = [];
-  this.touching = [];
-  this.onRamp = this.dead = this.finished = !1;
-  this.lastStuck = -1;
-  this.rotateAdjust = 0;
-  this.jumpTimer = this.jumpTimer2 = this.rotateTimer = -1;
-  this.grounded = !1;
-  this.x2 =
-    this.y2 =
-    this.lastX =
-    this.lastY =
-    this.dx =
-    this.dy =
-    this.horizontal =
-      0;
-  DEPRECATED__ROTATE_AnimatedObject.call(this, ROTATE_Images.player, 32, 48);
-  this.set_animation(ROTATE_Player.ANIM_IDLE);
-  this.onChange = Bind(this, this.aminChange);
-  this.spawnTime = ROTATE_Game.instance.get_gameTimeMS();
-  this.adjust();
-};
-ROTATE_Player.__name__ = !0;
-ROTATE_Player.__super__ = DEPRECATED__ROTATE_AnimatedObject;
-ROTATE_Player.prototype = __inherit(
-  DEPRECATED__ROTATE_AnimatedObject.prototype,
-  {
-    get_localX: function () {
-      return 0 == ROTATE_LevelEditorManager.rotation
-        ? this.x2
-        : 1 == ROTATE_LevelEditorManager.rotation
-          ? ROTATE_LevelEditorManager.get_height() - this.y2
-          : 2 == ROTATE_LevelEditorManager.rotation
-            ? ROTATE_LevelEditorManager.get_width() - this.x2
-            : this.y2;
-    },
-    set_localX: function (a) {
-      0 == ROTATE_LevelEditorManager.rotation
-        ? (this.x2 = a)
-        : 1 == ROTATE_LevelEditorManager.rotation
-          ? (this.y2 = ROTATE_LevelEditorManager.get_height() - a)
-          : 2 == ROTATE_LevelEditorManager.rotation
-            ? (this.x2 = ROTATE_LevelEditorManager.get_width() - a)
-            : 3 == ROTATE_LevelEditorManager.rotation && (this.y2 = a);
-      return a;
-    },
-    get_localY: function () {
-      return 0 == ROTATE_LevelEditorManager.rotation
-        ? this.y2
-        : 1 == ROTATE_LevelEditorManager.rotation
-          ? this.x2
-          : 2 == ROTATE_LevelEditorManager.rotation
-            ? ROTATE_LevelEditorManager.get_height() - this.y2
-            : ROTATE_LevelEditorManager.get_width() - this.x2;
-    },
-    set_localY: function (a) {
-      0 == ROTATE_LevelEditorManager.rotation
-        ? (this.y2 = a)
-        : 1 == ROTATE_LevelEditorManager.rotation
-          ? (this.x2 = a)
-          : 2 == ROTATE_LevelEditorManager.rotation
-            ? (this.y2 = ROTATE_LevelEditorManager.get_height() - a)
-            : 3 == ROTATE_LevelEditorManager.rotation &&
-              (this.x2 = ROTATE_LevelEditorManager.get_width() - a);
-      return a;
-    },
-    aminChange: function (a) {
-      this.animation == ROTATE_Player.ANIM_RUN &&
-        0 == a &&
-        100 < ROTATE_Game.instance.get_gameTimeMS() - this.lastStep &&
-        ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          ROTATE_Audio.steps.play(0 == this.step ? 'a' : 'b'),
-        (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()),
-        (this.step = 0 == this.step ? 1 : 0));
-    },
-    adjust: function () {
-      this.origin.x = this.frameW / 2;
-      this.origin.y =
-        this.frameH -
-        (ROTATE_LevelEditorManager.rotating
-          ? ROTATE_GameConstants.rotateOffset
-          : 0);
-    },
-    update: function () {
-      if (
-        !ROTATE_LevelEditorManager.rotating &&
-        !this.dead &&
-        ((this.horizontal = this.finished ? 0 : ROTATE_Game.getInputX()),
-        0 != this.horizontal
-          ? this.set_scaleX(0 < this.horizontal ? 1 : -1)
-          : this.grounded &&
-            this.animation != ROTATE_Player.ANIM_IDLE &&
-            this.set_animation(ROTATE_Player.ANIM_IDLE),
-        !this.finished &&
-          (InputKeys.keyPressed(KEY_CODE.ArrowDown) ||
-            InputKeys.keyPressed(KEY_CODE.KeyS)))
-      ) {
-        for (var a = 0, b = this.touching; a < b.length; ) {
-          var c = b[a];
-          ++a;
-          c.get_block().onInteract(c);
-        }
-        this.touchingFinish() &&
-          ((this.finished = !0),
-          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-            ROTATE_Audio.exit.play(),
-          ROTATE_Game.instance.currentScreen.finished());
-      }
-    },
-    touchingFinish: function () {
-      return ROTATE_LevelEditorManager.rotating ||
-        this.dead ||
-        this.finished ||
-        !this.grounded ||
-        0 != ROTATE_LevelEditorManager.rotation ||
-        Math.floor(this.x2 / ROTATE_GameConstants.tileSize) !=
-          ROTATE_LevelEditorManager.level.finishCol
-        ? !1
-        : Math.floor(this.y2 / ROTATE_GameConstants.tileSize) ==
-            ROTATE_LevelEditorManager.level.finishRow + 1;
-    },
-    tick: function () {
-      if (!ROTATE_LevelEditorManager.rotating && !this.dead) {
-        null == this.lastBounds && (this.lastBounds = this.getHitBounds());
-        var a =
-          ROTATE_Player.SPEED * (this.onRamp ? ROTATE_Player.RAMP_MULT : 1);
-        0 < this.horizontal
-          ? this.dx < a
-            ? this.dx < -ROTATE_Player.ACCEL
-              ? (this.dx *= ROTATE_Player.DECCEL_MULT)
-              : ((this.dx += ROTATE_Player.ACCEL), this.dx > a && (this.dx = a))
-            : this.dx > a && (this.dx = a)
-          : 0 > this.horizontal
-            ? this.dx > -a
-              ? this.dx > ROTATE_Player.ACCEL
-                ? (this.dx *= ROTATE_Player.DECCEL_MULT)
-                : ((this.dx -= ROTATE_Player.ACCEL),
-                  this.dx < -a && (this.dx = -a))
-              : this.dx < -a && (this.dx = -a)
-            : (this.dx *= ROTATE_Player.DECCEL_MULT);
-        !this.finished &&
-        this.grounded &&
-        this.jumpKeyDown() &&
-        ROTATE_Game.instance.get_gameTime() - this.jumpTimer >=
-          ROTATE_Player.JUMP_DELAY &&
-        ROTATE_Game.instance.get_gameTime() - this.jumpTimer2 >=
-          ROTATE_Player.JUMP_DELAY_2
-          ? ((this.dy = -ROTATE_Player.JUMP_SPEED),
-            (this.jumpTimer = ROTATE_Game.instance.get_gameTime()),
-            (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-              ROTATE_Audio.steps.play('a'),
-            (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()))
-          : this.dy < ROTATE_Player.GRAVITY_MAX &&
-            ((this.dy += ROTATE_Player.GRAVITY),
-            this.dy > ROTATE_Player.GRAVITY_MAX &&
-              (this.dy = ROTATE_Player.GRAVITY_MAX));
-        a = this.grounded;
-        this.onRamp = this.grounded = !1;
-        for (
-          var b = this.dx,
-            c = this.dy,
-            d = this.get_localX() - Math.floor(this.get_localX()),
-            e = this.get_localY() - Math.floor(this.get_localY()),
-            f = this.get_localX(),
-            m = this.get_localY(),
-            k,
-            p = this.get_localY() + this.dy;
-          0 != b || 0 != c;
+class ROTATE_Player extends ROTATE_AnimatedObject {
+  public lastStep = -1;
+  public step = 0;
+  public touchingOld = [];
+  public touching = [];
+  public onRamp = !1;
+  public dead = !1;
+  public finished = !1;
+  public lastStuck = -1;
+  public rotateAdjust = 0;
+  public jumpTimer = -1;
+  public jumpTimer2 = -1;
+  public rotateTimer = -1;
+  public grounded = !1;
+  public x2 = 0;
+  public y2 = 0;
+  public lastX = 0;
+  public lastY = 0;
+  public dx = 0;
+  public dy = 0;
+  public horizontal = 0;
+  public spawnTime = 0;
+  public lastBounds?: Bounds;
 
-        )
-          if (
-            (0 != c &&
-              (0 < c
-                ? 0 < e && c >= 1 - e
-                  ? ((k = 1 - e), (e = 0))
-                  : (k = 1 < c ? 1 : c)
-                : 0 < e && c <= -e
-                  ? ((k = -e), (e = 0))
-                  : (k = -1 > c ? -1 : c),
-              this.set_localY(this.get_localY() + k),
-              (c -= k),
-              this.isColliding(null, null, 1) &&
-                (this.set_localY(m), (c = this.dy = 0)),
-              (m = this.get_localY())),
-            0 != b)
-          ) {
-            0 < b
-              ? 0 < d && b >= 1 - d
-                ? ((k = 1 - d), (d = 0))
-                : (k = 1 < b ? 1 : b)
-              : 0 < d && b <= -d
-                ? ((k = -d), (d = 0))
-                : (k = -1 > b ? -1 : b);
-            this.set_localX(this.get_localX() + k);
-            b -= k;
-            if (this.isColliding(null, Bind(this, this.rampCheckDX), 0))
-              if (
-                ((k = 0),
-                this.set_localY(this.get_localY() - e),
-                this.isColliding(null, Bind(this, this.nonRampCheckDX), 0))
-              )
-                this.set_localY(this.get_localY() + e);
-              else {
-                k -= e;
-                if (this.isColliding(null, Bind(this, this.rampCheckDX), 0)) {
-                  var y = this.get_localY();
-                  this.set_localY(y - 1);
-                  this.isColliding(null, Bind(this, this.nonRampCheckDX), 0)
-                    ? ((y = this.get_localY()), this.set_localY(y + 1))
-                    : this.isColliding(null, Bind(this, this.rampCheckDX), 0)
-                      ? (this.set_localY(m), (k = 0))
-                      : --k;
-                }
-                0 > k && ((e = 0), (m += k), (p += k), (this.onRamp = !0));
+  public static readonly HIT_W = 12;
+  public static readonly HIT_H = 42;
+  public static readonly SPEED = 3.7;
+  public static readonly RAMP_MULT = 0.7;
+  public static readonly ACCEL = 0.33;
+  public static readonly DECCEL_MULT = 0.6;
+  public static readonly JUMP_SPEED = 5.9;
+  public static readonly JUMP_DELAY = 0.25;
+  public static readonly JUMP_DELAY_2 = 0.06666666666666667;
+  public static readonly GRAVITY = 0.35;
+  public static readonly GRAVITY_MAX = 9;
+  public static readonly ROTATE_DELAY = 0.05;
+  public static readonly ANIM_IDLE = new ROTATE_Animation(
+    [0, 1, 2, 3],
+    [400, 400, 400, 400],
+  );
+  public static readonly ANIM_RUN = new ROTATE_Animation(
+    [4, 5, 6, 7],
+    [100, 100, 100, 100],
+  );
+  public static readonly ANIM_JUMP = new ROTATE_Animation(
+    [8, 9],
+    [200, 200],
+    !1,
+  );
+  public static readonly ANIM_FALL = new ROTATE_Animation(
+    [12, 13, 14, 15],
+    [100, 100, 100, 100],
+  );
+  public static readonly ANIM_ROTATE = new ROTATE_Animation(
+    [16, 17, 18, 19],
+    [100, 100, 100, 100],
+    !1,
+  );
+
+  constructor() {
+    super(ROTATE_Images.player, 32, 48);
+    this.set_animation(ROTATE_Player.ANIM_IDLE);
+    this.onChange = this.aminChange.bind(this);
+    this.spawnTime = ROTATE_Game.instance.get_gameTimeMS();
+    this.adjust();
+  }
+
+  public get_localX() {
+    return 0 == ROTATE_LevelEditorManager.rotation
+      ? this.x2
+      : 1 == ROTATE_LevelEditorManager.rotation
+        ? ROTATE_LevelEditorManager.get_height() - this.y2
+        : 2 == ROTATE_LevelEditorManager.rotation
+          ? ROTATE_LevelEditorManager.get_width() - this.x2
+          : this.y2;
+  }
+
+  public set_localX(x: number) {
+    0 == ROTATE_LevelEditorManager.rotation
+      ? (this.x2 = x)
+      : 1 == ROTATE_LevelEditorManager.rotation
+        ? (this.y2 = ROTATE_LevelEditorManager.get_height() - x)
+        : 2 == ROTATE_LevelEditorManager.rotation
+          ? (this.x2 = ROTATE_LevelEditorManager.get_width() - x)
+          : 3 == ROTATE_LevelEditorManager.rotation && (this.y2 = x);
+    return x;
+  }
+
+  public get_localY() {
+    return 0 == ROTATE_LevelEditorManager.rotation
+      ? this.y2
+      : 1 == ROTATE_LevelEditorManager.rotation
+        ? this.x2
+        : 2 == ROTATE_LevelEditorManager.rotation
+          ? ROTATE_LevelEditorManager.get_height() - this.y2
+          : ROTATE_LevelEditorManager.get_width() - this.x2;
+  }
+
+  public set_localY(y: number) {
+    0 == ROTATE_LevelEditorManager.rotation
+      ? (this.y2 = y)
+      : 1 == ROTATE_LevelEditorManager.rotation
+        ? (this.x2 = y)
+        : 2 == ROTATE_LevelEditorManager.rotation
+          ? (this.y2 = ROTATE_LevelEditorManager.get_height() - y)
+          : 3 == ROTATE_LevelEditorManager.rotation &&
+            (this.x2 = ROTATE_LevelEditorManager.get_width() - y);
+    return y;
+  }
+
+  public aminChange(animationIndex: number) {
+    this.animation == ROTATE_Player.ANIM_RUN &&
+      0 == animationIndex &&
+      100 < ROTATE_Game.instance.get_gameTimeMS() - this.lastStep &&
+      ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+        ROTATE_Audio.steps.play(0 == this.step ? 'a' : 'b'),
+      (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()),
+      (this.step = 0 == this.step ? 1 : 0));
+  }
+
+  public adjust() {
+    this.origin.x = this.frameW / 2;
+    this.origin.y =
+      this.frameH -
+      (ROTATE_LevelEditorManager.rotating
+        ? ROTATE_GameConstants.rotateOffset
+        : 0);
+  }
+
+  public update() {
+    if (
+      !ROTATE_LevelEditorManager.rotating &&
+      !this.dead &&
+      ((this.horizontal = this.finished ? 0 : ROTATE_Game.getInputX()),
+      0 != this.horizontal
+        ? this.set_scaleX(0 < this.horizontal ? 1 : -1)
+        : this.grounded &&
+          this.animation != ROTATE_Player.ANIM_IDLE &&
+          this.set_animation(ROTATE_Player.ANIM_IDLE),
+      !this.finished &&
+        (InputKeys.keyPressed(KEY_CODE.ArrowDown) ||
+          InputKeys.keyPressed(KEY_CODE.KeyS)))
+    ) {
+      for (var a = 0, b = this.touching; a < b.length; ) {
+        var c = b[a];
+        ++a;
+        c.get_block().onInteract(c);
+      }
+      this.touchingFinish() &&
+        ((this.finished = !0),
+        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+          ROTATE_Audio.exit.play(),
+        ROTATE_Game.instance.currentScreen.finished());
+    }
+  }
+
+  public touchingFinish() {
+    return ROTATE_LevelEditorManager.rotating ||
+      this.dead ||
+      this.finished ||
+      !this.grounded ||
+      0 != ROTATE_LevelEditorManager.rotation ||
+      Math.floor(this.x2 / ROTATE_GameConstants.tileSize) !=
+        ROTATE_LevelEditorManager.level.finishCol
+      ? !1
+      : Math.floor(this.y2 / ROTATE_GameConstants.tileSize) ==
+          ROTATE_LevelEditorManager.level.finishRow + 1;
+  }
+
+  public tick() {
+    if (!ROTATE_LevelEditorManager.rotating && !this.dead) {
+      null == this.lastBounds && (this.lastBounds = this.getHitBounds());
+      var a = ROTATE_Player.SPEED * (this.onRamp ? ROTATE_Player.RAMP_MULT : 1);
+      0 < this.horizontal
+        ? this.dx < a
+          ? this.dx < -ROTATE_Player.ACCEL
+            ? (this.dx *= ROTATE_Player.DECCEL_MULT)
+            : ((this.dx += ROTATE_Player.ACCEL), this.dx > a && (this.dx = a))
+          : this.dx > a && (this.dx = a)
+        : 0 > this.horizontal
+          ? this.dx > -a
+            ? this.dx > ROTATE_Player.ACCEL
+              ? (this.dx *= ROTATE_Player.DECCEL_MULT)
+              : ((this.dx -= ROTATE_Player.ACCEL),
+                this.dx < -a && (this.dx = -a))
+            : this.dx < -a && (this.dx = -a)
+          : (this.dx *= ROTATE_Player.DECCEL_MULT);
+      !this.finished &&
+      this.grounded &&
+      this.jumpKeyDown() &&
+      ROTATE_Game.instance.get_gameTime() - this.jumpTimer >=
+        ROTATE_Player.JUMP_DELAY &&
+      ROTATE_Game.instance.get_gameTime() - this.jumpTimer2 >=
+        ROTATE_Player.JUMP_DELAY_2
+        ? ((this.dy = -ROTATE_Player.JUMP_SPEED),
+          (this.jumpTimer = ROTATE_Game.instance.get_gameTime()),
+          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+            ROTATE_Audio.steps.play('a'),
+          (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()))
+        : this.dy < ROTATE_Player.GRAVITY_MAX &&
+          ((this.dy += ROTATE_Player.GRAVITY),
+          this.dy > ROTATE_Player.GRAVITY_MAX &&
+            (this.dy = ROTATE_Player.GRAVITY_MAX));
+      a = this.grounded;
+      this.onRamp = this.grounded = !1;
+      for (
+        var b = this.dx,
+          c = this.dy,
+          d = this.get_localX() - Math.floor(this.get_localX()),
+          e = this.get_localY() - Math.floor(this.get_localY()),
+          f = this.get_localX(),
+          m = this.get_localY(),
+          k,
+          p = this.get_localY() + this.dy;
+        0 != b || 0 != c;
+
+      )
+        if (
+          (0 != c &&
+            (0 < c
+              ? 0 < e && c >= 1 - e
+                ? ((k = 1 - e), (e = 0))
+                : (k = 1 < c ? 1 : c)
+              : 0 < e && c <= -e
+                ? ((k = -e), (e = 0))
+                : (k = -1 > c ? -1 : c),
+            this.set_localY(this.get_localY() + k),
+            (c -= k),
+            this.isColliding(null, null, 1) &&
+              (this.set_localY(m), (c = this.dy = 0)),
+            (m = this.get_localY())),
+          0 != b)
+        ) {
+          0 < b
+            ? 0 < d && b >= 1 - d
+              ? ((k = 1 - d), (d = 0))
+              : (k = 1 < b ? 1 : b)
+            : 0 < d && b <= -d
+              ? ((k = -d), (d = 0))
+              : (k = -1 > b ? -1 : b);
+          this.set_localX(this.get_localX() + k);
+          b -= k;
+          if (this.isColliding(null, Bind(this, this.rampCheckDX), 0))
+            if (
+              ((k = 0),
+              this.set_localY(this.get_localY() - e),
+              this.isColliding(null, Bind(this, this.nonRampCheckDX), 0))
+            )
+              this.set_localY(this.get_localY() + e);
+            else {
+              k -= e;
+              if (this.isColliding(null, Bind(this, this.rampCheckDX), 0)) {
+                var y = this.get_localY();
+                this.set_localY(y - 1);
+                this.isColliding(null, Bind(this, this.nonRampCheckDX), 0)
+                  ? ((y = this.get_localY()), this.set_localY(y + 1))
+                  : this.isColliding(null, Bind(this, this.rampCheckDX), 0)
+                    ? (this.set_localY(m), (k = 0))
+                    : --k;
               }
-            this.isColliding(null, null, 0) &&
-              (this.set_localX(f), (b = this.dx = 0));
-            f = this.get_localX();
-          }
-        this.get_localY() - p < -ROTATE_GameConstants.EPSILON &&
-          (this.grounded = !0);
-        b = ROTATE_Game.instance.get_gameTimeMS();
-        c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
-        if (0 <= this.dy && !this.grounded) {
-          d = this.get_localY();
-          e = 2 + Math.ceil(Math.abs(1.25 * this.dx));
-          m = f = 0;
-          for (k = p = !1; !p && !k && m < e; ) {
-            f =
-              0 == m
-                ? 1 - (this.get_localY() - Math.floor(this.get_localY()))
-                : 1;
-            this.set_localY(Math.round(this.get_localY() + f));
-            m += f;
-            k = this.isColliding(null, Bind(this, this.nonRampCheck), 1);
-            if (!c && k) break;
-            p =
-              c && k
-                ? !0
-                : this.isColliding(null, Bind(this, this.rampCheck), 1);
-          }
-          p
-            ? (this.set_localY(this.get_localY() - f),
-              (this.grounded = !0),
-              (this.dy = 0),
-              k || ((this.lastStuck = b), (this.onRamp = !0)))
-            : this.set_localY(d);
+              0 > k && ((e = 0), (m += k), (p += k), (this.onRamp = !0));
+            }
+          this.isColliding(null, null, 0) &&
+            (this.set_localX(f), (b = this.dx = 0));
+          f = this.get_localX();
         }
-        this.updateTouching();
-        this.grounded &&
-          !a &&
-          (100 < ROTATE_Game.instance.get_gameTimeMS() - this.spawnTime &&
-            ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-              ROTATE_Audio.steps.play('b'),
-            (this.lastStep = ROTATE_Game.instance.get_gameTimeMS())),
-          (this.jumpTimer2 = ROTATE_Game.instance.get_gameTime()));
-        this.grounded
-          ? 0 != this.horizontal && 0.75 < Math.abs(this.dx)
-            ? this.set_animation(ROTATE_Player.ANIM_RUN)
-            : this.set_animation(ROTATE_Player.ANIM_IDLE)
-          : ROTATE_LevelEditorManager.rotating ||
-            (0 <= this.dy
-              ? this.set_animation(ROTATE_Player.ANIM_FALL)
-              : this.set_animation(ROTATE_Player.ANIM_JUMP));
-        this.lastX = this.x2;
-        this.lastY = this.y2;
-        this.lastBounds = this.getHitBounds();
+      this.get_localY() - p < -ROTATE_GameConstants.EPSILON &&
+        (this.grounded = !0);
+      b = ROTATE_Game.instance.get_gameTimeMS();
+      c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
+      if (0 <= this.dy && !this.grounded) {
+        d = this.get_localY();
+        e = 2 + Math.ceil(Math.abs(1.25 * this.dx));
+        m = f = 0;
+        for (k = p = !1; !p && !k && m < e; ) {
+          f =
+            0 == m
+              ? 1 - (this.get_localY() - Math.floor(this.get_localY()))
+              : 1;
+          this.set_localY(Math.round(this.get_localY() + f));
+          m += f;
+          k = this.isColliding(null, Bind(this, this.nonRampCheck), 1);
+          if (!c && k) break;
+          p =
+            c && k ? !0 : this.isColliding(null, Bind(this, this.rampCheck), 1);
+        }
+        p
+          ? (this.set_localY(this.get_localY() - f),
+            (this.grounded = !0),
+            (this.dy = 0),
+            k || ((this.lastStuck = b), (this.onRamp = !0)))
+          : this.set_localY(d);
       }
-      this.set_x(Math.round(this.x2));
-      this.set_y(Math.round(this.y2));
-    },
-    postUpdate: function () {
-      this.set_x(Math.round(this.x2));
-      this.set_y(Math.round(this.y2));
-    },
-    getHitBounds: function (a, b, c, d, e) {
-      null == e && (e = !1);
-      null == d && (d = 0);
-      null == c && (c = 0);
-      null == b && (b = 0);
-      null == a && (a = !0);
-      if (a)
-        (b = this.x2), (c = this.y2), (d = ROTATE_LevelEditorManager.rotation);
-      else {
-        for (; 0 > d; ) d += 4;
-        for (; 3 < d; ) d -= 4;
-      }
-      var f = 0 == d || 2 == d,
-        m = f ? ROTATE_Player.HIT_W : ROTATE_Player.HIT_H;
-      f = f ? ROTATE_Player.HIT_H : ROTATE_Player.HIT_W;
-      a =
-        (a && ROTATE_LevelEditorManager.rotating) || (!a && e)
-          ? ROTATE_GameConstants.rotateOffset
-          : 0;
-      return 3 == d
-        ? new Bounds(b - a, c - f / 2, m, f)
-        : 2 == d
-          ? new Bounds(b - m / 2, c - a, m, f)
-          : 1 == d
-            ? new Bounds(b - m + a, c - f / 2, m, f)
-            : new Bounds(b - m / 2, c - f + a, m, f);
-    },
-    rampCheck: function (a) {
-      return JSObjectUtils.__instanceof(a, Collider3)
-        ? (0 != ROTATE_LevelEditorManager.rotation ||
-            (0 != a.dir && 1 != a.dir)) &&
-          (1 != ROTATE_LevelEditorManager.rotation ||
-            (3 != a.dir && 0 != a.dir)) &&
-          (2 != ROTATE_LevelEditorManager.rotation ||
-            (2 != a.dir && 3 != a.dir))
-          ? 3 == ROTATE_LevelEditorManager.rotation
-            ? 1 != a.dir
+      this.updateTouching();
+      this.grounded &&
+        !a &&
+        (100 < ROTATE_Game.instance.get_gameTimeMS() - this.spawnTime &&
+          ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+            ROTATE_Audio.steps.play('b'),
+          (this.lastStep = ROTATE_Game.instance.get_gameTimeMS())),
+        (this.jumpTimer2 = ROTATE_Game.instance.get_gameTime()));
+      this.grounded
+        ? 0 != this.horizontal && 0.75 < Math.abs(this.dx)
+          ? this.set_animation(ROTATE_Player.ANIM_RUN)
+          : this.set_animation(ROTATE_Player.ANIM_IDLE)
+        : ROTATE_LevelEditorManager.rotating ||
+          (0 <= this.dy
+            ? this.set_animation(ROTATE_Player.ANIM_FALL)
+            : this.set_animation(ROTATE_Player.ANIM_JUMP));
+      this.lastX = this.x2;
+      this.lastY = this.y2;
+      this.lastBounds = this.getHitBounds();
+    }
+    this.set_x(Math.round(this.x2));
+    this.set_y(Math.round(this.y2));
+  }
+
+  public postUpdate() {
+    this.set_x(Math.round(this.x2));
+    this.set_y(Math.round(this.y2));
+  }
+
+  public getHitBounds(a = true, b = 0, c = 0, d = 0, e = false) {
+    if (a)
+      (b = this.x2), (c = this.y2), (d = ROTATE_LevelEditorManager.rotation);
+    else {
+      for (; 0 > d; ) d += 4;
+      for (; 3 < d; ) d -= 4;
+    }
+    var f = 0 == d || 2 == d,
+      m = f ? ROTATE_Player.HIT_W : ROTATE_Player.HIT_H;
+    f = f ? ROTATE_Player.HIT_H : ROTATE_Player.HIT_W;
+    a =
+      (a && ROTATE_LevelEditorManager.rotating) || (!a && e)
+        ? ROTATE_GameConstants.rotateOffset
+        : 0;
+    return 3 == d
+      ? new Bounds(b - a, c - f / 2, m, f)
+      : 2 == d
+        ? new Bounds(b - m / 2, c - a, m, f)
+        : 1 == d
+          ? new Bounds(b - m + a, c - f / 2, m, f)
+          : new Bounds(b - m / 2, c - f + a, m, f);
+  }
+
+  public rampCheck(a) {
+    return JSObjectUtils.__instanceof(a, Collider3)
+      ? (0 != ROTATE_LevelEditorManager.rotation ||
+          (0 != a.dir && 1 != a.dir)) &&
+        (1 != ROTATE_LevelEditorManager.rotation ||
+          (3 != a.dir && 0 != a.dir)) &&
+        (2 != ROTATE_LevelEditorManager.rotation || (2 != a.dir && 3 != a.dir))
+        ? 3 == ROTATE_LevelEditorManager.rotation
+          ? 1 != a.dir
+            ? 2 == a.dir
+            : !0
+          : !1
+        : !0
+      : !1;
+  }
+
+  public nonRampCheck(a) {
+    return !this.rampCheck(a);
+  }
+
+  public rampCheckDX(a) {
+    return JSObjectUtils.__instanceof(a, Collider3)
+      ? (0 == ROTATE_LevelEditorManager.rotation &&
+          ((0 < this.dx && 0 == a.dir) || (0 > this.dx && 1 == a.dir))) ||
+        (1 == ROTATE_LevelEditorManager.rotation &&
+          ((0 < this.dx && 3 == a.dir) || (0 > this.dx && 0 == a.dir))) ||
+        (2 == ROTATE_LevelEditorManager.rotation &&
+          ((0 < this.dx && 2 == a.dir) || (0 > this.dx && 3 == a.dir)))
+        ? !0
+        : 3 == ROTATE_LevelEditorManager.rotation
+          ? 0 < this.dx && 1 == a.dir
+            ? !0
+            : 0 > this.dx
               ? 2 == a.dir
-              : !0
-            : !1
-          : !0
-        : !1;
-    },
-    nonRampCheck: function (a) {
-      return !this.rampCheck(a);
-    },
-    rampCheckDX: function (a) {
-      return JSObjectUtils.__instanceof(a, Collider3)
-        ? (0 == ROTATE_LevelEditorManager.rotation &&
-            ((0 < this.dx && 0 == a.dir) || (0 > this.dx && 1 == a.dir))) ||
-          (1 == ROTATE_LevelEditorManager.rotation &&
-            ((0 < this.dx && 3 == a.dir) || (0 > this.dx && 0 == a.dir))) ||
-          (2 == ROTATE_LevelEditorManager.rotation &&
-            ((0 < this.dx && 2 == a.dir) || (0 > this.dx && 3 == a.dir)))
-          ? !0
-          : 3 == ROTATE_LevelEditorManager.rotation
-            ? 0 < this.dx && 1 == a.dir
-              ? !0
-              : 0 > this.dx
-                ? 2 == a.dir
-                : !1
-            : !1
-        : !1;
-    },
-    nonRampCheckDX: function (a) {
-      return !this.rampCheckDX(a);
-    },
-    isColliding: function (a, b, c) {
-      null == c && (c = -1);
-      a = null == a ? this.getHitBounds() : a;
-      var d = ROTATE_Game.quantize(a.get_left()),
-        e = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.EPSILON),
-        f = ROTATE_Game.quantize(a.get_top()),
-        m = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.EPSILON);
-      for (m += 1; f < m; )
-        for (var k = f++, p = d, y = e + 1; p < y; ) {
-          var H = p++;
-          if (!ROTATE_LevelEditorManager.isInBounds(H, k)) return !0;
-          var K = ROTATE_LevelEditorManager.getBlockData(H, k),
-            W = K.get_block();
+              : !1
+          : !1
+      : !1;
+  }
+
+  public nonRampCheckDX(a) {
+    return !this.rampCheckDX(a);
+  }
+
+  public isColliding(a, b, c) {
+    null == c && (c = -1);
+    a = null == a ? this.getHitBounds() : a;
+    var d = ROTATE_Game.quantize(a.get_left()),
+      e = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.EPSILON),
+      f = ROTATE_Game.quantize(a.get_top()),
+      m = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.EPSILON);
+    for (m += 1; f < m; )
+      for (var k = f++, p = d, y = e + 1; p < y; ) {
+        var H = p++;
+        if (!ROTATE_LevelEditorManager.isInBounds(H, k)) return !0;
+        var K = ROTATE_LevelEditorManager.getBlockData(H, k),
+          W = K.get_block();
+        if (
+          null != W &&
+          W.collides(K) &&
+          !W.isTrigger(K) &&
+          this.testBlockCollision(a, H, k, b, c)
+        )
+          return !0;
+      }
+    return !1;
+  }
+
+  public updateTouching() {
+    this.touchingOld = this.touching;
+    this.touching = [];
+    var a = this.getHitBounds(),
+      b = ROTATE_Game.quantize(a.get_left()),
+      c = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.EPSILON),
+      d = ROTATE_Game.quantize(a.get_top()),
+      e = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.EPSILON);
+    for (e += 1; d < e; )
+      for (var f = d++, m = b, k = c + 1; m < k; ) {
+        var p = m++,
+          y = ROTATE_LevelEditorManager.getBlockData(p, f),
+          H = y.get_block();
+        if (
+          null != H &&
+          H.collides(y) &&
+          this.testBlockCollision(a, p, f) &&
+          -1 == this.touching.indexOf(y) &&
+          (this.touching.push(y),
+          -1 == this.touchingOld.indexOf(y) &&
+            H.isTrigger(y) &&
+            !H.onTrigger(y))
+        )
+          return;
+      }
+  }
+  public testBlockCollision(a, b, c, d, e) {
+    null == e && (e = -1);
+    var f = ROTATE_LevelEditorManager.getBlockData(b, c);
+    f = f.get_block().getColliders(f);
+    for (var m = 0; m < f.length; ) {
+      var k = f[m];
+      ++m;
+      if (null != k && (null == d || d(k)))
+        if (JSObjectUtils.__instanceof(k, Collider)) {
           if (
-            null != W &&
-            W.collides(K) &&
-            !W.isTrigger(K) &&
-            this.testBlockCollision(a, H, k, b, c)
+            ((k = k.bounds.copy()),
+            (k.x += b * ROTATE_GameConstants.tileSize),
+            (k.y += c * ROTATE_GameConstants.tileSize),
+            a.intersects(k))
           )
             return !0;
-        }
-      return !1;
-    },
-    updateTouching: function () {
-      this.touchingOld = this.touching;
-      this.touching = [];
-      var a = this.getHitBounds(),
-        b = ROTATE_Game.quantize(a.get_left()),
-        c = ROTATE_Game.quantize(a.get_right() - ROTATE_GameConstants.EPSILON),
-        d = ROTATE_Game.quantize(a.get_top()),
-        e = ROTATE_Game.quantize(a.get_bottom() - ROTATE_GameConstants.EPSILON);
-      for (e += 1; d < e; )
-        for (var f = d++, m = b, k = c + 1; m < k; ) {
-          var p = m++,
-            y = ROTATE_LevelEditorManager.getBlockData(p, f),
-            H = y.get_block();
+        } else if (JSObjectUtils.__instanceof(k, Collider3)) {
+          var p = new Vector2(a.get_right(), a.get_bottom());
+          1 == k.dir && (p = new Vector2(a.get_left(), a.get_bottom()));
+          2 == k.dir && (p = new Vector2(a.get_left(), a.get_top()));
+          3 == k.dir && (p = new Vector2(a.get_right(), a.get_top()));
+          p.x -= b * ROTATE_GameConstants.tileSize;
+          p.y -= c * ROTATE_GameConstants.tileSize;
+          if (k.testPoint(p)) return !0;
+        } else if (JSObjectUtils.__instanceof(k, Collider2)) {
           if (
-            null != H &&
-            H.collides(y) &&
-            this.testBlockCollision(a, p, f) &&
-            -1 == this.touching.indexOf(y) &&
-            (this.touching.push(y),
-            -1 == this.touchingOld.indexOf(y) &&
-              H.isTrigger(y) &&
-              !H.onTrigger(y))
-          )
-            return;
-        }
-    },
-    testBlockCollision: function (a, b, c, d, e) {
-      null == e && (e = -1);
-      var f = ROTATE_LevelEditorManager.getBlockData(b, c);
-      f = f.get_block().getColliders(f);
-      for (var m = 0; m < f.length; ) {
-        var k = f[m];
-        ++m;
-        if (null != k && (null == d || d(k)))
-          if (JSObjectUtils.__instanceof(k, Collider)) {
-            if (
-              ((k = k.bounds.copy()),
-              (k.x += b * ROTATE_GameConstants.tileSize),
-              (k.y += c * ROTATE_GameConstants.tileSize),
-              a.intersects(k))
-            )
-              return !0;
-          } else if (JSObjectUtils.__instanceof(k, Collider3)) {
-            var p = new Vector2(a.get_right(), a.get_bottom());
-            1 == k.dir && (p = new Vector2(a.get_left(), a.get_bottom()));
-            2 == k.dir && (p = new Vector2(a.get_left(), a.get_top()));
-            3 == k.dir && (p = new Vector2(a.get_right(), a.get_top()));
-            p.x -= b * ROTATE_GameConstants.tileSize;
-            p.y -= c * ROTATE_GameConstants.tileSize;
-            if (k.testPoint(p)) return !0;
-          } else if (JSObjectUtils.__instanceof(k, Collider2)) {
-            if (
-              ((p = k.bounds.copy()),
-              (p.x += b * ROTATE_GameConstants.tileSize),
-              (p.y += c * ROTATE_GameConstants.tileSize),
-              a.intersects(p))
-            ) {
-              var y =
-                  1 == ROTATE_LevelEditorManager.rotation ||
-                  3 == ROTATE_LevelEditorManager.rotation,
-                H =
-                  0 == ROTATE_LevelEditorManager.rotation ||
-                  2 == ROTATE_LevelEditorManager.rotation,
-                K = -1 == e || 0 == e,
-                W = -1 == e || 1 == e,
-                aa = (H && K) || (y && W);
-              if ((H && W) || (y && K))
-                if (
-                  (0 == k.dir && this.lastBounds.get_bottom() <= p.get_top()) ||
-                  (2 == k.dir && this.lastBounds.get_top() >= p.get_bottom())
-                )
-                  return !0;
+            ((p = k.bounds.copy()),
+            (p.x += b * ROTATE_GameConstants.tileSize),
+            (p.y += c * ROTATE_GameConstants.tileSize),
+            a.intersects(p))
+          ) {
+            var y =
+                1 == ROTATE_LevelEditorManager.rotation ||
+                3 == ROTATE_LevelEditorManager.rotation,
+              H =
+                0 == ROTATE_LevelEditorManager.rotation ||
+                2 == ROTATE_LevelEditorManager.rotation,
+              K = -1 == e || 0 == e,
+              W = -1 == e || 1 == e,
+              aa = (H && K) || (y && W);
+            if ((H && W) || (y && K))
               if (
-                aa &&
-                ((1 == k.dir && this.lastBounds.get_left() >= p.get_right()) ||
-                  (3 == k.dir && this.lastBounds.get_right() <= p.get_left()))
+                (0 == k.dir && this.lastBounds.get_bottom() <= p.get_top()) ||
+                (2 == k.dir && this.lastBounds.get_top() >= p.get_bottom())
               )
                 return !0;
-            }
-          } else if (
-            JSObjectUtils.__instanceof(k, ColliderNoop) &&
-            ((p = k),
-            (k = ROTATE_GameConstants.tileSize),
-            (y = a.copy()),
-            (y.x -= b * k),
-            (y.y -= c * k),
-            (p = new Vector2(
-              0 == p.dir || 3 == p.dir ? k : 0,
-              0 == p.dir || 1 == p.dir ? k : 0,
-            )),
-            this.testAABBCircle(
-              new Bounds(a.x - b * k, a.y - c * k, a.width, a.height),
-              p,
-              k,
-            ))
-          )
-            return !0;
-      }
+            if (
+              aa &&
+              ((1 == k.dir && this.lastBounds.get_left() >= p.get_right()) ||
+                (3 == k.dir && this.lastBounds.get_right() <= p.get_left()))
+            )
+              return !0;
+          }
+        } else if (
+          JSObjectUtils.__instanceof(k, ColliderNoop) &&
+          ((p = k),
+          (k = ROTATE_GameConstants.tileSize),
+          (y = a.copy()),
+          (y.x -= b * k),
+          (y.y -= c * k),
+          (p = new Vector2(
+            0 == p.dir || 3 == p.dir ? k : 0,
+            0 == p.dir || 1 == p.dir ? k : 0,
+          )),
+          this.testAABBCircle(
+            new Bounds(a.x - b * k, a.y - c * k, a.width, a.height),
+            p,
+            k,
+          ))
+        )
+          return !0;
+    }
+    return !1;
+  }
+
+  public testAABBCircle(a: Bounds, b: Vector2, c: number) {
+    return new Bounds(a.x, a.y - c, a.width, a.height + 2 * c).contains(b) ||
+      new Bounds(a.x - c, a.y, a.width + 2 * c, a.height).contains(b) ||
+      Vector2.distance(b, new Vector2(a.get_left(), a.get_top())) < c ||
+      Vector2.distance(b, new Vector2(a.get_right(), a.get_top())) < c ||
+      Vector2.distance(b, new Vector2(a.get_right(), a.get_bottom())) < c
+      ? !0
+      : Vector2.distance(b, new Vector2(a.get_left(), a.get_bottom())) < c;
+  }
+
+  public jumpKeyDown() {
+    return InputKeys.keyDown(KEY_CODE.ArrowUp) ||
+      InputKeys.keyDown(KEY_CODE.KeyW)
+      ? !0
+      : InputKeys.keyDown(KEY_CODE.Space);
+  }
+
+  public canRotate(a) {
+    if (
+      !this.grounded ||
+      this.jumpKeyDown() ||
+      ROTATE_Game.instance.get_gameTime() - this.rotateTimer <
+        ROTATE_Player.ROTATE_DELAY + ROTATE_GameConstants.rotateTime ||
+      ROTATE_Game.instance.get_gameTime() - this.jumpTimer2 <
+        ROTATE_Player.JUMP_DELAY_2
+    )
       return !1;
-    },
-    testAABBCircle: function (a, b, c) {
-      return new Bounds(a.x, a.y - c, a.width, a.height + 2 * c).contains(b) ||
-        new Bounds(a.x - c, a.y, a.width + 2 * c, a.height).contains(b) ||
-        Vector2.distance(b, new Vector2(a.get_left(), a.get_top())) < c ||
-        Vector2.distance(b, new Vector2(a.get_right(), a.get_top())) < c ||
-        Vector2.distance(b, new Vector2(a.get_right(), a.get_bottom())) < c
-        ? !0
-        : Vector2.distance(b, new Vector2(a.get_left(), a.get_bottom())) < c;
-    },
-    jumpKeyDown: function () {
-      return InputKeys.keyDown(KEY_CODE.ArrowUp) ||
-        InputKeys.keyDown(KEY_CODE.KeyW)
-        ? !0
-        : InputKeys.keyDown(KEY_CODE.Space);
-    },
-    canRotate: function (a) {
-      if (
-        !this.grounded ||
-        this.jumpKeyDown() ||
-        ROTATE_Game.instance.get_gameTime() - this.rotateTimer <
-          ROTATE_Player.ROTATE_DELAY + ROTATE_GameConstants.rotateTime ||
-        ROTATE_Game.instance.get_gameTime() - this.jumpTimer2 <
-          ROTATE_Player.JUMP_DELAY_2
-      )
-        return !1;
-      var b = this.x2,
-        c = this.y2;
-      this.set_localY(this.get_localY() - ROTATE_GameConstants.rotateOffset);
-      var d = ROTATE_LevelEditorManager.rotation,
-        e = ROTATE_LevelEditorManager;
-      e.set_rotation(e.rotation + a);
-      ROTATE_LevelEditorManager.rotating = !0;
-      a = 0;
-      for (e = this.isColliding(); e && a < ROTATE_GameConstants.rotateOffset; )
-        (e = this.get_localY()),
-          this.set_localY(e - 1),
-          ++a,
-          (e = this.isColliding(null, null, 1));
-      this.rotateAdjust = a;
-      ROTATE_LevelEditorManager.set_rotation(d);
-      ROTATE_LevelEditorManager.rotating = !1;
-      this.x2 = b;
-      this.y2 = c;
-      return !e;
-    },
-    onRotateStart: function (a) {
-      this.set_localY(this.get_localY() - ROTATE_GameConstants.rotateOffset);
-      this.set_scaleX(a);
-      this.adjust();
-      this.set_animation(ROTATE_Player.ANIM_ROTATE);
-      this.rotateTimer = ROTATE_Game.instance.get_gameTime();
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        ROTATE_Audio.steps.play('a');
-      this.lastStep = ROTATE_Game.instance.get_gameTimeMS();
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        ROTATE_Audio.rotate.play();
-    },
-    onRotateStart2: function () {
-      this.rotStartY = this.get_localY();
-    },
-    onRotating: function (a) {
-      this.set_localY(this.rotStartY - this.rotateAdjust * a);
-    },
-    onRotateEnd: function () {
-      this.dx = this.dy = 0;
-      this.grounded = !1;
-      this.set_localY(
-        this.rotStartY - this.rotateAdjust + ROTATE_GameConstants.rotateOffset,
-      );
-      this.adjust();
-    },
-    __class__: ROTATE_Player,
-  },
-);
+    var b = this.x2,
+      c = this.y2;
+    this.set_localY(this.get_localY() - ROTATE_GameConstants.rotateOffset);
+    var d = ROTATE_LevelEditorManager.rotation,
+      e = ROTATE_LevelEditorManager;
+    e.set_rotation(e.rotation + a);
+    ROTATE_LevelEditorManager.rotating = !0;
+    a = 0;
+    for (e = this.isColliding(); e && a < ROTATE_GameConstants.rotateOffset; )
+      (e = this.get_localY()),
+        this.set_localY(e - 1),
+        ++a,
+        (e = this.isColliding(null, null, 1));
+    this.rotateAdjust = a;
+    ROTATE_LevelEditorManager.set_rotation(d);
+    ROTATE_LevelEditorManager.rotating = !1;
+    this.x2 = b;
+    this.y2 = c;
+    return !e;
+  }
+
+  public onRotateStart(a) {
+    this.set_localY(this.get_localY() - ROTATE_GameConstants.rotateOffset);
+    this.set_scaleX(a);
+    this.adjust();
+    this.set_animation(ROTATE_Player.ANIM_ROTATE);
+    this.rotateTimer = ROTATE_Game.instance.get_gameTime();
+    (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+      ROTATE_Audio.steps.play('a');
+    this.lastStep = ROTATE_Game.instance.get_gameTimeMS();
+    (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+      ROTATE_Audio.rotate.play();
+  }
+
+  public onRotateStart2() {
+    this.rotStartY = this.get_localY();
+  }
+
+  public onRotating(a) {
+    this.set_localY(this.rotStartY - this.rotateAdjust * a);
+  }
+
+  public onRotateEnd() {
+    this.dx = this.dy = 0;
+    this.grounded = !1;
+    this.set_localY(
+      this.rotStartY - this.rotateAdjust + ROTATE_GameConstants.rotateOffset,
+    );
+    this.adjust();
+  }
+}
 
 type PLACEHOLDER__BaseLevelInterface = unknown;
 export class ROTATE_LevelEditorManager {
@@ -18172,12 +18101,8 @@ class ROTATE_ScreenGameLastScene extends ROTATE_ScreenGameBase {
   );
   public catTrigger = !1;
   public cat = new ROTATE_CatAnimationObject();
-  public player = new DEPRECATED__ROTATE_AnimatedObject(
-    ROTATE_Images.player,
-    32,
-    48,
-  );
-  public artPlants = new DEPRECATED__ROTATE_AnimatedObject(
+  public player = new ROTATE_AnimatedObject(ROTATE_Images.player, 32, 48);
+  public artPlants = new ROTATE_AnimatedObject(
     ROTATE_Images.endingPlants,
     504,
     24,
@@ -19634,59 +19559,6 @@ var ROTATE_Class = {__name__: ['Class']};
 var ROTATE_ObjectNoop = {};
 
 JSObjectUtils.__toStr = {}.toString;
-
-ROTATE_CatAnimationObject.SPEED = 2;
-ROTATE_CatAnimationObject.ACCEL = 0.06;
-ROTATE_CatAnimationObject.DECCEL_MULT = 0.6;
-ROTATE_CatAnimationObject.ANIM_IDLE = new ROTATE_Animation(
-  [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],
-  [1500, 100, 100, 100, 100, 100, 3000, 100, 100, 200, 100, 100],
-);
-ROTATE_CatAnimationObject.ANIM_EXIT = new ROTATE_Animation(
-  [9, 10, 11, 12, 13, 14, 15, 16, 17],
-  [100, 100, 100, 100, 100, 100, 100, 100, 100],
-  !1,
-);
-ROTATE_CatAnimationObject.ANIM_END_1 = new ROTATE_Animation(
-  [9, 10],
-  [100, 100],
-  !1,
-);
-ROTATE_CatAnimationObject.ANIM_END_2 = new ROTATE_Animation(
-  [11, 12, 22, 14, 24, 25, 26],
-  [100, 100, 100, 100, 100, 100, 100],
-);
-
-ROTATE_Player.HIT_W = 12;
-ROTATE_Player.HIT_H = 42;
-ROTATE_Player.SPEED = 3.7;
-ROTATE_Player.RAMP_MULT = 0.7;
-ROTATE_Player.ACCEL = 0.33;
-ROTATE_Player.DECCEL_MULT = 0.6;
-ROTATE_Player.JUMP_SPEED = 5.9;
-ROTATE_Player.JUMP_DELAY = 0.25;
-ROTATE_Player.JUMP_DELAY_2 = 0.06666666666666667;
-ROTATE_Player.GRAVITY = 0.35;
-ROTATE_Player.GRAVITY_MAX = 9;
-ROTATE_Player.ROTATE_DELAY = 0.05;
-ROTATE_Player.ANIM_IDLE = new ROTATE_Animation(
-  [0, 1, 2, 3],
-  [400, 400, 400, 400],
-);
-ROTATE_Player.ANIM_RUN = new ROTATE_Animation(
-  [4, 5, 6, 7],
-  [100, 100, 100, 100],
-);
-ROTATE_Player.ANIM_JUMP = new ROTATE_Animation([8, 9], [200, 200], !1);
-ROTATE_Player.ANIM_FALL = new ROTATE_Animation(
-  [12, 13, 14, 15],
-  [100, 100, 100, 100],
-);
-ROTATE_Player.ANIM_ROTATE = new ROTATE_Animation(
-  [16, 17, 18, 19],
-  [100, 100, 100, 100],
-  !1,
-);
 
 // TODO: simplify the logic of ROTATE_GameObjectsRegistry and ROTATE_GameObjects.
 // Once the codebase will be more stable and typed, the ID's for each object could be leveraged via TypeScript union
