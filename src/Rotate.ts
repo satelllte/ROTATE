@@ -1105,26 +1105,28 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   }
 }
 
-var ROTATE_Award = function (name, icon) {
-  this.unlocked = !1;
-  this.name = name;
-  this.icon = icon;
-};
-ROTATE_Award.__name__ = !0;
-ROTATE_Award.prototype = {
-  unlock: function () {
-    if (this.unlocked) return !1;
-    this.unlocked = !0;
+class ROTATE_Award {
+  public unlocked = false;
+
+  constructor(
+    public readonly name: string,
+    public readonly icon: HTMLImageElement,
+  ) {}
+
+  public unlock() {
+    if (this.unlocked) return false;
+
+    this.unlocked = true;
+
     ROTATE_Game.instance.saveProgress();
     JSObjectUtils.__instanceof(
       ROTATE_Game.instance.currentScreen,
       ROTATE_ScreenAwards,
     ) && ROTATE_Game.instance.currentScreen.refresh();
     ROTATE_Awards.queueNotify(this);
-    return !0;
-  },
-  __class__: ROTATE_Award,
-};
+    return true;
+  }
+}
 
 var ROTATE_Awards = function () {};
 ROTATE_Awards.__name__ = !0;
