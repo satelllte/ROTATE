@@ -50,6 +50,13 @@ import {ROTATE_YesNoOverlay} from './ROTATE_YesNoOverlay';
 import {ROTATE_MuteButtons} from './ROTATE_MuteButtons';
 import {ROTATE_BackgroundObject} from './ROTATE_BackgroundObject';
 import {ROTATE_ScreenBase} from './ROTATE_ScreenBase';
+import {
+  ROTATE_ConditionChannel,
+  ROTATE_ConditionCollision,
+  ROTATE_ConditionCollisionWithChannels,
+  ROTATE_ConditionDelay,
+  ROTATE_ConditionDelayedCollision,
+} from './ROTATE_Condition';
 
 // ---------------------------------------------------------------------------
 
@@ -1948,7 +1955,7 @@ ROTATE_Player.prototype = __inherit(ROTATE_AnimatedObject.prototype, {
 });
 
 type PLACEHOLDER__BaseLevelInterface = unknown;
-class ROTATE_LevelEditorManager {
+export class ROTATE_LevelEditorManager {
   public static rotating = !1;
   public static rotation = 0;
   public static level: PLACEHOLDER__BaseLevelInterface | null = null;
@@ -17249,134 +17256,6 @@ ROTATE_Cat.prototype = {
   __class__: ROTATE_Cat,
 };
 
-var ConditionInterface = function () {};
-ConditionInterface.__name__ = !0;
-ConditionInterface.prototype = {
-  __class__: ConditionInterface,
-};
-
-var ROTATE_ConditionCollision = function (x, y, width, height, rotation) {
-  null == rotation && (rotation = -1);
-  this.bounds = new Bounds(
-    ROTATE_GameConstants.tileSize * x,
-    ROTATE_GameConstants.tileSize * y,
-    ROTATE_GameConstants.tileSize * width,
-    ROTATE_GameConstants.tileSize * height,
-  );
-  this.rotation = rotation;
-};
-ROTATE_ConditionCollision.__name__ = !0;
-ROTATE_ConditionCollision.__interfaces__ = [ConditionInterface];
-ROTATE_ConditionCollision.prototype = {
-  start: function () {},
-  test: function () {
-    return !ROTATE_ScreenPrimaryGame.i.player
-      .getHitBounds()
-      .intersects(this.bounds) ||
-      (-1 != this.rotation &&
-        ROTATE_LevelEditorManager.rotation != this.rotation)
-      ? !1
-      : !ROTATE_LevelEditorManager.rotating;
-  },
-  __class__: ROTATE_ConditionCollision,
-};
-
-var ROTATE_ConditionCollisionWithChannels = function (
-  x,
-  y,
-  width,
-  height,
-  rotation,
-) {
-  ROTATE_ConditionCollision.call(this, x, y, width, height, rotation);
-};
-ROTATE_ConditionCollisionWithChannels.__name__ = !0;
-ROTATE_ConditionCollisionWithChannels.__super__ = ROTATE_ConditionCollision;
-ROTATE_ConditionCollisionWithChannels.prototype = __inherit(
-  ROTATE_ConditionCollision.prototype,
-  {
-    test: function () {
-      return ROTATE_ConditionCollision.prototype.test.call(this) &&
-        ROTATE_ScreenPrimaryGame.i.getChannelStatus(0) &&
-        ROTATE_ScreenPrimaryGame.i.getChannelStatus(1)
-        ? ROTATE_ScreenPrimaryGame.i.getChannelStatus(2)
-        : !1;
-    },
-    __class__: ROTATE_ConditionCollisionWithChannels,
-  },
-);
-
-var ROTATE_ConditionDelayedCollision = function (
-  delay,
-  x,
-  y,
-  width,
-  height,
-  rotation,
-) {
-  null == rotation && (rotation = -1);
-  this.hit = !1;
-  this.delay = delay;
-  this.bounds = new Bounds(
-    x * ROTATE_GameConstants.tileSize,
-    y * ROTATE_GameConstants.tileSize,
-    width * ROTATE_GameConstants.tileSize,
-    height * ROTATE_GameConstants.tileSize,
-  );
-  this.rotation = rotation;
-};
-ROTATE_ConditionDelayedCollision.__name__ = !0;
-ROTATE_ConditionDelayedCollision.__interfaces__ = [ConditionInterface];
-ROTATE_ConditionDelayedCollision.prototype = {
-  start: function () {},
-  test: function () {
-    this.hit ||
-      !ROTATE_ScreenPrimaryGame.i.player
-        .getHitBounds()
-        .intersects(this.bounds) ||
-      (-1 != this.rotation &&
-        ROTATE_LevelEditorManager.rotation != this.rotation) ||
-      ROTATE_LevelEditorManager.rotating ||
-      ((this.hit = !0), (this.timer = ROTATE_Game.instance.get_gameTime()));
-    return this.hit
-      ? ROTATE_Game.instance.get_gameTime() - this.timer >= this.delay
-      : !1;
-  },
-  __class__: ROTATE_ConditionDelayedCollision,
-};
-
-var ROTATE_ConditionChannel = function (channel) {
-  this.timer = -1;
-  this.channel = channel;
-};
-ROTATE_ConditionChannel.__name__ = !0;
-ROTATE_ConditionChannel.__interfaces__ = [ConditionInterface];
-ROTATE_ConditionChannel.prototype = {
-  start: function () {
-    this.timer = ROTATE_Game.instance.get_gameTime();
-  },
-  test: function () {
-    var a = ROTATE_ScreenPrimaryGame.i.channels.h[this.channel];
-    return null != a ? a.lastChanged > this.timer : !1;
-  },
-  __class__: ROTATE_ConditionChannel,
-};
-
-var ROTATE_ConditionDelay = function (a) {
-  this.delay = a;
-};
-ROTATE_ConditionDelay.__name__ = !0;
-ROTATE_ConditionDelay.__interfaces__ = [ConditionInterface];
-ROTATE_ConditionDelay.prototype = {
-  start: function () {
-    this.timer = ROTATE_Game.instance.get_gameTime();
-  },
-  test: function () {
-    return ROTATE_Game.instance.get_gameTime() - this.timer >= this.delay;
-  },
-  __class__: ROTATE_ConditionDelay,
-};
-
 var ROTATE_SpeechPart = function (cond, text) {
   this.cond = cond;
   this.text = text;
@@ -18721,7 +18600,7 @@ class ROTATE_ScreenMainMenu extends ROTATE_ScreenBase {
 }
 
 type PLACEHOLDER_ROTATE_BaseLevelInterface = unknown;
-class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
+export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
   public channels = new ROTATE_KeysMap();
   public newBest = !1;
   public speedrunFinal = -1;
@@ -18738,6 +18617,8 @@ class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
   public tempLevel;
   public speedrun;
   public speedrunStart;
+  public player = new ROTATE_Player();
+  public static i: ROTATE_ScreenPrimaryGame;
 
   public static continueTheme = !1;
   public static RESTART_DELAY = 1;
