@@ -17370,26 +17370,6 @@ ROTATE_Speech.prototype = {
   __class__: ROTATE_Speech,
 };
 
-var DEPRECATED__ROTATE_ScreenBase = function () {
-  this.pausable = !1;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-};
-DEPRECATED__ROTATE_ScreenBase.__name__ = !0;
-DEPRECATED__ROTATE_ScreenBase.__super__ = DEPRECATED__ROTATE_CanvasObject;
-DEPRECATED__ROTATE_ScreenBase.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    init: function () {},
-    ready: function () {},
-    update: function () {},
-    tick: function () {},
-    postUpdate: function () {},
-    prekill: function () {},
-    kill: function () {},
-    __class__: DEPRECATED__ROTATE_ScreenBase,
-  },
-);
-
 class ROTATE_ScreenAwards extends ROTATE_ScreenBase {
   public rotating = !1;
   public rotationSide = 0;
@@ -18217,145 +18197,137 @@ class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
   }
 }
 
-var ROTATE_ScreenGameLastScene = function (a) {
-  null == a && (a = !1);
-  this.hint = new ROTATE_Text(
+class ROTATE_ScreenGameLastScene extends ROTATE_ScreenGameBase {
+  public hint = new ROTATE_Text(
     ROTATE_Game.fontMain,
     'Press [SPACE] to continue...',
   );
-  this.catTrigger = !1;
-  this.cat = new ROTATE_CatAnimationObject();
-  this.player = new ROTATE_AnimatedObject(ROTATE_Images.player, 32, 48);
-  this.artPlants = new ROTATE_AnimatedObject(
+  public catTrigger = !1;
+  public cat = new ROTATE_CatAnimationObject();
+  public player = new ROTATE_AnimatedObject(ROTATE_Images.player, 32, 48);
+  public artPlants = new ROTATE_AnimatedObject(
     ROTATE_Images.endingPlants,
     504,
     24,
   );
-  this.artMain = new ROTATE_ImageObject(ROTATE_Images.endingMain);
-  this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
-  this.bg = new ROTATE_CanvasObject();
-  this.cameraX = this.cameraY = 0;
-  this.camera = new ROTATE_CanvasObject();
-  this.pivot = new ROTATE_CanvasObject();
-  this.done = !1;
-  this.delay = 9.5;
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-  this.pausable = !0;
-  this.first = a;
-};
-ROTATE_ScreenGameLastScene.__name__ = !0;
-ROTATE_ScreenGameLastScene.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenGameLastScene.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      this.start = ROTATE_Game.instance.get_gameTime();
-      this.bg.graphics.beginFill(16777215);
-      this.bg.graphics.drawRect(
-        0,
-        0,
-        ROTATE_Canvas.width,
-        ROTATE_Canvas.height,
-      );
-      this.addChild(this.bg);
-      this.pivot.set_x(ROTATE_Canvas.width / 2);
-      this.pivot.set_y(ROTATE_Canvas.height / 2);
-      this.addChild(this.pivot);
-      this.pivot.addChild(this.camera);
-      this.camera.addChild(this.artMain);
-      this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
-      this.artPlants.set_animation(
-        new ROTATE_Animation([0, 1, 2], [250, 250, 250]),
-      );
-      this.camera.addChild(this.artPlants);
-      this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
-      this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
-      this.cat.set_scaleX(-1);
-      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
-      this.camera.addChild(this.cat);
-      this.player.origin.x = this.player.frameW / 2;
-      this.player.origin.y = this.player.frameH;
-      this.player.set_animation(ROTATE_Player.ANIM_IDLE);
-      this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
-      this.player.set_y(12 * ROTATE_GameConstants.tileSize);
-      this.camera.addChild(this.player);
-      this.camera.set_x(Math.round((this.cameraX = -this.player.x)));
-      this.camera.set_y(
-        Math.round(
-          (this.cameraY =
-            -this.player.y +
-            ROTATE_GameConstants.rotateOffset +
-            2 * ROTATE_GameConstants.tileSize),
-        ),
-      );
-      this.vignette.set_alpha(0.75);
-      this.addChild(this.vignette);
-      this.hint.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.hint.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
-      this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.hint.set_y(ROTATE_Canvas.height - 24);
-      this.hint.set_alpha(0);
-      this.addChild(this.hint);
-      ROTATE_Audio.surface.volume(1);
-      ROTATE_Game.ie &&
-      ROTATE_Game.instance.muteSFX &&
-      ROTATE_Game.instance.muteMusic
-        ? (ROTATE_Game.instance.ieSurface = !0)
-        : (ROTATE_Audio.surface.play(),
-          ROTATE_Game.ie ||
-            ROTATE_Audio.surface.fade(
-              0,
-              1,
-              Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
-            ));
-    },
-    update: function () {
-      var a = this,
-        b = ROTATE_Game.instance.get_gameTime() - this.start;
-      !this.catTrigger &&
-        8 <= b &&
-        ((this.catTrigger = !0),
-        this.cat.set_scaleX(1),
-        (this.cat.horizontal = 1),
-        this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_1),
-        (this.cat.onFinish = function () {
-          a.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_2);
-          a.cat.onFinish = null;
-        }));
-      var c = b - this.delay;
-      this.hint.set_alpha(
-        0 > c ? 0 : 0.33 * ROTATE_Game.smootherStep(Math.min(c / 2.5, 1)),
-      );
-      !this.done &&
-        b >= this.delay &&
-        InputKeys.keyPressed(KEY_CODE.Space) &&
-        ((this.done = !0),
-        this.first &&
-          ((ROTATE_Awards.awardEscape.unlocked = !1),
-          ROTATE_Awards.awardEscape.unlock()),
-        ROTATE_Game.instance.changeScreen(
-          new ROTATE_ScreenCredits(!0),
-          !0,
-          null,
-          !0,
-          !0,
-        ),
-        ROTATE_Game.instance.timerHolder.removeChildren());
-    },
-    tick: function () {
-      var a = 0.75 * ROTATE_GameConstants.cameraSpeed;
-      this.cameraX += (-this.player.x - this.cameraX) * a;
-      this.cameraY +=
-        (-this.player.y + ROTATE_GameConstants.rotateOffset - this.cameraY) * a;
-      this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
-    },
-    postUpdate: function () {
-      this.camera.set_x(Math.round(this.cameraX));
-      this.camera.set_y(Math.round(this.cameraY));
-    },
-    __class__: ROTATE_ScreenGameLastScene,
-  },
-);
+  public artMain = new ROTATE_ImageObject(ROTATE_Images.endingMain);
+  public vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
+  public bg = new ROTATE_CanvasObject();
+  public cameraX = (this.cameraY = 0);
+  public camera = new ROTATE_CanvasObject();
+  public pivot = new ROTATE_CanvasObject();
+  public done = !1;
+  public delay = 9.5;
+  public start = 0;
+
+  constructor(public first: boolean = false) {
+    super();
+    this.pausable = !0;
+  }
+
+  public init() {
+    this.start = ROTATE_Game.instance.get_gameTime();
+    this.bg.graphics.beginFill(16777215);
+    this.bg.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
+    this.addChild(this.bg);
+    this.pivot.set_x(ROTATE_Canvas.width / 2);
+    this.pivot.set_y(ROTATE_Canvas.height / 2);
+    this.addChild(this.pivot);
+    this.pivot.addChild(this.camera);
+    this.camera.addChild(this.artMain);
+    this.artPlants.set_y(11 * ROTATE_GameConstants.tileSize);
+    this.artPlants.set_animation(
+      new ROTATE_Animation([0, 1, 2], [250, 250, 250]),
+    );
+    this.camera.addChild(this.artPlants);
+    this.cat.x2 = this.cat.set_x(17.5 * ROTATE_GameConstants.tileSize);
+    this.cat.set_y(12 * ROTATE_GameConstants.tileSize);
+    this.cat.set_scaleX(-1);
+    this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
+    this.camera.addChild(this.cat);
+    this.player.origin.x = this.player.frameW / 2;
+    this.player.origin.y = this.player.frameH;
+    this.player.set_animation(ROTATE_Player.ANIM_IDLE);
+    this.player.set_x(10.5 * ROTATE_GameConstants.tileSize);
+    this.player.set_y(12 * ROTATE_GameConstants.tileSize);
+    this.camera.addChild(this.player);
+    this.camera.set_x(Math.round((this.cameraX = -this.player.x)));
+    this.camera.set_y(
+      Math.round(
+        (this.cameraY =
+          -this.player.y +
+          ROTATE_GameConstants.rotateOffset +
+          2 * ROTATE_GameConstants.tileSize),
+      ),
+    );
+    this.vignette.set_alpha(0.75);
+    this.addChild(this.vignette);
+    this.hint.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.hint.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
+    this.hint.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.hint.set_y(ROTATE_Canvas.height - 24);
+    this.hint.set_alpha(0);
+    this.addChild(this.hint);
+    ROTATE_Audio.surface.volume(1);
+    ROTATE_Game.ie &&
+    ROTATE_Game.instance.muteSFX &&
+    ROTATE_Game.instance.muteMusic
+      ? (ROTATE_Game.instance.ieSurface = !0)
+      : (ROTATE_Audio.surface.play(),
+        ROTATE_Game.ie ||
+          ROTATE_Audio.surface.fade(
+            0,
+            1,
+            Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
+          ));
+  }
+  public update() {
+    var a = this,
+      b = ROTATE_Game.instance.get_gameTime() - this.start;
+    !this.catTrigger &&
+      8 <= b &&
+      ((this.catTrigger = !0),
+      this.cat.set_scaleX(1),
+      (this.cat.horizontal = 1),
+      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_1),
+      (this.cat.onFinish = function () {
+        a.cat.set_animation(ROTATE_CatAnimationObject.ANIM_END_2);
+        a.cat.onFinish = null;
+      }));
+    var c = b - this.delay;
+    this.hint.set_alpha(
+      0 > c ? 0 : 0.33 * ROTATE_Game.smootherStep(Math.min(c / 2.5, 1)),
+    );
+    !this.done &&
+      b >= this.delay &&
+      InputKeys.keyPressed(KEY_CODE.Space) &&
+      ((this.done = !0),
+      this.first &&
+        ((ROTATE_Awards.awardEscape.unlocked = !1),
+        ROTATE_Awards.awardEscape.unlock()),
+      ROTATE_Game.instance.changeScreen(
+        new ROTATE_ScreenCredits(!0),
+        !0,
+        null,
+        !0,
+        !0,
+      ),
+      ROTATE_Game.instance.timerHolder.removeChildren());
+  }
+
+  public tick() {
+    var a = 0.75 * ROTATE_GameConstants.cameraSpeed;
+    this.cameraX += (-this.player.x - this.cameraX) * a;
+    this.cameraY +=
+      (-this.player.y + ROTATE_GameConstants.rotateOffset - this.cameraY) * a;
+    this.cat.x < ROTATE_Canvas.width + 100 && this.cat.tick();
+  }
+
+  public postUpdate() {
+    this.camera.set_x(Math.round(this.cameraX));
+    this.camera.set_y(Math.round(this.cameraY));
+  }
+}
 
 class ROTATE_ScreenExtras extends ROTATE_ScreenBase {
   public erase = new ROTATE_EraseButton();
