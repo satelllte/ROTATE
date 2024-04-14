@@ -57,6 +57,7 @@ import {
   ROTATE_ConditionDelay,
   ROTATE_ConditionDelayedCollision,
 } from './ROTATE_Condition';
+import {ROTATE_Particle} from './ROTATE_Particle';
 
 // ---------------------------------------------------------------------------
 
@@ -3514,46 +3515,6 @@ ROTATE_GameObject_Vent.prototype = __inherit(
     __class__: ROTATE_GameObject_Vent,
   },
 );
-
-var ROTATE_Particle = function (
-  size,
-  life,
-  x,
-  y,
-  dx,
-  dy,
-  gravityX,
-  gravityY,
-  handler,
-) {
-  null == gravityY && (gravityY = 0);
-  null == gravityX && (gravityX = 0);
-  this.freeze = !1;
-  this.size = size;
-  this.life = life;
-  this.x = this.lastX = x;
-  this.y = this.lastY = y;
-  this.dx = dx;
-  this.dy = dy;
-  this.gravityX = gravityX;
-  this.gravityY = gravityY;
-  this.handler = handler;
-};
-ROTATE_Particle.__name__ = !0;
-ROTATE_Particle.prototype = {
-  update: function () {
-    if (!this.freeze || 0 >= this.life)
-      (this.dx += this.gravityX * ROTATE_Particle.GRAVITY_MULT),
-        (this.dy += this.gravityY * ROTATE_Particle.GRAVITY_MULT),
-        (this.x += this.dx),
-        (this.y += this.dy),
-        null != this.handler && this.handler(this),
-        0 < this.life && this.life--,
-        (this.lastX = this.x),
-        (this.lastY = this.y);
-  },
-  __class__: ROTATE_Particle,
-};
 
 var ROTATE_ParticleSystem = function (a, b, c, d, e, f, m, k, p) {
   null == p && (p = 1);
@@ -19791,7 +19752,6 @@ class ROTATE_GameObjects {
   );
 }
 
-ROTATE_Particle.GRAVITY_MULT = 0.2;
 ROTATE_EditorLevel.WORLD_SIZE = 42;
 
 ROTATE_Level1.fadeSpeed = 0.1;
