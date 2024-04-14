@@ -17624,136 +17624,136 @@ class ROTATE_ScreenAwards extends ROTATE_ScreenBase {
   }
 }
 
-var ROTATE_ScreenCredits = function (fromEnd) {
-  null == fromEnd && (fromEnd = !1);
-  this.mute = new ROTATE_MuteButtons();
-  this.more = new ROTATE_ImageObject(ROTATE_Images.linkLWS);
-  this.moreText = new ROTATE_Text(ROTATE_Game.fontMain, 'Game published by', 1);
-  this.soundtrack = new ROTATE_ImageObject(ROTATE_Images.soundtrack);
-  this.text2 = new ROTATE_Text(
+class ROTATE_ScreenCredits extends ROTATE_ScreenBase {
+  public mute = new ROTATE_MuteButtons();
+  public more = new ROTATE_ImageObject(ROTATE_Images.linkLWS);
+  public moreText = new ROTATE_Text(
+    ROTATE_Game.fontMain,
+    'Game published by',
+    1,
+  );
+  public soundtrack = new ROTATE_ImageObject(ROTATE_Images.soundtrack);
+  public text2 = new ROTATE_Text(
     ROTATE_Game.fontMain,
     'Special thanks to the playtesters\nand Patreon contributors!',
     1,
   );
-  this.joshua = new ROTATE_ImageObject(ROTATE_Images.linkJoshua2);
-  this.text1 = new ROTATE_Text(
+  public joshua = new ROTATE_ImageObject(ROTATE_Images.linkJoshua2);
+  public text1 = new ROTATE_Text(
     ROTATE_Game.fontMain,
     'Design, code, & music by',
     1,
   );
-  this.btnBack = new ROTATE_Button('BACK');
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-  this.fromEnd = fromEnd;
-};
-ROTATE_ScreenCredits.__name__ = !0;
-ROTATE_ScreenCredits.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenCredits.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      var a = this;
-      if (this.fromEnd) {
-        this.bg = new ROTATE_CanvasObject();
-        this.bg.graphics.beginFill(16777215);
-        this.bg.graphics.drawRect(
-          0,
-          0,
-          ROTATE_Canvas.width,
-          ROTATE_Canvas.height,
-        );
-        var b = new ROTATE_ImageObject(ROTATE_Images.vignette);
-        b.set_alpha(0.75);
-        this.bg.addChild(b);
-        this.btnBack.text.set_text('MENU');
-      } else
-        ROTATE_ScreenMainMenu.playTheme(),
-          (this.bg = new ROTATE_BackgroundObject());
-      this.addChild(this.bg);
-      this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.text1.set_y(80);
-      this.text1.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.addChild(this.text1);
-      this.joshua.set_x(
-        Math.round((ROTATE_Canvas.width - this.joshua.get_width()) / 2),
+  public btnBack = new ROTATE_Button('BACK');
+  public fromEnd: boolean;
+
+  constructor(fromEnd: boolean = false) {
+    super();
+    this.fromEnd = fromEnd;
+  }
+
+  public init() {
+    var a = this;
+    if (this.fromEnd) {
+      this.bg = new ROTATE_CanvasObject();
+      this.bg.graphics.beginFill(16777215);
+      this.bg.graphics.drawRect(
+        0,
+        0,
+        ROTATE_Canvas.width,
+        ROTATE_Canvas.height,
       );
-      this.joshua.set_y(this.text1.y + 36);
-      this.joshua.mouseEnabled = this.joshua.buttonMode = !0;
-      this.joshua.addEventListener('click', function (c) {
-        1 < c.which ||
-          ((c = window.open('https://criobite.com', '_blank')),
-          ROTATE_Awards.awardJoshua.unlock(),
-          c.focus());
-      });
-      this.addChild(this.joshua);
-      this.text2.set_x(this.text1.x);
-      this.text2.set_y(this.joshua.y + this.joshua.get_height() + 40);
-      this.text2.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.text2.align = ROTATE_Text.ALIGN_CENTER;
-      this.addChild(this.text2);
-      this.text2.mouseEnabled = this.text2.buttonMode = !0;
-      this.text2.addEventListener('click', function (c) {
-        1 < c.which ||
-          window
-            .open('https://www.patreon.com/lightwolfstudios', '_blank')
-            .focus();
-      });
-      this.soundtrack.set_x(
-        ROTATE_Canvas.width - this.soundtrack.get_width() - 6,
-      );
-      this.soundtrack.set_y(8);
-      this.soundtrack.mouseEnabled = this.soundtrack.buttonMode = !0;
-      this.soundtrack.addEventListener('click', function (c) {
-        1 < c.which ||
-          (window
-            .open('https://criobite.com/link/rotate-soundtrack', '_blank')
-            .focus(),
-          ROTATE_Awards.awardSoundtrack.unlock());
-      });
-      this.addChild(this.soundtrack);
-      this.moreText.set_x(this.text1.x);
-      this.moreText.set_y(this.text2.y + this.text2.get_height() + 36);
-      this.moreText.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.moreText.align = ROTATE_Text.ALIGN_CENTER;
-      this.addChild(this.moreText);
-      this.more.set_x(
-        Math.round((ROTATE_Canvas.width - this.more.get_width()) / 2),
-      );
-      this.more.set_y(this.moreText.y + this.moreText.get_height());
-      this.more.mouseEnabled = this.more.buttonMode = !0;
-      this.more.addEventListener('click', function (c) {
-        2 <= c.which ||
-          ((c = window.open('http://lightwolfstudios.com/', '_blank')),
-          ROTATE_Awards.awardJoshua.unlock(),
-          c.focus());
-      });
-      this.addChild(this.more);
-      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.btnBack.set_y(ROTATE_Canvas.height - 64);
-      this.btnBack.addEventListener('click', function (c) {
-        2 > c.which &&
-          (a.fromEnd &&
-            ROTATE_Audio.surface.playing() &&
-            (ROTATE_Game.ie
-              ? ROTATE_Audio.surface.stop()
-              : (ROTATE_Audio.surface.fade(
-                  1,
-                  0,
-                  Math.round(ROTATE_GameConstants.screenFadeTime / 2),
-                ),
-                ROTATE_Audio.surface.once('fade', function () {
-                  ROTATE_Audio.surface.stop();
-                }))),
-          ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
-          ROTATE_Game.instance.changeScreen(
-            a.fromEnd ? new ROTATE_ScreenExtras() : new ROTATE_ScreenMainMenu(),
-          ));
-      });
-      this.addChild(this.btnBack);
-      this.addChild(this.mute);
-    },
-    __class__: ROTATE_ScreenCredits,
-  },
-);
+      var b = new ROTATE_ImageObject(ROTATE_Images.vignette);
+      b.set_alpha(0.75);
+      this.bg.addChild(b);
+      this.btnBack.text.set_text('MENU');
+    } else
+      ROTATE_ScreenMainMenu.playTheme(),
+        (this.bg = new ROTATE_BackgroundObject());
+    this.addChild(this.bg);
+    this.text1.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.text1.set_y(80);
+    this.text1.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.addChild(this.text1);
+    this.joshua.set_x(
+      Math.round((ROTATE_Canvas.width - this.joshua.get_width()) / 2),
+    );
+    this.joshua.set_y(this.text1.y + 36);
+    this.joshua.mouseEnabled = this.joshua.buttonMode = !0;
+    this.joshua.addEventListener('click', function (c) {
+      1 < c.which ||
+        ((c = window.open('https://criobite.com', '_blank')),
+        ROTATE_Awards.awardJoshua.unlock(),
+        c.focus());
+    });
+    this.addChild(this.joshua);
+    this.text2.set_x(this.text1.x);
+    this.text2.set_y(this.joshua.y + this.joshua.get_height() + 40);
+    this.text2.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.text2.align = ROTATE_Text.ALIGN_CENTER;
+    this.addChild(this.text2);
+    this.text2.mouseEnabled = this.text2.buttonMode = !0;
+    this.text2.addEventListener('click', function (c) {
+      1 < c.which ||
+        window
+          .open('https://www.patreon.com/lightwolfstudios', '_blank')
+          .focus();
+    });
+    this.soundtrack.set_x(
+      ROTATE_Canvas.width - this.soundtrack.get_width() - 6,
+    );
+    this.soundtrack.set_y(8);
+    this.soundtrack.mouseEnabled = this.soundtrack.buttonMode = !0;
+    this.soundtrack.addEventListener('click', function (c) {
+      1 < c.which ||
+        (window
+          .open('https://criobite.com/link/rotate-soundtrack', '_blank')
+          .focus(),
+        ROTATE_Awards.awardSoundtrack.unlock());
+    });
+    this.addChild(this.soundtrack);
+    this.moreText.set_x(this.text1.x);
+    this.moreText.set_y(this.text2.y + this.text2.get_height() + 36);
+    this.moreText.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.moreText.align = ROTATE_Text.ALIGN_CENTER;
+    this.addChild(this.moreText);
+    this.more.set_x(
+      Math.round((ROTATE_Canvas.width - this.more.get_width()) / 2),
+    );
+    this.more.set_y(this.moreText.y + this.moreText.get_height());
+    this.more.mouseEnabled = this.more.buttonMode = !0;
+    this.more.addEventListener('click', function (c) {
+      2 <= c.which ||
+        ((c = window.open('http://lightwolfstudios.com/', '_blank')),
+        ROTATE_Awards.awardJoshua.unlock(),
+        c.focus());
+    });
+    this.addChild(this.more);
+    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.btnBack.set_y(ROTATE_Canvas.height - 64);
+    this.btnBack.addEventListener('click', function (c) {
+      2 > c.which &&
+        (a.fromEnd &&
+          ROTATE_Audio.surface.playing() &&
+          (ROTATE_Game.ie
+            ? ROTATE_Audio.surface.stop()
+            : (ROTATE_Audio.surface.fade(
+                1,
+                0,
+                Math.round(ROTATE_GameConstants.screenFadeTime / 2),
+              ),
+              ROTATE_Audio.surface.once('fade', function () {
+                ROTATE_Audio.surface.stop();
+              }))),
+        ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
+        ROTATE_Game.instance.changeScreen(
+          a.fromEnd ? new ROTATE_ScreenExtras() : new ROTATE_ScreenMainMenu(),
+        ));
+    });
+    this.addChild(this.btnBack);
+    this.addChild(this.mute);
+  }
+}
 
 type PLACEHOLDER__ROTATE_Player = unknown;
 export class ROTATE_ScreenGameBase extends ROTATE_ScreenBase {
