@@ -1054,10 +1054,9 @@ export class ROTATE_Award {
     this.unlocked = true;
 
     ROTATE_Game.instance.saveProgress();
-    JSObjectUtils.__instanceof(
-      ROTATE_Game.instance.currentScreen,
-      ROTATE_ScreenAwards,
-    ) && ROTATE_Game.instance.currentScreen.refresh();
+    if (ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenAwards) {
+      ROTATE_Game.instance.currentScreen.refresh();
+    }
     ROTATE_Awards.queueNotify(this);
     return true;
   }
@@ -17569,121 +17568,113 @@ DEPRECATED__ROTATE_ScreenBase.prototype = __inherit(
   },
 );
 
-var ROTATE_ScreenAwards = function () {
-  this.rotating = !1;
-  this.rotationSide = 0;
-  this.awardDisplays = [];
-  this.mute = new ROTATE_MuteButtons();
-  this.sponsor = new ROTATE_Sponsor();
-  this.btnBack = new ROTATE_Button('BACK');
-  this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
-  this.bg = new ROTATE_BackgroundObject();
-  this.content = new ROTATE_CanvasObject();
-  this.pivot = new ROTATE_CanvasObject();
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-};
-ROTATE_ScreenAwards.__name__ = !0;
-ROTATE_ScreenAwards.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenAwards.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      ROTATE_ScreenMainMenu.playTheme();
-      this.addChild(this.bg);
-      this.pivot.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.pivot.set_y(Math.round(ROTATE_Canvas.height / 2));
-      this.addChild(this.pivot);
-      this.content.set_x(-this.pivot.x);
-      this.content.set_y(-this.pivot.y);
-      this.pivot.addChild(this.content);
-      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.title.set_y(64);
-      this.content.addChild(this.title);
-      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.btnBack.set_y(ROTATE_Canvas.height - 88);
-      this.btnBack.addEventListener('click', function (a) {
-        2 > a.which &&
-          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
-      });
-      this.content.addChild(this.btnBack);
-      this.content.addChild(this.sponsor);
-      this.content.addChild(this.mute);
-      this.refresh();
-      ROTATE_Game.instance.warnNoSave(this);
-    },
-    refresh: function () {
-      for (var a = 0, b = this.awardDisplays; a < b.length; ) {
-        var c = b[a];
-        ++a;
-        this.content.removeChild(c);
+class ROTATE_ScreenAwards extends ROTATE_ScreenBase {
+  public rotating = !1;
+  public rotationSide = 0;
+  public awardDisplays = [];
+  public mute = new ROTATE_MuteButtons();
+  public sponsor = new ROTATE_Sponsor();
+  public btnBack = new ROTATE_Button('BACK');
+  public title = new ROTATE_Text(ROTATE_Game.fontMain, 'AWARDS', 1);
+  public bg = new ROTATE_BackgroundObject();
+  public content = new ROTATE_CanvasObject();
+  public pivot = new ROTATE_CanvasObject();
+
+  public init() {
+    ROTATE_ScreenMainMenu.playTheme();
+    this.addChild(this.bg);
+    this.pivot.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.pivot.set_y(Math.round(ROTATE_Canvas.height / 2));
+    this.addChild(this.pivot);
+    this.content.set_x(-this.pivot.x);
+    this.content.set_y(-this.pivot.y);
+    this.pivot.addChild(this.content);
+    this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.title.set_y(64);
+    this.content.addChild(this.title);
+    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.btnBack.set_y(ROTATE_Canvas.height - 88);
+    this.btnBack.addEventListener('click', function (a) {
+      2 > a.which &&
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
+    });
+    this.content.addChild(this.btnBack);
+    this.content.addChild(this.sponsor);
+    this.content.addChild(this.mute);
+    this.refresh();
+    ROTATE_Game.instance.warnNoSave(this);
+  }
+
+  public refresh() {
+    for (var a = 0, b = this.awardDisplays; a < b.length; ) {
+      var c = b[a];
+      ++a;
+      this.content.removeChild(c);
+    }
+    null != this.erase && this.content.removeChild(this.erase);
+    this.erase = new ROTATE_EraseButton();
+    this.content.addChild(this.erase);
+    this.awardDisplays = [];
+    a = Math.floor(ROTATE_Awards.all.length / 3);
+    b = 0;
+    for (c = ROTATE_Awards.all.length; b < c; ) {
+      var d = b++,
+        e = Math.floor(d / 3),
+        f = e < a ? 3 : ROTATE_Awards.all.length - 3 * a,
+        m = new ROTATE_AwardObject(ROTATE_Awards.all[d]);
+      m.set_x(
+        Math.floor(ROTATE_Canvas.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e),
+      );
+      m.set_y(128 + 136 * e);
+      this.content.addChild(m);
+      this.awardDisplays.push(m);
+    }
+  }
+
+  public update() {
+    if (this.rotating) {
+      var a = Math.min(
+          (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
+            ROTATE_GameConstants.rotateTime,
+          1,
+        ),
+        b = ROTATE_Game.smootherStep(a);
+      this.pivot.set_rotation(
+        this.rotateStartAngle +
+          (this.rotateEndAngle - this.rotateStartAngle) * b,
+      );
+      if (1 == a) {
+        for (; 0 > this.pivot.rotation; )
+          (a = this.pivot), a.set_rotation(a.rotation + 360);
+        for (; 360 <= this.pivot.rotation; )
+          (a = this.pivot), a.set_rotation(a.rotation - 360);
+        this.rotating = !1;
       }
-      null != this.erase && this.content.removeChild(this.erase);
-      this.erase = new ROTATE_EraseButton();
-      this.content.addChild(this.erase);
-      this.awardDisplays = [];
-      a = Math.floor(ROTATE_Awards.all.length / 3);
-      b = 0;
-      for (c = ROTATE_Awards.all.length; b < c; ) {
-        var d = b++,
-          e = Math.floor(d / 3),
-          f = e < a ? 3 : ROTATE_Awards.all.length - 3 * a,
-          m = new ROTATE_AwardObject(ROTATE_Awards.all[d]);
-        m.set_x(
-          Math.floor(ROTATE_Canvas.width / 2) -
-            80 * (f - 1) +
-            160 * (d - 3 * e),
-        );
-        m.set_y(128 + 136 * e);
-        this.content.addChild(m);
-        this.awardDisplays.push(m);
-      }
-    },
-    update: function () {
-      if (this.rotating) {
-        var a = Math.min(
-            (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
-              ROTATE_GameConstants.rotateTime,
-            1,
-          ),
-          b = ROTATE_Game.smootherStep(a);
-        this.pivot.set_rotation(
-          this.rotateStartAngle +
-            (this.rotateEndAngle - this.rotateStartAngle) * b,
-        );
-        if (1 == a) {
-          for (; 0 > this.pivot.rotation; )
-            (a = this.pivot), a.set_rotation(a.rotation + 360);
-          for (; 360 <= this.pivot.rotation; )
-            (a = this.pivot), a.set_rotation(a.rotation - 360);
-          this.rotating = !1;
-        }
-      } else if (
-        ((a = InputKeys.keyPressed(
-          ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
-        )),
-        (b = InputKeys.keyPressed(
-          ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
-        )),
-        a || b)
-      )
-        ROTATE_Awards.awardRotate.unlock(),
-          (this.rotating = !0),
-          (this.rotateStart = ROTATE_Game.instance.get_gameTime()),
-          (this.rotateDir = a ? -1 : 1),
-          (this.rotateStartAngle = this.pivot.rotation),
-          (this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir),
-          (this.rotationSide += this.rotateDir),
-          (this.rotationSide =
-            0 > this.rotationSide
-              ? 3
-              : 3 < this.rotationSide
-                ? 0
-                : this.rotationSide);
-    },
-    __class__: ROTATE_ScreenAwards,
-  },
-);
+    } else if (
+      ((a = InputKeys.keyPressed(
+        ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
+      )),
+      (b = InputKeys.keyPressed(
+        ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
+      )),
+      a || b)
+    )
+      ROTATE_Awards.awardRotate.unlock(),
+        (this.rotating = !0),
+        (this.rotateStart = ROTATE_Game.instance.get_gameTime()),
+        (this.rotateDir = a ? -1 : 1),
+        (this.rotateStartAngle = this.pivot.rotation),
+        (this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir),
+        (this.rotationSide += this.rotateDir),
+        (this.rotationSide =
+          0 > this.rotationSide
+            ? 3
+            : 3 < this.rotationSide
+              ? 0
+              : this.rotationSide);
+  }
+}
 
 var ROTATE_ScreenCredits = function (fromEnd) {
   null == fromEnd && (fromEnd = !1);
