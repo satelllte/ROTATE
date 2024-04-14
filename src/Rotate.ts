@@ -41,6 +41,8 @@ import {CharUtils} from './CharUtils';
 import {ROTATE_CanvasObject} from './ROTATE_CanvasObject';
 import {ROTATE_Canvas} from './ROTATE_Canvas';
 import {InputKeys} from './InputKeys';
+import {ROTATE_ImageObject} from './ROTATE_ImageObject';
+import {ROTATE_Sponsor} from './ROTATE_Sponsor';
 
 // ---------------------------------------------------------------------------
 
@@ -281,80 +283,6 @@ DEPRECATED__ROTATE_CanvasObject.prototype = __inherit(
       }
     },
     __class__: DEPRECATED__ROTATE_CanvasObject,
-  },
-);
-
-var ROTATE_ImageObject = function (image) {
-  this.imageWidth = 0;
-  this.imageHeight = 0;
-  var _self = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  null != image && this.create(image);
-  this.addEventListener('render', function (c) {
-    _self.render(c.surface);
-  });
-};
-ROTATE_ImageObject.__name__ = !0;
-ROTATE_ImageObject.fromFile = function (a, b) {
-  var c = new ROTATE_ImageObject(null);
-  ROTATE_Manager.loadImage(a, function (d) {
-    c.create(d);
-    null != b && b();
-  });
-  return c;
-};
-ROTATE_ImageObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_ImageObject.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    get_rect: function () {
-      return new Bounds(
-        0,
-        0,
-        null != this.clipRect ? this.clipRect.width : 0,
-        null != this.clipRect ? this.clipRect.height : 0,
-      );
-    },
-    set_clipRect: function (a) {
-      return (this.clipRect = a);
-    },
-    create: function (a) {
-      if (null == this.image) {
-        this.image = a;
-        var b = a.width,
-          c = a.height;
-        'svg' == subString(a.src, a.src.length - 3, null) &&
-          (window.document.body.appendChild(a),
-          (b = a.offsetWidth),
-          (c = a.offsetHeight),
-          window.document.body.removeChild(a));
-        this.imageWidth = b;
-        this.imageHeight = c;
-        this.set_clipRect(new Bounds(0, 0, b, c));
-      }
-    },
-    getBoundsSelf: function () {
-      return new Bounds(
-        0,
-        0,
-        null != this.image ? this.clipRect.width : 0,
-        null != this.image ? this.clipRect.height : 0,
-      );
-    },
-    render: function (a) {
-      null != this.image &&
-        a.drawImage(
-          this.image,
-          this.clipRect,
-          0,
-          0,
-          0 != this.clipRect.x ||
-            0 != this.clipRect.y ||
-            this.clipRect.width != this.imageWidth ||
-            this.clipRect.height != this.imageHeight,
-        );
-    },
-    __class__: ROTATE_ImageObject,
   },
 );
 
@@ -1129,7 +1057,7 @@ class ROTATE_Award {
 }
 
 type PLACEHOLDER__ROTATE_ImageObject = unknown;
-class ROTATE_Awards {
+export class ROTATE_Awards {
   public static readonly awardEscape = new ROTATE_Award(
     'The Beginning',
     ROTATE_Images.awardIconEscape,
@@ -17248,6 +17176,7 @@ ROTATE_Level9.prototype = {
   kill: function () {},
   __class__: ROTATE_Level9,
 };
+
 var ROTATE_Levels = function () {};
 ROTATE_Levels.__name__ = !0;
 
@@ -19763,42 +19692,40 @@ ROTATE_EditorBarUpper.prototype = __inherit(
   },
 );
 
-var ROTATE_EraseButton = function () {
-  ROTATE_ImageObject.call(this, ROTATE_Images.trash);
-  this.set_x(ROTATE_Canvas.width - 120);
-  this.set_y(ROTATE_Canvas.height - this.get_height() - 12);
-  for (var a = !1, b = 0, c = ROTATE_Awards.all; b < c.length; ) {
-    var d = c[b];
-    ++b;
-    if (d.unlocked) {
-      a = !0;
-      break;
+class ROTATE_EraseButton extends ROTATE_ImageObject {
+  constructor() {
+    super(ROTATE_Images.trash);
+
+    this.set_x(ROTATE_Canvas.width - 120);
+    this.set_y(ROTATE_Canvas.height - this.get_height() - 12);
+    for (var a = !1, b = 0, c = ROTATE_Awards.all; b < c.length; ) {
+      var d = c[b];
+      ++b;
+      if (d.unlocked) {
+        a = !0;
+        break;
+      }
     }
+    0 != ROTATE_Levels.unlocked || a
+      ? ((this.buttonMode = this.mouseEnabled = !0),
+        this.addEventListener('click', (e) => {
+          if (2 > e.which) {
+            var f = new ROTATE_YesNoOverlay(
+              'Do you want to erase ALL of\nyour saved progress?',
+            );
+            f.onNo = function () {
+              ROTATE_Game.instance.currentScreen.removeChild(f);
+            };
+            f.onYes = function () {
+              ROTATE_Game.instance.clearProgress();
+              ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
+            };
+            ROTATE_Game.instance.currentScreen.addChild(f);
+          }
+        }))
+      : this.set_alpha(0.33);
   }
-  0 != ROTATE_Levels.unlocked || a
-    ? ((this.buttonMode = this.mouseEnabled = !0),
-      this.addEventListener('click', function (e) {
-        if (2 > e.which) {
-          var f = new ROTATE_YesNoOverlay(
-            'Do you want to erase ALL of\nyour saved progress?',
-          );
-          f.onNo = function () {
-            ROTATE_Game.instance.currentScreen.removeChild(f);
-          };
-          f.onYes = function () {
-            ROTATE_Game.instance.clearProgress();
-            ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
-          };
-          ROTATE_Game.instance.currentScreen.addChild(f);
-        }
-      }))
-    : this.set_alpha(0.33);
-};
-ROTATE_EraseButton.__name__ = !0;
-ROTATE_EraseButton.__super__ = ROTATE_ImageObject;
-ROTATE_EraseButton.prototype = __inherit(ROTATE_ImageObject.prototype, {
-  __class__: ROTATE_EraseButton,
-});
+}
 
 var ROTATE_GridToggle = function (a) {
   this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
@@ -20117,25 +20044,6 @@ ROTATE_PauseMenu.prototype = __inherit(
     __class__: ROTATE_PauseMenu,
   },
 );
-
-var ROTATE_Sponsor = function () {
-  ROTATE_ImageObject.call(this, ROTATE_Images.linkJoshua);
-  this.clipRect.height /= 2;
-  this.set_x(8);
-  this.set_y(ROTATE_Canvas.height - this.get_height() - 8);
-  this.mouseEnabled = this.buttonMode = !0;
-  this.addEventListener('click', function (a) {
-    2 <= a.which ||
-      ((a = window.open('https://lightwolfstudios.com', '_blank')),
-      ROTATE_Awards.awardJoshua.unlock(),
-      a.focus());
-  });
-};
-ROTATE_Sponsor.__name__ = !0;
-ROTATE_Sponsor.__super__ = ROTATE_ImageObject;
-ROTATE_Sponsor.prototype = __inherit(ROTATE_ImageObject.prototype, {
-  __class__: ROTATE_Sponsor,
-});
 
 var ROTATE_YesNoOverlay = function (questionText) {
   this.btnNo = new ROTATE_Button('NO');
