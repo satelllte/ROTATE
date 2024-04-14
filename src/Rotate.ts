@@ -20117,7 +20117,7 @@ ROTATE_Speech.TIME_FADE = 750;
 
 ROTATE_ScreenEditor.MOVE_SPEED = 4;
 ROTATE_ScreenEditor.showGrid = !0;
-ROTATE_ScreenEditor.editorLevel = new ROTATE_EditorLevel();
+ROTATE_ScreenEditor.editorLevel = new ROTATE_EditorLevel(); // Until "ROTATE_EditorLevel" is migrated to class, it can't be moved inside "static" field
 
 ROTATE_ScreenPrimaryGame.continueTheme = !1;
 ROTATE_ScreenPrimaryGame.RESTART_DELAY = 1;
