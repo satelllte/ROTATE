@@ -17827,89 +17827,6 @@ export class ROTATE_ScreenGameBase extends ROTATE_ScreenBase {
   }
 }
 
-var DEPRECATED__ROTATE_ScreenGameBase = function () {
-  this.cameraX = 0;
-  this.cameraY = 0;
-  this.level = new ROTATE_CanvasObject();
-  this.camera = new ROTATE_CanvasObject();
-  this.pivot = new ROTATE_CanvasObject();
-  this.bg = new ROTATE_CanvasObject();
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-};
-DEPRECATED__ROTATE_ScreenGameBase.__name__ = !0;
-DEPRECATED__ROTATE_ScreenGameBase.__super__ = DEPRECATED__ROTATE_ScreenBase;
-DEPRECATED__ROTATE_ScreenGameBase.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      this.bg.graphics.beginFill(0x303030);
-      this.bg.graphics.drawRect(
-        0,
-        0,
-        ROTATE_Canvas.width,
-        ROTATE_Canvas.height,
-      );
-      this.addChild(this.bg);
-      this.pivot.set_x(ROTATE_Canvas.width / 2);
-      this.pivot.set_y(ROTATE_Canvas.height / 2);
-      this.addChild(this.pivot);
-      this.pivot.addChild(this.camera);
-      this.level.set_x(-this.camera.x);
-      this.level.set_y(-this.camera.y);
-      this.camera.addChild(this.level);
-      this.renderer = new ROTATE_Renderer(this.camera);
-      this.renderer.updateAllBlocks();
-      this.level.addChild(this.renderer);
-    },
-    doRotation: function (a) {
-      if (ROTATE_LevelEditorManager.rotating) {
-        var b = Math.min(
-            (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
-              ROTATE_GameConstants.rotateTime,
-            1,
-          ),
-          c = ROTATE_Game.smootherStep(b);
-        this.pivot.set_rotation(
-          this.rotateStartAngle +
-            (this.rotateEndAngle - this.rotateStartAngle) * c,
-        );
-        null != a && (a.set_rotation(-this.pivot.rotation), a.onRotating(c));
-        if (1 == b) {
-          for (; 0 > this.pivot.rotation; )
-            (b = this.pivot), b.set_rotation(b.rotation + 360);
-          for (; 360 <= this.pivot.rotation; )
-            (b = this.pivot), b.set_rotation(b.rotation - 360);
-          ROTATE_LevelEditorManager.rotating = !1;
-          if (null != a) a.onRotateEnd();
-        }
-      } else if (
-        ((b = InputKeys.keyPressed(
-          ROTATE_Game.instance.invert ? KEY_CODE.KeyE : KEY_CODE.KeyQ,
-        )),
-        (c = InputKeys.keyPressed(
-          ROTATE_Game.instance.invert ? KEY_CODE.KeyQ : KEY_CODE.KeyE,
-        )),
-        (b || c) && (null == a || a.canRotate(b ? -1 : 1)))
-      ) {
-        ROTATE_LevelEditorManager.rotating = !0;
-        this.rotateStart = ROTATE_Game.instance.get_gameTime();
-        this.rotateDir = b ? -1 : 1;
-        this.rotateStartAngle = this.pivot.rotation;
-        this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir;
-        if (null != a) a.onRotateStart(this.rotateDir);
-        b = ROTATE_LevelEditorManager;
-        b.set_rotation(b.rotation + this.rotateDir);
-        if (null != a) a.onRotateStart2();
-      }
-    },
-    postUpdate: function () {
-      this.camera.set_x(Math.round(this.cameraX));
-      this.camera.set_y(Math.round(this.cameraY));
-    },
-    __class__: DEPRECATED__ROTATE_ScreenGameBase,
-  },
-);
-
 class ROTATE_ScreenEditor extends ROTATE_ScreenGameBase {
   public doors = [];
   public drawing = !1;
@@ -18818,394 +18735,403 @@ class ROTATE_ScreenMainMenu extends ROTATE_ScreenBase {
   }
 }
 
-var ROTATE_ScreenPrimaryGame = function (tempLevel, speedrun, speedrunStart) {
-  null == speedrunStart && (speedrunStart = -1);
-  null == speedrun && (speedrun = !1);
-  this.channels = new ROTATE_KeysMap();
-  this.newBest = !1;
-  this.speedrunFinal = -1;
-  this.doors = [];
-  this.cat = null;
-  this.vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
-  this.red = new ROTATE_CanvasObject();
-  this.overlay = new ROTATE_CanvasObject();
-  this.textHolder = new ROTATE_CanvasObject();
-  this.blood = new ROTATE_CanvasObject();
-  this.shakeX = this.shakeY = 0;
-  this.deathTime = -1;
-  DEPRECATED__ROTATE_ScreenGameBase.call(this);
-  this.tempLevel = tempLevel;
-  this.pausable = !0;
-  this.speedrun = speedrun;
-  this.speedrunStart = speedrunStart;
-  (0 == tempLevel.theme && ROTATE_Audio.themeGame1.playing()) ||
-  (1 == tempLevel.theme && ROTATE_Audio.themeGame2.playing())
-    ? (ROTATE_ScreenPrimaryGame.continueTheme = !0)
-    : (ROTATE_ScreenPrimaryGame.continueTheme = !1);
-};
-ROTATE_ScreenPrimaryGame.__name__ = !0;
-ROTATE_ScreenPrimaryGame.play = function (a, b, c) {
-  null == c && (c = -1);
-  null == b && (b = !1);
-  null != a &&
-    ROTATE_Game.instance.changeScreen(new ROTATE_ScreenPrimaryGame(a, b, c));
-};
-ROTATE_ScreenPrimaryGame.playTheme = function (a) {
-  ROTATE_ScreenPrimaryGame.stopped &&
-    (0 == a && ROTATE_Audio.themeGame1.playing()
-      ? (ROTATE_Audio.themeGame1.stop(),
-        (ROTATE_ScreenPrimaryGame.canceled = !0))
-      : 1 == a &&
-        ROTATE_Audio.themeGame2.playing() &&
-        (ROTATE_Audio.themeGame2.stop(),
-        (ROTATE_ScreenPrimaryGame.canceled = !0)),
-    ROTATE_Game.ie &&
-      (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1),
-    (ROTATE_ScreenPrimaryGame.stopped = !1));
-  0 == a
-    ? (ROTATE_Audio.themeGame1.volume(1),
-      ROTATE_Audio.themeGame1.playing() ||
-        ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-          ROTATE_Audio.themeGame1.play(),
-        ROTATE_Game.ie && (ROTATE_Game.instance.ieGame1 = !0)))
-    : 1 == a &&
-      (ROTATE_Audio.themeGame2.volume(1),
-      ROTATE_Audio.themeGame2.playing() ||
-        ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-          ROTATE_Audio.themeGame2.play(),
-        ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !0)));
-};
-ROTATE_ScreenPrimaryGame.stopTheme = function () {
-  var a = ROTATE_Audio.themeGame1.playing()
-    ? ROTATE_Audio.themeGame1
-    : ROTATE_Audio.themeGame2.playing()
-      ? ROTATE_Audio.themeGame2
-      : null;
-  if (null != a) {
-    var b =
-      JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenPrimaryGame,
-      ) &&
-      JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.targetScreen,
-        ROTATE_ScreenGameFinished,
-      );
-    if (ROTATE_Game.ie) b || a.stop();
-    else {
-      var c = a.volume();
-      a.fade(
-        c,
-        0,
-        Math.floor(ROTATE_GameConstants.screenFadeTime / 2) + (b ? 1e4 : 0),
-      );
-      a.once('fade', function () {
-        ROTATE_ScreenPrimaryGame.canceled || (a.stop(), a.volume(1));
-      });
-    }
-    ROTATE_ScreenPrimaryGame.stopped = !0;
-    ROTATE_ScreenPrimaryGame.canceled = !1;
-  } else
-    ROTATE_ScreenPrimaryGame.stopped = ROTATE_ScreenPrimaryGame.canceled = !1;
-  ROTATE_Game.ie &&
-    (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1);
-};
-ROTATE_ScreenPrimaryGame.__super__ = DEPRECATED__ROTATE_ScreenGameBase;
-ROTATE_ScreenPrimaryGame.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenGameBase.prototype,
-  {
-    init: function () {
-      ROTATE_ScreenPrimaryGame.i = this;
-      this.tempLevel == ROTATE_ScreenEditor.editorLevel &&
-        ROTATE_Awards.awardEditor.unlock();
-      ROTATE_ScreenPrimaryGame.playTheme(this.tempLevel.theme);
-      ROTATE_ScreenPrimaryGame.continueTheme = !1;
-      ROTATE_LevelEditorManager.set_level(this.tempLevel);
-      ROTATE_LevelEditorManager.onPlay();
-      for (var a = this.channels.iterator(); a.hasNext(); )
-        a.next().lastChanged = -1e4;
-      a = 0;
-      for (var b = ROTATE_LevelEditorManager.get_height(); a < b; )
-        for (
-          var c = a++, d = 0, e = ROTATE_LevelEditorManager.get_width();
-          d < e;
+type PLACEHOLDER_ROTATE_BaseLevelInterface = unknown;
+class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
+  public channels = new ROTATE_KeysMap();
+  public newBest = !1;
+  public speedrunFinal = -1;
+  public doors = [];
+  public cat = null;
+  public vignette = new ROTATE_ImageObject(ROTATE_Images.vignette);
+  public red = new ROTATE_CanvasObject();
+  public overlay = new ROTATE_CanvasObject();
+  public textHolder = new ROTATE_CanvasObject();
+  public blood = new ROTATE_CanvasObject();
+  public shakeX = 0;
+  public shakeY = 0;
+  public deathTime = -1;
+  public tempLevel;
+  public speedrun;
+  public speedrunStart;
 
-        ) {
-          var f = d++;
-          f = ROTATE_LevelEditorManager.getBlockData(f, c);
-          f.get_block() == ROTATE_GameObjects.door &&
-            0 < f.getMeta(1) &&
-            this.doors.push(new Door(f));
-        }
-      ROTATE_LevelEditorManager.level.start();
-      DEPRECATED__ROTATE_ScreenGameBase.prototype.init.call(this);
-      this.player = new ROTATE_Player();
-      this.player.set_x(
-        (this.player.x2 = this.player.lastX =
-          (ROTATE_LevelEditorManager.level.startCol + 0.5) *
-          ROTATE_GameConstants.tileSize),
-      );
-      this.player.set_y(
-        (this.player.y2 = this.player.lastY =
-          (ROTATE_LevelEditorManager.level.startRow + 1) *
-          ROTATE_GameConstants.tileSize),
-      );
-      this.player.set_scaleX(
-        0 > ROTATE_LevelEditorManager.level.startDir ? -1 : 1,
-      );
-      this.level.addChild(this.player);
-      a = this.findCameraGoal();
-      this.camera.set_x(Math.round((this.cameraX = a.x)));
-      this.camera.set_y(
-        Math.round((this.cameraY = a.y + 2 * ROTATE_GameConstants.tileSize)),
-      );
-      this.level.addChild(this.blood);
-      this.level.addChild(this.overlay);
-      this.vignette.set_alpha(0.75);
-      this.addChild(this.vignette);
-      this.addChild(this.textHolder);
-      this.red.graphics.beginFill(14622752);
-      this.red.graphics.drawRect(
-        0,
-        0,
-        ROTATE_Canvas.width,
-        ROTATE_Canvas.height,
-      );
-      this.red.visible = !1;
-      this.addChild(this.red);
-      if (this.speedrun) {
-        if (
-          -1 == this.speedrunStart ||
-          0 == ROTATE_Levels.list.indexOf(ROTATE_LevelEditorManager.level)
-        )
-          this.speedrunStart = ROTATE_Game.instance.get_gameTimeMS();
-        this.timerText = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
-        this.timerText.align = ROTATE_Text.ALIGN_RIGHT;
-        this.timerText.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
-        this.timerText.set_x(ROTATE_Canvas.width - 12);
-        this.timerText.set_y(8);
-        ROTATE_Game.instance.timerHolder.addChild(this.timerText);
-        this.updateTimer();
-      } else
-        ROTATE_LevelEditorManager.level != ROTATE_Levels.level1 ||
-          ROTATE_Game.instance.hasPaused ||
-          ((this.pauseText = new ROTATE_Text(
-            ROTATE_Game.fontMain,
-            'Press [ESC] or [P] to pause',
-          )),
-          (this.pauseText.xAlign = ROTATE_Text.X_ALIGN_CENTER),
-          this.pauseText.set_x(Math.round(ROTATE_Canvas.width / 2)),
-          this.pauseText.set_y(8),
-          this.pauseText.set_alpha(0.33),
-          this.addChild(this.pauseText));
-    },
-    updateTimer: function () {
-      this.speedrun &&
-        this.timerText.set_text(
-          ROTATE_Game.formatMS(
-            ROTATE_Game.instance.get_gameTimeMS() - this.speedrunStart,
-          ),
-        );
-    },
-    killPlayer: function (a) {
-      null == a && (a = !1);
-      if (!this.player.dead) {
-        this.player.dead = !0;
-        this.deathTime = ROTATE_Game.instance.get_gameTime();
-        this.player.visible = !1;
-        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          ROTATE_Audio.death.play();
-        var b = 0,
-          c = 0;
-        0 == ROTATE_LevelEditorManager.rotation
-          ? (c = 1)
-          : 1 == ROTATE_LevelEditorManager.rotation
-            ? (b = 1)
-            : 2 == ROTATE_LevelEditorManager.rotation
-              ? (c = -1)
-              : 3 == ROTATE_LevelEditorManager.rotation && (b = -1);
-        var d = this.player.dx,
-          e = this.player.dy;
-        1 == ROTATE_LevelEditorManager.rotation
-          ? ((d = this.player.dy), (e = -this.player.dx))
-          : 2 == ROTATE_LevelEditorManager.rotation
-            ? ((d = -this.player.dx), (e = -this.player.dy))
-            : 3 == ROTATE_LevelEditorManager.rotation &&
-              ((d = -this.player.dy), (e = this.player.dx));
-        4 < d ? (d = 4) : -4 > d && (d = -4);
-        4 < e ? (e = 4) : -4 > e && (e = -4);
-        var f = this.player.getHitBounds().get_center();
-        a = new ROTATE_ParticleSystem(
-          f.x,
-          f.y,
-          14622752,
-          0.4 * d,
-          0.4 * e,
-          b,
-          c,
-          !0,
-          a ? 2 : 1,
-        );
-        this.blood.addChild(a);
-        null != ROTATE_LevelEditorManager.level.speech &&
-          ROTATE_LevelEditorManager.level.speech.killed();
-        this.red.visible = !0;
-      }
-    },
-    restart: function (a) {
-      a = ROTATE_Game.instance.paused
-        ? ((gameInstance = ROTATE_Game.instance),
-          Bind(gameInstance, gameInstance.unpause))
+  public static continueTheme = !1;
+  public static RESTART_DELAY = 1;
+  public static DEATH_TIME = 1.5;
+  public static DEATH_SHAKE_TIME = 0.85;
+  public static DEATH_SHAKE_AMOUNT = 24;
+  public static stopped = !1;
+  public static canceled = !1;
+
+  constructor(
+    tempLevel: PLACEHOLDER_ROTATE_BaseLevelInterface,
+    speedrun: boolean = false,
+    speedrunStart: number = -1,
+  ) {
+    super();
+    this.tempLevel = tempLevel;
+    this.pausable = !0;
+    this.speedrun = speedrun;
+    this.speedrunStart = speedrunStart;
+
+    (0 == tempLevel.theme && ROTATE_Audio.themeGame1.playing()) ||
+    (1 == tempLevel.theme && ROTATE_Audio.themeGame2.playing())
+      ? (ROTATE_ScreenPrimaryGame.continueTheme = !0)
+      : (ROTATE_ScreenPrimaryGame.continueTheme = !1);
+  }
+
+  public static play(a, b, c) {
+    null == c && (c = -1);
+    null == b && (b = !1);
+    null != a &&
+      ROTATE_Game.instance.changeScreen(new ROTATE_ScreenPrimaryGame(a, b, c));
+  }
+
+  public static playTheme(a) {
+    ROTATE_ScreenPrimaryGame.stopped &&
+      (0 == a && ROTATE_Audio.themeGame1.playing()
+        ? (ROTATE_Audio.themeGame1.stop(),
+          (ROTATE_ScreenPrimaryGame.canceled = !0))
+        : 1 == a &&
+          ROTATE_Audio.themeGame2.playing() &&
+          (ROTATE_Audio.themeGame2.stop(),
+          (ROTATE_ScreenPrimaryGame.canceled = !0)),
+      ROTATE_Game.ie &&
+        (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1),
+      (ROTATE_ScreenPrimaryGame.stopped = !1));
+    0 == a
+      ? (ROTATE_Audio.themeGame1.volume(1),
+        ROTATE_Audio.themeGame1.playing() ||
+          ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
+            ROTATE_Audio.themeGame1.play(),
+          ROTATE_Game.ie && (ROTATE_Game.instance.ieGame1 = !0)))
+      : 1 == a &&
+        (ROTATE_Audio.themeGame2.volume(1),
+        ROTATE_Audio.themeGame2.playing() ||
+          ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
+            ROTATE_Audio.themeGame2.play(),
+          ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !0)));
+  }
+
+  public static stopTheme() {
+    var a = ROTATE_Audio.themeGame1.playing()
+      ? ROTATE_Audio.themeGame1
+      : ROTATE_Audio.themeGame2.playing()
+        ? ROTATE_Audio.themeGame2
         : null;
-      ROTATE_Game.instance.changeScreen(
-        new ROTATE_ScreenPrimaryGame(
-          ROTATE_LevelEditorManager.level,
-          this.speedrun,
-          this.speedrunStart,
-        ),
-        !0,
-        a,
-      );
-    },
-    finished: function () {
-      var a = ROTATE_Levels.list.indexOf(ROTATE_LevelEditorManager.level);
-      if (-1 < a) {
-        var b = !1;
-        ++a;
-        if (this.speedrun && a == ROTATE_Levels.list.length) {
-          if (
-            ((this.speedrunFinal =
-              ROTATE_Game.instance.get_gameTimeMS() -
-              this.speedrunStart +
-              ROTATE_GameConstants.screenFadeTime / 2),
-            0 > ROTATE_Levels.speedrunBest ||
-              this.speedrunFinal < ROTATE_Levels.speedrunBest)
-          )
-            (ROTATE_Levels.speedrunBest = this.speedrunFinal),
-              (b = this.newBest = !0);
-        } else
-          a > ROTATE_Levels.unlocked &&
-            a < ROTATE_Levels.list.length &&
-            ((ROTATE_Levels.unlocked = a), (b = !0));
-        b && ROTATE_Game.instance.saveProgress();
+    if (null != a) {
+      var b =
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.currentScreen,
+          ROTATE_ScreenPrimaryGame,
+        ) &&
+        JSObjectUtils.__instanceof(
+          ROTATE_Game.instance.targetScreen,
+          ROTATE_ScreenGameFinished,
+        );
+      if (ROTATE_Game.ie) b || a.stop();
+      else {
+        var c = a.volume();
+        a.fade(
+          c,
+          0,
+          Math.floor(ROTATE_GameConstants.screenFadeTime / 2) + (b ? 1e4 : 0),
+        );
+        a.once('fade', function () {
+          ROTATE_ScreenPrimaryGame.canceled || (a.stop(), a.volume(1));
+        });
       }
-      a = ROTATE_LevelEditorManager.level.finished();
-      null != a &&
-        ROTATE_ScreenPrimaryGame.play(a, this.speedrun, this.speedrunStart);
-    },
-    update: function () {
-      DEPRECATED__ROTATE_ScreenGameBase.prototype.update.call(this);
-      if (this.player.dead) {
-        var a =
-          1 -
-          Math.min(
-            (ROTATE_Game.instance.get_gameTime() - this.deathTime) /
-              ROTATE_ScreenPrimaryGame.DEATH_SHAKE_TIME,
-            1,
-          );
-        this.red.set_alpha(a);
-        a = ROTATE_Game.smootherStep(a);
-        this.shakeX =
-          Math.random() * ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT * a;
-        this.shakeY =
-          Math.random() * ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT * a;
-        ROTATE_Game.instance.get_gameTime() - this.deathTime >=
-          ROTATE_ScreenPrimaryGame.DEATH_TIME &&
-          null == ROTATE_Game.instance.targetScreen &&
-          this.restart(!0);
-      } else this.player.finished || this.doRotation(this.player);
-      this.player.update();
-    },
-    tick: function () {
-      this.player.tick();
-      ROTATE_LevelEditorManager.level.tick();
-      null != this.cat && this.cat.tick();
-      var a = this.findCameraGoal();
-      this.cameraX += (a.x - this.cameraX) * ROTATE_GameConstants.cameraSpeed;
-      this.cameraY += (a.y - this.cameraY) * ROTATE_GameConstants.cameraSpeed;
-    },
-    postUpdate: function () {
-      this.player.postUpdate();
-      ROTATE_LevelEditorManager.level.update();
-      this.camera.set_x(Math.round(this.cameraX + this.shakeX));
-      this.camera.set_y(Math.round(this.cameraY + this.shakeY));
+      ROTATE_ScreenPrimaryGame.stopped = !0;
+      ROTATE_ScreenPrimaryGame.canceled = !1;
+    } else
+      ROTATE_ScreenPrimaryGame.stopped = ROTATE_ScreenPrimaryGame.canceled = !1;
+    ROTATE_Game.ie &&
+      (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1);
+  }
+
+  public init() {
+    ROTATE_ScreenPrimaryGame.i = this;
+    this.tempLevel == ROTATE_ScreenEditor.editorLevel &&
+      ROTATE_Awards.awardEditor.unlock();
+    ROTATE_ScreenPrimaryGame.playTheme(this.tempLevel.theme);
+    ROTATE_ScreenPrimaryGame.continueTheme = !1;
+    ROTATE_LevelEditorManager.set_level(this.tempLevel);
+    ROTATE_LevelEditorManager.onPlay();
+    for (var a = this.channels.iterator(); a.hasNext(); )
+      a.next().lastChanged = -1e4;
+    a = 0;
+    for (var b = ROTATE_LevelEditorManager.get_height(); a < b; )
+      for (
+        var c = a++, d = 0, e = ROTATE_LevelEditorManager.get_width();
+        d < e;
+
+      ) {
+        var f = d++;
+        f = ROTATE_LevelEditorManager.getBlockData(f, c);
+        f.get_block() == ROTATE_GameObjects.door &&
+          0 < f.getMeta(1) &&
+          this.doors.push(new Door(f));
+      }
+    ROTATE_LevelEditorManager.level.start();
+    super.init();
+    this.player = new ROTATE_Player();
+    this.player.set_x(
+      (this.player.x2 = this.player.lastX =
+        (ROTATE_LevelEditorManager.level.startCol + 0.5) *
+        ROTATE_GameConstants.tileSize),
+    );
+    this.player.set_y(
+      (this.player.y2 = this.player.lastY =
+        (ROTATE_LevelEditorManager.level.startRow + 1) *
+        ROTATE_GameConstants.tileSize),
+    );
+    this.player.set_scaleX(
+      0 > ROTATE_LevelEditorManager.level.startDir ? -1 : 1,
+    );
+    this.level.addChild(this.player);
+    a = this.findCameraGoal();
+    this.camera.set_x(Math.round((this.cameraX = a.x)));
+    this.camera.set_y(
+      Math.round((this.cameraY = a.y + 2 * ROTATE_GameConstants.tileSize)),
+    );
+    this.level.addChild(this.blood);
+    this.level.addChild(this.overlay);
+    this.vignette.set_alpha(0.75);
+    this.addChild(this.vignette);
+    this.addChild(this.textHolder);
+    this.red.graphics.beginFill(14622752);
+    this.red.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
+    this.red.visible = !1;
+    this.addChild(this.red);
+    if (this.speedrun) {
+      if (
+        -1 == this.speedrunStart ||
+        0 == ROTATE_Levels.list.indexOf(ROTATE_LevelEditorManager.level)
+      )
+        this.speedrunStart = ROTATE_Game.instance.get_gameTimeMS();
+      this.timerText = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
+      this.timerText.align = ROTATE_Text.ALIGN_RIGHT;
+      this.timerText.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
+      this.timerText.set_x(ROTATE_Canvas.width - 12);
+      this.timerText.set_y(8);
+      ROTATE_Game.instance.timerHolder.addChild(this.timerText);
       this.updateTimer();
-    },
-    findCameraGoal: function () {
-      var a = this.player.localToGlobal(0, 0);
-      a = this.camera.globalToLocal(
-        a.x,
-        a.y -
-          (ROTATE_LevelEditorManager.rotating
-            ? 0
-            : ROTATE_GameConstants.rotateOffset),
+    } else
+      ROTATE_LevelEditorManager.level != ROTATE_Levels.level1 ||
+        ROTATE_Game.instance.hasPaused ||
+        ((this.pauseText = new ROTATE_Text(
+          ROTATE_Game.fontMain,
+          'Press [ESC] or [P] to pause',
+        )),
+        (this.pauseText.xAlign = ROTATE_Text.X_ALIGN_CENTER),
+        this.pauseText.set_x(Math.round(ROTATE_Canvas.width / 2)),
+        this.pauseText.set_y(8),
+        this.pauseText.set_alpha(0.33),
+        this.addChild(this.pauseText));
+  }
+  public updateTimer() {
+    this.speedrun &&
+      this.timerText.set_text(
+        ROTATE_Game.formatMS(
+          ROTATE_Game.instance.get_gameTimeMS() - this.speedrunStart,
+        ),
       );
-      a.x *= -1;
-      a.y *= -1;
-      return a;
-    },
-    signalOn: function (a, b, c) {
-      var d = this.channels.h[c];
-      null == d && ((d = new Signaler(c)), (this.channels.h[c] = d));
-      d.signalOn(a, b);
-    },
-    signalOff: function (a, b, c) {
-      c = this.channels.h[c];
-      null != c && c.signalOff(a, b);
-    },
-    getChannelStatus: function (a) {
-      a = this.channels.h[a];
-      return null != a ? a.get_status() : !1;
-    },
-    catAppear: function (a, b, c) {
-      this.cat = new ROTATE_CatAnimationObject();
-      this.cat.set_x((this.cat.x2 = (a + 0.5) * ROTATE_GameConstants.tileSize));
-      this.cat.set_y((b + 1) * ROTATE_GameConstants.tileSize);
-      this.cat.set_scaleX(c);
-      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
-      this.level.addChild(this.cat);
-    },
-    catDisappear: function (a) {
-      null == a && (a = 0);
-      var b = this;
-      null != this.cat &&
-        (0 != a && this.cat.set_scaleX(a),
-        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          ROTATE_Audio.cat.play(),
-        (this.cat.onFinish = function () {
-          b.level.removeChild(b.cat);
-          b.cat = null;
-        }),
-        this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_EXIT),
-        (this.cat.horizontal = this.cat.scaleX));
-    },
-    kill: function () {
-      ROTATE_ScreenPrimaryGame.i = null;
-      ROTATE_LevelEditorManager.level.kill();
-      ROTATE_LevelEditorManager.set_level(null);
-      ROTATE_Audio.cat.volume(1);
-      ROTATE_Audio.exit.volume(1);
-      if (this.speedrun)
-        if (-1 < this.speedrunFinal) {
-          if (
-            (this.timerText.set_text(ROTATE_Game.formatMS(this.speedrunFinal)),
-            this.newBest)
-          ) {
-            var a = this.timerText;
-            a.set_text(a.text + '\nNew best time!');
-          }
-        } else ROTATE_Game.instance.timerHolder.removeChild(this.timerText);
-    },
-    prekill: function () {
-      ROTATE_ScreenPrimaryGame.continueTheme
-        ? (ROTATE_ScreenPrimaryGame.stopped =
-            ROTATE_ScreenPrimaryGame.canceled =
-              !1)
-        : ROTATE_ScreenPrimaryGame.stopTheme();
-    },
-    __class__: ROTATE_ScreenPrimaryGame,
-  },
-);
+  }
+  public killPlayer(a) {
+    null == a && (a = !1);
+    if (!this.player.dead) {
+      this.player.dead = !0;
+      this.deathTime = ROTATE_Game.instance.get_gameTime();
+      this.player.visible = !1;
+      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+        ROTATE_Audio.death.play();
+      var b = 0,
+        c = 0;
+      0 == ROTATE_LevelEditorManager.rotation
+        ? (c = 1)
+        : 1 == ROTATE_LevelEditorManager.rotation
+          ? (b = 1)
+          : 2 == ROTATE_LevelEditorManager.rotation
+            ? (c = -1)
+            : 3 == ROTATE_LevelEditorManager.rotation && (b = -1);
+      var d = this.player.dx,
+        e = this.player.dy;
+      1 == ROTATE_LevelEditorManager.rotation
+        ? ((d = this.player.dy), (e = -this.player.dx))
+        : 2 == ROTATE_LevelEditorManager.rotation
+          ? ((d = -this.player.dx), (e = -this.player.dy))
+          : 3 == ROTATE_LevelEditorManager.rotation &&
+            ((d = -this.player.dy), (e = this.player.dx));
+      4 < d ? (d = 4) : -4 > d && (d = -4);
+      4 < e ? (e = 4) : -4 > e && (e = -4);
+      var f = this.player.getHitBounds().get_center();
+      a = new ROTATE_ParticleSystem(
+        f.x,
+        f.y,
+        14622752,
+        0.4 * d,
+        0.4 * e,
+        b,
+        c,
+        !0,
+        a ? 2 : 1,
+      );
+      this.blood.addChild(a);
+      null != ROTATE_LevelEditorManager.level.speech &&
+        ROTATE_LevelEditorManager.level.speech.killed();
+      this.red.visible = !0;
+    }
+  }
+  public restart(a) {
+    a = ROTATE_Game.instance.paused
+      ? ((gameInstance = ROTATE_Game.instance),
+        Bind(gameInstance, gameInstance.unpause))
+      : null;
+    ROTATE_Game.instance.changeScreen(
+      new ROTATE_ScreenPrimaryGame(
+        ROTATE_LevelEditorManager.level,
+        this.speedrun,
+        this.speedrunStart,
+      ),
+      !0,
+      a,
+    );
+  }
+  public finished() {
+    var a = ROTATE_Levels.list.indexOf(ROTATE_LevelEditorManager.level);
+    if (-1 < a) {
+      var b = !1;
+      ++a;
+      if (this.speedrun && a == ROTATE_Levels.list.length) {
+        if (
+          ((this.speedrunFinal =
+            ROTATE_Game.instance.get_gameTimeMS() -
+            this.speedrunStart +
+            ROTATE_GameConstants.screenFadeTime / 2),
+          0 > ROTATE_Levels.speedrunBest ||
+            this.speedrunFinal < ROTATE_Levels.speedrunBest)
+        )
+          (ROTATE_Levels.speedrunBest = this.speedrunFinal),
+            (b = this.newBest = !0);
+      } else
+        a > ROTATE_Levels.unlocked &&
+          a < ROTATE_Levels.list.length &&
+          ((ROTATE_Levels.unlocked = a), (b = !0));
+      b && ROTATE_Game.instance.saveProgress();
+    }
+    a = ROTATE_LevelEditorManager.level.finished();
+    null != a &&
+      ROTATE_ScreenPrimaryGame.play(a, this.speedrun, this.speedrunStart);
+  }
+  public update() {
+    super.update();
+    if (this.player.dead) {
+      var a =
+        1 -
+        Math.min(
+          (ROTATE_Game.instance.get_gameTime() - this.deathTime) /
+            ROTATE_ScreenPrimaryGame.DEATH_SHAKE_TIME,
+          1,
+        );
+      this.red.set_alpha(a);
+      a = ROTATE_Game.smootherStep(a);
+      this.shakeX =
+        Math.random() * ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT * a;
+      this.shakeY =
+        Math.random() * ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT * a;
+      ROTATE_Game.instance.get_gameTime() - this.deathTime >=
+        ROTATE_ScreenPrimaryGame.DEATH_TIME &&
+        null == ROTATE_Game.instance.targetScreen &&
+        this.restart(!0);
+    } else this.player.finished || this.doRotation(this.player);
+    this.player.update();
+  }
+  public tick() {
+    this.player.tick();
+    ROTATE_LevelEditorManager.level.tick();
+    null != this.cat && this.cat.tick();
+    var a = this.findCameraGoal();
+    this.cameraX += (a.x - this.cameraX) * ROTATE_GameConstants.cameraSpeed;
+    this.cameraY += (a.y - this.cameraY) * ROTATE_GameConstants.cameraSpeed;
+  }
+  public postUpdate() {
+    this.player.postUpdate();
+    ROTATE_LevelEditorManager.level.update();
+    this.camera.set_x(Math.round(this.cameraX + this.shakeX));
+    this.camera.set_y(Math.round(this.cameraY + this.shakeY));
+    this.updateTimer();
+  }
+  public findCameraGoal() {
+    var a = this.player.localToGlobal(0, 0);
+    a = this.camera.globalToLocal(
+      a.x,
+      a.y -
+        (ROTATE_LevelEditorManager.rotating
+          ? 0
+          : ROTATE_GameConstants.rotateOffset),
+    );
+    a.x *= -1;
+    a.y *= -1;
+    return a;
+  }
+  public signalOn(a, b, c) {
+    var d = this.channels.h[c];
+    null == d && ((d = new Signaler(c)), (this.channels.h[c] = d));
+    d.signalOn(a, b);
+  }
+  public signalOff(a, b, c) {
+    c = this.channels.h[c];
+    null != c && c.signalOff(a, b);
+  }
+  public getChannelStatus(a) {
+    a = this.channels.h[a];
+    return null != a ? a.get_status() : !1;
+  }
+  public catAppear(a, b, c) {
+    this.cat = new ROTATE_CatAnimationObject();
+    this.cat.set_x((this.cat.x2 = (a + 0.5) * ROTATE_GameConstants.tileSize));
+    this.cat.set_y((b + 1) * ROTATE_GameConstants.tileSize);
+    this.cat.set_scaleX(c);
+    this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_IDLE);
+    this.level.addChild(this.cat);
+  }
+  public catDisappear(a) {
+    null == a && (a = 0);
+    var b = this;
+    null != this.cat &&
+      (0 != a && this.cat.set_scaleX(a),
+      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
+        ROTATE_Audio.cat.play(),
+      (this.cat.onFinish = function () {
+        b.level.removeChild(b.cat);
+        b.cat = null;
+      }),
+      this.cat.set_animation(ROTATE_CatAnimationObject.ANIM_EXIT),
+      (this.cat.horizontal = this.cat.scaleX));
+  }
+  public kill() {
+    ROTATE_ScreenPrimaryGame.i = null;
+    ROTATE_LevelEditorManager.level.kill();
+    ROTATE_LevelEditorManager.set_level(null);
+    ROTATE_Audio.cat.volume(1);
+    ROTATE_Audio.exit.volume(1);
+    if (this.speedrun)
+      if (-1 < this.speedrunFinal) {
+        if (
+          (this.timerText.set_text(ROTATE_Game.formatMS(this.speedrunFinal)),
+          this.newBest)
+        ) {
+          var a = this.timerText;
+          a.set_text(a.text + '\nNew best time!');
+        }
+      } else ROTATE_Game.instance.timerHolder.removeChild(this.timerText);
+  }
+  public prekill() {
+    ROTATE_ScreenPrimaryGame.continueTheme
+      ? (ROTATE_ScreenPrimaryGame.stopped = ROTATE_ScreenPrimaryGame.canceled =
+          !1)
+      : ROTATE_ScreenPrimaryGame.stopTheme();
+  }
+}
 
 var ROTATE_ScreenLogo = function (lws) {
   null == lws && (lws = !0);
@@ -20094,14 +20020,6 @@ ROTATE_Speech.TIME_FADE = 750;
 ROTATE_ScreenEditor.MOVE_SPEED = 4;
 ROTATE_ScreenEditor.showGrid = !0;
 ROTATE_ScreenEditor.editorLevel = new ROTATE_EditorLevel(); // Until "ROTATE_EditorLevel" is migrated to class, it can't be moved inside "static" field
-
-ROTATE_ScreenPrimaryGame.continueTheme = !1;
-ROTATE_ScreenPrimaryGame.RESTART_DELAY = 1;
-ROTATE_ScreenPrimaryGame.DEATH_TIME = 1.5;
-ROTATE_ScreenPrimaryGame.DEATH_SHAKE_TIME = 0.85;
-ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT = 24;
-ROTATE_ScreenPrimaryGame.stopped = !1;
-ROTATE_ScreenPrimaryGame.canceled = !1;
 
 ROTATE_ActiveGameObject.size2 = ROTATE_GameConstants.tileSize / 2;
 ROTATE_ActiveGameObject.size4 = ROTATE_GameConstants.tileSize + 4;
