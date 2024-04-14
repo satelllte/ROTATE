@@ -3,8 +3,8 @@ import {ROTATE_Manager} from './ROTATE_Manager';
 export class ROTATE_Font {
   public image: HTMLImageElement;
   public colorOffset: number;
-  public lineHeight: number | undefined = undefined;
-  public chars: FontCharItem[] | undefined = undefined;
+  public lineHeight: number = 0;
+  public chars: FontCharItem[] = [];
 
   constructor(
     imageSrc: string,

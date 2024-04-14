@@ -40,7 +40,6 @@ export class ROTATE_Text extends ROTATE_CanvasObject {
   }
 
   public set_font(font: ROTATE_Font) {
-    if (!font.lineHeight) throw new Error('font has no lineHeight set');
     this.font = font;
     this.set_lineHeight(font.lineHeight);
     this.precalc();
@@ -61,7 +60,6 @@ export class ROTATE_Text extends ROTATE_CanvasObject {
 
   public precalc() {
     if (!this.font) throw new Error('font was not set');
-    if (!this.font.chars) throw new Error('font chars were not set');
 
     var a = 0,
       b = 0,
@@ -91,7 +89,6 @@ export class ROTATE_Text extends ROTATE_CanvasObject {
 
   public render(surface: Surface) {
     if (!this.font) throw new Error('font was not set');
-    if (!this.font.chars) throw new Error('font chars were not set');
 
     for (
       var b = this.getTextOffset(),
