@@ -19066,58 +19066,53 @@ class ROTATE_ScreenLaunchButton extends ROTATE_ScreenBase {
   }
 }
 
-var ROTATE_ScreenGameBeginning = function (speedrun) {
-  null == speedrun && (speedrun = !1);
-  this.done2 = !1;
-  this.cond2 = new ROTATE_ConditionDelay(0.5);
-  this.done1 = !1;
-  this.cond1 = new ROTATE_ConditionDelay(10);
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-  this.pausable = !0;
-  this.speedrun = speedrun;
-};
-ROTATE_ScreenGameBeginning.__name__ = !0;
-ROTATE_ScreenGameBeginning.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenGameBeginning.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      this.cond1.start();
-      this.speech = new ROTATE_Speech(
-        [
-          new ROTATE_SpeechPart(
-            new ROTATE_ConditionDelay(2),
-            "It's time to resume your training.",
-          ),
-          new ROTATE_SpeechPart(
-            new ROTATE_ConditionDelay(4),
-            "We'll start with the basics.",
-          ),
-        ],
-        this,
-      );
-      this.cond2.start();
-    },
-    update: function () {
-      !this.done2 &&
-        this.cond2.test() &&
-        ((this.done2 = !0),
-        ROTATE_ScreenPrimaryGame.playTheme(0),
-        ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
-      this.speech.update();
-      !this.done1 &&
-        this.cond1.test() &&
-        ((this.done1 = !0),
-        ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.level1, this.speedrun));
-    },
-    prekill: function () {
-      ROTATE_ScreenPrimaryGame.continueTheme ||
-        ROTATE_ScreenPrimaryGame.stopTheme();
-    },
-    kill: function () {},
-    __class__: ROTATE_ScreenGameBeginning,
-  },
-);
+class ROTATE_ScreenGameBeginning extends ROTATE_ScreenBase {
+  public done2 = !1;
+  public cond2 = new ROTATE_ConditionDelay(0.5);
+  public done1 = !1;
+  public cond1 = new ROTATE_ConditionDelay(10);
+
+  constructor(public speedrun: boolean = false) {
+    super();
+    this.pausable = true;
+  }
+
+  public init() {
+    this.cond1.start();
+    this.speech = new ROTATE_Speech(
+      [
+        new ROTATE_SpeechPart(
+          new ROTATE_ConditionDelay(2),
+          "It's time to resume your training.",
+        ),
+        new ROTATE_SpeechPart(
+          new ROTATE_ConditionDelay(4),
+          "We'll start with the basics.",
+        ),
+      ],
+      this,
+    );
+    this.cond2.start();
+  }
+
+  public update() {
+    !this.done2 &&
+      this.cond2.test() &&
+      ((this.done2 = !0),
+      ROTATE_ScreenPrimaryGame.playTheme(0),
+      ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
+    this.speech.update();
+    !this.done1 &&
+      this.cond1.test() &&
+      ((this.done1 = !0),
+      ROTATE_ScreenPrimaryGame.play(ROTATE_Levels.level1, this.speedrun));
+  }
+
+  public prekill() {
+    ROTATE_ScreenPrimaryGame.continueTheme ||
+      ROTATE_ScreenPrimaryGame.stopTheme();
+  }
+}
 
 var ROTATE_ActiveGameObject = function () {
   this.bubble = new Bubble();
