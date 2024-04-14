@@ -43,6 +43,7 @@ import {ROTATE_Canvas} from './ROTATE_Canvas';
 import {InputKeys} from './InputKeys';
 import {ROTATE_ImageObject} from './ROTATE_ImageObject';
 import {ROTATE_Sponsor} from './ROTATE_Sponsor';
+import {Bubble} from './Bubble';
 
 // ---------------------------------------------------------------------------
 
@@ -2453,7 +2454,7 @@ ROTATE_Renderer.prototype = __inherit(
   },
 );
 
-class Block {
+export class Block {
   public id: number = 0;
   public bubbleHeight: number = 46;
   public bubbleWidth: number = 124;
@@ -2494,8 +2495,7 @@ class Block {
     return true;
   }
 
-  // TODO: define signature
-  public setupBubble(a /* ROTATE_CanvasObject */) {}
+  public setupBubble(a: ROTATE_CanvasObject) {}
 
   // TODO: define signature
   public getConfigMeta(): number[] {
@@ -2755,8 +2755,7 @@ class GameObject_Door extends Block {
     return false;
   }
 
-  // TODO: define signature
-  public setupBubble(a /* ROTATE_CanvasObject */): void {
+  public setupBubble(a: ROTATE_CanvasObject): void {
     var _this = this;
     var c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
     c.set_x(8);
@@ -3103,8 +3102,7 @@ class GameObject_Lever extends Block {
       ROTATE_ScreenEditor.renderBlockText(surface, blockData.getMeta(0) + '');
   }
 
-  // TODO: define signature
-  public setupBubble(a: any /* ROTATE_CanvasObject */): void {
+  public setupBubble(a: ROTATE_CanvasObject): void {
     // TODO: re-implement properly
     var b = this,
       c = new ROTATE_Text(ROTATE_Game.fontMain, 'Channel');
@@ -19425,43 +19423,6 @@ ROTATE_ActiveGameObject.prototype = __inherit(
     __class__: ROTATE_ActiveGameObject,
   },
 );
-
-var Bubble = function () {
-  this.tip = new ROTATE_ImageObject(ROTATE_Images.configTip);
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.tip.set_x(-this.tip.get_width() / 2);
-  this.tip.set_y(-this.tip.get_height());
-  this.addChild(this.tip);
-};
-Bubble.__name__ = !0;
-Bubble.__super__ = DEPRECATED__ROTATE_CanvasObject;
-Bubble.prototype = __inherit(DEPRECATED__ROTATE_CanvasObject.prototype, {
-  setup: function (a) {
-    var b = Math.round(a.bubbleWidth / 2);
-    this.graphics.clear();
-    this.graphics.beginFill(COLOR.border);
-    this.graphics.drawRect(
-      -b - 2,
-      -a.bubbleHeight - this.tip.get_height() - 2,
-      a.bubbleWidth + 4,
-      a.bubbleHeight + 4,
-    );
-    this.graphics.beginFill(COLOR.background);
-    this.graphics.drawRect(
-      -b,
-      -a.bubbleHeight - this.tip.get_height(),
-      a.bubbleWidth,
-      a.bubbleHeight,
-    );
-    null != this.content && this.removeChild(this.content);
-    this.content = new ROTATE_CanvasObject();
-    this.content.set_x(-b);
-    this.content.set_y(-a.bubbleHeight - this.tip.get_height());
-    this.addChild(this.content);
-    a.setupBubble(this.content);
-  },
-  __class__: Bubble,
-});
 
 var ROTATE_MenuWithTextarea = function (a, b) {
   null == b && (b = '');
