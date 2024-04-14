@@ -32,6 +32,7 @@ import {ROTATE_EventTarget} from './ROTATE_EventTarget';
 import {ROTATE_Font} from './ROTATE_Font';
 import {ROTATE_Images} from './ROTATE_Images';
 import {ROTATE_Manager} from './ROTATE_Manager';
+import {ROTATE_Text} from './ROTATE_Text';
 import {Time} from './Time';
 import {LocalStorage} from './LocalStorage';
 import {StringBytesObject} from './StringBytesObject';
@@ -19321,153 +19322,6 @@ ROTATE_ScreenGameBeginning.prototype = __inherit(ROTATE_ScreenBase.prototype, {
   __class__: ROTATE_ScreenGameBeginning,
 });
 
-var ROTATE_Text = function (font, text, color) {
-  null == color && (color = 0);
-  null == text && (text = '');
-  this.textWidth = this.textHeight = 0;
-  this.lineWidths = [];
-  this.align =
-    this.xAlign =
-    this.yAlign =
-    this.lineHeight =
-    this.hitPadding =
-      0;
-  this.text = '';
-  var d = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.set_font(font);
-  this.set_text(text);
-  this.color = color;
-  this.addEventListener('render', function (e) {
-    d.render(e.surface);
-  });
-};
-ROTATE_Text.__name__ = !0;
-ROTATE_Text.drawText = function (a, b, c, d, e, f) {
-  null == f && (f = 0);
-  null == c && (c = '');
-  for (var m = 0, k = 0, p = 0, y = 0, H = c.length; y < H; ) {
-    var K = y++;
-    '\n' == c.charAt(K)
-      ? (++p, (m = 0), (k += b.lineHeight))
-      : ((K = charCodeAt(c, K)),
-        (K = b.chars[K]),
-        null != K &&
-          (a.drawImage(
-            b.image,
-            new Bounds(K.x + f * b.colorOffset, K.y, K.w, K.h),
-            d + m + K.xo,
-            e + k + K.yo,
-          ),
-          (m += K.xa)));
-  }
-};
-ROTATE_Text.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_Text.prototype = __inherit(DEPRECATED__ROTATE_CanvasObject.prototype, {
-  set_font: function (a) {
-    this.font = a;
-    this.set_lineHeight(a.lineHeight);
-    this.precalc();
-    return a;
-  },
-  set_text: function (a) {
-    this.text = a;
-    this.precalc();
-    return a;
-  },
-  set_lineHeight: function (a) {
-    this.lineHeight = a;
-    this.precalc();
-    return a;
-  },
-  precalc: function () {
-    var a = 0,
-      b = 0,
-      c = this.lineHeight,
-      d = 0;
-    this.lineWidths = [];
-    for (var e = 0, f = this.text.length; e < f; ) {
-      var m = e++;
-      if ('\n' == this.text.charAt(m))
-        this.lineWidths.push(d),
-          d > b && (b = d),
-          (a = d = 0),
-          (c += this.lineHeight);
-      else if (
-        ((m = charCodeAt(this.text, m)), (m = this.font.chars[m]), null != m)
-      ) {
-        var k = m.xo + m.w;
-        d += a + k;
-        a = m.xa - k;
-      }
-    }
-    this.lineWidths.push(d);
-    d > b && (b = d);
-    this.textWidth = b;
-    this.textHeight = c;
-  },
-  render: function (a) {
-    for (
-      var b = this.getTextOffset(),
-        c = -this.getLineOffset(this.lineWidths[0]),
-        d = 0,
-        e = 0,
-        f = 0,
-        m = this.text.length;
-      f < m;
-
-    ) {
-      var k = f++;
-      '\n' == this.text.charAt(k)
-        ? (++e,
-          (c = -this.getLineOffset(this.lineWidths[e])),
-          (d += this.lineHeight))
-        : ((k = charCodeAt(this.text, k)),
-          (k = this.font.chars[k]),
-          null != k &&
-            (a.drawImage(
-              this.font.image,
-              new Bounds(
-                k.x + this.color * this.font.colorOffset,
-                k.y,
-                k.w,
-                k.h,
-              ),
-              b.x + c + k.xo,
-              b.y + d + k.yo,
-            ),
-            (c += k.xa)));
-    }
-  },
-  getBoundsSelf: function () {
-    var a = this.getTextOffset();
-    return new Bounds(
-      a.x - this.hitPadding,
-      a.y - this.hitPadding,
-      this.textWidth + 2 * this.hitPadding,
-      this.textHeight + 2 * this.hitPadding,
-    );
-  },
-  getTextOffset: function () {
-    var a = new Vector2(0, 0);
-    this.xAlign == ROTATE_Text.X_ALIGN_CENTER &&
-      (a.x = Math.round(-this.textWidth / 2));
-    this.xAlign == ROTATE_Text.X_ALIGN_RIGHT && (a.x = -this.textWidth);
-    this.yAlign == ROTATE_Text.Y_ALIGN_MIDDLE &&
-      (a.y = Math.round(-this.textHeight / 2));
-    this.yAlign == ROTATE_Text.Y_ALIGN_BOTTOM && (a.y = -this.textHeight);
-    return a;
-  },
-  getLineOffset: function (a) {
-    return this.align == ROTATE_Text.ALIGN_CENTER
-      ? Math.round((-this.textWidth + a) / 2)
-      : this.align == ROTATE_Text.ALIGN_RIGHT
-        ? -this.textWidth + a
-        : 0;
-  },
-  __class__: ROTATE_Text,
-});
-
 var ROTATE_AwardObject = function (award) {
   DEPRECATED__ROTATE_CanvasObject.call(this);
   var b = new ROTATE_ImageObject(ROTATE_Images.awardFrame);
@@ -20536,16 +20390,6 @@ ROTATE_ScreenPrimaryGame.DEATH_SHAKE_TIME = 0.85;
 ROTATE_ScreenPrimaryGame.DEATH_SHAKE_AMOUNT = 24;
 ROTATE_ScreenPrimaryGame.stopped = !1;
 ROTATE_ScreenPrimaryGame.canceled = !1;
-
-ROTATE_Text.ALIGN_LEFT = 0;
-ROTATE_Text.ALIGN_CENTER = 1;
-ROTATE_Text.ALIGN_RIGHT = 2;
-ROTATE_Text.X_ALIGN_LEFT = 0;
-ROTATE_Text.X_ALIGN_CENTER = 1;
-ROTATE_Text.X_ALIGN_RIGHT = 2;
-ROTATE_Text.Y_ALIGN_TOP = 0;
-ROTATE_Text.Y_ALIGN_MIDDLE = 1;
-ROTATE_Text.Y_ALIGN_BOTTOM = 2;
 
 ROTATE_ActiveGameObject.size2 = ROTATE_GameConstants.tileSize / 2;
 ROTATE_ActiveGameObject.size4 = ROTATE_GameConstants.tileSize + 4;
