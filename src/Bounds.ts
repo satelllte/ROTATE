@@ -61,13 +61,13 @@ export class Bounds {
       : false;
   }
 
-  public contains(bounds: Bounds): boolean {
+  public contains(point: Vector2): boolean {
     // TODO: remove null check (once type-safety is covered)
-    return null != bounds &&
-      bounds.x >= this.x &&
-      bounds.y >= this.y &&
-      bounds.x < this.get_right()
-      ? bounds.y < this.get_bottom()
+    return null != point &&
+      point.x >= this.x &&
+      point.y >= this.y &&
+      point.x < this.get_right()
+      ? point.y < this.get_bottom()
       : false;
   }
 

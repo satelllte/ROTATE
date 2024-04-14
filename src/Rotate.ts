@@ -60,6 +60,7 @@ import {
 import {ROTATE_Particle} from './ROTATE_Particle';
 import {ROTATE_CatAnimationObject} from './ROTATE_CatAnimationObject';
 import {ROTATE_AnimatedObject} from './ROTATE_AnimatedObject';
+import {Collider, Collider2, Collider3, ColliderNoop} from './Collider';
 
 // ---------------------------------------------------------------------------
 
@@ -17031,102 +17032,6 @@ var ROTATE_Levels = function () {};
 ROTATE_Levels.__name__ = !0;
 
 // #endregion Levels
-
-var Collider = function (bounds) {
-  this.bounds = bounds;
-};
-Collider.__name__ = !0;
-Collider.prototype = {
-  testPoint: function (a, b) {
-    return this.bounds.contains(a);
-  },
-  __class__: Collider,
-};
-
-var ColliderNoop = function (a) {
-  this.dir = a;
-};
-ColliderNoop.__name__ = !0;
-ColliderNoop.prototype = {
-  testPoint: function (a, b) {
-    return !1;
-  },
-  __class__: ColliderNoop,
-};
-
-var Collider2 = function (dir) {
-  this.bounds = new Bounds(
-    0,
-    0,
-    ROTATE_GameConstants.tileSize,
-    ROTATE_GameConstants.tileSize,
-  );
-  this.dir = dir;
-};
-Collider2.__name__ = !0;
-Collider2.prototype = {
-  testPoint: function (a, b) {
-    if (null == b) return !1;
-    var bounds = this.bounds;
-    if (0 == ROTATE_LevelEditorManager.rotation) {
-      if (
-        (0 == this.dir && b.y <= bounds.get_top()) ||
-        (1 == this.dir && b.x >= bounds.get_right()) ||
-        (2 == this.dir && b.y >= bounds.get_bottom()) ||
-        (3 == this.dir && b.x <= bounds.get_left())
-      )
-        return !0;
-    } else if (1 == ROTATE_LevelEditorManager.rotation) {
-      if (
-        (3 == this.dir && b.x <= bounds.get_left()) ||
-        (0 == this.dir && b.y <= bounds.get_top()) ||
-        (1 == this.dir && b.x >= bounds.get_right()) ||
-        (2 == this.dir && b.y >= bounds.get_bottom())
-      )
-        return !0;
-    } else if (2 == ROTATE_LevelEditorManager.rotation) {
-      if (
-        (2 == this.dir && b.y >= bounds.get_bottom()) ||
-        (3 == this.dir && b.x <= bounds.get_left()) ||
-        (0 == this.dir && b.y <= bounds.get_top()) ||
-        (1 == this.dir && b.x / 2 >= bounds.get_right())
-      )
-        return !0;
-    } else if (
-      3 == ROTATE_LevelEditorManager.rotation &&
-      ((1 == this.dir && b.x >= bounds.get_right()) ||
-        (2 == this.dir && b.y >= bounds.get_bottom()) ||
-        (3 == this.dir && b.x <= bounds.get_left()) ||
-        (0 == this.dir && b.y <= bounds.get_top()))
-    )
-      return !0;
-    return !1;
-  },
-  __class__: Collider2,
-};
-
-var Collider3 = function (a) {
-  this.set_dir(a);
-};
-Collider3.__name__ = !0;
-Collider3.prototype = {
-  set_dir: function (a) {
-    return (this.dir = 0 > a || 3 < a ? 0 : a);
-  },
-  testPoint: function (a, b) {
-    return (0 == this.dir && a.x + a.y > ROTATE_GameConstants.tileSize) ||
-      (1 == this.dir &&
-        ROTATE_GameConstants.tileSize - a.x + a.y >
-          ROTATE_GameConstants.tileSize) ||
-      (2 == this.dir && a.x + a.y < ROTATE_GameConstants.tileSize)
-      ? !0
-      : 3 == this.dir
-        ? ROTATE_GameConstants.tileSize - a.x + a.y <
-          ROTATE_GameConstants.tileSize
-        : !1;
-  },
-  __class__: Collider3,
-};
 
 var ROTATE_Cat = function (a, b, c, d, endCondition) {
   this.appeared = false;
