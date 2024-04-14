@@ -19664,45 +19664,43 @@ class ROTATE_EraseButton extends ROTATE_ImageObject {
   }
 }
 
-var ROTATE_GridToggle = function (a) {
-  this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
-  this.toggle = new ROTATE_ImageObject(ROTATE_Images.configToggle);
-  var b = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.set_x(ROTATE_Canvas.width - this.get_width() - 12);
-  this.set_y(8);
-  this.mouseEnabled = this.buttonMode = !0;
-  this.addEventListener('click', function (c) {
-    1 < c.which ||
-      ((ROTATE_ScreenEditor.showGrid = !ROTATE_ScreenEditor.showGrid),
-      (b.toggle.clipRect.x = ROTATE_ScreenEditor.showGrid
-        ? b.toggle.clipRect.width
-        : 0),
-      null != a && a());
-  });
-  this.toggle.clipRect.width /= 2;
-  this.toggle.clipRect.x = ROTATE_ScreenEditor.showGrid
-    ? this.toggle.clipRect.width
-    : 0;
-  this.toggle.set_x(4);
-  this.toggle.set_y(5);
-  this.addChild(this.toggle);
-  this.label.set_x(32);
-  this.label.set_y(1);
-  this.label.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
-  this.addChild(this.label);
-};
-ROTATE_GridToggle.__name__ = !0;
-ROTATE_GridToggle.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_GridToggle.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    getBoundsSelf: function () {
-      return new Bounds(0, 0, 76, 30);
-    },
-    __class__: ROTATE_GridToggle,
-  },
-);
+class ROTATE_GridToggle extends ROTATE_CanvasObject {
+  public label;
+  public toggle;
+
+  constructor(a) {
+    super();
+    this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
+    this.toggle = new ROTATE_ImageObject(ROTATE_Images.configToggle);
+    var _self = this;
+    this.set_x(ROTATE_Canvas.width - this.get_width() - 12);
+    this.set_y(8);
+    this.mouseEnabled = this.buttonMode = !0;
+    this.addEventListener('click', (c) => {
+      1 < c.which ||
+        ((ROTATE_ScreenEditor.showGrid = !ROTATE_ScreenEditor.showGrid),
+        (_self.toggle.clipRect.x = ROTATE_ScreenEditor.showGrid
+          ? _self.toggle.clipRect.width
+          : 0),
+        null != a && a());
+    });
+    this.toggle.clipRect.width /= 2;
+    this.toggle.clipRect.x = ROTATE_ScreenEditor.showGrid
+      ? this.toggle.clipRect.width
+      : 0;
+    this.toggle.set_x(4);
+    this.toggle.set_y(5);
+    this.addChild(this.toggle);
+    this.label.set_x(32);
+    this.label.set_y(1);
+    this.label.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
+    this.addChild(this.label);
+  }
+
+  public getBoundsSelf() {
+    return new Bounds(0, 0, 76, 30);
+  }
+}
 
 var ROTATE_BackgroundObject = function () {
   var _self = this;
