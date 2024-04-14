@@ -44,6 +44,7 @@ import {InputKeys} from './InputKeys';
 import {ROTATE_ImageObject} from './ROTATE_ImageObject';
 import {ROTATE_Sponsor} from './ROTATE_Sponsor';
 import {Bubble} from './Bubble';
+import {ROTATE_AwardObject} from './ROTATE_AwardObject';
 
 // ---------------------------------------------------------------------------
 
@@ -1034,7 +1035,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   }
 }
 
-class ROTATE_Award {
+export class ROTATE_Award {
   public unlocked = false;
 
   constructor(
@@ -19285,34 +19286,6 @@ ROTATE_ScreenGameBeginning.prototype = __inherit(ROTATE_ScreenBase.prototype, {
   kill: function () {},
   __class__: ROTATE_ScreenGameBeginning,
 });
-
-var ROTATE_AwardObject = function (award) {
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  var b = new ROTATE_ImageObject(ROTATE_Images.awardFrame);
-  b.set_x(-b.get_width() / 2);
-  this.addChild(b);
-  b = new ROTATE_ImageObject(
-    award.unlocked ? award.icon : ROTATE_Images.awardIconLocked,
-  );
-  b.set_x(-b.get_width() / 2);
-  b.set_y(8);
-  this.addChild(b);
-  b = new ROTATE_Text(ROTATE_Game.fontMain, award.name, 1);
-  b.align = ROTATE_Text.ALIGN_CENTER;
-  b.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-  b.set_y(64);
-  b.set_lineHeight(b.lineHeight - 4);
-  this.addChild(b);
-  award.unlocked || this.set_alpha(0.5);
-};
-ROTATE_AwardObject.__name__ = !0;
-ROTATE_AwardObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_AwardObject.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    __class__: ROTATE_AwardObject,
-  },
-);
 
 var ROTATE_ActiveGameObject = function () {
   this.bubble = new Bubble();
