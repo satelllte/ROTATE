@@ -19133,35 +19133,33 @@ class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
   }
 }
 
-var ROTATE_ScreenLogo = function (lws) {
-  null == lws && (lws = !0);
-  this.onTimer = null;
-  this.done = !1;
-  this.length = 1.5;
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-  this.lws = lws;
-  lws = new ROTATE_ImageObject(ROTATE_Images.splashLWS);
-  lws.set_x(Math.round((ROTATE_Canvas.width - lws.get_width()) / 2));
-  lws.set_y(Math.round((ROTATE_Canvas.height - lws.get_height()) / 2));
-  this.addChild(lws);
-};
-ROTATE_ScreenLogo.__name__ = !0;
-ROTATE_ScreenLogo.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenLogo.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    ready: function () {
-      this.timer = Time.getCurrent();
-    },
-    update: function () {
-      !this.done &&
-        Time.getCurrent() - this.timer > this.length &&
-        ((this.done = !0),
-        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu()));
-    },
-    __class__: ROTATE_ScreenLogo,
-  },
-);
+class ROTATE_ScreenLogo extends ROTATE_ScreenBase {
+  public done = !1;
+  public length = 1.5;
+  public lws: boolean;
+  public timer = Time.getCurrent();
+
+  constructor(lws: boolean = true) {
+    super();
+    this.lws = lws;
+
+    const image = new ROTATE_ImageObject(ROTATE_Images.splashLWS);
+    image.set_x(Math.round((ROTATE_Canvas.width - image.get_width()) / 2));
+    image.set_y(Math.round((ROTATE_Canvas.height - image.get_height()) / 2));
+    this.addChild(image);
+  }
+
+  public ready() {
+    this.timer = Time.getCurrent();
+  }
+
+  public update() {
+    !this.done &&
+      Time.getCurrent() - this.timer > this.length &&
+      ((this.done = !0),
+      ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu()));
+  }
+}
 
 var ROTATE_ScreenLaunchButton = function () {
   this.start = new ROTATE_ImageObject(ROTATE_Images.start);
