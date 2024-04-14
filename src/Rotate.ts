@@ -18485,107 +18485,97 @@ ROTATE_ScreenGameLastScene.prototype = __inherit(
   },
 );
 
-var ROTATE_ScreenExtras = function () {
-  this.erase = new ROTATE_EraseButton();
-  this.mute = new ROTATE_MuteButtons();
-  this.sponsor = new ROTATE_Sponsor();
-  this.bestTime = new ROTATE_Text(ROTATE_Game.fontMain, 'Best time: ', 2);
-  this.text3 = new ROTATE_Text(
+class ROTATE_ScreenExtras extends ROTATE_ScreenBase {
+  public erase = new ROTATE_EraseButton();
+  public mute = new ROTATE_MuteButtons();
+  public sponsor = new ROTATE_Sponsor();
+  public bestTime = new ROTATE_Text(ROTATE_Game.fontMain, 'Best time: ', 2);
+  public text3 = new ROTATE_Text(
     ROTATE_Game.fontMain,
     'Finish the game as\nquickly as you can.',
     1,
   );
-  this.btn3 = new ROTATE_Button('SPEEDRUN');
-  this.text2 = new ROTATE_Text(
+  public btn3 = new ROTATE_Button('SPEEDRUN');
+  public text2 = new ROTATE_Text(
     ROTATE_Game.fontMain,
     'Build custom levels\nand share codes.',
     1,
   );
-  this.btn2 = new ROTATE_Button('EDITOR');
-  this.text1 = new ROTATE_Text(
+  public btn2 = new ROTATE_Button('EDITOR');
+  public text1 = new ROTATE_Text(
     ROTATE_Game.fontMain,
     "See all the awards\nthat you've earned.",
     1,
   );
-  this.btn1 = new ROTATE_Button('AWARDS');
-  this.btnBack = new ROTATE_Button('BACK');
-  this.title = new ROTATE_Text(ROTATE_Game.fontMain, 'EXTRAS', 1);
-  this.bg = new ROTATE_BackgroundObject();
-  DEPRECATED__ROTATE_ScreenBase.call(this);
-};
-ROTATE_ScreenExtras.__name__ = !0;
-ROTATE_ScreenExtras.__super__ = DEPRECATED__ROTATE_ScreenBase;
-ROTATE_ScreenExtras.prototype = __inherit(
-  DEPRECATED__ROTATE_ScreenBase.prototype,
-  {
-    init: function () {
-      ROTATE_ScreenMainMenu.playTheme();
-      this.addChild(this.bg);
-      this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.title.set_y(56);
-      this.addChild(this.title);
-      this.btn1.set_x(134);
-      this.btn1.set_y(133);
-      this.btn1.addEventListener('click', function (b) {
-        2 > b.which &&
-          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenAwards());
-      });
-      this.addChild(this.btn1);
-      this.text1.set_x(this.btn1.x + 110);
-      this.text1.set_y(this.btn1.y - 29);
-      this.addChild(this.text1);
-      this.btn2.set_x(this.btn1.x);
-      this.btn2.set_y(this.btn1.y + 92);
-      this.btn2.addEventListener('click', function (b) {
-        2 > b.which &&
-          (ROTATE_ScreenMainMenu.stopTheme(),
-          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenEditor()));
-      });
-      this.addChild(this.btn2);
-      this.text2.set_x(this.text1.x);
-      this.text2.set_y(this.btn2.y - 29);
-      this.addChild(this.text2);
-      this.btn3.set_x(this.btn2.x);
-      this.btn3.set_y(this.btn2.y + 92);
-      this.btn3.addEventListener('click', function (b) {
-        2 > b.which &&
-          (ROTATE_ScreenMainMenu.stopTheme(),
-          ROTATE_Game.instance.changeScreen(
-            new ROTATE_ScreenGameBeginning(!0),
-          ));
-      });
-      this.addChild(this.btn3);
-      this.text3.set_x(this.text2.x);
-      this.text3.set_y(this.btn3.y - 29);
-      this.addChild(this.text3);
-      this.bestTime.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      this.bestTime.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.bestTime.set_y(this.btn3.y + 21 + 8);
-      var a = this.bestTime;
-      a.set_text(
-        a.text +
-          (-1 < ROTATE_Levels.speedrunBest
-            ? ROTATE_Game.formatMS(ROTATE_Levels.speedrunBest)
-            : '--:--:----'),
-      );
-      0 > ROTATE_Levels.speedrunBest && this.bestTime.set_alpha(0.5);
-      this.addChild(this.bestTime);
-      this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
-      this.btnBack.set_y(ROTATE_Canvas.height - 80);
-      this.btnBack.addEventListener('click', function (b) {
-        2 > b.which &&
-          ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
-      });
-      this.addChild(this.btnBack);
-      this.addChild(this.sponsor);
-      this.addChild(this.mute);
-      this.addChild(this.erase);
-      ROTATE_Game.instance.warnNoSave(this);
-    },
-    __class__: ROTATE_ScreenExtras,
-  },
-);
+  public btn1 = new ROTATE_Button('AWARDS');
+  public btnBack = new ROTATE_Button('BACK');
+  public title = new ROTATE_Text(ROTATE_Game.fontMain, 'EXTRAS', 1);
+  public bg = new ROTATE_BackgroundObject();
+
+  public init() {
+    ROTATE_ScreenMainMenu.playTheme();
+    this.addChild(this.bg);
+    this.title.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.title.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.title.set_y(56);
+    this.addChild(this.title);
+    this.btn1.set_x(134);
+    this.btn1.set_y(133);
+    this.btn1.addEventListener('click', function (b) {
+      2 > b.which &&
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenAwards());
+    });
+    this.addChild(this.btn1);
+    this.text1.set_x(this.btn1.x + 110);
+    this.text1.set_y(this.btn1.y - 29);
+    this.addChild(this.text1);
+    this.btn2.set_x(this.btn1.x);
+    this.btn2.set_y(this.btn1.y + 92);
+    this.btn2.addEventListener('click', function (b) {
+      2 > b.which &&
+        (ROTATE_ScreenMainMenu.stopTheme(),
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenEditor()));
+    });
+    this.addChild(this.btn2);
+    this.text2.set_x(this.text1.x);
+    this.text2.set_y(this.btn2.y - 29);
+    this.addChild(this.text2);
+    this.btn3.set_x(this.btn2.x);
+    this.btn3.set_y(this.btn2.y + 92);
+    this.btn3.addEventListener('click', function (b) {
+      2 > b.which &&
+        (ROTATE_ScreenMainMenu.stopTheme(),
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenGameBeginning(!0)));
+    });
+    this.addChild(this.btn3);
+    this.text3.set_x(this.text2.x);
+    this.text3.set_y(this.btn3.y - 29);
+    this.addChild(this.text3);
+    this.bestTime.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.bestTime.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.bestTime.set_y(this.btn3.y + 21 + 8);
+    var a = this.bestTime;
+    a.set_text(
+      a.text +
+        (-1 < ROTATE_Levels.speedrunBest
+          ? ROTATE_Game.formatMS(ROTATE_Levels.speedrunBest)
+          : '--:--:----'),
+    );
+    0 > ROTATE_Levels.speedrunBest && this.bestTime.set_alpha(0.5);
+    this.addChild(this.bestTime);
+    this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
+    this.btnBack.set_y(ROTATE_Canvas.height - 80);
+    this.btnBack.addEventListener('click', function (b) {
+      2 > b.which &&
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
+    });
+    this.addChild(this.btnBack);
+    this.addChild(this.sponsor);
+    this.addChild(this.mute);
+    this.addChild(this.erase);
+    ROTATE_Game.instance.warnNoSave(this);
+  }
+}
 
 class ROTATE_ScreenLevels extends ROTATE_ScreenBase {
   public erase = new ROTATE_EraseButton();
