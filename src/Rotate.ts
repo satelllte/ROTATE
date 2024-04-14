@@ -408,26 +408,6 @@ ROTATE_EventMapIterator.prototype = {
   __class__: ROTATE_EventMapIterator,
 };
 
-var ErrorTypes = {
-  __ename__: !0,
-  __constructs__: ['Blocked', 'Overflow', 'OutsideBounds', 'Custom'],
-  Blocked: ['Blocked', 0],
-};
-ErrorTypes.Blocked.toString = toStringNoop;
-ErrorTypes.Blocked.__enum__ = ErrorTypes;
-ErrorTypes.Overflow = ['Overflow', 1];
-ErrorTypes.Overflow.toString = toStringNoop;
-ErrorTypes.Overflow.__enum__ = ErrorTypes;
-ErrorTypes.OutsideBounds = ['OutsideBounds', 2];
-ErrorTypes.OutsideBounds.toString = toStringNoop;
-ErrorTypes.OutsideBounds.__enum__ = ErrorTypes;
-ErrorTypes.Custom = function (a) {
-  a = ['Custom', 3, a];
-  a.__enum__ = ErrorTypes;
-  a.toString = toStringNoop;
-  return a;
-};
-
 var JSObjectUtils = function () {};
 JSObjectUtils.__name__ = !0;
 JSObjectUtils.getClass = function (a) {
