@@ -45,6 +45,7 @@ import {ROTATE_ImageObject} from './ROTATE_ImageObject';
 import {ROTATE_Sponsor} from './ROTATE_Sponsor';
 import {Bubble} from './Bubble';
 import {ROTATE_AwardObject} from './ROTATE_AwardObject';
+import {ROTATE_Button} from './ROTATE_Button';
 
 // ---------------------------------------------------------------------------
 
@@ -19748,31 +19749,6 @@ ROTATE_BackgroundObject.prototype = __inherit(
     __class__: ROTATE_BackgroundObject,
   },
 );
-
-var ROTATE_Button = function (title, b) {
-  null == b && (b = 0);
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.main = new ROTATE_ImageObject(ROTATE_Images.menuBtn);
-  this.main.set_x(-this.main.get_width() / 2);
-  this.main.set_y(-this.main.get_height() / 2);
-  this.main.mouseEnabled = this.main.buttonMode = !0;
-  this.addChild(this.main);
-  var c = (this.text = new ROTATE_Text(
-    ROTATE_Game.fontMain,
-    title.toUpperCase(),
-    b,
-  ));
-  c.set_y(c.y - 2);
-  this.text.align = ROTATE_Text.ALIGN_CENTER;
-  this.text.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-  this.text.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
-  this.addChild(this.text);
-};
-ROTATE_Button.__name__ = !0;
-ROTATE_Button.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_Button.prototype = __inherit(DEPRECATED__ROTATE_CanvasObject.prototype, {
-  __class__: ROTATE_Button,
-});
 
 var ROTATE_MuteButtons = function (a) {
   null == a && (a = 0);
