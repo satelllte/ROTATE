@@ -2766,6 +2766,63 @@ class GameObject_Door extends Block {
   }
 }
 
+class ROTATE_GameObject_Angle extends Block {
+  public angle: number = 0;
+  public configurable: boolean = true;
+
+  public set_angle(angle: number) {
+    return (this.angle = 0 > angle ? 3 : 3 < angle ? 0 : angle);
+  }
+  public setupBubble(a: ROTATE_CanvasObject) {
+    var c = new ROTATE_Text(ROTATE_Game.fontMain, 'Angle');
+    c.set_x(8);
+    c.set_y(8);
+    a.addChild(c);
+    var d = new ROTATE_Text(ROTATE_Game.fontMain, this.angle + '');
+    d.align = ROTATE_Text.ALIGN_CENTER;
+    d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    d.set_x(this.bubbleWidth - 31);
+    d.set_y(c.y);
+    a.addChild(d);
+    c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
+    c.mouseEnabled = c.buttonMode = !0;
+    c.addEventListener('mouseDown', (e) => {
+      1 < e.which ||
+        (this.set_angle(this.angle + 1), d.set_text(this.angle + ''));
+    });
+    c.set_x(d.x + 11);
+    c.set_y(12);
+    a.addChild(c);
+    c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
+    c.mouseEnabled = c.buttonMode = !0;
+    c.addEventListener('mouseDown', (e) => {
+      1 < e.which ||
+        (this.set_angle(this.angle - 1), d.set_text(this.angle + ''));
+    });
+    c.set_scaleX(-1);
+    c.set_x(d.x - 11);
+    c.set_y(12);
+    a.addChild(c);
+  }
+  public getConfigMeta() {
+    return [this.angle];
+  }
+  public renderRotated(
+    surface: Surface,
+    blockData: BlockData,
+    x: number,
+    y: number,
+  ) {
+    var e = ROTATE_GameConstants.tileSize,
+      f = e / 2;
+    surface.translate(f, f);
+    surface.rotate((blockData.getMeta(0) * Math.PI) / 2);
+    surface.drawImage(ROTATE_Images.blocks, new Bounds(x, y, e, e), -f, -f);
+    surface.rotate((-blockData.getMeta(0) * Math.PI) / 2);
+    surface.translate(-f, -f);
+  }
+}
+
 var DEPRECATED__ROTATE_GameObject_Angle = function () {
   this.angle = 0;
   DEPRECATED__Block.call(this);
@@ -2825,42 +2882,33 @@ DEPRECATED__ROTATE_GameObject_Angle.prototype = __inherit(
   },
 );
 
-var ROTATE_GameObject_Fan = function () {
-  DEPRECATED__ROTATE_GameObject_Angle.call(this);
-};
-ROTATE_GameObject_Fan.__name__ = !0;
-ROTATE_GameObject_Fan.__super__ = DEPRECATED__ROTATE_GameObject_Angle;
-ROTATE_GameObject_Fan.prototype = __inherit(
-  DEPRECATED__ROTATE_GameObject_Angle.prototype,
-  {
-    alwaysUpdate: function (a) {
-      return !0;
-    },
-    collides: function (a) {
-      return !1;
-    },
-    render: function (a, b, c) {
-      null == c && (c = !0);
-      b = b.getMeta(0) % 4;
-      c =
-        !c || ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
-          ? 0
-          : Math.floor(ROTATE_Game.instance.get_gameTimeMS() / 50) % 3;
-      a.drawImage(
-        ROTATE_Images.blocks,
-        new Bounds(
-          ((0 < b && 3 > b ? 1 : 0) + 2 * c) * ROTATE_GameConstants.tileSize,
-          (5 + (1 < b ? 1 : 0)) * ROTATE_GameConstants.tileSize,
+class ROTATE_GameObject_Fan extends ROTATE_GameObject_Angle {
+  public alwaysUpdate(blockData: BlockData) {
+    return !0;
+  }
+  public collides(blockData: BlockData) {
+    return !1;
+  }
+  public render(surface: Surface, blockData: BlockData, c: boolean = true) {
+    blockData = blockData.getMeta(0) % 4;
+    c =
+      !c || ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
+        ? 0
+        : Math.floor(ROTATE_Game.instance.get_gameTimeMS() / 50) % 3;
+    surface.drawImage(
+      ROTATE_Images.blocks,
+      new Bounds(
+        ((0 < blockData && 3 > blockData ? 1 : 0) + 2 * c) *
           ROTATE_GameConstants.tileSize,
-          ROTATE_GameConstants.tileSize,
-        ),
-        0,
-        0,
-      );
-    },
-    __class__: ROTATE_GameObject_Fan,
-  },
-);
+        (5 + (1 < blockData ? 1 : 0)) * ROTATE_GameConstants.tileSize,
+        ROTATE_GameConstants.tileSize,
+        ROTATE_GameConstants.tileSize,
+      ),
+      0,
+      0,
+    );
+  }
+}
 
 class GameObject_Finish extends Block {
   public render(surface: Surface, blockData: BlockData, c: any): void {
