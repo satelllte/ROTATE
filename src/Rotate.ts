@@ -17777,99 +17777,115 @@ ROTATE_EditorBarLower.prototype = __inherit(
   },
 );
 
-var ROTATE_EditorBarUpper = function (a, b) {
-  this.btnLoad = new ROTATE_Text(ROTATE_Game.fontMain, 'Load');
-  this.btnSave = new ROTATE_Text(ROTATE_Game.fontMain, 'Save');
-  this.btnPlay = new ROTATE_Text(ROTATE_Game.fontMain, 'Play');
-  this.btnClear = new ROTATE_Text(ROTATE_Game.fontMain, 'Clear');
-  this.btnExit = new ROTATE_Text(ROTATE_Game.fontMain, 'Exit');
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.mouseEnabled = !0;
-  this.graphics.beginFill(2105376);
-  this.graphics.drawRect(
-    0,
-    0,
-    ROTATE_Canvas.width,
-    ROTATE_EditorBarUpper.HEIGHT,
-  );
-  this.btnExit.set_x(ROTATE_EditorBarUpper.EDGE_PAD);
-  this.btnExit.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
-  this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
-  this.btnExit.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
-  this.btnExit.addEventListener('click', function (d) {
-    2 > d.which && ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
-  });
-  this.addChild(this.btnExit);
-  this.btnClear.set_x(
-    this.btnExit.x + this.btnExit.get_width() + ROTATE_EditorBarUpper.BTN_SPACE,
-  );
-  this.btnClear.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
-  this.btnClear.mouseEnabled = this.btnClear.buttonMode = !0;
-  this.btnClear.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
-  this.btnClear.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
-  this.addChild(this.btnClear);
-  this.theme = new ROTATE_Text(
-    ROTATE_Game.fontMain,
-    ROTATE_EditorBarUpper.THEMES[a],
-  );
-  this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
-  this.theme.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
-  this.theme.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-  this.addChild(this.theme);
-  var c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
-  c.mouseEnabled = c.buttonMode = !0;
-  c.set_x(this.theme.x + 46);
-  c.set_y(this.theme.y + 4);
-  c.addEventListener('mouseDown', function (d) {
-    2 > d.which && b(-1);
-  });
-  this.addChild(c);
-  c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
-  c.mouseEnabled = c.buttonMode = !0;
-  c.set_scaleX(-1);
-  c.set_x(this.theme.x - 46);
-  c.set_y(this.theme.y + 4);
-  c.addEventListener('mouseDown', function (d) {
-    2 > d.which && b(1);
-  });
-  this.addChild(c);
-  this.btnPlay.set_x(ROTATE_Canvas.width - ROTATE_EditorBarUpper.EDGE_PAD);
-  this.btnPlay.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
-  this.btnPlay.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
-  this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
-  this.btnPlay.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
-  this.btnPlay.addEventListener('click', function (d) {
-    2 > d.which &&
-      ROTATE_ScreenPrimaryGame.play(ROTATE_ScreenEditor.editorLevel);
-  });
-  this.addChild(this.btnPlay);
-  this.btnSave.set_x(
-    this.btnPlay.x - this.btnPlay.get_width() - ROTATE_EditorBarUpper.BTN_SPACE,
-  );
-  this.btnSave.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
-  this.btnSave.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
-  this.btnSave.mouseEnabled = this.btnSave.buttonMode = !0;
-  this.btnSave.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
-  this.btnSave.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
-  this.addChild(this.btnSave);
-  this.btnLoad.set_x(
-    this.btnSave.x - this.btnSave.get_width() - ROTATE_EditorBarUpper.BTN_SPACE,
-  );
-  this.btnLoad.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
-  this.btnLoad.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
-  this.btnLoad.mouseEnabled = this.btnLoad.buttonMode = !0;
-  this.btnLoad.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
-  this.btnLoad.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
-  this.addChild(this.btnLoad);
-};
-ROTATE_EditorBarUpper.__name__ = !0;
-ROTATE_EditorBarUpper.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_EditorBarUpper.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    __class__: ROTATE_EditorBarUpper,
-  },
-);
+class ROTATE_EditorBarUpper extends ROTATE_CanvasObject {
+  public static readonly HEIGHT = 48;
+  public static readonly EDGE_PAD = 14;
+  public static readonly EDGE_PAD_Y = 9;
+  public static readonly BTN_SPACE = 12;
+  public static readonly BTN_PAD = 8;
+  public static readonly TEXT_GREY = 0.75;
+  public static readonly THEMES = ['Theme A', 'Theme B'];
+
+  public btnLoad;
+  public btnSave;
+  public btnPlay;
+  public btnClear;
+  public btnExit;
+  public theme;
+
+  constructor(theme: number, callback: (i: number) => void) {
+    super();
+    this.btnLoad = new ROTATE_Text(ROTATE_Game.fontMain, 'Load');
+    this.btnSave = new ROTATE_Text(ROTATE_Game.fontMain, 'Save');
+    this.btnPlay = new ROTATE_Text(ROTATE_Game.fontMain, 'Play');
+    this.btnClear = new ROTATE_Text(ROTATE_Game.fontMain, 'Clear');
+    this.btnExit = new ROTATE_Text(ROTATE_Game.fontMain, 'Exit');
+    this.mouseEnabled = !0;
+    this.graphics.beginFill(2105376);
+    this.graphics.drawRect(
+      0,
+      0,
+      ROTATE_Canvas.width,
+      ROTATE_EditorBarUpper.HEIGHT,
+    );
+    this.btnExit.set_x(ROTATE_EditorBarUpper.EDGE_PAD);
+    this.btnExit.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
+    this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
+    this.btnExit.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
+    this.btnExit.addEventListener('click', (d) => {
+      2 > d.which &&
+        ROTATE_Game.instance.changeScreen(new ROTATE_ScreenExtras());
+    });
+    this.addChild(this.btnExit);
+    this.btnClear.set_x(
+      this.btnExit.x +
+        this.btnExit.get_width() +
+        ROTATE_EditorBarUpper.BTN_SPACE,
+    );
+    this.btnClear.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
+    this.btnClear.mouseEnabled = this.btnClear.buttonMode = !0;
+    this.btnClear.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
+    this.btnClear.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
+    this.addChild(this.btnClear);
+    this.theme = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      ROTATE_EditorBarUpper.THEMES[theme],
+    );
+    this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
+    this.theme.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
+    this.theme.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.addChild(this.theme);
+    var c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
+    c.mouseEnabled = c.buttonMode = !0;
+    c.set_x(this.theme.x + 46);
+    c.set_y(this.theme.y + 4);
+    c.addEventListener('mouseDown', (d) => {
+      2 > d.which && callback(-1);
+    });
+    this.addChild(c);
+    c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
+    c.mouseEnabled = c.buttonMode = !0;
+    c.set_scaleX(-1);
+    c.set_x(this.theme.x - 46);
+    c.set_y(this.theme.y + 4);
+    c.addEventListener('mouseDown', (d) => {
+      2 > d.which && callback(1);
+    });
+    this.addChild(c);
+    this.btnPlay.set_x(ROTATE_Canvas.width - ROTATE_EditorBarUpper.EDGE_PAD);
+    this.btnPlay.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
+    this.btnPlay.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
+    this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
+    this.btnPlay.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
+    this.btnPlay.addEventListener('click', function (d) {
+      2 > d.which &&
+        ROTATE_ScreenPrimaryGame.play(ROTATE_ScreenEditor.editorLevel);
+    });
+    this.addChild(this.btnPlay);
+    this.btnSave.set_x(
+      this.btnPlay.x -
+        this.btnPlay.get_width() -
+        ROTATE_EditorBarUpper.BTN_SPACE,
+    );
+    this.btnSave.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
+    this.btnSave.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
+    this.btnSave.mouseEnabled = this.btnSave.buttonMode = !0;
+    this.btnSave.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
+    this.btnSave.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
+    this.addChild(this.btnSave);
+    this.btnLoad.set_x(
+      this.btnSave.x -
+        this.btnSave.get_width() -
+        ROTATE_EditorBarUpper.BTN_SPACE,
+    );
+    this.btnLoad.set_y(ROTATE_EditorBarUpper.EDGE_PAD_Y);
+    this.btnLoad.xAlign = ROTATE_Text.X_ALIGN_RIGHT;
+    this.btnLoad.mouseEnabled = this.btnLoad.buttonMode = !0;
+    this.btnLoad.hitPadding = ROTATE_EditorBarUpper.BTN_PAD;
+    this.btnLoad.set_alpha(ROTATE_EditorBarUpper.TEXT_GREY);
+    this.addChild(this.btnLoad);
+  }
+}
 
 class ROTATE_EraseButton extends ROTATE_ImageObject {
   constructor() {
@@ -18125,13 +18141,5 @@ ROTATE_ScreenEditor.showGrid = !0;
 ROTATE_ScreenEditor.editorLevel = new ROTATE_EditorLevel(); // Until "ROTATE_EditorLevel" is migrated to class, it can't be moved inside "static" field
 
 ROTATE_EditorBarLower.HEIGHT = 48;
-
-ROTATE_EditorBarUpper.HEIGHT = 48;
-ROTATE_EditorBarUpper.EDGE_PAD = 14;
-ROTATE_EditorBarUpper.EDGE_PAD_Y = 9;
-ROTATE_EditorBarUpper.BTN_SPACE = 12;
-ROTATE_EditorBarUpper.BTN_PAD = 8;
-ROTATE_EditorBarUpper.TEXT_GREY = 0.75;
-ROTATE_EditorBarUpper.THEMES = ['Theme A', 'Theme B'];
 
 ROTATE_Game.main();
