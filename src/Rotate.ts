@@ -17643,7 +17643,7 @@ class ROTATE_ScreenGameBeginning extends ROTATE_ScreenBase {
   }
 }
 
-var ROTATE_MenuWithTextarea = function (a, b) {
+var DEPRECATED__ROTATE_MenuWithTextarea = function (a, b) {
   null == b && (b = '');
   DEPRECATED__ROTATE_CanvasObject.call(this);
   this.graphics.beginFill(COLOR.darkGray, 0.95);
@@ -17673,16 +17673,16 @@ var ROTATE_MenuWithTextarea = function (a, b) {
   this.area.value = b;
   this.area.select();
 };
-ROTATE_MenuWithTextarea.__name__ = !0;
-ROTATE_MenuWithTextarea.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_MenuWithTextarea.prototype = __inherit(
+DEPRECATED__ROTATE_MenuWithTextarea.__name__ = !0;
+DEPRECATED__ROTATE_MenuWithTextarea.__super__ = DEPRECATED__ROTATE_CanvasObject;
+DEPRECATED__ROTATE_MenuWithTextarea.prototype = __inherit(
   DEPRECATED__ROTATE_CanvasObject.prototype,
   {
     kill: function () {
       null != this.area.parentElement &&
         window.document.body.removeChild(this.area);
     },
-    __class__: ROTATE_MenuWithTextarea,
+    __class__: DEPRECATED__ROTATE_MenuWithTextarea,
   },
 );
 
@@ -17695,7 +17695,7 @@ var ROTATE_LoadLevelMenu = function () {
     2,
   );
   var _self = this;
-  ROTATE_MenuWithTextarea.call(this, 'LOAD LEVEL');
+  DEPRECATED__ROTATE_MenuWithTextarea.call(this, 'LOAD LEVEL');
   this.invalid.xAlign = ROTATE_Text.X_ALIGN_CENTER;
   this.invalid.yAlign = ROTATE_Text.Y_ALIGN_BOTTOM;
   this.invalid.set_x(Math.round(ROTATE_Canvas.width / 2));
@@ -17722,15 +17722,18 @@ var ROTATE_LoadLevelMenu = function () {
   });
 };
 ROTATE_LoadLevelMenu.__name__ = !0;
-ROTATE_LoadLevelMenu.__super__ = ROTATE_MenuWithTextarea;
-ROTATE_LoadLevelMenu.prototype = __inherit(ROTATE_MenuWithTextarea.prototype, {
-  __class__: ROTATE_LoadLevelMenu,
-});
+ROTATE_LoadLevelMenu.__super__ = DEPRECATED__ROTATE_MenuWithTextarea;
+ROTATE_LoadLevelMenu.prototype = __inherit(
+  DEPRECATED__ROTATE_MenuWithTextarea.prototype,
+  {
+    __class__: ROTATE_LoadLevelMenu,
+  },
+);
 
 var ROTATE_SaveLevelMenu = function (a) {
   this.btnBack = new ROTATE_Button('BACK');
   var b = this;
-  ROTATE_MenuWithTextarea.call(this, 'SAVE LEVEL', a);
+  DEPRECATED__ROTATE_MenuWithTextarea.call(this, 'SAVE LEVEL', a);
   this.area.readOnly = !0;
   this.btnBack.set_x(Math.round(ROTATE_Canvas.width / 2));
   this.btnBack.set_y(ROTATE_Canvas.height - 52);
@@ -17740,10 +17743,13 @@ var ROTATE_SaveLevelMenu = function (a) {
   this.addChild(this.btnBack);
 };
 ROTATE_SaveLevelMenu.__name__ = !0;
-ROTATE_SaveLevelMenu.__super__ = ROTATE_MenuWithTextarea;
-ROTATE_SaveLevelMenu.prototype = __inherit(ROTATE_MenuWithTextarea.prototype, {
-  __class__: ROTATE_SaveLevelMenu,
-});
+ROTATE_SaveLevelMenu.__super__ = DEPRECATED__ROTATE_MenuWithTextarea;
+ROTATE_SaveLevelMenu.prototype = __inherit(
+  DEPRECATED__ROTATE_MenuWithTextarea.prototype,
+  {
+    __class__: ROTATE_SaveLevelMenu,
+  },
+);
 
 class ROTATE_EditorBarUpper extends ROTATE_CanvasObject {
   public static readonly HEIGHT = 48;
