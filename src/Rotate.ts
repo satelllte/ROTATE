@@ -79,6 +79,7 @@ import {ROTATE_LoadLevelMenu} from './ROTATE_LoadLevelMenu';
 import {ROTATE_SaveLevelMenu} from './ROTATE_SaveLevelMenu';
 import {ROTATE_Level1} from './levels/ROTATE_Level1';
 import {ROTATE_EditorLevel} from './levels/ROTATE_EditorLevel';
+import {ROTATE_Cat} from './ROTATE_Cat';
 
 var bindIdNext = 0;
 function Bind(a, b) {
@@ -15086,31 +15087,6 @@ export var ROTATE_Levels = function () {};
 ROTATE_Levels.__name__ = !0;
 
 // #endregion Levels
-
-var ROTATE_Cat = function (a, b, c, d, endCondition) {
-  this.appeared = false;
-  this.disappeared = false;
-  this.c = a;
-  this.r = b;
-  this.startDir = 0 > c ? -1 : 1;
-  this.endDir = 0 > d ? -1 : 1;
-  this.endCond = endCondition;
-};
-ROTATE_Cat.__name__ = !0;
-ROTATE_Cat.prototype = {
-  update: function () {
-    var a = ROTATE_ScreenPrimaryGame.i;
-    this.appeared
-      ? !this.disappeared &&
-        null != this.endCond &&
-        this.endCond.test() &&
-        (a.catDisappear(this.endDir), (this.disappeared = !0))
-      : (a.catAppear(this.c, this.r, this.startDir),
-        (this.appeared = !0),
-        null != this.endCond && this.endCond.start());
-  },
-  __class__: ROTATE_Cat,
-};
 
 class ROTATE_ScreenAwards extends ROTATE_ScreenBase {
   public rotating = !1;
