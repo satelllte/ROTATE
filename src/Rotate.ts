@@ -81,6 +81,7 @@ import {ROTATE_Level1} from './levels/ROTATE_Level1';
 import {ROTATE_EditorLevel} from './levels/ROTATE_EditorLevel';
 import {ROTATE_Cat} from './ROTATE_Cat';
 import {Signaler} from './Singaler';
+import {Door} from './Door';
 
 var bindIdNext = 0;
 function Bind(a, b) {
@@ -921,74 +922,6 @@ export class ROTATE_Awards {
     }
   }
 }
-
-var Door = function (blockData) {
-  this.x = blockData.x;
-  this.y = blockData.y;
-  this.channel = blockData.getMeta(0);
-  this.length = blockData.getMeta(1);
-  this.angle = blockData.getMeta(2);
-};
-Door.__name__ = !0;
-Door.canPlace = function (a, b, c) {
-  if (!ROTATE_LevelEditorManager.isInBounds(a, b)) return !1;
-  var d = c[1];
-  c = c[2];
-  if (3 == c) {
-    if (b < d - 1) return !1;
-    d = b - (d - 1);
-    for (b += 1; d < b; )
-      if (((c = d++), !ROTATE_LevelEditorManager.isReplacable(a, c))) return !1;
-  } else if (2 == c) {
-    if (a < d - 1) return !1;
-    d = a - (d - 1);
-    for (a += 1; d < a; )
-      if (((c = d++), !ROTATE_LevelEditorManager.isReplacable(c, b))) return !1;
-  } else if (1 == c) {
-    if (b > ROTATE_LevelEditorManager.get_height() - d) return !1;
-    c = b;
-    for (b += d; c < b; )
-      if (((d = c++), !ROTATE_LevelEditorManager.isReplacable(a, d))) return !1;
-  } else {
-    if (a > ROTATE_LevelEditorManager.get_width() - d) return !1;
-    c = a;
-    for (a += d; c < a; )
-      if (((d = c++), !ROTATE_LevelEditorManager.isReplacable(d, b))) return !1;
-  }
-  return !0;
-};
-Door.prototype = {
-  contains: function (a, b) {
-    return 3 == this.angle
-      ? a == this.x && b <= this.y
-        ? b > this.y - this.length
-        : !1
-      : 2 == this.angle
-        ? b == this.y && a <= this.x
-          ? a > this.x - this.length
-          : !1
-        : 1 == this.angle
-          ? a == this.x && b >= this.y
-            ? b < this.y + this.length
-            : !1
-          : b == this.y && a >= this.x
-            ? a < this.x + this.length
-            : !1;
-  },
-  forEach: function (a) {
-    for (var b = 0, c = this.length; b < c; ) {
-      var d = b++;
-      3 == this.angle
-        ? a(this.x, this.y - d)
-        : 2 == this.angle
-          ? a(this.x - d, this.y)
-          : 1 == this.angle
-            ? a(this.x, this.y + d)
-            : a(this.x + d, this.y);
-    }
-  },
-  __class__: Door,
-};
 
 class ROTATE_Player extends ROTATE_AnimatedObject {
   public lastStep = -1;
