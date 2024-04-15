@@ -3065,47 +3065,51 @@ class GameObject_Lever extends Block {
   }
 }
 
-var ROTATE_GameObject_Solid = function () {
+var DEPRECATED__ROTATE_GameObject_Solid = function () {
   DEPRECATED__Block.call(this);
 };
-ROTATE_GameObject_Solid.__name__ = !0;
-ROTATE_GameObject_Solid.__super__ = DEPRECATED__Block;
-ROTATE_GameObject_Solid.prototype = __inherit(DEPRECATED__Block.prototype, {
-  render: function (a, b, c) {
-    null == c && (c = !0);
-    var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0),
-      e = c && this.testCanSolidConnect(b.x, b.y - 1, 1),
-      f = c && this.testCanSolidConnect(b.x + 1, b.y - 1, 2),
-      m = c && this.testCanSolidConnect(b.x + 1, b.y, 3),
-      k = c && this.testCanSolidConnect(b.x + 1, b.y + 1, 4),
-      p = c && this.testCanSolidConnect(b.x, b.y + 1, 5),
-      y = c && this.testCanSolidConnect(b.x - 1, b.y + 1, 6);
-    b = c && this.testCanSolidConnect(b.x - 1, b.y, 7);
-    f = e || m ? (m ? (e ? (f ? 0 : 1) : 2) : 3) : 4;
-    y = p || b ? (b ? (p ? (y ? 0 : 1) : 2) : 3) : 4;
-    m = p || m ? (m ? (p ? (k ? 0 : 1) : 2) : 3) : 4;
-    k = ROTATE_GameConstants.tileSize;
-    p = ROTATE_GameConstants.tileSize / 2;
-    a.drawImage(
-      ROTATE_Images.blocks,
-      new Bounds((e || b ? (b ? (e ? (d ? 0 : 1) : 2) : 3) : 4) * k, 0, p, p),
-      0,
-      0,
-    );
-    a.drawImage(ROTATE_Images.blocks, new Bounds(f * k + p, 0, p, p), p, 0);
-    a.drawImage(ROTATE_Images.blocks, new Bounds(y * k, p, p, p), 0, p);
-    a.drawImage(ROTATE_Images.blocks, new Bounds(m * k + p, p, p, p), p, p);
+DEPRECATED__ROTATE_GameObject_Solid.__name__ = !0;
+DEPRECATED__ROTATE_GameObject_Solid.__super__ = DEPRECATED__Block;
+DEPRECATED__ROTATE_GameObject_Solid.prototype = __inherit(
+  DEPRECATED__Block.prototype,
+  {
+    render: function (a, b, c) {
+      null == c && (c = !0);
+      var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0),
+        e = c && this.testCanSolidConnect(b.x, b.y - 1, 1),
+        f = c && this.testCanSolidConnect(b.x + 1, b.y - 1, 2),
+        m = c && this.testCanSolidConnect(b.x + 1, b.y, 3),
+        k = c && this.testCanSolidConnect(b.x + 1, b.y + 1, 4),
+        p = c && this.testCanSolidConnect(b.x, b.y + 1, 5),
+        y = c && this.testCanSolidConnect(b.x - 1, b.y + 1, 6);
+      b = c && this.testCanSolidConnect(b.x - 1, b.y, 7);
+      f = e || m ? (m ? (e ? (f ? 0 : 1) : 2) : 3) : 4;
+      y = p || b ? (b ? (p ? (y ? 0 : 1) : 2) : 3) : 4;
+      m = p || m ? (m ? (p ? (k ? 0 : 1) : 2) : 3) : 4;
+      k = ROTATE_GameConstants.tileSize;
+      p = ROTATE_GameConstants.tileSize / 2;
+      a.drawImage(
+        ROTATE_Images.blocks,
+        new Bounds((e || b ? (b ? (e ? (d ? 0 : 1) : 2) : 3) : 4) * k, 0, p, p),
+        0,
+        0,
+      );
+      a.drawImage(ROTATE_Images.blocks, new Bounds(f * k + p, 0, p, p), p, 0);
+      a.drawImage(ROTATE_Images.blocks, new Bounds(y * k, p, p, p), 0, p);
+      a.drawImage(ROTATE_Images.blocks, new Bounds(m * k + p, p, p, p), p, p);
+    },
+    testCanSolidConnect: function (a, b, c) {
+      if (!ROTATE_LevelEditorManager.isInBounds(a, b)) return !0;
+      a = ROTATE_LevelEditorManager.getBlockData(a, b);
+      b = a.get_block();
+      if (JSObjectUtils.__instanceof(b, DEPRECATED__ROTATE_GameObject_Solid))
+        return !0;
+      a.getMeta(0);
+      return !1;
+    },
+    __class__: DEPRECATED__ROTATE_GameObject_Solid,
   },
-  testCanSolidConnect: function (a, b, c) {
-    if (!ROTATE_LevelEditorManager.isInBounds(a, b)) return !0;
-    a = ROTATE_LevelEditorManager.getBlockData(a, b);
-    b = a.get_block();
-    if (JSObjectUtils.__instanceof(b, ROTATE_GameObject_Solid)) return !0;
-    a.getMeta(0);
-    return !1;
-  },
-  __class__: ROTATE_GameObject_Solid,
-});
+);
 
 var ROTATE_GameObject_Number = function () {
   this.value = 1;
@@ -3113,9 +3117,9 @@ var ROTATE_GameObject_Number = function () {
   this.configurable = !0;
 };
 ROTATE_GameObject_Number.__name__ = !0;
-ROTATE_GameObject_Number.__super__ = ROTATE_GameObject_Solid;
+ROTATE_GameObject_Number.__super__ = DEPRECATED__ROTATE_GameObject_Solid;
 ROTATE_GameObject_Number.prototype = __inherit(
-  ROTATE_GameObject_Solid.prototype,
+  DEPRECATED__ROTATE_GameObject_Solid.prototype,
   {
     set_value: function (a) {
       return (this.value = 0 > a ? 99 : 99 < a ? 0 : a);
@@ -3123,7 +3127,12 @@ ROTATE_GameObject_Number.prototype = __inherit(
     render: function (a, b, c) {
       null == c && (c = !0);
       c
-        ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
+        ? DEPRECATED__ROTATE_GameObject_Solid.prototype.render.call(
+            this,
+            a,
+            b,
+            c,
+          )
         : a.drawImage(
             ROTATE_Images.blocks,
             new Bounds(
@@ -3381,14 +3390,19 @@ var ROTATE_GameObject_Vent = function () {
   DEPRECATED__Block.call(this);
 };
 ROTATE_GameObject_Vent.__name__ = !0;
-ROTATE_GameObject_Vent.__super__ = ROTATE_GameObject_Solid;
+ROTATE_GameObject_Vent.__super__ = DEPRECATED__ROTATE_GameObject_Solid;
 ROTATE_GameObject_Vent.prototype = __inherit(
-  ROTATE_GameObject_Solid.prototype,
+  DEPRECATED__ROTATE_GameObject_Solid.prototype,
   {
     render: function (a, b, c) {
       null == c && (c = !0);
       c
-        ? ROTATE_GameObject_Solid.prototype.render.call(this, a, b, c)
+        ? DEPRECATED__ROTATE_GameObject_Solid.prototype.render.call(
+            this,
+            a,
+            b,
+            c,
+          )
         : a.drawImage(
             ROTATE_Images.blocks,
             new Bounds(
@@ -19461,7 +19475,7 @@ class ROTATE_GameObjects {
   );
   public static readonly solid = ROTATE_GameObjectsRegistry.register(
     1,
-    new ROTATE_GameObject_Solid(),
+    new DEPRECATED__ROTATE_GameObject_Solid(),
   );
   public static readonly stairs = ROTATE_GameObjectsRegistry.register(
     2,
