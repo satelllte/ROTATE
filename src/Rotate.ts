@@ -3325,51 +3325,39 @@ class ROTATE_GameObject_Ramp extends ROTATE_GameObject_Angle {
   }
 }
 
-var ROTATE_GameObject_Saw = function () {
-  DEPRECATED__ROTATE_GameObject_Angle.call(this);
-};
-ROTATE_GameObject_Saw.__name__ = !0;
-ROTATE_GameObject_Saw.__super__ = DEPRECATED__ROTATE_GameObject_Angle;
-ROTATE_GameObject_Saw.prototype = __inherit(
-  DEPRECATED__ROTATE_GameObject_Angle.prototype,
-  {
-    isTrigger: function (a) {
-      return !0;
-    },
-    render: function (a, b, c) {
-      null == c && (c = !0);
-      var d = ROTATE_Game.instance.get_gameTimeMS() / 40;
-      c =
-        !c || ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
-          ? 0
-          : Math.floor(
-              d -
-                (d < ROTATE_GameConstants.EPSILON
-                  ? 0
-                  : ROTATE_GameConstants.EPSILON),
-            ) % 3;
-      this.renderRotated(
-        a,
-        b,
-        (4 + c) * ROTATE_GameConstants.tileSize,
-        ROTATE_GameConstants.tileSize,
-      );
-    },
-    getColliders: function (a) {
-      return [new ColliderNoop(a.getMeta(0))];
-    },
-    onTrigger: function (a) {
-      ROTATE_ScreenPrimaryGame.i.killPlayer(!0);
-      return !1;
-    },
-    alwaysUpdate: function (a) {
-      return !(
-        ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
-      );
-    },
-    __class__: ROTATE_GameObject_Saw,
-  },
-);
+class ROTATE_GameObject_Saw extends ROTATE_GameObject_Angle {
+  public isTrigger(blockData: BlockData) {
+    return !0;
+  }
+  public render(surface: Surface, blockData: BlockData, c = true) {
+    var d = ROTATE_Game.instance.get_gameTimeMS() / 40;
+    c =
+      !c || ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor
+        ? 0
+        : Math.floor(
+            d -
+              (d < ROTATE_GameConstants.EPSILON
+                ? 0
+                : ROTATE_GameConstants.EPSILON),
+          ) % 3;
+    this.renderRotated(
+      surface,
+      blockData,
+      (4 + c) * ROTATE_GameConstants.tileSize,
+      ROTATE_GameConstants.tileSize,
+    );
+  }
+  public getColliders(blockData: BlockData) {
+    return [new ColliderNoop(blockData.getMeta(0))];
+  }
+  public onTrigger(blockData: BlockData) {
+    ROTATE_ScreenPrimaryGame.i.killPlayer(!0);
+    return !1;
+  }
+  public alwaysUpdate(blockData: BlockData) {
+    return !(ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor);
+  }
+}
 
 var ROTATE_GameObject_Spikes = function () {
   DEPRECATED__ROTATE_GameObject_Angle.call(this);
