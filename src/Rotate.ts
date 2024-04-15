@@ -3297,23 +3297,14 @@ ROTATE_GameObject_Number.prototype = __inherit(
   },
 );
 
-var ROTATE_GameObject_Platform = function () {
-  DEPRECATED__ROTATE_GameObject_Angle.call(this);
-};
-ROTATE_GameObject_Platform.__name__ = !0;
-ROTATE_GameObject_Platform.__super__ = DEPRECATED__ROTATE_GameObject_Angle;
-ROTATE_GameObject_Platform.prototype = __inherit(
-  DEPRECATED__ROTATE_GameObject_Angle.prototype,
-  {
-    render: function (a, b, c) {
-      this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
-    },
-    getColliders: function (a) {
-      return [new Collider2(a.getMeta(0))];
-    },
-    __class__: ROTATE_GameObject_Platform,
-  },
-);
+class ROTATE_GameObject_Platform extends ROTATE_GameObject_Angle {
+  public render(a: Surface, b: BlockData, c) {
+    this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
+  }
+  public getColliders(a) {
+    return [new Collider2(a.getMeta(0))];
+  }
+}
 
 var ROTATE_GameObject_Ramp = function () {
   DEPRECATED__ROTATE_GameObject_Angle.call(this);
