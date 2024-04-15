@@ -2823,65 +2823,6 @@ class ROTATE_GameObject_Angle extends Block {
   }
 }
 
-var DEPRECATED__ROTATE_GameObject_Angle = function () {
-  this.angle = 0;
-  DEPRECATED__Block.call(this);
-  this.configurable = !0;
-};
-DEPRECATED__ROTATE_GameObject_Angle.__name__ = !0;
-DEPRECATED__ROTATE_GameObject_Angle.__super__ = DEPRECATED__Block;
-DEPRECATED__ROTATE_GameObject_Angle.prototype = __inherit(
-  DEPRECATED__Block.prototype,
-  {
-    set_angle: function (a) {
-      return (this.angle = 0 > a ? 3 : 3 < a ? 0 : a);
-    },
-    setupBubble: function (a) {
-      var b = this,
-        c = new ROTATE_Text(ROTATE_Game.fontMain, 'Angle');
-      c.set_x(8);
-      c.set_y(8);
-      a.addChild(c);
-      var d = new ROTATE_Text(ROTATE_Game.fontMain, this.angle + '');
-      d.align = ROTATE_Text.ALIGN_CENTER;
-      d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      d.set_x(this.bubbleWidth - 31);
-      d.set_y(c.y);
-      a.addChild(d);
-      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
-      c.mouseEnabled = c.buttonMode = !0;
-      c.addEventListener('mouseDown', function (e) {
-        1 < e.which || (b.set_angle(b.angle + 1), d.set_text(b.angle + ''));
-      });
-      c.set_x(d.x + 11);
-      c.set_y(12);
-      a.addChild(c);
-      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
-      c.mouseEnabled = c.buttonMode = !0;
-      c.addEventListener('mouseDown', function (e) {
-        1 < e.which || (b.set_angle(b.angle - 1), d.set_text(b.angle + ''));
-      });
-      c.set_scaleX(-1);
-      c.set_x(d.x - 11);
-      c.set_y(12);
-      a.addChild(c);
-    },
-    getConfigMeta: function () {
-      return [this.angle];
-    },
-    renderRotated: function (a, b, c, d) {
-      var e = ROTATE_GameConstants.tileSize,
-        f = e / 2;
-      a.translate(f, f);
-      a.rotate((b.getMeta(0) * Math.PI) / 2);
-      a.drawImage(ROTATE_Images.blocks, new Bounds(c, d, e, e), -f, -f);
-      a.rotate((-b.getMeta(0) * Math.PI) / 2);
-      a.translate(-f, -f);
-    },
-    __class__: DEPRECATED__ROTATE_GameObject_Angle,
-  },
-);
-
 class ROTATE_GameObject_Fan extends ROTATE_GameObject_Angle {
   public alwaysUpdate(blockData: BlockData) {
     return !0;
@@ -3359,47 +3300,41 @@ class ROTATE_GameObject_Saw extends ROTATE_GameObject_Angle {
   }
 }
 
-var ROTATE_GameObject_Spikes = function () {
-  DEPRECATED__ROTATE_GameObject_Angle.call(this);
-};
-ROTATE_GameObject_Spikes.__name__ = !0;
-ROTATE_GameObject_Spikes.__super__ = DEPRECATED__ROTATE_GameObject_Angle;
-ROTATE_GameObject_Spikes.prototype = __inherit(
-  DEPRECATED__ROTATE_GameObject_Angle.prototype,
-  {
-    isTrigger: function (a) {
-      return !0;
-    },
-    render: function (a, b, c) {
-      null == c && (c = !0);
-      this.renderRotated(
-        a,
-        b,
-        (c ? Math.floor((b.x + b.y) % 4) : 0) * ROTATE_GameConstants.tileSize,
+class ROTATE_GameObject_Spikes extends ROTATE_GameObject_Angle {
+  public isTrigger(blockData: BlockData) {
+    return !0;
+  }
+  public render(surface: Surface, blockData: BlockData, c = true) {
+    this.renderRotated(
+      surface,
+      blockData,
+      (c ? Math.floor((blockData.x + blockData.y) % 4) : 0) *
         ROTATE_GameConstants.tileSize,
-      );
-    },
-    getColliders: function (a) {
-      var b = ROTATE_GameConstants.tileSize;
-      var c = b / 2,
-        d = 0.5 * b,
-        e = (b - d) / 2;
-      3 == a.getMeta(0)
-        ? ((a = new Bounds(0, e, c, d)), (b = new Bounds(c, 0, c, b)))
-        : 2 == a.getMeta(0)
-          ? ((a = new Bounds(e, b - c, d, c)), (b = new Bounds(0, 0, b, c)))
-          : 1 == a.getMeta(0)
-            ? ((a = new Bounds(b - c, e, c, d)), (b = new Bounds(0, 0, c, b)))
-            : ((a = new Bounds(e, 0, d, c)), (b = new Bounds(0, c, b, c)));
-      return [new Collider(a), new Collider(b)];
-    },
-    onTrigger: function (a) {
-      ROTATE_ScreenPrimaryGame.i.killPlayer();
-      return !1;
-    },
-    __class__: ROTATE_GameObject_Spikes,
-  },
-);
+      ROTATE_GameConstants.tileSize,
+    );
+  }
+  public getColliders(blockData: BlockData) {
+    var b = ROTATE_GameConstants.tileSize;
+    var c = b / 2,
+      d = 0.5 * b,
+      e = (b - d) / 2;
+    3 == blockData.getMeta(0)
+      ? ((blockData = new Bounds(0, e, c, d)), (b = new Bounds(c, 0, c, b)))
+      : 2 == blockData.getMeta(0)
+        ? ((blockData = new Bounds(e, b - c, d, c)),
+          (b = new Bounds(0, 0, b, c)))
+        : 1 == blockData.getMeta(0)
+          ? ((blockData = new Bounds(b - c, e, c, d)),
+            (b = new Bounds(0, 0, c, b)))
+          : ((blockData = new Bounds(e, 0, d, c)),
+            (b = new Bounds(0, c, b, c)));
+    return [new Collider(blockData), new Collider(b)];
+  }
+  public onTrigger(blockData: BlockData) {
+    ROTATE_ScreenPrimaryGame.i.killPlayer();
+    return !1;
+  }
+}
 
 class ROTATE_GameObject_Stairs extends ROTATE_GameObject_Ramp {
   public render(a: Surface, b: BlockData, c) {
