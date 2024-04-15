@@ -80,6 +80,7 @@ import {ROTATE_SaveLevelMenu} from './ROTATE_SaveLevelMenu';
 import {ROTATE_Level1} from './levels/ROTATE_Level1';
 import {ROTATE_EditorLevel} from './levels/ROTATE_EditorLevel';
 import {ROTATE_Cat} from './ROTATE_Cat';
+import {Signaler} from './Singaler';
 
 var bindIdNext = 0;
 function Bind(a, b) {
@@ -920,33 +921,6 @@ export class ROTATE_Awards {
     }
   }
 }
-
-var Signaler = function (id) {
-  this.lastChanged = -1;
-  this.signals = [];
-  this.id = id;
-};
-Signaler.__name__ = !0;
-Signaler.prototype = {
-  get_status: function () {
-    return 0 < this.signals.length;
-  },
-  signalOn: function (a, b) {
-    var c = a + 'x' + b;
-    0 > this.signals.indexOf(c) &&
-      (this.get_status() ||
-        (this.lastChanged = ROTATE_Game.instance.get_gameTime()),
-      this.signals.push(c));
-  },
-  signalOff: function (a, b) {
-    var c = this.signals.indexOf(a + 'x' + b);
-    -1 < c &&
-      (this.signals.splice(c, 1),
-      this.get_status() ||
-        (this.lastChanged = ROTATE_Game.instance.get_gameTime()));
-  },
-  __class__: Signaler,
-};
 
 var Door = function (blockData) {
   this.x = blockData.x;
