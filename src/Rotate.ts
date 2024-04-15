@@ -71,6 +71,7 @@ import {
   ROTATE_GameObjects,
 } from './Blocks';
 import {ROTATE_Speech, ROTATE_SpeechPart} from './ROTATE_Speech';
+import {ROTATE_ActiveGameObject} from './ROTATE_ActiveGameObject';
 
 // ---------------------------------------------------------------------------
 
@@ -17642,116 +17643,6 @@ class ROTATE_ScreenGameBeginning extends ROTATE_ScreenBase {
   }
 }
 
-var ROTATE_ActiveGameObject = function () {
-  this.bubble = new Bubble();
-  var a = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.mouseEnabled = this.buttonMode = !0;
-  this.bubble.visible = !1;
-  this.bubble.mouseEnabled = !0;
-  this.addChild(this.bubble);
-  this.addEventListener('mouseDown', function (b) {
-    if (b.target == a && 2 > b.which) {
-      var c = ROTATE_ActiveGameObject.selected;
-      ROTATE_ActiveGameObject.set_selected(
-        Math.floor(a.globalToLocal(b.x, b.y).x / ROTATE_ActiveGameObject.size4),
-      );
-      a.bubble.set_x(
-        Math.round(
-          (ROTATE_ActiveGameObject.selected + 0.5) *
-            ROTATE_ActiveGameObject.size4,
-        ),
-      );
-      b =
-        a.get_selection().configurable &&
-        (ROTATE_ActiveGameObject.selected == c ? !a.bubble.visible : !0);
-      a.bubble.visible = b;
-      a.bubble.visible && a.bubble.setup(a.get_selection());
-    }
-  });
-  this.addEventListener('render', function (b) {
-    a.render(b.surface);
-  });
-};
-ROTATE_ActiveGameObject.__name__ = !0;
-ROTATE_ActiveGameObject.set_selected = function (a) {
-  return (ROTATE_ActiveGameObject.selected =
-    0 > a
-      ? 0
-      : a >= ROTATE_ActiveGameObject.list.length
-        ? ROTATE_ActiveGameObject.list.length - 1
-        : a);
-};
-ROTATE_ActiveGameObject.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_ActiveGameObject.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    get_selection: function () {
-      return ROTATE_ActiveGameObject.list[ROTATE_ActiveGameObject.selected];
-    },
-    render: function (a) {
-      a.beginFill(12525600, 0.75);
-      a.drawRect(
-        (InputKeys.keyDown(16) ? 0 : ROTATE_ActiveGameObject.selected) *
-          ROTATE_ActiveGameObject.size4,
-        0,
-        ROTATE_ActiveGameObject.size4,
-        ROTATE_ActiveGameObject.size4,
-      );
-      a.translate(2, 2);
-      a.beginFill(14671839);
-      for (var b = 0, c = ROTATE_ActiveGameObject.list.length; b < c; ) {
-        var d = b++,
-          e = ROTATE_ActiveGameObject.list[d];
-        0 < d && a.translate(ROTATE_ActiveGameObject.size4, 0);
-        e.rotatePreview() &&
-          (a.translate(
-            ROTATE_ActiveGameObject.size2,
-            ROTATE_ActiveGameObject.size2,
-          ),
-          a.rotate((ROTATE_LevelEditorManager.rotation * Math.PI) / 2),
-          a.translate(
-            -ROTATE_ActiveGameObject.size2,
-            -ROTATE_ActiveGameObject.size2,
-          ));
-        a.drawRect(
-          0,
-          0,
-          ROTATE_GameConstants.tileSize,
-          ROTATE_GameConstants.tileSize,
-        );
-        e.render(a, new BlockData(0, 0, e.id, e.getConfigMeta()), !1);
-        e.rotatePreview() &&
-          (a.translate(
-            ROTATE_ActiveGameObject.size2,
-            ROTATE_ActiveGameObject.size2,
-          ),
-          a.rotate((-ROTATE_LevelEditorManager.rotation * Math.PI) / 2),
-          a.translate(
-            -ROTATE_ActiveGameObject.size2,
-            -ROTATE_ActiveGameObject.size2,
-          ));
-      }
-      a.translate(
-        (ROTATE_ActiveGameObject.list.length - 1) *
-          -ROTATE_ActiveGameObject.size4,
-        0,
-      );
-      a.translate(-2, -2);
-    },
-    getBoundsSelf: function () {
-      return new Bounds(
-        0,
-        0,
-        ROTATE_ActiveGameObject.list.length *
-          (ROTATE_GameConstants.tileSize + 4),
-        ROTATE_GameConstants.tileSize + 4,
-      );
-    },
-    __class__: ROTATE_ActiveGameObject,
-  },
-);
-
 var ROTATE_MenuWithTextarea = function (a, b) {
   null == b && (b = '');
   DEPRECATED__ROTATE_CanvasObject.call(this);
@@ -18267,26 +18158,6 @@ ROTATE_Levels.speedrunBest = -1;
 ROTATE_ScreenEditor.MOVE_SPEED = 4;
 ROTATE_ScreenEditor.showGrid = !0;
 ROTATE_ScreenEditor.editorLevel = new ROTATE_EditorLevel(); // Until "ROTATE_EditorLevel" is migrated to class, it can't be moved inside "static" field
-
-ROTATE_ActiveGameObject.size2 = ROTATE_GameConstants.tileSize / 2;
-ROTATE_ActiveGameObject.size4 = ROTATE_GameConstants.tileSize + 4;
-ROTATE_ActiveGameObject.list = [
-  ROTATE_GameObjects.air,
-  ROTATE_GameObjects.solid,
-  ROTATE_GameObjects.start,
-  ROTATE_GameObjects.finish,
-  ROTATE_GameObjects.stairs,
-  ROTATE_GameObjects.ramp,
-  ROTATE_GameObjects.platform,
-  ROTATE_GameObjects.spikes,
-  ROTATE_GameObjects.saw,
-  ROTATE_GameObjects.lever,
-  ROTATE_GameObjects.door,
-  ROTATE_GameObjects.number,
-  ROTATE_GameObjects.vent,
-  ROTATE_GameObjects.fan,
-];
-ROTATE_ActiveGameObject.selected = 1;
 
 ROTATE_EditorBarLower.HEIGHT = 48;
 
