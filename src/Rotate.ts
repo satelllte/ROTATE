@@ -78,19 +78,6 @@ import {ROTATE_ParticleSystem} from './ROTATE_ParticleSystem';
 import {ROTATE_LoadLevelMenu} from './ROTATE_LoadLevelMenu';
 import {ROTATE_SaveLevelMenu} from './ROTATE_SaveLevelMenu';
 
-// ---------------------------------------------------------------------------
-
-function __inherit(parentPrototype, selfPrototype) {
-  function c() {}
-  c.prototype = parentPrototype;
-  var d = new c(),
-    e;
-  for (e in selfPrototype) d[e] = selfPrototype[e];
-  selfPrototype.toString !== Object.prototype.toString &&
-    (d.toString = selfPrototype.toString);
-  return d;
-}
-
 var bindIdNext = 0;
 function Bind(a, b) {
   if (null == b) return null;
@@ -108,10 +95,6 @@ function Bind(a, b) {
     (a.hx__closures__[b.__id__] = c));
   return c;
 }
-
-var toStringNoop = function () {
-  return JSObjectUtils.__string_rec(this, '');
-};
 
 var Utils = function () {};
 Utils.__name__ = !0;
@@ -270,7 +253,6 @@ JSObjectUtils.__resolveNativeClass = function (a) {
   return window[a];
 };
 
-type PLACEHOLDER_ROTATE_PauseMenu = unknown;
 export class ROTATE_Game extends ROTATE_CanvasObject {
   public static instance = new ROTATE_Game();
   public static fontMain = new ROTATE_Font(
@@ -294,7 +276,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   public fading = false;
   public fadingSlow = false;
   public timerHolder = new ROTATE_CanvasObject();
-  public pauseMenu: PLACEHOLDER_ROTATE_PauseMenu | null = null;
+  public pauseMenu: ROTATE_PauseMenu | null = null;
   public pauseOnInit = false;
   public pausedTime = 0;
   public pauseStart = 0;
@@ -426,9 +408,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
     const loaderElement = window.document.getElementById('loader');
     if (loaderElement) loaderElement.style.display = 'none';
 
-    // @ts-expect-error 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type
     this.pauseMenu = new ROTATE_PauseMenu();
-    // @ts-expect-error 'unknown' is not assignable to parameter of type 'ROTATE_CanvasObject'
     this.addChild(this.pauseMenu);
     this.fader.mouseEnabled = true;
     this.addChild(this.fader);
@@ -437,11 +417,9 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
 
     ROTATE_Canvas.input?.addEventListener('blur', () => {
       null != _self.targetScreen &&
-        // @ts-expect-error 'pausable' does not exist on type '{}'
         _self.targetScreen.pausable &&
         (_self.pauseOnInit = !0);
       null != _self.currentScreen &&
-        // @ts-expect-error 'pausable' does not exist on type '{}'
         _self.currentScreen.pausable &&
         _self.pause();
     });
@@ -458,21 +436,13 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
         : ((this.paused = !0),
           (this.pauseStart = Time.getCurrentMS()),
           null != this.pauseMenu &&
-            // @ts-expect-error 'visible' does not exist on type '{}'
             ((this.pauseMenu.visible = !0), this.pauseMenu.onPause()),
           (this.hasPaused = !0),
-          JSObjectUtils.__instanceof(
-            this.currentScreen,
-            ROTATE_ScreenPrimaryGame,
-          ) &&
-            // @ts-expect-error Property 'i' does not exist
+          this.currentScreen instanceof ROTATE_ScreenPrimaryGame &&
             null != ROTATE_ScreenPrimaryGame.i.pauseText &&
-            // @ts-expect-error Property 'i' does not exist
             (ROTATE_ScreenPrimaryGame.i.pauseText.parent.removeChild(
-              // @ts-expect-error Property 'i' does not exist
               ROTATE_ScreenPrimaryGame.i.pauseText,
             ),
-            // @ts-expect-error Property 'i' does not exist
             (ROTATE_ScreenPrimaryGame.i.pauseText = null))));
   }
 
@@ -482,7 +452,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
       null == this.targetScreen &&
       ((this.paused = !1),
       (this.pausedTime += Time.getCurrentMS() - this.pauseStart),
-      // @ts-expect-error Object is of type 'unknown'
       (this.pauseMenu.visible = !1));
   }
 
@@ -527,7 +496,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
         null != this.currentScreen && this.currentScreen.prekill(),
         (this.targetScreen = null),
         this.setScreen(screen),
-        // @ts-expect-error Object is of type 'unknown'
         this.currentScreen.ready());
   }
 
@@ -569,15 +537,12 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
         this.fader.set_alpha(1 - ROTATE_Game.smootherStep(a)),
         1 == a &&
           ((this.fading = this.fader.mouseEnabled = !1),
-          // @ts-expect-error Object is of type 'unknown'
           this.currentScreen.ready()));
     null != this.currentScreen &&
-      // @ts-expect-error Property 'pausable' does not exist
       this.currentScreen.pausable &&
       (InputKeys.keyPressed(80) || InputKeys.keyPressed(27)) &&
       (this.paused ? this.unpause() : this.pause());
     if (!this.paused) {
-      // @ts-expect-error Property 'update' does not exist
       null != this.currentScreen && this.currentScreen.update();
       for (
         a = 0;
@@ -586,7 +551,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
       )
         if (
           ((this.lastTick += ROTATE_GameConstants.tickMS),
-          // @ts-expect-error Property 'tick' does not exist
           null != this.currentScreen && this.currentScreen.tick(),
           ++a,
           a == ROTATE_GameConstants.ticksMax)
@@ -594,10 +558,8 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
           this.lastTick = this.get_gameTimeMS();
           break;
         }
-      // @ts-expect-error Property 'postUpdate' does not exist
       null != this.currentScreen && this.currentScreen.postUpdate();
     }
-    // @ts-expect-error Property 'update' does not exist on type '() => void'
     ROTATE_Awards.update();
   }
 
@@ -825,7 +787,6 @@ export class ROTATE_Award {
   }
 }
 
-type PLACEHOLDER__ROTATE_ImageObject = unknown;
 export class ROTATE_Awards {
   public static readonly awardEscape = new ROTATE_Award(
     'The Beginning',
@@ -869,8 +830,7 @@ export class ROTATE_Awards {
     'NEW AWARD',
   );
   public static bubbleName = new ROTATE_Text(ROTATE_Game.fontMain, '');
-  public static bubbleIcon: PLACEHOLDER__ROTATE_ImageObject | undefined =
-    undefined;
+  public static bubbleIcon: ROTATE_ImageObject | undefined = undefined;
   public static queue: ROTATE_Award[] = [];
 
   public static setup(a: ROTATE_Game) {
@@ -916,19 +876,11 @@ export class ROTATE_Awards {
     ROTATE_Awards.bubble.graphics.beginFill(4210752);
     ROTATE_Awards.bubble.graphics.drawRect(0, 0, c - 4, 64);
     null != ROTATE_Awards.bubbleIcon &&
-      ROTATE_Awards.bubble.removeChild(
-        // @ts-expect-error Argument of type '{}' is not assignable
-        ROTATE_Awards.bubbleIcon,
-      );
+      ROTATE_Awards.bubble.removeChild(ROTATE_Awards.bubbleIcon);
     ROTATE_Awards.bubbleIcon = new ROTATE_ImageObject(icon);
-    // @ts-expect-error 'ROTATE_Awards.bubbleIcon' is of type 'unknown'
     ROTATE_Awards.bubbleIcon.set_x(8);
-    // @ts-expect-error 'ROTATE_Awards.bubbleIcon' is of type 'unknown'
     ROTATE_Awards.bubbleIcon.set_y(8);
-    ROTATE_Awards.bubble.addChild(
-      // @ts-expect-error Argument of type 'unknown' is not assignable
-      ROTATE_Awards.bubbleIcon,
-    );
+    ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleIcon);
   }
   public static update() {
     if (null != ROTATE_Awards.bubble) {
