@@ -72,6 +72,7 @@ import {
 } from './Blocks';
 import {ROTATE_Speech, ROTATE_SpeechPart} from './ROTATE_Speech';
 import {ROTATE_ActiveGameObject} from './ROTATE_ActiveGameObject';
+import {ROTATE_InvertCheckbox} from './ROTATE_InvertCheckbox';
 
 // ---------------------------------------------------------------------------
 
@@ -17942,40 +17943,6 @@ class ROTATE_GridToggle extends ROTATE_CanvasObject {
     return new Bounds(0, 0, 76, 30);
   }
 }
-
-var ROTATE_InvertCheckbox = function () {
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.set_x(12);
-  this.set_y(12);
-  this.mouseEnabled = this.buttonMode = !0;
-  var a = new ROTATE_Text(ROTATE_Game.fontMain, 'Invert [Q] & [E]?');
-  a.set_x(30);
-  a.set_y(-4);
-  a.set_alpha(0.5);
-  this.addChild(a);
-  var b = new ROTATE_ImageObject(ROTATE_Images.configToggle);
-  b.clipRect.width = 22;
-  ROTATE_Game.instance.invert && (b.clipRect.x = 22);
-  b.set_alpha(0.75);
-  this.addChild(b);
-  this.addEventListener('click', function (c) {
-    2 > c.which &&
-      ((ROTATE_Game.instance.invert = !ROTATE_Game.instance.invert),
-      (b.clipRect.x = ROTATE_Game.instance.invert ? 22 : 0),
-      ROTATE_Game.instance.saveProgress());
-  });
-};
-ROTATE_InvertCheckbox.__name__ = !0;
-ROTATE_InvertCheckbox.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_InvertCheckbox.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    getBoundsSelf: function () {
-      return new Bounds(0, 0, 198, 22);
-    },
-    __class__: ROTATE_InvertCheckbox,
-  },
-);
 
 var ROTATE_PauseMenu = function () {
   this.sponsor = new ROTATE_Sponsor();
