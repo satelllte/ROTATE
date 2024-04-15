@@ -73,6 +73,7 @@ import {
 import {ROTATE_Speech, ROTATE_SpeechPart} from './ROTATE_Speech';
 import {ROTATE_ActiveGameObject} from './ROTATE_ActiveGameObject';
 import {ROTATE_InvertCheckbox} from './ROTATE_InvertCheckbox';
+import {ROTATE_EditorBarLower} from './ROTATE_EditorBarLower';
 
 // ---------------------------------------------------------------------------
 
@@ -17744,39 +17745,6 @@ ROTATE_SaveLevelMenu.prototype = __inherit(ROTATE_MenuWithTextarea.prototype, {
   __class__: ROTATE_SaveLevelMenu,
 });
 
-var ROTATE_EditorBarLower = function (a) {
-  this.selector = new ROTATE_ActiveGameObject();
-  var b = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.set_y(ROTATE_Canvas.height - ROTATE_EditorBarLower.HEIGHT);
-  this.mouseEnabled = !0;
-  this.graphics.beginFill(2105376);
-  this.graphics.drawRect(
-    0,
-    0,
-    ROTATE_Canvas.width,
-    ROTATE_EditorBarLower.HEIGHT,
-  );
-  this.gridToggle = new ROTATE_GridToggle(a);
-  this.addChild(this.gridToggle);
-  this.selector.set_x(12);
-  this.selector.set_y(
-    Math.round((ROTATE_EditorBarLower.HEIGHT - this.selector.get_height()) / 2),
-  );
-  this.addChild(this.selector);
-  this.addEventListener('mouseDown', function (c) {
-    2 > c.which && c.target == b && (b.selector.bubble.visible = !1);
-  });
-};
-ROTATE_EditorBarLower.__name__ = !0;
-ROTATE_EditorBarLower.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_EditorBarLower.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    __class__: ROTATE_EditorBarLower,
-  },
-);
-
 class ROTATE_EditorBarUpper extends ROTATE_CanvasObject {
   public static readonly HEIGHT = 48;
   public static readonly EDGE_PAD = 14;
@@ -17922,11 +17890,11 @@ class ROTATE_EraseButton extends ROTATE_ImageObject {
   }
 }
 
-class ROTATE_GridToggle extends ROTATE_CanvasObject {
+export class ROTATE_GridToggle extends ROTATE_CanvasObject {
   public label;
   public toggle;
 
-  constructor(a) {
+  constructor(callback: () => void) {
     super();
     this.label = new ROTATE_Text(ROTATE_Game.fontMain, 'Grid');
     this.toggle = new ROTATE_ImageObject(ROTATE_Images.configToggle);
@@ -17940,7 +17908,7 @@ class ROTATE_GridToggle extends ROTATE_CanvasObject {
         (_self.toggle.clipRect.x = ROTATE_ScreenEditor.showGrid
           ? _self.toggle.clipRect.width
           : 0),
-        null != a && a());
+        null != callback && callback());
     });
     this.toggle.clipRect.width /= 2;
     this.toggle.clipRect.x = ROTATE_ScreenEditor.showGrid
@@ -18139,7 +18107,5 @@ ROTATE_Levels.speedrunBest = -1;
 ROTATE_ScreenEditor.MOVE_SPEED = 4;
 ROTATE_ScreenEditor.showGrid = !0;
 ROTATE_ScreenEditor.editorLevel = new ROTATE_EditorLevel(); // Until "ROTATE_EditorLevel" is migrated to class, it can't be moved inside "static" field
-
-ROTATE_EditorBarLower.HEIGHT = 48;
 
 ROTATE_Game.main();
