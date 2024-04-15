@@ -27,7 +27,7 @@ export class ROTATE_Speech {
   public index;
   public events;
 
-  constructor(events: ROTATE_SpeechPart[], node: ROTATE_CanvasObject) {
+  constructor(events: ROTATE_SpeechPart[], node?: ROTATE_CanvasObject) {
     this.lastTone = -1;
     this.tones = 'abcdefgh'.split('');
     this.char2 = this.timer = 0;
@@ -47,7 +47,7 @@ export class ROTATE_Speech {
         this.field.set_y(ROTATE_Canvas.height - 96))
       : ((this.field.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE),
         this.field.set_y(ROTATE_Canvas.height / 2));
-    node.addChild(this.field);
+    node?.addChild(this.field);
     null != events[0] && events[0].cond.start();
   }
 
