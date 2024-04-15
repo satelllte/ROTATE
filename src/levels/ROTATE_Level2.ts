@@ -4,16 +4,21 @@ import {
 } from '../ROTATE_Condition';
 import {ROTATE_Speech, ROTATE_SpeechPart} from '../ROTATE_Speech';
 import {ROTATE_Levels} from '../Rotate';
-import {ROTATE_BaseLevelInterface} from './ROTATE_BaseLevelInterface';
+import {
+  Direction,
+  ROTATE_BaseLevelInterface,
+  Theme,
+  Tiles,
+} from './ROTATE_BaseLevelInterface';
 
 export class ROTATE_Level2 implements ROTATE_BaseLevelInterface {
-  startDir: number;
+  startDir: Direction;
   finishRow: number;
   finishCol: number;
   startRow: number;
   startCol: number;
-  tiles: number[][][];
-  theme: number;
+  tiles: Tiles;
+  theme: Theme;
   speech?: ROTATE_Speech;
 
   constructor() {

@@ -9,18 +9,23 @@ import {
   ROTATE_ScreenPrimaryGame,
 } from '../Rotate';
 import {ROTATE_GameConstants} from '../constants';
-import {ROTATE_BaseLevelInterface} from './ROTATE_BaseLevelInterface';
+import {
+  Direction,
+  ROTATE_BaseLevelInterface,
+  Theme,
+  Tiles,
+} from './ROTATE_BaseLevelInterface';
 
 export class ROTATE_Level1 implements ROTATE_BaseLevelInterface {
   public static readonly fadeSpeed = 0.1;
 
-  startDir: number;
+  startDir: Direction;
   finishRow: number;
   finishCol: number;
   startRow: number;
   startCol: number;
-  tiles: number[][][];
-  theme: number;
+  tiles: Tiles;
+  theme: Theme;
 
   public a1: number = 0;
   public a2: number = 0;

@@ -1053,6 +1053,23 @@ export class ROTATE_GameObject_Vent extends ROTATE_GameObject_Solid {
   }
 }
 
+export const OBJECT_ID = {
+  start: -1,
+  finish: -2,
+  air: 0,
+  solid: 1,
+  stairs: 2,
+  ramp: 3,
+  platform: 4,
+  spikes: 5,
+  saw: 6,
+  number: 7,
+  lever: 8,
+  door: 9,
+  vent: 10,
+  fan: 11,
+} as const;
+
 export class ROTATE_GameObjects {
   public static readonly start = ROTATE_GameObjectsRegistry.register(
     -1,

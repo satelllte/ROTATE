@@ -1,17 +1,22 @@
 import {ROTATE_Speech} from '../ROTATE_Speech';
 import {ROTATE_Game, ROTATE_ScreenEditor} from '../Rotate';
-import {ROTATE_BaseLevelInterface} from './ROTATE_BaseLevelInterface';
+import {
+  Direction,
+  ROTATE_BaseLevelInterface,
+  Theme,
+  Tiles,
+} from './ROTATE_BaseLevelInterface';
 
 export class ROTATE_EditorLevel implements ROTATE_BaseLevelInterface {
   public static readonly WORLD_SIZE = 42;
 
-  startDir: number;
+  startDir: Direction;
   finishRow: number = 0; // implemented in reset() method
   finishCol: number = 0; // implemented in reset() method
   startRow: number = 0; // implemented in reset() method
   startCol: number = 0; // implemented in reset() method
-  tiles: number[][][] = []; // implemented in reset() method
-  theme: number;
+  tiles: Tiles = []; // implemented in reset() method
+  theme: Theme;
   speech?: ROTATE_Speech;
 
   constructor() {
@@ -38,12 +43,12 @@ export class ROTATE_EditorLevel implements ROTATE_BaseLevelInterface {
   }
 
   public load(
-    tiles: number[][][],
+    tiles: Tiles,
     startCol: number,
     startRow: number,
     finishCol: number,
     finishRow: number,
-    theme = 0,
+    theme: Theme = 0,
   ) {
     this.tiles = tiles;
     this.startCol = startCol;
