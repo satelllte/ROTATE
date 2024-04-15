@@ -27,7 +27,11 @@ import {
   ROTATE_MouseEvent,
   ROTATE_RenderEvent,
 } from './ROTATE_Event';
-import {ROTATE_EventMap, ROTATE_KeysMap} from './ROTATE_EventMap';
+import {
+  ROTATE_EventMap,
+  ROTATE_EventMapIterator,
+  ROTATE_KeysMap,
+} from './ROTATE_EventMap';
 import {ROTATE_EventTarget} from './ROTATE_EventTarget';
 import {ROTATE_Font} from './ROTATE_Font';
 import {ROTATE_Images} from './ROTATE_Images';
@@ -308,25 +312,6 @@ DEPRECATED__ROTATE_CanvasObject.prototype = __inherit(
     __class__: DEPRECATED__ROTATE_CanvasObject,
   },
 );
-
-var ROTATE_EventMapIterator = function (map, keys) {
-  this.map = map;
-  this.keys = keys;
-  this.index = 0;
-  this.count = keys.length;
-};
-ROTATE_EventMapIterator.__name__ = !0;
-ROTATE_EventMapIterator.prototype = {
-  hasNext: function () {
-    return this.index < this.count;
-  },
-  next: function () {
-    var map = this.map;
-    var b = this.keys[this.index++];
-    return map.h[b];
-  },
-  __class__: ROTATE_EventMapIterator,
-};
 
 var JSObjectUtils = function () {};
 JSObjectUtils.__name__ = !0;

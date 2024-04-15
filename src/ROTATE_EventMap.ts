@@ -45,3 +45,26 @@ export class ROTATE_KeysMap /** extends MapInterface (?) */ {
 var MapInterface = function () {};
 MapInterface.__name__ = !0;
 */
+
+export class ROTATE_EventMapIterator {
+  public map;
+  public keys;
+  public index;
+  public count;
+
+  constructor(map: ROTATE_EventMap, keys: string[]) {
+    this.map = map;
+    this.keys = keys;
+    this.index = 0;
+    this.count = keys.length;
+  }
+
+  public hasNext() {
+    return this.index < this.count;
+  }
+  public next() {
+    var map = this.map;
+    var b = this.keys[this.index++];
+    return map.h[b];
+  }
+}
