@@ -70,6 +70,7 @@ import {
   ROTATE_GameObjectsRegistry,
   ROTATE_GameObjects,
 } from './Blocks';
+import {ROTATE_Speech, ROTATE_SpeechPart} from './ROTATE_Speech';
 
 // ---------------------------------------------------------------------------
 
@@ -15928,120 +15929,6 @@ ROTATE_Cat.prototype = {
   __class__: ROTATE_Cat,
 };
 
-var ROTATE_SpeechPart = function (cond, text) {
-  this.cond = cond;
-  this.text = text;
-};
-ROTATE_SpeechPart.__name__ = !0;
-ROTATE_SpeechPart.prototype = {
-  __class__: ROTATE_SpeechPart,
-};
-
-var ROTATE_Speech = function (a, b) {
-  this.lastTone = -1;
-  this.tones = 'abcdefgh'.split('');
-  this.char2 = this.timer = 0;
-  this['char'] = 0;
-  this.msg = '';
-  this.field = new ROTATE_Text(ROTATE_Game.fontMain, '', 2);
-  this.index = 0;
-  this.events = a;
-  this.field.set_alpha(0);
-  this.field.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-  this.field.align = ROTATE_Text.ALIGN_CENTER;
-  this.field.set_x(ROTATE_Canvas.width / 2);
-  null == b &&
-  JSObjectUtils.__instanceof(
-    ROTATE_Game.instance.currentScreen,
-    ROTATE_ScreenPrimaryGame,
-  )
-    ? ((b = ROTATE_Game.instance.currentScreen.textHolder),
-      (this.field.yAlign = ROTATE_Text.Y_ALIGN_TOP),
-      this.field.set_y(ROTATE_Canvas.height - 96))
-    : ((this.field.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE),
-      this.field.set_y(ROTATE_Canvas.height / 2));
-  b.addChild(this.field);
-  null != a[0] && a[0].cond.start();
-};
-ROTATE_Speech.__name__ = !0;
-ROTATE_Speech.prototype = {
-  update: function () {
-    var a = !0;
-    JSObjectUtils.__instanceof(
-      ROTATE_Game.instance.currentScreen,
-      ROTATE_ScreenPrimaryGame,
-    ) && (a = !ROTATE_Game.instance.currentScreen.player.dead);
-    a &&
-      null != this.events[this.index] &&
-      this.events[this.index].cond.test() &&
-      ('' != this.events[this.index].text &&
-        (this.field.set_text(''),
-        (this.msg = this.events[this.index].text),
-        (this['char'] = this.char2 = 0),
-        (this.timer = ROTATE_Game.instance.get_gameTimeMS()),
-        this.field.set_alpha(1)),
-      this.index++,
-      null != this.events[this.index] && this.events[this.index].cond.start());
-    if (
-      this['char'] < this.msg.length &&
-      (0 == this['char'] ||
-        ' ' == this.msg.charAt(this['char']) ||
-        '\n' == this.msg.charAt(this['char']) ||
-        ROTATE_Game.instance.get_gameTimeMS() - this.timer >=
-          ROTATE_Speech.TIME_TYPE)
-    ) {
-      a = this.field;
-      a.set_text(a.text + this.msg.charAt(this['char']));
-      if (
-        ' ' != this.msg.charAt(this['char']) &&
-        '\n' != this.msg.charAt(this['char'])
-      ) {
-        if (0 == this.char2 % 6) {
-          for (a = this.lastTone; a == this.lastTone; )
-            a = Math.round(7 * Math.random());
-          this.lastTone = a;
-          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-            ROTATE_Audio.voice.play(this.tones[a]);
-        }
-        this.char2++;
-      }
-      this['char']++;
-      this.timer = ROTATE_Game.instance.get_gameTimeMS();
-    }
-    this['char'] == this.msg.length &&
-      ROTATE_Game.instance.get_gameTimeMS() - this.timer >
-        ROTATE_Speech.TIME_STAY &&
-      ((a = Math.min(
-        1,
-        (ROTATE_Game.instance.get_gameTimeMS() -
-          this.timer -
-          ROTATE_Speech.TIME_STAY) /
-          ROTATE_Speech.TIME_FADE,
-      )),
-      this.field.set_alpha(ROTATE_Game.smootherStep(1 - a)));
-    JSObjectUtils.__instanceof(
-      ROTATE_Game.instance.currentScreen,
-      ROTATE_ScreenPrimaryGame,
-    ) &&
-      (this.field.graphics.clear(),
-      '' != this.field.text &&
-        ((a = this.field.getBoundsSelf()),
-        this.field.graphics.beginFill(2105376, 0.85),
-        this.field.graphics.drawRect(
-          a.x - 6,
-          a.y + 2,
-          a.width + 12,
-          a.height,
-        )));
-  },
-  killed: function () {
-    this.field.set_text('');
-    this.msg = '';
-    this['char'] = this.char2 = 0;
-  },
-  __class__: ROTATE_Speech,
-};
-
 class ROTATE_ScreenAwards extends ROTATE_ScreenBase {
   public rotating = !1;
   public rotationSide = 0;
@@ -18377,10 +18264,6 @@ ROTATE_Levels.list = [
 ];
 ROTATE_Levels.unlocked = 0;
 ROTATE_Levels.speedrunBest = -1;
-
-ROTATE_Speech.TIME_TYPE = 30;
-ROTATE_Speech.TIME_STAY = 5250;
-ROTATE_Speech.TIME_FADE = 750;
 
 ROTATE_ScreenEditor.MOVE_SPEED = 4;
 ROTATE_ScreenEditor.showGrid = !0;
