@@ -16609,7 +16609,7 @@ export class ROTATE_ScreenEditor extends ROTATE_ScreenGameBase {
   }
 }
 
-class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
+export class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
   public done1 = false;
   public first = false;
   public cond1 = new ROTATE_ConditionDelay(10);
@@ -16670,7 +16670,7 @@ class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
   }
 }
 
-class ROTATE_ScreenGameLastScene extends ROTATE_ScreenGameBase {
+export class ROTATE_ScreenGameLastScene extends ROTATE_ScreenGameBase {
   public hint = new ROTATE_Text(
     ROTATE_Game.fontMain,
     'Press [SPACE] to continue...',
@@ -17509,7 +17509,7 @@ class ROTATE_ScreenLaunchButton extends ROTATE_ScreenBase {
   }
 }
 
-class ROTATE_ScreenGameBeginning extends ROTATE_ScreenBase {
+export class ROTATE_ScreenGameBeginning extends ROTATE_ScreenBase {
   public done2 = !1;
   public cond2 = new ROTATE_ConditionDelay(0.5);
   public done1 = !1;
@@ -17848,112 +17848,101 @@ export class ROTATE_GridToggle extends ROTATE_CanvasObject {
   }
 }
 
-var ROTATE_PauseMenu = function () {
-  this.sponsor = new ROTATE_Sponsor();
-  this.mute = new ROTATE_MuteButtons(1);
-  this.invert = new ROTATE_InvertCheckbox();
-  this.btnQuit = new ROTATE_Button('QUIT', 0);
-  this.btnRedo = new ROTATE_Button('RESTART', 0);
-  this.btnPlay = new ROTATE_Button('CONTINUE', 0);
-  this.text = new ROTATE_Text(ROTATE_Game.fontMain, 'GAME PAUSED');
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.graphics.beginFill(COLOR.darkGray, 0.85);
-  this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
-  this.visible = !1;
-  this.mouseEnabled = !0;
-  this.text.align = ROTATE_Text.ALIGN_CENTER;
-  this.text.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-  this.text.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
-  this.text.set_x(Math.floor(ROTATE_Canvas.width / 2));
-  this.text.set_y(Math.floor(ROTATE_Canvas.height / 2) - 96 - 1);
-  this.addChild(this.text);
-  this.btnPlay.set_x(this.text.x);
-  this.btnPlay.set_y(this.text.y + 60);
-  this.btnPlay.addEventListener('click', function (a) {
-    2 > a.which && ROTATE_Game.instance.unpause();
-  });
-  this.addChild(this.btnPlay);
-  this.btnRedo.set_x(this.btnPlay.x);
-  this.btnRedo.set_y(this.btnPlay.y + 60);
-  this.btnRedo.addEventListener('click', function (a) {
-    2 > a.which &&
-      JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenPrimaryGame,
-      ) &&
-      ROTATE_Game.instance.currentScreen.restart(!1);
-  });
-  this.addChild(this.btnRedo);
-  this.btnQuit.set_x(this.btnRedo.x);
-  this.btnQuit.set_y(this.btnRedo.y + 60);
-  this.btnQuit.addEventListener('click', function (a) {
-    2 > a.which &&
-      ((a =
-        (JSObjectUtils.__instanceof(
-          ROTATE_Game.instance.currentScreen,
-          ROTATE_ScreenPrimaryGame,
-        ) &&
-          JSObjectUtils.__cast(
-            ROTATE_Game.instance.currentScreen,
-            ROTATE_ScreenPrimaryGame,
-          ).speedrun) ||
-        (JSObjectUtils.__instanceof(
-          ROTATE_Game.instance.currentScreen,
-          ROTATE_ScreenGameBeginning,
-        ) &&
-          JSObjectUtils.__cast(
-            ROTATE_Game.instance.currentScreen,
-            ROTATE_ScreenGameBeginning,
-          ).speedrun)),
-      ROTATE_Game.instance.changeScreen(
-        ROTATE_LevelEditorManager.level == ROTATE_ScreenEditor.editorLevel
-          ? new ROTATE_ScreenEditor()
-          : a
-            ? new ROTATE_ScreenExtras()
-            : 0 < ROTATE_Levels.unlocked
-              ? new ROTATE_ScreenLevels()
-              : new ROTATE_ScreenMainMenu(),
-        !0,
-        ((gameInstance = ROTATE_Game.instance),
-        Bind(gameInstance, gameInstance.unpause)),
-      ));
-  });
-  this.addChild(this.btnQuit);
-  this.addChild(this.invert);
-  this.addChild(this.mute);
-  this.addChild(this.sponsor);
-  this.sponsor.clipRect.y = this.sponsor.clipRect.height;
-  ROTATE_Game.instance.warnNoSave(this);
-};
-ROTATE_PauseMenu.__name__ = !0;
-ROTATE_PauseMenu.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_PauseMenu.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    onPause: function () {
-      this.mute.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
-      this.mute.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
-      var a = JSObjectUtils.__instanceof(
-        ROTATE_Game.instance.currentScreen,
-        ROTATE_ScreenPrimaryGame,
-      );
-      this.btnRedo.set_alpha(a ? 1 : 0.25);
-      this.btnRedo.main.mouseEnabled = a;
-      a =
-        JSObjectUtils.__instanceof(
-          ROTATE_Game.instance.currentScreen,
-          ROTATE_ScreenGameFinished,
-        ) ||
-        JSObjectUtils.__instanceof(
-          ROTATE_Game.instance.currentScreen,
-          ROTATE_ScreenGameLastScene,
-        );
-      this.btnQuit.set_alpha(a ? 0.25 : 1);
-      this.btnQuit.main.mouseEnabled = !a;
-    },
-    __class__: ROTATE_PauseMenu,
-  },
-);
+class ROTATE_PauseMenu extends ROTATE_CanvasObject {
+  public sponsor;
+  public mute;
+  public invert;
+  public btnQuit;
+  public btnRedo;
+  public btnPlay;
+  public text;
+
+  constructor() {
+    super();
+    this.sponsor = new ROTATE_Sponsor();
+    this.mute = new ROTATE_MuteButtons(1);
+    this.invert = new ROTATE_InvertCheckbox();
+    this.btnQuit = new ROTATE_Button('QUIT', 0);
+    this.btnRedo = new ROTATE_Button('RESTART', 0);
+    this.btnPlay = new ROTATE_Button('CONTINUE', 0);
+    this.text = new ROTATE_Text(ROTATE_Game.fontMain, 'GAME PAUSED');
+    this.graphics.beginFill(COLOR.darkGray, 0.85);
+    this.graphics.drawRect(0, 0, ROTATE_Canvas.width, ROTATE_Canvas.height);
+    this.visible = !1;
+    this.mouseEnabled = !0;
+    this.text.align = ROTATE_Text.ALIGN_CENTER;
+    this.text.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    this.text.yAlign = ROTATE_Text.Y_ALIGN_MIDDLE;
+    this.text.set_x(Math.floor(ROTATE_Canvas.width / 2));
+    this.text.set_y(Math.floor(ROTATE_Canvas.height / 2) - 96 - 1);
+    this.addChild(this.text);
+    this.btnPlay.set_x(this.text.x);
+    this.btnPlay.set_y(this.text.y + 60);
+    this.btnPlay.addEventListener('click', function (a) {
+      2 > a.which && ROTATE_Game.instance.unpause();
+    });
+    this.addChild(this.btnPlay);
+    this.btnRedo.set_x(this.btnPlay.x);
+    this.btnRedo.set_y(this.btnPlay.y + 60);
+    this.btnRedo.addEventListener('click', function (a) {
+      2 > a.which &&
+        ROTATE_Game.instance.currentScreen instanceof
+          ROTATE_ScreenPrimaryGame &&
+        ROTATE_Game.instance.currentScreen.restart(!1);
+    });
+    this.addChild(this.btnRedo);
+    this.btnQuit.set_x(this.btnRedo.x);
+    this.btnQuit.set_y(this.btnRedo.y + 60);
+    this.btnQuit.addEventListener('click', function (a) {
+      2 > a.which &&
+        ((a =
+          (ROTATE_Game.instance.currentScreen instanceof
+            ROTATE_ScreenPrimaryGame &&
+            JSObjectUtils.__cast(
+              ROTATE_Game.instance.currentScreen,
+              ROTATE_ScreenPrimaryGame,
+            ).speedrun) ||
+          (ROTATE_Game.instance.currentScreen instanceof
+            ROTATE_ScreenGameBeginning &&
+            JSObjectUtils.__cast(
+              ROTATE_Game.instance.currentScreen,
+              ROTATE_ScreenGameBeginning,
+            ).speedrun)),
+        ROTATE_Game.instance.changeScreen(
+          ROTATE_LevelEditorManager.level == ROTATE_ScreenEditor.editorLevel
+            ? new ROTATE_ScreenEditor()
+            : a
+              ? new ROTATE_ScreenExtras()
+              : 0 < ROTATE_Levels.unlocked
+                ? new ROTATE_ScreenLevels()
+                : new ROTATE_ScreenMainMenu(),
+          !0,
+          ((gameInstance = ROTATE_Game.instance),
+          Bind(gameInstance, gameInstance.unpause)),
+        ));
+    });
+    this.addChild(this.btnQuit);
+    this.addChild(this.invert);
+    this.addChild(this.mute);
+    this.addChild(this.sponsor);
+    this.sponsor.clipRect.y = this.sponsor.clipRect.height;
+    ROTATE_Game.instance.warnNoSave(this);
+  }
+
+  public onPause() {
+    this.mute.sfx.clipRect.x = ROTATE_Game.instance.muteSFX ? 28 : 0;
+    this.mute.music.clipRect.x = ROTATE_Game.instance.muteMusic ? 84 : 56;
+    var a =
+      ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenPrimaryGame;
+    this.btnRedo.set_alpha(a ? 1 : 0.25);
+    this.btnRedo.main.mouseEnabled = a;
+    a =
+      ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenGameFinished ||
+      ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenGameLastScene;
+    this.btnQuit.set_alpha(a ? 0.25 : 1);
+    this.btnQuit.main.mouseEnabled = !a;
+  }
+}
 
 var gameInstance;
 
