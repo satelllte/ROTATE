@@ -74,6 +74,7 @@ import {ROTATE_Speech, ROTATE_SpeechPart} from './ROTATE_Speech';
 import {ROTATE_ActiveGameObject} from './ROTATE_ActiveGameObject';
 import {ROTATE_InvertCheckbox} from './ROTATE_InvertCheckbox';
 import {ROTATE_EditorBarLower} from './ROTATE_EditorBarLower';
+import {ROTATE_ParticleSystem} from './ROTATE_ParticleSystem';
 
 // ---------------------------------------------------------------------------
 
@@ -2324,93 +2325,6 @@ class ROTATE_Renderer extends ROTATE_CanvasObject {
     );
   }
 }
-
-var ROTATE_ParticleSystem = function (a, b, c, d, e, f, m, k, p) {
-  null == p && (p = 1);
-  null == k && (k = !1);
-  this.particles = [];
-  var y = this;
-  DEPRECATED__ROTATE_CanvasObject.call(this);
-  this.color = c;
-  for (c = 0; 75 > c; ) {
-    c++;
-    var H = Math.random() * Math.PI * 2,
-      K = 3 * (0.7 * Math.random() + 0.3) * p,
-      W = 20 * Math.random();
-    H = new ROTATE_Particle(
-      6 * (0.6 * Math.random() + 0.4),
-      Math.round(50 * (0.5 * Math.random() + 0.5)),
-      a + Math.cos(H) * W,
-      b + Math.sin(H) * W,
-      d + Math.cos(H) * K,
-      e + Math.sin(H) * K,
-      f,
-      m,
-      k ? Bind(this, this.collsionHandler) : null,
-    );
-    this.particles.push(H);
-  }
-  this.addEventListener('enterFrame', Bind(this, this.update));
-  this.addEventListener('render', function (aa) {
-    y.render(aa.surface);
-  });
-};
-ROTATE_ParticleSystem.__name__ = !0;
-ROTATE_ParticleSystem.__super__ = DEPRECATED__ROTATE_CanvasObject;
-ROTATE_ParticleSystem.prototype = __inherit(
-  DEPRECATED__ROTATE_CanvasObject.prototype,
-  {
-    update: function (a) {
-      if (!ROTATE_Game.instance.paused)
-        for (a = this.particles.length; 0 <= --a; ) {
-          var b = this.particles[a];
-          0 >= b.life ? this.particles.splice(a, 1) : b.update();
-        }
-    },
-    collsionHandler: function (a) {
-      var b = Math.floor(a.x / ROTATE_GameConstants.tileSize),
-        c = Math.floor(a.y / ROTATE_GameConstants.tileSize);
-      if (ROTATE_LevelEditorManager.isInBounds(b, c)) {
-        var d = ROTATE_LevelEditorManager.getBlockData(b, c),
-          e = d.get_block();
-        if (e.collides(d) && !e.isTrigger(d)) {
-          var f = new Vector2(
-            a.x - b * ROTATE_GameConstants.tileSize,
-            a.y - c * ROTATE_GameConstants.tileSize,
-          );
-          d = e.getColliders(d);
-          for (e = 0; e < d.length; ) {
-            var m = d[e];
-            ++e;
-            if (
-              m.testPoint(
-                f,
-                new Vector2(
-                  a.lastX - b * ROTATE_GameConstants.tileSize,
-                  a.lastY - c * ROTATE_GameConstants.tileSize,
-                ),
-              )
-            ) {
-              a.freeze = !0;
-              break;
-            }
-          }
-        }
-      } else a.freeze = !0;
-    },
-    render: function (a) {
-      a.beginFill(this.color);
-      for (var b = 0, c = this.particles; b < c.length; ) {
-        var d = c[b];
-        ++b;
-        var e = Math.round(d.size),
-          f = d.size / 2;
-        a.drawRect(Math.round(d.x - f), Math.round(d.y - f), e, e);
-      }
-    },
-    __class__: ROTATE_ParticleSystem,
-  },
-);
 
 // #region Levels
 
@@ -17362,7 +17276,7 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
       a = new ROTATE_ParticleSystem(
         f.x,
         f.y,
-        14622752,
+        14622752, // TODO: put color into constants
         0.4 * d,
         0.4 * e,
         b,
