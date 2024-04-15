@@ -1951,31 +1951,31 @@ export class ROTATE_LevelEditorManager {
       ? ROTATE_LevelEditorManager.tiles[0].length
       : 0;
   }
-  public static isInBounds(a, b) {
+  public static isInBounds(x: number, y: number) {
     return null != ROTATE_LevelEditorManager.level &&
-      0 <= a &&
-      0 <= b &&
-      a < ROTATE_LevelEditorManager.get_width()
-      ? b < ROTATE_LevelEditorManager.get_height()
+      0 <= x &&
+      0 <= y &&
+      x < ROTATE_LevelEditorManager.get_width()
+      ? y < ROTATE_LevelEditorManager.get_height()
       : !1;
   }
-  public static getBlockID(a, b) {
-    return ROTATE_LevelEditorManager.isInBounds(a, b)
-      ? ROTATE_LevelEditorManager.tiles[b][a][0]
+  public static getBlockID(x: number, y: number) {
+    return ROTATE_LevelEditorManager.isInBounds(x, y)
+      ? ROTATE_LevelEditorManager.tiles[y][x][0]
       : 1;
   }
-  public static getBlockMeta(a, b) {
-    return !ROTATE_LevelEditorManager.isInBounds(a, b) ||
-      2 > ROTATE_LevelEditorManager.tiles[b][a].length
+  public static getBlockMeta(x: number, y: number) {
+    return !ROTATE_LevelEditorManager.isInBounds(x, y) ||
+      2 > ROTATE_LevelEditorManager.tiles[y][x].length
       ? []
-      : ROTATE_LevelEditorManager.tiles[b][a].slice(1);
+      : ROTATE_LevelEditorManager.tiles[y][x].slice(1);
   }
-  public static getBlockData(a, b) {
+  public static getBlockData(x: number, y: number) {
     return new BlockData(
-      a,
-      b,
-      ROTATE_LevelEditorManager.getBlockID(a, b),
-      ROTATE_LevelEditorManager.getBlockMeta(a, b),
+      x,
+      y,
+      ROTATE_LevelEditorManager.getBlockID(x, y),
+      ROTATE_LevelEditorManager.getBlockMeta(x, y),
     );
   }
   public static getBlock(a, b) {
@@ -2381,7 +2381,7 @@ export class Block {
   }
 
   // TODO: define signature
-  public render(surface: Surface, blockData: BlockData, c): void {}
+  public render(surface: Surface, blockData: BlockData, c?: boolean): void {}
 
   public collides(blockData: BlockData): boolean {
     return true;
@@ -3065,6 +3065,56 @@ class GameObject_Lever extends Block {
   }
 }
 
+class ROTATE_GameObject_Solid extends Block {
+  public render(surface: Surface, blockData: BlockData, c = false) {
+    var d = c && this.testCanSolidConnect(blockData.x - 1, blockData.y - 1, 0),
+      e = c && this.testCanSolidConnect(blockData.x, blockData.y - 1, 1),
+      f = c && this.testCanSolidConnect(blockData.x + 1, blockData.y - 1, 2),
+      m = c && this.testCanSolidConnect(blockData.x + 1, blockData.y, 3),
+      k = c && this.testCanSolidConnect(blockData.x + 1, blockData.y + 1, 4),
+      p = c && this.testCanSolidConnect(blockData.x, blockData.y + 1, 5),
+      y = c && this.testCanSolidConnect(blockData.x - 1, blockData.y + 1, 6);
+    blockData = c && this.testCanSolidConnect(blockData.x - 1, blockData.y, 7);
+    f = e || m ? (m ? (e ? (f ? 0 : 1) : 2) : 3) : 4;
+    y = p || blockData ? (blockData ? (p ? (y ? 0 : 1) : 2) : 3) : 4;
+    m = p || m ? (m ? (p ? (k ? 0 : 1) : 2) : 3) : 4;
+    k = ROTATE_GameConstants.tileSize;
+    p = ROTATE_GameConstants.tileSize / 2;
+    surface.drawImage(
+      ROTATE_Images.blocks,
+      new Bounds(
+        (e || blockData ? (blockData ? (e ? (d ? 0 : 1) : 2) : 3) : 4) * k,
+        0,
+        p,
+        p,
+      ),
+      0,
+      0,
+    );
+    surface.drawImage(
+      ROTATE_Images.blocks,
+      new Bounds(f * k + p, 0, p, p),
+      p,
+      0,
+    );
+    surface.drawImage(ROTATE_Images.blocks, new Bounds(y * k, p, p, p), 0, p);
+    surface.drawImage(
+      ROTATE_Images.blocks,
+      new Bounds(m * k + p, p, p, p),
+      p,
+      p,
+    );
+  }
+  public testCanSolidConnect(a: number, b: number, _c) {
+    if (!ROTATE_LevelEditorManager.isInBounds(a, b)) return !0;
+    a = ROTATE_LevelEditorManager.getBlockData(a, b);
+    b = a.get_block();
+    if (b instanceof ROTATE_GameObject_Solid) return !0;
+    a.getMeta(0);
+    return !1;
+  }
+}
+
 var DEPRECATED__ROTATE_GameObject_Solid = function () {
   DEPRECATED__Block.call(this);
 };
@@ -3111,141 +3161,130 @@ DEPRECATED__ROTATE_GameObject_Solid.prototype = __inherit(
   },
 );
 
-var ROTATE_GameObject_Number = function () {
-  this.value = 1;
-  DEPRECATED__Block.call(this);
-  this.configurable = !0;
-};
-ROTATE_GameObject_Number.__name__ = !0;
-ROTATE_GameObject_Number.__super__ = DEPRECATED__ROTATE_GameObject_Solid;
-ROTATE_GameObject_Number.prototype = __inherit(
-  DEPRECATED__ROTATE_GameObject_Solid.prototype,
-  {
-    set_value: function (a) {
-      return (this.value = 0 > a ? 99 : 99 < a ? 0 : a);
-    },
-    render: function (a, b, c) {
-      null == c && (c = !0);
-      c
-        ? DEPRECATED__ROTATE_GameObject_Solid.prototype.render.call(
-            this,
-            a,
-            b,
-            c,
-          )
-        : a.drawImage(
-            ROTATE_Images.blocks,
-            new Bounds(
-              0,
-              0,
-              ROTATE_GameConstants.tileSize,
-              ROTATE_GameConstants.tileSize,
-            ),
+class ROTATE_GameObject_Number extends ROTATE_GameObject_Solid {
+  public value = 1;
+  public configurable = true;
+
+  public set_value(value: number) {
+    return (this.value = 0 > value ? 99 : 99 < value ? 0 : value);
+  }
+
+  public render(surface: Surface, blockData: BlockData, c = true) {
+    c
+      ? super.render(surface, blockData, c)
+      : surface.drawImage(
+          ROTATE_Images.blocks,
+          new Bounds(
             0,
             0,
-            !1,
-          );
-      b = b.getMeta(0);
-      0 > b
-        ? (a.drawImage(
+            ROTATE_GameConstants.tileSize,
+            ROTATE_GameConstants.tileSize,
+          ),
+          0,
+          0,
+          !1,
+        );
+    blockData = blockData.getMeta(0);
+    0 > blockData
+      ? (surface.drawImage(
+          ROTATE_Images.blocks,
+          new Bounds(
+            100,
+            4 * ROTATE_GameConstants.tileSize,
+            10,
+            ROTATE_GameConstants.tileSize,
+          ),
+          14,
+          0,
+          !1,
+        ),
+        -1 == blockData &&
+          surface.drawImage(
             ROTATE_Images.blocks,
             new Bounds(
-              100,
+              110,
               4 * ROTATE_GameConstants.tileSize,
               10,
               ROTATE_GameConstants.tileSize,
             ),
-            14,
+            0,
             0,
             !1,
           ),
-          -1 == b &&
-            a.drawImage(
-              ROTATE_Images.blocks,
-              new Bounds(
-                110,
-                4 * ROTATE_GameConstants.tileSize,
-                10,
-                ROTATE_GameConstants.tileSize,
-              ),
-              0,
-              0,
-              !1,
-            ),
-          -2 == b &&
-            a.drawImage(
-              ROTATE_Images.blocks,
-              new Bounds(
-                120,
-                4 * ROTATE_GameConstants.tileSize,
-                10,
-                ROTATE_GameConstants.tileSize,
-              ),
-              0,
-              0,
-              !1,
-            ))
-        : (a.drawImage(
+        -2 == blockData &&
+          surface.drawImage(
             ROTATE_Images.blocks,
             new Bounds(
-              (b % 10) * 10,
+              120,
               4 * ROTATE_GameConstants.tileSize,
               10,
               ROTATE_GameConstants.tileSize,
             ),
-            14,
+            0,
             0,
             !1,
+          ))
+      : (surface.drawImage(
+          ROTATE_Images.blocks,
+          new Bounds(
+            (blockData % 10) * 10,
+            4 * ROTATE_GameConstants.tileSize,
+            10,
+            ROTATE_GameConstants.tileSize,
           ),
-          a.drawImage(
-            ROTATE_Images.blocks,
-            new Bounds(
-              10 * Math.min(Math.floor(0.1 * b), 9),
-              4 * ROTATE_GameConstants.tileSize,
-              10,
-              ROTATE_GameConstants.tileSize,
-            ),
-            0,
-            0,
-            !1,
-          ));
-    },
-    setupBubble: function (a) {
-      var b = this,
-        c = new ROTATE_Text(ROTATE_Game.fontMain, 'Value');
-      c.set_x(8);
-      c.set_y(8);
-      a.addChild(c);
-      var d = new ROTATE_Text(ROTATE_Game.fontMain, this.value + '');
-      d.align = ROTATE_Text.ALIGN_CENTER;
-      d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
-      d.set_x(this.bubbleWidth - 31);
-      d.set_y(c.y);
-      a.addChild(d);
-      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
-      c.mouseEnabled = c.buttonMode = !0;
-      c.addEventListener('mouseDown', function (e) {
-        1 < e.which || (b.set_value(b.value + 1), d.set_text(b.value + ''));
-      });
-      c.set_x(d.x + 11);
-      c.set_y(12);
-      a.addChild(c);
-      c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
-      c.mouseEnabled = c.buttonMode = !0;
-      c.addEventListener('mouseDown', function (e) {
-        1 < e.which || (b.set_value(b.value - 1), d.set_text(b.value + ''));
-      });
-      c.set_scaleX(-1);
-      c.set_x(d.x - 11);
-      c.set_y(12);
-      a.addChild(c);
-    },
-    getConfigMeta: function () {
-      return [this.value];
-    },
-    __class__: ROTATE_GameObject_Number,
-  },
-);
+          14,
+          0,
+          !1,
+        ),
+        surface.drawImage(
+          ROTATE_Images.blocks,
+          new Bounds(
+            10 * Math.min(Math.floor(0.1 * blockData), 9),
+            4 * ROTATE_GameConstants.tileSize,
+            10,
+            ROTATE_GameConstants.tileSize,
+          ),
+          0,
+          0,
+          !1,
+        ));
+  }
+
+  public setupBubble(a: ROTATE_CanvasObject) {
+    var b = this,
+      c = new ROTATE_Text(ROTATE_Game.fontMain, 'Value');
+    c.set_x(8);
+    c.set_y(8);
+    a.addChild(c);
+    var d = new ROTATE_Text(ROTATE_Game.fontMain, this.value + '');
+    d.align = ROTATE_Text.ALIGN_CENTER;
+    d.xAlign = ROTATE_Text.X_ALIGN_CENTER;
+    d.set_x(this.bubbleWidth - 31);
+    d.set_y(c.y);
+    a.addChild(d);
+    c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
+    c.mouseEnabled = c.buttonMode = !0;
+    c.addEventListener('mouseDown', function (e) {
+      1 < e.which || (b.set_value(b.value + 1), d.set_text(b.value + ''));
+    });
+    c.set_x(d.x + 11);
+    c.set_y(12);
+    a.addChild(c);
+    c = new ROTATE_ImageObject(ROTATE_Images.configArrow);
+    c.mouseEnabled = c.buttonMode = !0;
+    c.addEventListener('mouseDown', function (e) {
+      1 < e.which || (b.set_value(b.value - 1), d.set_text(b.value + ''));
+    });
+    c.set_scaleX(-1);
+    c.set_x(d.x - 11);
+    c.set_y(12);
+    a.addChild(c);
+  }
+
+  public getConfigMeta() {
+    return [this.value];
+  }
+}
 
 class ROTATE_GameObject_Platform extends ROTATE_GameObject_Angle {
   public render(surface: Surface, blockData: BlockData, c) {
