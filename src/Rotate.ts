@@ -16168,7 +16168,6 @@ class ROTATE_ScreenCredits extends ROTATE_ScreenBase {
   }
 }
 
-type PLACEHOLDER__ROTATE_Player = unknown;
 export class ROTATE_ScreenGameBase extends ROTATE_ScreenBase {
   public cameraX = 0;
   public cameraY = 0;
@@ -16192,7 +16191,7 @@ export class ROTATE_ScreenGameBase extends ROTATE_ScreenBase {
     this.renderer.updateAllBlocks();
     this.level.addChild(this.renderer);
   }
-  public doRotation(player: PLACEHOLDER__ROTATE_Player) {
+  public doRotation(player: ROTATE_Player) {
     if (ROTATE_LevelEditorManager.rotating) {
       var b = Math.min(
           (ROTATE_Game.instance.get_gameTime() - this.rotateStart) /
