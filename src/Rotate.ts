@@ -3298,31 +3298,32 @@ ROTATE_GameObject_Number.prototype = __inherit(
 );
 
 class ROTATE_GameObject_Platform extends ROTATE_GameObject_Angle {
-  public render(a: Surface, b: BlockData, c) {
-    this.renderRotated(a, b, 7 * ROTATE_GameConstants.tileSize, 0);
+  public render(surface: Surface, blockData: BlockData, c) {
+    this.renderRotated(
+      surface,
+      blockData,
+      7 * ROTATE_GameConstants.tileSize,
+      0,
+    );
   }
-  public getColliders(a) {
-    return [new Collider2(a.getMeta(0))];
+  public getColliders(blockData: BlockData) {
+    return [new Collider2(blockData.getMeta(0))];
   }
 }
 
-var ROTATE_GameObject_Ramp = function () {
-  DEPRECATED__ROTATE_GameObject_Angle.call(this);
-};
-ROTATE_GameObject_Ramp.__name__ = !0;
-ROTATE_GameObject_Ramp.__super__ = DEPRECATED__ROTATE_GameObject_Angle;
-ROTATE_GameObject_Ramp.prototype = __inherit(
-  DEPRECATED__ROTATE_GameObject_Angle.prototype,
-  {
-    render: function (a, b, c) {
-      this.renderRotated(a, b, 6 * ROTATE_GameConstants.tileSize, 0);
-    },
-    getColliders: function (a) {
-      return [new Collider3(a.getMeta(0))];
-    },
-    __class__: ROTATE_GameObject_Ramp,
-  },
-);
+class ROTATE_GameObject_Ramp extends ROTATE_GameObject_Angle {
+  public render(surface: Surface, blockData: BlockData, c) {
+    this.renderRotated(
+      surface,
+      blockData,
+      6 * ROTATE_GameConstants.tileSize,
+      0,
+    );
+  }
+  public getColliders(a: BlockData) {
+    return [new Collider3(a.getMeta(0))];
+  }
+}
 
 var ROTATE_GameObject_Saw = function () {
   DEPRECATED__ROTATE_GameObject_Angle.call(this);
@@ -3412,33 +3413,24 @@ ROTATE_GameObject_Spikes.prototype = __inherit(
   },
 );
 
-var ROTATE_GameObject_Stairs = function () {
-  DEPRECATED__ROTATE_GameObject_Angle.call(this);
-};
-ROTATE_GameObject_Stairs.__name__ = !0;
-ROTATE_GameObject_Stairs.__super__ = ROTATE_GameObject_Ramp;
-ROTATE_GameObject_Stairs.prototype = __inherit(
-  ROTATE_GameObject_Ramp.prototype,
-  {
-    render: function (a, b, c) {
-      c = ROTATE_GameConstants.tileSize;
-      var d = c / 2;
-      a.translate(d, d);
-      1 < b.getMeta(0) && a.rotate(Math.PI);
-      (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
-      a.drawImage(
-        ROTATE_Images.blocks,
-        new Bounds(5 * ROTATE_GameConstants.tileSize, 0, c, c),
-        -d,
-        -d,
-      );
-      (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
-      1 < b.getMeta(0) && a.rotate(-Math.PI);
-      a.translate(-d, -d);
-    },
-    __class__: ROTATE_GameObject_Stairs,
-  },
-);
+class ROTATE_GameObject_Stairs extends ROTATE_GameObject_Ramp {
+  public render(a: Surface, b: BlockData, c) {
+    c = ROTATE_GameConstants.tileSize;
+    var d = c / 2;
+    a.translate(d, d);
+    1 < b.getMeta(0) && a.rotate(Math.PI);
+    (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
+    a.drawImage(
+      ROTATE_Images.blocks,
+      new Bounds(5 * ROTATE_GameConstants.tileSize, 0, c, c),
+      -d,
+      -d,
+    );
+    (1 != b.getMeta(0) && 3 != b.getMeta(0)) || a.scale(-1, 1);
+    1 < b.getMeta(0) && a.rotate(-Math.PI);
+    a.translate(-d, -d);
+  }
+}
 
 class GameObject_Start extends Block {
   // TODO: define signature
