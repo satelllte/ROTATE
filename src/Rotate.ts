@@ -273,6 +273,47 @@ JSObjectUtils.__resolveNativeClass = function (a) {
   return window[a];
 };
 
+export class ROTATE_Levels {
+  public static readonly level1 = new ROTATE_Level1();
+  public static readonly level2 = new ROTATE_Level2();
+  public static readonly level3 = new ROTATE_Level3();
+  public static readonly level4 = new ROTATE_Level4();
+  public static readonly level5 = new ROTATE_Level5();
+  public static readonly level6 = new ROTATE_Level6();
+  public static readonly level7 = new ROTATE_Level7();
+  public static readonly level8 = new ROTATE_Level8();
+  public static readonly level9 = new ROTATE_Level9();
+  public static readonly level10 = new ROTATE_Level10();
+  public static readonly level11 = new ROTATE_Level11();
+  public static readonly level12 = new ROTATE_Level12();
+  public static readonly level13 = new ROTATE_Level13();
+  public static readonly level14 = new ROTATE_Level14();
+  public static readonly level15 = new ROTATE_Level15();
+  public static readonly level16 = new ROTATE_Level16();
+
+  public static readonly list = [
+    ROTATE_Levels.level1,
+    ROTATE_Levels.level2,
+    ROTATE_Levels.level3,
+    ROTATE_Levels.level4,
+    ROTATE_Levels.level5,
+    ROTATE_Levels.level6,
+    ROTATE_Levels.level7,
+    ROTATE_Levels.level8,
+    ROTATE_Levels.level9,
+    ROTATE_Levels.level10,
+    ROTATE_Levels.level11,
+    ROTATE_Levels.level12,
+    ROTATE_Levels.level13,
+    ROTATE_Levels.level14,
+    ROTATE_Levels.level15,
+    ROTATE_Levels.level16,
+  ];
+
+  public static unlocked = 0;
+  public static speedrunBest = -1;
+}
+
 export class ROTATE_Game extends ROTATE_CanvasObject {
   public static instance = new ROTATE_Game();
   public static fontMain = new ROTATE_Font(
@@ -2000,19 +2041,6 @@ class ROTATE_Renderer extends ROTATE_CanvasObject {
     );
   }
 }
-
-// #region Levels
-
-var ROTATE_BaseLevelInterface = function () {};
-ROTATE_BaseLevelInterface.__name__ = !0;
-ROTATE_BaseLevelInterface.prototype = {
-  __class__: ROTATE_BaseLevelInterface,
-};
-
-export var ROTATE_Levels = function () {};
-ROTATE_Levels.__name__ = !0;
-
-// #endregion Levels
 
 class ROTATE_ScreenAwards extends ROTATE_ScreenBase {
   public rotating = !1;
@@ -4034,42 +4062,5 @@ var ROTATE_Class = {__name__: ['Class']};
 var ROTATE_ObjectNoop = {};
 
 JSObjectUtils.__toStr = {}.toString;
-
-ROTATE_Levels.level1 = new ROTATE_Level1();
-ROTATE_Levels.level2 = new ROTATE_Level2();
-ROTATE_Levels.level3 = new ROTATE_Level3();
-ROTATE_Levels.level4 = new ROTATE_Level4();
-ROTATE_Levels.level5 = new ROTATE_Level5();
-ROTATE_Levels.level6 = new ROTATE_Level6();
-ROTATE_Levels.level7 = new ROTATE_Level7();
-ROTATE_Levels.level8 = new ROTATE_Level8();
-ROTATE_Levels.level9 = new ROTATE_Level9();
-ROTATE_Levels.level10 = new ROTATE_Level10();
-ROTATE_Levels.level11 = new ROTATE_Level11();
-ROTATE_Levels.level12 = new ROTATE_Level12();
-ROTATE_Levels.level13 = new ROTATE_Level13();
-ROTATE_Levels.level14 = new ROTATE_Level14();
-ROTATE_Levels.level15 = new ROTATE_Level15();
-ROTATE_Levels.level16 = new ROTATE_Level16();
-ROTATE_Levels.list = [
-  ROTATE_Levels.level1,
-  ROTATE_Levels.level2,
-  ROTATE_Levels.level3,
-  ROTATE_Levels.level4,
-  ROTATE_Levels.level5,
-  ROTATE_Levels.level6,
-  ROTATE_Levels.level7,
-  ROTATE_Levels.level8,
-  ROTATE_Levels.level9,
-  ROTATE_Levels.level10,
-  ROTATE_Levels.level11,
-  ROTATE_Levels.level12,
-  ROTATE_Levels.level13,
-  ROTATE_Levels.level14,
-  ROTATE_Levels.level15,
-  ROTATE_Levels.level16,
-];
-ROTATE_Levels.unlocked = 0;
-ROTATE_Levels.speedrunBest = -1;
 
 ROTATE_Game.main();
