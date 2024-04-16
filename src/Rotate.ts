@@ -116,163 +116,6 @@ function Bind(a, b) {
   return c;
 }
 
-var Utils = function () {};
-Utils.__name__ = !0;
-Utils.string = function (a) {
-  return JSObjectUtils.__string_rec(a, '');
-};
-
-var JSObjectUtils = function () {};
-JSObjectUtils.__name__ = !0;
-JSObjectUtils.getClass = function (a) {
-  if (a instanceof Array && null == a.__enum__) return Array;
-  var b = a.__class__;
-  if (null != b) return b;
-  a = JSObjectUtils.__nativeClassName(a);
-  return null != a ? JSObjectUtils.__resolveNativeClass(a) : null;
-};
-JSObjectUtils.__string_rec = function (entity, values) {
-  if (null == entity) return 'null';
-  if (5 <= values.length) return '<...>';
-  var entityType = typeof entity;
-  'function' == entityType &&
-    (entity.__name__ || entity.__ename__) &&
-    (entityType = 'object');
-  switch (entityType) {
-    case 'function':
-      return '<function>';
-    case 'object':
-      if (entity instanceof Array) {
-        if (entity.__enum__) {
-          if (2 == entity.length) return entity[0];
-          entityType = entity[0] + '(';
-          values += '\t';
-          for (var d = 2, e = entity.length; d < e; ) {
-            var f = d++;
-            entityType =
-              2 != f
-                ? entityType +
-                  (',' + JSObjectUtils.__string_rec(entity[f], values))
-                : entityType + JSObjectUtils.__string_rec(entity[f], values);
-          }
-          return entityType + ')';
-        }
-        entityType = entity.length;
-        d = '[';
-        values += '\t';
-        for (e = 0; e < entityType; )
-          (f = e++),
-            (d +=
-              (0 < f ? ',' : '') +
-              JSObjectUtils.__string_rec(entity[f], values));
-        return d + ']';
-      }
-      try {
-        d = entity.toString;
-      } catch (m) {
-        return '???';
-      }
-      if (
-        null != d &&
-        d != Object.toString &&
-        'function' == typeof d &&
-        ((entityType = entity.toString()), '[object Object]' != entityType)
-      )
-        return entityType;
-      entityType = null;
-      d = '{\n';
-      values += '\t';
-      e = null != entity.hasOwnProperty;
-      for (entityType in entity)
-        (e && !entity.hasOwnProperty(entityType)) ||
-          'prototype' == entityType ||
-          '__class__' == entityType ||
-          '__super__' == entityType ||
-          '__interfaces__' == entityType ||
-          '__properties__' == entityType ||
-          (2 != d.length && (d += ', \n'),
-          (d +=
-            values +
-            entityType +
-            ' : ' +
-            JSObjectUtils.__string_rec(entity[entityType], values)));
-      values = values.substring(1);
-      return d + ('\n' + values + '}');
-    case 'string':
-      return entity;
-    default:
-      return String(entity);
-  }
-};
-JSObjectUtils.__interfLoop = function (a, b) {
-  if (null == a) return !1;
-  if (a == b) return !0;
-  var c = a.__interfaces__;
-  if (null != c)
-    for (var d = 0, e = c.length; d < e; ) {
-      var f = d++;
-      f = c[f];
-      if (f == b || JSObjectUtils.__interfLoop(f, b)) return !0;
-    }
-  return JSObjectUtils.__interfLoop(a.__super__, b);
-};
-JSObjectUtils.__instanceof = function (a, b) {
-  if (null == b) return !1;
-  switch (b) {
-    case Array:
-      return a instanceof Array ? null == a.__enum__ : !1;
-    case ROTATE_Boolean:
-      return 'boolean' == typeof a;
-    case ROTATE_Dynamic:
-      return !0;
-    case ROTATE_Number:
-      return 'number' == typeof a;
-    case ROTATE_Int:
-      return 'number' == typeof a ? (a | 0) === a : !1;
-    case String:
-      return 'string' == typeof a;
-    default:
-      if (null != a)
-        if ('function' == typeof b) {
-          if (
-            a instanceof b ||
-            JSObjectUtils.__interfLoop(JSObjectUtils.getClass(a), b)
-          )
-            return !0;
-        } else {
-          if (
-            'object' == typeof b &&
-            JSObjectUtils.__isNativeObj(b) &&
-            a instanceof b
-          )
-            return !0;
-        }
-      else return !1;
-      return (b == ROTATE_Class && null != a.__name__) ||
-        (b == ROTATE_ObjectNoop && null != a.__ename__)
-        ? !0
-        : a.__enum__ == b;
-  }
-};
-JSObjectUtils.__cast = function (a, b) {
-  if (JSObjectUtils.__instanceof(a, b)) return a;
-  throw new ROTATE_Error(
-    'Cannot cast ' + Utils.string(a) + ' to ' + Utils.string(b),
-  );
-};
-JSObjectUtils.__nativeClassName = function (a) {
-  a = JSObjectUtils.__toStr.call(a).slice(8, -1);
-  return 'Object' == a || 'Function' == a || 'Math' == a || 'JSON' == a
-    ? null
-    : a;
-};
-JSObjectUtils.__isNativeObj = function (a) {
-  return null != JSObjectUtils.__nativeClassName(a);
-};
-JSObjectUtils.__resolveNativeClass = function (a) {
-  return window[a];
-};
-
 export class ROTATE_Levels {
   public static readonly level1 = new ROTATE_Level1();
   public static readonly level2 = new ROTATE_Level2();
@@ -1325,7 +1168,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
   }
 
   public rampCheck(a) {
-    return JSObjectUtils.__instanceof(a, Collider3)
+    return a instanceof Collider3
       ? (0 != ROTATE_LevelEditorManager.rotation ||
           (0 != a.dir && 1 != a.dir)) &&
         (1 != ROTATE_LevelEditorManager.rotation ||
@@ -1345,7 +1188,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
   }
 
   public rampCheckDX(a) {
-    return JSObjectUtils.__instanceof(a, Collider3)
+    return a instanceof Collider3
       ? (0 == ROTATE_LevelEditorManager.rotation &&
           ((0 < this.dx && 0 == a.dir) || (0 > this.dx && 1 == a.dir))) ||
         (1 == ROTATE_LevelEditorManager.rotation &&
@@ -1425,7 +1268,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
       var k = f[m];
       ++m;
       if (null != k && (null == d || d(k)))
-        if (JSObjectUtils.__instanceof(k, Collider)) {
+        if (k instanceof Collider) {
           if (
             ((k = k.bounds.copy()),
             (k.x += b * ROTATE_GameConstants.tileSize),
@@ -1433,7 +1276,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
             a.intersects(k))
           )
             return !0;
-        } else if (JSObjectUtils.__instanceof(k, Collider3)) {
+        } else if (k instanceof Collider3) {
           var p = new Vector2(a.get_right(), a.get_bottom());
           1 == k.dir && (p = new Vector2(a.get_left(), a.get_bottom()));
           2 == k.dir && (p = new Vector2(a.get_left(), a.get_top()));
@@ -1441,7 +1284,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
           p.x -= b * ROTATE_GameConstants.tileSize;
           p.y -= c * ROTATE_GameConstants.tileSize;
           if (k.testPoint(p)) return !0;
-        } else if (JSObjectUtils.__instanceof(k, Collider2)) {
+        } else if (k instanceof Collider2) {
           if (
             ((p = k.bounds.copy()),
             (p.x += b * ROTATE_GameConstants.tileSize),
@@ -1471,7 +1314,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
               return !0;
           }
         } else if (
-          JSObjectUtils.__instanceof(k, ColliderNoop) &&
+          k instanceof ColliderNoop &&
           ((p = k),
           (k = ROTATE_GameConstants.tileSize),
           (y = a.copy()),
@@ -3331,14 +3174,9 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
         : null;
     if (null != a) {
       var b =
-        JSObjectUtils.__instanceof(
-          ROTATE_Game.instance.currentScreen,
-          ROTATE_ScreenPrimaryGame,
-        ) &&
-        JSObjectUtils.__instanceof(
-          ROTATE_Game.instance.targetScreen,
-          ROTATE_ScreenGameFinished,
-        );
+        ROTATE_Game.instance.currentScreen instanceof
+          ROTATE_ScreenPrimaryGame &&
+        ROTATE_Game.instance.targetScreen instanceof ROTATE_ScreenGameFinished;
       if (ROTATE_Game.ie) b || a.stop();
       else {
         var c = a.volume();
@@ -3991,16 +3829,10 @@ class ROTATE_PauseMenu extends ROTATE_CanvasObject {
         ((a =
           (ROTATE_Game.instance.currentScreen instanceof
             ROTATE_ScreenPrimaryGame &&
-            JSObjectUtils.__cast(
-              ROTATE_Game.instance.currentScreen,
-              ROTATE_ScreenPrimaryGame,
-            ).speedrun) ||
+            ROTATE_Game.instance.currentScreen.speedrun) ||
           (ROTATE_Game.instance.currentScreen instanceof
             ROTATE_ScreenGameBeginning &&
-            JSObjectUtils.__cast(
-              ROTATE_Game.instance.currentScreen,
-              ROTATE_ScreenGameBeginning,
-            ).speedrun)),
+            ROTATE_Game.instance.currentScreen.speedrun)),
         ROTATE_Game.instance.changeScreen(
           ROTATE_LevelEditorManager.level == ROTATE_ScreenEditor.editorLevel
             ? new ROTATE_ScreenEditor()
@@ -4038,29 +3870,5 @@ class ROTATE_PauseMenu extends ROTATE_CanvasObject {
 }
 
 var gameInstance;
-
-String.prototype.__class__ = String;
-String.__name__ = !0;
-
-Array.__name__ = !0;
-
-Date.prototype.__class__ = Date;
-Date.__name__ = ['Date'];
-
-var ROTATE_Int = {__name__: ['Int']};
-
-var ROTATE_Dynamic = {__name__: ['Dynamic']};
-
-var ROTATE_Number = Number;
-ROTATE_Number.__name__ = ['Float'];
-
-var ROTATE_Boolean = Boolean;
-ROTATE_Boolean.__ename__ = ['Bool'];
-
-var ROTATE_Class = {__name__: ['Class']};
-
-var ROTATE_ObjectNoop = {};
-
-JSObjectUtils.__toStr = {}.toString;
 
 ROTATE_Game.main();
