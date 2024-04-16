@@ -97,6 +97,7 @@ import {ROTATE_Level13} from './levels/ROTATE_Level13';
 import {ROTATE_Level14} from './levels/ROTATE_Level14';
 import {ROTATE_Level15} from './levels/ROTATE_Level15';
 import {ROTATE_Level16} from './levels/ROTATE_Level16';
+import {ROTATE_BaseLevelInterface} from './levels/ROTATE_BaseLevelInterface';
 
 var bindIdNext = 0;
 function Bind(a, b) {
@@ -1414,15 +1415,14 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
   }
 }
 
-type PLACEHOLDER__BaseLevelInterface = unknown;
 export class ROTATE_LevelEditorManager {
   public static rotating = !1;
   public static rotation = 0;
-  public static level: PLACEHOLDER__BaseLevelInterface | null = null;
+  public static level: ROTATE_BaseLevelInterface | null = null;
   public static tiles: number[][][] = [];
   public static updateQueue = new ROTATE_EventMap();
 
-  public static set_level(level: number) {
+  public static set_level(level: ROTATE_BaseLevelInterface | null) {
     if (null != level) {
       ROTATE_LevelEditorManager.level = level;
       ROTATE_LevelEditorManager.set_rotation(0);
@@ -3087,7 +3087,6 @@ class ROTATE_ScreenMainMenu extends ROTATE_ScreenBase {
   }
 }
 
-type PLACEHOLDER_ROTATE_BaseLevelInterface = unknown;
 export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
   public channels = new ROTATE_KeysMap();
   public newBest = !1;
@@ -3117,7 +3116,7 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
   public static canceled = !1;
 
   constructor(
-    tempLevel: PLACEHOLDER_ROTATE_BaseLevelInterface,
+    tempLevel: ROTATE_BaseLevelInterface,
     speedrun: boolean = false,
     speedrunStart: number = -1,
   ) {
