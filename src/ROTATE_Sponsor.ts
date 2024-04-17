@@ -13,11 +13,12 @@ export class ROTATE_Sponsor extends ROTATE_ImageObject {
     this.mouseEnabled = true;
     this.buttonMode = true;
 
-    this.addEventListener('click', (a) => {
-      2 <= a.which ||
-        ((a = window.open('https://lightwolfstudios.com', '_blank')),
-        ROTATE_Awards.awardJoshua.unlock(),
-        a.focus());
+    this.addEventListener('click', (event) => {
+      if (2 <= event.which) return;
+
+      const win = window.open('https://lightwolfstudios.com', '_blank');
+      ROTATE_Awards.awardJoshua.unlock();
+      win?.focus();
     });
   }
 }

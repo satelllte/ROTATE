@@ -6,8 +6,8 @@ import {ROTATE_GridToggle} from './Rotate';
 export class ROTATE_EditorBarLower extends ROTATE_CanvasObject {
   public static readonly HEIGHT = 48;
 
-  public selector;
-  public gridToggle;
+  public selector: ROTATE_ActiveGameObject;
+  public gridToggle: ROTATE_GridToggle;
 
   constructor(callback: () => void) {
     super();
@@ -31,8 +31,10 @@ export class ROTATE_EditorBarLower extends ROTATE_CanvasObject {
       ),
     );
     this.addChild(this.selector);
-    this.addEventListener('mouseDown', (c) => {
-      2 > c.which && c.target == this && (this.selector.bubble.visible = !1);
+    this.addEventListener('mouseDown', (event) => {
+      2 > event.which &&
+        event.target == this &&
+        (this.selector.bubble.visible = !1);
     });
   }
 }

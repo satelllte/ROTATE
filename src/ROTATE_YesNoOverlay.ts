@@ -30,14 +30,14 @@ export class ROTATE_YesNoOverlay extends ROTATE_CanvasObject {
     this.addChild(this.main);
     this.btnYes.set_x(Math.round(ROTATE_Canvas.width / 2) - 96);
     this.btnYes.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
-    this.btnYes.addEventListener('click', (c) => {
-      if (2 > c.which && this.onYes) this.onYes();
+    this.btnYes.addEventListener('click', (event) => {
+      if (2 > event.which && this.onYes) this.onYes();
     });
     this.addChild(this.btnYes);
     this.btnNo.set_x(Math.round(ROTATE_Canvas.width / 2) + 96);
     this.btnNo.set_y(Math.round(ROTATE_Canvas.height / 2) + 40);
-    this.btnNo.addEventListener('click', (c) => {
-      if (2 > c.which && this.onNo) this.onNo();
+    this.btnNo.addEventListener('click', (event) => {
+      if (2 > event.which && this.onNo) this.onNo();
     });
     this.addChild(this.btnNo);
   }

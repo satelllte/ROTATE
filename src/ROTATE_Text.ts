@@ -30,13 +30,9 @@ export class ROTATE_Text extends ROTATE_CanvasObject {
     this.set_font(font);
     this.set_text(text);
     this.color = color;
-    this.addEventListener(
-      'render',
-      // @ts-expect-error Target signature provides too few arguments. Expected 1 or more, but got 0
-      (e) => {
-        this.render(e.surface as Surface);
-      },
-    );
+    this.addEventListener('render', ({surface}) => {
+      this.render(surface);
+    });
   }
 
   public set_font(font: ROTATE_Font) {

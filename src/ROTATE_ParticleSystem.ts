@@ -42,9 +42,11 @@ export class ROTATE_ParticleSystem extends ROTATE_CanvasObject {
       );
       this.particles.push(H);
     }
+
     this.addEventListener('enterFrame', this.update.bind(this));
-    this.addEventListener('render', (aa) => {
-      this.render(aa.surface);
+
+    this.addEventListener('render', ({surface}) => {
+      this.render(surface);
     });
   }
 

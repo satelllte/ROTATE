@@ -20,6 +20,7 @@ import {ROTATE_Animation} from './ROTATE_Animation';
 import {ROTATE_Audio} from './ROTATE_Audio';
 import {ROTATE_Error} from './ROTATE_Error';
 import {
+  EVENT,
   ROTATE_Event,
   ROTATE_FocusingEvent,
   ROTATE_KeyEvent,
@@ -196,7 +197,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   public static main() {
     // TODO: re-implement properly
     ROTATE_Game.instance = new ROTATE_Game();
-    ROTATE_Game.instance.addEventListener('added', () => {
+    ROTATE_Game.instance.addEventListener(EVENT.added, () => {
       ROTATE_Game.instance.init();
     });
 
@@ -275,7 +276,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
 
   public init(): void {
     // TODO: re-implement properly
-    this.removeEventListener('added', this.init.bind(this));
+    this.removeEventListener(EVENT.added, this.init.bind(this));
     ROTATE_Canvas.set_imageSmoothingEnabled(false);
     ROTATE_Manager.addEventListener('finished', this.loaded.bind(this));
   }

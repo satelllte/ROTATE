@@ -1,4 +1,7 @@
-import {type ROTATE_Event} from './ROTATE_Event';
+import {
+  type ROTATE_EventHandlersEventMap,
+  type ROTATE_Event,
+} from './ROTATE_Event';
 import {ROTATE_EventMap} from './ROTATE_EventMap';
 
 // TODO: extend type definition of "listener" if needed
@@ -11,7 +14,10 @@ export class ROTATE_EventTarget {
     this.listeners = new ROTATE_EventMap();
   }
 
-  public addEventListener(type: string, listener: ListenerCallbackFn): void {
+  public addEventListener<EventType extends keyof ROTATE_EventHandlersEventMap>(
+    type: EventType,
+    listener: (event: ROTATE_EventHandlersEventMap[EventType]) => void,
+  ): void {
     // TODO: re-implement properly
     if (!this.listeners.h.hasOwnProperty(type)) {
       const callbacks: ListenerCallbackFn[] = [];
@@ -21,7 +27,12 @@ export class ROTATE_EventTarget {
     this.listeners.h[type].push(listener);
   }
 
-  public removeEventListener(type: string, listener: ListenerCallbackFn): void {
+  public removeEventListener<
+    EventType extends keyof ROTATE_EventHandlersEventMap,
+  >(
+    type: EventType,
+    listener: (event: ROTATE_EventHandlersEventMap[EventType]) => void,
+  ): void {
     // TODO: re-implement properly
     if (this.listeners.h.hasOwnProperty(type)) {
       // @ts-expect-error Type 'unknown' is not assignable to type 'ListenerCallbackFn[]'.ts(2322)

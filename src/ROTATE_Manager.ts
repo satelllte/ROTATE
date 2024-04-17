@@ -1,5 +1,8 @@
 import {Howl} from 'howler';
-import {type ROTATE_Event} from './ROTATE_Event';
+import {
+  type ROTATE_EventHandlersEventMap,
+  type ROTATE_Event,
+} from './ROTATE_Event';
 import {ROTATE_EventTarget} from './ROTATE_EventTarget';
 
 export class ROTATE_Manager {
@@ -12,11 +15,21 @@ export class ROTATE_Manager {
     ROTATE_Manager.events.triggerEvent(event);
   }
 
-  public static addEventListener(type: string, listener: () => void): void {
+  public static addEventListener<
+    EventType extends keyof ROTATE_EventHandlersEventMap,
+  >(
+    type: EventType,
+    listener: (event: ROTATE_EventHandlersEventMap[EventType]) => void,
+  ): void {
     ROTATE_Manager.events.addEventListener(type, listener);
   }
 
-  public static removeEventListener(type: string, listener: () => void): void {
+  public static removeEventListener<
+    EventType extends keyof ROTATE_EventHandlersEventMap,
+  >(
+    type: EventType,
+    listener: (event: ROTATE_EventHandlersEventMap[EventType]) => void,
+  ): void {
     ROTATE_Manager.events.removeEventListener(type, listener);
   }
 
