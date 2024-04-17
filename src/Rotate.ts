@@ -729,12 +729,9 @@ export class ROTATE_Awards {
   public static readonly STAY_MS = 3000;
 
   public static bubbleTimer = -1;
-  public static bubble = new ROTATE_CanvasObject();
-  public static bubbleTitle = new ROTATE_Text(
-    ROTATE_Game.fontMain,
-    'NEW AWARD',
-  );
-  public static bubbleName = new ROTATE_Text(ROTATE_Game.fontMain, '');
+  public static bubble: ROTATE_CanvasObject;
+  public static bubbleTitle: ROTATE_Text;
+  public static bubbleName: ROTATE_Text;
   public static bubbleIcon: ROTATE_ImageObject | undefined = undefined;
   public static queue: ROTATE_Award[] = [];
 
