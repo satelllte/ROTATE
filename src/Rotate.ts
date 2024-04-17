@@ -3308,8 +3308,7 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
   }
   public restart(a) {
     a = ROTATE_Game.instance.paused
-      ? ((gameInstance = ROTATE_Game.instance),
-        gameInstance.unpause.bind(gameInstance))
+      ? ROTATE_Game.instance.unpause.bind(ROTATE_Game.instance)
       : null;
     ROTATE_Game.instance.changeScreen(
       new ROTATE_ScreenPrimaryGame(
@@ -3818,8 +3817,7 @@ class ROTATE_PauseMenu extends ROTATE_CanvasObject {
                 ? new ROTATE_ScreenLevels()
                 : new ROTATE_ScreenMainMenu(),
           !0,
-          ((gameInstance = ROTATE_Game.instance),
-          gameInstance.unpause.bind(gameInstance)),
+          ROTATE_Game.instance.unpause.bind(ROTATE_Game.instance),
         ));
     });
     this.addChild(this.btnQuit);
