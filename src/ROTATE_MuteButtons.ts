@@ -3,7 +3,6 @@ import {ROTATE_Canvas} from './ROTATE_Canvas';
 import {ROTATE_CanvasObject} from './ROTATE_CanvasObject';
 import {ROTATE_ImageObject} from './ROTATE_ImageObject';
 import {ROTATE_Images} from './ROTATE_Images';
-import {ROTATE_YesNoOverlay} from './ROTATE_YesNoOverlay';
 import {ROTATE_Game} from './Rotate';
 
 export class ROTATE_MuteButtons extends ROTATE_CanvasObject {
@@ -26,10 +25,9 @@ export class ROTATE_MuteButtons extends ROTATE_CanvasObject {
 
     this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
     this.sfx.addEventListener('click', (c) => {
-      2 > c.which &&
-        (ROTATE_Game.ie && !ROTATE_Game.instance.ieUnmuted
-          ? this.showWarn(this.toggleSFX.bind(this))
-          : this.toggleSFX());
+      if (2 > c.which) {
+        this.toggleSFX();
+      }
     });
     this.sfx.set_x(ROTATE_Canvas.width - this.sfx.get_width() - 12);
     this.sfx.set_y(ROTATE_Canvas.height - this.sfx.get_height() - 12);
@@ -46,29 +44,13 @@ export class ROTATE_MuteButtons extends ROTATE_CanvasObject {
     );
     this.music.mouseEnabled = this.music.buttonMode = !0;
     this.music.addEventListener('click', (c) => {
-      2 > c.which &&
-        (ROTATE_Game.ie && !ROTATE_Game.instance.ieUnmuted
-          ? this.showWarn(this.toggleMusic.bind(this))
-          : this.toggleMusic());
+      if (2 > c.which) {
+        this.toggleMusic();
+      }
     });
     this.music.set_x(this.sfx.x - this.music.get_width() - 12);
     this.music.set_y(ROTATE_Canvas.height - this.music.get_height() - 12);
     this.addChild(this.music);
-  }
-
-  public showWarn(onYesCallback?: () => void) {
-    const overlay = new ROTATE_YesNoOverlay(
-      'Audio may slow down the game\nin Internet Explorer. Continue?',
-    );
-    overlay.onNo = function () {
-      ROTATE_Game.instance.removeChild(overlay);
-    };
-    overlay.onYes = function () {
-      ROTATE_Game.instance.removeChild(overlay);
-      ROTATE_Game.instance.ieUnmuted = !0;
-      null != onYesCallback && onYesCallback();
-    };
-    ROTATE_Game.instance.addChild(overlay);
   }
 
   public toggleSFX() {

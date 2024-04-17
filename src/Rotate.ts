@@ -159,7 +159,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   public ieGame1 = false;
   public ieGame2 = false;
   public ieSurface = false;
-  public ieUnmuted = false;
   public invert = false;
   public fader = new ROTATE_CanvasObject();
   public fading = false;
