@@ -3845,6 +3845,4 @@ class ROTATE_PauseMenu extends ROTATE_CanvasObject {
   }
 }
 
-var gameInstance;
-
 ROTATE_Game.main();
