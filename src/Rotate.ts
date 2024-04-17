@@ -1,39 +1,17 @@
-import {COLOR, KEY_CODE, PI2, ROTATE_GameConstants} from './constants';
-import {
-  charCodeAt,
-  clamp,
-  clamp01,
-  getColorString,
-  getOneTimeIterator,
-  parseInteger,
-  pointInTransformedBounds,
-  replace,
-  subString,
-  trim,
-} from './utils';
+import {COLOR, KEY_CODE, ROTATE_GameConstants} from './constants';
+import {parseInteger, replace, trim} from './utils';
 import {Bounds} from './Bounds';
 import {Vector2} from './Vector2';
-import {Transform} from './Transform';
 import {Surface} from './Surface';
-import {Graphics} from './Graphics';
 import {ROTATE_Animation} from './ROTATE_Animation';
 import {ROTATE_Audio} from './ROTATE_Audio';
 import {ROTATE_Error} from './ROTATE_Error';
-import {
-  EVENT,
-  ROTATE_Event,
-  ROTATE_FocusingEvent,
-  ROTATE_KeyEvent,
-  ROTATE_ManagerEvent,
-  ROTATE_MouseEvent,
-  ROTATE_RenderEvent,
-} from './ROTATE_Event';
+import {EVENT} from './ROTATE_Event';
 import {
   ROTATE_EventMap,
   ROTATE_EventMapIterator,
   ROTATE_KeysMap,
 } from './ROTATE_EventMap';
-import {ROTATE_EventTarget} from './ROTATE_EventTarget';
 import {ROTATE_Font} from './ROTATE_Font';
 import {ROTATE_Images} from './ROTATE_Images';
 import {ROTATE_Manager} from './ROTATE_Manager';
@@ -41,28 +19,19 @@ import {ROTATE_Text} from './ROTATE_Text';
 import {Time} from './Time';
 import {LocalStorage} from './LocalStorage';
 import {StringBytesObject} from './StringBytesObject';
-import {CharEncoder} from './CharEncoder';
 import {CharUtils} from './CharUtils';
 import {ROTATE_CanvasObject} from './ROTATE_CanvasObject';
 import {ROTATE_Canvas} from './ROTATE_Canvas';
 import {InputKeys} from './InputKeys';
 import {ROTATE_ImageObject} from './ROTATE_ImageObject';
 import {ROTATE_Sponsor} from './ROTATE_Sponsor';
-import {Bubble} from './Bubble';
 import {ROTATE_AwardObject} from './ROTATE_AwardObject';
 import {ROTATE_Button} from './ROTATE_Button';
 import {ROTATE_YesNoOverlay} from './ROTATE_YesNoOverlay';
 import {ROTATE_MuteButtons} from './ROTATE_MuteButtons';
 import {ROTATE_BackgroundObject} from './ROTATE_BackgroundObject';
 import {ROTATE_ScreenBase} from './ROTATE_ScreenBase';
-import {
-  ROTATE_ConditionChannel,
-  ROTATE_ConditionCollision,
-  ROTATE_ConditionCollisionWithChannels,
-  ROTATE_ConditionDelay,
-  ROTATE_ConditionDelayedCollision,
-} from './ROTATE_Condition';
-import {ROTATE_Particle} from './ROTATE_Particle';
+import {ROTATE_ConditionDelay} from './ROTATE_Condition';
 import {ROTATE_CatAnimationObject} from './ROTATE_CatAnimationObject';
 import {ROTATE_AnimatedObject} from './ROTATE_AnimatedObject';
 import {Collider, Collider2, Collider3, ColliderNoop} from './Collider';
@@ -72,15 +41,12 @@ import {
   ROTATE_GameObjects,
 } from './Blocks';
 import {ROTATE_Speech, ROTATE_SpeechPart} from './ROTATE_Speech';
-import {ROTATE_ActiveGameObject} from './ROTATE_ActiveGameObject';
-import {ROTATE_InvertCheckbox} from './ROTATE_InvertCheckbox';
 import {ROTATE_EditorBarLower} from './ROTATE_EditorBarLower';
 import {ROTATE_ParticleSystem} from './ROTATE_ParticleSystem';
 import {ROTATE_LoadLevelMenu} from './ROTATE_LoadLevelMenu';
 import {ROTATE_SaveLevelMenu} from './ROTATE_SaveLevelMenu';
 import {ROTATE_Level1} from './levels/ROTATE_Level1';
 import {ROTATE_EditorLevel} from './levels/ROTATE_EditorLevel';
-import {ROTATE_Cat} from './ROTATE_Cat';
 import {Signaler} from './Singaler';
 import {Door} from './Door';
 import {ROTATE_Level2} from './levels/ROTATE_Level2';
