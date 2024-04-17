@@ -6,6 +6,7 @@ export class ROTATE_ScreenBase extends ROTATE_CanvasObject {
   public init() {}
   public ready() {}
   public update() {}
+  public finished() {}
   public tick() {}
   public postUpdate() {}
   public prekill() {}

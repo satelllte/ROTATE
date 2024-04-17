@@ -869,7 +869,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
       if (this.touchingFinish()) {
         this.finished = !0;
         ROTATE_Audio.exit.play();
-        ROTATE_Game.instance.currentScreen.finished();
+        ROTATE_Game.instance.currentScreen?.finished();
       }
     }
   }
@@ -3591,13 +3591,13 @@ class ROTATE_EraseButton extends ROTATE_ImageObject {
               'Do you want to erase ALL of\nyour saved progress?',
             );
             f.onNo = function () {
-              ROTATE_Game.instance.currentScreen.removeChild(f);
+              ROTATE_Game.instance.currentScreen?.removeChild(f);
             };
             f.onYes = function () {
               ROTATE_Game.instance.clearProgress();
               ROTATE_Game.instance.changeScreen(new ROTATE_ScreenMainMenu());
             };
-            ROTATE_Game.instance.currentScreen.addChild(f);
+            ROTATE_Game.instance.currentScreen?.addChild(f);
           }
         }))
       : this.set_alpha(0.33);
