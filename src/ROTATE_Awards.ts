@@ -71,37 +71,38 @@ export class ROTATE_Awards {
   public static bubbleIcon: ROTATE_ImageObject | undefined = undefined;
   public static queue: ROTATE_Award[] = [];
 
-  public static setup(a: ROTATE_Game) {
-    null == ROTATE_Awards.bubble &&
-      ((ROTATE_Awards.bubble = new ROTATE_CanvasObject()),
-      (ROTATE_Awards.bubble.mouseEnabled = !0),
-      a.addChild(ROTATE_Awards.bubble),
-      (ROTATE_Awards.bubbleTitle = new ROTATE_Text(
-        ROTATE_Game.fontMain,
-        'NEW AWARD',
-      )),
-      ROTATE_Awards.bubbleTitle.set_x(68),
-      ROTATE_Awards.bubbleTitle.set_y(4),
-      ROTATE_Awards.bubbleTitle.set_alpha(0.5),
-      ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleTitle),
-      (ROTATE_Awards.bubbleName = new ROTATE_Text(ROTATE_Game.fontMain, '')),
-      ROTATE_Awards.bubbleName.set_x(68),
-      ROTATE_Awards.bubbleName.set_y(28),
-      ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleName),
-      ROTATE_Awards.bubble.set_alpha(0));
+  public static setup(game: ROTATE_Game) {
+    if (ROTATE_Awards.bubble) return;
+
+    ROTATE_Awards.bubble = new ROTATE_CanvasObject();
+    ROTATE_Awards.bubble.mouseEnabled = !0;
+    game.addChild(ROTATE_Awards.bubble);
+    ROTATE_Awards.bubbleTitle = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      'NEW AWARD',
+    );
+    ROTATE_Awards.bubbleTitle.set_x(68);
+    ROTATE_Awards.bubbleTitle.set_y(4);
+    ROTATE_Awards.bubbleTitle.set_alpha(0.5);
+    ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleTitle);
+    ROTATE_Awards.bubbleName = new ROTATE_Text(ROTATE_Game.fontMain, '');
+    ROTATE_Awards.bubbleName.set_x(68);
+    ROTATE_Awards.bubbleName.set_y(28);
+    ROTATE_Awards.bubble.addChild(ROTATE_Awards.bubbleName);
+    ROTATE_Awards.bubble.set_alpha(0);
   }
 
   public static queueNotify(award: ROTATE_Award) {
-    null == ROTATE_Awards.queue && (ROTATE_Awards.queue = []);
-    null != award &&
-      0 > ROTATE_Awards.queue.indexOf(award) &&
+    if (!award) return;
+    if (ROTATE_Awards.queue.indexOf(award) < 0) {
       ROTATE_Awards.queue.push(award);
+    }
   }
 
   public static adjustBubble(name: string, icon: HTMLImageElement) {
     ROTATE_Awards.bubbleName.set_text(replace(name, '\n', ' '));
     ROTATE_Awards.bubble.graphics.clear();
-    var c =
+    const width =
       Math.max(
         ROTATE_Awards.bubbleTitle.get_width(),
         ROTATE_Awards.bubbleName.get_width(),
@@ -110,13 +111,14 @@ export class ROTATE_Awards {
       12 +
       4;
     ROTATE_Awards.bubble.graphics.beginFill(3158064);
-    ROTATE_Awards.bubble.graphics.drawRect(0, 0, c, 68);
+    ROTATE_Awards.bubble.graphics.drawRect(0, 0, width, 68);
     ROTATE_Awards.bubble.graphics.beginFill(6316128);
-    ROTATE_Awards.bubble.graphics.drawRect(0, 0, c - 2, 66);
+    ROTATE_Awards.bubble.graphics.drawRect(0, 0, width - 2, 66);
     ROTATE_Awards.bubble.graphics.beginFill(4210752);
-    ROTATE_Awards.bubble.graphics.drawRect(0, 0, c - 4, 64);
-    null != ROTATE_Awards.bubbleIcon &&
+    ROTATE_Awards.bubble.graphics.drawRect(0, 0, width - 4, 64);
+    if (ROTATE_Awards.bubbleIcon) {
       ROTATE_Awards.bubble.removeChild(ROTATE_Awards.bubbleIcon);
+    }
     ROTATE_Awards.bubbleIcon = new ROTATE_ImageObject(icon);
     ROTATE_Awards.bubbleIcon.set_x(8);
     ROTATE_Awards.bubbleIcon.set_y(8);
