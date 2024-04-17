@@ -100,24 +100,6 @@ import {ROTATE_Level15} from './levels/ROTATE_Level15';
 import {ROTATE_Level16} from './levels/ROTATE_Level16';
 import {ROTATE_BaseLevelInterface} from './levels/ROTATE_BaseLevelInterface';
 
-var bindIdNext = 0;
-function Bind(a, b) {
-  if (null == b) return null;
-  null == b.__id__ && (b.__id__ = bindIdNext++);
-  var c;
-  null == a.hx__closures__
-    ? (a.hx__closures__ = {})
-    : (c = a.hx__closures__[b.__id__]);
-  null == c &&
-    ((c = function () {
-      return c.method.apply(c.scope, arguments);
-    }),
-    (c.scope = a),
-    (c.method = b),
-    (a.hx__closures__[b.__id__] = c));
-  return c;
-}
-
 export class ROTATE_Levels {
   public static readonly level1 = new ROTATE_Level1();
   public static readonly level2 = new ROTATE_Level2();
@@ -1063,21 +1045,21 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
               : (k = -1 > b ? -1 : b);
           this.set_localX(this.get_localX() + k);
           b -= k;
-          if (this.isColliding(null, Bind(this, this.rampCheckDX), 0))
+          if (this.isColliding(null, this.rampCheckDX.bind(this), 0))
             if (
               ((k = 0),
               this.set_localY(this.get_localY() - e),
-              this.isColliding(null, Bind(this, this.nonRampCheckDX), 0))
+              this.isColliding(null, this.nonRampCheckDX.bind(this), 0))
             )
               this.set_localY(this.get_localY() + e);
             else {
               k -= e;
-              if (this.isColliding(null, Bind(this, this.rampCheckDX), 0)) {
+              if (this.isColliding(null, this.rampCheckDX.bind(this), 0)) {
                 var y = this.get_localY();
                 this.set_localY(y - 1);
-                this.isColliding(null, Bind(this, this.nonRampCheckDX), 0)
+                this.isColliding(null, this.nonRampCheckDX.bind(this), 0)
                   ? ((y = this.get_localY()), this.set_localY(y + 1))
-                  : this.isColliding(null, Bind(this, this.rampCheckDX), 0)
+                  : this.isColliding(null, this.rampCheckDX.bind(this), 0)
                     ? (this.set_localY(m), (k = 0))
                     : --k;
               }
@@ -1102,10 +1084,10 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
               : 1;
           this.set_localY(Math.round(this.get_localY() + f));
           m += f;
-          k = this.isColliding(null, Bind(this, this.nonRampCheck), 1);
+          k = this.isColliding(null, this.nonRampCheck.bind(this), 1);
           if (!c && k) break;
           p =
-            c && k ? !0 : this.isColliding(null, Bind(this, this.rampCheck), 1);
+            c && k ? !0 : this.isColliding(null, this.rampCheck.bind(this), 1);
         }
         p
           ? (this.set_localY(this.get_localY() - f),
@@ -2246,7 +2228,7 @@ export class ROTATE_ScreenEditor extends ROTATE_ScreenGameBase {
     this.addEventListener('mouseDown', function (k) {
       2 > k.which && k.target == a && (a.drawing = !0);
     });
-    ROTATE_Canvas.input.addEventListener('mouseUp', Bind(this, this.mouseUp));
+    ROTATE_Canvas.input.addEventListener('mouseUp', this.mouseUp.bind(this));
     this.renderer.showGrid = ROTATE_ScreenEditor.showGrid;
     this.barUpper = new ROTATE_EditorBarUpper(
       ROTATE_ScreenEditor.editorLevel.theme,
@@ -2644,10 +2626,7 @@ export class ROTATE_ScreenEditor extends ROTATE_ScreenGameBase {
     }
   }
   public kill() {
-    ROTATE_Canvas.input.removeEventListener(
-      'mouseUp',
-      Bind(this, this.mouseUp),
-    );
+    ROTATE_Canvas.input.removeEventListener('mouseUp', this.mouseUp.bind(this));
     ROTATE_LevelEditorManager.set_level(null);
   }
 }
@@ -3330,7 +3309,7 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
   public restart(a) {
     a = ROTATE_Game.instance.paused
       ? ((gameInstance = ROTATE_Game.instance),
-        Bind(gameInstance, gameInstance.unpause))
+        gameInstance.unpause.bind(gameInstance))
       : null;
     ROTATE_Game.instance.changeScreen(
       new ROTATE_ScreenPrimaryGame(
@@ -3840,7 +3819,7 @@ class ROTATE_PauseMenu extends ROTATE_CanvasObject {
                 : new ROTATE_ScreenMainMenu(),
           !0,
           ((gameInstance = ROTATE_Game.instance),
-          Bind(gameInstance, gameInstance.unpause)),
+          gameInstance.unpause.bind(gameInstance)),
         ));
     });
     this.addChild(this.btnQuit);
