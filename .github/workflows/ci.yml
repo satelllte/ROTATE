@@ -25,3 +25,5 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Test (formatting)
         run: bun run test:format
+      - name: Build
+        run: bun run build
