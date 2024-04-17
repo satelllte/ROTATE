@@ -1539,8 +1539,7 @@ export class ROTATE_Level14 implements ROTATE_BaseLevelInterface {
         (!this.done2 &&
           this.cond2.test() &&
           ((this.done2 = !0),
-          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-            (ROTATE_Audio.cat.volume(0.5), ROTATE_Audio.cat.play())),
+          (ROTATE_Audio.cat.volume(0.5), ROTATE_Audio.cat.play())),
         !this.done3 && this.cond3.test())
       ) {
         this.done3 = !0;

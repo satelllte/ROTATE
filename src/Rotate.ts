@@ -151,7 +151,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
     112,
   );
   public static nosave = false;
-  public static ie = false; // TODO: remove all the Internet Explorer related logic, since it's officially dead
 
   public muteMusic = false;
   public muteSFX = false;
@@ -269,24 +268,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
 
     ROTATE_Game.nosave = !LocalStorage.test();
     ROTATE_Game.nosave || this.loadProgress();
-
-    const a = (() => {
-      var c = -1,
-        d = window.navigator.userAgent,
-        e = d.indexOf('MSIE '),
-        f = d.indexOf('Trident/');
-      0 < e
-        ? (c = parseInt(d.substring(e + 5, d.indexOf('.', e)), 10))
-        : 0 < f &&
-          ((c = d.indexOf('rv:')),
-          (c = parseInt(d.substring(c + 3, d.indexOf('.', c)), 10)));
-      return -1 < c ? c : 0;
-    })();
-    ROTATE_Game.ie = 0 < a && 11 >= a;
-    if (ROTATE_Game.ie) {
-      this.muteSFX = true;
-      this.muteMusic = true;
-    }
 
     this.lastTick = Time.getCurrentMS();
     this.addEventListener('enterFrame', this.update.bind(this));
@@ -600,56 +581,25 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
   public toggleSFX(save: boolean = true) {
     // TODO: re-implement properly
     this.muteSFX = !this.muteSFX;
-    if (ROTATE_Game.ie) {
-      if (this.muteSFX)
-        for (var b = 0, c = ROTATE_Audio.SFX; b < c.length; ) {
-          var d = c[b];
-          ++b;
-          d.stop();
-        }
-    } else
-      for (b = 0, c = ROTATE_Audio.SFX; b < c.length; )
-        (d = c[b]), ++b, d.mute(this.muteSFX);
-    ROTATE_Game.ie
-      ? this.muteMusic &&
-        (this.muteSFX
-          ? ROTATE_Audio.surface.stop()
-          : this.ieSurface &&
-            !ROTATE_Audio.surface.playing() &&
-            ROTATE_Audio.surface.play())
-      : ROTATE_Audio.surface.mute(this.muteSFX && this.muteMusic);
+    for (b = 0, c = ROTATE_Audio.SFX; b < c.length; ) {
+      d = c[b];
+      ++b;
+      d.mute(this.muteSFX);
+    }
+
+    ROTATE_Audio.surface.mute(this.muteSFX && this.muteMusic);
     save && this.saveProgress();
   }
 
   public toggleMusic(save: boolean = true) {
-    // TODO: re-implement properly
     this.muteMusic = !this.muteMusic;
-    ROTATE_Game.ie
-      ? this.muteMusic
-        ? (ROTATE_Audio.themeMenu.stop(),
-          ROTATE_Audio.themeGame1.stop(),
-          ROTATE_Audio.themeGame2.stop())
-        : (ROTATE_Game.instance.ieMenu &&
-            !ROTATE_Audio.themeMenu.playing() &&
-            ROTATE_Audio.themeMenu.play(),
-          ROTATE_Game.instance.ieGame1 &&
-            !ROTATE_Audio.themeGame1.playing() &&
-            ROTATE_Audio.themeGame1.play(),
-          ROTATE_Game.instance.ieGame2 &&
-            !ROTATE_Audio.themeGame2.playing() &&
-            ROTATE_Audio.themeGame2.play())
-      : (ROTATE_Audio.themeMenu.mute(this.muteMusic),
-        ROTATE_Audio.themeGame1.mute(this.muteMusic),
-        ROTATE_Audio.themeGame2.mute(this.muteMusic));
-    ROTATE_Game.ie
-      ? this.muteSFX &&
-        (this.muteMusic
-          ? ROTATE_Audio.surface.stop()
-          : ROTATE_Game.instance.ieSurface &&
-            !ROTATE_Audio.surface.playing() &&
-            ROTATE_Audio.surface.play())
-      : ROTATE_Audio.surface.mute(this.muteMusic && this.muteSFX);
-    save && this.saveProgress();
+    ROTATE_Audio.themeMenu.mute(this.muteMusic);
+    ROTATE_Audio.themeGame1.mute(this.muteMusic);
+    ROTATE_Audio.themeGame2.mute(this.muteMusic);
+    ROTATE_Audio.surface.mute(this.muteMusic && this.muteSFX);
+    if (save) {
+      this.saveProgress();
+    }
   }
 }
 
@@ -917,8 +867,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
     this.animation == ROTATE_Player.ANIM_RUN &&
       0 == animationIndex &&
       100 < ROTATE_Game.instance.get_gameTimeMS() - this.lastStep &&
-      ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        ROTATE_Audio.steps.play(0 == this.step ? 'a' : 'b'),
+      (ROTATE_Audio.steps.play(0 == this.step ? 'a' : 'b'),
       (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()),
       (this.step = 0 == this.step ? 1 : 0));
   }
@@ -951,11 +900,12 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
         ++a;
         c.get_block().onInteract(c);
       }
-      this.touchingFinish() &&
-        ((this.finished = !0),
-        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          ROTATE_Audio.exit.play(),
-        ROTATE_Game.instance.currentScreen.finished());
+
+      if (this.touchingFinish()) {
+        this.finished = !0;
+        ROTATE_Audio.exit.play();
+        ROTATE_Game.instance.currentScreen.finished();
+      }
     }
   }
 
@@ -999,8 +949,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
         ROTATE_Player.JUMP_DELAY_2
         ? ((this.dy = -ROTATE_Player.JUMP_SPEED),
           (this.jumpTimer = ROTATE_Game.instance.get_gameTime()),
-          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-            ROTATE_Audio.steps.play('a'),
+          ROTATE_Audio.steps.play('a'),
           (this.lastStep = ROTATE_Game.instance.get_gameTimeMS()))
         : this.dy < ROTATE_Player.GRAVITY_MAX &&
           ((this.dy += ROTATE_Player.GRAVITY),
@@ -1100,8 +1049,7 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
       this.grounded &&
         !a &&
         (100 < ROTATE_Game.instance.get_gameTimeMS() - this.spawnTime &&
-          ((ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-            ROTATE_Audio.steps.play('b'),
+          (ROTATE_Audio.steps.play('b'),
           (this.lastStep = ROTATE_Game.instance.get_gameTimeMS())),
         (this.jumpTimer2 = ROTATE_Game.instance.get_gameTime()));
       this.grounded
@@ -1370,11 +1318,9 @@ class ROTATE_Player extends ROTATE_AnimatedObject {
     this.adjust();
     this.set_animation(ROTATE_Player.ANIM_ROTATE);
     this.rotateTimer = ROTATE_Game.instance.get_gameTime();
-    (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-      ROTATE_Audio.steps.play('a');
+    ROTATE_Audio.steps.play('a');
     this.lastStep = ROTATE_Game.instance.get_gameTimeMS();
-    (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-      ROTATE_Audio.rotate.play();
+    ROTATE_Audio.rotate.play();
   }
 
   public onRotateStart2() {
@@ -2084,17 +2030,14 @@ class ROTATE_ScreenCredits extends ROTATE_ScreenBase {
       2 > c.which &&
         (a.fromEnd &&
           ROTATE_Audio.surface.playing() &&
-          (ROTATE_Game.ie
-            ? ROTATE_Audio.surface.stop()
-            : (ROTATE_Audio.surface.fade(
-                1,
-                0,
-                Math.round(ROTATE_GameConstants.screenFadeTime / 2),
-              ),
-              ROTATE_Audio.surface.once('fade', function () {
-                ROTATE_Audio.surface.stop();
-              }))),
-        ROTATE_Game.ie && (ROTATE_Game.instance.ieSurface = !1),
+          (ROTATE_Audio.surface.fade(
+            1,
+            0,
+            Math.round(ROTATE_GameConstants.screenFadeTime / 2),
+          ),
+          ROTATE_Audio.surface.once('fade', function () {
+            ROTATE_Audio.surface.stop();
+          })),
         ROTATE_Game.instance.changeScreen(
           a.fromEnd ? new ROTATE_ScreenExtras() : new ROTATE_ScreenMainMenu(),
         ));
@@ -2635,6 +2578,7 @@ export class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
   public done1 = false;
   public first = false;
   public cond1 = new ROTATE_ConditionDelay(10);
+  public speech?: ROTATE_Speech;
 
   constructor(public speedrun: boolean = false) {
     console.debug('ROTATE_ScreenGameFinished | CONSTRUCTOR');
@@ -2643,7 +2587,6 @@ export class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
   }
 
   public init() {
-    ROTATE_Game.ie && ROTATE_Audio.themeGame2.volume(0.5);
     this.cond1.start();
     this.speech = new ROTATE_Speech(
       [
@@ -2667,28 +2610,28 @@ export class ROTATE_ScreenGameFinished extends ROTATE_ScreenBase {
   }
 
   public update() {
-    this.speech.update();
-    !this.done1 &&
-      this.cond1.test() &&
-      ((this.done1 = !0),
-      ROTATE_Game.instance.changeScreen(
-        new ROTATE_ScreenGameLastScene(this.first),
-        !0,
-        null,
-        !0,
-      ),
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        (ROTATE_Audio.exit.volume(0.5),
-        ROTATE_Audio.exit.play(),
-        ROTATE_Audio.exit.once('end', function () {
-          ROTATE_Audio.exit.volume(1);
-        })));
+    this.speech?.update();
+
+    if (this.done1) return;
+    if (!this.cond1.test()) return;
+
+    this.done1 = !0;
+    ROTATE_Game.instance.changeScreen(
+      new ROTATE_ScreenGameLastScene(this.first),
+      !0,
+      null,
+      !0,
+    );
+    ROTATE_Audio.exit.volume(0.5);
+    ROTATE_Audio.exit.play();
+    ROTATE_Audio.exit.once('end', () => {
+      ROTATE_Audio.exit.volume(1);
+    });
   }
 
   public kill() {
     ROTATE_Audio.themeGame2.stop();
     ROTATE_Audio.themeGame2.volume(1);
-    ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !1);
   }
 }
 
@@ -2764,17 +2707,12 @@ export class ROTATE_ScreenGameLastScene extends ROTATE_ScreenGameBase {
     this.hint.set_alpha(0);
     this.addChild(this.hint);
     ROTATE_Audio.surface.volume(1);
-    ROTATE_Game.ie &&
-    ROTATE_Game.instance.muteSFX &&
-    ROTATE_Game.instance.muteMusic
-      ? (ROTATE_Game.instance.ieSurface = !0)
-      : (ROTATE_Audio.surface.play(),
-        ROTATE_Game.ie ||
-          ROTATE_Audio.surface.fade(
-            0,
-            1,
-            Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
-          ));
+    ROTATE_Audio.surface.play();
+    ROTATE_Audio.surface.fade(
+      0,
+      1,
+      Math.round(ROTATE_GameConstants.screenFadeTimeSlow / 2),
+    );
   }
   public update() {
     var a = this,
@@ -3043,24 +2981,20 @@ export class ROTATE_ScreenMainMenu extends ROTATE_ScreenBase {
   }
 
   public static playTheme() {
-    ROTATE_Audio.themeMenu.playing() ||
-      ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-        ROTATE_Audio.themeMenu.play(),
-      ROTATE_Game.ie && (ROTATE_Game.instance.ieMenu = !0));
+    if (ROTATE_Audio.themeMenu.playing()) return;
+    ROTATE_Audio.themeMenu.play();
   }
 
   public static stopTheme() {
-    ROTATE_Game.ie
-      ? (ROTATE_Audio.themeMenu.stop(), (ROTATE_Game.instance.ieMenu = !1))
-      : (ROTATE_Audio.themeMenu.fade(
-          1,
-          0,
-          Math.floor(ROTATE_GameConstants.screenFadeTime / 2),
-        ),
-        ROTATE_Audio.themeMenu.once('fade', function () {
-          ROTATE_Audio.themeMenu.stop();
-          ROTATE_Audio.themeMenu.volume(1);
-        }));
+    ROTATE_Audio.themeMenu.fade(
+      1,
+      0,
+      Math.floor(ROTATE_GameConstants.screenFadeTime / 2),
+    );
+    ROTATE_Audio.themeMenu.once('fade', () => {
+      ROTATE_Audio.themeMenu.stop();
+      ROTATE_Audio.themeMenu.volume(1);
+    });
   }
 }
 
@@ -3125,21 +3059,13 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
           ROTATE_Audio.themeGame2.playing() &&
           (ROTATE_Audio.themeGame2.stop(),
           (ROTATE_ScreenPrimaryGame.canceled = !0)),
-      ROTATE_Game.ie &&
-        (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1),
       (ROTATE_ScreenPrimaryGame.stopped = !1));
     0 == a
       ? (ROTATE_Audio.themeGame1.volume(1),
-        ROTATE_Audio.themeGame1.playing() ||
-          ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-            ROTATE_Audio.themeGame1.play(),
-          ROTATE_Game.ie && (ROTATE_Game.instance.ieGame1 = !0)))
+        ROTATE_Audio.themeGame1.playing() || ROTATE_Audio.themeGame1.play())
       : 1 == a &&
         (ROTATE_Audio.themeGame2.volume(1),
-        ROTATE_Audio.themeGame2.playing() ||
-          ((ROTATE_Game.ie && ROTATE_Game.instance.muteMusic) ||
-            ROTATE_Audio.themeGame2.play(),
-          ROTATE_Game.ie && (ROTATE_Game.instance.ieGame2 = !0)));
+        ROTATE_Audio.themeGame2.playing() || ROTATE_Audio.themeGame2.play());
   }
 
   public static stopTheme() {
@@ -3153,24 +3079,23 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
         ROTATE_Game.instance.currentScreen instanceof
           ROTATE_ScreenPrimaryGame &&
         ROTATE_Game.instance.targetScreen instanceof ROTATE_ScreenGameFinished;
-      if (ROTATE_Game.ie) b || a.stop();
-      else {
-        var c = a.volume();
-        a.fade(
-          c,
-          0,
-          Math.floor(ROTATE_GameConstants.screenFadeTime / 2) + (b ? 1e4 : 0),
-        );
-        a.once('fade', function () {
-          ROTATE_ScreenPrimaryGame.canceled || (a.stop(), a.volume(1));
-        });
-      }
+
+      var c = a.volume();
+      a.fade(
+        c,
+        0,
+        Math.floor(ROTATE_GameConstants.screenFadeTime / 2) + (b ? 1e4 : 0),
+      );
+      a.once('fade', function () {
+        ROTATE_ScreenPrimaryGame.canceled || (a.stop(), a.volume(1));
+      });
+
       ROTATE_ScreenPrimaryGame.stopped = !0;
       ROTATE_ScreenPrimaryGame.canceled = !1;
-    } else
-      ROTATE_ScreenPrimaryGame.stopped = ROTATE_ScreenPrimaryGame.canceled = !1;
-    ROTATE_Game.ie &&
-      (ROTATE_Game.instance.ieGame1 = ROTATE_Game.instance.ieGame2 = !1);
+    } else {
+      ROTATE_ScreenPrimaryGame.stopped = !1;
+      ROTATE_ScreenPrimaryGame.canceled = !1;
+    }
   }
 
   public init() {
@@ -3267,8 +3192,7 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
       this.player.dead = !0;
       this.deathTime = ROTATE_Game.instance.get_gameTime();
       this.player.visible = !1;
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        ROTATE_Audio.death.play();
+      ROTATE_Audio.death.play();
       var b = 0,
         c = 0;
       0 == ROTATE_LevelEditorManager.rotation
@@ -3422,8 +3346,7 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
     var b = this;
     null != this.cat &&
       (0 != endDir && this.cat.set_scaleX(endDir),
-      (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        ROTATE_Audio.cat.play(),
+      ROTATE_Audio.cat.play(),
       (this.cat.onFinish = function () {
         b.level.removeChild(b.cat);
         b.cat = null;
@@ -3557,7 +3480,7 @@ export class ROTATE_ScreenGameBeginning extends ROTATE_ScreenBase {
       this.cond2.test() &&
       ((this.done2 = !0),
       ROTATE_ScreenPrimaryGame.playTheme(0),
-      ROTATE_Game.ie || ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
+      ROTATE_Audio.themeGame1.fade(0, 1, 1e3));
     this.speech.update();
     !this.done1 &&
       this.cond1.test() &&

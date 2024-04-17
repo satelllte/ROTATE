@@ -576,14 +576,8 @@ export class GameObject_Lever extends Block {
             b = !0;
             break;
           }
-      c
-        ? (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          ROTATE_Audio.leverOn.play()
-        : (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-          ROTATE_Audio.leverOff.play();
-      !b ||
-        (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-        ROTATE_Audio.door.play();
+      c ? ROTATE_Audio.leverOn.play() : ROTATE_Audio.leverOff.play();
+      !b || ROTATE_Audio.door.play();
       ROTATE_LevelEditorManager.setBlockMeta(blockData.x, blockData.y, [
         blockData.getMeta(0),
         c ? 1 : 0,

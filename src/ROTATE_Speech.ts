@@ -84,8 +84,7 @@ export class ROTATE_Speech {
           for (a = this.lastTone; a == this.lastTone; )
             a = Math.round(7 * Math.random());
           this.lastTone = a;
-          (ROTATE_Game.ie && ROTATE_Game.instance.muteSFX) ||
-            ROTATE_Audio.voice.play(this.tones[a]);
+          ROTATE_Audio.voice.play(this.tones[a]);
         }
         this.char2++;
       }
