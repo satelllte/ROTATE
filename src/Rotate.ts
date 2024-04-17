@@ -563,19 +563,18 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
     this.invert = !1;
   }
 
-  public warnNoSave(a: ROTATE_CanvasObject) {
-    // TODO: re-implement properly
-    if (ROTATE_Game.nosave) {
-      var text = new ROTATE_Text(
-        ROTATE_Game.fontMain,
-        'Enable cookies & site data\nto save your progress!',
-        2,
-      );
-      text.set_x(8);
-      text.set_y(4);
-      text.set_scaleX(text.set_scaleY(0.5));
-      a.addChild(text);
-    }
+  public warnNoSave(node: ROTATE_CanvasObject) {
+    if (!ROTATE_Game.nosave) return;
+
+    const text = new ROTATE_Text(
+      ROTATE_Game.fontMain,
+      'Enable cookies & site data\nto save your progress!',
+      2,
+    );
+    text.set_x(8);
+    text.set_y(4);
+    text.set_scaleX(text.set_scaleY(0.5));
+    node.addChild(text);
   }
 
   public toggleSFX(save: boolean = true) {
