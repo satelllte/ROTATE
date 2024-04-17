@@ -1,7 +1,7 @@
 import {ROTATE_Canvas} from './ROTATE_Canvas';
 import {ROTATE_ImageObject} from './ROTATE_ImageObject';
 import {ROTATE_Images} from './ROTATE_Images';
-import {ROTATE_Awards} from './Rotate';
+import {ROTATE_Awards} from './ROTATE_Awards';
 
 export class ROTATE_Sponsor extends ROTATE_ImageObject {
   constructor() {
