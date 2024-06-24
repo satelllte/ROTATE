@@ -28,43 +28,54 @@ export class ROTATE_CanvasObject extends ROTATE_EventTarget {
     this.x != x && ((this.x = x), this._updateTransform());
     return this.x;
   }
+
   public set_y(y: number) {
     this.y != y && ((this.y = y), this._updateTransform());
     return this.y;
   }
+
   public set_scaleX(scaleX: number) {
     this.scaleX != scaleX && ((this.scaleX = scaleX), this._updateTransform());
     return this.scaleX;
   }
+
   public set_scaleY(scaleY: number) {
     this.scaleY != scaleY && ((this.scaleY = scaleY), this._updateTransform());
     return this.scaleY;
   }
+
   public set_rotation(rotation: number) {
     this.rotation != rotation &&
       ((this.rotation = rotation), this._updateTransform());
     return this.rotation;
   }
+
   public set_alpha(alpha: number) {
     return (this.alpha = 0 > alpha ? 0 : 1 < alpha ? 1 : alpha);
   }
+
   public get_stage() {
     return ROTATE_Canvas.stage;
   }
+
   public get_width() {
     return this.getBounds().width * this.scaleX;
   }
+
   public set_width(width: number) {
     this.set_scaleX(width / this.getBounds().width);
     return width;
   }
+
   public get_height() {
     return this.getBounds().height * this.scaleY;
   }
+
   public set_height(height: number) {
     this.set_scaleY(height / this.getBounds().height);
     return height;
   }
+
   public addChild(node: ROTATE_CanvasObject) {
     null != node &&
       node != this.get_stage() &&
@@ -75,6 +86,7 @@ export class ROTATE_CanvasObject extends ROTATE_EventTarget {
       node._updateTransform(),
       node.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
   }
+
   public addChildAt(node: ROTATE_CanvasObject, index: number) {
     null != node &&
       node != this.get_stage() &&
@@ -85,32 +97,30 @@ export class ROTATE_CanvasObject extends ROTATE_EventTarget {
       node._updateTransform(),
       node.triggerEvent(new ROTATE_Event(ROTATE_Event.ADDED)));
   }
+
   public removeChild(node: ROTATE_CanvasObject) {
-    null != node &&
-      node.parent == this &&
-      ((node.parent = null),
-      this._children.splice(this._children.indexOf(node), 1),
-      node._updateTransform(),
-      node.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED)));
+    if (!node) return;
+    if (node.parent !== this) return;
+
+    node.parent = null;
+    this._children.splice(this._children.indexOf(node), 1);
+    node._updateTransform();
+    node.triggerEvent(new ROTATE_Event(ROTATE_Event.REMOVED));
   }
+
   public removeChildren() {
-    for (var a = this._children.length; 0 <= a--; )
-      this.removeChild(this._children[a]);
+    for (let index = this._children.length; 0 <= index--; )
+      this.removeChild(this._children[index]);
   }
-  public getChildIndex(node: ROTATE_CanvasObject) {
-    return this._children.indexOf(node);
-  }
-  public setChildIndex(node: ROTATE_CanvasObject, index: number) {
-    var c = this.getChildIndex(node);
-    0 <= c &&
-      (this._children.splice(c, 1), this._children.splice(index, 0, node));
-  }
+
   public globalToLocal(x: number, y: number) {
     return this._transformReverse.apply(x, y);
   }
+
   public localToGlobal(x: number, y: number) {
     return this._transform.apply(x, y);
   }
+
   public _updateTransform() {
     if (this.parent) {
       this._transform.copy(this.parent._transform);
@@ -135,6 +145,7 @@ export class ROTATE_CanvasObject extends ROTATE_EventTarget {
       c._updateTransform();
     }
   }
+
   public getBoundsSelf() {
     return new Bounds(0, 0, 0, 0);
   }
