@@ -1518,7 +1518,7 @@ class ROTATE_Renderer extends ROTATE_CanvasObject {
             (m = ROTATE_LevelEditorManager.getBlockData(f, c)),
             (k = m.get_block()),
             null != k &&
-              k.shouldRender(m) &&
+              k.shouldRender() &&
               !k.alwaysUpdate(m) &&
               (ROTATE_Renderer.bakeSurface.translate(
                 (f + 1) * ROTATE_GameConstants.tileSize,
@@ -1566,7 +1566,7 @@ class ROTATE_Renderer extends ROTATE_CanvasObject {
               0,
               0,
             );
-            H.shouldRender(y) &&
+            H.shouldRender() &&
               !H.alwaysUpdate(y) &&
               H.render(ROTATE_Renderer.bakeSurface, y);
             ROTATE_Renderer.bakeSurface.translate(

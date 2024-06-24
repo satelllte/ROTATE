@@ -56,7 +56,7 @@ export class Block {
 
   constructor() {}
 
-  public shouldRender(blockData: BlockData): boolean {
+  public shouldRender(): boolean {
     return true;
   }
 
@@ -140,7 +140,7 @@ export class GameObject_Air extends Block {
     return false;
   }
 
-  public shouldRender(blockData: BlockData): boolean {
+  public shouldRender(): boolean {
     return false;
   }
 }
@@ -508,7 +508,7 @@ export class GameObject_Finish extends Block {
     );
   }
 
-  public shouldRender(blockData: BlockData): boolean {
+  public shouldRender(): boolean {
     return false;
   }
 }
@@ -1010,7 +1010,7 @@ export class GameObject_Start extends Block {
     );
   }
 
-  public shouldRender(blockData: BlockData): boolean {
+  public shouldRender(): boolean {
     return false;
   }
 }
