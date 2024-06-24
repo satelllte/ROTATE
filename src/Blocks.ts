@@ -20,7 +20,7 @@ export class BlockData {
   public id: number; // TODO: possibly mark as readonly
   public meta: number[]; // TODO: possibly mark as readonly
 
-  constructor(x: number, y: number, id: number, meta?: number[] = []) {
+  constructor(x: number, y: number, id: number, meta: number[] = []) {
     this.x = x;
     this.y = y;
     this.id = id;

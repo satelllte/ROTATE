@@ -1,7 +1,7 @@
 import {ROTATE_CanvasObject} from './ROTATE_CanvasObject';
 import {ROTATE_ImageObject} from './ROTATE_ImageObject';
 import {ROTATE_Images} from './ROTATE_Images';
-import {type Block} from './Rotate';
+import {type Block} from './Blocks';
 import {COLOR} from './constants';
 
 export class Bubble extends ROTATE_CanvasObject {
