@@ -105,11 +105,11 @@ export class ROTATE_CanvasObject extends ROTATE_EventTarget {
     0 <= c &&
       (this._children.splice(c, 1), this._children.splice(index, 0, node));
   }
-  public globalToLocal(a: number, b: number) {
-    return this._transformReverse.apply(a, b);
+  public globalToLocal(x: number, y: number) {
+    return this._transformReverse.apply(x, y);
   }
-  public localToGlobal(a: number, b: number) {
-    return this._transform.apply(a, b);
+  public localToGlobal(x: number, y: number) {
+    return this._transform.apply(x, y);
   }
   public _updateTransform() {
     if (this.parent) {
@@ -141,9 +141,6 @@ export class ROTATE_CanvasObject extends ROTATE_EventTarget {
   public getBounds() {
     var a = [this.getBoundsSelf(), this.graphics.bounds];
     return Bounds.combineMultiple(a);
-  }
-  public hitTestPoint(bounds: Bounds) {
-    return this.getBounds().contains(bounds);
   }
   public cascadingCallback(
     callback: ((target: ROTATE_CanvasObject) => void) | null = null,
