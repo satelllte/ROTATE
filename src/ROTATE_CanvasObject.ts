@@ -138,19 +138,19 @@ export class ROTATE_CanvasObject extends ROTATE_EventTarget {
   public getBoundsSelf() {
     return new Bounds(0, 0, 0, 0);
   }
+
   public getBounds() {
-    var a = [this.getBoundsSelf(), this.graphics.bounds];
-    return Bounds.combineMultiple(a);
+    const boundsList = [this.getBoundsSelf(), this.graphics.bounds];
+    return Bounds.combineMultiple(boundsList);
   }
+
   public cascadingCallback(
     callback: ((target: ROTATE_CanvasObject) => void) | null = null,
   ) {
     if (!callback) return;
     callback(this);
-    for (var b = 0, c = this._children; b < c.length; ) {
-      var d = c[b];
-      ++b;
-      d.cascadingCallback(callback);
-    }
+    this._children.forEach((child) => {
+      child.cascadingCallback(callback);
+    });
   }
 }
