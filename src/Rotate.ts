@@ -2859,11 +2859,15 @@ export class ROTATE_ScreenPrimaryGame extends ROTATE_ScreenGameBase {
       : (ROTATE_ScreenPrimaryGame.continueTheme = !1);
   }
 
-  public static play(a, b, c) {
-    null == c && (c = -1);
-    null == b && (b = !1);
-    null != a &&
-      ROTATE_Game.instance.changeScreen(new ROTATE_ScreenPrimaryGame(a, b, c));
+  public static play(
+    level: ROTATE_BaseLevelInterface,
+    speedrun: boolean = false,
+    speedrunStart: number = -1,
+  ) {
+    if (!level) return;
+    ROTATE_Game.instance.changeScreen(
+      new ROTATE_ScreenPrimaryGame(level, speedrun, speedrunStart),
+    );
   }
 
   public static playTheme(a) {
