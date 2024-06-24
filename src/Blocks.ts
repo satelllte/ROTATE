@@ -27,7 +27,7 @@ export class BlockData {
     this.meta = meta;
   }
 
-  public get_block(): Block {
+  public get_block(): Block | undefined {
     return ROTATE_GameObjectsRegistry.getBlock(this.id);
   }
 
@@ -60,19 +60,17 @@ export class Block {
     return true;
   }
 
-  // TODO: define signature
-  public render(surface: Surface, blockData: BlockData, c?: boolean): void {}
+  public render(_surface: Surface, _blockData: BlockData, _c?: boolean): void {}
 
-  public collides(blockData: BlockData): boolean {
+  public collides(_blockData: BlockData): boolean {
     return true;
   }
 
-  public isTrigger(blockData: BlockData): boolean {
+  public isTrigger(_blockData: BlockData): boolean {
     return false;
   }
 
-  // TODO: define signature
-  public getColliders(blockData: BlockData) {
+  public getColliders(_blockData: BlockData) {
     return [
       new Collider(
         new Bounds(
@@ -85,33 +83,33 @@ export class Block {
     ];
   }
 
-  public onTrigger(blockData: BlockData): boolean {
+  public onTrigger(_blockData: BlockData): boolean {
     return true;
   }
 
-  public setupBubble(a: ROTATE_CanvasObject) {}
+  public setupBubble(_a: ROTATE_CanvasObject) {}
 
   // TODO: define signature
   public getConfigMeta(): number[] {
     return [];
   }
 
-  public alwaysUpdate(blockData: BlockData): boolean {
+  public alwaysUpdate(_blockData: BlockData): boolean {
     return false;
   }
 
-  public onPlay(blockData: BlockData): void {}
+  public onPlay(_blockData: BlockData): void {}
 
   public rotatePreview(): boolean {
     return true;
   }
 
   // TODO: define signature
-  public showArrow(a: BlockData): boolean {
+  public showArrow(_a: BlockData): boolean {
     return false;
   }
 
-  public onInteract(blockData: BlockData): void {}
+  public onInteract(_blockData: BlockData): void {}
 }
 
 // TODO: simplify the logic of ROTATE_GameObjectsRegistry and ROTATE_GameObjects.
@@ -126,8 +124,9 @@ export class ROTATE_GameObjectsRegistry {
     return block;
   }
 
-  public static getBlock(index: number): Block {
-    return ROTATE_GameObjectsRegistry._registry.get(index);
+  public static getBlock(index: number): Block | undefined {
+    const block = ROTATE_GameObjectsRegistry._registry.get(index);
+    return block;
   }
 }
 
@@ -136,7 +135,7 @@ export class GameObject_Air extends Block {
     super();
   }
 
-  public collides(blockData: BlockData): boolean {
+  public collides(_blockData: BlockData): boolean {
     return false;
   }
 
@@ -905,9 +904,10 @@ export class ROTATE_GameObject_Ramp extends ROTATE_GameObject_Angle {
 }
 
 export class ROTATE_GameObject_Saw extends ROTATE_GameObject_Angle {
-  public isTrigger(blockData: BlockData) {
+  public isTrigger(_blockData: BlockData) {
     return !0;
   }
+
   public render(surface: Surface, blockData: BlockData, c = true) {
     var d = ROTATE_Game.instance.get_gameTimeMS() / 40;
     c =
@@ -926,14 +926,17 @@ export class ROTATE_GameObject_Saw extends ROTATE_GameObject_Angle {
       ROTATE_GameConstants.tileSize,
     );
   }
+
   public getColliders(blockData: BlockData) {
     return [new ColliderNoop(blockData.getMeta(0))];
   }
-  public onTrigger(blockData: BlockData) {
+
+  public onTrigger(_blockData: BlockData) {
     ROTATE_ScreenPrimaryGame.i.killPlayer(!0);
     return !1;
   }
-  public alwaysUpdate(blockData: BlockData) {
+
+  public alwaysUpdate(_blockData: BlockData) {
     return !(ROTATE_Game.instance.currentScreen instanceof ROTATE_ScreenEditor);
   }
 }
