@@ -36,14 +36,13 @@ export class BlockData {
     return null != this.meta && null != this.meta[index] ? this.meta[index] : 0;
   }
 
-  // TODO: define signature
-  public metaEquals(meta?: number[]): boolean {
+  public metaEquals(meta: number[]): boolean {
     // TODO: improve implementation
-    if (null == this.meta && null == meta) return true;
+    if (!this.meta && !meta) return true;
     if (this.meta.length != meta.length) return false;
-    for (var b = 0, c = meta.length; b < c; ) {
-      var d = b++;
-      if (meta[d] != this.meta[d]) return false;
+    for (let i = 0, len = meta.length; i < len; ) {
+      const index = i++;
+      if (meta[index] != this.meta[index]) return false;
     }
     return true;
   }
