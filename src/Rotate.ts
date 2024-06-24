@@ -117,7 +117,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
     2,
     112,
   );
-  public static nosave = false;
 
   public muteMusic = false;
   public muteSFX = false;
@@ -233,8 +232,7 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
     // TODO: re-implement properly
     var _self = this;
 
-    ROTATE_Game.nosave = !LocalStorage.test();
-    ROTATE_Game.nosave || this.loadProgress();
+    this.loadProgress();
 
     this.lastTick = Time.getCurrentMS();
     this.addEventListener('enterFrame', this.update.bind(this));
@@ -528,20 +526,6 @@ export class ROTATE_Game extends ROTATE_CanvasObject {
     ROTATE_Levels.unlocked = 0;
     ROTATE_Levels.speedrunBest = -1;
     this.invert = !1;
-  }
-
-  public warnNoSave(node: ROTATE_CanvasObject) {
-    if (!ROTATE_Game.nosave) return;
-
-    const text = new ROTATE_Text(
-      ROTATE_Game.fontMain,
-      'Enable cookies & site data\nto save your progress!',
-      2,
-    );
-    text.set_x(8);
-    text.set_y(4);
-    text.set_scaleX(text.set_scaleY(0.5));
-    node.addChild(text);
   }
 
   public toggleSFX(save: boolean = true) {
@@ -1662,7 +1646,6 @@ export class ROTATE_ScreenAwards extends ROTATE_ScreenBase {
     this.content.addChild(this.sponsor);
     this.content.addChild(this.mute);
     this.refresh();
-    ROTATE_Game.instance.warnNoSave(this);
   }
 
   public refresh() {
@@ -2666,7 +2649,6 @@ export class ROTATE_ScreenExtras extends ROTATE_ScreenBase {
     this.addChild(this.sponsor);
     this.addChild(this.mute);
     this.addChild(this.erase);
-    ROTATE_Game.instance.warnNoSave(this);
   }
 }
 
@@ -2697,7 +2679,6 @@ export class ROTATE_ScreenLevels extends ROTATE_ScreenBase {
     this.addChild(this.sponsor);
     this.addChild(this.mute);
     this.addChild(this.erase);
-    ROTATE_Game.instance.warnNoSave(this);
     this.refresh();
   }
 
@@ -2793,7 +2774,6 @@ export class ROTATE_ScreenMainMenu extends ROTATE_ScreenBase {
     this.addChild(this.btnCredits);
     this.addChild(this.mute);
     this.addChild(this.erase);
-    ROTATE_Game.instance.warnNoSave(this);
   }
 
   public static playTheme() {

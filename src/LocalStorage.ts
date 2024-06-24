@@ -10,15 +10,4 @@ export class LocalStorage {
   public static removeItem = function (key: string) {
     window.localStorage.removeItem(key);
   };
-
-  public static test(): boolean {
-    try {
-      window.localStorage.setItem('?', '!');
-      if (window.localStorage.getItem('?') !== '!') return false;
-      window.localStorage.removeItem('?');
-      return true;
-    } catch {
-      return false;
-    }
-  }
 }

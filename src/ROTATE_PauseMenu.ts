@@ -92,7 +92,6 @@ export class ROTATE_PauseMenu extends ROTATE_CanvasObject {
     this.addChild(this.mute);
     this.addChild(this.sponsor);
     this.sponsor.clipRect.y = this.sponsor.clipRect.height;
-    ROTATE_Game.instance.warnNoSave(this);
   }
 
   public onPause() {
