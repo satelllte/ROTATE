@@ -19,13 +19,8 @@ export class Transform {
     return 0 > index || 5 < index ? 0 : this.matrix[index];
   }
 
-  public set(a: number, b: number, c: number, d: number, e: number, f: number) {
-    this.matrix[0] = a;
-    this.matrix[1] = b;
-    this.matrix[2] = c;
-    this.matrix[3] = d;
-    this.matrix[4] = e;
-    this.matrix[5] = f;
+  public set(...tuple: TransformMatrix) {
+    this.matrix = tuple;
   }
 
   public multiply(
@@ -58,13 +53,13 @@ export class Transform {
     (1 == x && 1 == y) || this.multiply(x, 0, 0, y, 0, 0);
   }
 
-  public rotate(rad: number): void {
-    0 != rad &&
+  public rotate(angleRad: number): void {
+    0 != angleRad &&
       this.multiply(
-        Math.cos(rad),
-        Math.sin(rad),
-        -Math.sin(rad),
-        Math.cos(rad),
+        Math.cos(angleRad),
+        Math.sin(angleRad),
+        -Math.sin(angleRad),
+        Math.cos(angleRad),
         0,
         0,
       );
@@ -83,29 +78,29 @@ export class Transform {
     this.matrix = latest;
   }
 
-  public equals(t: Transform): boolean {
-    return this.matrix[0] == t.get(0) &&
-      this.matrix[1] == t.get(1) &&
-      this.matrix[2] == t.get(2) &&
-      this.matrix[3] == t.get(3) &&
-      this.matrix[4] == t.get(4)
-      ? this.matrix[5] == t.get(5)
+  public equals(transform: Transform): boolean {
+    return this.matrix[0] == transform.get(0) &&
+      this.matrix[1] == transform.get(1) &&
+      this.matrix[2] == transform.get(2) &&
+      this.matrix[3] == transform.get(3) &&
+      this.matrix[4] == transform.get(4)
+      ? this.matrix[5] == transform.get(5)
       : false;
   }
 
-  public copy(t: Transform): void {
-    this.matrix[0] = t.get(0);
-    this.matrix[1] = t.get(1);
-    this.matrix[2] = t.get(2);
-    this.matrix[3] = t.get(3);
-    this.matrix[4] = t.get(4);
-    this.matrix[5] = t.get(5);
+  public copy(transform: Transform): void {
+    this.matrix[0] = transform.get(0);
+    this.matrix[1] = transform.get(1);
+    this.matrix[2] = transform.get(2);
+    this.matrix[3] = transform.get(3);
+    this.matrix[4] = transform.get(4);
+    this.matrix[5] = transform.get(5);
   }
 
-  public apply(a: number, b: number): Vector2 {
+  public apply(x: number, y: number): Vector2 {
     return new Vector2(
-      this.matrix[0] * a + this.matrix[2] * b + this.matrix[4],
-      this.matrix[1] * a + this.matrix[3] * b + this.matrix[5],
+      this.matrix[0] * x + this.matrix[2] * y + this.matrix[4],
+      this.matrix[1] * x + this.matrix[3] * y + this.matrix[5],
     );
   }
 }
