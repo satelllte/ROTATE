@@ -15,15 +15,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@v1
-      - name: Bun version
-        run: bun --version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
       - name: Node version
         run: node --version
-      - name: Install Bun dependencies
-        run: bun install --frozen-lockfile
+      - name: Install dependencies
+        run: npm ci
       - name: Test (formatting)
-        run: bun run test:format
+        run: npm run test:format
       - name: Build
-        run: bun run build
+        run: npm run build
