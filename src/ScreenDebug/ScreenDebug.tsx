@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {useCanvasCtx} from '../Canvas';
 import {degToRad} from '../utils/math';
+import {clearCanvas} from '../Canvas/utils';
 
 export function ScreenDebug() {
   const ctx = useCanvasCtx();
@@ -25,7 +26,7 @@ function Graphics({ctx}: {readonly ctx: CanvasRenderingContext2D}) {
     ctx.stroke();
 
     return () => {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      clearCanvas(ctx);
     };
   }, [ctx]);
 

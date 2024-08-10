@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {ASSETS} from '../constants';
 import {useCanvasCtx} from '../Canvas';
+import {clearCanvas} from '../Canvas/utils';
 import {useImage} from '../hooks/useImage';
 
 export function ScreenLaunchButton() {
@@ -31,7 +32,7 @@ function Graphics({
     );
 
     return () => {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      clearCanvas(ctx);
     };
   }, [ctx, image]);
 
