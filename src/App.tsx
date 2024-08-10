@@ -1,7 +1,9 @@
+import {Loader} from './Loader';
+
 export function App() {
   return (
     <>
-      <h1>App.tsx</h1>
+      <Loader />
     </>
   );
 }
