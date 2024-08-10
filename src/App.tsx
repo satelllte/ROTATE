@@ -9,25 +9,26 @@ export function App() {
   return (
     <Container>
       <CanvasRoot>
-        <MainView />
+        <Screens />
       </CanvasRoot>
     </Container>
   );
 }
 
-function MainView() {
+function Screens() {
   const [shouldRender, setShouldRender] = useState(true);
 
+  // for debugging
   useInterval(() => {
     setShouldRender((x) => !x);
-  }, 1000);
+  }, 1000 + 99000);
 
   if (!shouldRender) return null;
 
-  return <Screen />;
+  return <ScreenLaunchButton />;
 }
 
-function Screen() {
+function ScreenLaunchButton() {
   const ctx = useCanvasCtx();
   const image = useImage(ASSETS.img.start);
 
