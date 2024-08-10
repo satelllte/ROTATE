@@ -1,14 +1,14 @@
 import {createContext, useContext, useEffect, useRef, useState} from 'react';
 
-const CanvasRootContext = createContext<CanvasRenderingContext2D | undefined>(
+const CanvasContext = createContext<CanvasRenderingContext2D | undefined>(
   undefined,
 );
 
-type CanvasRootProps = {
+type CanvasProps = {
   readonly children: React.ReactNode;
 };
 
-export function CanvasRoot({children}: CanvasRootProps) {
+export function Canvas({children}: CanvasProps) {
   const canvasRef = useRef<React.ElementRef<'canvas'>>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | undefined>();
 
@@ -23,7 +23,7 @@ export function CanvasRoot({children}: CanvasRootProps) {
   }, []);
 
   return (
-    <CanvasRootContext.Provider value={ctx}>
+    <CanvasContext.Provider value={ctx}>
       <canvas
         ref={canvasRef}
         width={504}
@@ -35,12 +35,12 @@ export function CanvasRoot({children}: CanvasRootProps) {
         }}
       />
       {ctx && children}
-    </CanvasRootContext.Provider>
+    </CanvasContext.Provider>
   );
 }
 
 export const useCanvasCtx = (): CanvasRenderingContext2D => {
-  const ctx = useContext(CanvasRootContext);
+  const ctx = useContext(CanvasContext);
   if (!ctx)
     throw new Error("Trying to access canvas context before it's available");
 
