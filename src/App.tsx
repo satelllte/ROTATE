@@ -62,9 +62,9 @@ function ScreenLaunchButton() {
       y: number,
     ): boolean => {
       const xMin = ctx.canvas.width * 0.5 - image.width * 0.5;
-      const xMax = ctx.canvas.width * 0.5 + image.width;
+      const xMax = xMin + image.width;
       const yMin = ctx.canvas.height * 0.5 - image.height * 0.5;
-      const yMax = ctx.canvas.height * 0.5 + image.height;
+      const yMax = yMin + image.height;
       return x >= xMin && x <= xMax && y >= yMin && y <= yMax;
     };
 
