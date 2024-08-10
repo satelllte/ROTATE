@@ -19,8 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      - name: Node version
-        run: node --version
       - name: Install dependencies
         run: npm ci
       - name: Test (formatting)
