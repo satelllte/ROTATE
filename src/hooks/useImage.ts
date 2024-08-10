@@ -4,8 +4,6 @@ export const useImage = (src: string): HTMLImageElement | undefined => {
   const [image, setImage] = useState<HTMLImageElement | undefined>();
 
   useEffect(() => {
-    setImage(undefined);
-
     const onLoad = () => setImage(image);
 
     const image = new Image();
@@ -14,6 +12,7 @@ export const useImage = (src: string): HTMLImageElement | undefined => {
 
     return () => {
       image.removeEventListener('load', onLoad);
+      setImage(undefined);
     };
   }, [src]);
 
