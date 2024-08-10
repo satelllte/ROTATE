@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Container} from './Container';
 import {Canvas} from './Canvas';
+import {ScreenDebug} from './ScreenDebug';
 import {ScreenLaunchButton} from './ScreenLaunchButton';
 import {useInterval} from './hooks/useInterval';
 
@@ -15,14 +16,13 @@ export function App() {
 }
 
 function Screens() {
-  const [shouldRender, setShouldRender] = useState(true);
+  const [debug, setDebug] = useState(false);
 
-  // for debugging
   useInterval(() => {
-    setShouldRender((x) => !x);
-  }, 1000 + 990000);
+    setDebug((x) => !x);
+  }, 2000);
 
-  if (!shouldRender) return null;
+  if (debug) return <ScreenDebug />;
 
   return <ScreenLaunchButton />;
 }
