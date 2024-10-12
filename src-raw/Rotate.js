@@ -129,7 +129,7 @@
         }, 0),
         h.setup(a),
         f.triggerEvent(new Y("added")),
-        t._init(),
+        LoadingManager._init(),
         h.loop(),
         h.started = !0)
     }
@@ -164,16 +164,16 @@
     ;
     h.loop = function() {
         N._update();
-        if (t.get_done())
-            h.wasLoaded || (t.triggerEvent(new Fa("progress",1)),
+        if (LoadingManager.get_done())
+            h.wasLoaded || (LoadingManager.triggerEvent(new Fa("progress",1)),
             h.lastProgress = 1,
-            t.triggerEvent(new Fa("finished",1)));
+            LoadingManager.triggerEvent(new Fa("finished",1)));
         else {
-            var a = t.get_progress();
-            a != h.lastProgress && (t.triggerEvent(new Fa("progress",a)),
+            var a = LoadingManager.get_progress();
+            a != h.lastProgress && (LoadingManager.triggerEvent(new Fa("progress",a)),
             h.lastProgress = a)
         }
-        h.wasLoaded = t.get_done();
+        h.wasLoaded = LoadingManager.get_done();
         var b = h.scale;
         h.scale = window.innerWidth / window.innerHeight < h.width / h.height ? window.innerWidth / h.width : window.innerHeight / h.height;
         var c = Math.round(h.width * h.scale);
@@ -340,97 +340,97 @@
         },
         __class__: Sa
     };
-    var t = function() {};
-    t.__name__ = !0;
-    t.triggerEvent = function(a) {
-        t.events.triggerEvent(a)
+    var LoadingManager = function() {};
+    LoadingManager.__name__ = !0;
+    LoadingManager.triggerEvent = function(a) {
+        LoadingManager.events.triggerEvent(a)
     }
     ;
-    t.addEventListener = function(a, b) {
-        t.events.addEventListener(a, b)
+    LoadingManager.addEventListener = function(a, b) {
+        LoadingManager.events.addEventListener(a, b)
     }
     ;
-    t.removeEventListener = function(a, b) {
-        t.events.removeEventListener(a, b)
+    LoadingManager.removeEventListener = function(a, b) {
+        LoadingManager.events.removeEventListener(a, b)
     }
     ;
-    t._init = function() {
-        t.inited || (t.inited = !0)
+    LoadingManager._init = function() {
+        LoadingManager.inited || (LoadingManager.inited = !0)
     }
     ;
-    t.createTask = function() {
-        t.tasks.push(!1);
-        return t.tasks.length - 1
+    LoadingManager.createTask = function() {
+        LoadingManager.tasks.push(!1);
+        return LoadingManager.tasks.length - 1
     }
     ;
-    t.closeTask = function(a) {
-        0 <= a && a < t.tasks.length && (t.tasks[a] = !0)
+    LoadingManager.closeTask = function(a) {
+        0 <= a && a < LoadingManager.tasks.length && (LoadingManager.tasks[a] = !0)
     }
     ;
-    t.get_done = function() {
-        if (!t.inited)
+    LoadingManager.get_done = function() {
+        if (!LoadingManager.inited)
             return !1;
-        if (t.finished)
+        if (LoadingManager.finished)
             return !0;
-        for (var a = 0, b = t.tasks.length; a < b; ) {
+        for (var a = 0, b = LoadingManager.tasks.length; a < b; ) {
             var c = a++;
-            if (!t.tasks[c])
+            if (!LoadingManager.tasks[c])
                 return !1
         }
-        return t.finished = !0
+        return LoadingManager.finished = !0
     }
     ;
-    t.get_progress = function() {
-        if (!t.inited)
+    LoadingManager.get_progress = function() {
+        if (!LoadingManager.inited)
             return 0;
-        if (t.finished)
+        if (LoadingManager.finished)
             return 1;
-        for (var a = 0, b = 0, c = t.tasks.length; b < c; ) {
+        for (var a = 0, b = 0, c = LoadingManager.tasks.length; b < c; ) {
             var d = b++;
-            t.tasks[d] && ++a
+            LoadingManager.tasks[d] && ++a
         }
-        return a / t.tasks.length
+        return a / LoadingManager.tasks.length
     }
     ;
-    t.loadImage = function(a, b) {
+    LoadingManager.loadImage = function(a, b) {
         var c = new Image;
         c.src = a;
-        if (!t.finished) {
-            var d = t.createTask();
+        if (!LoadingManager.finished) {
+            var d = LoadingManager.createTask();
             c.onload = function() {
-                t.closeTask(d);
+                LoadingManager.closeTask(d);
                 null != b && b(c)
             }
         }
         return c
     }
     ;
-    t.loadWebFonts = function(a, b) {
-        var c = t.createTask();
+    LoadingManager.loadWebFonts = function(a, b) {
+        var c = LoadingManager.createTask();
         a.active = function() {
-            t.closeTask(c);
+            LoadingManager.closeTask(c);
             null != b && b()
         }
         ;
         WebFont.load(a)
     }
     ;
-    t.loadTextFile = function(a, b) {
-        var c = t.createTask()
+    LoadingManager.loadTextFile = function(a, b) {
+        var c = LoadingManager.createTask()
           , d = new XMLHttpRequest;
         d.open("GET", a);
         d.onload = function() {
-            t.closeTask(c);
+            LoadingManager.closeTask(c);
             null != b && b(d.responseText)
         }
         ;
         d.send()
     }
     ;
-    t.loadSound = function(a) {
-        var b = t.createTask();
+    LoadingManager.loadSound = function(a) {
+        var b = LoadingManager.createTask();
         a.onload = function() {
-            t.closeTask(b)
+            LoadingManager.closeTask(b)
         }
         ;
         return new Howl(a)
@@ -749,7 +749,7 @@
     I.__name__ = !0;
     I.fromFile = function(a, b) {
         var c = new I(null);
-        t.loadImage(a, function(d) {
+        LoadingManager.loadImage(a, function(d) {
             c.create(d);
             null != b && b()
         });
@@ -1840,9 +1840,9 @@
         null == d && (d = 0);
         null == c && (c = 1);
         var e = this;
-        this.image = t.loadImage(a);
+        this.image = LoadingManager.loadImage(a);
         this.colorOffset = d;
-        t.loadTextFile(b, function(f) {
+        LoadingManager.loadTextFile(b, function(f) {
             f = JSON.parse(f);
             e.lineHeight = f.l * c;
             f = f.c;
@@ -1929,7 +1929,7 @@
         init: function(a) {
             this.removeEventListener("added", T(this, this.init));
             h.set_imageSmoothingEnabled(!1);
-            t.addEventListener("finished", T(this, this.loaded))
+            LoadingManager.addEventListener("finished", T(this, this.loaded))
         },
         loaded: function(a) {
             var b = this;
@@ -6719,10 +6719,10 @@
     h.offsetY = 0;
     h.wasLoaded = !1;
     h.lastProgress = 0;
-    t.inited = !1;
-    t.finished = !1;
-    t.tasks = [];
-    t.events = new Sa;
+    LoadingManager.inited = !1;
+    LoadingManager.finished = !1;
+    LoadingManager.tasks = [];
+    LoadingManager.events = new Sa;
     N.startTime = 0;
     N.lastTime = 0;
     N.elapsedTime = 0;
@@ -6761,93 +6761,93 @@
     Constants.rotateTime = .5;
     Constants.rotateOffset = 1.5 * Constants.tileSize;
     Constants.doorSlideTime = .2;
-    Images.start = t.loadImage("img/start.png");
-    Images.splashLWS = t.loadImage("img/splash-lws.png");
-    Images.linkLWS = t.loadImage("img/link-lws.png");
-    Images.linkJoshua = t.loadImage("img/link-joshua.png");
-    Images.linkJoshua2 = t.loadImage("img/link-joshua-2.png");
-    Images.soundtrack = t.loadImage("img/soundtrack.png");
-    Images.awardFrame = t.loadImage("img/award-frame.png");
-    Images.awardIconLocked = t.loadImage("img/award-icon-locked.png");
-    Images.awardIconEscape = t.loadImage("img/award-icon-escape.png");
-    Images.awardIconSpeedrun = t.loadImage("img/award-icon-speedrun.png");
-    Images.awardIconEditor = t.loadImage("img/award-icon-editor.png");
-    Images.awardIconJoshua = t.loadImage("img/award-icon-joshua.png");
-    Images.awardIconSoundtrack = t.loadImage("img/award-icon-soundtrack.png");
-    Images.awardIconRotate = t.loadImage("img/award-icon-rotate.png");
-    Images.vignette = t.loadImage("img/vignette.png");
-    Images.bgCells = t.loadImage("img/bg-cells.png");
-    Images.logo = t.loadImage("img/logo.png");
-    Images.configTip = t.loadImage("img/config-tip.png");
-    Images.configArrow = t.loadImage("img/config-arrow.png");
-    Images.configToggle = t.loadImage("img/config-toggle.png");
-    Images.menuBtn = t.loadImage("img/menu-btn.png");
-    Images.level = t.loadImage("img/level.png");
-    Images.interact = t.loadImage("img/interact.png");
-    Images.mute = t.loadImage("img/mute.png");
-    Images.trash = t.loadImage("img/trash.png");
-    Images.player = t.loadImage("img/player.png");
-    Images.bgTiles = t.loadImage("img/bg-tiles.png");
-    Images.bgBricks = t.loadImage("img/bg-bricks.png");
-    Images.blocks = t.loadImage("img/blocks.png");
-    Images.cat = t.loadImage("img/cat.png");
-    Images.endingMain = t.loadImage("img/ending-main.png");
-    Images.endingPlants = t.loadImage("img/ending-plants.png");
-    Images.controls1 = t.loadImage("img/controls-1.png");
-    Images.controls2 = t.loadImage("img/controls-2.png");
-    Images.controls3 = t.loadImage("img/controls-3.png");
-    Images.controls4 = t.loadImage("img/controls-4.png");
-    Images.controls5 = t.loadImage("img/controls-5.png");
+    Images.start = LoadingManager.loadImage("img/start.png");
+    Images.splashLWS = LoadingManager.loadImage("img/splash-lws.png");
+    Images.linkLWS = LoadingManager.loadImage("img/link-lws.png");
+    Images.linkJoshua = LoadingManager.loadImage("img/link-joshua.png");
+    Images.linkJoshua2 = LoadingManager.loadImage("img/link-joshua-2.png");
+    Images.soundtrack = LoadingManager.loadImage("img/soundtrack.png");
+    Images.awardFrame = LoadingManager.loadImage("img/award-frame.png");
+    Images.awardIconLocked = LoadingManager.loadImage("img/award-icon-locked.png");
+    Images.awardIconEscape = LoadingManager.loadImage("img/award-icon-escape.png");
+    Images.awardIconSpeedrun = LoadingManager.loadImage("img/award-icon-speedrun.png");
+    Images.awardIconEditor = LoadingManager.loadImage("img/award-icon-editor.png");
+    Images.awardIconJoshua = LoadingManager.loadImage("img/award-icon-joshua.png");
+    Images.awardIconSoundtrack = LoadingManager.loadImage("img/award-icon-soundtrack.png");
+    Images.awardIconRotate = LoadingManager.loadImage("img/award-icon-rotate.png");
+    Images.vignette = LoadingManager.loadImage("img/vignette.png");
+    Images.bgCells = LoadingManager.loadImage("img/bg-cells.png");
+    Images.logo = LoadingManager.loadImage("img/logo.png");
+    Images.configTip = LoadingManager.loadImage("img/config-tip.png");
+    Images.configArrow = LoadingManager.loadImage("img/config-arrow.png");
+    Images.configToggle = LoadingManager.loadImage("img/config-toggle.png");
+    Images.menuBtn = LoadingManager.loadImage("img/menu-btn.png");
+    Images.level = LoadingManager.loadImage("img/level.png");
+    Images.interact = LoadingManager.loadImage("img/interact.png");
+    Images.mute = LoadingManager.loadImage("img/mute.png");
+    Images.trash = LoadingManager.loadImage("img/trash.png");
+    Images.player = LoadingManager.loadImage("img/player.png");
+    Images.bgTiles = LoadingManager.loadImage("img/bg-tiles.png");
+    Images.bgBricks = LoadingManager.loadImage("img/bg-bricks.png");
+    Images.blocks = LoadingManager.loadImage("img/blocks.png");
+    Images.cat = LoadingManager.loadImage("img/cat.png");
+    Images.endingMain = LoadingManager.loadImage("img/ending-main.png");
+    Images.endingPlants = LoadingManager.loadImage("img/ending-plants.png");
+    Images.controls1 = LoadingManager.loadImage("img/controls-1.png");
+    Images.controls2 = LoadingManager.loadImage("img/controls-2.png");
+    Images.controls3 = LoadingManager.loadImage("img/controls-3.png");
+    Images.controls4 = LoadingManager.loadImage("img/controls-4.png");
+    Images.controls5 = LoadingManager.loadImage("img/controls-5.png");
     g.fontMain = new gc("fonts/simple-pixels.png","fonts/simple-pixels.json",2,112);
     g.nosave = !1;
     g.ie = !1;
-    Sounds.themeMenu = t.loadSound({
+    Sounds.themeMenu = LoadingManager.loadSound({
         src: ["music/menu.ogg", "music/menu.mp3"],
         loop: !0
     });
-    Sounds.themeGame1 = t.loadSound({
+    Sounds.themeGame1 = LoadingManager.loadSound({
         src: ["music/game-1.ogg", "music/game-1.mp3"],
         loop: !0,
         volume: .8
     });
-    Sounds.themeGame2 = t.loadSound({
+    Sounds.themeGame2 = LoadingManager.loadSound({
         src: ["music/game-2.ogg", "music/game-2.mp3"],
         loop: !0,
         volume: .75
     });
-    Sounds.surface = t.loadSound({
+    Sounds.surface = LoadingManager.loadSound({
         src: ["sfx/surface.ogg", "sfx/surface.mp3"],
         loop: !0
     });
-    Sounds.steps = t.loadSound({
+    Sounds.steps = LoadingManager.loadSound({
         src: ["sfx/steps.ogg", "sfx/steps.mp3"],
         sprite: {
             a: [0, 400],
             b: [475, 400]
         }
     });
-    Sounds.death = t.loadSound({
+    Sounds.death = LoadingManager.loadSound({
         src: ["sfx/death.ogg", "sfx/death.mp3"]
     });
-    Sounds.rotate = t.loadSound({
+    Sounds.rotate = LoadingManager.loadSound({
         src: ["sfx/rotate.ogg", "sfx/rotate.mp3"]
     });
-    Sounds.exit = t.loadSound({
+    Sounds.exit = LoadingManager.loadSound({
         src: ["sfx/exit.ogg", "sfx/exit.mp3"]
     });
-    Sounds.door = t.loadSound({
+    Sounds.door = LoadingManager.loadSound({
         src: ["sfx/door.ogg", "sfx/door.mp3"]
     });
-    Sounds.cat = t.loadSound({
+    Sounds.cat = LoadingManager.loadSound({
         src: ["sfx/cat.ogg", "sfx/cat.mp3"]
     });
-    Sounds.leverOn = t.loadSound({
+    Sounds.leverOn = LoadingManager.loadSound({
         src: ["sfx/lever-on.ogg", "sfx/lever-on.mp3"]
     });
-    Sounds.leverOff = t.loadSound({
+    Sounds.leverOff = LoadingManager.loadSound({
         src: ["sfx/lever-off.ogg", "sfx/lever-off.mp3"]
     });
-    Sounds.voice = t.loadSound({
+    Sounds.voice = LoadingManager.loadSound({
         src: ["sfx/voice.ogg", "sfx/voice.mp3"],
         sprite: {
             a: [0, 1E3],
