@@ -2046,7 +2046,7 @@
             try {
                 var a = JSON.parse(window.atob(ra.getItem("data")))
                   , b = a.unlocked;
-                if ("number" == typeof b && (b | 0) === b && 0 <= a.unlocked && a.unlocked < B.list.length && a.awards instanceof Array && null == a.awards.__enum__ && a.awards.length == v.all.length)
+                if ("number" == typeof b && (b | 0) === b && 0 <= a.unlocked && a.unlocked < B.list.length && a.awards instanceof Array && null == a.awards.__enum__ && a.awards.length == v.awardsAll.length)
                     if (null != a.best) {
                         var c = a.best;
                         var d = "number" == typeof c && (c | 0) === c ? -1 < a.best : !1
@@ -2056,7 +2056,7 @@
                     d = !1;
                 if (d && (null != a.invert ? "boolean" == typeof a.invert && 1 == a.invert : 1) && (null != a.muteMusic ? "boolean" == typeof a.muteMusic && 1 == a.muteMusic : 1) && (null != a.muteSFX ? "boolean" == typeof a.muteSFX && 1 == a.muteSFX : 1)) {
                     d = 0;
-                    for (var e = v.all.length; d < e; ) {
+                    for (var e = v.awardsAll.length; d < e; ) {
                         var f = d++;
                         if ("boolean" != typeof a.awards[f])
                             throw Error();
@@ -2089,7 +2089,7 @@
                             a = 0;
                             for (var d = c.length; a < d; ) {
                                 var e = a++;
-                                c[e] && (v.all[e].unlocked = !0)
+                                c[e] && (v.awardsAll[e].unlocked = !0)
                             }
                         }
                         null != b.best && (B.speedrunBest = b.best);
@@ -2102,7 +2102,7 @@
             }
         },
         saveProgress: function() {
-            for (var a = [], b = 0, c = v.all; b < c.length; ) {
+            for (var a = [], b = 0, c = v.awardsAll; b < c.length; ) {
                 var d = c[b];
                 ++b;
                 a.push(d.unlocked)
@@ -2119,7 +2119,7 @@
         },
         clearProgress: function() {
             ra.removeItem("lws:rotate");
-            for (var a = 0, b = v.all; a < b.length; ) {
+            for (var a = 0, b = v.awardsAll; a < b.length; ) {
                 var c = b[a];
                 ++a;
                 c.unlocked = !1
@@ -4754,13 +4754,13 @@
             this.erase = new Ya;
             this.content.addChild(this.erase);
             this.awardDisplays = [];
-            a = Math.floor(v.all.length / 3);
+            a = Math.floor(v.awardsAll.length / 3);
             b = 0;
-            for (c = v.all.length; b < c; ) {
+            for (c = v.awardsAll.length; b < c; ) {
                 var d = b++
                   , e = Math.floor(d / 3)
-                  , f = e < a ? 3 : v.all.length - 3 * a
-                  , m = new Xb(v.all[d]);
+                  , f = e < a ? 3 : v.awardsAll.length - 3 * a
+                  , m = new Xb(v.awardsAll[d]);
                 m.set_x(Math.floor(h.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e));
                 m.set_y(128 + 136 * e);
                 this.content.addChild(m);
@@ -6394,7 +6394,7 @@
         I.call(this, q.trash);
         this.set_x(h.width - 120);
         this.set_y(h.height - this.get_height() - 12);
-        for (var a = !1, b = 0, c = v.all; b < c.length; ) {
+        for (var a = !1, b = 0, c = v.awardsAll; b < c.length; ) {
             var d = c[b];
             ++b;
             if (d.unlocked) {
@@ -6868,7 +6868,7 @@
     v.awardJoshua = new Award("Curiosity",q.awardIconJoshua);
     v.awardSoundtrack = new Award("Sound Seeker",q.awardIconSoundtrack);
     v.awardRotate = new Award("Rotate Me",q.awardIconRotate);
-    v.all = [v.awardEscape, v.awardSpeedrun, v.awardEditor, v.awardJoshua, v.awardSoundtrack, v.awardRotate];
+    v.awardsAll = [v.awardEscape, v.awardSpeedrun, v.awardEditor, v.awardJoshua, v.awardSoundtrack, v.awardRotate];
     v.FADE_MS = 250;
     v.STAY_MS = 3E3;
     v.bubbleTimer = -1;
