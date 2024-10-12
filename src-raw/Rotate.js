@@ -1955,7 +1955,7 @@
             this.fader.mouseEnabled = !0;
             this.addChild(this.fader);
             this.addChild(this.timerHolder);
-            v.setup(this);
+            AwardsManager.setup(this);
             h.input.addEventListener("blur", function(c) {
                 null != b.targetScreen && b.targetScreen.pausable && (b.pauseOnInit = !0);
                 null != b.currentScreen && b.currentScreen.pausable && b.pause()
@@ -2036,7 +2036,7 @@
                     }
                 null != this.currentScreen && this.currentScreen.postUpdate()
             }
-            v.update()
+            AwardsManager.update()
         },
         migrateProgress: function() {
             try {
@@ -2046,7 +2046,7 @@
             try {
                 var a = JSON.parse(window.atob(ra.getItem("data")))
                   , b = a.unlocked;
-                if ("number" == typeof b && (b | 0) === b && 0 <= a.unlocked && a.unlocked < B.list.length && a.awards instanceof Array && null == a.awards.__enum__ && a.awards.length == v.awardsAll.length)
+                if ("number" == typeof b && (b | 0) === b && 0 <= a.unlocked && a.unlocked < B.list.length && a.awards instanceof Array && null == a.awards.__enum__ && a.awards.length == AwardsManager.awardsAll.length)
                     if (null != a.best) {
                         var c = a.best;
                         var d = "number" == typeof c && (c | 0) === c ? -1 < a.best : !1
@@ -2056,7 +2056,7 @@
                     d = !1;
                 if (d && (null != a.invert ? "boolean" == typeof a.invert && 1 == a.invert : 1) && (null != a.muteMusic ? "boolean" == typeof a.muteMusic && 1 == a.muteMusic : 1) && (null != a.muteSFX ? "boolean" == typeof a.muteSFX && 1 == a.muteSFX : 1)) {
                     d = 0;
-                    for (var e = v.awardsAll.length; d < e; ) {
+                    for (var e = AwardsManager.awardsAll.length; d < e; ) {
                         var f = d++;
                         if ("boolean" != typeof a.awards[f])
                             throw Error();
@@ -2089,7 +2089,7 @@
                             a = 0;
                             for (var d = c.length; a < d; ) {
                                 var e = a++;
-                                c[e] && (v.awardsAll[e].unlocked = !0)
+                                c[e] && (AwardsManager.awardsAll[e].unlocked = !0)
                             }
                         }
                         null != b.best && (B.speedrunBest = b.best);
@@ -2102,7 +2102,7 @@
             }
         },
         saveProgress: function() {
-            for (var a = [], b = 0, c = v.awardsAll; b < c.length; ) {
+            for (var a = [], b = 0, c = AwardsManager.awardsAll; b < c.length; ) {
                 var d = c[b];
                 ++b;
                 a.push(d.unlocked)
@@ -2119,7 +2119,7 @@
         },
         clearProgress: function() {
             ra.removeItem("lws:rotate");
-            for (var a = 0, b = v.awardsAll; a < b.length; ) {
+            for (var a = 0, b = AwardsManager.awardsAll; a < b.length; ) {
                 var c = b[a];
                 ++a;
                 c.unlocked = !1
@@ -2234,66 +2234,66 @@
             this.unlocked = !0;
             g.i.saveProgress();
             E.__instanceof(g.i.currentScreen, ib) && g.i.currentScreen.refresh();
-            v.queueNotify(this);
+            AwardsManager.queueNotify(this);
             return !0
         },
         __class__: Award
     };
-    var v = function() {};
-    v.__name__ = !0;
-    v.setup = function(a) {
-        null == v.bubble && (v.bubble = new x,
-        v.bubble.mouseEnabled = !0,
-        a.addChild(v.bubble),
-        v.bubbleTitle = new r(g.fontMain,"NEW AWARD"),
-        v.bubbleTitle.set_x(68),
-        v.bubbleTitle.set_y(4),
-        v.bubbleTitle.set_alpha(.5),
-        v.bubble.addChild(v.bubbleTitle),
-        v.bubbleName = new r(g.fontMain,""),
-        v.bubbleName.set_x(68),
-        v.bubbleName.set_y(28),
-        v.bubble.addChild(v.bubbleName),
-        v.bubble.set_alpha(0))
+    var AwardsManager = function() {};
+    AwardsManager.__name__ = !0;
+    AwardsManager.setup = function(a) {
+        null == AwardsManager.bubble && (AwardsManager.bubble = new x,
+        AwardsManager.bubble.mouseEnabled = !0,
+        a.addChild(AwardsManager.bubble),
+        AwardsManager.bubbleTitle = new r(g.fontMain,"NEW AWARD"),
+        AwardsManager.bubbleTitle.set_x(68),
+        AwardsManager.bubbleTitle.set_y(4),
+        AwardsManager.bubbleTitle.set_alpha(.5),
+        AwardsManager.bubble.addChild(AwardsManager.bubbleTitle),
+        AwardsManager.bubbleName = new r(g.fontMain,""),
+        AwardsManager.bubbleName.set_x(68),
+        AwardsManager.bubbleName.set_y(28),
+        AwardsManager.bubble.addChild(AwardsManager.bubbleName),
+        AwardsManager.bubble.set_alpha(0))
     }
     ;
-    v.queueNotify = function(a) {
-        null == v.queue && (v.queue = []);
-        null != a && 0 > v.queue.indexOf(a) && v.queue.push(a)
+    AwardsManager.queueNotify = function(a) {
+        null == AwardsManager.queue && (AwardsManager.queue = []);
+        null != a && 0 > AwardsManager.queue.indexOf(a) && AwardsManager.queue.push(a)
     }
     ;
-    v.adjustBubble = function(a, b) {
-        v.bubbleName.set_text(ma.replace(a, "\n", " "));
-        v.bubble.graphics.clear();
-        var c = Math.max(v.bubbleTitle.get_width(), v.bubbleName.get_width()) + v.bubbleName.x + 12 + 4;
-        v.bubble.graphics.beginFill(3158064);
-        v.bubble.graphics.drawRect(0, 0, c, 68);
-        v.bubble.graphics.beginFill(6316128);
-        v.bubble.graphics.drawRect(0, 0, c - 2, 66);
-        v.bubble.graphics.beginFill(4210752);
-        v.bubble.graphics.drawRect(0, 0, c - 4, 64);
-        null != v.bubbleIcon && v.bubble.removeChild(v.bubbleIcon);
-        v.bubbleIcon = new I(b);
-        v.bubbleIcon.set_x(8);
-        v.bubbleIcon.set_y(8);
-        v.bubble.addChild(v.bubbleIcon)
+    AwardsManager.adjustBubble = function(a, b) {
+        AwardsManager.bubbleName.set_text(ma.replace(a, "\n", " "));
+        AwardsManager.bubble.graphics.clear();
+        var c = Math.max(AwardsManager.bubbleTitle.get_width(), AwardsManager.bubbleName.get_width()) + AwardsManager.bubbleName.x + 12 + 4;
+        AwardsManager.bubble.graphics.beginFill(3158064);
+        AwardsManager.bubble.graphics.drawRect(0, 0, c, 68);
+        AwardsManager.bubble.graphics.beginFill(6316128);
+        AwardsManager.bubble.graphics.drawRect(0, 0, c - 2, 66);
+        AwardsManager.bubble.graphics.beginFill(4210752);
+        AwardsManager.bubble.graphics.drawRect(0, 0, c - 4, 64);
+        null != AwardsManager.bubbleIcon && AwardsManager.bubble.removeChild(AwardsManager.bubbleIcon);
+        AwardsManager.bubbleIcon = new I(b);
+        AwardsManager.bubbleIcon.set_x(8);
+        AwardsManager.bubbleIcon.set_y(8);
+        AwardsManager.bubble.addChild(AwardsManager.bubbleIcon)
     }
     ;
-    v.update = function() {
-        if (null != v.bubble) {
+    AwardsManager.update = function() {
+        if (null != AwardsManager.bubble) {
             var a = 0
               , b = N.get_currentMS();
-            if (-1 != v.bubbleTimer) {
-                var c = b - v.bubbleTimer;
-                var d = c <= 2 * v.FADE_MS + v.STAY_MS
+            if (-1 != AwardsManager.bubbleTimer) {
+                var c = b - AwardsManager.bubbleTimer;
+                var d = c <= 2 * AwardsManager.FADE_MS + AwardsManager.STAY_MS
             } else
                 d = !1;
-            d ? (a = c <= v.FADE_MS ? 0 : c <= v.FADE_MS + v.STAY_MS ? 1 : 2,
-            a = 0 == a ? g.smootherStep(c / v.FADE_MS) : 1 == a ? 1 : 1 - g.smootherStep((c - v.FADE_MS - v.STAY_MS) / v.FADE_MS)) : null != v.queue && 0 < v.queue.length && (c = v.queue.shift(),
-            v.adjustBubble(c.name, c.icon),
-            v.bubbleTimer = b);
-            v.bubble.set_alpha(a);
-            v.bubble.set_y(-68 * (1 - a))
+            d ? (a = c <= AwardsManager.FADE_MS ? 0 : c <= AwardsManager.FADE_MS + AwardsManager.STAY_MS ? 1 : 2,
+            a = 0 == a ? g.smootherStep(c / AwardsManager.FADE_MS) : 1 == a ? 1 : 1 - g.smootherStep((c - AwardsManager.FADE_MS - AwardsManager.STAY_MS) / AwardsManager.FADE_MS)) : null != AwardsManager.queue && 0 < AwardsManager.queue.length && (c = AwardsManager.queue.shift(),
+            AwardsManager.adjustBubble(c.name, c.icon),
+            AwardsManager.bubbleTimer = b);
+            AwardsManager.bubble.set_alpha(a);
+            AwardsManager.bubble.set_y(-68 * (1 - a))
         }
     }
     ;
@@ -4754,13 +4754,13 @@
             this.erase = new Ya;
             this.content.addChild(this.erase);
             this.awardDisplays = [];
-            a = Math.floor(v.awardsAll.length / 3);
+            a = Math.floor(AwardsManager.awardsAll.length / 3);
             b = 0;
-            for (c = v.awardsAll.length; b < c; ) {
+            for (c = AwardsManager.awardsAll.length; b < c; ) {
                 var d = b++
                   , e = Math.floor(d / 3)
-                  , f = e < a ? 3 : v.awardsAll.length - 3 * a
-                  , m = new Xb(v.awardsAll[d]);
+                  , f = e < a ? 3 : AwardsManager.awardsAll.length - 3 * a
+                  , m = new Xb(AwardsManager.awardsAll[d]);
                 m.set_x(Math.floor(h.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e));
                 m.set_y(128 + 136 * e);
                 this.content.addChild(m);
@@ -4784,7 +4784,7 @@
             } else if (a = G.keyPressed(g.i.invert ? 69 : 81),
             b = G.keyPressed(g.i.invert ? 81 : 69),
             a || b)
-                v.awardRotate.unlock(),
+                AwardsManager.awardRotate.unlock(),
                 this.rotating = !0,
                 this.rotateStart = g.i.get_gameTime(),
                 this.rotateDir = a ? -1 : 1,
@@ -4834,7 +4834,7 @@
             this.joshua.mouseEnabled = this.joshua.buttonMode = !0;
             this.joshua.addEventListener("click", function(c) {
                 1 < c.which || (c = window.open("https://criobite.com", "_blank"),
-                v.awardJoshua.unlock(),
+                AwardsManager.awardJoshua.unlock(),
                 c.focus())
             });
             this.addChild(this.joshua);
@@ -4852,7 +4852,7 @@
             this.soundtrack.mouseEnabled = this.soundtrack.buttonMode = !0;
             this.soundtrack.addEventListener("click", function(c) {
                 1 < c.which || (window.open("https://criobite.com/link/rotate-soundtrack", "_blank").focus(),
-                v.awardSoundtrack.unlock())
+                AwardsManager.awardSoundtrack.unlock())
             });
             this.addChild(this.soundtrack);
             this.moreText.set_x(this.text1.x);
@@ -4865,7 +4865,7 @@
             this.more.mouseEnabled = this.more.buttonMode = !0;
             this.more.addEventListener("click", function(c) {
                 2 <= c.which || (c = window.open("http://lightwolfstudios.com/", "_blank"),
-                v.awardJoshua.unlock(),
+                AwardsManager.awardJoshua.unlock(),
                 c.focus())
             });
             this.addChild(this.more);
@@ -5331,9 +5331,9 @@
             g.ie && u.themeGame2.volume(.5);
             this.cond1.start();
             this.speech = new U([new C(new M(1.5),"Have your freedom, for now."), new C(new M(4),"But you will come back.")],this);
-            this.speedrun && 42E4 >= B.speedrunBest && v.awardSpeedrun.unlock();
-            if (this.first = !v.awardEscape.unlocked)
-                v.awardEscape.unlocked = !0,
+            this.speedrun && 42E4 >= B.speedrunBest && AwardsManager.awardSpeedrun.unlock();
+            if (this.first = !AwardsManager.awardEscape.unlocked)
+                AwardsManager.awardEscape.unlocked = !0,
                 g.i.saveProgress()
         },
         update: function() {
@@ -5428,8 +5428,8 @@
             var c = b - this.delay;
             this.hint.set_alpha(0 > c ? 0 : .33 * g.smootherStep(Math.min(c / 2.5, 1)));
             !this.done && b >= this.delay && G.keyPressed(32) && (this.done = !0,
-            this.first && (v.awardEscape.unlocked = !1,
-            v.awardEscape.unlock()),
+            this.first && (AwardsManager.awardEscape.unlocked = !1,
+            AwardsManager.awardEscape.unlock()),
             g.i.changeScreen(new mb(!0), !0, null, !0, !0),
             g.i.timerHolder.removeChildren())
         },
@@ -5708,7 +5708,7 @@
     w.prototype = D(qa.prototype, {
         init: function() {
             w.i = this;
-            this.tempLevel == A.editorLevel && v.awardEditor.unlock();
+            this.tempLevel == A.editorLevel && AwardsManager.awardEditor.unlock();
             w.playTheme(this.tempLevel.theme);
             w.continueTheme = !1;
             l.set_level(this.tempLevel);
@@ -6394,7 +6394,7 @@
         I.call(this, q.trash);
         this.set_x(h.width - 120);
         this.set_y(h.height - this.get_height() - 12);
-        for (var a = !1, b = 0, c = v.awardsAll; b < c.length; ) {
+        for (var a = !1, b = 0, c = AwardsManager.awardsAll; b < c.length; ) {
             var d = c[b];
             ++b;
             if (d.unlocked) {
@@ -6642,7 +6642,7 @@
         this.mouseEnabled = this.buttonMode = !0;
         this.addEventListener("click", function(a) {
             2 <= a.which || (a = window.open("https://lightwolfstudios.com", "_blank"),
-            v.awardJoshua.unlock(),
+            AwardsManager.awardJoshua.unlock(),
             a.focus())
         })
     };
@@ -6862,16 +6862,16 @@
         volume: .9
     });
     u.SFX = [u.steps, u.death, u.rotate, u.exit, u.door, u.cat, u.leverOn, u.leverOff, u.voice];
-    v.awardEscape = new Award("The Beginning",q.awardIconEscape);
-    v.awardSpeedrun = new Award("Seven or\nLess",q.awardIconSpeedrun);
-    v.awardEditor = new Award("Architect",q.awardIconEditor);
-    v.awardJoshua = new Award("Curiosity",q.awardIconJoshua);
-    v.awardSoundtrack = new Award("Sound Seeker",q.awardIconSoundtrack);
-    v.awardRotate = new Award("Rotate Me",q.awardIconRotate);
-    v.awardsAll = [v.awardEscape, v.awardSpeedrun, v.awardEditor, v.awardJoshua, v.awardSoundtrack, v.awardRotate];
-    v.FADE_MS = 250;
-    v.STAY_MS = 3E3;
-    v.bubbleTimer = -1;
+    AwardsManager.awardEscape = new Award("The Beginning",q.awardIconEscape);
+    AwardsManager.awardSpeedrun = new Award("Seven or\nLess",q.awardIconSpeedrun);
+    AwardsManager.awardEditor = new Award("Architect",q.awardIconEditor);
+    AwardsManager.awardJoshua = new Award("Curiosity",q.awardIconJoshua);
+    AwardsManager.awardSoundtrack = new Award("Sound Seeker",q.awardIconSoundtrack);
+    AwardsManager.awardRotate = new Award("Rotate Me",q.awardIconRotate);
+    AwardsManager.awardsAll = [AwardsManager.awardEscape, AwardsManager.awardSpeedrun, AwardsManager.awardEditor, AwardsManager.awardJoshua, AwardsManager.awardSoundtrack, AwardsManager.awardRotate];
+    AwardsManager.FADE_MS = 250;
+    AwardsManager.STAY_MS = 3E3;
+    AwardsManager.bubbleTimer = -1;
     S.SPEED = 2;
     S.ACCEL = .06;
     S.DECCEL_MULT = .6;
