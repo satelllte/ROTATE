@@ -2608,7 +2608,7 @@
                         b = this.dx = 0);
                         f = this.get_localX()
                     }
-                this.get_localY() - p < -Constants.E && (this.grounded = !0);
+                this.get_localY() - p < -Constants.EPSILON && (this.grounded = !0);
                 b = g.i.get_gameTimeMS();
                 c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
                 if (0 <= this.dy && !this.grounded) {
@@ -2684,9 +2684,9 @@
             null == c && (c = -1);
             a = null == a ? this.getHitBounds() : a;
             var d = g.quantize(a.get_left())
-              , e = g.quantize(a.get_right() - Constants.E)
+              , e = g.quantize(a.get_right() - Constants.EPSILON)
               , f = g.quantize(a.get_top())
-              , m = g.quantize(a.get_bottom() - Constants.E);
+              , m = g.quantize(a.get_bottom() - Constants.EPSILON);
             for (m += 1; f < m; )
                 for (var k = f++, p = d, y = e + 1; p < y; ) {
                     var H = p++;
@@ -2704,9 +2704,9 @@
             this.touching = [];
             var a = this.getHitBounds()
               , b = g.quantize(a.get_left())
-              , c = g.quantize(a.get_right() - Constants.E)
+              , c = g.quantize(a.get_right() - Constants.EPSILON)
               , d = g.quantize(a.get_top())
-              , e = g.quantize(a.get_bottom() - Constants.E);
+              , e = g.quantize(a.get_bottom() - Constants.EPSILON);
             for (e += 1; d < e; )
                 for (var f = d++, m = b, k = c + 1; m < k; ) {
                     var p = m++
@@ -2986,9 +2986,9 @@
                     c = l.rotation;
                     c = b.globalToLocal(1 == c || 2 == c ? h.width : 0, 2 == c || 3 == c ? h.height : 0);
                     var d = Math.floor(c.x / Constants.tileSize)
-                      , e = Math.floor((c.x + h.width - Constants.E) / Constants.tileSize)
+                      , e = Math.floor((c.x + h.width - Constants.EPSILON) / Constants.tileSize)
                       , f = Math.floor(c.y / Constants.tileSize)
-                      , m = Math.floor((c.y + h.height - Constants.E) / Constants.tileSize);
+                      , m = Math.floor((c.y + h.height - Constants.EPSILON) / Constants.tileSize);
                     c = function(fa, ka) {
                         return fa >= d && ka >= f && fa <= e ? ka <= m : !1
                     }
@@ -3672,7 +3672,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = g.i.get_gameTimeMS() / 40;
-            c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(d - (d < Constants.E ? 0 : Constants.E)) % 3;
+            c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(d - (d < Constants.EPSILON ? 0 : Constants.EPSILON)) % 3;
             this.renderRotated(a, b, (4 + c) * Constants.tileSize, Constants.tileSize)
         },
         getColliders: function(a) {
@@ -6751,7 +6751,7 @@
     za.BYTES = ya.ofString(za.CHARS);
     E.__toStr = {}.toString;
     Ia.BYTES_PER_ELEMENT = 1;
-    Constants.E = 1E-8;
+    Constants.EPSILON = 1E-8;
     Constants.screenFadeTime = 700;
     Constants.screenFadeTimeSlow = 1600;
     Constants.tileSize = 24;
