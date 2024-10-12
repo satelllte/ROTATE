@@ -2142,37 +2142,37 @@
             this.muteSFX = !this.muteSFX;
             if (g.ie) {
                 if (this.muteSFX)
-                    for (var b = 0, c = u.SFX; b < c.length; ) {
+                    for (var b = 0, c = Sounds.SFX; b < c.length; ) {
                         var d = c[b];
                         ++b;
                         d.stop()
                     }
             } else
                 for (b = 0,
-                c = u.SFX; b < c.length; )
+                c = Sounds.SFX; b < c.length; )
                     d = c[b],
                     ++b,
                     d.mute(this.muteSFX);
-            g.ie ? this.muteMusic && (this.muteSFX ? u.surface.stop() : this.ieSurface && !u.surface.playing() && u.surface.play()) : u.surface.mute(this.muteSFX && this.muteMusic);
+            g.ie ? this.muteMusic && (this.muteSFX ? Sounds.surface.stop() : this.ieSurface && !Sounds.surface.playing() && Sounds.surface.play()) : Sounds.surface.mute(this.muteSFX && this.muteMusic);
             a && this.saveProgress()
         },
         toggleMusic: function(a) {
             null == a && (a = !0);
             this.muteMusic = !this.muteMusic;
-            g.ie ? this.muteMusic ? (u.themeMenu.stop(),
-            u.themeGame1.stop(),
-            u.themeGame2.stop()) : (g.i.ieMenu && !u.themeMenu.playing() && u.themeMenu.play(),
-            g.i.ieGame1 && !u.themeGame1.playing() && u.themeGame1.play(),
-            g.i.ieGame2 && !u.themeGame2.playing() && u.themeGame2.play()) : (u.themeMenu.mute(this.muteMusic),
-            u.themeGame1.mute(this.muteMusic),
-            u.themeGame2.mute(this.muteMusic));
-            g.ie ? this.muteSFX && (this.muteMusic ? u.surface.stop() : g.i.ieSurface && !u.surface.playing() && u.surface.play()) : u.surface.mute(this.muteMusic && this.muteSFX);
+            g.ie ? this.muteMusic ? (Sounds.themeMenu.stop(),
+            Sounds.themeGame1.stop(),
+            Sounds.themeGame2.stop()) : (g.i.ieMenu && !Sounds.themeMenu.playing() && Sounds.themeMenu.play(),
+            g.i.ieGame1 && !Sounds.themeGame1.playing() && Sounds.themeGame1.play(),
+            g.i.ieGame2 && !Sounds.themeGame2.playing() && Sounds.themeGame2.play()) : (Sounds.themeMenu.mute(this.muteMusic),
+            Sounds.themeGame1.mute(this.muteMusic),
+            Sounds.themeGame2.mute(this.muteMusic));
+            g.ie ? this.muteSFX && (this.muteMusic ? Sounds.surface.stop() : g.i.ieSurface && !Sounds.surface.playing() && Sounds.surface.play()) : Sounds.surface.mute(this.muteMusic && this.muteSFX);
             a && this.saveProgress()
         },
         __class__: g
     });
-    var u = function() {};
-    u.__name__ = !0;
+    var Sounds = function() {};
+    Sounds.__name__ = !0;
     var LocalStorage = function() {};
     LocalStorage.__name__ = !0;
     LocalStorage.getItem = function(a) {
@@ -2531,7 +2531,7 @@
             return a
         },
         aminChange: function(a) {
-            this.animation == J.ANIM_RUN && 0 == a && 100 < g.i.get_gameTimeMS() - this.lastStep && (g.ie && g.i.muteSFX || u.steps.play(0 == this.step ? "a" : "b"),
+            this.animation == J.ANIM_RUN && 0 == a && 100 < g.i.get_gameTimeMS() - this.lastStep && (g.ie && g.i.muteSFX || Sounds.steps.play(0 == this.step ? "a" : "b"),
             this.lastStep = g.i.get_gameTimeMS(),
             this.step = 0 == this.step ? 1 : 0)
         },
@@ -2549,7 +2549,7 @@
                     c.get_block().onInteract(c)
                 }
                 this.touchingFinish() && (this.finished = !0,
-                g.ie && g.i.muteSFX || u.exit.play(),
+                g.ie && g.i.muteSFX || Sounds.exit.play(),
                 g.i.currentScreen.finished())
             }
         },
@@ -2565,7 +2565,7 @@
                 this.dx < -a && (this.dx = -a)) : this.dx < -a && (this.dx = -a) : this.dx *= J.DECCEL_MULT;
                 !this.finished && this.grounded && this.jumpKeyDown() && g.i.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY && g.i.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2 ? (this.dy = -J.JUMP_SPEED,
                 this.jumpTimer = g.i.get_gameTime(),
-                g.ie && g.i.muteSFX || u.steps.play("a"),
+                g.ie && g.i.muteSFX || Sounds.steps.play("a"),
                 this.lastStep = g.i.get_gameTimeMS()) : this.dy < J.GRAVITY_MAX && (this.dy += J.GRAVITY,
                 this.dy > J.GRAVITY_MAX && (this.dy = J.GRAVITY_MAX));
                 a = this.grounded;
@@ -2631,7 +2631,7 @@
                     this.onRamp = !0)) : this.set_localY(d)
                 }
                 this.updateTouching();
-                this.grounded && !a && (100 < g.i.get_gameTimeMS() - this.spawnTime && (g.ie && g.i.muteSFX || u.steps.play("b"),
+                this.grounded && !a && (100 < g.i.get_gameTimeMS() - this.spawnTime && (g.ie && g.i.muteSFX || Sounds.steps.play("b"),
                 this.lastStep = g.i.get_gameTimeMS()),
                 this.jumpTimer2 = g.i.get_gameTime());
                 this.grounded ? 0 != this.horizontal && .75 < Math.abs(this.dx) ? this.set_animation(J.ANIM_RUN) : this.set_animation(J.ANIM_IDLE) : l.rotating || (0 <= this.dy ? this.set_animation(J.ANIM_FALL) : this.set_animation(J.ANIM_JUMP));
@@ -2802,9 +2802,9 @@
             this.adjust();
             this.set_animation(J.ANIM_ROTATE);
             this.rotateTimer = g.i.get_gameTime();
-            g.ie && g.i.muteSFX || u.steps.play("a");
+            g.ie && g.i.muteSFX || Sounds.steps.play("a");
             this.lastStep = g.i.get_gameTimeMS();
-            g.ie && g.i.muteSFX || u.rotate.play()
+            g.ie && g.i.muteSFX || Sounds.rotate.play()
         },
         onRotateStart2: function() {
             this.rotStartY = this.get_localY()
@@ -3451,8 +3451,8 @@
                             b = !0;
                             break
                         }
-                c ? g.ie && g.i.muteSFX || u.leverOn.play() : g.ie && g.i.muteSFX || u.leverOff.play();
-                !b || g.ie && g.i.muteSFX || u.door.play();
+                c ? g.ie && g.i.muteSFX || Sounds.leverOn.play() : g.ie && g.i.muteSFX || Sounds.leverOff.play();
+                !b || g.ie && g.i.muteSFX || Sounds.door.play();
                 l.setBlockMeta(a.x, a.y, [a.getMeta(0), c ? 1 : 0])
             }
         },
@@ -4155,8 +4155,8 @@
             this.cat.update();
             if (this.done1) {
                 if (!this.done2 && this.cond2.test() && (this.done2 = !0,
-                g.ie && g.i.muteSFX || (u.cat.volume(.5),
-                u.cat.play())),
+                g.ie && g.i.muteSFX || (Sounds.cat.volume(.5),
+                Sounds.cat.play())),
                 !this.done3 && this.cond3.test()) {
                     this.done3 = !0;
                     var a = l.getBlockData(3, 3);
@@ -4368,7 +4368,7 @@
         start: function() {
             this.speech = new U([new C(new V(.75,5,25,1,3),"Oh... the cat."), new C(new M(3),"My biggest mistake."), new C(new V(2,8,1,1,7,3),"It is constantly interfering.")]);
             this.cat = new ta(14,24,-1,1,new ia(13,1,1,4));
-            u.cat.volume(.25)
+            Sounds.cat.volume(.25)
         },
         tick: function() {},
         update: function() {
@@ -4667,7 +4667,7 @@
                         for (a = this.lastTone; a == this.lastTone; )
                             a = Math.round(7 * Math.random());
                         this.lastTone = a;
-                        g.ie && g.i.muteSFX || u.voice.play(this.tones[a])
+                        g.ie && g.i.muteSFX || Sounds.voice.play(this.tones[a])
                     }
                     this.char2++
                 }
@@ -4872,9 +4872,9 @@
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 64);
             this.btnBack.addEventListener("click", function(c) {
-                2 > c.which && (a.fromEnd && u.surface.playing() && (g.ie ? u.surface.stop() : (u.surface.fade(1, 0, Math.round(n.screenFadeTime / 2)),
-                u.surface.once("fade", function() {
-                    u.surface.stop()
+                2 > c.which && (a.fromEnd && Sounds.surface.playing() && (g.ie ? Sounds.surface.stop() : (Sounds.surface.fade(1, 0, Math.round(n.screenFadeTime / 2)),
+                Sounds.surface.once("fade", function() {
+                    Sounds.surface.stop()
                 }))),
                 g.ie && (g.i.ieSurface = !1),
                 g.i.changeScreen(a.fromEnd ? new Oa : new ca))
@@ -5328,7 +5328,7 @@
     bb.__super__ = P;
     bb.prototype = D(P.prototype, {
         init: function() {
-            g.ie && u.themeGame2.volume(.5);
+            g.ie && Sounds.themeGame2.volume(.5);
             this.cond1.start();
             this.speech = new U([new C(new M(1.5),"Have your freedom, for now."), new C(new M(4),"But you will come back.")],this);
             this.speedrun && 42E4 >= B.speedrunBest && AwardsManager.awardSpeedrun.unlock();
@@ -5340,15 +5340,15 @@
             this.speech.update();
             !this.done1 && this.cond1.test() && (this.done1 = !0,
             g.i.changeScreen(new ob(this.first), !0, null, !0),
-            g.ie && g.i.muteSFX || (u.exit.volume(.5),
-            u.exit.play(),
-            u.exit.once("end", function() {
-                u.exit.volume(1)
+            g.ie && g.i.muteSFX || (Sounds.exit.volume(.5),
+            Sounds.exit.play(),
+            Sounds.exit.once("end", function() {
+                Sounds.exit.volume(1)
             })))
         },
         kill: function() {
-            u.themeGame2.stop();
-            u.themeGame2.volume(1);
+            Sounds.themeGame2.stop();
+            Sounds.themeGame2.volume(1);
             g.ie && (g.i.ieGame2 = !1)
         },
         __class__: bb
@@ -5409,9 +5409,9 @@
             this.hint.set_y(h.height - 24);
             this.hint.set_alpha(0);
             this.addChild(this.hint);
-            u.surface.volume(1);
-            g.ie && g.i.muteSFX && g.i.muteMusic ? g.i.ieSurface = !0 : (u.surface.play(),
-            g.ie || u.surface.fade(0, 1, Math.round(n.screenFadeTimeSlow / 2)))
+            Sounds.surface.volume(1);
+            g.ie && g.i.muteSFX && g.i.muteMusic ? g.i.ieSurface = !0 : (Sounds.surface.play(),
+            g.ie || Sounds.surface.fade(0, 1, Math.round(n.screenFadeTimeSlow / 2)))
         },
         update: function() {
             var a = this
@@ -5594,16 +5594,16 @@
     };
     ca.__name__ = !0;
     ca.playTheme = function() {
-        u.themeMenu.playing() || (g.ie && g.i.muteMusic || u.themeMenu.play(),
+        Sounds.themeMenu.playing() || (g.ie && g.i.muteMusic || Sounds.themeMenu.play(),
         g.ie && (g.i.ieMenu = !0))
     }
     ;
     ca.stopTheme = function() {
-        g.ie ? (u.themeMenu.stop(),
-        g.i.ieMenu = !1) : (u.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
-        u.themeMenu.once("fade", function() {
-            u.themeMenu.stop();
-            u.themeMenu.volume(1)
+        g.ie ? (Sounds.themeMenu.stop(),
+        g.i.ieMenu = !1) : (Sounds.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
+        Sounds.themeMenu.once("fade", function() {
+            Sounds.themeMenu.stop();
+            Sounds.themeMenu.volume(1)
         }))
     }
     ;
@@ -5661,7 +5661,7 @@
         this.pausable = !0;
         this.speedrun = b;
         this.speedrunStart = c;
-        0 == a.theme && u.themeGame1.playing() || 1 == a.theme && u.themeGame2.playing() ? w.continueTheme = !0 : w.continueTheme = !1
+        0 == a.theme && Sounds.themeGame1.playing() || 1 == a.theme && Sounds.themeGame2.playing() ? w.continueTheme = !0 : w.continueTheme = !1
     };
     w.__name__ = !0;
     w.play = function(a, b, c) {
@@ -5671,20 +5671,20 @@
     }
     ;
     w.playTheme = function(a) {
-        w.stopped && (0 == a && u.themeGame1.playing() ? (u.themeGame1.stop(),
-        w.canceled = !0) : 1 == a && u.themeGame2.playing() && (u.themeGame2.stop(),
+        w.stopped && (0 == a && Sounds.themeGame1.playing() ? (Sounds.themeGame1.stop(),
+        w.canceled = !0) : 1 == a && Sounds.themeGame2.playing() && (Sounds.themeGame2.stop(),
         w.canceled = !0),
         g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1),
         w.stopped = !1);
-        0 == a ? (u.themeGame1.volume(1),
-        u.themeGame1.playing() || (g.ie && g.i.muteMusic || u.themeGame1.play(),
-        g.ie && (g.i.ieGame1 = !0))) : 1 == a && (u.themeGame2.volume(1),
-        u.themeGame2.playing() || (g.ie && g.i.muteMusic || u.themeGame2.play(),
+        0 == a ? (Sounds.themeGame1.volume(1),
+        Sounds.themeGame1.playing() || (g.ie && g.i.muteMusic || Sounds.themeGame1.play(),
+        g.ie && (g.i.ieGame1 = !0))) : 1 == a && (Sounds.themeGame2.volume(1),
+        Sounds.themeGame2.playing() || (g.ie && g.i.muteMusic || Sounds.themeGame2.play(),
         g.ie && (g.i.ieGame2 = !0)))
     }
     ;
     w.stopTheme = function() {
-        var a = u.themeGame1.playing() ? u.themeGame1 : u.themeGame2.playing() ? u.themeGame2 : null;
+        var a = Sounds.themeGame1.playing() ? Sounds.themeGame1 : Sounds.themeGame2.playing() ? Sounds.themeGame2 : null;
         if (null != a) {
             var b = E.__instanceof(g.i.currentScreen, w) && E.__instanceof(g.i.targetScreen, bb);
             if (g.ie)
@@ -5768,7 +5768,7 @@
                 this.player.dead = !0;
                 this.deathTime = g.i.get_gameTime();
                 this.player.visible = !1;
-                g.ie && g.i.muteSFX || u.death.play();
+                g.ie && g.i.muteSFX || Sounds.death.play();
                 var b = 0
                   , c = 0;
                 0 == l.rotation ? c = 1 : 1 == l.rotation ? b = 1 : 2 == l.rotation ? c = -1 : 3 == l.rotation && (b = -1);
@@ -5871,7 +5871,7 @@
             null == a && (a = 0);
             var b = this;
             null != this.cat && (0 != a && this.cat.set_scaleX(a),
-            g.ie && g.i.muteSFX || u.cat.play(),
+            g.ie && g.i.muteSFX || Sounds.cat.play(),
             this.cat.onFinish = function() {
                 b.level.removeChild(b.cat);
                 b.cat = null
@@ -5884,8 +5884,8 @@
             w.i = null;
             l.level.kill();
             l.set_level(null);
-            u.cat.volume(1);
-            u.exit.volume(1);
+            Sounds.cat.volume(1);
+            Sounds.exit.volume(1);
             if (this.speedrun)
                 if (-1 < this.speedrunFinal) {
                     if (this.timerText.set_text(g.formatMS(this.speedrunFinal)),
@@ -5951,10 +5951,10 @@
             this.start.set_alpha(b);
             1 != this.start.alpha || this.start.buttonMode || (this.start.buttonMode = this.start.mouseEnabled = !0,
             this.start.addEventListener("click", function(c) {
-                2 > c.which && (u.exit.volume(1E-4),
-                u.exit.play(),
-                u.exit.once("end", function() {
-                    u.exit.volume(1)
+                2 > c.which && (Sounds.exit.volume(1E-4),
+                Sounds.exit.play(),
+                Sounds.exit.once("end", function() {
+                    Sounds.exit.volume(1)
                 }),
                 g.i.changeScreen(new $b),
                 a.start.mouseEnabled = !1)
@@ -5983,7 +5983,7 @@
         update: function() {
             !this.done2 && this.cond2.test() && (this.done2 = !0,
             w.playTheme(0),
-            g.ie || u.themeGame1.fade(0, 1, 1E3));
+            g.ie || Sounds.themeGame1.fade(0, 1, 1E3));
             this.speech.update();
             !this.done1 && this.cond1.test() && (this.done1 = !0,
             w.play(B.level1, this.speedrun))
@@ -6801,53 +6801,53 @@
     g.fontMain = new gc("fonts/simple-pixels.png","fonts/simple-pixels.json",2,112);
     g.nosave = !1;
     g.ie = !1;
-    u.themeMenu = t.loadSound({
+    Sounds.themeMenu = t.loadSound({
         src: ["music/menu.ogg", "music/menu.mp3"],
         loop: !0
     });
-    u.themeGame1 = t.loadSound({
+    Sounds.themeGame1 = t.loadSound({
         src: ["music/game-1.ogg", "music/game-1.mp3"],
         loop: !0,
         volume: .8
     });
-    u.themeGame2 = t.loadSound({
+    Sounds.themeGame2 = t.loadSound({
         src: ["music/game-2.ogg", "music/game-2.mp3"],
         loop: !0,
         volume: .75
     });
-    u.surface = t.loadSound({
+    Sounds.surface = t.loadSound({
         src: ["sfx/surface.ogg", "sfx/surface.mp3"],
         loop: !0
     });
-    u.steps = t.loadSound({
+    Sounds.steps = t.loadSound({
         src: ["sfx/steps.ogg", "sfx/steps.mp3"],
         sprite: {
             a: [0, 400],
             b: [475, 400]
         }
     });
-    u.death = t.loadSound({
+    Sounds.death = t.loadSound({
         src: ["sfx/death.ogg", "sfx/death.mp3"]
     });
-    u.rotate = t.loadSound({
+    Sounds.rotate = t.loadSound({
         src: ["sfx/rotate.ogg", "sfx/rotate.mp3"]
     });
-    u.exit = t.loadSound({
+    Sounds.exit = t.loadSound({
         src: ["sfx/exit.ogg", "sfx/exit.mp3"]
     });
-    u.door = t.loadSound({
+    Sounds.door = t.loadSound({
         src: ["sfx/door.ogg", "sfx/door.mp3"]
     });
-    u.cat = t.loadSound({
+    Sounds.cat = t.loadSound({
         src: ["sfx/cat.ogg", "sfx/cat.mp3"]
     });
-    u.leverOn = t.loadSound({
+    Sounds.leverOn = t.loadSound({
         src: ["sfx/lever-on.ogg", "sfx/lever-on.mp3"]
     });
-    u.leverOff = t.loadSound({
+    Sounds.leverOff = t.loadSound({
         src: ["sfx/lever-off.ogg", "sfx/lever-off.mp3"]
     });
-    u.voice = t.loadSound({
+    Sounds.voice = t.loadSound({
         src: ["sfx/voice.ogg", "sfx/voice.mp3"],
         sprite: {
             a: [0, 1E3],
@@ -6861,7 +6861,7 @@
         },
         volume: .9
     });
-    u.SFX = [u.steps, u.death, u.rotate, u.exit, u.door, u.cat, u.leverOn, u.leverOff, u.voice];
+    Sounds.SFX = [Sounds.steps, Sounds.death, Sounds.rotate, Sounds.exit, Sounds.door, Sounds.cat, Sounds.leverOn, Sounds.leverOff, Sounds.voice];
     AwardsManager.awardEscape = new Award("The Beginning",q.awardIconEscape);
     AwardsManager.awardSpeedrun = new Award("Seven or\nLess",q.awardIconSpeedrun);
     AwardsManager.awardEditor = new Award("Architect",q.awardIconEditor);
