@@ -2221,13 +2221,13 @@
         }
     }
     ;
-    var Ka = function(a, b) {
+    var Award = function(a, b) {
         this.unlocked = !1;
         this.name = a;
         this.icon = b
     };
-    Ka.__name__ = !0;
-    Ka.prototype = {
+    Award.__name__ = !0;
+    Award.prototype = {
         unlock: function() {
             if (this.unlocked)
                 return !1;
@@ -2237,7 +2237,7 @@
             v.queueNotify(this);
             return !0
         },
-        __class__: Ka
+        __class__: Award
     };
     var v = function() {};
     v.__name__ = !0;
@@ -6862,12 +6862,12 @@
         volume: .9
     });
     u.SFX = [u.steps, u.death, u.rotate, u.exit, u.door, u.cat, u.leverOn, u.leverOff, u.voice];
-    v.awardEscape = new Ka("The Beginning",q.awardIconEscape);
-    v.awardSpeedrun = new Ka("Seven or\nLess",q.awardIconSpeedrun);
-    v.awardEditor = new Ka("Architect",q.awardIconEditor);
-    v.awardJoshua = new Ka("Curiosity",q.awardIconJoshua);
-    v.awardSoundtrack = new Ka("Sound Seeker",q.awardIconSoundtrack);
-    v.awardRotate = new Ka("Rotate Me",q.awardIconRotate);
+    v.awardEscape = new Award("The Beginning",q.awardIconEscape);
+    v.awardSpeedrun = new Award("Seven or\nLess",q.awardIconSpeedrun);
+    v.awardEditor = new Award("Architect",q.awardIconEditor);
+    v.awardJoshua = new Award("Curiosity",q.awardIconJoshua);
+    v.awardSoundtrack = new Award("Sound Seeker",q.awardIconSoundtrack);
+    v.awardRotate = new Award("Rotate Me",q.awardIconRotate);
     v.all = [v.awardEscape, v.awardSpeedrun, v.awardEditor, v.awardJoshua, v.awardSoundtrack, v.awardRotate];
     v.FADE_MS = 250;
     v.STAY_MS = 3E3;
