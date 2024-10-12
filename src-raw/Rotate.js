@@ -1834,8 +1834,8 @@
     ;
     var n = function() {};
     n.__name__ = !0;
-    var q = function() {};
-    q.__name__ = !0;
+    var Images = function() {};
+    Images.__name__ = !0;
     var gc = function(a, b, c, d) {
         null == d && (d = 0);
         null == c && (c = 1);
@@ -2397,7 +2397,7 @@
     };
     var S = function() {
         this.horizontal = this.x2 = this.dx = 0;
-        ua.call(this, q.cat, 24, 24);
+        ua.call(this, Images.cat, 24, 24);
         this.origin.x = this.frameW / 2;
         this.origin.y = this.frameH
     };
@@ -2507,7 +2507,7 @@
         this.jumpTimer = this.jumpTimer2 = this.rotateTimer = -1;
         this.grounded = !1;
         this.x2 = this.y2 = this.lastX = this.lastY = this.dx = this.dy = this.horizontal = 0;
-        ua.call(this, q.player, 32, 48);
+        ua.call(this, Images.player, 32, 48);
         this.set_animation(J.ANIM_IDLE);
         this.onChange = T(this, this.aminChange);
         this.spawnTime = g.i.get_gameTimeMS();
@@ -3029,7 +3029,7 @@
             var e = n.tileSize;
             a.translate((b + .5) * e, (c + .5) * e);
             a.rotate(-l.rotation * Math.PI / 2);
-            a.drawImage(q.interact, null, -q.interact.width / 2, Math.round(-e / 2 - q.interact.height + 2 * Math.sin(8 * g.i.get_gameTime())) + d);
+            a.drawImage(Images.interact, null, -Images.interact.width / 2, Math.round(-e / 2 - Images.interact.height + 2 * Math.sin(8 * g.i.get_gameTime())) + d);
             a.rotate(l.rotation * Math.PI / 2);
             a.translate(-(b + .5) * e, -(c + .5) * e)
         },
@@ -3037,7 +3037,7 @@
             L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
             L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
             if (null != l.level) {
-                for (var a = 1 == l.level.theme ? q.bgBricks : q.bgTiles, b = Math.ceil(L.bakeCanvas.width / a.width), c = 0, d = Math.ceil(L.bakeCanvas.height / a.height); c < d; )
+                for (var a = 1 == l.level.theme ? Images.bgBricks : Images.bgTiles, b = Math.ceil(L.bakeCanvas.width / a.width), c = 0, d = Math.ceil(L.bakeCanvas.height / a.height); c < d; )
                     for (var e = c++, f = 0, m = b; f < m; ) {
                         var k = f++;
                         L.bakeSurface.drawImage(a, null, k * a.width, e * a.height)
@@ -3068,7 +3068,7 @@
                           , H = y.get_block();
                         if (null != H) {
                             L.bakeSurface.translate((p + 1) * n.tileSize, (f + 1) * n.tileSize);
-                            var K = 1 == l.level.theme ? q.bgBricks : q.bgTiles;
+                            var K = 1 == l.level.theme ? Images.bgBricks : Images.bgTiles;
                             L.bakeSurface.drawImage(K, new z((p + 1) * n.tileSize % K.width,(f + 1) * n.tileSize % K.height,n.tileSize,n.tileSize), 0, 0);
                             H.shouldRender(y) && !H.alwaysUpdate(y) && H.render(L.bakeSurface, y);
                             L.bakeSurface.translate(-(p + 1) * n.tileSize, -(f + 1) * n.tileSize)
@@ -3079,9 +3079,9 @@
         },
         renderDecals: function() {
             var a = n.tileSize;
-            L.bakeSurface.drawImage(q.blocks, new z(a,2 * a,a,2 * a), (l.level.startCol + 1) * a, l.level.startRow * a);
-            L.bakeSurface.drawImage(q.blocks, new z(2 * a,2 * a,a,2 * a), (l.level.finishCol + 1) * a, l.level.finishRow * a);
-            E.__instanceof(l.level, Aa) && L.bakeSurface.drawImage(q.blocks, new z(2 * a,2 * a,a,2 * a), (Aa.fakeCol + 1) * a, Aa.fakeRow * a)
+            L.bakeSurface.drawImage(Images.blocks, new z(a,2 * a,a,2 * a), (l.level.startCol + 1) * a, l.level.startRow * a);
+            L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (l.level.finishCol + 1) * a, l.level.finishRow * a);
+            E.__instanceof(l.level, Aa) && L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (Aa.fakeCol + 1) * a, Aa.fakeRow * a)
         },
         getBoundsSelf: function() {
             return new z(0,0,l.get_width() * n.tileSize,l.get_height() * n.tileSize)
@@ -3189,22 +3189,22 @@
                     m = c;
                     for (k = 0; 0 < m; )
                         p = 1 < m ? 1 : m,
-                        a.drawImage(q.blocks, new z(3 * f,3 * f,p * f,f), k, 0),
-                        a.drawImage(q.blocks, new z((4 - p) * f,3 * f,p * f,f), d * f - k - p * f, 0),
+                        a.drawImage(Images.blocks, new z(3 * f,3 * f,p * f,f), k, 0),
+                        a.drawImage(Images.blocks, new z((4 - p) * f,3 * f,p * f,f), d * f - k - p * f, 0),
                         m -= p,
                         k += p * f;
-                    a.drawImage(q.blocks, new z(4 * f,3 * f,f,f), c * f, 0);
-                    a.drawImage(q.blocks, new z(5 * f,3 * f,f,f), (d - c - 1) * f, 0);
+                    a.drawImage(Images.blocks, new z(4 * f,3 * f,f,f), c * f, 0);
+                    a.drawImage(Images.blocks, new z(5 * f,3 * f,f,f), (d - c - 1) * f, 0);
                     if (E.__instanceof(g.i.currentScreen, A) && (A.renderBlockText(a, b.getMeta(0) + ""),
                     1 < d))
                         for (b = 1; b < d; )
                             c = b++,
                             A.renderBlockRed(a, c * f, 0)
                 } else
-                    a.drawImage(q.blocks, new z(3 * f,3 * f,.33333333333333337 * f,f), 0, 0),
-                    a.drawImage(q.blocks, new z(4 * f,3 * f,f,f), .33333333333333337 * f, 0),
-                    a.drawImage(q.blocks, new z(5 * f,3 * f,f,f), -.33333333333333337 * f, 0),
-                    a.drawImage(q.blocks, new z(3.6666666666666665 * f,3 * f,.33333333333333337 * f,f), .6666666666666666 * f, 0);
+                    a.drawImage(Images.blocks, new z(3 * f,3 * f,.33333333333333337 * f,f), 0, 0),
+                    a.drawImage(Images.blocks, new z(4 * f,3 * f,f,f), .33333333333333337 * f, 0),
+                    a.drawImage(Images.blocks, new z(5 * f,3 * f,f,f), -.33333333333333337 * f, 0),
+                    a.drawImage(Images.blocks, new z(3.6666666666666665 * f,3 * f,.33333333333333337 * f,f), .6666666666666666 * f, 0);
                 a.translate(f / 2, f / 2);
                 a.rotate(-e * Math.PI / 2);
                 a.translate(-f / 2, -f / 2)
@@ -3234,7 +3234,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            var e = new I(q.configArrow);
+            var e = new I(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.channel = 99 <= b.channel ? 0 : b.channel + 1,
@@ -3243,7 +3243,7 @@
             e.set_x(d.x + 11);
             e.set_y(d.y + 4);
             a.addChild(e);
-            var f = new I(q.configArrow);
+            var f = new I(Images.configArrow);
             f.mouseEnabled = f.buttonMode = !0;
             f.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.channel = 0 >= b.channel ? 99 : b.channel - 1,
@@ -3263,7 +3263,7 @@
             m.set_x(this.bubbleWidth - 31);
             m.set_y(e.y);
             a.addChild(m);
-            c = new I(q.configArrow);
+            c = new I(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.length = 9 <= b.length ? 1 : b.length + 1,
@@ -3272,7 +3272,7 @@
             c.set_x(m.x + 11);
             c.set_y(m.y + 4);
             a.addChild(c);
-            f = new I(q.configArrow);
+            f = new I(Images.configArrow);
             f.mouseEnabled = f.buttonMode = !0;
             f.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.length = 1 >= b.length ? 9 : b.length - 1,
@@ -3292,7 +3292,7 @@
             k.set_x(this.bubbleWidth - 31);
             k.set_y(c.y);
             a.addChild(k);
-            e = new I(q.configArrow);
+            e = new I(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.set_angle(b.angle + 1),
@@ -3301,7 +3301,7 @@
             e.set_x(k.x + 11);
             e.set_y(k.y + 4);
             a.addChild(e);
-            c = new I(q.configArrow);
+            c = new I(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.set_angle(b.angle - 1),
@@ -3340,7 +3340,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            c = new I(q.configArrow);
+            c = new I(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_angle(b.angle + 1),
@@ -3349,7 +3349,7 @@
             c.set_x(d.x + 11);
             c.set_y(12);
             a.addChild(c);
-            c = new I(q.configArrow);
+            c = new I(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_angle(b.angle - 1),
@@ -3368,7 +3368,7 @@
               , f = e / 2;
             a.translate(f, f);
             a.rotate(b.getMeta(0) * Math.PI / 2);
-            a.drawImage(q.blocks, new z(c,d,e,e), -f, -f);
+            a.drawImage(Images.blocks, new z(c,d,e,e), -f, -f);
             a.rotate(-b.getMeta(0) * Math.PI / 2);
             a.translate(-f, -f)
         },
@@ -3390,7 +3390,7 @@
             null == c && (c = !0);
             b = b.getMeta(0) % 4;
             c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
-            a.drawImage(q.blocks, new z(((0 < b && 3 > b ? 1 : 0) + 2 * c) * n.tileSize,(5 + (1 < b ? 1 : 0)) * n.tileSize,n.tileSize,n.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new z(((0 < b && 3 > b ? 1 : 0) + 2 * c) * n.tileSize,(5 + (1 < b ? 1 : 0)) * n.tileSize,n.tileSize,n.tileSize), 0, 0)
         },
         __class__: zb
     });
@@ -3401,7 +3401,7 @@
     Ab.__super__ = X;
     Ab.prototype = D(X.prototype, {
         render: function(a, b, c) {
-            a.drawImage(q.blocks, new z(0,3 * n.tileSize,n.tileSize,n.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new z(0,3 * n.tileSize,n.tileSize,n.tileSize), 0, 0)
         },
         shouldRender: function(a) {
             return !1
@@ -3468,7 +3468,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = 0 < b.getMeta(1);
-            a.drawImage(q.blocks, new z((d ? 4 : 3) * n.tileSize,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0);
+            a.drawImage(Images.blocks, new z((d ? 4 : 3) * n.tileSize,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0);
             c && E.__instanceof(g.i.currentScreen, A) && A.renderBlockText(a, b.getMeta(0) + "")
         },
         setupBubble: function(a) {
@@ -3483,7 +3483,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            var e = new I(q.configArrow);
+            var e = new I(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.channel = 98 < b.channel ? 0 : b.channel + 1,
@@ -3492,7 +3492,7 @@
             e.set_x(d.x + 11);
             e.set_y(d.y + 4);
             a.addChild(e);
-            var f = new I(q.configArrow);
+            var f = new I(Images.configArrow);
             f.mouseEnabled = f.buttonMode = !0;
             f.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.channel = 1 > b.channel ? 99 : b.channel - 1,
@@ -3512,7 +3512,7 @@
             m.set_x(this.bubbleWidth - 31);
             m.set_y(e.y);
             a.addChild(m);
-            c = new I(q.configArrow);
+            c = new I(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.on = !b.on,
@@ -3521,7 +3521,7 @@
             c.set_x(m.x + 11);
             c.set_y(m.y + 4);
             a.addChild(c);
-            e = new I(q.configArrow);
+            e = new I(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.on = !b.on,
@@ -3558,10 +3558,10 @@
             m = p || m ? m ? p ? k ? 0 : 1 : 2 : 3 : 4;
             k = n.tileSize;
             p = n.tileSize / 2;
-            a.drawImage(q.blocks, new z((e || b ? b ? e ? d ? 0 : 1 : 2 : 3 : 4) * k,0,p,p), 0, 0);
-            a.drawImage(q.blocks, new z(f * k + p,0,p,p), p, 0);
-            a.drawImage(q.blocks, new z(y * k,p,p,p), 0, p);
-            a.drawImage(q.blocks, new z(m * k + p,p,p,p), p, p)
+            a.drawImage(Images.blocks, new z((e || b ? b ? e ? d ? 0 : 1 : 2 : 3 : 4) * k,0,p,p), 0, 0);
+            a.drawImage(Images.blocks, new z(f * k + p,0,p,p), p, 0);
+            a.drawImage(Images.blocks, new z(y * k,p,p,p), 0, p);
+            a.drawImage(Images.blocks, new z(m * k + p,p,p,p), p, p)
         },
         testCanSolidConnect: function(a, b, c) {
             if (!l.isInBounds(a, b))
@@ -3588,12 +3588,12 @@
         },
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(q.blocks, new z(0,0,n.tileSize,n.tileSize), 0, 0, !1);
+            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,n.tileSize,n.tileSize), 0, 0, !1);
             b = b.getMeta(0);
-            0 > b ? (a.drawImage(q.blocks, new z(100,4 * n.tileSize,10,n.tileSize), 14, 0, !1),
-            -1 == b && a.drawImage(q.blocks, new z(110,4 * n.tileSize,10,n.tileSize), 0, 0, !1),
-            -2 == b && a.drawImage(q.blocks, new z(120,4 * n.tileSize,10,n.tileSize), 0, 0, !1)) : (a.drawImage(q.blocks, new z(b % 10 * 10,4 * n.tileSize,10,n.tileSize), 14, 0, !1),
-            a.drawImage(q.blocks, new z(10 * Math.min(Math.floor(.1 * b), 9),4 * n.tileSize,10,n.tileSize), 0, 0, !1))
+            0 > b ? (a.drawImage(Images.blocks, new z(100,4 * n.tileSize,10,n.tileSize), 14, 0, !1),
+            -1 == b && a.drawImage(Images.blocks, new z(110,4 * n.tileSize,10,n.tileSize), 0, 0, !1),
+            -2 == b && a.drawImage(Images.blocks, new z(120,4 * n.tileSize,10,n.tileSize), 0, 0, !1)) : (a.drawImage(Images.blocks, new z(b % 10 * 10,4 * n.tileSize,10,n.tileSize), 14, 0, !1),
+            a.drawImage(Images.blocks, new z(10 * Math.min(Math.floor(.1 * b), 9),4 * n.tileSize,10,n.tileSize), 0, 0, !1))
         },
         setupBubble: function(a) {
             var b = this
@@ -3607,7 +3607,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            c = new I(q.configArrow);
+            c = new I(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_value(b.value + 1),
@@ -3616,7 +3616,7 @@
             c.set_x(d.x + 11);
             c.set_y(12);
             a.addChild(c);
-            c = new I(q.configArrow);
+            c = new I(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_value(b.value - 1),
@@ -3730,7 +3730,7 @@
             a.translate(d, d);
             1 < b.getMeta(0) && a.rotate(Math.PI);
             1 != b.getMeta(0) && 3 != b.getMeta(0) || a.scale(-1, 1);
-            a.drawImage(q.blocks, new z(5 * n.tileSize,0,c,c), -d, -d);
+            a.drawImage(Images.blocks, new z(5 * n.tileSize,0,c,c), -d, -d);
             1 != b.getMeta(0) && 3 != b.getMeta(0) || a.scale(-1, 1);
             1 < b.getMeta(0) && a.rotate(-Math.PI);
             a.translate(-d, -d)
@@ -3744,7 +3744,7 @@
     Gb.__super__ = X;
     Gb.prototype = D(X.prototype, {
         render: function(a, b, c) {
-            a.drawImage(q.blocks, new z(0,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new z(0,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0)
         },
         shouldRender: function(a) {
             return !1
@@ -3759,8 +3759,8 @@
     Hb.prototype = D(va.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(q.blocks, new z(0,0,n.tileSize,n.tileSize), 0, 0, !1);
-            a.drawImage(q.blocks, new z(5 * n.tileSize,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0, !1)
+            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,n.tileSize,n.tileSize), 0, 0, !1);
+            a.drawImage(Images.blocks, new z(5 * n.tileSize,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0, !1)
         },
         __class__: Hb
     });
@@ -3945,31 +3945,31 @@
             this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
             this.s1 = !0;
             this.s2 = this.s3 = this.s4 = this.s5 = !1;
-            null == this.c1 && (this.c1 = new I(q.controls1));
+            null == this.c1 && (this.c1 = new I(Images.controls1));
             this.c1.set_x(3.5 * n.tileSize);
             this.c1.set_y(9 * n.tileSize);
             this.c1.set_alpha(this.a1);
             a.overlay.addChild(this.c1);
-            null == this.c2 && (this.c2 = new I(q.controls2));
+            null == this.c2 && (this.c2 = new I(Images.controls2));
             this.c2.set_x(10 * n.tileSize);
             this.c2.set_y(11 * n.tileSize);
             this.c2.set_alpha(this.a2);
             a.overlay.addChild(this.c2);
-            null == this.c3 && (this.c3 = new I(q.controls3));
+            null == this.c3 && (this.c3 = new I(Images.controls3));
             this.c3.set_x(18.5 * n.tileSize);
             this.c3.set_y(9 * n.tileSize);
             this.c3.set_alpha(this.a3);
             this.c3.clipRect.width = 48;
             g.i.invert && (this.c3.clipRect.x = 48);
             a.overlay.addChild(this.c3);
-            null == this.c4 && (this.c4 = new I(q.controls4));
+            null == this.c4 && (this.c4 = new I(Images.controls4));
             this.c4.set_x(29 * n.tileSize);
             this.c4.set_y(n.tileSize);
             this.c4.set_alpha(this.a4);
             this.c4.clipRect.width = 48;
             g.i.invert && (this.c4.clipRect.x = 48);
             a.overlay.addChild(this.c4);
-            null == this.c5 && (this.c5 = new I(q.controls5));
+            null == this.c5 && (this.c5 = new I(Images.controls5));
             this.c5.set_x(24.5 * n.tileSize);
             this.c5.set_y(5 * n.tileSize);
             this.c5.set_alpha(this.a5);
@@ -4397,7 +4397,7 @@
             var a = g.i.currentScreen;
             this.a1 = 0;
             this.s1 = this.s2 = !1;
-            null == this.c1 && (this.c1 = new I(q.controls5));
+            null == this.c1 && (this.c1 = new I(Images.controls5));
             this.c1.set_x(28.5 * n.tileSize);
             this.c1.set_y(28 * n.tileSize);
             this.c1.set_alpha(this.a1);
@@ -4798,11 +4798,11 @@
     var mb = function(a) {
         null == a && (a = !1);
         this.mute = new Ba;
-        this.more = new I(q.linkLWS);
+        this.more = new I(Images.linkLWS);
         this.moreText = new r(g.fontMain,"Game published by",1);
-        this.soundtrack = new I(q.soundtrack);
+        this.soundtrack = new I(Images.soundtrack);
         this.text2 = new r(g.fontMain,"Special thanks to the playtesters\nand Patreon contributors!",1);
-        this.joshua = new I(q.linkJoshua2);
+        this.joshua = new I(Images.linkJoshua2);
         this.text1 = new r(g.fontMain,"Design, code, & music by",1);
         this.btnBack = new ba("BACK");
         P.call(this);
@@ -4817,7 +4817,7 @@
                 this.bg = new x;
                 this.bg.graphics.beginFill(16777215);
                 this.bg.graphics.drawRect(0, 0, h.width, h.height);
-                var b = new I(q.vignette);
+                var b = new I(Images.vignette);
                 b.set_alpha(.75);
                 this.bg.addChild(b);
                 this.btnBack.text.set_text("MENU")
@@ -5358,10 +5358,10 @@
         this.hint = new r(g.fontMain,"Press [SPACE] to continue...");
         this.catTrigger = !1;
         this.cat = new S;
-        this.player = new ua(q.player,32,48);
-        this.artPlants = new ua(q.endingPlants,504,24);
-        this.artMain = new I(q.endingMain);
-        this.vignette = new I(q.vignette);
+        this.player = new ua(Images.player,32,48);
+        this.artPlants = new ua(Images.endingPlants,504,24);
+        this.artMain = new I(Images.endingMain);
+        this.vignette = new I(Images.vignette);
         this.bg = new x;
         this.cameraX = this.cameraY = 0;
         this.camera = new x;
@@ -5555,12 +5555,12 @@
         },
         refresh: function() {
             this.tiles.removeChildren();
-            for (var a = B.list.length, b = Math.round((h.width - (4 * q.level.width + 72)) / 2), c = this.title.y + 56, d = 0; d < a; ) {
+            for (var a = B.list.length, b = Math.round((h.width - (4 * Images.level.width + 72)) / 2), c = this.title.y + 56, d = 0; d < a; ) {
                 var e = [d++]
                   , f = Math.floor(e[0] / 4)
                   , m = e[0] % 4
                   , k = e[0] <= B.unlocked
-                  , p = new I(q.level);
+                  , p = new I(Images.level);
                 p.set_x(b + m * (p.get_width() + 24));
                 p.set_y(c + f * (p.get_height() + 20));
                 k ? (p.mouseEnabled = p.buttonMode = !0,
@@ -5588,7 +5588,7 @@
         this.btnCredits = new ba("CREDITS");
         this.btnExtras = new ba("EXTRAS");
         this.btnPlay = new ba("PLAY");
-        this.logo = new I(q.logo);
+        this.logo = new I(Images.logo);
         this.bg = new Na;
         P.call(this)
     };
@@ -5649,7 +5649,7 @@
         this.speedrunFinal = -1;
         this.doors = [];
         this.cat = null;
-        this.vignette = new I(q.vignette);
+        this.vignette = new I(Images.vignette);
         this.red = new x;
         this.overlay = new x;
         this.textHolder = new x;
@@ -5908,7 +5908,7 @@
         this.length = 1.5;
         P.call(this);
         this.lws = a;
-        a = new I(q.splashLWS);
+        a = new I(Images.splashLWS);
         a.set_x(Math.round((h.width - a.get_width()) / 2));
         a.set_y(Math.round((h.height - a.get_height()) / 2));
         this.addChild(a)
@@ -5926,7 +5926,7 @@
         __class__: $b
     });
     var vb = function() {
-        this.start = new I(q.start);
+        this.start = new I(Images.start);
         this.pivot = new x;
         P.call(this)
     };
@@ -6099,10 +6099,10 @@
     });
     var Xb = function(a) {
         x.call(this);
-        var b = new I(q.awardFrame);
+        var b = new I(Images.awardFrame);
         b.set_x(-b.get_width() / 2);
         this.addChild(b);
-        b = new I(a.unlocked ? a.icon : q.awardIconLocked);
+        b = new I(a.unlocked ? a.icon : Images.awardIconLocked);
         b.set_x(-b.get_width() / 2);
         b.set_y(8);
         this.addChild(b);
@@ -6178,7 +6178,7 @@
         __class__: O
     });
     var ac = function() {
-        this.tip = new I(q.configTip);
+        this.tip = new I(Images.configTip);
         x.call(this);
         this.tip.set_x(-this.tip.get_width() / 2);
         this.tip.set_y(-this.tip.get_height());
@@ -6344,7 +6344,7 @@
         this.theme.set_y(R.EDGE_PAD_Y);
         this.theme.xAlign = r.X_ALIGN_CENTER;
         this.addChild(this.theme);
-        var c = new I(q.configArrow);
+        var c = new I(Images.configArrow);
         c.mouseEnabled = c.buttonMode = !0;
         c.set_x(this.theme.x + 46);
         c.set_y(this.theme.y + 4);
@@ -6352,7 +6352,7 @@
             2 > d.which && b(-1)
         });
         this.addChild(c);
-        c = new I(q.configArrow);
+        c = new I(Images.configArrow);
         c.mouseEnabled = c.buttonMode = !0;
         c.set_scaleX(-1);
         c.set_x(this.theme.x - 46);
@@ -6391,7 +6391,7 @@
         __class__: R
     });
     var Ya = function() {
-        I.call(this, q.trash);
+        I.call(this, Images.trash);
         this.set_x(h.width - 120);
         this.set_y(h.height - this.get_height() - 12);
         for (var a = !1, b = 0, c = AwardsManager.awardsAll; b < c.length; ) {
@@ -6426,7 +6426,7 @@
     });
     var bc = function(a) {
         this.label = new r(g.fontMain,"Grid");
-        this.toggle = new I(q.configToggle);
+        this.toggle = new I(Images.configToggle);
         var b = this;
         x.call(this);
         this.set_x(h.width - this.get_width() - 12);
@@ -6466,19 +6466,19 @@
     Na.__super__ = x;
     Na.prototype = D(x.prototype, {
         render: function(a) {
-            for (var b = -Math.round(30 * N.get_current() % q.bgCells.width), c = -Math.round(15 * N.get_current() % q.bgCells.height), d = 0, e = Math.ceil(h.height / q.bgCells.height) + 1; d < e; )
-                for (var f = d++, m = 0, k = Math.ceil(h.width / q.bgCells.width) + 1; m < k; ) {
+            for (var b = -Math.round(30 * N.get_current() % Images.bgCells.width), c = -Math.round(15 * N.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(h.height / Images.bgCells.height) + 1; d < e; )
+                for (var f = d++, m = 0, k = Math.ceil(h.width / Images.bgCells.width) + 1; m < k; ) {
                     var p = m++;
-                    a.drawImage(q.bgCells, null, b + q.bgCells.width * p, c + q.bgCells.height * f)
+                    a.drawImage(Images.bgCells, null, b + Images.bgCells.width * p, c + Images.bgCells.height * f)
                 }
-            a.drawImage(q.vignette, null, 0, 0)
+            a.drawImage(Images.vignette, null, 0, 0)
         },
         __class__: Na
     });
     var ba = function(a, b) {
         null == b && (b = 0);
         x.call(this);
-        this.main = new I(q.menuBtn);
+        this.main = new I(Images.menuBtn);
         this.main.set_x(-this.main.get_width() / 2);
         this.main.set_y(-this.main.get_height() / 2);
         this.main.mouseEnabled = this.main.buttonMode = !0;
@@ -6499,7 +6499,7 @@
         null == a && (a = 0);
         var b = this;
         x.call(this);
-        this.sfx = new I(q.mute);
+        this.sfx = new I(Images.mute);
         this.sfx.set_clipRect(new z(g.i.muteSFX ? 28 : 0,30 * a,28,30));
         this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
         this.sfx.addEventListener("click", function(c) {
@@ -6508,7 +6508,7 @@
         this.sfx.set_x(h.width - this.sfx.get_width() - 12);
         this.sfx.set_y(h.height - this.sfx.get_height() - 12);
         this.addChild(this.sfx);
-        this.music = new I(q.mute);
+        this.music = new I(Images.mute);
         this.music.set_clipRect(new z(g.i.muteMusic ? 84 : 56,30 * a,28,30));
         this.music.mouseEnabled = this.music.buttonMode = !0;
         this.music.addEventListener("click", function(c) {
@@ -6555,7 +6555,7 @@
         a.set_y(-4);
         a.set_alpha(.5);
         this.addChild(a);
-        var b = new I(q.configToggle);
+        var b = new I(Images.configToggle);
         b.clipRect.width = 22;
         g.i.invert && (b.clipRect.x = 22);
         b.set_alpha(.75);
@@ -6635,7 +6635,7 @@
         __class__: ub
     });
     var Ma = function() {
-        I.call(this, q.linkJoshua);
+        I.call(this, Images.linkJoshua);
         this.clipRect.height /= 2;
         this.set_x(8);
         this.set_y(h.height - this.get_height() - 8);
@@ -6761,43 +6761,43 @@
     n.rotateTime = .5;
     n.rotateOffset = 1.5 * n.tileSize;
     n.doorSlideTime = .2;
-    q.start = t.loadImage("img/start.png");
-    q.splashLWS = t.loadImage("img/splash-lws.png");
-    q.linkLWS = t.loadImage("img/link-lws.png");
-    q.linkJoshua = t.loadImage("img/link-joshua.png");
-    q.linkJoshua2 = t.loadImage("img/link-joshua-2.png");
-    q.soundtrack = t.loadImage("img/soundtrack.png");
-    q.awardFrame = t.loadImage("img/award-frame.png");
-    q.awardIconLocked = t.loadImage("img/award-icon-locked.png");
-    q.awardIconEscape = t.loadImage("img/award-icon-escape.png");
-    q.awardIconSpeedrun = t.loadImage("img/award-icon-speedrun.png");
-    q.awardIconEditor = t.loadImage("img/award-icon-editor.png");
-    q.awardIconJoshua = t.loadImage("img/award-icon-joshua.png");
-    q.awardIconSoundtrack = t.loadImage("img/award-icon-soundtrack.png");
-    q.awardIconRotate = t.loadImage("img/award-icon-rotate.png");
-    q.vignette = t.loadImage("img/vignette.png");
-    q.bgCells = t.loadImage("img/bg-cells.png");
-    q.logo = t.loadImage("img/logo.png");
-    q.configTip = t.loadImage("img/config-tip.png");
-    q.configArrow = t.loadImage("img/config-arrow.png");
-    q.configToggle = t.loadImage("img/config-toggle.png");
-    q.menuBtn = t.loadImage("img/menu-btn.png");
-    q.level = t.loadImage("img/level.png");
-    q.interact = t.loadImage("img/interact.png");
-    q.mute = t.loadImage("img/mute.png");
-    q.trash = t.loadImage("img/trash.png");
-    q.player = t.loadImage("img/player.png");
-    q.bgTiles = t.loadImage("img/bg-tiles.png");
-    q.bgBricks = t.loadImage("img/bg-bricks.png");
-    q.blocks = t.loadImage("img/blocks.png");
-    q.cat = t.loadImage("img/cat.png");
-    q.endingMain = t.loadImage("img/ending-main.png");
-    q.endingPlants = t.loadImage("img/ending-plants.png");
-    q.controls1 = t.loadImage("img/controls-1.png");
-    q.controls2 = t.loadImage("img/controls-2.png");
-    q.controls3 = t.loadImage("img/controls-3.png");
-    q.controls4 = t.loadImage("img/controls-4.png");
-    q.controls5 = t.loadImage("img/controls-5.png");
+    Images.start = t.loadImage("img/start.png");
+    Images.splashLWS = t.loadImage("img/splash-lws.png");
+    Images.linkLWS = t.loadImage("img/link-lws.png");
+    Images.linkJoshua = t.loadImage("img/link-joshua.png");
+    Images.linkJoshua2 = t.loadImage("img/link-joshua-2.png");
+    Images.soundtrack = t.loadImage("img/soundtrack.png");
+    Images.awardFrame = t.loadImage("img/award-frame.png");
+    Images.awardIconLocked = t.loadImage("img/award-icon-locked.png");
+    Images.awardIconEscape = t.loadImage("img/award-icon-escape.png");
+    Images.awardIconSpeedrun = t.loadImage("img/award-icon-speedrun.png");
+    Images.awardIconEditor = t.loadImage("img/award-icon-editor.png");
+    Images.awardIconJoshua = t.loadImage("img/award-icon-joshua.png");
+    Images.awardIconSoundtrack = t.loadImage("img/award-icon-soundtrack.png");
+    Images.awardIconRotate = t.loadImage("img/award-icon-rotate.png");
+    Images.vignette = t.loadImage("img/vignette.png");
+    Images.bgCells = t.loadImage("img/bg-cells.png");
+    Images.logo = t.loadImage("img/logo.png");
+    Images.configTip = t.loadImage("img/config-tip.png");
+    Images.configArrow = t.loadImage("img/config-arrow.png");
+    Images.configToggle = t.loadImage("img/config-toggle.png");
+    Images.menuBtn = t.loadImage("img/menu-btn.png");
+    Images.level = t.loadImage("img/level.png");
+    Images.interact = t.loadImage("img/interact.png");
+    Images.mute = t.loadImage("img/mute.png");
+    Images.trash = t.loadImage("img/trash.png");
+    Images.player = t.loadImage("img/player.png");
+    Images.bgTiles = t.loadImage("img/bg-tiles.png");
+    Images.bgBricks = t.loadImage("img/bg-bricks.png");
+    Images.blocks = t.loadImage("img/blocks.png");
+    Images.cat = t.loadImage("img/cat.png");
+    Images.endingMain = t.loadImage("img/ending-main.png");
+    Images.endingPlants = t.loadImage("img/ending-plants.png");
+    Images.controls1 = t.loadImage("img/controls-1.png");
+    Images.controls2 = t.loadImage("img/controls-2.png");
+    Images.controls3 = t.loadImage("img/controls-3.png");
+    Images.controls4 = t.loadImage("img/controls-4.png");
+    Images.controls5 = t.loadImage("img/controls-5.png");
     g.fontMain = new gc("fonts/simple-pixels.png","fonts/simple-pixels.json",2,112);
     g.nosave = !1;
     g.ie = !1;
@@ -6862,12 +6862,12 @@
         volume: .9
     });
     Sounds.SFX = [Sounds.steps, Sounds.death, Sounds.rotate, Sounds.exit, Sounds.door, Sounds.cat, Sounds.leverOn, Sounds.leverOff, Sounds.voice];
-    AwardsManager.awardEscape = new Award("The Beginning",q.awardIconEscape);
-    AwardsManager.awardSpeedrun = new Award("Seven or\nLess",q.awardIconSpeedrun);
-    AwardsManager.awardEditor = new Award("Architect",q.awardIconEditor);
-    AwardsManager.awardJoshua = new Award("Curiosity",q.awardIconJoshua);
-    AwardsManager.awardSoundtrack = new Award("Sound Seeker",q.awardIconSoundtrack);
-    AwardsManager.awardRotate = new Award("Rotate Me",q.awardIconRotate);
+    AwardsManager.awardEscape = new Award("The Beginning",Images.awardIconEscape);
+    AwardsManager.awardSpeedrun = new Award("Seven or\nLess",Images.awardIconSpeedrun);
+    AwardsManager.awardEditor = new Award("Architect",Images.awardIconEditor);
+    AwardsManager.awardJoshua = new Award("Curiosity",Images.awardIconJoshua);
+    AwardsManager.awardSoundtrack = new Award("Sound Seeker",Images.awardIconSoundtrack);
+    AwardsManager.awardRotate = new Award("Rotate Me",Images.awardIconRotate);
     AwardsManager.awardsAll = [AwardsManager.awardEscape, AwardsManager.awardSpeedrun, AwardsManager.awardEditor, AwardsManager.awardJoshua, AwardsManager.awardSoundtrack, AwardsManager.awardRotate];
     AwardsManager.FADE_MS = 250;
     AwardsManager.STAY_MS = 3E3;
