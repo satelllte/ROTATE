@@ -1832,8 +1832,8 @@
         return c
     }
     ;
-    var n = function() {};
-    n.__name__ = !0;
+    var Constants = function() {};
+    Constants.__name__ = !0;
     var Images = function() {};
     Images.__name__ = !0;
     var gc = function(a, b, c, d) {
@@ -1888,7 +1888,7 @@
     }
     ;
     g.quantize = function(a) {
-        return Math.floor(a / n.tileSize)
+        return Math.floor(a / Constants.tileSize)
     }
     ;
     g.getInputX = function() {
@@ -1978,7 +1978,7 @@
             this.pauseMenu.visible = !1)
         },
         getFadeSpeed: function() {
-            return this.fadingSlow ? n.screenFadeTimeSlow : n.screenFadeTime
+            return this.fadingSlow ? Constants.screenFadeTimeSlow : Constants.screenFadeTime
         },
         changeScreen: function(a, b, c, d, e) {
             null == e && (e = !1);
@@ -2026,11 +2026,11 @@
             null != this.currentScreen && this.currentScreen.pausable && (G.keyPressed(80) || G.keyPressed(27)) && (this.paused ? this.unpause() : this.pause());
             if (!this.paused) {
                 null != this.currentScreen && this.currentScreen.update();
-                for (a = 0; this.get_gameTimeMS() - this.lastTick >= n.tickMS; )
-                    if (this.lastTick += n.tickMS,
+                for (a = 0; this.get_gameTimeMS() - this.lastTick >= Constants.tickMS; )
+                    if (this.lastTick += Constants.tickMS,
                     null != this.currentScreen && this.currentScreen.tick(),
                     ++a,
-                    a == n.ticksMax) {
+                    a == Constants.ticksMax) {
                         this.lastTick = this.get_gameTimeMS();
                         break
                     }
@@ -2537,7 +2537,7 @@
         },
         adjust: function() {
             this.origin.x = this.frameW / 2;
-            this.origin.y = this.frameH - (l.rotating ? n.rotateOffset : 0)
+            this.origin.y = this.frameH - (l.rotating ? Constants.rotateOffset : 0)
         },
         update: function() {
             if (!l.rotating && !this.dead && (this.horizontal = this.finished ? 0 : g.getInputX(),
@@ -2554,7 +2554,7 @@
             }
         },
         touchingFinish: function() {
-            return l.rotating || this.dead || this.finished || !this.grounded || 0 != l.rotation || Math.floor(this.x2 / n.tileSize) != l.level.finishCol ? !1 : Math.floor(this.y2 / n.tileSize) == l.level.finishRow + 1
+            return l.rotating || this.dead || this.finished || !this.grounded || 0 != l.rotation || Math.floor(this.x2 / Constants.tileSize) != l.level.finishCol ? !1 : Math.floor(this.y2 / Constants.tileSize) == l.level.finishRow + 1
         },
         tick: function() {
             if (!l.rotating && !this.dead) {
@@ -2608,7 +2608,7 @@
                         b = this.dx = 0);
                         f = this.get_localX()
                     }
-                this.get_localY() - p < -n.E && (this.grounded = !0);
+                this.get_localY() - p < -Constants.E && (this.grounded = !0);
                 b = g.i.get_gameTimeMS();
                 c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
                 if (0 <= this.dy && !this.grounded) {
@@ -2665,7 +2665,7 @@
             var f = 0 == d || 2 == d
               , m = f ? J.HIT_W : J.HIT_H;
             f = f ? J.HIT_H : J.HIT_W;
-            a = a && l.rotating || !a && e ? n.rotateOffset : 0;
+            a = a && l.rotating || !a && e ? Constants.rotateOffset : 0;
             return 3 == d ? new z(b - a,c - f / 2,m,f) : 2 == d ? new z(b - m / 2,c - a,m,f) : 1 == d ? new z(b - m + a,c - f / 2,m,f) : new z(b - m / 2,c - f + a,m,f)
         },
         rampCheck: function(a) {
@@ -2684,9 +2684,9 @@
             null == c && (c = -1);
             a = null == a ? this.getHitBounds() : a;
             var d = g.quantize(a.get_left())
-              , e = g.quantize(a.get_right() - n.E)
+              , e = g.quantize(a.get_right() - Constants.E)
               , f = g.quantize(a.get_top())
-              , m = g.quantize(a.get_bottom() - n.E);
+              , m = g.quantize(a.get_bottom() - Constants.E);
             for (m += 1; f < m; )
                 for (var k = f++, p = d, y = e + 1; p < y; ) {
                     var H = p++;
@@ -2704,9 +2704,9 @@
             this.touching = [];
             var a = this.getHitBounds()
               , b = g.quantize(a.get_left())
-              , c = g.quantize(a.get_right() - n.E)
+              , c = g.quantize(a.get_right() - Constants.E)
               , d = g.quantize(a.get_top())
-              , e = g.quantize(a.get_bottom() - n.E);
+              , e = g.quantize(a.get_bottom() - Constants.E);
             for (e += 1; d < e; )
                 for (var f = d++, m = b, k = c + 1; m < k; ) {
                     var p = m++
@@ -2727,8 +2727,8 @@
                 if (null != k && (null == d || d(k)))
                     if (E.__instanceof(k, La)) {
                         if (k = k.bounds.copy(),
-                        k.x += b * n.tileSize,
-                        k.y += c * n.tileSize,
+                        k.x += b * Constants.tileSize,
+                        k.y += c * Constants.tileSize,
                         a.intersects(k))
                             return !0
                     } else if (E.__instanceof(k, Wa)) {
@@ -2736,14 +2736,14 @@
                         1 == k.dir && (p = new Q(a.get_left(),a.get_bottom()));
                         2 == k.dir && (p = new Q(a.get_left(),a.get_top()));
                         3 == k.dir && (p = new Q(a.get_right(),a.get_top()));
-                        p.x -= b * n.tileSize;
-                        p.y -= c * n.tileSize;
+                        p.x -= b * Constants.tileSize;
+                        p.y -= c * Constants.tileSize;
                         if (k.testPoint(p))
                             return !0
                     } else if (E.__instanceof(k, jb)) {
                         if (p = k.bounds.copy(),
-                        p.x += b * n.tileSize,
-                        p.y += c * n.tileSize,
+                        p.x += b * Constants.tileSize,
+                        p.y += c * Constants.tileSize,
                         a.intersects(p)) {
                             var y = 1 == l.rotation || 3 == l.rotation
                               , H = 0 == l.rotation || 2 == l.rotation
@@ -2757,7 +2757,7 @@
                                 return !0
                         }
                     } else if (E.__instanceof(k, kb) && (p = k,
-                    k = n.tileSize,
+                    k = Constants.tileSize,
                     y = a.copy(),
                     y.x -= b * k,
                     y.y -= c * k,
@@ -2774,17 +2774,17 @@
             return G.keyDown(38) || G.keyDown(87) ? !0 : G.keyDown(32)
         },
         canRotate: function(a) {
-            if (!this.grounded || this.jumpKeyDown() || g.i.get_gameTime() - this.rotateTimer < J.ROTATE_DELAY + n.rotateTime || g.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2)
+            if (!this.grounded || this.jumpKeyDown() || g.i.get_gameTime() - this.rotateTimer < J.ROTATE_DELAY + Constants.rotateTime || g.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2)
                 return !1;
             var b = this.x2
               , c = this.y2;
-            this.set_localY(this.get_localY() - n.rotateOffset);
+            this.set_localY(this.get_localY() - Constants.rotateOffset);
             var d = l.rotation
               , e = l;
             e.set_rotation(e.rotation + a);
             l.rotating = !0;
             a = 0;
-            for (e = this.isColliding(); e && a < n.rotateOffset; )
+            for (e = this.isColliding(); e && a < Constants.rotateOffset; )
                 e = this.get_localY(),
                 this.set_localY(e - 1),
                 ++a,
@@ -2797,7 +2797,7 @@
             return !e
         },
         onRotateStart: function(a) {
-            this.set_localY(this.get_localY() - n.rotateOffset);
+            this.set_localY(this.get_localY() - Constants.rotateOffset);
             this.set_scaleX(a);
             this.adjust();
             this.set_animation(J.ANIM_ROTATE);
@@ -2815,7 +2815,7 @@
         onRotateEnd: function() {
             this.dx = this.dy = 0;
             this.grounded = !1;
-            this.set_localY(this.rotStartY - this.rotateAdjust + n.rotateOffset);
+            this.set_localY(this.rotStartY - this.rotateAdjust + Constants.rotateOffset);
             this.adjust()
         },
         __class__: J
@@ -2950,25 +2950,25 @@
             L.bakeSurface = new Ea(L.bakeCtx)
         }
         c = l.get_width() + 2;
-        L.bakeCanvas.width = c * n.tileSize;
+        L.bakeCanvas.width = c * Constants.tileSize;
         c = l.get_height() + 2;
-        L.bakeCanvas.height = c * n.tileSize;
+        L.bakeCanvas.height = c * Constants.tileSize;
         L.bakeSurface.reset();
         L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
         if (null == L.gridCanvas && E.__instanceof(g.i.currentScreen, A)) {
             L.gridCanvas = window.document.createElement("canvas");
-            L.gridCanvas.width = A.editorLevel.tiles[0].length * n.tileSize + 2;
-            L.gridCanvas.height = A.editorLevel.tiles.length * n.tileSize + 2;
+            L.gridCanvas.width = A.editorLevel.tiles[0].length * Constants.tileSize + 2;
+            L.gridCanvas.height = A.editorLevel.tiles.length * Constants.tileSize + 2;
             L.gridCtx = L.gridCanvas.getContext("2d", null);
             L.gridSurface = new Ea(L.gridCtx);
             L.gridSurface.beginFill(2105376, .2);
             c = 0;
             for (var d = A.editorLevel.tiles.length + 1; c < d; )
                 for (var e = c++, f = 0, m = A.editorLevel.tiles[0].length + 1; f < m; ) {
-                    var k = f++ * n.tileSize
-                      , p = e * n.tileSize;
-                    L.gridSurface.drawRect(k, p, 2, n.tileSize);
-                    L.gridSurface.drawRect(k + 2, p, n.tileSize - 2, 2)
+                    var k = f++ * Constants.tileSize
+                      , p = e * Constants.tileSize;
+                    L.gridSurface.drawRect(k, p, 2, Constants.tileSize);
+                    L.gridSurface.drawRect(k + 2, p, Constants.tileSize - 2, 2)
                 }
         }
         this.addEventListener("render", function(y) {
@@ -2980,15 +2980,15 @@
     L.prototype = D(x.prototype, {
         render: function(a, b) {
             if (null != l.level) {
-                a.drawImage(L.bakeCanvas, null, -n.tileSize, -n.tileSize);
+                a.drawImage(L.bakeCanvas, null, -Constants.tileSize, -Constants.tileSize);
                 var c = null;
                 if (!l.rotating) {
                     c = l.rotation;
                     c = b.globalToLocal(1 == c || 2 == c ? h.width : 0, 2 == c || 3 == c ? h.height : 0);
-                    var d = Math.floor(c.x / n.tileSize)
-                      , e = Math.floor((c.x + h.width - n.E) / n.tileSize)
-                      , f = Math.floor(c.y / n.tileSize)
-                      , m = Math.floor((c.y + h.height - n.E) / n.tileSize);
+                    var d = Math.floor(c.x / Constants.tileSize)
+                      , e = Math.floor((c.x + h.width - Constants.E) / Constants.tileSize)
+                      , f = Math.floor(c.y / Constants.tileSize)
+                      , m = Math.floor((c.y + h.height - Constants.E) / Constants.tileSize);
                     c = function(fa, ka) {
                         return fa >= d && ka >= f && fa <= e ? ka <= m : !1
                     }
@@ -3008,9 +3008,9 @@
                             }
                         else
                             y = c(p.x, p.y);
-                    y && (a.translate(p.x * n.tileSize, p.y * n.tileSize),
+                    y && (a.translate(p.x * Constants.tileSize, p.y * Constants.tileSize),
                     p.get_block().render(a, p),
-                    a.translate(-p.x * n.tileSize, -p.y * n.tileSize))
+                    a.translate(-p.x * Constants.tileSize, -p.y * Constants.tileSize))
                 }
                 this.showGrid && null != L.gridCanvas && a.drawImage(L.gridCanvas, null, 0, 0);
                 if (E.__instanceof(g.i.currentScreen, w) && (c = g.i.currentScreen,
@@ -3026,7 +3026,7 @@
         },
         renderArrow: function(a, b, c, d) {
             null == d && (d = 0);
-            var e = n.tileSize;
+            var e = Constants.tileSize;
             a.translate((b + .5) * e, (c + .5) * e);
             a.rotate(-l.rotation * Math.PI / 2);
             a.drawImage(Images.interact, null, -Images.interact.width / 2, Math.round(-e / 2 - Images.interact.height + 2 * Math.sin(8 * g.i.get_gameTime())) + d);
@@ -3051,15 +3051,15 @@
                         f = d++,
                         m = l.getBlockData(f, c),
                         k = m.get_block(),
-                        null != k && k.shouldRender(m) && !k.alwaysUpdate(m) && (L.bakeSurface.translate((f + 1) * n.tileSize, (c + 1) * n.tileSize),
+                        null != k && k.shouldRender(m) && !k.alwaysUpdate(m) && (L.bakeSurface.translate((f + 1) * Constants.tileSize, (c + 1) * Constants.tileSize),
                         k.render(L.bakeSurface, m),
-                        L.bakeSurface.translate(-(f + 1) * n.tileSize, -(c + 1) * n.tileSize))
+                        L.bakeSurface.translate(-(f + 1) * Constants.tileSize, -(c + 1) * Constants.tileSize))
             }
         },
         updateBlockPlus: function(a, b, c) {
             null == c && (c = !1);
             L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
-            L.bakeSurface.clearRect(a * n.tileSize, b * n.tileSize, 3 * n.tileSize, 3 * n.tileSize);
+            L.bakeSurface.clearRect(a * Constants.tileSize, b * Constants.tileSize, 3 * Constants.tileSize, 3 * Constants.tileSize);
             for (var d = b - 1, e = b + 2; d < e; )
                 for (var f = d++, m = a - 1, k = a + 2; m < k; ) {
                     var p = m++;
@@ -3067,24 +3067,24 @@
                         var y = l.getBlockData(p, f)
                           , H = y.get_block();
                         if (null != H) {
-                            L.bakeSurface.translate((p + 1) * n.tileSize, (f + 1) * n.tileSize);
+                            L.bakeSurface.translate((p + 1) * Constants.tileSize, (f + 1) * Constants.tileSize);
                             var K = 1 == l.level.theme ? Images.bgBricks : Images.bgTiles;
-                            L.bakeSurface.drawImage(K, new z((p + 1) * n.tileSize % K.width,(f + 1) * n.tileSize % K.height,n.tileSize,n.tileSize), 0, 0);
+                            L.bakeSurface.drawImage(K, new z((p + 1) * Constants.tileSize % K.width,(f + 1) * Constants.tileSize % K.height,Constants.tileSize,Constants.tileSize), 0, 0);
                             H.shouldRender(y) && !H.alwaysUpdate(y) && H.render(L.bakeSurface, y);
-                            L.bakeSurface.translate(-(p + 1) * n.tileSize, -(f + 1) * n.tileSize)
+                            L.bakeSurface.translate(-(p + 1) * Constants.tileSize, -(f + 1) * Constants.tileSize)
                         }
                     }
                 }
             this.renderDecals()
         },
         renderDecals: function() {
-            var a = n.tileSize;
+            var a = Constants.tileSize;
             L.bakeSurface.drawImage(Images.blocks, new z(a,2 * a,a,2 * a), (l.level.startCol + 1) * a, l.level.startRow * a);
             L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (l.level.finishCol + 1) * a, l.level.finishRow * a);
             E.__instanceof(l.level, Aa) && L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (Aa.fakeCol + 1) * a, Aa.fakeRow * a)
         },
         getBoundsSelf: function() {
-            return new z(0,0,l.get_width() * n.tileSize,l.get_height() * n.tileSize)
+            return new z(0,0,l.get_width() * Constants.tileSize,l.get_height() * Constants.tileSize)
         },
         __class__: L
     });
@@ -3106,7 +3106,7 @@
             return !1
         },
         getColliders: function(a) {
-            return [new La(new z(0,0,n.tileSize,n.tileSize))]
+            return [new La(new z(0,0,Constants.tileSize,Constants.tileSize))]
         },
         onTrigger: function(a) {
             return !0
@@ -3170,7 +3170,7 @@
             var d = b.getMeta(1);
             if (!(0 >= d)) {
                 var e = b.getMeta(2)
-                  , f = n.tileSize;
+                  , f = Constants.tileSize;
                 a.translate(f / 2, f / 2);
                 a.rotate(e * Math.PI / 2);
                 a.translate(-f / 2, -f / 2);
@@ -3182,7 +3182,7 @@
                         var p = w.i.channels
                           , y = b.getMeta(0);
                         p = p.h[y];
-                        null != p && (c = Math.min(1, (g.i.get_gameTime() - p.lastChanged) / n.doorSlideTime),
+                        null != p && (c = Math.min(1, (g.i.get_gameTime() - p.lastChanged) / Constants.doorSlideTime),
                         c = g.smootherStep(c),
                         c = m ? (1 - c) * k : c * k)
                     }
@@ -3364,7 +3364,7 @@
             return [this.angle]
         },
         renderRotated: function(a, b, c, d) {
-            var e = n.tileSize
+            var e = Constants.tileSize
               , f = e / 2;
             a.translate(f, f);
             a.rotate(b.getMeta(0) * Math.PI / 2);
@@ -3390,7 +3390,7 @@
             null == c && (c = !0);
             b = b.getMeta(0) % 4;
             c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
-            a.drawImage(Images.blocks, new z(((0 < b && 3 > b ? 1 : 0) + 2 * c) * n.tileSize,(5 + (1 < b ? 1 : 0)) * n.tileSize,n.tileSize,n.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new z(((0 < b && 3 > b ? 1 : 0) + 2 * c) * Constants.tileSize,(5 + (1 < b ? 1 : 0)) * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         __class__: zb
     });
@@ -3401,7 +3401,7 @@
     Ab.__super__ = X;
     Ab.prototype = D(X.prototype, {
         render: function(a, b, c) {
-            a.drawImage(Images.blocks, new z(0,3 * n.tileSize,n.tileSize,n.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new z(0,3 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         shouldRender: function(a) {
             return !1
@@ -3460,7 +3460,7 @@
             0 < a.getMeta(1) && w.i.signalOn(a.x, a.y, a.getMeta(0))
         },
         getColliders: function(a) {
-            return [new La(new z(.15 * n.tileSize,.15 * n.tileSize,.7 * n.tileSize,.7 * n.tileSize))]
+            return [new La(new z(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
         },
         alwaysUpdate: function(a) {
             return !E.__instanceof(g.i.currentScreen, A)
@@ -3468,7 +3468,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = 0 < b.getMeta(1);
-            a.drawImage(Images.blocks, new z((d ? 4 : 3) * n.tileSize,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0);
+            a.drawImage(Images.blocks, new z((d ? 4 : 3) * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0);
             c && E.__instanceof(g.i.currentScreen, A) && A.renderBlockText(a, b.getMeta(0) + "")
         },
         setupBubble: function(a) {
@@ -3556,8 +3556,8 @@
             f = e || m ? m ? e ? f ? 0 : 1 : 2 : 3 : 4;
             y = p || b ? b ? p ? y ? 0 : 1 : 2 : 3 : 4;
             m = p || m ? m ? p ? k ? 0 : 1 : 2 : 3 : 4;
-            k = n.tileSize;
-            p = n.tileSize / 2;
+            k = Constants.tileSize;
+            p = Constants.tileSize / 2;
             a.drawImage(Images.blocks, new z((e || b ? b ? e ? d ? 0 : 1 : 2 : 3 : 4) * k,0,p,p), 0, 0);
             a.drawImage(Images.blocks, new z(f * k + p,0,p,p), p, 0);
             a.drawImage(Images.blocks, new z(y * k,p,p,p), 0, p);
@@ -3588,12 +3588,12 @@
         },
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,n.tileSize,n.tileSize), 0, 0, !1);
+            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
             b = b.getMeta(0);
-            0 > b ? (a.drawImage(Images.blocks, new z(100,4 * n.tileSize,10,n.tileSize), 14, 0, !1),
-            -1 == b && a.drawImage(Images.blocks, new z(110,4 * n.tileSize,10,n.tileSize), 0, 0, !1),
-            -2 == b && a.drawImage(Images.blocks, new z(120,4 * n.tileSize,10,n.tileSize), 0, 0, !1)) : (a.drawImage(Images.blocks, new z(b % 10 * 10,4 * n.tileSize,10,n.tileSize), 14, 0, !1),
-            a.drawImage(Images.blocks, new z(10 * Math.min(Math.floor(.1 * b), 9),4 * n.tileSize,10,n.tileSize), 0, 0, !1))
+            0 > b ? (a.drawImage(Images.blocks, new z(100,4 * Constants.tileSize,10,Constants.tileSize), 14, 0, !1),
+            -1 == b && a.drawImage(Images.blocks, new z(110,4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1),
+            -2 == b && a.drawImage(Images.blocks, new z(120,4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1)) : (a.drawImage(Images.blocks, new z(b % 10 * 10,4 * Constants.tileSize,10,Constants.tileSize), 14, 0, !1),
+            a.drawImage(Images.blocks, new z(10 * Math.min(Math.floor(.1 * b), 9),4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1))
         },
         setupBubble: function(a) {
             var b = this
@@ -3639,7 +3639,7 @@
     Cb.__super__ = da;
     Cb.prototype = D(da.prototype, {
         render: function(a, b, c) {
-            this.renderRotated(a, b, 7 * n.tileSize, 0)
+            this.renderRotated(a, b, 7 * Constants.tileSize, 0)
         },
         getColliders: function(a) {
             return [new jb(a.getMeta(0))]
@@ -3653,7 +3653,7 @@
     $a.__super__ = da;
     $a.prototype = D(da.prototype, {
         render: function(a, b, c) {
-            this.renderRotated(a, b, 6 * n.tileSize, 0)
+            this.renderRotated(a, b, 6 * Constants.tileSize, 0)
         },
         getColliders: function(a) {
             return [new Wa(a.getMeta(0))]
@@ -3672,8 +3672,8 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = g.i.get_gameTimeMS() / 40;
-            c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(d - (d < n.E ? 0 : n.E)) % 3;
-            this.renderRotated(a, b, (4 + c) * n.tileSize, n.tileSize)
+            c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(d - (d < Constants.E ? 0 : Constants.E)) % 3;
+            this.renderRotated(a, b, (4 + c) * Constants.tileSize, Constants.tileSize)
         },
         getColliders: function(a) {
             return [new kb(a.getMeta(0))]
@@ -3698,10 +3698,10 @@
         },
         render: function(a, b, c) {
             null == c && (c = !0);
-            this.renderRotated(a, b, (c ? Math.floor((b.x + b.y) % 4) : 0) * n.tileSize, n.tileSize)
+            this.renderRotated(a, b, (c ? Math.floor((b.x + b.y) % 4) : 0) * Constants.tileSize, Constants.tileSize)
         },
         getColliders: function(a) {
-            var b = n.tileSize;
+            var b = Constants.tileSize;
             var c = b / 2
               , d = .5 * b
               , e = (b - d) / 2;
@@ -3725,12 +3725,12 @@
     Fb.__super__ = $a;
     Fb.prototype = D($a.prototype, {
         render: function(a, b, c) {
-            c = n.tileSize;
+            c = Constants.tileSize;
             var d = c / 2;
             a.translate(d, d);
             1 < b.getMeta(0) && a.rotate(Math.PI);
             1 != b.getMeta(0) && 3 != b.getMeta(0) || a.scale(-1, 1);
-            a.drawImage(Images.blocks, new z(5 * n.tileSize,0,c,c), -d, -d);
+            a.drawImage(Images.blocks, new z(5 * Constants.tileSize,0,c,c), -d, -d);
             1 != b.getMeta(0) && 3 != b.getMeta(0) || a.scale(-1, 1);
             1 < b.getMeta(0) && a.rotate(-Math.PI);
             a.translate(-d, -d)
@@ -3744,7 +3744,7 @@
     Gb.__super__ = X;
     Gb.prototype = D(X.prototype, {
         render: function(a, b, c) {
-            a.drawImage(Images.blocks, new z(0,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new z(0,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         shouldRender: function(a) {
             return !1
@@ -3759,8 +3759,8 @@
     Hb.prototype = D(va.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,n.tileSize,n.tileSize), 0, 0, !1);
-            a.drawImage(Images.blocks, new z(5 * n.tileSize,2 * n.tileSize,n.tileSize,n.tileSize), 0, 0, !1)
+            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
+            a.drawImage(Images.blocks, new z(5 * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0, !1)
         },
         __class__: Hb
     });
@@ -3836,18 +3836,18 @@
                 }
         },
         collsionHandler: function(a) {
-            var b = Math.floor(a.x / n.tileSize)
-              , c = Math.floor(a.y / n.tileSize);
+            var b = Math.floor(a.x / Constants.tileSize)
+              , c = Math.floor(a.y / Constants.tileSize);
             if (l.isInBounds(b, c)) {
                 var d = l.getBlockData(b, c)
                   , e = d.get_block();
                 if (e.collides(d) && !e.isTrigger(d)) {
-                    var f = new Q(a.x - b * n.tileSize,a.y - c * n.tileSize);
+                    var f = new Q(a.x - b * Constants.tileSize,a.y - c * Constants.tileSize);
                     d = e.getColliders(d);
                     for (e = 0; e < d.length; ) {
                         var m = d[e];
                         ++e;
-                        if (m.testPoint(f, new Q(a.lastX - b * n.tileSize,a.lastY - c * n.tileSize))) {
+                        if (m.testPoint(f, new Q(a.lastX - b * Constants.tileSize,a.lastY - c * Constants.tileSize))) {
                             a.freeze = !0;
                             break
                         }
@@ -3946,32 +3946,32 @@
             this.s1 = !0;
             this.s2 = this.s3 = this.s4 = this.s5 = !1;
             null == this.c1 && (this.c1 = new I(Images.controls1));
-            this.c1.set_x(3.5 * n.tileSize);
-            this.c1.set_y(9 * n.tileSize);
+            this.c1.set_x(3.5 * Constants.tileSize);
+            this.c1.set_y(9 * Constants.tileSize);
             this.c1.set_alpha(this.a1);
             a.overlay.addChild(this.c1);
             null == this.c2 && (this.c2 = new I(Images.controls2));
-            this.c2.set_x(10 * n.tileSize);
-            this.c2.set_y(11 * n.tileSize);
+            this.c2.set_x(10 * Constants.tileSize);
+            this.c2.set_y(11 * Constants.tileSize);
             this.c2.set_alpha(this.a2);
             a.overlay.addChild(this.c2);
             null == this.c3 && (this.c3 = new I(Images.controls3));
-            this.c3.set_x(18.5 * n.tileSize);
-            this.c3.set_y(9 * n.tileSize);
+            this.c3.set_x(18.5 * Constants.tileSize);
+            this.c3.set_y(9 * Constants.tileSize);
             this.c3.set_alpha(this.a3);
             this.c3.clipRect.width = 48;
             g.i.invert && (this.c3.clipRect.x = 48);
             a.overlay.addChild(this.c3);
             null == this.c4 && (this.c4 = new I(Images.controls4));
-            this.c4.set_x(29 * n.tileSize);
-            this.c4.set_y(n.tileSize);
+            this.c4.set_x(29 * Constants.tileSize);
+            this.c4.set_y(Constants.tileSize);
             this.c4.set_alpha(this.a4);
             this.c4.clipRect.width = 48;
             g.i.invert && (this.c4.clipRect.x = 48);
             a.overlay.addChild(this.c4);
             null == this.c5 && (this.c5 = new I(Images.controls5));
-            this.c5.set_x(24.5 * n.tileSize);
-            this.c5.set_y(5 * n.tileSize);
+            this.c5.set_x(24.5 * Constants.tileSize);
+            this.c5.set_y(5 * Constants.tileSize);
             this.c5.set_alpha(this.a5);
             a.overlay.addChild(this.c5);
             this.speech = new U([new C(new M(1),"Make your way to the exit.")])
@@ -4001,10 +4001,10 @@
         },
         update: function() {
             this.speech.update();
-            this.s1 && w.i.player.x > 10 * n.tileSize ? (this.s1 = !1,
-            this.s2 = !0) : this.s2 && w.i.player.x > 17 * n.tileSize ? (this.s2 = !1,
-            this.s3 = !0) : this.s3 && w.i.player.x > 27 * n.tileSize && w.i.player.grounded && !l.rotating && 1 == l.rotation ? (this.s3 = !1,
-            this.s4 = !0) : this.s4 && w.i.player.x > 22 * n.tileSize && w.i.player.grounded && !l.rotating && 0 == l.rotation && (this.s4 = !1,
+            this.s1 && w.i.player.x > 10 * Constants.tileSize ? (this.s1 = !1,
+            this.s2 = !0) : this.s2 && w.i.player.x > 17 * Constants.tileSize ? (this.s2 = !1,
+            this.s3 = !0) : this.s3 && w.i.player.x > 27 * Constants.tileSize && w.i.player.grounded && !l.rotating && 1 == l.rotation ? (this.s3 = !1,
+            this.s4 = !0) : this.s4 && w.i.player.x > 22 * Constants.tileSize && w.i.player.grounded && !l.rotating && 0 == l.rotation && (this.s4 = !1,
             this.s5 = !0);
             this.c3.clipRect.x = this.c4.clipRect.x = g.i.invert ? 48 : 0
         },
@@ -4398,8 +4398,8 @@
             this.a1 = 0;
             this.s1 = this.s2 = !1;
             null == this.c1 && (this.c1 = new I(Images.controls5));
-            this.c1.set_x(28.5 * n.tileSize);
-            this.c1.set_y(28 * n.tileSize);
+            this.c1.set_x(28.5 * Constants.tileSize);
+            this.c1.set_y(28 * Constants.tileSize);
             this.c1.set_alpha(this.a1);
             a.overlay.addChild(this.c1);
             this.speech = new U([new C(new M(.5),"Forget about it, let's continue."), new C(new V(.5,6,14,1,3,3),"I won't let it take you from me."), new C(new M(4),"I still need you."), new C(new V(.5,22,20,4,1),"No, not this again."), new C(new ia(33,24,1,3),"Don't go there!")]);
@@ -4416,7 +4416,7 @@
             this.speech.update();
             this.cat.update();
             this.s1 ? g.i.currentScreen.getChannelStatus(0) || (this.s1 = !1,
-            this.s2 = !0) : !this.s2 && w.i.player.x >= 28 * n.tileSize && w.i.player.y >= 24 * n.tileSize && (this.s1 = !0)
+            this.s2 = !0) : !this.s2 && w.i.player.x >= 28 * Constants.tileSize && w.i.player.y >= 24 * Constants.tileSize && (this.s1 = !0)
         },
         finished: function() {
             return B.level9
@@ -4483,7 +4483,7 @@
         __class__: kb
     };
     var jb = function(a) {
-        this.bounds = new z(0,0,n.tileSize,n.tileSize);
+        this.bounds = new z(0,0,Constants.tileSize,Constants.tileSize);
         this.dir = a
     };
     jb.__name__ = !0;
@@ -4518,7 +4518,7 @@
             return this.dir = 0 > a || 3 < a ? 0 : a
         },
         testPoint: function(a, b) {
-            return 0 == this.dir && a.x + a.y > n.tileSize || 1 == this.dir && n.tileSize - a.x + a.y > n.tileSize || 2 == this.dir && a.x + a.y < n.tileSize ? !0 : 3 == this.dir ? n.tileSize - a.x + a.y < n.tileSize : !1
+            return 0 == this.dir && a.x + a.y > Constants.tileSize || 1 == this.dir && Constants.tileSize - a.x + a.y > Constants.tileSize || 2 == this.dir && a.x + a.y < Constants.tileSize ? !0 : 3 == this.dir ? Constants.tileSize - a.x + a.y < Constants.tileSize : !1
         },
         __class__: Wa
     };
@@ -4548,7 +4548,7 @@
     };
     var ia = function(a, b, c, d, e) {
         null == e && (e = -1);
-        this.bounds = new z(a * n.tileSize,b * n.tileSize,c * n.tileSize,d * n.tileSize);
+        this.bounds = new z(a * Constants.tileSize,b * Constants.tileSize,c * Constants.tileSize,d * Constants.tileSize);
         this.rotation = e
     };
     ia.__name__ = !0;
@@ -4575,7 +4575,7 @@
         null == f && (f = -1);
         this.hit = !1;
         this.delay = a;
-        this.bounds = new z(b * n.tileSize,c * n.tileSize,d * n.tileSize,e * n.tileSize);
+        this.bounds = new z(b * Constants.tileSize,c * Constants.tileSize,d * Constants.tileSize,e * Constants.tileSize);
         this.rotation = f
     };
     V.__name__ = !0;
@@ -4769,7 +4769,7 @@
         },
         update: function() {
             if (this.rotating) {
-                var a = Math.min((g.i.get_gameTime() - this.rotateStart) / n.rotateTime, 1)
+                var a = Math.min((g.i.get_gameTime() - this.rotateStart) / Constants.rotateTime, 1)
                   , b = g.smootherStep(a);
                 this.pivot.set_rotation(this.rotateStartAngle + (this.rotateEndAngle - this.rotateStartAngle) * b);
                 if (1 == a) {
@@ -4872,7 +4872,7 @@
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 64);
             this.btnBack.addEventListener("click", function(c) {
-                2 > c.which && (a.fromEnd && Sounds.surface.playing() && (g.ie ? Sounds.surface.stop() : (Sounds.surface.fade(1, 0, Math.round(n.screenFadeTime / 2)),
+                2 > c.which && (a.fromEnd && Sounds.surface.playing() && (g.ie ? Sounds.surface.stop() : (Sounds.surface.fade(1, 0, Math.round(Constants.screenFadeTime / 2)),
                 Sounds.surface.once("fade", function() {
                     Sounds.surface.stop()
                 }))),
@@ -4912,7 +4912,7 @@
         },
         doRotation: function(a) {
             if (l.rotating) {
-                var b = Math.min((g.i.get_gameTime() - this.rotateStart) / n.rotateTime, 1)
+                var b = Math.min((g.i.get_gameTime() - this.rotateStart) / Constants.rotateTime, 1)
                   , c = g.smootherStep(b);
                 this.pivot.set_rotation(this.rotateStartAngle + (this.rotateEndAngle - this.rotateStartAngle) * c);
                 null != a && (a.set_rotation(-this.pivot.rotation),
@@ -4964,7 +4964,7 @@
     ;
     A.renderBlockRed = function(a, b, c) {
         a.beginFill(10428448, .4);
-        a.drawRect(b, c, n.tileSize, n.tileSize);
+        a.drawRect(b, c, Constants.tileSize, Constants.tileSize);
         a.endFill()
     }
     ;
@@ -4980,8 +4980,8 @@
                     m.get_block() == F.door && 0 < m.getMeta(1) && this.doors.push(new Va(m))
                 }
             qa.prototype.init.call(this);
-            this.cameraX = -(l.level.startCol + .5) * n.tileSize;
-            this.cameraY = -(l.level.startRow - .5) * n.tileSize;
+            this.cameraX = -(l.level.startCol + .5) * Constants.tileSize;
+            this.cameraY = -(l.level.startRow - .5) * Constants.tileSize;
             this.mouseEnabled = !0;
             this.addEventListener("mouseDown", function(k) {
                 2 > k.which && k.target == a && (a.drawing = !0)
@@ -5125,8 +5125,8 @@
                     if (null == l.level)
                         return;
                     b = this.renderer.globalToLocal(b, c);
-                    var d = Math.floor(b.x / n.tileSize)
-                      , e = Math.floor(b.y / n.tileSize);
+                    var d = Math.floor(b.x / Constants.tileSize)
+                      , e = Math.floor(b.y / Constants.tileSize);
                     if (l.isInBounds(d, e)) {
                         var f = [];
                         b = null;
@@ -5385,22 +5385,22 @@
             this.addChild(this.pivot);
             this.pivot.addChild(this.camera);
             this.camera.addChild(this.artMain);
-            this.artPlants.set_y(11 * n.tileSize);
+            this.artPlants.set_y(11 * Constants.tileSize);
             this.artPlants.set_animation(new sa([0, 1, 2],[250, 250, 250]));
             this.camera.addChild(this.artPlants);
-            this.cat.x2 = this.cat.set_x(17.5 * n.tileSize);
-            this.cat.set_y(12 * n.tileSize);
+            this.cat.x2 = this.cat.set_x(17.5 * Constants.tileSize);
+            this.cat.set_y(12 * Constants.tileSize);
             this.cat.set_scaleX(-1);
             this.cat.set_animation(S.ANIM_IDLE);
             this.camera.addChild(this.cat);
             this.player.origin.x = this.player.frameW / 2;
             this.player.origin.y = this.player.frameH;
             this.player.set_animation(J.ANIM_IDLE);
-            this.player.set_x(10.5 * n.tileSize);
-            this.player.set_y(12 * n.tileSize);
+            this.player.set_x(10.5 * Constants.tileSize);
+            this.player.set_y(12 * Constants.tileSize);
             this.camera.addChild(this.player);
             this.camera.set_x(Math.round(this.cameraX = -this.player.x));
-            this.camera.set_y(Math.round(this.cameraY = -this.player.y + n.rotateOffset + 2 * n.tileSize));
+            this.camera.set_y(Math.round(this.cameraY = -this.player.y + Constants.rotateOffset + 2 * Constants.tileSize));
             this.vignette.set_alpha(.75);
             this.addChild(this.vignette);
             this.hint.xAlign = r.X_ALIGN_CENTER;
@@ -5411,7 +5411,7 @@
             this.addChild(this.hint);
             Sounds.surface.volume(1);
             g.ie && g.i.muteSFX && g.i.muteMusic ? g.i.ieSurface = !0 : (Sounds.surface.play(),
-            g.ie || Sounds.surface.fade(0, 1, Math.round(n.screenFadeTimeSlow / 2)))
+            g.ie || Sounds.surface.fade(0, 1, Math.round(Constants.screenFadeTimeSlow / 2)))
         },
         update: function() {
             var a = this
@@ -5434,9 +5434,9 @@
             g.i.timerHolder.removeChildren())
         },
         tick: function() {
-            var a = .75 * n.cameraSpeed;
+            var a = .75 * Constants.cameraSpeed;
             this.cameraX += (-this.player.x - this.cameraX) * a;
-            this.cameraY += (-this.player.y + n.rotateOffset - this.cameraY) * a;
+            this.cameraY += (-this.player.y + Constants.rotateOffset - this.cameraY) * a;
             this.cat.x < h.width + 100 && this.cat.tick()
         },
         postUpdate: function() {
@@ -5600,7 +5600,7 @@
     ;
     ca.stopTheme = function() {
         g.ie ? (Sounds.themeMenu.stop(),
-        g.i.ieMenu = !1) : (Sounds.themeMenu.fade(1, 0, Math.floor(n.screenFadeTime / 2)),
+        g.i.ieMenu = !1) : (Sounds.themeMenu.fade(1, 0, Math.floor(Constants.screenFadeTime / 2)),
         Sounds.themeMenu.once("fade", function() {
             Sounds.themeMenu.stop();
             Sounds.themeMenu.volume(1)
@@ -5691,7 +5691,7 @@
                 b || a.stop();
             else {
                 var c = a.volume();
-                a.fade(c, 0, Math.floor(n.screenFadeTime / 2) + (b ? 1E4 : 0));
+                a.fade(c, 0, Math.floor(Constants.screenFadeTime / 2) + (b ? 1E4 : 0));
                 a.once("fade", function() {
                     w.canceled || (a.stop(),
                     a.volume(1))
@@ -5725,13 +5725,13 @@
             l.level.start();
             qa.prototype.init.call(this);
             this.player = new J;
-            this.player.set_x(this.player.x2 = this.player.lastX = (l.level.startCol + .5) * n.tileSize);
-            this.player.set_y(this.player.y2 = this.player.lastY = (l.level.startRow + 1) * n.tileSize);
+            this.player.set_x(this.player.x2 = this.player.lastX = (l.level.startCol + .5) * Constants.tileSize);
+            this.player.set_y(this.player.y2 = this.player.lastY = (l.level.startRow + 1) * Constants.tileSize);
             this.player.set_scaleX(0 > l.level.startDir ? -1 : 1);
             this.level.addChild(this.player);
             a = this.findCameraGoal();
             this.camera.set_x(Math.round(this.cameraX = a.x));
-            this.camera.set_y(Math.round(this.cameraY = a.y + 2 * n.tileSize));
+            this.camera.set_y(Math.round(this.cameraY = a.y + 2 * Constants.tileSize));
             this.level.addChild(this.blood);
             this.level.addChild(this.overlay);
             this.vignette.set_alpha(.75);
@@ -5798,7 +5798,7 @@
                 var b = !1;
                 ++a;
                 if (this.speedrun && a == B.list.length) {
-                    if (this.speedrunFinal = g.i.get_gameTimeMS() - this.speedrunStart + n.screenFadeTime / 2,
+                    if (this.speedrunFinal = g.i.get_gameTimeMS() - this.speedrunStart + Constants.screenFadeTime / 2,
                     0 > B.speedrunBest || this.speedrunFinal < B.speedrunBest)
                         B.speedrunBest = this.speedrunFinal,
                         b = this.newBest = !0
@@ -5828,8 +5828,8 @@
             l.level.tick();
             null != this.cat && this.cat.tick();
             var a = this.findCameraGoal();
-            this.cameraX += (a.x - this.cameraX) * n.cameraSpeed;
-            this.cameraY += (a.y - this.cameraY) * n.cameraSpeed
+            this.cameraX += (a.x - this.cameraX) * Constants.cameraSpeed;
+            this.cameraY += (a.y - this.cameraY) * Constants.cameraSpeed
         },
         postUpdate: function() {
             this.player.postUpdate();
@@ -5840,7 +5840,7 @@
         },
         findCameraGoal: function() {
             var a = this.player.localToGlobal(0, 0);
-            a = this.camera.globalToLocal(a.x, a.y - (l.rotating ? 0 : n.rotateOffset));
+            a = this.camera.globalToLocal(a.x, a.y - (l.rotating ? 0 : Constants.rotateOffset));
             a.x *= -1;
             a.y *= -1;
             return a
@@ -5861,8 +5861,8 @@
         },
         catAppear: function(a, b, c) {
             this.cat = new S;
-            this.cat.set_x(this.cat.x2 = (a + .5) * n.tileSize);
-            this.cat.set_y((b + 1) * n.tileSize);
+            this.cat.set_x(this.cat.x2 = (a + .5) * Constants.tileSize);
+            this.cat.set_y((b + 1) * Constants.tileSize);
             this.cat.set_scaleX(c);
             this.cat.set_animation(S.ANIM_IDLE);
             this.level.addChild(this.cat)
@@ -6163,7 +6163,7 @@
                 e.rotatePreview() && (a.translate(O.size2, O.size2),
                 a.rotate(l.rotation * Math.PI / 2),
                 a.translate(-O.size2, -O.size2));
-                a.drawRect(0, 0, n.tileSize, n.tileSize);
+                a.drawRect(0, 0, Constants.tileSize, Constants.tileSize);
                 e.render(a, new wb(0,0,e.id,e.getConfigMeta()), !1);
                 e.rotatePreview() && (a.translate(O.size2, O.size2),
                 a.rotate(-l.rotation * Math.PI / 2),
@@ -6173,7 +6173,7 @@
             a.translate(-2, -2)
         },
         getBoundsSelf: function() {
-            return new z(0,0,O.list.length * (n.tileSize + 4),n.tileSize + 4)
+            return new z(0,0,O.list.length * (Constants.tileSize + 4),Constants.tileSize + 4)
         },
         __class__: O
     });
@@ -6751,16 +6751,16 @@
     za.BYTES = ya.ofString(za.CHARS);
     E.__toStr = {}.toString;
     Ia.BYTES_PER_ELEMENT = 1;
-    n.E = 1E-8;
-    n.screenFadeTime = 700;
-    n.screenFadeTimeSlow = 1600;
-    n.tileSize = 24;
-    n.tickMS = 16.666666666666668;
-    n.ticksMax = 12;
-    n.cameraSpeed = .075;
-    n.rotateTime = .5;
-    n.rotateOffset = 1.5 * n.tileSize;
-    n.doorSlideTime = .2;
+    Constants.E = 1E-8;
+    Constants.screenFadeTime = 700;
+    Constants.screenFadeTimeSlow = 1600;
+    Constants.tileSize = 24;
+    Constants.tickMS = 16.666666666666668;
+    Constants.ticksMax = 12;
+    Constants.cameraSpeed = .075;
+    Constants.rotateTime = .5;
+    Constants.rotateOffset = 1.5 * Constants.tileSize;
+    Constants.doorSlideTime = .2;
     Images.start = t.loadImage("img/start.png");
     Images.splashLWS = t.loadImage("img/splash-lws.png");
     Images.linkLWS = t.loadImage("img/link-lws.png");
@@ -6960,8 +6960,8 @@
     r.Y_ALIGN_TOP = 0;
     r.Y_ALIGN_MIDDLE = 1;
     r.Y_ALIGN_BOTTOM = 2;
-    O.size2 = n.tileSize / 2;
-    O.size4 = n.tileSize + 4;
+    O.size2 = Constants.tileSize / 2;
+    O.size4 = Constants.tileSize + 4;
     O.list = [F.air, F.solid, F.start, F.finish, F.stairs, F.ramp, F.platform, F.spikes, F.saw, F.lever, F.door, F.number, F.vent, F.fan];
     O.selected = 1;
     Pa.HEIGHT = 48;
