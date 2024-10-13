@@ -3128,19 +3128,19 @@
         onInteract: function(a) {},
         __class__: X
     };
-    var xb = function() {
+    var TileAir = function() {
         X.call(this)
     };
-    xb.__name__ = !0;
-    xb.__super__ = X;
-    xb.prototype = __INHERIT__(X.prototype, {
+    TileAir.__name__ = !0;
+    TileAir.__super__ = X;
+    TileAir.prototype = __INHERIT__(X.prototype, {
         collides: function(a) {
             return !1
         },
         shouldRender: function(a) {
             return !1
         },
-        __class__: xb
+        __class__: TileAir
     });
     var yb = function() {
         this.angle = 0;
@@ -6902,7 +6902,7 @@
     EditorTiles.registry = [];
     EditorTiles.start = EditorTiles.register(-1, new TileStart);
     EditorTiles.finish = EditorTiles.register(-2, new TileFinish);
-    EditorTiles.air = EditorTiles.register(0, new xb);
+    EditorTiles.air = EditorTiles.register(0, new TileAir);
     EditorTiles.solid = EditorTiles.register(1, new va);
     EditorTiles.stairs = EditorTiles.register(2, new Fb);
     EditorTiles.ramp = EditorTiles.register(3, new $a);
