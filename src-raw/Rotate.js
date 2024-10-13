@@ -4710,7 +4710,7 @@
         this.awardDisplays = [];
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
-        this.btnBack = new ba("BACK");
+        this.btnBack = new Button("BACK");
         this.title = new r(g.fontMain,"AWARDS",1);
         this.bg = new Na;
         this.content = new x;
@@ -4804,7 +4804,7 @@
         this.text2 = new r(g.fontMain,"Special thanks to the playtesters\nand Patreon contributors!",1);
         this.joshua = new ImageSurface(Images.linkJoshua2);
         this.text1 = new r(g.fontMain,"Design, code, & music by",1);
-        this.btnBack = new ba("BACK");
+        this.btnBack = new Button("BACK");
         Screen.call(this);
         this.fromEnd = a
     };
@@ -5451,12 +5451,12 @@
         this.sponsor = new ButtonSponsor;
         this.bestTime = new r(g.fontMain,"Best time: ",2);
         this.text3 = new r(g.fontMain,"Finish the game as\nquickly as you can.",1);
-        this.btn3 = new ba("SPEEDRUN");
+        this.btn3 = new Button("SPEEDRUN");
         this.text2 = new r(g.fontMain,"Build custom levels\nand share codes.",1);
-        this.btn2 = new ba("EDITOR");
+        this.btn2 = new Button("EDITOR");
         this.text1 = new r(g.fontMain,"See all the awards\nthat you've earned.",1);
-        this.btn1 = new ba("AWARDS");
-        this.btnBack = new ba("BACK");
+        this.btn1 = new Button("AWARDS");
+        this.btnBack = new Button("BACK");
         this.title = new r(g.fontMain,"EXTRAS",1);
         this.bg = new Na;
         Screen.call(this)
@@ -5525,7 +5525,7 @@
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
         this.tiles = new x;
-        this.btnBack = new ba("BACK");
+        this.btnBack = new Button("BACK");
         this.title = new r(g.fontMain,"LEVEL SELECT",1);
         this.bg = new Na;
         Screen.call(this)
@@ -5585,9 +5585,9 @@
         this.erase = new ButtonErase;
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
-        this.btnCredits = new ba("CREDITS");
-        this.btnExtras = new ba("EXTRAS");
-        this.btnPlay = new ba("PLAY");
+        this.btnCredits = new Button("CREDITS");
+        this.btnExtras = new Button("EXTRAS");
+        this.btnPlay = new Button("PLAY");
         this.logo = new ImageSurface(Images.logo);
         this.bg = new Na;
         Screen.call(this)
@@ -6242,8 +6242,8 @@
         __class__: Da
     });
     var Yb = function() {
-        this.btnLoad = new ba("LOAD");
-        this.btnCancel = new ba("CANCEL");
+        this.btnLoad = new Button("LOAD");
+        this.btnCancel = new Button("CANCEL");
         this.invalid = new r(g.fontMain,"Level code is invalid!",2);
         var a = this;
         Da.call(this, "LOAD LEVEL");
@@ -6276,7 +6276,7 @@
         __class__: Yb
     });
     var Zb = function(a) {
-        this.btnBack = new ba("BACK");
+        this.btnBack = new Button("BACK");
         var b = this;
         Da.call(this, "SAVE LEVEL", a);
         this.area.readOnly = !0;
@@ -6475,7 +6475,7 @@
         },
         __class__: Na
     });
-    var ba = function(a, b) {
+    var Button = function(a, b) {
         null == b && (b = 0);
         x.call(this);
         this.main = new ImageSurface(Images.menuBtn);
@@ -6490,10 +6490,10 @@
         this.text.yAlign = r.Y_ALIGN_MIDDLE;
         this.addChild(this.text)
     };
-    ba.__name__ = !0;
-    ba.__super__ = x;
-    ba.prototype = __INHERIT__(x.prototype, {
-        __class__: ba
+    Button.__name__ = !0;
+    Button.__super__ = x;
+    Button.prototype = __INHERIT__(x.prototype, {
+        __class__: Button
     });
     var ButtonMute = function(a) {
         null == a && (a = 0);
@@ -6578,9 +6578,9 @@
         this.sponsor = new ButtonSponsor;
         this.mute = new ButtonMute(1);
         this.invert = new cc;
-        this.btnQuit = new ba("QUIT",0);
-        this.btnRedo = new ba("RESTART",0);
-        this.btnPlay = new ba("CONTINUE",0);
+        this.btnQuit = new Button("QUIT",0);
+        this.btnRedo = new Button("RESTART",0);
+        this.btnPlay = new Button("CONTINUE",0);
         this.text = new r(g.fontMain,"GAME PAUSED");
         x.call(this);
         this.graphics.beginFill(1052688, .85);
@@ -6652,8 +6652,8 @@
         __class__: ButtonSponsor
     });
     var ModalYesNo = function(a) {
-        this.btnNo = new ba("NO");
-        this.btnYes = new ba("YES");
+        this.btnNo = new Button("NO");
+        this.btnYes = new Button("YES");
         this.main = new r(g.fontMain,"",2);
         var b = this;
         x.call(this);
