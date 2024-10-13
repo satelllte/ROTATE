@@ -500,11 +500,11 @@
         a.drawImage(b, c, d, e, f, m, k, e, f))
     }
     ;
-    var rb = function() {
+    var Graphics = function() {
         this.clear()
     };
-    rb.__name__ = !0;
-    rb.prototype = {
+    Graphics.__name__ = !0;
+    Graphics.prototype = {
         get_length: function() {
             return this.items.length
         },
@@ -581,10 +581,10 @@
             null == f && (f = "normal");
             this.get_skipDraw() || this.call("drawText", [a, b, c, d, e, f, m, k])
         },
-        __class__: rb
+        __class__: Graphics
     };
     var x = function() {
-        this.graphics = new rb;
+        this.graphics = new Graphics;
         this._children = [];
         this._transformReverse = new gb;
         this._transform = new gb;
@@ -6726,7 +6726,7 @@
     N.startTime = 0;
     N.lastTime = 0;
     N.elapsedTime = 0;
-    rb.PI2 = 2 * Math.PI;
+    Graphics.PI2 = 2 * Math.PI;
     Y.ADDED = "added";
     Y.REMOVED = "removed";
     Y.ENTER_FRAME = "enterFrame";
