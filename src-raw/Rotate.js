@@ -4751,7 +4751,7 @@
                 this.content.removeChild(c)
             }
             null != this.erase && this.content.removeChild(this.erase);
-            this.erase = new Ya;
+            this.erase = new ButtonErase;
             this.content.addChild(this.erase);
             this.awardDisplays = [];
             a = Math.floor(AwardsManager.awardsAll.length / 3);
@@ -5446,7 +5446,7 @@
         __class__: ob
     });
     var ScreenExtras = function() {
-        this.erase = new Ya;
+        this.erase = new ButtonErase;
         this.mute = new Ba;
         this.sponsor = new Ma;
         this.bestTime = new r(g.fontMain,"Best time: ",2);
@@ -5521,7 +5521,7 @@
         __class__: ScreenExtras
     });
     var pb = function() {
-        this.erase = new Ya;
+        this.erase = new ButtonErase;
         this.mute = new Ba;
         this.sponsor = new Ma;
         this.tiles = new x;
@@ -5582,7 +5582,7 @@
         __class__: pb
     });
     var ca = function() {
-        this.erase = new Ya;
+        this.erase = new ButtonErase;
         this.mute = new Ba;
         this.sponsor = new Ma;
         this.btnCredits = new ba("CREDITS");
@@ -6390,7 +6390,7 @@
     R.prototype = __INHERIT__(x.prototype, {
         __class__: R
     });
-    var Ya = function() {
+    var ButtonErase = function() {
         I.call(this, Images.trash);
         this.set_x(h.width - 120);
         this.set_y(h.height - this.get_height() - 12);
@@ -6419,10 +6419,10 @@
             }
         })) : this.set_alpha(.33)
     };
-    Ya.__name__ = !0;
-    Ya.__super__ = I;
-    Ya.prototype = __INHERIT__(I.prototype, {
-        __class__: Ya
+    ButtonErase.__name__ = !0;
+    ButtonErase.__super__ = I;
+    ButtonErase.prototype = __INHERIT__(I.prototype, {
+        __class__: ButtonErase
     });
     var bc = function(a) {
         this.label = new r(g.fontMain,"Grid");
