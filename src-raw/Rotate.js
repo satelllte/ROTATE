@@ -4712,7 +4712,7 @@
         this.sponsor = new ButtonSponsor;
         this.btnBack = new Button("BACK");
         this.title = new GraphicsObjectText(GameInstance.fontMain,"AWARDS",1);
-        this.bg = new Na;
+        this.bg = new GraphicsObjectBackground;
         this.content = new GraphicsObject;
         this.pivot = new GraphicsObject;
         Screen.call(this)
@@ -4823,7 +4823,7 @@
                 this.btnBack.text.set_text("MENU")
             } else
                 ca.playTheme(),
-                this.bg = new Na;
+                this.bg = new GraphicsObjectBackground;
             this.addChild(this.bg);
             this.text1.set_x(Math.round(GameController.width / 2));
             this.text1.set_y(80);
@@ -5458,7 +5458,7 @@
         this.btn1 = new Button("AWARDS");
         this.btnBack = new Button("BACK");
         this.title = new GraphicsObjectText(GameInstance.fontMain,"EXTRAS",1);
-        this.bg = new Na;
+        this.bg = new GraphicsObjectBackground;
         Screen.call(this)
     };
     ScreenExtras.__name__ = !0;
@@ -5527,7 +5527,7 @@
         this.tiles = new GraphicsObject;
         this.btnBack = new Button("BACK");
         this.title = new GraphicsObjectText(GameInstance.fontMain,"LEVEL SELECT",1);
-        this.bg = new Na;
+        this.bg = new GraphicsObjectBackground;
         Screen.call(this)
     };
     ScreenLevelSelect.__name__ = !0;
@@ -5589,7 +5589,7 @@
         this.btnExtras = new Button("EXTRAS");
         this.btnPlay = new Button("PLAY");
         this.logo = new ImageSurface(Images.logo);
-        this.bg = new Na;
+        this.bg = new GraphicsObjectBackground;
         Screen.call(this)
     };
     ca.__name__ = !0;
@@ -6455,16 +6455,16 @@
         },
         __class__: GridToggle
     });
-    var Na = function() {
+    var GraphicsObjectBackground = function() {
         var a = this;
         GraphicsObject.call(this);
         this.addEventListener("render", function(b) {
             a.render(b.surface)
         })
     };
-    Na.__name__ = !0;
-    Na.__super__ = GraphicsObject;
-    Na.prototype = __INHERIT__(GraphicsObject.prototype, {
+    GraphicsObjectBackground.__name__ = !0;
+    GraphicsObjectBackground.__super__ = GraphicsObject;
+    GraphicsObjectBackground.prototype = __INHERIT__(GraphicsObject.prototype, {
         render: function(a) {
             for (var b = -Math.round(30 * Timer.get_current() % Images.bgCells.width), c = -Math.round(15 * Timer.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(GameController.height / Images.bgCells.height) + 1; d < e; )
                 for (var f = d++, m = 0, k = Math.ceil(GameController.width / Images.bgCells.width) + 1; m < k; ) {
@@ -6473,7 +6473,7 @@
                 }
             a.drawImage(Images.vignette, null, 0, 0)
         },
-        __class__: Na
+        __class__: GraphicsObjectBackground
     });
     var Button = function(a, b) {
         null == b && (b = 0);
