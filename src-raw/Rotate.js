@@ -4541,10 +4541,10 @@
         },
         __class__: ta
     };
-    var db = function() {};
-    db.__name__ = !0;
-    db.prototype = {
-        __class__: db
+    var SpeechConditionInterface = function() {};
+    SpeechConditionInterface.__name__ = !0;
+    SpeechConditionInterface.prototype = {
+        __class__: SpeechConditionInterface
     };
     var SpeechConditionPosition = function(a, b, c, d, e) {
         null == e && (e = -1);
@@ -4552,7 +4552,7 @@
         this.rotation = e
     };
     SpeechConditionPosition.__name__ = !0;
-    SpeechConditionPosition.__interfaces__ = [db];
+    SpeechConditionPosition.__interfaces__ = [SpeechConditionInterface];
     SpeechConditionPosition.prototype = {
         start: function() {},
         test: function() {
@@ -4579,7 +4579,7 @@
         this.rotation = f
     };
     SpeechConditionPositionDelayed.__name__ = !0;
-    SpeechConditionPositionDelayed.__interfaces__ = [db];
+    SpeechConditionPositionDelayed.__interfaces__ = [SpeechConditionInterface];
     SpeechConditionPositionDelayed.prototype = {
         start: function() {},
         test: function() {
@@ -4594,7 +4594,7 @@
         this.channel = a
     };
     SpeechConditionChannel.__name__ = !0;
-    SpeechConditionChannel.__interfaces__ = [db];
+    SpeechConditionChannel.__interfaces__ = [SpeechConditionInterface];
     SpeechConditionChannel.prototype = {
         start: function() {
             this.timer = GameInstance.i.get_gameTime()
@@ -4609,7 +4609,7 @@
         this.delay = a
     };
     SpeechConditionDelay.__name__ = !0;
-    SpeechConditionDelay.__interfaces__ = [db];
+    SpeechConditionDelay.__interfaces__ = [SpeechConditionInterface];
     SpeechConditionDelay.prototype = {
         start: function() {
             this.timer = GameInstance.i.get_gameTime()
