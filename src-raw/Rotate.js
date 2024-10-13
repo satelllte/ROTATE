@@ -2444,7 +2444,7 @@
     };
     Va.__name__ = !0;
     Va.canPlace = function(a, b, c) {
-        if (!l.isInBounds(a, b))
+        if (!PlayManager.isInBounds(a, b))
             return !1;
         var d = c[1];
         c = c[2];
@@ -2454,7 +2454,7 @@
             d = b - (d - 1);
             for (b += 1; d < b; )
                 if (c = d++,
-                !l.isReplacable(a, c))
+                !PlayManager.isReplacable(a, c))
                     return !1
         } else if (2 == c) {
             if (a < d - 1)
@@ -2462,23 +2462,23 @@
             d = a - (d - 1);
             for (a += 1; d < a; )
                 if (c = d++,
-                !l.isReplacable(c, b))
+                !PlayManager.isReplacable(c, b))
                     return !1
         } else if (1 == c) {
-            if (b > l.get_height() - d)
+            if (b > PlayManager.get_height() - d)
                 return !1;
             c = b;
             for (b += d; c < b; )
                 if (d = c++,
-                !l.isReplacable(a, d))
+                !PlayManager.isReplacable(a, d))
                     return !1
         } else {
-            if (a > l.get_width() - d)
+            if (a > PlayManager.get_width() - d)
                 return !1;
             c = a;
             for (a += d; c < a; )
                 if (d = c++,
-                !l.isReplacable(d, b))
+                !PlayManager.isReplacable(d, b))
                     return !1
         }
         return !0
@@ -2517,17 +2517,17 @@
     J.__super__ = ua;
     J.prototype = __INHERIT__(ua.prototype, {
         get_localX: function() {
-            return 0 == l.rotation ? this.x2 : 1 == l.rotation ? l.get_height() - this.y2 : 2 == l.rotation ? l.get_width() - this.x2 : this.y2
+            return 0 == PlayManager.rotation ? this.x2 : 1 == PlayManager.rotation ? PlayManager.get_height() - this.y2 : 2 == PlayManager.rotation ? PlayManager.get_width() - this.x2 : this.y2
         },
         set_localX: function(a) {
-            0 == l.rotation ? this.x2 = a : 1 == l.rotation ? this.y2 = l.get_height() - a : 2 == l.rotation ? this.x2 = l.get_width() - a : 3 == l.rotation && (this.y2 = a);
+            0 == PlayManager.rotation ? this.x2 = a : 1 == PlayManager.rotation ? this.y2 = PlayManager.get_height() - a : 2 == PlayManager.rotation ? this.x2 = PlayManager.get_width() - a : 3 == PlayManager.rotation && (this.y2 = a);
             return a
         },
         get_localY: function() {
-            return 0 == l.rotation ? this.y2 : 1 == l.rotation ? this.x2 : 2 == l.rotation ? l.get_height() - this.y2 : l.get_width() - this.x2
+            return 0 == PlayManager.rotation ? this.y2 : 1 == PlayManager.rotation ? this.x2 : 2 == PlayManager.rotation ? PlayManager.get_height() - this.y2 : PlayManager.get_width() - this.x2
         },
         set_localY: function(a) {
-            0 == l.rotation ? this.y2 = a : 1 == l.rotation ? this.x2 = a : 2 == l.rotation ? this.y2 = l.get_height() - a : 3 == l.rotation && (this.x2 = l.get_width() - a);
+            0 == PlayManager.rotation ? this.y2 = a : 1 == PlayManager.rotation ? this.x2 = a : 2 == PlayManager.rotation ? this.y2 = PlayManager.get_height() - a : 3 == PlayManager.rotation && (this.x2 = PlayManager.get_width() - a);
             return a
         },
         aminChange: function(a) {
@@ -2537,10 +2537,10 @@
         },
         adjust: function() {
             this.origin.x = this.frameW / 2;
-            this.origin.y = this.frameH - (l.rotating ? Constants.rotateOffset : 0)
+            this.origin.y = this.frameH - (PlayManager.rotating ? Constants.rotateOffset : 0)
         },
         update: function() {
-            if (!l.rotating && !this.dead && (this.horizontal = this.finished ? 0 : GameInstance.getInputX(),
+            if (!PlayManager.rotating && !this.dead && (this.horizontal = this.finished ? 0 : GameInstance.getInputX(),
             0 != this.horizontal ? this.set_scaleX(0 < this.horizontal ? 1 : -1) : this.grounded && this.animation != J.ANIM_IDLE && this.set_animation(J.ANIM_IDLE),
             !this.finished && (G.keyPressed(40) || G.keyPressed(83)))) {
                 for (var a = 0, b = this.touching; a < b.length; ) {
@@ -2554,10 +2554,10 @@
             }
         },
         touchingFinish: function() {
-            return l.rotating || this.dead || this.finished || !this.grounded || 0 != l.rotation || Math.floor(this.x2 / Constants.tileSize) != l.level.finishCol ? !1 : Math.floor(this.y2 / Constants.tileSize) == l.level.finishRow + 1
+            return PlayManager.rotating || this.dead || this.finished || !this.grounded || 0 != PlayManager.rotation || Math.floor(this.x2 / Constants.tileSize) != PlayManager.level.finishCol ? !1 : Math.floor(this.y2 / Constants.tileSize) == PlayManager.level.finishRow + 1
         },
         tick: function() {
-            if (!l.rotating && !this.dead) {
+            if (!PlayManager.rotating && !this.dead) {
                 null == this.lastBounds && (this.lastBounds = this.getHitBounds());
                 var a = J.SPEED * (this.onRamp ? J.RAMP_MULT : 1);
                 0 < this.horizontal ? this.dx < a ? this.dx < -J.ACCEL ? this.dx *= J.DECCEL_MULT : (this.dx += J.ACCEL,
@@ -2634,7 +2634,7 @@
                 this.grounded && !a && (100 < GameInstance.i.get_gameTimeMS() - this.spawnTime && (GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play("b"),
                 this.lastStep = GameInstance.i.get_gameTimeMS()),
                 this.jumpTimer2 = GameInstance.i.get_gameTime());
-                this.grounded ? 0 != this.horizontal && .75 < Math.abs(this.dx) ? this.set_animation(J.ANIM_RUN) : this.set_animation(J.ANIM_IDLE) : l.rotating || (0 <= this.dy ? this.set_animation(J.ANIM_FALL) : this.set_animation(J.ANIM_JUMP));
+                this.grounded ? 0 != this.horizontal && .75 < Math.abs(this.dx) ? this.set_animation(J.ANIM_RUN) : this.set_animation(J.ANIM_IDLE) : PlayManager.rotating || (0 <= this.dy ? this.set_animation(J.ANIM_FALL) : this.set_animation(J.ANIM_JUMP));
                 this.lastX = this.x2;
                 this.lastY = this.y2;
                 this.lastBounds = this.getHitBounds()
@@ -2655,7 +2655,7 @@
             if (a)
                 b = this.x2,
                 c = this.y2,
-                d = l.rotation;
+                d = PlayManager.rotation;
             else {
                 for (; 0 > d; )
                     d += 4;
@@ -2665,17 +2665,17 @@
             var f = 0 == d || 2 == d
               , m = f ? J.HIT_W : J.HIT_H;
             f = f ? J.HIT_H : J.HIT_W;
-            a = a && l.rotating || !a && e ? Constants.rotateOffset : 0;
+            a = a && PlayManager.rotating || !a && e ? Constants.rotateOffset : 0;
             return 3 == d ? new Rectangle(b - a,c - f / 2,m,f) : 2 == d ? new Rectangle(b - m / 2,c - a,m,f) : 1 == d ? new Rectangle(b - m + a,c - f / 2,m,f) : new Rectangle(b - m / 2,c - f + a,m,f)
         },
         rampCheck: function(a) {
-            return ES3ClassUtils.__instanceof(a, Wa) ? (0 != l.rotation || 0 != a.dir && 1 != a.dir) && (1 != l.rotation || 3 != a.dir && 0 != a.dir) && (2 != l.rotation || 2 != a.dir && 3 != a.dir) ? 3 == l.rotation ? 1 != a.dir ? 2 == a.dir : !0 : !1 : !0 : !1
+            return ES3ClassUtils.__instanceof(a, Wa) ? (0 != PlayManager.rotation || 0 != a.dir && 1 != a.dir) && (1 != PlayManager.rotation || 3 != a.dir && 0 != a.dir) && (2 != PlayManager.rotation || 2 != a.dir && 3 != a.dir) ? 3 == PlayManager.rotation ? 1 != a.dir ? 2 == a.dir : !0 : !1 : !0 : !1
         },
         nonRampCheck: function(a) {
             return !this.rampCheck(a)
         },
         rampCheckDX: function(a) {
-            return ES3ClassUtils.__instanceof(a, Wa) ? 0 == l.rotation && (0 < this.dx && 0 == a.dir || 0 > this.dx && 1 == a.dir) || 1 == l.rotation && (0 < this.dx && 3 == a.dir || 0 > this.dx && 0 == a.dir) || 2 == l.rotation && (0 < this.dx && 2 == a.dir || 0 > this.dx && 3 == a.dir) ? !0 : 3 == l.rotation ? 0 < this.dx && 1 == a.dir ? !0 : 0 > this.dx ? 2 == a.dir : !1 : !1 : !1
+            return ES3ClassUtils.__instanceof(a, Wa) ? 0 == PlayManager.rotation && (0 < this.dx && 0 == a.dir || 0 > this.dx && 1 == a.dir) || 1 == PlayManager.rotation && (0 < this.dx && 3 == a.dir || 0 > this.dx && 0 == a.dir) || 2 == PlayManager.rotation && (0 < this.dx && 2 == a.dir || 0 > this.dx && 3 == a.dir) ? !0 : 3 == PlayManager.rotation ? 0 < this.dx && 1 == a.dir ? !0 : 0 > this.dx ? 2 == a.dir : !1 : !1 : !1
         },
         nonRampCheckDX: function(a) {
             return !this.rampCheckDX(a)
@@ -2690,9 +2690,9 @@
             for (m += 1; f < m; )
                 for (var k = f++, p = d, y = e + 1; p < y; ) {
                     var H = p++;
-                    if (!l.isInBounds(H, k))
+                    if (!PlayManager.isInBounds(H, k))
                         return !0;
-                    var K = l.getBlockData(H, k)
+                    var K = PlayManager.getBlockData(H, k)
                       , W = K.get_block();
                     if (null != W && W.collides(K) && !W.isTrigger(K) && this.testBlockCollision(a, H, k, b, c))
                         return !0
@@ -2710,7 +2710,7 @@
             for (e += 1; d < e; )
                 for (var f = d++, m = b, k = c + 1; m < k; ) {
                     var p = m++
-                      , y = l.getBlockData(p, f)
+                      , y = PlayManager.getBlockData(p, f)
                       , H = y.get_block();
                     if (null != H && H.collides(y) && this.testBlockCollision(a, p, f) && -1 == this.touching.indexOf(y) && (this.touching.push(y),
                     -1 == this.touchingOld.indexOf(y) && H.isTrigger(y) && !H.onTrigger(y)))
@@ -2719,7 +2719,7 @@
         },
         testBlockCollision: function(a, b, c, d, e) {
             null == e && (e = -1);
-            var f = l.getBlockData(b, c);
+            var f = PlayManager.getBlockData(b, c);
             f = f.get_block().getColliders(f);
             for (var m = 0; m < f.length; ) {
                 var k = f[m];
@@ -2745,8 +2745,8 @@
                         p.x += b * Constants.tileSize,
                         p.y += c * Constants.tileSize,
                         a.intersects(p)) {
-                            var y = 1 == l.rotation || 3 == l.rotation
-                              , H = 0 == l.rotation || 2 == l.rotation
+                            var y = 1 == PlayManager.rotation || 3 == PlayManager.rotation
+                              , H = 0 == PlayManager.rotation || 2 == PlayManager.rotation
                               , K = -1 == e || 0 == e
                               , W = -1 == e || 1 == e
                               , aa = H && K || y && W;
@@ -2779,10 +2779,10 @@
             var b = this.x2
               , c = this.y2;
             this.set_localY(this.get_localY() - Constants.rotateOffset);
-            var d = l.rotation
-              , e = l;
+            var d = PlayManager.rotation
+              , e = PlayManager;
             e.set_rotation(e.rotation + a);
-            l.rotating = !0;
+            PlayManager.rotating = !0;
             a = 0;
             for (e = this.isColliding(); e && a < Constants.rotateOffset; )
                 e = this.get_localY(),
@@ -2790,8 +2790,8 @@
                 ++a,
                 e = this.isColliding(null, null, 1);
             this.rotateAdjust = a;
-            l.set_rotation(d);
-            l.rotating = !1;
+            PlayManager.set_rotation(d);
+            PlayManager.rotating = !1;
             this.x2 = b;
             this.y2 = c;
             return !e
@@ -2820,118 +2820,118 @@
         },
         __class__: J
     });
-    var l = function() {};
-    l.__name__ = !0;
-    l.set_level = function(a) {
+    var PlayManager = function() {};
+    PlayManager.__name__ = !0;
+    PlayManager.set_level = function(a) {
         if (null != a) {
-            l.level = a;
-            l.set_rotation(0);
-            l.rotating = !1;
-            l.tiles = [];
+            PlayManager.level = a;
+            PlayManager.set_rotation(0);
+            PlayManager.rotating = !1;
+            PlayManager.tiles = [];
             for (var b = 0, c = a.tiles.length; b < c; ) {
                 var d = b++;
-                l.tiles[d] = [];
+                PlayManager.tiles[d] = [];
                 for (var e = 0, f = a.tiles[d].length; e < f; ) {
                     var m = e++;
-                    l.tiles[d][m] = a.tiles[d][m].slice(0)
+                    PlayManager.tiles[d][m] = a.tiles[d][m].slice(0)
                 }
             }
-            l.updateQueue = new Ra;
+            PlayManager.updateQueue = new Ra;
             b = 0;
-            for (c = l.get_height(); b < c; )
+            for (c = PlayManager.get_height(); b < c; )
                 for (d = b++,
                 e = 0,
-                f = l.get_width(); e < f; ) {
+                f = PlayManager.get_width(); e < f; ) {
                     var k = e++;
-                    m = l.getBlockData(k, d);
+                    m = PlayManager.getBlockData(k, d);
                     if (null == m.get_block() || 0 > m.id)
-                        l.tiles[d][k] = [0];
+                        PlayManager.tiles[d][k] = [0];
                     else if (m.get_block().alwaysUpdate(m)) {
-                        var p = l.updateQueue;
+                        var p = PlayManager.updateQueue;
                         k = k + "x" + d;
                         null != na[k] ? p.setReserved(k, m) : p.h[k] = m
                     }
                 }
         } else
-            l.level = null;
+            PlayManager.level = null;
         return a
     }
     ;
-    l.set_rotation = function(a) {
+    PlayManager.set_rotation = function(a) {
         for (; 0 > a; )
             a += 4;
         for (; 3 < a; )
             a -= 4;
-        l.rotation = a;
-        return l.rotation
+        PlayManager.rotation = a;
+        return PlayManager.rotation
     }
     ;
-    l.get_height = function() {
-        return null != l.level ? l.tiles.length : 0
+    PlayManager.get_height = function() {
+        return null != PlayManager.level ? PlayManager.tiles.length : 0
     }
     ;
-    l.get_width = function() {
-        return null != l.level ? l.tiles[0].length : 0
+    PlayManager.get_width = function() {
+        return null != PlayManager.level ? PlayManager.tiles[0].length : 0
     }
     ;
-    l.isInBounds = function(a, b) {
-        return null != l.level && 0 <= a && 0 <= b && a < l.get_width() ? b < l.get_height() : !1
+    PlayManager.isInBounds = function(a, b) {
+        return null != PlayManager.level && 0 <= a && 0 <= b && a < PlayManager.get_width() ? b < PlayManager.get_height() : !1
     }
     ;
-    l.getBlockID = function(a, b) {
-        return l.isInBounds(a, b) ? l.tiles[b][a][0] : 1
+    PlayManager.getBlockID = function(a, b) {
+        return PlayManager.isInBounds(a, b) ? PlayManager.tiles[b][a][0] : 1
     }
     ;
-    l.getBlockMeta = function(a, b) {
-        return !l.isInBounds(a, b) || 2 > l.tiles[b][a].length ? [] : l.tiles[b][a].slice(1)
+    PlayManager.getBlockMeta = function(a, b) {
+        return !PlayManager.isInBounds(a, b) || 2 > PlayManager.tiles[b][a].length ? [] : PlayManager.tiles[b][a].slice(1)
     }
     ;
-    l.getBlockData = function(a, b) {
-        return new wb(a,b,l.getBlockID(a, b),l.getBlockMeta(a, b))
+    PlayManager.getBlockData = function(a, b) {
+        return new wb(a,b,PlayManager.getBlockID(a, b),PlayManager.getBlockMeta(a, b))
     }
     ;
-    l.getBlock = function(a, b) {
-        return EditorTiles.getBlock(l.getBlockID(a, b))
+    PlayManager.getBlock = function(a, b) {
+        return EditorTiles.getBlock(PlayManager.getBlockID(a, b))
     }
     ;
-    l.setBlock = function(a, b, c, d, e) {
+    PlayManager.setBlock = function(a, b, c, d, e) {
         null == e && (e = !1);
-        if (l.isInBounds(a, b)) {
+        if (PlayManager.isInBounds(a, b)) {
             var f = a + "x" + b
-              , m = l.updateQueue;
-            (null != na[f] ? m.existsReserved(f) : m.h.hasOwnProperty(f)) && l.updateQueue.remove(f);
-            l.tiles[b][a] = [c];
-            null != d && (l.tiles[b][a] = l.tiles[b][a].concat(d));
-            e && (l.level.tiles[b][a] = l.tiles[b][a].slice(0));
-            a = l.getBlockData(a, b);
-            EditorTiles.getBlock(c).alwaysUpdate(a) && (c = l.updateQueue,
+              , m = PlayManager.updateQueue;
+            (null != na[f] ? m.existsReserved(f) : m.h.hasOwnProperty(f)) && PlayManager.updateQueue.remove(f);
+            PlayManager.tiles[b][a] = [c];
+            null != d && (PlayManager.tiles[b][a] = PlayManager.tiles[b][a].concat(d));
+            e && (PlayManager.level.tiles[b][a] = PlayManager.tiles[b][a].slice(0));
+            a = PlayManager.getBlockData(a, b);
+            EditorTiles.getBlock(c).alwaysUpdate(a) && (c = PlayManager.updateQueue,
             null != na[f] ? c.setReserved(f, a) : c.h[f] = a)
         }
     }
     ;
-    l.setBlockMeta = function(a, b, c, d) {
+    PlayManager.setBlockMeta = function(a, b, c, d) {
         null == d && (d = !1);
-        l.isInBounds(a, b) && (l.tiles[b][a] = [l.tiles[b][a][0]],
-        null != c && (l.tiles[b][a] = l.tiles[b][a].concat(c)),
-        d && (l.level.tiles[b][a] = l.tiles[b][a].slice(0)),
+        PlayManager.isInBounds(a, b) && (PlayManager.tiles[b][a] = [PlayManager.tiles[b][a][0]],
+        null != c && (PlayManager.tiles[b][a] = PlayManager.tiles[b][a].concat(c)),
+        d && (PlayManager.level.tiles[b][a] = PlayManager.tiles[b][a].slice(0)),
         c = a + "x" + b,
-        d = l.updateQueue,
-        null != na[c] ? d.existsReserved(c) : d.h.hasOwnProperty(c)) && (d = l.updateQueue,
-        a = l.getBlockData(a, b),
+        d = PlayManager.updateQueue,
+        null != na[c] ? d.existsReserved(c) : d.h.hasOwnProperty(c)) && (d = PlayManager.updateQueue,
+        a = PlayManager.getBlockData(a, b),
         null != na[c] ? d.setReserved(c, a) : d.h[c] = a)
     }
     ;
-    l.isReplacable = function(a, b) {
-        return a != l.level.startCol || b != l.level.startRow && b != l.level.startRow - 1 ? a == l.level.finishCol ? b != l.level.finishRow ? b != l.level.finishRow - 1 : !1 : !0 : !1
+    PlayManager.isReplacable = function(a, b) {
+        return a != PlayManager.level.startCol || b != PlayManager.level.startRow && b != PlayManager.level.startRow - 1 ? a == PlayManager.level.finishCol ? b != PlayManager.level.finishRow ? b != PlayManager.level.finishRow - 1 : !1 : !0 : !1
     }
     ;
-    l.onPlay = function() {
-        if (null != l.level) {
-            l.leversChanged = new hb;
-            for (var a = 0, b = l.tiles.length; a < b; )
-                for (var c = a++, d = 0, e = l.tiles[c].length; d < e; ) {
+    PlayManager.onPlay = function() {
+        if (null != PlayManager.level) {
+            PlayManager.leversChanged = new hb;
+            for (var a = 0, b = PlayManager.tiles.length; a < b; )
+                for (var c = a++, d = 0, e = PlayManager.tiles[c].length; d < e; ) {
                     var f = d++;
-                    f = l.getBlockData(f, c);
+                    f = PlayManager.getBlockData(f, c);
                     if (null != f.get_block())
                         f.get_block().onPlay(f)
                 }
@@ -2949,9 +2949,9 @@
             c.webkitImageSmoothingEnabled = c.mozImageSmoothingEnabled = c.msImageSmoothingEnabled = c.oImageSmoothingEnabled = c.imageSmoothingEnabled = !1;
             L.bakeSurface = new Ea(L.bakeCtx)
         }
-        c = l.get_width() + 2;
+        c = PlayManager.get_width() + 2;
         L.bakeCanvas.width = c * Constants.tileSize;
-        c = l.get_height() + 2;
+        c = PlayManager.get_height() + 2;
         L.bakeCanvas.height = c * Constants.tileSize;
         L.bakeSurface.reset();
         L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
@@ -2979,11 +2979,11 @@
     L.__super__ = GraphicsObject;
     L.prototype = __INHERIT__(GraphicsObject.prototype, {
         render: function(a, b) {
-            if (null != l.level) {
+            if (null != PlayManager.level) {
                 a.drawImage(L.bakeCanvas, null, -Constants.tileSize, -Constants.tileSize);
                 var c = null;
-                if (!l.rotating) {
-                    c = l.rotation;
+                if (!PlayManager.rotating) {
+                    c = PlayManager.rotation;
                     c = b.globalToLocal(1 == c || 2 == c ? h.width : 0, 2 == c || 3 == c ? h.height : 0);
                     var d = Math.floor(c.x / Constants.tileSize)
                       , e = Math.floor((c.x + h.width - Constants.EPSILON) / Constants.tileSize)
@@ -2993,10 +2993,10 @@
                         return fa >= d && ka >= f && fa <= e ? ka <= m : !1
                     }
                 }
-                var k = l.updateQueue;
+                var k = PlayManager.updateQueue;
                 for (k = new fc(k,k.arrayKeys()); k.hasNext(); ) {
                     var p = k.next()
-                      , y = l.rotating;
+                      , y = PlayManager.rotating;
                     if (!y)
                         if (p.get_block() == EditorTiles.door)
                             for (var H = p.getMeta(1), K = p.getMeta(2), W = 0; W < H; ) {
@@ -3014,13 +3014,13 @@
                 }
                 this.showGrid && null != L.gridCanvas && a.drawImage(L.gridCanvas, null, 0, 0);
                 if (ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && (c = GameInstance.i.currentScreen,
-                !l.rotating && !c.player.dead && !c.player.finished)) {
+                !PlayManager.rotating && !c.player.dead && !c.player.finished)) {
                     k = 0;
                     for (p = c.player.touching; k < p.length; )
                         y = p[k],
                         ++k,
                         y.get_block().showArrow(y) && this.renderArrow(a, y.x, y.y);
-                    c.player.touchingFinish() && this.renderArrow(a, l.level.finishCol, l.level.finishRow - 1, -4)
+                    c.player.touchingFinish() && this.renderArrow(a, PlayManager.level.finishCol, PlayManager.level.finishRow - 1, -4)
                 }
             }
         },
@@ -3028,28 +3028,28 @@
             null == d && (d = 0);
             var e = Constants.tileSize;
             a.translate((b + .5) * e, (c + .5) * e);
-            a.rotate(-l.rotation * Math.PI / 2);
+            a.rotate(-PlayManager.rotation * Math.PI / 2);
             a.drawImage(Images.interact, null, -Images.interact.width / 2, Math.round(-e / 2 - Images.interact.height + 2 * Math.sin(8 * GameInstance.i.get_gameTime())) + d);
-            a.rotate(l.rotation * Math.PI / 2);
+            a.rotate(PlayManager.rotation * Math.PI / 2);
             a.translate(-(b + .5) * e, -(c + .5) * e)
         },
         updateAllBlocks: function() {
             L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
             L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
-            if (null != l.level) {
-                for (var a = 1 == l.level.theme ? Images.bgBricks : Images.bgTiles, b = Math.ceil(L.bakeCanvas.width / a.width), c = 0, d = Math.ceil(L.bakeCanvas.height / a.height); c < d; )
+            if (null != PlayManager.level) {
+                for (var a = 1 == PlayManager.level.theme ? Images.bgBricks : Images.bgTiles, b = Math.ceil(L.bakeCanvas.width / a.width), c = 0, d = Math.ceil(L.bakeCanvas.height / a.height); c < d; )
                     for (var e = c++, f = 0, m = b; f < m; ) {
                         var k = f++;
                         L.bakeSurface.drawImage(a, null, k * a.width, e * a.height)
                     }
                 this.renderDecals();
                 a = -1;
-                for (b = l.get_height() + 1; a < b; )
+                for (b = PlayManager.get_height() + 1; a < b; )
                     for (c = a++,
                     d = -1,
-                    e = l.get_width() + 1; d < e; )
+                    e = PlayManager.get_width() + 1; d < e; )
                         f = d++,
-                        m = l.getBlockData(f, c),
+                        m = PlayManager.getBlockData(f, c),
                         k = m.get_block(),
                         null != k && k.shouldRender(m) && !k.alwaysUpdate(m) && (L.bakeSurface.translate((f + 1) * Constants.tileSize, (c + 1) * Constants.tileSize),
                         k.render(L.bakeSurface, m),
@@ -3064,11 +3064,11 @@
                 for (var f = d++, m = a - 1, k = a + 2; m < k; ) {
                     var p = m++;
                     if (!c || p != a || f != b) {
-                        var y = l.getBlockData(p, f)
+                        var y = PlayManager.getBlockData(p, f)
                           , H = y.get_block();
                         if (null != H) {
                             L.bakeSurface.translate((p + 1) * Constants.tileSize, (f + 1) * Constants.tileSize);
-                            var K = 1 == l.level.theme ? Images.bgBricks : Images.bgTiles;
+                            var K = 1 == PlayManager.level.theme ? Images.bgBricks : Images.bgTiles;
                             L.bakeSurface.drawImage(K, new Rectangle((p + 1) * Constants.tileSize % K.width,(f + 1) * Constants.tileSize % K.height,Constants.tileSize,Constants.tileSize), 0, 0);
                             H.shouldRender(y) && !H.alwaysUpdate(y) && H.render(L.bakeSurface, y);
                             L.bakeSurface.translate(-(p + 1) * Constants.tileSize, -(f + 1) * Constants.tileSize)
@@ -3079,12 +3079,12 @@
         },
         renderDecals: function() {
             var a = Constants.tileSize;
-            L.bakeSurface.drawImage(Images.blocks, new Rectangle(a,2 * a,a,2 * a), (l.level.startCol + 1) * a, l.level.startRow * a);
-            L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (l.level.finishCol + 1) * a, l.level.finishRow * a);
-            ES3ClassUtils.__instanceof(l.level, Level8) && L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
+            L.bakeSurface.drawImage(Images.blocks, new Rectangle(a,2 * a,a,2 * a), (PlayManager.level.startCol + 1) * a, PlayManager.level.startRow * a);
+            L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (PlayManager.level.finishCol + 1) * a, PlayManager.level.finishRow * a);
+            ES3ClassUtils.__instanceof(PlayManager.level, Level8) && L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
         },
         getBoundsSelf: function() {
-            return new Rectangle(0,0,l.get_width() * Constants.tileSize,l.get_height() * Constants.tileSize)
+            return new Rectangle(0,0,PlayManager.get_width() * Constants.tileSize,PlayManager.get_height() * Constants.tileSize)
         },
         __class__: L
     });
@@ -3426,15 +3426,15 @@
             return !0
         },
         onInteract: function(a) {
-            var b = a.y * l.get_width() + a.x
-              , c = l.leversChanged.h[b];
+            var b = a.y * PlayManager.get_width() + a.x
+              , c = PlayManager.leversChanged.h[b];
             if (!(null != c && GameInstance.i.get_gameTime() - c < TileLever.TOGGLE_TIMER)) {
                 c = GameplayLevel.i.channels;
                 var d = a.getMeta(0)
                   , e = c.h[d];
                 d = null != e && e.get_status();
                 (c = 1 > a.getMeta(1)) ? GameplayLevel.i.signalOn(a.x, a.y, a.getMeta(0)) : GameplayLevel.i.signalOff(a.x, a.y, a.getMeta(0));
-                var f = l.leversChanged
+                var f = PlayManager.leversChanged
                   , m = GameInstance.i.get_gameTime();
                 f.h[b] = m;
                 null == e && (b = GameplayLevel.i.channels,
@@ -3453,7 +3453,7 @@
                         }
                 c ? GameInstance.ie && GameInstance.i.muteSFX || Sounds.leverOn.play() : GameInstance.ie && GameInstance.i.muteSFX || Sounds.leverOff.play();
                 !b || GameInstance.ie && GameInstance.i.muteSFX || Sounds.door.play();
-                l.setBlockMeta(a.x, a.y, [a.getMeta(0), c ? 1 : 0])
+                PlayManager.setBlockMeta(a.x, a.y, [a.getMeta(0), c ? 1 : 0])
             }
         },
         onPlay: function(a) {
@@ -3564,9 +3564,9 @@
             a.drawImage(Images.blocks, new Rectangle(m * k + p,p,p,p), p, p)
         },
         testCanSolidConnect: function(a, b, c) {
-            if (!l.isInBounds(a, b))
+            if (!PlayManager.isInBounds(a, b))
                 return !0;
-            a = l.getBlockData(a, b);
+            a = PlayManager.getBlockData(a, b);
             b = a.get_block();
             if (ES3ClassUtils.__instanceof(b, TileSolid))
                 return !0;
@@ -3838,8 +3838,8 @@
         collsionHandler: function(a) {
             var b = Math.floor(a.x / Constants.tileSize)
               , c = Math.floor(a.y / Constants.tileSize);
-            if (l.isInBounds(b, c)) {
-                var d = l.getBlockData(b, c)
+            if (PlayManager.isInBounds(b, c)) {
+                var d = PlayManager.getBlockData(b, c)
                   , e = d.get_block();
                 if (e.collides(d) && !e.isTrigger(d)) {
                     var f = new Vector2(a.x - b * Constants.tileSize,a.y - c * Constants.tileSize);
@@ -4003,8 +4003,8 @@
             this.speech.update();
             this.s1 && GameplayLevel.i.player.x > 10 * Constants.tileSize ? (this.s1 = !1,
             this.s2 = !0) : this.s2 && GameplayLevel.i.player.x > 17 * Constants.tileSize ? (this.s2 = !1,
-            this.s3 = !0) : this.s3 && GameplayLevel.i.player.x > 27 * Constants.tileSize && GameplayLevel.i.player.grounded && !l.rotating && 1 == l.rotation ? (this.s3 = !1,
-            this.s4 = !0) : this.s4 && GameplayLevel.i.player.x > 22 * Constants.tileSize && GameplayLevel.i.player.grounded && !l.rotating && 0 == l.rotation && (this.s4 = !1,
+            this.s3 = !0) : this.s3 && GameplayLevel.i.player.x > 27 * Constants.tileSize && GameplayLevel.i.player.grounded && !PlayManager.rotating && 1 == PlayManager.rotation ? (this.s3 = !1,
+            this.s4 = !0) : this.s4 && GameplayLevel.i.player.x > 22 * Constants.tileSize && GameplayLevel.i.player.grounded && !PlayManager.rotating && 0 == PlayManager.rotation && (this.s4 = !1,
             this.s5 = !0);
             this.c3.clipRect.x = this.c4.clipRect.x = GameInstance.i.invert ? 48 : 0
         },
@@ -4159,7 +4159,7 @@
                 Sounds.cat.play())),
                 !this.done3 && this.cond3.test()) {
                     this.done3 = !0;
-                    var a = l.getBlockData(3, 3);
+                    var a = PlayManager.getBlockData(3, 3);
                     a.get_block().onInteract(a)
                 }
             } else
@@ -4493,16 +4493,16 @@
             if (null == b)
                 return !1;
             var c = this.bounds;
-            if (0 == l.rotation) {
+            if (0 == PlayManager.rotation) {
                 if (0 == this.dir && b.y <= c.get_top() || 1 == this.dir && b.x >= c.get_right() || 2 == this.dir && b.y >= c.get_bottom() || 3 == this.dir && b.x <= c.get_left())
                     return !0
-            } else if (1 == l.rotation) {
+            } else if (1 == PlayManager.rotation) {
                 if (3 == this.dir && b.x <= c.get_left() || 0 == this.dir && b.y <= c.get_top() || 1 == this.dir && b.x >= c.get_right() || 2 == this.dir && b.y >= c.get_bottom())
                     return !0
-            } else if (2 == l.rotation) {
+            } else if (2 == PlayManager.rotation) {
                 if (2 == this.dir && b.y >= c.get_bottom() || 3 == this.dir && b.x <= c.get_left() || 0 == this.dir && b.y <= c.get_top() || 1 == this.dir && b.x / 2 >= c.get_right())
                     return !0
-            } else if (3 == l.rotation && (1 == this.dir && b.x >= c.get_right() || 2 == this.dir && b.y >= c.get_bottom() || 3 == this.dir && b.x <= c.get_left() || 0 == this.dir && b.y <= c.get_top()))
+            } else if (3 == PlayManager.rotation && (1 == this.dir && b.x >= c.get_right() || 2 == this.dir && b.y >= c.get_bottom() || 3 == this.dir && b.x <= c.get_left() || 0 == this.dir && b.y <= c.get_top()))
                 return !0;
             return !1
         },
@@ -4556,7 +4556,7 @@
     SpeechConditionPosition.prototype = {
         start: function() {},
         test: function() {
-            return !GameplayLevel.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && l.rotation != this.rotation ? !1 : !l.rotating
+            return !GameplayLevel.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && PlayManager.rotation != this.rotation ? !1 : !PlayManager.rotating
         },
         __class__: SpeechConditionPosition
     };
@@ -4583,7 +4583,7 @@
     SpeechConditionPositionDelayed.prototype = {
         start: function() {},
         test: function() {
-            this.hit || !GameplayLevel.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && l.rotation != this.rotation || l.rotating || (this.hit = !0,
+            this.hit || !GameplayLevel.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && PlayManager.rotation != this.rotation || PlayManager.rotating || (this.hit = !0,
             this.timer = GameInstance.i.get_gameTime());
             return this.hit ? GameInstance.i.get_gameTime() - this.timer >= this.delay : !1
         },
@@ -4911,7 +4911,7 @@
             this.level.addChild(this.renderer)
         },
         doRotation: function(a) {
-            if (l.rotating) {
+            if (PlayManager.rotating) {
                 var b = Math.min((GameInstance.i.get_gameTime() - this.rotateStart) / Constants.rotateTime, 1)
                   , c = GameInstance.smootherStep(b);
                 this.pivot.set_rotation(this.rotateStartAngle + (this.rotateEndAngle - this.rotateStartAngle) * c);
@@ -4924,21 +4924,21 @@
                     for (; 360 <= this.pivot.rotation; )
                         b = this.pivot,
                         b.set_rotation(b.rotation - 360);
-                    l.rotating = !1;
+                    PlayManager.rotating = !1;
                     if (null != a)
                         a.onRotateEnd()
                 }
             } else if (b = G.keyPressed(GameInstance.i.invert ? 69 : 81),
             c = G.keyPressed(GameInstance.i.invert ? 81 : 69),
             (b || c) && (null == a || a.canRotate(b ? -1 : 1))) {
-                l.rotating = !0;
+                PlayManager.rotating = !0;
                 this.rotateStart = GameInstance.i.get_gameTime();
                 this.rotateDir = b ? -1 : 1;
                 this.rotateStartAngle = this.pivot.rotation;
                 this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir;
                 if (null != a)
                     a.onRotateStart(this.rotateDir);
-                b = l;
+                b = PlayManager;
                 b.set_rotation(b.rotation + this.rotateDir);
                 if (null != a)
                     a.onRotateStart2()
@@ -4972,16 +4972,16 @@
     EditorLevel.prototype = __INHERIT__(BaseLevel.prototype, {
         init: function() {
             var a = this;
-            l.set_level(EditorLevel.editorLevel);
-            for (var b = 0, c = l.get_height(); b < c; )
-                for (var d = b++, e = 0, f = l.get_width(); e < f; ) {
+            PlayManager.set_level(EditorLevel.editorLevel);
+            for (var b = 0, c = PlayManager.get_height(); b < c; )
+                for (var d = b++, e = 0, f = PlayManager.get_width(); e < f; ) {
                     var m = e++;
-                    m = l.getBlockData(m, d);
+                    m = PlayManager.getBlockData(m, d);
                     m.get_block() == EditorTiles.door && 0 < m.getMeta(1) && this.doors.push(new Va(m))
                 }
             BaseLevel.prototype.init.call(this);
-            this.cameraX = -(l.level.startCol + .5) * Constants.tileSize;
-            this.cameraY = -(l.level.startRow - .5) * Constants.tileSize;
+            this.cameraX = -(PlayManager.level.startCol + .5) * Constants.tileSize;
+            this.cameraY = -(PlayManager.level.startRow - .5) * Constants.tileSize;
             this.mouseEnabled = !0;
             this.addEventListener("mouseDown", function(k) {
                 2 > k.which && k.target == a && (a.drawing = !0)
@@ -5121,13 +5121,13 @@
                 this.vertical = GameInstance.getInputY();
                 var b = h.input.mouseX
                   , c = h.input.mouseY;
-                if (this.drawing && !l.rotating && 0 <= b && 0 <= c && b < h.width && c < h.height) {
-                    if (null == l.level)
+                if (this.drawing && !PlayManager.rotating && 0 <= b && 0 <= c && b < h.width && c < h.height) {
+                    if (null == PlayManager.level)
                         return;
                     b = this.renderer.globalToLocal(b, c);
                     var d = Math.floor(b.x / Constants.tileSize)
                       , e = Math.floor(b.y / Constants.tileSize);
-                    if (l.isInBounds(d, e)) {
+                    if (PlayManager.isInBounds(d, e)) {
                         var f = [];
                         b = null;
                         var m = G.keyDown(16) ? 0 : this.barLower.selector.get_selection().id;
@@ -5136,12 +5136,12 @@
                                 c = EditorLevel.editorLevel.startCol;
                                 var k = EditorLevel.editorLevel.startRow;
                                 EditorLevel.editorLevel.setStart(d, e);
-                                var p = l.getBlockData(d, e - 1);
+                                var p = PlayManager.getBlockData(d, e - 1);
                                 f.push(p);
-                                l.setBlock(d, e - 1, 0, [], !0);
-                                p = l.getBlockData(d, e);
+                                PlayManager.setBlock(d, e - 1, 0, [], !0);
+                                p = PlayManager.getBlockData(d, e);
                                 f.push(p);
-                                l.setBlock(d, e, 0, [], !0);
+                                PlayManager.setBlock(d, e, 0, [], !0);
                                 this.renderer.updateBlockPlus(c, k - 1);
                                 this.renderer.updateBlockPlus(c, k);
                                 this.renderer.updateBlockPlus(d, e - 1);
@@ -5151,30 +5151,30 @@
                             0 < e && (d != EditorLevel.editorLevel.startCol || e != EditorLevel.editorLevel.startRow && e - 1 != EditorLevel.editorLevel.startRow && e != EditorLevel.editorLevel.startRow - 1) && (c = EditorLevel.editorLevel.finishCol,
                             k = EditorLevel.editorLevel.finishRow,
                             EditorLevel.editorLevel.setFinish(d, e),
-                            p = l.getBlockData(d, e - 1),
+                            p = PlayManager.getBlockData(d, e - 1),
                             f.push(p),
-                            l.setBlock(d, e - 1, 0, [], !0),
-                            p = l.getBlockData(d, e),
+                            PlayManager.setBlock(d, e - 1, 0, [], !0),
+                            p = PlayManager.getBlockData(d, e),
                             f.push(p),
-                            l.setBlock(d, e, 0, [], !0),
+                            PlayManager.setBlock(d, e, 0, [], !0),
                             this.renderer.updateBlockPlus(c, k - 1),
                             this.renderer.updateBlockPlus(c, k),
                             this.renderer.updateBlockPlus(d, e - 1),
                             this.renderer.updateBlockPlus(d, e));
-                        else if (l.isReplacable(d, e) && (c = EditorTiles.getBlock(m),
+                        else if (PlayManager.isReplacable(d, e) && (c = EditorTiles.getBlock(m),
                         null != c)) {
                             var y = EditorTiles.getBlock(m).getConfigMeta();
-                            k = l.getBlockData(d, e);
+                            k = PlayManager.getBlockData(d, e);
                             k.id == m && k.metaEquals(y) || c == EditorTiles.door && !Va.canPlace(d, e, y) || (f.push(k),
-                            l.setBlock(d, e, m, y, !0),
+                            PlayManager.setBlock(d, e, m, y, !0),
                             this.renderer.updateBlockPlus(d, e),
-                            c == EditorTiles.door && (b = new Va(l.getBlockData(d, e)),
+                            c == EditorTiles.door && (b = new Va(PlayManager.getBlockData(d, e)),
                             this.doors.push(b),
                             b.forEach(function(aa, fa) {
                                 if (aa != d || fa != e) {
-                                    var ka = l.getBlockData(aa, fa);
+                                    var ka = PlayManager.getBlockData(aa, fa);
                                     f.push(ka);
-                                    l.setBlock(aa, fa, m, [y[0]], !0);
+                                    PlayManager.setBlock(aa, fa, m, [y[0]], !0);
                                     a.renderer.updateBlockPlus(aa, fa)
                                 }
                             })))
@@ -5189,7 +5189,7 @@
                                       , W = this.doors[K];
                                     if (W != b && W.contains(k.x, k.y)) {
                                         W.forEach(function(aa, fa) {
-                                            if (l.getBlock(aa, fa) == EditorTiles.door) {
+                                            if (PlayManager.getBlock(aa, fa) == EditorTiles.door) {
                                                 for (var ka = !1, Ca = 0; Ca < f.length; ) {
                                                     var nb = f[Ca];
                                                     ++Ca;
@@ -5198,7 +5198,7 @@
                                                         break
                                                     }
                                                 }
-                                                ka || (l.setBlock(aa, fa, 0, [], !0),
+                                                ka || (PlayManager.setBlock(aa, fa, 0, [], !0),
                                                 a.renderer.updateBlockPlus(aa, fa))
                                             }
                                         });
@@ -5296,15 +5296,15 @@
             return !0
         },
         tick: function() {
-            if (!l.rotating && null == this.dialog) {
+            if (!PlayManager.rotating && null == this.dialog) {
                 var a = this.horizontal * EditorLevel.MOVE_SPEED
                   , b = this.vertical * EditorLevel.MOVE_SPEED;
-                0 == l.rotation ? (this.cameraX -= a,
-                this.cameraY -= b) : 1 == l.rotation && (this.cameraX -= b,
+                0 == PlayManager.rotation ? (this.cameraX -= a,
+                this.cameraY -= b) : 1 == PlayManager.rotation && (this.cameraX -= b,
                 this.cameraY += a);
-                2 == l.rotation && (this.cameraX += a,
+                2 == PlayManager.rotation && (this.cameraX += a,
                 this.cameraY += b);
-                3 == l.rotation && (this.cameraX += b,
+                3 == PlayManager.rotation && (this.cameraX += b,
                 this.cameraY -= a);
                 this.cameraX = Math.min(Math.max(this.cameraX, -this.renderer.get_width()), 0);
                 this.cameraY = Math.min(Math.max(this.cameraY, -this.renderer.get_height()), 0)
@@ -5312,7 +5312,7 @@
         },
         kill: function() {
             h.input.removeEventListener("mouseUp", T(this, this.mouseUp));
-            l.set_level(null)
+            PlayManager.set_level(null)
         },
         __class__: EditorLevel
     });
@@ -5711,23 +5711,23 @@
             this.tempLevel == EditorLevel.editorLevel && AwardsManager.awardEditor.unlock();
             GameplayLevel.playTheme(this.tempLevel.theme);
             GameplayLevel.continueTheme = !1;
-            l.set_level(this.tempLevel);
-            l.onPlay();
+            PlayManager.set_level(this.tempLevel);
+            PlayManager.onPlay();
             for (var a = this.channels.iterator(); a.hasNext(); )
                 a.next().lastChanged = -1E4;
             a = 0;
-            for (var b = l.get_height(); a < b; )
-                for (var c = a++, d = 0, e = l.get_width(); d < e; ) {
+            for (var b = PlayManager.get_height(); a < b; )
+                for (var c = a++, d = 0, e = PlayManager.get_width(); d < e; ) {
                     var f = d++;
-                    f = l.getBlockData(f, c);
+                    f = PlayManager.getBlockData(f, c);
                     f.get_block() == EditorTiles.door && 0 < f.getMeta(1) && this.doors.push(new Va(f))
                 }
-            l.level.start();
+            PlayManager.level.start();
             BaseLevel.prototype.init.call(this);
             this.player = new J;
-            this.player.set_x(this.player.x2 = this.player.lastX = (l.level.startCol + .5) * Constants.tileSize);
-            this.player.set_y(this.player.y2 = this.player.lastY = (l.level.startRow + 1) * Constants.tileSize);
-            this.player.set_scaleX(0 > l.level.startDir ? -1 : 1);
+            this.player.set_x(this.player.x2 = this.player.lastX = (PlayManager.level.startCol + .5) * Constants.tileSize);
+            this.player.set_y(this.player.y2 = this.player.lastY = (PlayManager.level.startRow + 1) * Constants.tileSize);
+            this.player.set_scaleX(0 > PlayManager.level.startDir ? -1 : 1);
             this.level.addChild(this.player);
             a = this.findCameraGoal();
             this.camera.set_x(Math.round(this.cameraX = a.x));
@@ -5742,7 +5742,7 @@
             this.red.visible = !1;
             this.addChild(this.red);
             if (this.speedrun) {
-                if (-1 == this.speedrunStart || 0 == Levels.list.indexOf(l.level))
+                if (-1 == this.speedrunStart || 0 == Levels.list.indexOf(PlayManager.level))
                     this.speedrunStart = GameInstance.i.get_gameTimeMS();
                 this.timerText = new GraphicsObjectText(GameInstance.fontMain,"",2);
                 this.timerText.align = GraphicsObjectText.ALIGN_RIGHT;
@@ -5752,7 +5752,7 @@
                 GameInstance.i.timerHolder.addChild(this.timerText);
                 this.updateTimer()
             } else
-                l.level != Levels.level1 || GameInstance.i.hasPaused || (this.pauseText = new GraphicsObjectText(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
+                PlayManager.level != Levels.level1 || GameInstance.i.hasPaused || (this.pauseText = new GraphicsObjectText(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
                 this.pauseText.xAlign = GraphicsObjectText.X_ALIGN_CENTER,
                 this.pauseText.set_x(Math.round(h.width / 2)),
                 this.pauseText.set_y(8),
@@ -5771,29 +5771,29 @@
                 GameInstance.ie && GameInstance.i.muteSFX || Sounds.death.play();
                 var b = 0
                   , c = 0;
-                0 == l.rotation ? c = 1 : 1 == l.rotation ? b = 1 : 2 == l.rotation ? c = -1 : 3 == l.rotation && (b = -1);
+                0 == PlayManager.rotation ? c = 1 : 1 == PlayManager.rotation ? b = 1 : 2 == PlayManager.rotation ? c = -1 : 3 == PlayManager.rotation && (b = -1);
                 var d = this.player.dx
                   , e = this.player.dy;
-                1 == l.rotation ? (d = this.player.dy,
-                e = -this.player.dx) : 2 == l.rotation ? (d = -this.player.dx,
-                e = -this.player.dy) : 3 == l.rotation && (d = -this.player.dy,
+                1 == PlayManager.rotation ? (d = this.player.dy,
+                e = -this.player.dx) : 2 == PlayManager.rotation ? (d = -this.player.dx,
+                e = -this.player.dy) : 3 == PlayManager.rotation && (d = -this.player.dy,
                 e = this.player.dx);
                 4 < d ? d = 4 : -4 > d && (d = -4);
                 4 < e ? e = 4 : -4 > e && (e = -4);
                 var f = this.player.getHitBounds().get_center();
                 a = new Blood(f.x,f.y,14622752,.4 * d,.4 * e,b,c,!0,a ? 2 : 1);
                 this.blood.addChild(a);
-                null != l.level.speech && l.level.speech.killed();
+                null != PlayManager.level.speech && PlayManager.level.speech.killed();
                 this.red.visible = !0
             }
         },
         restart: function(a) {
             a = GameInstance.i.paused ? (Ja = GameInstance.i,
             T(Ja, Ja.unpause)) : null;
-            GameInstance.i.changeScreen(new GameplayLevel(l.level,this.speedrun,this.speedrunStart), !0, a)
+            GameInstance.i.changeScreen(new GameplayLevel(PlayManager.level,this.speedrun,this.speedrunStart), !0, a)
         },
         finished: function() {
-            var a = Levels.list.indexOf(l.level);
+            var a = Levels.list.indexOf(PlayManager.level);
             if (-1 < a) {
                 var b = !1;
                 ++a;
@@ -5807,7 +5807,7 @@
                     b = !0);
                 b && GameInstance.i.saveProgress()
             }
-            a = l.level.finished();
+            a = PlayManager.level.finished();
             null != a && GameplayLevel.play(a, this.speedrun, this.speedrunStart)
         },
         update: function() {
@@ -5825,7 +5825,7 @@
         },
         tick: function() {
             this.player.tick();
-            l.level.tick();
+            PlayManager.level.tick();
             null != this.cat && this.cat.tick();
             var a = this.findCameraGoal();
             this.cameraX += (a.x - this.cameraX) * Constants.cameraSpeed;
@@ -5833,14 +5833,14 @@
         },
         postUpdate: function() {
             this.player.postUpdate();
-            l.level.update();
+            PlayManager.level.update();
             this.camera.set_x(Math.round(this.cameraX + this.shakeX));
             this.camera.set_y(Math.round(this.cameraY + this.shakeY));
             this.updateTimer()
         },
         findCameraGoal: function() {
             var a = this.player.localToGlobal(0, 0);
-            a = this.camera.globalToLocal(a.x, a.y - (l.rotating ? 0 : Constants.rotateOffset));
+            a = this.camera.globalToLocal(a.x, a.y - (PlayManager.rotating ? 0 : Constants.rotateOffset));
             a.x *= -1;
             a.y *= -1;
             return a
@@ -5882,8 +5882,8 @@
         },
         kill: function() {
             GameplayLevel.i = null;
-            l.level.kill();
-            l.set_level(null);
+            PlayManager.level.kill();
+            PlayManager.set_level(null);
             Sounds.cat.volume(1);
             Sounds.exit.volume(1);
             if (this.speedrun)
@@ -6161,12 +6161,12 @@
                   , e = EditorTileSelector.list[d];
                 0 < d && a.translate(EditorTileSelector.size4, 0);
                 e.rotatePreview() && (a.translate(EditorTileSelector.size2, EditorTileSelector.size2),
-                a.rotate(l.rotation * Math.PI / 2),
+                a.rotate(PlayManager.rotation * Math.PI / 2),
                 a.translate(-EditorTileSelector.size2, -EditorTileSelector.size2));
                 a.drawRect(0, 0, Constants.tileSize, Constants.tileSize);
                 e.render(a, new wb(0,0,e.id,e.getConfigMeta()), !1);
                 e.rotatePreview() && (a.translate(EditorTileSelector.size2, EditorTileSelector.size2),
-                a.rotate(-l.rotation * Math.PI / 2),
+                a.rotate(-PlayManager.rotation * Math.PI / 2),
                 a.translate(-EditorTileSelector.size2, -EditorTileSelector.size2))
             }
             a.translate((EditorTileSelector.list.length - 1) * -EditorTileSelector.size4, 0);
@@ -6609,7 +6609,7 @@
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, Qa) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, Qa).speedrun,
-            GameInstance.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = GameInstance.i,
+            GameInstance.i.changeScreen(PlayManager.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = GameInstance.i,
             T(Ja, Ja.unpause))))
         });
         this.addChild(this.btnQuit);
@@ -6896,8 +6896,8 @@
     J.ANIM_JUMP = new GameAnimation([8, 9],[200, 200],!1);
     J.ANIM_FALL = new GameAnimation([12, 13, 14, 15],[100, 100, 100, 100]);
     J.ANIM_ROTATE = new GameAnimation([16, 17, 18, 19],[100, 100, 100, 100],!1);
-    l.rotating = !1;
-    l.rotation = 0;
+    PlayManager.rotating = !1;
+    PlayManager.rotation = 0;
     TileLever.TOGGLE_TIMER = .67;
     EditorTiles.registry = [];
     EditorTiles.start = EditorTiles.register(-1, new TileStart);
