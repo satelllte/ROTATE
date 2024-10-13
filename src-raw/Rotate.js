@@ -1371,7 +1371,7 @@
     lc.__name__ = !0;
     var ya = function(a) {
         this.length = a.byteLength;
-        this.b = new ec(a);
+        this.b = new _Uint8Array(a);
         this.b.bufferValue = a;
         a.hxBytes = this;
         a.bytes = this.b
@@ -1386,7 +1386,7 @@
             b.push(128 | d >> 6 & 63)),
             b.push(128 | d & 63))
         }
-        return new ya((new ec(b)).buffer)
+        return new ya((new _Uint8Array(b)).buffer)
     }
     ;
     ya.prototype = {
@@ -1764,9 +1764,9 @@
     };
     wa.__name__ = !0;
     wa.sliceImpl = function(a, b) {
-        var c = new ec(this,a,null == b ? null : b - a)
+        var c = new _Uint8Array(this,a,null == b ? null : b - a)
           , d = new tb(c.byteLength);
-        (new ec(d)).set(c);
+        (new _Uint8Array(d)).set(c);
         return d
     }
     ;
@@ -6710,7 +6710,7 @@
       , na = {}
       , tb = window.ArrayBuffer || wa;
     null == tb.prototype.slice && (tb.prototype.slice = wa.sliceImpl);
-    var ec = window.Uint8Array || FallbackUint8Array._new;
+    var _Uint8Array = window.Uint8Array || FallbackUint8Array._new;
     h.started = !1;
     h.imageSmoothingEnabled = !0;
     h.lastCursor = "default";
