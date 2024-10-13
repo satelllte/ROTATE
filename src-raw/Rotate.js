@@ -2130,7 +2130,7 @@
         },
         warnNoSave: function(a) {
             if (GameInstance.nosave) {
-                var b = new r(GameInstance.fontMain,"Enable cookies & site data\nto save your progress!",2);
+                var b = new GraphicsObjectText(GameInstance.fontMain,"Enable cookies & site data\nto save your progress!",2);
                 b.set_x(8);
                 b.set_y(4);
                 b.set_scaleX(b.set_scaleY(.5));
@@ -2245,12 +2245,12 @@
         null == AwardsManager.bubble && (AwardsManager.bubble = new GraphicsObject,
         AwardsManager.bubble.mouseEnabled = !0,
         a.addChild(AwardsManager.bubble),
-        AwardsManager.bubbleTitle = new r(GameInstance.fontMain,"NEW AWARD"),
+        AwardsManager.bubbleTitle = new GraphicsObjectText(GameInstance.fontMain,"NEW AWARD"),
         AwardsManager.bubbleTitle.set_x(68),
         AwardsManager.bubbleTitle.set_y(4),
         AwardsManager.bubbleTitle.set_alpha(.5),
         AwardsManager.bubble.addChild(AwardsManager.bubbleTitle),
-        AwardsManager.bubbleName = new r(GameInstance.fontMain,""),
+        AwardsManager.bubbleName = new GraphicsObjectText(GameInstance.fontMain,""),
         AwardsManager.bubbleName.set_x(68),
         AwardsManager.bubbleName.set_y(28),
         AwardsManager.bubble.addChild(AwardsManager.bubbleName),
@@ -3224,13 +3224,13 @@
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(GameInstance.fontMain,"Channel");
+              , c = new GraphicsObjectText(GameInstance.fontMain,"Channel");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(GameInstance.fontMain,this.channel + "");
-            d.align = r.ALIGN_CENTER;
-            d.xAlign = r.X_ALIGN_CENTER;
+            var d = new GraphicsObjectText(GameInstance.fontMain,this.channel + "");
+            d.align = GraphicsObjectText.ALIGN_CENTER;
+            d.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
@@ -3253,13 +3253,13 @@
             f.set_x(d.x - 11);
             f.set_y(e.y);
             a.addChild(f);
-            e = new r(GameInstance.fontMain,"Length");
+            e = new GraphicsObjectText(GameInstance.fontMain,"Length");
             e.set_x(16);
             e.set_y(c.y + 30);
             a.addChild(e);
-            var m = new r(GameInstance.fontMain,this.length + "");
-            m.align = r.ALIGN_CENTER;
-            m.xAlign = r.X_ALIGN_CENTER;
+            var m = new GraphicsObjectText(GameInstance.fontMain,this.length + "");
+            m.align = GraphicsObjectText.ALIGN_CENTER;
+            m.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             m.set_x(this.bubbleWidth - 31);
             m.set_y(e.y);
             a.addChild(m);
@@ -3282,13 +3282,13 @@
             f.set_x(m.x - 11);
             f.set_y(c.y);
             a.addChild(f);
-            c = new r(GameInstance.fontMain,"Angle");
+            c = new GraphicsObjectText(GameInstance.fontMain,"Angle");
             c.set_x(32);
             c.set_y(e.y + 30);
             a.addChild(c);
-            var k = new r(GameInstance.fontMain,this.angle + "");
-            k.align = r.ALIGN_CENTER;
-            k.xAlign = r.X_ALIGN_CENTER;
+            var k = new GraphicsObjectText(GameInstance.fontMain,this.angle + "");
+            k.align = GraphicsObjectText.ALIGN_CENTER;
+            k.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             k.set_x(this.bubbleWidth - 31);
             k.set_y(c.y);
             a.addChild(k);
@@ -3330,13 +3330,13 @@
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(GameInstance.fontMain,"Angle");
+              , c = new GraphicsObjectText(GameInstance.fontMain,"Angle");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(GameInstance.fontMain,this.angle + "");
-            d.align = r.ALIGN_CENTER;
-            d.xAlign = r.X_ALIGN_CENTER;
+            var d = new GraphicsObjectText(GameInstance.fontMain,this.angle + "");
+            d.align = GraphicsObjectText.ALIGN_CENTER;
+            d.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
@@ -3473,13 +3473,13 @@
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(GameInstance.fontMain,"Channel");
+              , c = new GraphicsObjectText(GameInstance.fontMain,"Channel");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(GameInstance.fontMain,this.channel + "");
-            d.align = r.ALIGN_CENTER;
-            d.xAlign = r.X_ALIGN_CENTER;
+            var d = new GraphicsObjectText(GameInstance.fontMain,this.channel + "");
+            d.align = GraphicsObjectText.ALIGN_CENTER;
+            d.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
@@ -3502,13 +3502,13 @@
             f.set_x(d.x - 11);
             f.set_y(e.y);
             a.addChild(f);
-            e = new r(GameInstance.fontMain,"State");
+            e = new GraphicsObjectText(GameInstance.fontMain,"State");
             e.set_x(32);
             e.set_y(c.y + 30);
             a.addChild(e);
-            var m = new r(GameInstance.fontMain,this.on ? "1" : "0");
-            m.align = r.ALIGN_CENTER;
-            m.xAlign = r.X_ALIGN_CENTER;
+            var m = new GraphicsObjectText(GameInstance.fontMain,this.on ? "1" : "0");
+            m.align = GraphicsObjectText.ALIGN_CENTER;
+            m.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             m.set_x(this.bubbleWidth - 31);
             m.set_y(e.y);
             a.addChild(m);
@@ -3597,13 +3597,13 @@
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(GameInstance.fontMain,"Value");
+              , c = new GraphicsObjectText(GameInstance.fontMain,"Value");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(GameInstance.fontMain,this.value + "");
-            d.align = r.ALIGN_CENTER;
-            d.xAlign = r.X_ALIGN_CENTER;
+            var d = new GraphicsObjectText(GameInstance.fontMain,this.value + "");
+            d.align = GraphicsObjectText.ALIGN_CENTER;
+            d.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
@@ -4633,16 +4633,16 @@
         this.char2 = this.timer = 0;
         this["char"] = 0;
         this.msg = "";
-        this.field = new r(GameInstance.fontMain,"",2);
+        this.field = new GraphicsObjectText(GameInstance.fontMain,"",2);
         this.index = 0;
         this.events = a;
         this.field.set_alpha(0);
-        this.field.xAlign = r.X_ALIGN_CENTER;
-        this.field.align = r.ALIGN_CENTER;
+        this.field.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+        this.field.align = GraphicsObjectText.ALIGN_CENTER;
         this.field.set_x(h.width / 2);
         null == b && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) ? (b = GameInstance.i.currentScreen.textHolder,
-        this.field.yAlign = r.Y_ALIGN_TOP,
-        this.field.set_y(h.height - 96)) : (this.field.yAlign = r.Y_ALIGN_MIDDLE,
+        this.field.yAlign = GraphicsObjectText.Y_ALIGN_TOP,
+        this.field.set_y(h.height - 96)) : (this.field.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE,
         this.field.set_y(h.height / 2));
         b.addChild(this.field);
         null != a[0] && a[0].cond.start()
@@ -4711,7 +4711,7 @@
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
         this.btnBack = new Button("BACK");
-        this.title = new r(GameInstance.fontMain,"AWARDS",1);
+        this.title = new GraphicsObjectText(GameInstance.fontMain,"AWARDS",1);
         this.bg = new Na;
         this.content = new GraphicsObject;
         this.pivot = new GraphicsObject;
@@ -4729,7 +4729,7 @@
             this.content.set_x(-this.pivot.x);
             this.content.set_y(-this.pivot.y);
             this.pivot.addChild(this.content);
-            this.title.xAlign = r.X_ALIGN_CENTER;
+            this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.title.set_x(Math.round(h.width / 2));
             this.title.set_y(64);
             this.content.addChild(this.title);
@@ -4799,11 +4799,11 @@
         null == a && (a = !1);
         this.mute = new ButtonMute;
         this.more = new ImageSurface(Images.linkLWS);
-        this.moreText = new r(GameInstance.fontMain,"Game published by",1);
+        this.moreText = new GraphicsObjectText(GameInstance.fontMain,"Game published by",1);
         this.soundtrack = new ImageSurface(Images.soundtrack);
-        this.text2 = new r(GameInstance.fontMain,"Special thanks to the playtesters\nand Patreon contributors!",1);
+        this.text2 = new GraphicsObjectText(GameInstance.fontMain,"Special thanks to the playtesters\nand Patreon contributors!",1);
         this.joshua = new ImageSurface(Images.linkJoshua2);
-        this.text1 = new r(GameInstance.fontMain,"Design, code, & music by",1);
+        this.text1 = new GraphicsObjectText(GameInstance.fontMain,"Design, code, & music by",1);
         this.btnBack = new Button("BACK");
         Screen.call(this);
         this.fromEnd = a
@@ -4827,7 +4827,7 @@
             this.addChild(this.bg);
             this.text1.set_x(Math.round(h.width / 2));
             this.text1.set_y(80);
-            this.text1.xAlign = r.X_ALIGN_CENTER;
+            this.text1.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.addChild(this.text1);
             this.joshua.set_x(Math.round((h.width - this.joshua.get_width()) / 2));
             this.joshua.set_y(this.text1.y + 36);
@@ -4840,8 +4840,8 @@
             this.addChild(this.joshua);
             this.text2.set_x(this.text1.x);
             this.text2.set_y(this.joshua.y + this.joshua.get_height() + 40);
-            this.text2.xAlign = r.X_ALIGN_CENTER;
-            this.text2.align = r.ALIGN_CENTER;
+            this.text2.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+            this.text2.align = GraphicsObjectText.ALIGN_CENTER;
             this.addChild(this.text2);
             this.text2.mouseEnabled = this.text2.buttonMode = !0;
             this.text2.addEventListener("click", function(c) {
@@ -4857,8 +4857,8 @@
             this.addChild(this.soundtrack);
             this.moreText.set_x(this.text1.x);
             this.moreText.set_y(this.text2.y + this.text2.get_height() + 36);
-            this.moreText.xAlign = r.X_ALIGN_CENTER;
-            this.moreText.align = r.ALIGN_CENTER;
+            this.moreText.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+            this.moreText.align = GraphicsObjectText.ALIGN_CENTER;
             this.addChild(this.moreText);
             this.more.set_x(Math.round((h.width - this.more.get_width()) / 2));
             this.more.set_y(this.moreText.y + this.moreText.get_height());
@@ -4959,7 +4959,7 @@
     EditorLevel.__name__ = !0;
     EditorLevel.renderBlockText = function(a, b) {
         EditorLevel.renderBlockRed(a, 0, 0);
-        r.drawText(a, GameInstance.fontMain, b, 2, 0, 0)
+        GraphicsObjectText.drawText(a, GameInstance.fontMain, b, 2, 0, 0)
     }
     ;
     EditorLevel.renderBlockRed = function(a, b, c) {
@@ -5355,7 +5355,7 @@
     });
     var ob = function(a) {
         null == a && (a = !1);
-        this.hint = new r(GameInstance.fontMain,"Press [SPACE] to continue...");
+        this.hint = new GraphicsObjectText(GameInstance.fontMain,"Press [SPACE] to continue...");
         this.catTrigger = !1;
         this.cat = new S;
         this.player = new ua(Images.player,32,48);
@@ -5403,8 +5403,8 @@
             this.camera.set_y(Math.round(this.cameraY = -this.player.y + Constants.rotateOffset + 2 * Constants.tileSize));
             this.vignette.set_alpha(.75);
             this.addChild(this.vignette);
-            this.hint.xAlign = r.X_ALIGN_CENTER;
-            this.hint.yAlign = r.Y_ALIGN_BOTTOM;
+            this.hint.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+            this.hint.yAlign = GraphicsObjectText.Y_ALIGN_BOTTOM;
             this.hint.set_x(Math.round(h.width / 2));
             this.hint.set_y(h.height - 24);
             this.hint.set_alpha(0);
@@ -5449,15 +5449,15 @@
         this.erase = new ButtonErase;
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
-        this.bestTime = new r(GameInstance.fontMain,"Best time: ",2);
-        this.text3 = new r(GameInstance.fontMain,"Finish the game as\nquickly as you can.",1);
+        this.bestTime = new GraphicsObjectText(GameInstance.fontMain,"Best time: ",2);
+        this.text3 = new GraphicsObjectText(GameInstance.fontMain,"Finish the game as\nquickly as you can.",1);
         this.btn3 = new Button("SPEEDRUN");
-        this.text2 = new r(GameInstance.fontMain,"Build custom levels\nand share codes.",1);
+        this.text2 = new GraphicsObjectText(GameInstance.fontMain,"Build custom levels\nand share codes.",1);
         this.btn2 = new Button("EDITOR");
-        this.text1 = new r(GameInstance.fontMain,"See all the awards\nthat you've earned.",1);
+        this.text1 = new GraphicsObjectText(GameInstance.fontMain,"See all the awards\nthat you've earned.",1);
         this.btn1 = new Button("AWARDS");
         this.btnBack = new Button("BACK");
-        this.title = new r(GameInstance.fontMain,"EXTRAS",1);
+        this.title = new GraphicsObjectText(GameInstance.fontMain,"EXTRAS",1);
         this.bg = new Na;
         Screen.call(this)
     };
@@ -5467,7 +5467,7 @@
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
-            this.title.xAlign = r.X_ALIGN_CENTER;
+            this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.title.set_x(Math.round(h.width / 2));
             this.title.set_y(56);
             this.addChild(this.title);
@@ -5500,7 +5500,7 @@
             this.text3.set_x(this.text2.x);
             this.text3.set_y(this.btn3.y - 29);
             this.addChild(this.text3);
-            this.bestTime.xAlign = r.X_ALIGN_CENTER;
+            this.bestTime.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.bestTime.set_x(Math.round(h.width / 2));
             this.bestTime.set_y(this.btn3.y + 21 + 8);
             var a = this.bestTime;
@@ -5526,7 +5526,7 @@
         this.sponsor = new ButtonSponsor;
         this.tiles = new GraphicsObject;
         this.btnBack = new Button("BACK");
-        this.title = new r(GameInstance.fontMain,"LEVEL SELECT",1);
+        this.title = new GraphicsObjectText(GameInstance.fontMain,"LEVEL SELECT",1);
         this.bg = new Na;
         Screen.call(this)
     };
@@ -5536,7 +5536,7 @@
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
-            this.title.xAlign = r.X_ALIGN_CENTER;
+            this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.title.set_x(Math.round(h.width / 2));
             this.title.set_y(56);
             this.addChild(this.title);
@@ -5571,9 +5571,9 @@
                     }
                 }(e))) : p.set_alpha(.5);
                 this.tiles.addChild(p);
-                e = new r(GameInstance.fontMain,"" + (e[0] + 1));
-                e.xAlign = r.X_ALIGN_CENTER;
-                e.yAlign = r.Y_ALIGN_MIDDLE;
+                e = new GraphicsObjectText(GameInstance.fontMain,"" + (e[0] + 1));
+                e.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+                e.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE;
                 e.set_x(Math.round(p.get_width() / 2));
                 e.set_y(Math.round(p.get_height() / 2) - 2);
                 p.addChild(e)
@@ -5744,16 +5744,16 @@
             if (this.speedrun) {
                 if (-1 == this.speedrunStart || 0 == B.list.indexOf(l.level))
                     this.speedrunStart = GameInstance.i.get_gameTimeMS();
-                this.timerText = new r(GameInstance.fontMain,"",2);
-                this.timerText.align = r.ALIGN_RIGHT;
-                this.timerText.xAlign = r.X_ALIGN_RIGHT;
+                this.timerText = new GraphicsObjectText(GameInstance.fontMain,"",2);
+                this.timerText.align = GraphicsObjectText.ALIGN_RIGHT;
+                this.timerText.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
                 this.timerText.set_x(h.width - 12);
                 this.timerText.set_y(8);
                 GameInstance.i.timerHolder.addChild(this.timerText);
                 this.updateTimer()
             } else
-                l.level != B.level1 || GameInstance.i.hasPaused || (this.pauseText = new r(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
-                this.pauseText.xAlign = r.X_ALIGN_CENTER,
+                l.level != B.level1 || GameInstance.i.hasPaused || (this.pauseText = new GraphicsObjectText(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
+                this.pauseText.xAlign = GraphicsObjectText.X_ALIGN_CENTER,
                 this.pauseText.set_x(Math.round(h.width / 2)),
                 this.pauseText.set_y(8),
                 this.pauseText.set_alpha(.33),
@@ -5994,7 +5994,7 @@
         kill: function() {},
         __class__: Qa
     });
-    var r = function(a, b, c) {
+    var GraphicsObjectText = function(a, b, c) {
         null == c && (c = 0);
         null == b && (b = "");
         this.textWidth = this.textHeight = 0;
@@ -6010,8 +6010,8 @@
             d.render(e.surface)
         })
     };
-    r.__name__ = !0;
-    r.drawText = function(a, b, c, d, e, f) {
+    GraphicsObjectText.__name__ = !0;
+    GraphicsObjectText.drawText = function(a, b, c, d, e, f) {
         null == f && (f = 0);
         null == c && (c = "");
         for (var m = 0, k = 0, p = 0, y = 0, H = c.length; y < H; ) {
@@ -6025,8 +6025,8 @@
         }
     }
     ;
-    r.__super__ = GraphicsObject;
-    r.prototype = __INHERIT__(GraphicsObject.prototype, {
+    GraphicsObjectText.__super__ = GraphicsObject;
+    GraphicsObjectText.prototype = __INHERIT__(GraphicsObject.prototype, {
         set_font: function(a) {
             this.font = a;
             this.set_lineHeight(a.lineHeight);
@@ -6086,16 +6086,16 @@
         },
         getTextOffset: function() {
             var a = new Vector2(0,0);
-            this.xAlign == r.X_ALIGN_CENTER && (a.x = Math.round(-this.textWidth / 2));
-            this.xAlign == r.X_ALIGN_RIGHT && (a.x = -this.textWidth);
-            this.yAlign == r.Y_ALIGN_MIDDLE && (a.y = Math.round(-this.textHeight / 2));
-            this.yAlign == r.Y_ALIGN_BOTTOM && (a.y = -this.textHeight);
+            this.xAlign == GraphicsObjectText.X_ALIGN_CENTER && (a.x = Math.round(-this.textWidth / 2));
+            this.xAlign == GraphicsObjectText.X_ALIGN_RIGHT && (a.x = -this.textWidth);
+            this.yAlign == GraphicsObjectText.Y_ALIGN_MIDDLE && (a.y = Math.round(-this.textHeight / 2));
+            this.yAlign == GraphicsObjectText.Y_ALIGN_BOTTOM && (a.y = -this.textHeight);
             return a
         },
         getLineOffset: function(a) {
-            return this.align == r.ALIGN_CENTER ? Math.round((-this.textWidth + a) / 2) : this.align == r.ALIGN_RIGHT ? -this.textWidth + a : 0
+            return this.align == GraphicsObjectText.ALIGN_CENTER ? Math.round((-this.textWidth + a) / 2) : this.align == GraphicsObjectText.ALIGN_RIGHT ? -this.textWidth + a : 0
         },
-        __class__: r
+        __class__: GraphicsObjectText
     });
     var Xb = function(a) {
         GraphicsObject.call(this);
@@ -6106,9 +6106,9 @@
         b.set_x(-b.get_width() / 2);
         b.set_y(8);
         this.addChild(b);
-        b = new r(GameInstance.fontMain,a.name,1);
-        b.align = r.ALIGN_CENTER;
-        b.xAlign = r.X_ALIGN_CENTER;
+        b = new GraphicsObjectText(GameInstance.fontMain,a.name,1);
+        b.align = GraphicsObjectText.ALIGN_CENTER;
+        b.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         b.set_y(64);
         b.set_lineHeight(b.lineHeight - 4);
         this.addChild(b);
@@ -6209,8 +6209,8 @@
         this.graphics.beginFill(1052688, .95);
         this.graphics.drawRect(0, 0, h.width, h.height);
         this.mouseEnabled = !0;
-        this.title = new r(GameInstance.fontMain,a);
-        this.title.xAlign = r.X_ALIGN_CENTER;
+        this.title = new GraphicsObjectText(GameInstance.fontMain,a);
+        this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.title.set_x(Math.round(h.width / 2));
         this.title.set_y(36);
         this.addChild(this.title);
@@ -6244,11 +6244,11 @@
     var Yb = function() {
         this.btnLoad = new Button("LOAD");
         this.btnCancel = new Button("CANCEL");
-        this.invalid = new r(GameInstance.fontMain,"Level code is invalid!",2);
+        this.invalid = new GraphicsObjectText(GameInstance.fontMain,"Level code is invalid!",2);
         var a = this;
         Da.call(this, "LOAD LEVEL");
-        this.invalid.xAlign = r.X_ALIGN_CENTER;
-        this.invalid.yAlign = r.Y_ALIGN_BOTTOM;
+        this.invalid.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+        this.invalid.yAlign = GraphicsObjectText.Y_ALIGN_BOTTOM;
         this.invalid.set_x(Math.round(h.width / 2));
         this.invalid.set_y(h.height - 82);
         this.invalid.visible = !1;
@@ -6316,11 +6316,11 @@
         __class__: Pa
     });
     var R = function(a, b) {
-        this.btnLoad = new r(GameInstance.fontMain,"Load");
-        this.btnSave = new r(GameInstance.fontMain,"Save");
-        this.btnPlay = new r(GameInstance.fontMain,"Play");
-        this.btnClear = new r(GameInstance.fontMain,"Clear");
-        this.btnExit = new r(GameInstance.fontMain,"Exit");
+        this.btnLoad = new GraphicsObjectText(GameInstance.fontMain,"Load");
+        this.btnSave = new GraphicsObjectText(GameInstance.fontMain,"Save");
+        this.btnPlay = new GraphicsObjectText(GameInstance.fontMain,"Play");
+        this.btnClear = new GraphicsObjectText(GameInstance.fontMain,"Clear");
+        this.btnExit = new GraphicsObjectText(GameInstance.fontMain,"Exit");
         GraphicsObject.call(this);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
@@ -6339,10 +6339,10 @@
         this.btnClear.hitPadding = R.BTN_PAD;
         this.btnClear.set_alpha(R.TEXT_GREY);
         this.addChild(this.btnClear);
-        this.theme = new r(GameInstance.fontMain,R.THEMES[a]);
+        this.theme = new GraphicsObjectText(GameInstance.fontMain,R.THEMES[a]);
         this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
         this.theme.set_y(R.EDGE_PAD_Y);
-        this.theme.xAlign = r.X_ALIGN_CENTER;
+        this.theme.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.addChild(this.theme);
         var c = new ImageSurface(Images.configArrow);
         c.mouseEnabled = c.buttonMode = !0;
@@ -6363,7 +6363,7 @@
         this.addChild(c);
         this.btnPlay.set_x(h.width - R.EDGE_PAD);
         this.btnPlay.set_y(R.EDGE_PAD_Y);
-        this.btnPlay.xAlign = r.X_ALIGN_RIGHT;
+        this.btnPlay.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
         this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
         this.btnPlay.hitPadding = R.BTN_PAD;
         this.btnPlay.addEventListener("click", function(d) {
@@ -6372,14 +6372,14 @@
         this.addChild(this.btnPlay);
         this.btnSave.set_x(this.btnPlay.x - this.btnPlay.get_width() - R.BTN_SPACE);
         this.btnSave.set_y(R.EDGE_PAD_Y);
-        this.btnSave.xAlign = r.X_ALIGN_RIGHT;
+        this.btnSave.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
         this.btnSave.mouseEnabled = this.btnSave.buttonMode = !0;
         this.btnSave.hitPadding = R.BTN_PAD;
         this.btnSave.set_alpha(R.TEXT_GREY);
         this.addChild(this.btnSave);
         this.btnLoad.set_x(this.btnSave.x - this.btnSave.get_width() - R.BTN_SPACE);
         this.btnLoad.set_y(R.EDGE_PAD_Y);
-        this.btnLoad.xAlign = r.X_ALIGN_RIGHT;
+        this.btnLoad.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
         this.btnLoad.mouseEnabled = this.btnLoad.buttonMode = !0;
         this.btnLoad.hitPadding = R.BTN_PAD;
         this.btnLoad.set_alpha(R.TEXT_GREY);
@@ -6425,7 +6425,7 @@
         __class__: ButtonErase
     });
     var bc = function(a) {
-        this.label = new r(GameInstance.fontMain,"Grid");
+        this.label = new GraphicsObjectText(GameInstance.fontMain,"Grid");
         this.toggle = new ImageSurface(Images.configToggle);
         var b = this;
         GraphicsObject.call(this);
@@ -6483,11 +6483,11 @@
         this.main.set_y(-this.main.get_height() / 2);
         this.main.mouseEnabled = this.main.buttonMode = !0;
         this.addChild(this.main);
-        var c = this.text = new r(GameInstance.fontMain,a.toUpperCase(),b);
+        var c = this.text = new GraphicsObjectText(GameInstance.fontMain,a.toUpperCase(),b);
         c.set_y(c.y - 2);
-        this.text.align = r.ALIGN_CENTER;
-        this.text.xAlign = r.X_ALIGN_CENTER;
-        this.text.yAlign = r.Y_ALIGN_MIDDLE;
+        this.text.align = GraphicsObjectText.ALIGN_CENTER;
+        this.text.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+        this.text.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE;
         this.addChild(this.text)
     };
     Button.__name__ = !0;
@@ -6550,7 +6550,7 @@
         this.set_x(12);
         this.set_y(12);
         this.mouseEnabled = this.buttonMode = !0;
-        var a = new r(GameInstance.fontMain,"Invert [Q] & [E]?");
+        var a = new GraphicsObjectText(GameInstance.fontMain,"Invert [Q] & [E]?");
         a.set_x(30);
         a.set_y(-4);
         a.set_alpha(.5);
@@ -6581,15 +6581,15 @@
         this.btnQuit = new Button("QUIT",0);
         this.btnRedo = new Button("RESTART",0);
         this.btnPlay = new Button("CONTINUE",0);
-        this.text = new r(GameInstance.fontMain,"GAME PAUSED");
+        this.text = new GraphicsObjectText(GameInstance.fontMain,"GAME PAUSED");
         GraphicsObject.call(this);
         this.graphics.beginFill(1052688, .85);
         this.graphics.drawRect(0, 0, h.width, h.height);
         this.visible = !1;
         this.mouseEnabled = !0;
-        this.text.align = r.ALIGN_CENTER;
-        this.text.xAlign = r.X_ALIGN_CENTER;
-        this.text.yAlign = r.Y_ALIGN_MIDDLE;
+        this.text.align = GraphicsObjectText.ALIGN_CENTER;
+        this.text.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+        this.text.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE;
         this.text.set_x(Math.floor(h.width / 2));
         this.text.set_y(Math.floor(h.height / 2) - 96 - 1);
         this.addChild(this.text);
@@ -6654,16 +6654,16 @@
     var ModalYesNo = function(a) {
         this.btnNo = new Button("NO");
         this.btnYes = new Button("YES");
-        this.main = new r(GameInstance.fontMain,"",2);
+        this.main = new GraphicsObjectText(GameInstance.fontMain,"",2);
         var b = this;
         GraphicsObject.call(this);
         this.main.set_text(a);
         this.graphics.beginFill(1052688, .95);
         this.graphics.drawRect(0, 0, h.width, h.height);
         this.mouseEnabled = !0;
-        this.main.align = r.ALIGN_CENTER;
-        this.main.xAlign = r.X_ALIGN_CENTER;
-        this.main.yAlign = r.Y_ALIGN_MIDDLE;
+        this.main.align = GraphicsObjectText.ALIGN_CENTER;
+        this.main.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
+        this.main.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE;
         this.main.set_x(Math.round(h.width / 2));
         this.main.set_y(Math.round(h.height / 2) - 40);
         this.addChild(this.main);
@@ -6951,15 +6951,15 @@
     GameplayLevel.DEATH_SHAKE_AMOUNT = 24;
     GameplayLevel.stopped = !1;
     GameplayLevel.canceled = !1;
-    r.ALIGN_LEFT = 0;
-    r.ALIGN_CENTER = 1;
-    r.ALIGN_RIGHT = 2;
-    r.X_ALIGN_LEFT = 0;
-    r.X_ALIGN_CENTER = 1;
-    r.X_ALIGN_RIGHT = 2;
-    r.Y_ALIGN_TOP = 0;
-    r.Y_ALIGN_MIDDLE = 1;
-    r.Y_ALIGN_BOTTOM = 2;
+    GraphicsObjectText.ALIGN_LEFT = 0;
+    GraphicsObjectText.ALIGN_CENTER = 1;
+    GraphicsObjectText.ALIGN_RIGHT = 2;
+    GraphicsObjectText.X_ALIGN_LEFT = 0;
+    GraphicsObjectText.X_ALIGN_CENTER = 1;
+    GraphicsObjectText.X_ALIGN_RIGHT = 2;
+    GraphicsObjectText.Y_ALIGN_TOP = 0;
+    GraphicsObjectText.Y_ALIGN_MIDDLE = 1;
+    GraphicsObjectText.Y_ALIGN_BOTTOM = 2;
     O.size2 = Constants.tileSize / 2;
     O.size4 = Constants.tileSize + 4;
     O.list = [F.air, F.solid, F.start, F.finish, F.stairs, F.ramp, F.platform, F.spikes, F.saw, F.lever, F.door, F.number, F.vent, F.fan];
