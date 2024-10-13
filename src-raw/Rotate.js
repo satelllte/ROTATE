@@ -3718,12 +3718,12 @@
         },
         __class__: Eb
     });
-    var Fb = function() {
+    var TileStairs = function() {
         da.call(this)
     };
-    Fb.__name__ = !0;
-    Fb.__super__ = $a;
-    Fb.prototype = __INHERIT__($a.prototype, {
+    TileStairs.__name__ = !0;
+    TileStairs.__super__ = $a;
+    TileStairs.prototype = __INHERIT__($a.prototype, {
         render: function(a, b, c) {
             c = Constants.tileSize;
             var d = c / 2;
@@ -3735,7 +3735,7 @@
             1 < b.getMeta(0) && a.rotate(-Math.PI);
             a.translate(-d, -d)
         },
-        __class__: Fb
+        __class__: TileStairs
     });
     var TileStart = function() {
         X.call(this)
@@ -6904,7 +6904,7 @@
     EditorTiles.finish = EditorTiles.register(-2, new TileFinish);
     EditorTiles.air = EditorTiles.register(0, new TileAir);
     EditorTiles.solid = EditorTiles.register(1, new TileSolid);
-    EditorTiles.stairs = EditorTiles.register(2, new Fb);
+    EditorTiles.stairs = EditorTiles.register(2, new TileStairs);
     EditorTiles.ramp = EditorTiles.register(3, new $a);
     EditorTiles.platform = EditorTiles.register(4, new Cb);
     EditorTiles.spikes = EditorTiles.register(5, new Eb);
