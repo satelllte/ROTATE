@@ -2325,7 +2325,7 @@
         },
         __class__: wb
     };
-    var ua = function(a, b, c) {
+    var GraphicsObjectAnimated = function(a, b, c) {
         this.animChanged = !1;
         this.frame = this.animTimer = this.lastF = 0;
         this.origin = new Vector2(0,0);
@@ -2341,9 +2341,9 @@
             d.render(e.surface)
         })
     };
-    ua.__name__ = !0;
-    ua.__super__ = GraphicsObject;
-    ua.prototype = __INHERIT__(GraphicsObject.prototype, {
+    GraphicsObjectAnimated.__name__ = !0;
+    GraphicsObjectAnimated.__super__ = GraphicsObject;
+    GraphicsObjectAnimated.prototype = __INHERIT__(GraphicsObject.prototype, {
         set_frame: function(a) {
             return this.frame = 0 > a || a >= this.frames ? 0 : a
         },
@@ -2382,7 +2382,7 @@
         getBoundsSelf: function() {
             return new Rectangle(-this.origin.x,-this.origin.y,this.frameW,this.frameH)
         },
-        __class__: ua
+        __class__: GraphicsObjectAnimated
     });
     var GameAnimation = function(a, b, c) {
         null == c && (c = !0);
@@ -2397,13 +2397,13 @@
     };
     var CatObject = function() {
         this.horizontal = this.x2 = this.dx = 0;
-        ua.call(this, Images.cat, 24, 24);
+        GraphicsObjectAnimated.call(this, Images.cat, 24, 24);
         this.origin.x = this.frameW / 2;
         this.origin.y = this.frameH
     };
     CatObject.__name__ = !0;
-    CatObject.__super__ = ua;
-    CatObject.prototype = __INHERIT__(ua.prototype, {
+    CatObject.__super__ = GraphicsObjectAnimated;
+    CatObject.prototype = __INHERIT__(GraphicsObjectAnimated.prototype, {
         tick: function() {
             0 < this.horizontal ? this.dx < CatObject.SPEED && (this.dx < -CatObject.ACCEL ? this.dx *= CatObject.DECCEL_MULT : (this.dx += CatObject.ACCEL,
             this.dx > CatObject.SPEED && (this.dx = CatObject.SPEED))) : 0 > this.horizontal ? this.dx > -CatObject.SPEED && (this.dx > CatObject.ACCEL ? this.dx *= CatObject.DECCEL_MULT : (this.dx -= CatObject.ACCEL,
@@ -2507,15 +2507,15 @@
         this.jumpTimer = this.jumpTimer2 = this.rotateTimer = -1;
         this.grounded = !1;
         this.x2 = this.y2 = this.lastX = this.lastY = this.dx = this.dy = this.horizontal = 0;
-        ua.call(this, Images.player, 32, 48);
+        GraphicsObjectAnimated.call(this, Images.player, 32, 48);
         this.set_animation(Player.ANIM_IDLE);
         this.onChange = T(this, this.aminChange);
         this.spawnTime = GameInstance.i.get_gameTimeMS();
         this.adjust()
     };
     Player.__name__ = !0;
-    Player.__super__ = ua;
-    Player.prototype = __INHERIT__(ua.prototype, {
+    Player.__super__ = GraphicsObjectAnimated;
+    Player.prototype = __INHERIT__(GraphicsObjectAnimated.prototype, {
         get_localX: function() {
             return 0 == PlayManager.rotation ? this.x2 : 1 == PlayManager.rotation ? PlayManager.get_height() - this.y2 : 2 == PlayManager.rotation ? PlayManager.get_width() - this.x2 : this.y2
         },
@@ -5358,8 +5358,8 @@
         this.hint = new GraphicsObjectText(GameInstance.fontMain,"Press [SPACE] to continue...");
         this.catTrigger = !1;
         this.cat = new CatObject;
-        this.player = new ua(Images.player,32,48);
-        this.artPlants = new ua(Images.endingPlants,504,24);
+        this.player = new GraphicsObjectAnimated(Images.player,32,48);
+        this.artPlants = new GraphicsObjectAnimated(Images.endingPlants,504,24);
         this.artMain = new ImageSurface(Images.endingMain);
         this.vignette = new ImageSurface(Images.vignette);
         this.bg = new GraphicsObject;
