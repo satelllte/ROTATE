@@ -3575,14 +3575,14 @@
         },
         __class__: TileSolid
     });
-    var Bb = function() {
+    var TileNumber = function() {
         this.value = 1;
         X.call(this);
         this.configurable = !0
     };
-    Bb.__name__ = !0;
-    Bb.__super__ = TileSolid;
-    Bb.prototype = __INHERIT__(TileSolid.prototype, {
+    TileNumber.__name__ = !0;
+    TileNumber.__super__ = TileSolid;
+    TileNumber.prototype = __INHERIT__(TileSolid.prototype, {
         set_value: function(a) {
             return this.value = 0 > a ? 99 : 99 < a ? 0 : a
         },
@@ -3630,7 +3630,7 @@
         getConfigMeta: function() {
             return [this.value]
         },
-        __class__: Bb
+        __class__: TileNumber
     });
     var TilePlatform = function() {
         da.call(this)
@@ -6911,7 +6911,7 @@
     EditorTiles.saw = EditorTiles.register(6, new TileSaw);
     EditorTiles.lever = EditorTiles.register(8, new TileLever);
     EditorTiles.door = EditorTiles.register(9, new TileDoor);
-    EditorTiles.number = EditorTiles.register(7, new Bb);
+    EditorTiles.number = EditorTiles.register(7, new TileNumber);
     EditorTiles.vent = EditorTiles.register(10, new Hb);
     EditorTiles.fan = EditorTiles.register(11, new zb);
     BloodParticle.GRAVITY_MULT = .2;
