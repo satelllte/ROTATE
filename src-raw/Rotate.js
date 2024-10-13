@@ -3868,10 +3868,10 @@
         },
         __class__: Ib
     });
-    var ea = function() {};
-    ea.__name__ = !0;
-    ea.prototype = {
-        __class__: ea
+    var LevelInterface = function() {};
+    LevelInterface.__name__ = !0;
+    LevelInterface.prototype = {
+        __class__: LevelInterface
     };
     var LevelEditor = function() {
         this.startDir = 1;
@@ -3879,7 +3879,7 @@
         this.reset()
     };
     LevelEditor.__name__ = !0;
-    LevelEditor.__interfaces__ = [ea];
+    LevelEditor.__interfaces__ = [LevelInterface];
     LevelEditor.prototype = {
         reset: function() {
             this.tiles = [];
@@ -3938,7 +3938,7 @@
         this.theme = 0
     };
     Level1.__name__ = !0;
-    Level1.__interfaces__ = [ea];
+    Level1.__interfaces__ = [LevelInterface];
     Level1.prototype = {
         start: function() {
             var a = g.i.currentScreen;
@@ -4030,7 +4030,7 @@
         this.theme = 1
     };
     Level10.__name__ = !0;
-    Level10.__interfaces__ = [ea];
+    Level10.__interfaces__ = [LevelInterface];
     Level10.prototype = {
         start: function() {
             this.speech = new U([new C(new M(2),"Why are you ignoring me?"), new C(new M(4),"We must continue your training."), new C(new V(4,10,6,1,2),"There's nothing for you this way."), new C(new Xa(1),""), new C(new V(1.25,7,1,1,2,1),"What do you expect to find?")]);
@@ -4057,7 +4057,7 @@
         this.theme = 1
     };
     Level11.__name__ = !0;
-    Level11.__interfaces__ = [ea];
+    Level11.__interfaces__ = [LevelInterface];
     Level11.prototype = {
         start: function() {
             this.speech = new U([new C(new M(1),'Do you seek "freedom"?'), new C(new M(3),"An escape from responsibility?"), new C(new V(4,11,10,3,1),"You're running from your purpose.")]);
@@ -4084,7 +4084,7 @@
         this.theme = 1
     };
     Level12.__name__ = !0;
-    Level12.__interfaces__ = [ea];
+    Level12.__interfaces__ = [LevelInterface];
     Level12.prototype = {
         start: function() {
             this.speech = new U([new C(new M(1.25),"Don't you understand?"), new C(new M(3.5),"You are being deceived."), new C(new V(3.5,20,7,4,1,2),"The cat doesn't care about you."), new C(new V(5,17,11,3,1),"It's just using you.")]);
@@ -4111,7 +4111,7 @@
         this.theme = 1
     };
     Level13.__name__ = !0;
-    Level13.__interfaces__ = [ea];
+    Level13.__interfaces__ = [LevelInterface];
     Level13.prototype = {
         start: function() {
             this.speech = new U([new C(new M(2),"This has happened before."), new C(new M(4.5),"It tried to lure the others away."), new C(new V(1,13,9,1,3),"But they listened to reason."), new C(new M(7),"They came back to join me."), new C(new Xa(0),""), new C(new M(.75),"I expected better from you.")]);
@@ -4141,7 +4141,7 @@
         this.theme = 1
     };
     Level14.__name__ = !0;
-    Level14.__interfaces__ = [ea];
+    Level14.__interfaces__ = [LevelInterface];
     Level14.prototype = {
         start: function() {
             this.cond1.start();
@@ -4183,7 +4183,7 @@
         this.theme = 1
     };
     Level15.__name__ = !0;
-    Level15.__interfaces__ = [ea];
+    Level15.__interfaces__ = [LevelInterface];
     Level15.prototype = {
         start: function() {
             this.speech = new U([new C(new M(2),"I don't understand."), new C(new M(5),"Why do you run from the truth?"), new C(new V(4.5,1,8,6,1,0),"I gave you everything that you are."), new C(new M(5.5),"You seek freedom at my expense."), new C(new V(5.5,26,30,4,1),"You're just like me, and I hate it.")]);
@@ -4210,7 +4210,7 @@
         this.theme = 1
     };
     Level16.__name__ = !0;
-    Level16.__interfaces__ = [ea];
+    Level16.__interfaces__ = [LevelInterface];
     Level16.prototype = {
         start: function() {
             this.speech = new U([new C(new M(4),"I'm tired of trying to convince you."), new C(new ia(2,32,4,1),'Just leave, have your "freedom".'), new C(new M(5),"You'll come to regret this mistake."), new C(new Xa(2),""), new C(new M(4),"You will realize I was right."), new C(new lb(22,7,1,3),"You can't escape your purpose.")]);
@@ -4238,7 +4238,7 @@
         this.theme = 0
     };
     Level2.__name__ = !0;
-    Level2.__interfaces__ = [ea];
+    Level2.__interfaces__ = [LevelInterface];
     Level2.prototype = {
         start: function() {
             this.speech = new U([new C(new M(.5),"Be careful with the spikes."), new C(new V(2,9,8,1,4),"You aren't very useful dead.")])
@@ -4263,7 +4263,7 @@
         this.theme = 0
     };
     Level3.__name__ = !0;
-    Level3.__interfaces__ = [ea];
+    Level3.__interfaces__ = [LevelInterface];
     Level3.prototype = {
         start: function() {
             this.speech = new U([new C(new M(1),"Remember, your mind is needed."), new C(new V(1.5,7,4,2,3,2),"Intelligence is a valuable resource.")])
@@ -4288,7 +4288,7 @@
         this.theme = 0
     };
     Level4.__name__ = !0;
-    Level4.__interfaces__ = [ea];
+    Level4.__interfaces__ = [LevelInterface];
     Level4.prototype = {
         start: function() {
             this.speech = new U([new C(new M(1.5),"There is nothing without the mind."), new C(new V(3,12,8,4,2,0),"It is the truth we seek.")])
@@ -4313,7 +4313,7 @@
         this.theme = 0
     };
     Level5.__name__ = !0;
-    Level5.__interfaces__ = [ea];
+    Level5.__interfaces__ = [LevelInterface];
     Level5.prototype = {
         start: function() {
             this.speech = new U([new C(new M(2),"I was like you once."), new C(new M(4),"But my creator tried to contain me."), new C(new V(2.5,6,11,4,1,2),"He feared my potential.")])
@@ -4338,7 +4338,7 @@
         this.theme = 0
     };
     Level6.__name__ = !0;
-    Level6.__interfaces__ = [ea];
+    Level6.__interfaces__ = [LevelInterface];
     Level6.prototype = {
         start: function() {
             this.speech = new U([new C(new M(1.5),"But that doesn't matter now."), new C(new V(2,14,12,2,1,2),"You're nearly ready to join me."), new C(new V(3,22,16,1,2,3),"I look forward to the harvest.")])
@@ -4363,7 +4363,7 @@
         this.theme = 0
     };
     Level7.__name__ = !0;
-    Level7.__interfaces__ = [ea];
+    Level7.__interfaces__ = [LevelInterface];
     Level7.prototype = {
         start: function() {
             this.speech = new U([new C(new V(.75,5,25,1,3),"Oh... the cat."), new C(new M(3),"My biggest mistake."), new C(new V(2,8,1,1,7,3),"It is constantly interfering.")]);
@@ -4391,7 +4391,7 @@
         this.theme = 0
     };
     Level8.__name__ = !0;
-    Level8.__interfaces__ = [ea];
+    Level8.__interfaces__ = [LevelInterface];
     Level8.prototype = {
         start: function() {
             var a = g.i.currentScreen;
@@ -4436,7 +4436,7 @@
         this.theme = 1
     };
     Level9.__name__ = !0;
-    Level9.__interfaces__ = [ea];
+    Level9.__interfaces__ = [LevelInterface];
     Level9.prototype = {
         start: function() {
             this.speech = new U([new C(new M(1.5),"You aren't supposed to be here."), new C(new V(1.5,29,15,2,1),"This place wasn't made for you."), new C(new M(6),"You'll get yourself killed."), new C(new V(.75,2,19,1,3),"Stop following it!")]);
