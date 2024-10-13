@@ -1878,8 +1878,8 @@
     GameInstance.__name__ = !0;
     GameInstance.main = function() {
         GameInstance.i = new GameInstance;
-        GameInstance.i.addEventListener("added", (Ja = GameInstance.i,
-        __BIND__(Ja, Ja.init)));
+        GameInstance.i.addEventListener("added", (gameInstanceTemp = GameInstance.i,
+        __BIND__(gameInstanceTemp, gameInstanceTemp.init)));
         GameController.start(GameInstance.element = window.document.getElementById("game"), 504, 504, 2105376, !1, GameInstance.i)
     }
     ;
@@ -5788,8 +5788,8 @@
             }
         },
         restart: function(a) {
-            a = GameInstance.i.paused ? (Ja = GameInstance.i,
-            __BIND__(Ja, Ja.unpause)) : null;
+            a = GameInstance.i.paused ? (gameInstanceTemp = GameInstance.i,
+            __BIND__(gameInstanceTemp, gameInstanceTemp.unpause)) : null;
             GameInstance.i.changeScreen(new GameplayLevel(PlayManager.level,this.speedrun,this.speedrunStart), !0, a)
         },
         finished: function() {
@@ -6609,8 +6609,8 @@
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, Qa) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, Qa).speedrun,
-            GameInstance.i.changeScreen(PlayManager.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = GameInstance.i,
-            __BIND__(Ja, Ja.unpause))))
+            GameInstance.i.changeScreen(PlayManager.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (gameInstanceTemp = GameInstance.i,
+            __BIND__(gameInstanceTemp, gameInstanceTemp.unpause))))
         });
         this.addChild(this.btnQuit);
         this.addChild(this.invert);
@@ -6687,7 +6687,7 @@
     ModalYesNo.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: ModalYesNo
     });
-    var Ja, __BIND__nextId = 0;
+    var gameInstanceTemp, __BIND__nextId = 0;
     String.prototype.__class__ = String;
     String.__name__ = !0;
     Array.__name__ = !0;
