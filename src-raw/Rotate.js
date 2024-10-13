@@ -2413,13 +2413,13 @@
         },
         __class__: CatObject
     });
-    var hc = function(a) {
+    var Signals = function(a) {
         this.lastChanged = -1;
         this.signals = [];
         this.id = a
     };
-    hc.__name__ = !0;
-    hc.prototype = {
+    Signals.__name__ = !0;
+    Signals.prototype = {
         get_status: function() {
             return 0 < this.signals.length
         },
@@ -2433,7 +2433,7 @@
             -1 < c && (this.signals.splice(c, 1),
             this.get_status() || (this.lastChanged = GameInstance.i.get_gameTime()))
         },
-        __class__: hc
+        __class__: Signals
     };
     var Door = function(a) {
         this.x = a.x;
@@ -5847,7 +5847,7 @@
         },
         signalOn: function(a, b, c) {
             var d = this.channels.h[c];
-            null == d && (d = new hc(c),
+            null == d && (d = new Signals(c),
             this.channels.h[c] = d);
             d.signalOn(a, b)
         },
