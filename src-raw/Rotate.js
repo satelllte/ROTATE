@@ -3317,14 +3317,14 @@
         },
         __class__: TileDoor
     });
-    var da = function() {
+    var Tile = function() {
         this.angle = 0;
         X.call(this);
         this.configurable = !0
     };
-    da.__name__ = !0;
-    da.__super__ = X;
-    da.prototype = __INHERIT__(X.prototype, {
+    Tile.__name__ = !0;
+    Tile.__super__ = X;
+    Tile.prototype = __INHERIT__(X.prototype, {
         set_angle: function(a) {
             return this.angle = 0 > a ? 3 : 3 < a ? 0 : a
         },
@@ -3372,14 +3372,14 @@
             a.rotate(-b.getMeta(0) * Math.PI / 2);
             a.translate(-f, -f)
         },
-        __class__: da
+        __class__: Tile
     });
     var TileFan = function() {
-        da.call(this)
+        Tile.call(this)
     };
     TileFan.__name__ = !0;
-    TileFan.__super__ = da;
-    TileFan.prototype = __INHERIT__(da.prototype, {
+    TileFan.__super__ = Tile;
+    TileFan.prototype = __INHERIT__(Tile.prototype, {
         alwaysUpdate: function(a) {
             return !0
         },
@@ -3633,11 +3633,11 @@
         __class__: TileNumber
     });
     var TilePlatform = function() {
-        da.call(this)
+        Tile.call(this)
     };
     TilePlatform.__name__ = !0;
-    TilePlatform.__super__ = da;
-    TilePlatform.prototype = __INHERIT__(da.prototype, {
+    TilePlatform.__super__ = Tile;
+    TilePlatform.prototype = __INHERIT__(Tile.prototype, {
         render: function(a, b, c) {
             this.renderRotated(a, b, 7 * Constants.tileSize, 0)
         },
@@ -3647,11 +3647,11 @@
         __class__: TilePlatform
     });
     var TileRamp = function() {
-        da.call(this)
+        Tile.call(this)
     };
     TileRamp.__name__ = !0;
-    TileRamp.__super__ = da;
-    TileRamp.prototype = __INHERIT__(da.prototype, {
+    TileRamp.__super__ = Tile;
+    TileRamp.prototype = __INHERIT__(Tile.prototype, {
         render: function(a, b, c) {
             this.renderRotated(a, b, 6 * Constants.tileSize, 0)
         },
@@ -3661,11 +3661,11 @@
         __class__: TileRamp
     });
     var TileSaw = function() {
-        da.call(this)
+        Tile.call(this)
     };
     TileSaw.__name__ = !0;
-    TileSaw.__super__ = da;
-    TileSaw.prototype = __INHERIT__(da.prototype, {
+    TileSaw.__super__ = Tile;
+    TileSaw.prototype = __INHERIT__(Tile.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3688,11 +3688,11 @@
         __class__: TileSaw
     });
     var TileSpikes = function() {
-        da.call(this)
+        Tile.call(this)
     };
     TileSpikes.__name__ = !0;
-    TileSpikes.__super__ = da;
-    TileSpikes.prototype = __INHERIT__(da.prototype, {
+    TileSpikes.__super__ = Tile;
+    TileSpikes.prototype = __INHERIT__(Tile.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3719,7 +3719,7 @@
         __class__: TileSpikes
     });
     var TileStairs = function() {
-        da.call(this)
+        Tile.call(this)
     };
     TileStairs.__name__ = !0;
     TileStairs.__super__ = TileRamp;
