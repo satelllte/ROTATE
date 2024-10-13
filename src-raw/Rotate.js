@@ -301,11 +301,11 @@
             c = c.parent
     }
     ;
-    var Sa = function() {
+    var EventDispatcher = function() {
         this.listeners = new Ra
     };
-    Sa.__name__ = !0;
-    Sa.prototype = {
+    EventDispatcher.__name__ = !0;
+    EventDispatcher.prototype = {
         addEventListener: function(a, b) {
             var c = this.listeners;
             if (null != na[a] ? !c.existsReserved(a) : !c.h.hasOwnProperty(a)) {
@@ -338,7 +338,7 @@
                     d(a)
             }
         },
-        __class__: Sa
+        __class__: EventDispatcher
     };
     var LoadingManager = function() {};
     LoadingManager.__name__ = !0;
@@ -597,8 +597,8 @@
         this.listeners = new Ra
     };
     GraphicsObject.__name__ = !0;
-    GraphicsObject.__super__ = Sa;
-    GraphicsObject.prototype = __INHERIT__(Sa.prototype, {
+    GraphicsObject.__super__ = EventDispatcher;
+    GraphicsObject.prototype = __INHERIT__(EventDispatcher.prototype, {
         set_x: function(a) {
             this.x != a && (this.x = a,
             this._updateTransform());
@@ -988,8 +988,8 @@
         window.addEventListener("keyup", T(this, this.onKeyUp))
     };
     qb.__name__ = !0;
-    qb.__super__ = Sa;
-    qb.prototype = __INHERIT__(Sa.prototype, {
+    qb.__super__ = EventDispatcher;
+    qb.prototype = __INHERIT__(EventDispatcher.prototype, {
         set_mouseX: function(a) {
             return this.mouseX = Math.floor(a)
         },
@@ -6722,7 +6722,7 @@
     LoadingManager.inited = !1;
     LoadingManager.finished = !1;
     LoadingManager.tasks = [];
-    LoadingManager.events = new Sa;
+    LoadingManager.events = new EventDispatcher;
     N.startTime = 0;
     N.lastTime = 0;
     N.elapsedTime = 0;
