@@ -2435,15 +2435,15 @@
         },
         __class__: hc
     };
-    var Va = function(a) {
+    var Door = function(a) {
         this.x = a.x;
         this.y = a.y;
         this.channel = a.getMeta(0);
         this.length = a.getMeta(1);
         this.angle = a.getMeta(2)
     };
-    Va.__name__ = !0;
-    Va.canPlace = function(a, b, c) {
+    Door.__name__ = !0;
+    Door.canPlace = function(a, b, c) {
         if (!PlayManager.isInBounds(a, b))
             return !1;
         var d = c[1];
@@ -2484,7 +2484,7 @@
         return !0
     }
     ;
-    Va.prototype = {
+    Door.prototype = {
         contains: function(a, b) {
             return 3 == this.angle ? a == this.x && b <= this.y ? b > this.y - this.length : !1 : 2 == this.angle ? b == this.y && a <= this.x ? a > this.x - this.length : !1 : 1 == this.angle ? a == this.x && b >= this.y ? b < this.y + this.length : !1 : b == this.y && a >= this.x ? a < this.x + this.length : !1
         },
@@ -2494,7 +2494,7 @@
                 3 == this.angle ? a(this.x, this.y - d) : 2 == this.angle ? a(this.x - d, this.y) : 1 == this.angle ? a(this.x, this.y + d) : a(this.x + d, this.y)
             }
         },
-        __class__: Va
+        __class__: Door
     };
     var Player = function() {
         this.lastStep = -1;
@@ -4977,7 +4977,7 @@
                 for (var d = b++, e = 0, f = PlayManager.get_width(); e < f; ) {
                     var m = e++;
                     m = PlayManager.getBlockData(m, d);
-                    m.get_block() == EditorTiles.door && 0 < m.getMeta(1) && this.doors.push(new Va(m))
+                    m.get_block() == EditorTiles.door && 0 < m.getMeta(1) && this.doors.push(new Door(m))
                 }
             BaseLevel.prototype.init.call(this);
             this.cameraX = -(PlayManager.level.startCol + .5) * Constants.tileSize;
@@ -5165,10 +5165,10 @@
                         null != c)) {
                             var y = EditorTiles.getBlock(m).getConfigMeta();
                             k = PlayManager.getBlockData(d, e);
-                            k.id == m && k.metaEquals(y) || c == EditorTiles.door && !Va.canPlace(d, e, y) || (f.push(k),
+                            k.id == m && k.metaEquals(y) || c == EditorTiles.door && !Door.canPlace(d, e, y) || (f.push(k),
                             PlayManager.setBlock(d, e, m, y, !0),
                             this.renderer.updateBlockPlus(d, e),
-                            c == EditorTiles.door && (b = new Va(PlayManager.getBlockData(d, e)),
+                            c == EditorTiles.door && (b = new Door(PlayManager.getBlockData(d, e)),
                             this.doors.push(b),
                             b.forEach(function(aa, fa) {
                                 if (aa != d || fa != e) {
@@ -5720,7 +5720,7 @@
                 for (var c = a++, d = 0, e = PlayManager.get_width(); d < e; ) {
                     var f = d++;
                     f = PlayManager.getBlockData(f, c);
-                    f.get_block() == EditorTiles.door && 0 < f.getMeta(1) && this.doors.push(new Va(f))
+                    f.get_block() == EditorTiles.door && 0 < f.getMeta(1) && this.doors.push(new Door(f))
                 }
             PlayManager.level.start();
             BaseLevel.prototype.init.call(this);
