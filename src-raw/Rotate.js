@@ -153,7 +153,7 @@
         });
         h.set_imageSmoothingEnabled(h.imageSmoothingEnabled);
         h.surface = new Surface(h.ctx);
-        N._reset();
+        Timer._reset();
         h.input = new qb(h.c);
         GameInput._init();
         h.input.addEventListener("click", h.onClick);
@@ -163,7 +163,7 @@
     }
     ;
     h.loop = function() {
-        N._update();
+        Timer._update();
         if (LoadingManager.get_done())
             h.wasLoaded || (LoadingManager.triggerEvent(new RotateProgressEvent("progress",1)),
             h.lastProgress = 1,
@@ -436,37 +436,37 @@
         return new Howl(a)
     }
     ;
-    var N = function() {};
-    N.__name__ = !0;
-    N._reset = function() {
-        N.startTime = N.absoluteTime();
-        N.lastTime = 0
+    var Timer = function() {};
+    Timer.__name__ = !0;
+    Timer._reset = function() {
+        Timer.startTime = Timer.absoluteTime();
+        Timer.lastTime = 0
     }
     ;
-    N._update = function() {
-        var a = N.get_currentMS();
-        N.elapsedTime = a - N.lastTime;
-        N.lastTime = a
+    Timer._update = function() {
+        var a = Timer.get_currentMS();
+        Timer.elapsedTime = a - Timer.lastTime;
+        Timer.lastTime = a
     }
     ;
-    N.absoluteTime = function() {
+    Timer.absoluteTime = function() {
         return (new Date).getTime()
     }
     ;
-    N.get_current = function() {
-        return .001 * N.get_currentMS()
+    Timer.get_current = function() {
+        return .001 * Timer.get_currentMS()
     }
     ;
-    N.get_currentMS = function() {
-        return N.absoluteTime() - N.startTime
+    Timer.get_currentMS = function() {
+        return Timer.absoluteTime() - Timer.startTime
     }
     ;
-    N.get_elapsed = function() {
-        return .001 * N.elapsedTime
+    Timer.get_elapsed = function() {
+        return .001 * Timer.elapsedTime
     }
     ;
-    N.get_elapsedMS = function() {
-        return N.elapsedTime
+    Timer.get_elapsedMS = function() {
+        return Timer.elapsedTime
     }
     ;
     var xa = function() {};
@@ -1921,7 +1921,7 @@
     GameInstance.__super__ = GraphicsObject;
     GameInstance.prototype = __INHERIT__(GraphicsObject.prototype, {
         get_gameTimeMS: function() {
-            return this.paused ? this.pauseStart - this.pausedTime : N.get_currentMS() - this.pausedTime
+            return this.paused ? this.pauseStart - this.pausedTime : Timer.get_currentMS() - this.pausedTime
         },
         get_gameTime: function() {
             return .001 * this.get_gameTimeMS()
@@ -1946,7 +1946,7 @@
             }();
             GameInstance.ie = 0 < a && 11 >= a;
             GameInstance.ie && (this.muteSFX = this.muteMusic = !0);
-            this.lastTick = N.get_currentMS();
+            this.lastTick = Timer.get_currentMS();
             this.addEventListener("enterFrame", T(this, this.update));
             window.document.getElementById("game").style.display = "block";
             window.document.getElementById("loader").style.display = "none";
@@ -1965,7 +1965,7 @@
         pause: function(a) {
             null == a && (a = !0);
             this.paused || (a && null != this.targetScreen && this.targetScreen.pausable ? this.pauseOnInit = !0 : (this.paused = !0,
-            this.pauseStart = N.get_currentMS(),
+            this.pauseStart = Timer.get_currentMS(),
             null != this.pauseMenu && (this.pauseMenu.visible = !0,
             this.pauseMenu.onPause()),
             this.hasPaused = !0,
@@ -1974,7 +1974,7 @@
         },
         unpause: function() {
             this.paused && null == this.targetScreen && (this.paused = !1,
-            this.pausedTime += N.get_currentMS() - this.pauseStart,
+            this.pausedTime += Timer.get_currentMS() - this.pauseStart,
             this.pauseMenu.visible = !1)
         },
         getFadeSpeed: function() {
@@ -1987,7 +1987,7 @@
             this.screenCallback = c;
             b ? null == this.targetScreen && (this.fading = !0,
             this.fadingSlow = d,
-            this.fadeStart = N.get_currentMS(),
+            this.fadeStart = Timer.get_currentMS(),
             this.fader.graphics.clear(),
             this.fader.graphics.beginFill(e ? 16777215 : 1052688),
             this.fader.graphics.drawRect(0, 0, h.width, h.height),
@@ -2015,11 +2015,11 @@
             this.pauseOnInit = !1
         },
         update: function(a) {
-            null != this.targetScreen ? (a = Math.min((N.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2), 1),
+            null != this.targetScreen ? (a = Math.min((Timer.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2), 1),
             this.fader.set_alpha(GameInstance.smootherStep(a)),
             1 == a && (a = this.targetScreen,
             this.targetScreen = null,
-            this.setScreen(a))) : 0 < this.fader.alpha && (a = Math.min((N.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2) - 1, 1),
+            this.setScreen(a))) : 0 < this.fader.alpha && (a = Math.min((Timer.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2) - 1, 1),
             this.fader.set_alpha(1 - GameInstance.smootherStep(a)),
             1 == a && (this.fading = this.fader.mouseEnabled = !1,
             this.currentScreen.ready()));
@@ -2282,7 +2282,7 @@
     AwardsManager.update = function() {
         if (null != AwardsManager.bubble) {
             var a = 0
-              , b = N.get_currentMS();
+              , b = Timer.get_currentMS();
             if (-1 != AwardsManager.bubbleTimer) {
                 var c = b - AwardsManager.bubbleTimer;
                 var d = c <= 2 * AwardsManager.FADE_MS + AwardsManager.STAY_MS
@@ -5917,10 +5917,10 @@
     $b.__super__ = Screen;
     $b.prototype = __INHERIT__(Screen.prototype, {
         ready: function() {
-            this.timer = N.get_current()
+            this.timer = Timer.get_current()
         },
         update: function() {
-            !this.done && N.get_current() - this.timer > this.length && (this.done = !0,
+            !this.done && Timer.get_current() - this.timer > this.length && (this.done = !0,
             GameInstance.i.changeScreen(new ca))
         },
         __class__: $b
@@ -5934,7 +5934,7 @@
     vb.__super__ = Screen;
     vb.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
-            this.timer = N.get_currentMS();
+            this.timer = Timer.get_currentMS();
             this.pivot.set_x(h.width / 2);
             this.pivot.set_y(h.height / 2);
             this.addChild(this.pivot);
@@ -5945,7 +5945,7 @@
         },
         update: function() {
             var a = this
-              , b = GameInstance.smootherStep(Math.min(1, (N.get_currentMS() - this.timer) / 250));
+              , b = GameInstance.smootherStep(Math.min(1, (Timer.get_currentMS() - this.timer) / 250));
             this.pivot.set_rotation(-90 + 90 * b);
             this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
             this.start.set_alpha(b);
@@ -6466,7 +6466,7 @@
     Na.__super__ = GraphicsObject;
     Na.prototype = __INHERIT__(GraphicsObject.prototype, {
         render: function(a) {
-            for (var b = -Math.round(30 * N.get_current() % Images.bgCells.width), c = -Math.round(15 * N.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(h.height / Images.bgCells.height) + 1; d < e; )
+            for (var b = -Math.round(30 * Timer.get_current() % Images.bgCells.width), c = -Math.round(15 * Timer.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(h.height / Images.bgCells.height) + 1; d < e; )
                 for (var f = d++, m = 0, k = Math.ceil(h.width / Images.bgCells.width) + 1; m < k; ) {
                     var p = m++;
                     a.drawImage(Images.bgCells, null, b + Images.bgCells.width * p, c + Images.bgCells.height * f)
@@ -6723,9 +6723,9 @@
     LoadingManager.finished = !1;
     LoadingManager.tasks = [];
     LoadingManager.events = new EventDispatcher;
-    N.startTime = 0;
-    N.lastTime = 0;
-    N.elapsedTime = 0;
+    Timer.startTime = 0;
+    Timer.lastTime = 0;
+    Timer.elapsedTime = 0;
     Graphics.PI2 = 2 * Math.PI;
     RotateEvent.ADDED = "added";
     RotateEvent.REMOVED = "removed";
