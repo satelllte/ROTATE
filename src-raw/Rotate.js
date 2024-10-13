@@ -1711,7 +1711,7 @@
             return !0;
         case _Number:
             return "number" == typeof a;
-        case rc:
+        case _Int:
             return "number" == typeof a ? (a | 0) === a : !1;
         case String:
             return "string" == typeof a;
@@ -6693,7 +6693,7 @@
     Array.__name__ = !0;
     Date.prototype.__class__ = Date;
     Date.__name__ = ["Date"];
-    var rc = {
+    var _Int = {
         __name__: ["Int"]
     }
       , _Dynamic = {
