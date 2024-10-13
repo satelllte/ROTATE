@@ -5101,7 +5101,7 @@
                         H > d && (f += ",");
                         f += K
                     }
-                var ka = new Zb(f);
+                var ka = new DialogSaveLevel(f);
                 ka.onBack = function() {
                     ka.kill();
                     a.removeChild(ka);
@@ -6275,7 +6275,7 @@
     DialogLoadLevel.prototype = __INHERIT__(Da.prototype, {
         __class__: DialogLoadLevel
     });
-    var Zb = function(a) {
+    var DialogSaveLevel = function(a) {
         this.btnBack = new Button("BACK");
         var b = this;
         Da.call(this, "SAVE LEVEL", a);
@@ -6288,10 +6288,10 @@
         });
         this.addChild(this.btnBack)
     };
-    Zb.__name__ = !0;
-    Zb.__super__ = Da;
-    Zb.prototype = __INHERIT__(Da.prototype, {
-        __class__: Zb
+    DialogSaveLevel.__name__ = !0;
+    DialogSaveLevel.__super__ = Da;
+    DialogSaveLevel.prototype = __INHERIT__(Da.prototype, {
+        __class__: DialogSaveLevel
     });
     var EditorBarLower = function(a) {
         this.selector = new EditorTileSelector;
