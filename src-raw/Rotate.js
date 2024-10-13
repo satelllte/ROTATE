@@ -3687,12 +3687,12 @@
         },
         __class__: Db
     });
-    var Eb = function() {
+    var TileSpikes = function() {
         da.call(this)
     };
-    Eb.__name__ = !0;
-    Eb.__super__ = da;
-    Eb.prototype = __INHERIT__(da.prototype, {
+    TileSpikes.__name__ = !0;
+    TileSpikes.__super__ = da;
+    TileSpikes.prototype = __INHERIT__(da.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3716,7 +3716,7 @@
             GameplayLevel.i.killPlayer();
             return !1
         },
-        __class__: Eb
+        __class__: TileSpikes
     });
     var TileStairs = function() {
         da.call(this)
@@ -6907,7 +6907,7 @@
     EditorTiles.stairs = EditorTiles.register(2, new TileStairs);
     EditorTiles.ramp = EditorTiles.register(3, new TileRamp);
     EditorTiles.platform = EditorTiles.register(4, new TilePlatform);
-    EditorTiles.spikes = EditorTiles.register(5, new Eb);
+    EditorTiles.spikes = EditorTiles.register(5, new TileSpikes);
     EditorTiles.saw = EditorTiles.register(6, new Db);
     EditorTiles.lever = EditorTiles.register(8, new Za);
     EditorTiles.door = EditorTiles.register(9, new yb);
