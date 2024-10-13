@@ -737,7 +737,7 @@
         },
         __class__: x
     });
-    var I = function(a) {
+    var ImageSurface = function(a) {
         this.imageWidth = this.imageHeight = 0;
         var b = this;
         x.call(this);
@@ -746,9 +746,9 @@
             b.render(c.surface)
         })
     };
-    I.__name__ = !0;
-    I.fromFile = function(a, b) {
-        var c = new I(null);
+    ImageSurface.__name__ = !0;
+    ImageSurface.fromFile = function(a, b) {
+        var c = new ImageSurface(null);
         LoadingManager.loadImage(a, function(d) {
             c.create(d);
             null != b && b()
@@ -756,8 +756,8 @@
         return c
     }
     ;
-    I.__super__ = x;
-    I.prototype = __INHERIT__(x.prototype, {
+    ImageSurface.__super__ = x;
+    ImageSurface.prototype = __INHERIT__(x.prototype, {
         get_rect: function() {
             return new z(0,0,null != this.clipRect ? this.clipRect.width : 0,null != this.clipRect ? this.clipRect.height : 0)
         },
@@ -784,7 +784,7 @@
         render: function(a) {
             null != this.image && a.drawImage(this.image, this.clipRect, 0, 0, 0 != this.clipRect.x || 0 != this.clipRect.y || this.clipRect.width != this.imageWidth || this.clipRect.height != this.imageHeight)
         },
-        __class__: I
+        __class__: ImageSurface
     });
     var Y = function(a) {
         this.type = a
@@ -2273,7 +2273,7 @@
         AwardsManager.bubble.graphics.beginFill(4210752);
         AwardsManager.bubble.graphics.drawRect(0, 0, c - 4, 64);
         null != AwardsManager.bubbleIcon && AwardsManager.bubble.removeChild(AwardsManager.bubbleIcon);
-        AwardsManager.bubbleIcon = new I(b);
+        AwardsManager.bubbleIcon = new ImageSurface(b);
         AwardsManager.bubbleIcon.set_x(8);
         AwardsManager.bubbleIcon.set_y(8);
         AwardsManager.bubble.addChild(AwardsManager.bubbleIcon)
@@ -3234,7 +3234,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            var e = new I(Images.configArrow);
+            var e = new ImageSurface(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.channel = 99 <= b.channel ? 0 : b.channel + 1,
@@ -3243,7 +3243,7 @@
             e.set_x(d.x + 11);
             e.set_y(d.y + 4);
             a.addChild(e);
-            var f = new I(Images.configArrow);
+            var f = new ImageSurface(Images.configArrow);
             f.mouseEnabled = f.buttonMode = !0;
             f.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.channel = 0 >= b.channel ? 99 : b.channel - 1,
@@ -3263,7 +3263,7 @@
             m.set_x(this.bubbleWidth - 31);
             m.set_y(e.y);
             a.addChild(m);
-            c = new I(Images.configArrow);
+            c = new ImageSurface(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.length = 9 <= b.length ? 1 : b.length + 1,
@@ -3272,7 +3272,7 @@
             c.set_x(m.x + 11);
             c.set_y(m.y + 4);
             a.addChild(c);
-            f = new I(Images.configArrow);
+            f = new ImageSurface(Images.configArrow);
             f.mouseEnabled = f.buttonMode = !0;
             f.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.length = 1 >= b.length ? 9 : b.length - 1,
@@ -3292,7 +3292,7 @@
             k.set_x(this.bubbleWidth - 31);
             k.set_y(c.y);
             a.addChild(k);
-            e = new I(Images.configArrow);
+            e = new ImageSurface(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.set_angle(b.angle + 1),
@@ -3301,7 +3301,7 @@
             e.set_x(k.x + 11);
             e.set_y(k.y + 4);
             a.addChild(e);
-            c = new I(Images.configArrow);
+            c = new ImageSurface(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(p) {
                 1 < p.which || (b.set_angle(b.angle - 1),
@@ -3340,7 +3340,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            c = new I(Images.configArrow);
+            c = new ImageSurface(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_angle(b.angle + 1),
@@ -3349,7 +3349,7 @@
             c.set_x(d.x + 11);
             c.set_y(12);
             a.addChild(c);
-            c = new I(Images.configArrow);
+            c = new ImageSurface(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_angle(b.angle - 1),
@@ -3483,7 +3483,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            var e = new I(Images.configArrow);
+            var e = new ImageSurface(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.channel = 98 < b.channel ? 0 : b.channel + 1,
@@ -3492,7 +3492,7 @@
             e.set_x(d.x + 11);
             e.set_y(d.y + 4);
             a.addChild(e);
-            var f = new I(Images.configArrow);
+            var f = new ImageSurface(Images.configArrow);
             f.mouseEnabled = f.buttonMode = !0;
             f.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.channel = 1 > b.channel ? 99 : b.channel - 1,
@@ -3512,7 +3512,7 @@
             m.set_x(this.bubbleWidth - 31);
             m.set_y(e.y);
             a.addChild(m);
-            c = new I(Images.configArrow);
+            c = new ImageSurface(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.on = !b.on,
@@ -3521,7 +3521,7 @@
             c.set_x(m.x + 11);
             c.set_y(m.y + 4);
             a.addChild(c);
-            e = new I(Images.configArrow);
+            e = new ImageSurface(Images.configArrow);
             e.mouseEnabled = e.buttonMode = !0;
             e.addEventListener("mouseDown", function(k) {
                 1 < k.which || (b.on = !b.on,
@@ -3607,7 +3607,7 @@
             d.set_x(this.bubbleWidth - 31);
             d.set_y(c.y);
             a.addChild(d);
-            c = new I(Images.configArrow);
+            c = new ImageSurface(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_value(b.value + 1),
@@ -3616,7 +3616,7 @@
             c.set_x(d.x + 11);
             c.set_y(12);
             a.addChild(c);
-            c = new I(Images.configArrow);
+            c = new ImageSurface(Images.configArrow);
             c.mouseEnabled = c.buttonMode = !0;
             c.addEventListener("mouseDown", function(e) {
                 1 < e.which || (b.set_value(b.value - 1),
@@ -3945,31 +3945,31 @@
             this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
             this.s1 = !0;
             this.s2 = this.s3 = this.s4 = this.s5 = !1;
-            null == this.c1 && (this.c1 = new I(Images.controls1));
+            null == this.c1 && (this.c1 = new ImageSurface(Images.controls1));
             this.c1.set_x(3.5 * Constants.tileSize);
             this.c1.set_y(9 * Constants.tileSize);
             this.c1.set_alpha(this.a1);
             a.overlay.addChild(this.c1);
-            null == this.c2 && (this.c2 = new I(Images.controls2));
+            null == this.c2 && (this.c2 = new ImageSurface(Images.controls2));
             this.c2.set_x(10 * Constants.tileSize);
             this.c2.set_y(11 * Constants.tileSize);
             this.c2.set_alpha(this.a2);
             a.overlay.addChild(this.c2);
-            null == this.c3 && (this.c3 = new I(Images.controls3));
+            null == this.c3 && (this.c3 = new ImageSurface(Images.controls3));
             this.c3.set_x(18.5 * Constants.tileSize);
             this.c3.set_y(9 * Constants.tileSize);
             this.c3.set_alpha(this.a3);
             this.c3.clipRect.width = 48;
             g.i.invert && (this.c3.clipRect.x = 48);
             a.overlay.addChild(this.c3);
-            null == this.c4 && (this.c4 = new I(Images.controls4));
+            null == this.c4 && (this.c4 = new ImageSurface(Images.controls4));
             this.c4.set_x(29 * Constants.tileSize);
             this.c4.set_y(Constants.tileSize);
             this.c4.set_alpha(this.a4);
             this.c4.clipRect.width = 48;
             g.i.invert && (this.c4.clipRect.x = 48);
             a.overlay.addChild(this.c4);
-            null == this.c5 && (this.c5 = new I(Images.controls5));
+            null == this.c5 && (this.c5 = new ImageSurface(Images.controls5));
             this.c5.set_x(24.5 * Constants.tileSize);
             this.c5.set_y(5 * Constants.tileSize);
             this.c5.set_alpha(this.a5);
@@ -4397,7 +4397,7 @@
             var a = g.i.currentScreen;
             this.a1 = 0;
             this.s1 = this.s2 = !1;
-            null == this.c1 && (this.c1 = new I(Images.controls5));
+            null == this.c1 && (this.c1 = new ImageSurface(Images.controls5));
             this.c1.set_x(28.5 * Constants.tileSize);
             this.c1.set_y(28 * Constants.tileSize);
             this.c1.set_alpha(this.a1);
@@ -4798,11 +4798,11 @@
     var ScreenCredits = function(a) {
         null == a && (a = !1);
         this.mute = new Ba;
-        this.more = new I(Images.linkLWS);
+        this.more = new ImageSurface(Images.linkLWS);
         this.moreText = new r(g.fontMain,"Game published by",1);
-        this.soundtrack = new I(Images.soundtrack);
+        this.soundtrack = new ImageSurface(Images.soundtrack);
         this.text2 = new r(g.fontMain,"Special thanks to the playtesters\nand Patreon contributors!",1);
-        this.joshua = new I(Images.linkJoshua2);
+        this.joshua = new ImageSurface(Images.linkJoshua2);
         this.text1 = new r(g.fontMain,"Design, code, & music by",1);
         this.btnBack = new ba("BACK");
         Screen.call(this);
@@ -4817,7 +4817,7 @@
                 this.bg = new x;
                 this.bg.graphics.beginFill(16777215);
                 this.bg.graphics.drawRect(0, 0, h.width, h.height);
-                var b = new I(Images.vignette);
+                var b = new ImageSurface(Images.vignette);
                 b.set_alpha(.75);
                 this.bg.addChild(b);
                 this.btnBack.text.set_text("MENU")
@@ -5360,8 +5360,8 @@
         this.cat = new S;
         this.player = new ua(Images.player,32,48);
         this.artPlants = new ua(Images.endingPlants,504,24);
-        this.artMain = new I(Images.endingMain);
-        this.vignette = new I(Images.vignette);
+        this.artMain = new ImageSurface(Images.endingMain);
+        this.vignette = new ImageSurface(Images.vignette);
         this.bg = new x;
         this.cameraX = this.cameraY = 0;
         this.camera = new x;
@@ -5560,7 +5560,7 @@
                   , f = Math.floor(e[0] / 4)
                   , m = e[0] % 4
                   , k = e[0] <= B.unlocked
-                  , p = new I(Images.level);
+                  , p = new ImageSurface(Images.level);
                 p.set_x(b + m * (p.get_width() + 24));
                 p.set_y(c + f * (p.get_height() + 20));
                 k ? (p.mouseEnabled = p.buttonMode = !0,
@@ -5588,7 +5588,7 @@
         this.btnCredits = new ba("CREDITS");
         this.btnExtras = new ba("EXTRAS");
         this.btnPlay = new ba("PLAY");
-        this.logo = new I(Images.logo);
+        this.logo = new ImageSurface(Images.logo);
         this.bg = new Na;
         Screen.call(this)
     };
@@ -5649,7 +5649,7 @@
         this.speedrunFinal = -1;
         this.doors = [];
         this.cat = null;
-        this.vignette = new I(Images.vignette);
+        this.vignette = new ImageSurface(Images.vignette);
         this.red = new x;
         this.overlay = new x;
         this.textHolder = new x;
@@ -5908,7 +5908,7 @@
         this.length = 1.5;
         Screen.call(this);
         this.lws = a;
-        a = new I(Images.splashLWS);
+        a = new ImageSurface(Images.splashLWS);
         a.set_x(Math.round((h.width - a.get_width()) / 2));
         a.set_y(Math.round((h.height - a.get_height()) / 2));
         this.addChild(a)
@@ -5926,7 +5926,7 @@
         __class__: $b
     });
     var vb = function() {
-        this.start = new I(Images.start);
+        this.start = new ImageSurface(Images.start);
         this.pivot = new x;
         Screen.call(this)
     };
@@ -6099,10 +6099,10 @@
     });
     var Xb = function(a) {
         x.call(this);
-        var b = new I(Images.awardFrame);
+        var b = new ImageSurface(Images.awardFrame);
         b.set_x(-b.get_width() / 2);
         this.addChild(b);
-        b = new I(a.unlocked ? a.icon : Images.awardIconLocked);
+        b = new ImageSurface(a.unlocked ? a.icon : Images.awardIconLocked);
         b.set_x(-b.get_width() / 2);
         b.set_y(8);
         this.addChild(b);
@@ -6178,7 +6178,7 @@
         __class__: O
     });
     var ac = function() {
-        this.tip = new I(Images.configTip);
+        this.tip = new ImageSurface(Images.configTip);
         x.call(this);
         this.tip.set_x(-this.tip.get_width() / 2);
         this.tip.set_y(-this.tip.get_height());
@@ -6344,7 +6344,7 @@
         this.theme.set_y(R.EDGE_PAD_Y);
         this.theme.xAlign = r.X_ALIGN_CENTER;
         this.addChild(this.theme);
-        var c = new I(Images.configArrow);
+        var c = new ImageSurface(Images.configArrow);
         c.mouseEnabled = c.buttonMode = !0;
         c.set_x(this.theme.x + 46);
         c.set_y(this.theme.y + 4);
@@ -6352,7 +6352,7 @@
             2 > d.which && b(-1)
         });
         this.addChild(c);
-        c = new I(Images.configArrow);
+        c = new ImageSurface(Images.configArrow);
         c.mouseEnabled = c.buttonMode = !0;
         c.set_scaleX(-1);
         c.set_x(this.theme.x - 46);
@@ -6391,7 +6391,7 @@
         __class__: R
     });
     var ButtonErase = function() {
-        I.call(this, Images.trash);
+        ImageSurface.call(this, Images.trash);
         this.set_x(h.width - 120);
         this.set_y(h.height - this.get_height() - 12);
         for (var a = !1, b = 0, c = AwardsManager.awardsAll; b < c.length; ) {
@@ -6420,13 +6420,13 @@
         })) : this.set_alpha(.33)
     };
     ButtonErase.__name__ = !0;
-    ButtonErase.__super__ = I;
-    ButtonErase.prototype = __INHERIT__(I.prototype, {
+    ButtonErase.__super__ = ImageSurface;
+    ButtonErase.prototype = __INHERIT__(ImageSurface.prototype, {
         __class__: ButtonErase
     });
     var bc = function(a) {
         this.label = new r(g.fontMain,"Grid");
-        this.toggle = new I(Images.configToggle);
+        this.toggle = new ImageSurface(Images.configToggle);
         var b = this;
         x.call(this);
         this.set_x(h.width - this.get_width() - 12);
@@ -6478,7 +6478,7 @@
     var ba = function(a, b) {
         null == b && (b = 0);
         x.call(this);
-        this.main = new I(Images.menuBtn);
+        this.main = new ImageSurface(Images.menuBtn);
         this.main.set_x(-this.main.get_width() / 2);
         this.main.set_y(-this.main.get_height() / 2);
         this.main.mouseEnabled = this.main.buttonMode = !0;
@@ -6499,7 +6499,7 @@
         null == a && (a = 0);
         var b = this;
         x.call(this);
-        this.sfx = new I(Images.mute);
+        this.sfx = new ImageSurface(Images.mute);
         this.sfx.set_clipRect(new z(g.i.muteSFX ? 28 : 0,30 * a,28,30));
         this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
         this.sfx.addEventListener("click", function(c) {
@@ -6508,7 +6508,7 @@
         this.sfx.set_x(h.width - this.sfx.get_width() - 12);
         this.sfx.set_y(h.height - this.sfx.get_height() - 12);
         this.addChild(this.sfx);
-        this.music = new I(Images.mute);
+        this.music = new ImageSurface(Images.mute);
         this.music.set_clipRect(new z(g.i.muteMusic ? 84 : 56,30 * a,28,30));
         this.music.mouseEnabled = this.music.buttonMode = !0;
         this.music.addEventListener("click", function(c) {
@@ -6555,7 +6555,7 @@
         a.set_y(-4);
         a.set_alpha(.5);
         this.addChild(a);
-        var b = new I(Images.configToggle);
+        var b = new ImageSurface(Images.configToggle);
         b.clipRect.width = 22;
         g.i.invert && (b.clipRect.x = 22);
         b.set_alpha(.75);
@@ -6635,7 +6635,7 @@
         __class__: ub
     });
     var Ma = function() {
-        I.call(this, Images.linkJoshua);
+        ImageSurface.call(this, Images.linkJoshua);
         this.clipRect.height /= 2;
         this.set_x(8);
         this.set_y(h.height - this.get_height() - 8);
@@ -6647,8 +6647,8 @@
         })
     };
     Ma.__name__ = !0;
-    Ma.__super__ = I;
-    Ma.prototype = __INHERIT__(I.prototype, {
+    Ma.__super__ = ImageSurface;
+    Ma.prototype = __INHERIT__(ImageSurface.prototype, {
         __class__: Ma
     });
     var ModalYesNo = function(a) {
