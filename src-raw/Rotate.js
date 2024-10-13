@@ -2384,16 +2384,16 @@
         },
         __class__: ua
     });
-    var sa = function(a, b, c) {
+    var GameAnimation = function(a, b, c) {
         null == c && (c = !0);
         this.loop = !1;
         this.frames = a;
         this.delays = b;
         this.loop = c
     };
-    sa.__name__ = !0;
-    sa.prototype = {
-        __class__: sa
+    GameAnimation.__name__ = !0;
+    GameAnimation.prototype = {
+        __class__: GameAnimation
     };
     var S = function() {
         this.horizontal = this.x2 = this.dx = 0;
@@ -5386,7 +5386,7 @@
             this.pivot.addChild(this.camera);
             this.camera.addChild(this.artMain);
             this.artPlants.set_y(11 * Constants.tileSize);
-            this.artPlants.set_animation(new sa([0, 1, 2],[250, 250, 250]));
+            this.artPlants.set_animation(new GameAnimation([0, 1, 2],[250, 250, 250]));
             this.camera.addChild(this.artPlants);
             this.cat.x2 = this.cat.set_x(17.5 * Constants.tileSize);
             this.cat.set_y(12 * Constants.tileSize);
@@ -6875,10 +6875,10 @@
     S.SPEED = 2;
     S.ACCEL = .06;
     S.DECCEL_MULT = .6;
-    S.ANIM_IDLE = new sa([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],[1500, 100, 100, 100, 100, 100, 3E3, 100, 100, 200, 100, 100]);
-    S.ANIM_EXIT = new sa([9, 10, 11, 12, 13, 14, 15, 16, 17],[100, 100, 100, 100, 100, 100, 100, 100, 100],!1);
-    S.ANIM_END_1 = new sa([9, 10],[100, 100],!1);
-    S.ANIM_END_2 = new sa([11, 12, 22, 14, 24, 25, 26],[100, 100, 100, 100, 100, 100, 100]);
+    S.ANIM_IDLE = new GameAnimation([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],[1500, 100, 100, 100, 100, 100, 3E3, 100, 100, 200, 100, 100]);
+    S.ANIM_EXIT = new GameAnimation([9, 10, 11, 12, 13, 14, 15, 16, 17],[100, 100, 100, 100, 100, 100, 100, 100, 100],!1);
+    S.ANIM_END_1 = new GameAnimation([9, 10],[100, 100],!1);
+    S.ANIM_END_2 = new GameAnimation([11, 12, 22, 14, 24, 25, 26],[100, 100, 100, 100, 100, 100, 100]);
     J.HIT_W = 12;
     J.HIT_H = 42;
     J.SPEED = 3.7;
@@ -6891,11 +6891,11 @@
     J.GRAVITY = .35;
     J.GRAVITY_MAX = 9;
     J.ROTATE_DELAY = .05;
-    J.ANIM_IDLE = new sa([0, 1, 2, 3],[400, 400, 400, 400]);
-    J.ANIM_RUN = new sa([4, 5, 6, 7],[100, 100, 100, 100]);
-    J.ANIM_JUMP = new sa([8, 9],[200, 200],!1);
-    J.ANIM_FALL = new sa([12, 13, 14, 15],[100, 100, 100, 100]);
-    J.ANIM_ROTATE = new sa([16, 17, 18, 19],[100, 100, 100, 100],!1);
+    J.ANIM_IDLE = new GameAnimation([0, 1, 2, 3],[400, 400, 400, 400]);
+    J.ANIM_RUN = new GameAnimation([4, 5, 6, 7],[100, 100, 100, 100]);
+    J.ANIM_JUMP = new GameAnimation([8, 9],[200, 200],!1);
+    J.ANIM_FALL = new GameAnimation([12, 13, 14, 15],[100, 100, 100, 100]);
+    J.ANIM_ROTATE = new GameAnimation([16, 17, 18, 19],[100, 100, 100, 100],!1);
     l.rotating = !1;
     l.rotation = 0;
     Za.TOGGLE_TIMER = .67;
