@@ -8,7 +8,7 @@
         b.toString !== Object.prototype.toString && (d.toString = b.toString);
         return d
     }
-    function T(a, b) {
+    function __BIND__(a, b) {
         if (null == b)
             return null;
         null == b.__id__ && (b.__id__ = pc++);
@@ -968,9 +968,9 @@
         var b = this;
         this.listeners = new Ra;
         this.c = a;
-        window.addEventListener("focus", T(this, this.onFocus));
-        window.addEventListener("blur", T(this, this.onBlur));
-        window.addEventListener("pagehide", T(this, this.onBlur));
+        window.addEventListener("focus", __BIND__(this, this.onFocus));
+        window.addEventListener("blur", __BIND__(this, this.onBlur));
+        window.addEventListener("pagehide", __BIND__(this, this.onBlur));
         window.addEventListener("contextmenu", function(c) {
             var d = c.target.tagName.toLowerCase();
             if ("canvas" != d && "body" != d && "html" != d)
@@ -979,13 +979,13 @@
             c.preventDefault();
             return !1
         });
-        window.addEventListener("click", T(this, this.onClick));
-        window.addEventListener("mousedown", T(this, this.onMouseDown));
-        window.addEventListener("mouseup", T(this, this.onMouseUp));
-        window.addEventListener("mousemove", T(this, this.onMouseMove));
-        window.addEventListener("mouseover", T(this, this.onMouseMove));
-        window.addEventListener("keydown", T(this, this.onKeyDown));
-        window.addEventListener("keyup", T(this, this.onKeyUp))
+        window.addEventListener("click", __BIND__(this, this.onClick));
+        window.addEventListener("mousedown", __BIND__(this, this.onMouseDown));
+        window.addEventListener("mouseup", __BIND__(this, this.onMouseUp));
+        window.addEventListener("mousemove", __BIND__(this, this.onMouseMove));
+        window.addEventListener("mouseover", __BIND__(this, this.onMouseMove));
+        window.addEventListener("keydown", __BIND__(this, this.onKeyDown));
+        window.addEventListener("keyup", __BIND__(this, this.onKeyUp))
     };
     qb.__name__ = !0;
     qb.__super__ = EventDispatcher;
@@ -1879,7 +1879,7 @@
     GameInstance.main = function() {
         GameInstance.i = new GameInstance;
         GameInstance.i.addEventListener("added", (Ja = GameInstance.i,
-        T(Ja, Ja.init)));
+        __BIND__(Ja, Ja.init)));
         GameController.start(GameInstance.element = window.document.getElementById("game"), 504, 504, 2105376, !1, GameInstance.i)
     }
     ;
@@ -1927,9 +1927,9 @@
             return .001 * this.get_gameTimeMS()
         },
         init: function(a) {
-            this.removeEventListener("added", T(this, this.init));
+            this.removeEventListener("added", __BIND__(this, this.init));
             GameController.set_imageSmoothingEnabled(!1);
-            LoadingManager.addEventListener("finished", T(this, this.loaded))
+            LoadingManager.addEventListener("finished", __BIND__(this, this.loaded))
         },
         loaded: function(a) {
             var b = this;
@@ -1947,7 +1947,7 @@
             GameInstance.ie = 0 < a && 11 >= a;
             GameInstance.ie && (this.muteSFX = this.muteMusic = !0);
             this.lastTick = Timer.get_currentMS();
-            this.addEventListener("enterFrame", T(this, this.update));
+            this.addEventListener("enterFrame", __BIND__(this, this.update));
             window.document.getElementById("game").style.display = "block";
             window.document.getElementById("loader").style.display = "none";
             this.pauseMenu = new MenuPause;
@@ -2509,7 +2509,7 @@
         this.x2 = this.y2 = this.lastX = this.lastY = this.dx = this.dy = this.horizontal = 0;
         GraphicsObjectAnimated.call(this, Images.player, 32, 48);
         this.set_animation(Player.ANIM_IDLE);
-        this.onChange = T(this, this.aminChange);
+        this.onChange = __BIND__(this, this.aminChange);
         this.spawnTime = GameInstance.i.get_gameTimeMS();
         this.adjust()
     };
@@ -2585,18 +2585,18 @@
                         d = 0) : k = -1 > b ? -1 : b;
                         this.set_localX(this.get_localX() + k);
                         b -= k;
-                        if (this.isColliding(null, T(this, this.rampCheckDX), 0))
+                        if (this.isColliding(null, __BIND__(this, this.rampCheckDX), 0))
                             if (k = 0,
                             this.set_localY(this.get_localY() - e),
-                            this.isColliding(null, T(this, this.nonRampCheckDX), 0))
+                            this.isColliding(null, __BIND__(this, this.nonRampCheckDX), 0))
                                 this.set_localY(this.get_localY() + e);
                             else {
                                 k -= e;
-                                if (this.isColliding(null, T(this, this.rampCheckDX), 0)) {
+                                if (this.isColliding(null, __BIND__(this, this.rampCheckDX), 0)) {
                                     var y = this.get_localY();
                                     this.set_localY(y - 1);
-                                    this.isColliding(null, T(this, this.nonRampCheckDX), 0) ? (y = this.get_localY(),
-                                    this.set_localY(y + 1)) : this.isColliding(null, T(this, this.rampCheckDX), 0) ? (this.set_localY(m),
+                                    this.isColliding(null, __BIND__(this, this.nonRampCheckDX), 0) ? (y = this.get_localY(),
+                                    this.set_localY(y + 1)) : this.isColliding(null, __BIND__(this, this.rampCheckDX), 0) ? (this.set_localY(m),
                                     k = 0) : --k
                                 }
                                 0 > k && (e = 0,
@@ -2619,10 +2619,10 @@
                         f = 0 == m ? 1 - (this.get_localY() - Math.floor(this.get_localY())) : 1;
                         this.set_localY(Math.round(this.get_localY() + f));
                         m += f;
-                        k = this.isColliding(null, T(this, this.nonRampCheck), 1);
+                        k = this.isColliding(null, __BIND__(this, this.nonRampCheck), 1);
                         if (!c && k)
                             break;
-                        p = c && k ? !0 : this.isColliding(null, T(this, this.rampCheck), 1)
+                        p = c && k ? !0 : this.isColliding(null, __BIND__(this, this.rampCheck), 1)
                     }
                     p ? (this.set_localY(this.get_localY() - f),
                     this.grounded = !0,
@@ -3817,10 +3817,10 @@
             var H = Math.random() * Math.PI * 2
               , K = 3 * (.7 * Math.random() + .3) * p
               , W = 20 * Math.random();
-            H = new BloodParticle(6 * (.6 * Math.random() + .4),Math.round(50 * (.5 * Math.random() + .5)),a + Math.cos(H) * W,b + Math.sin(H) * W,d + Math.cos(H) * K,e + Math.sin(H) * K,f,m,k ? T(this, this.collsionHandler) : null);
+            H = new BloodParticle(6 * (.6 * Math.random() + .4),Math.round(50 * (.5 * Math.random() + .5)),a + Math.cos(H) * W,b + Math.sin(H) * W,d + Math.cos(H) * K,e + Math.sin(H) * K,f,m,k ? __BIND__(this, this.collsionHandler) : null);
             this.particles.push(H)
         }
-        this.addEventListener("enterFrame", T(this, this.update));
+        this.addEventListener("enterFrame", __BIND__(this, this.update));
         this.addEventListener("render", function(aa) {
             y.render(aa.surface)
         })
@@ -4986,7 +4986,7 @@
             this.addEventListener("mouseDown", function(k) {
                 2 > k.which && k.target == a && (a.drawing = !0)
             });
-            GameController.input.addEventListener("mouseUp", T(this, this.mouseUp));
+            GameController.input.addEventListener("mouseUp", __BIND__(this, this.mouseUp));
             this.renderer.showGrid = EditorLevel.showGrid;
             this.barUpper = new EditorBarUpper(EditorLevel.editorLevel.theme,function(k) {
                 EditorLevel.editorLevel.theme = 1 - EditorLevel.editorLevel.theme;
@@ -5311,7 +5311,7 @@
             }
         },
         kill: function() {
-            GameController.input.removeEventListener("mouseUp", T(this, this.mouseUp));
+            GameController.input.removeEventListener("mouseUp", __BIND__(this, this.mouseUp));
             PlayManager.set_level(null)
         },
         __class__: EditorLevel
@@ -5789,7 +5789,7 @@
         },
         restart: function(a) {
             a = GameInstance.i.paused ? (Ja = GameInstance.i,
-            T(Ja, Ja.unpause)) : null;
+            __BIND__(Ja, Ja.unpause)) : null;
             GameInstance.i.changeScreen(new GameplayLevel(PlayManager.level,this.speedrun,this.speedrunStart), !0, a)
         },
         finished: function() {
@@ -6503,7 +6503,7 @@
         this.sfx.set_clipRect(new Rectangle(GameInstance.i.muteSFX ? 28 : 0,30 * a,28,30));
         this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
         this.sfx.addEventListener("click", function(c) {
-            2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(T(b, b.toggleSFX)) : b.toggleSFX())
+            2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(__BIND__(b, b.toggleSFX)) : b.toggleSFX())
         });
         this.sfx.set_x(GameController.width - this.sfx.get_width() - 12);
         this.sfx.set_y(GameController.height - this.sfx.get_height() - 12);
@@ -6512,7 +6512,7 @@
         this.music.set_clipRect(new Rectangle(GameInstance.i.muteMusic ? 84 : 56,30 * a,28,30));
         this.music.mouseEnabled = this.music.buttonMode = !0;
         this.music.addEventListener("click", function(c) {
-            2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(T(b, b.toggleMusic)) : b.toggleMusic())
+            2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(__BIND__(b, b.toggleMusic)) : b.toggleMusic())
         });
         this.music.set_x(this.sfx.x - this.music.get_width() - 12);
         this.music.set_y(GameController.height - this.music.get_height() - 12);
@@ -6610,7 +6610,7 @@
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, Qa) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, Qa).speedrun,
             GameInstance.i.changeScreen(PlayManager.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = GameInstance.i,
-            T(Ja, Ja.unpause))))
+            __BIND__(Ja, Ja.unpause))))
         });
         this.addChild(this.btnQuit);
         this.addChild(this.invert);
