@@ -5339,7 +5339,7 @@
         update: function() {
             this.speech.update();
             !this.done1 && this.cond1.test() && (this.done1 = !0,
-            GameInstance.i.changeScreen(new ob(this.first), !0, null, !0),
+            GameInstance.i.changeScreen(new ScreenFinal(this.first), !0, null, !0),
             GameInstance.ie && GameInstance.i.muteSFX || (Sounds.exit.volume(.5),
             Sounds.exit.play(),
             Sounds.exit.once("end", function() {
@@ -5353,7 +5353,7 @@
         },
         __class__: bb
     });
-    var ob = function(a) {
+    var ScreenFinal = function(a) {
         null == a && (a = !1);
         this.hint = new GraphicsObjectText(GameInstance.fontMain,"Press [SPACE] to continue...");
         this.catTrigger = !1;
@@ -5372,9 +5372,9 @@
         this.pausable = !0;
         this.first = a
     };
-    ob.__name__ = !0;
-    ob.__super__ = Screen;
-    ob.prototype = __INHERIT__(Screen.prototype, {
+    ScreenFinal.__name__ = !0;
+    ScreenFinal.__super__ = Screen;
+    ScreenFinal.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.start = GameInstance.i.get_gameTime();
             this.bg.graphics.beginFill(16777215);
@@ -5443,7 +5443,7 @@
             this.camera.set_x(Math.round(this.cameraX));
             this.camera.set_y(Math.round(this.cameraY))
         },
-        __class__: ob
+        __class__: ScreenFinal
     });
     var ScreenExtras = function() {
         this.erase = new ButtonErase;
@@ -6628,7 +6628,7 @@
             var a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel);
             this.btnRedo.set_alpha(a ? 1 : .25);
             this.btnRedo.main.mouseEnabled = a;
-            a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, bb) || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ob);
+            a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, bb) || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ScreenFinal);
             this.btnQuit.set_alpha(a ? .25 : 1);
             this.btnQuit.main.mouseEnabled = !a
         },
