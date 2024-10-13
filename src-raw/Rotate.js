@@ -4988,9 +4988,9 @@
             });
             h.input.addEventListener("mouseUp", T(this, this.mouseUp));
             this.renderer.showGrid = EditorLevel.showGrid;
-            this.barUpper = new R(EditorLevel.editorLevel.theme,function(k) {
+            this.barUpper = new EditorBarUpper(EditorLevel.editorLevel.theme,function(k) {
                 EditorLevel.editorLevel.theme = 1 - EditorLevel.editorLevel.theme;
-                a.barUpper.theme.set_text(R.THEMES[EditorLevel.editorLevel.theme]);
+                a.barUpper.theme.set_text(EditorBarUpper.THEMES[EditorLevel.editorLevel.theme]);
                 a.renderer.updateAllBlocks()
             }
             );
@@ -6315,7 +6315,7 @@
     EditorBarLower.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: EditorBarLower
     });
-    var R = function(a, b) {
+    var EditorBarUpper = function(a, b) {
         this.btnLoad = new GraphicsObjectText(GameInstance.fontMain,"Load");
         this.btnSave = new GraphicsObjectText(GameInstance.fontMain,"Save");
         this.btnPlay = new GraphicsObjectText(GameInstance.fontMain,"Play");
@@ -6324,24 +6324,24 @@
         GraphicsObject.call(this);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
-        this.graphics.drawRect(0, 0, h.width, R.HEIGHT);
-        this.btnExit.set_x(R.EDGE_PAD);
-        this.btnExit.set_y(R.EDGE_PAD_Y);
+        this.graphics.drawRect(0, 0, h.width, EditorBarUpper.HEIGHT);
+        this.btnExit.set_x(EditorBarUpper.EDGE_PAD);
+        this.btnExit.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
-        this.btnExit.hitPadding = R.BTN_PAD;
+        this.btnExit.hitPadding = EditorBarUpper.BTN_PAD;
         this.btnExit.addEventListener("click", function(d) {
             2 > d.which && GameInstance.i.changeScreen(new ScreenExtras)
         });
         this.addChild(this.btnExit);
-        this.btnClear.set_x(this.btnExit.x + this.btnExit.get_width() + R.BTN_SPACE);
-        this.btnClear.set_y(R.EDGE_PAD_Y);
+        this.btnClear.set_x(this.btnExit.x + this.btnExit.get_width() + EditorBarUpper.BTN_SPACE);
+        this.btnClear.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.btnClear.mouseEnabled = this.btnClear.buttonMode = !0;
-        this.btnClear.hitPadding = R.BTN_PAD;
-        this.btnClear.set_alpha(R.TEXT_GREY);
+        this.btnClear.hitPadding = EditorBarUpper.BTN_PAD;
+        this.btnClear.set_alpha(EditorBarUpper.TEXT_GREY);
         this.addChild(this.btnClear);
-        this.theme = new GraphicsObjectText(GameInstance.fontMain,R.THEMES[a]);
+        this.theme = new GraphicsObjectText(GameInstance.fontMain,EditorBarUpper.THEMES[a]);
         this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
-        this.theme.set_y(R.EDGE_PAD_Y);
+        this.theme.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.theme.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.addChild(this.theme);
         var c = new ImageSurface(Images.configArrow);
@@ -6361,34 +6361,34 @@
             2 > d.which && b(1)
         });
         this.addChild(c);
-        this.btnPlay.set_x(h.width - R.EDGE_PAD);
-        this.btnPlay.set_y(R.EDGE_PAD_Y);
+        this.btnPlay.set_x(h.width - EditorBarUpper.EDGE_PAD);
+        this.btnPlay.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.btnPlay.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
         this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
-        this.btnPlay.hitPadding = R.BTN_PAD;
+        this.btnPlay.hitPadding = EditorBarUpper.BTN_PAD;
         this.btnPlay.addEventListener("click", function(d) {
             2 > d.which && GameplayLevel.play(EditorLevel.editorLevel)
         });
         this.addChild(this.btnPlay);
-        this.btnSave.set_x(this.btnPlay.x - this.btnPlay.get_width() - R.BTN_SPACE);
-        this.btnSave.set_y(R.EDGE_PAD_Y);
+        this.btnSave.set_x(this.btnPlay.x - this.btnPlay.get_width() - EditorBarUpper.BTN_SPACE);
+        this.btnSave.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.btnSave.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
         this.btnSave.mouseEnabled = this.btnSave.buttonMode = !0;
-        this.btnSave.hitPadding = R.BTN_PAD;
-        this.btnSave.set_alpha(R.TEXT_GREY);
+        this.btnSave.hitPadding = EditorBarUpper.BTN_PAD;
+        this.btnSave.set_alpha(EditorBarUpper.TEXT_GREY);
         this.addChild(this.btnSave);
-        this.btnLoad.set_x(this.btnSave.x - this.btnSave.get_width() - R.BTN_SPACE);
-        this.btnLoad.set_y(R.EDGE_PAD_Y);
+        this.btnLoad.set_x(this.btnSave.x - this.btnSave.get_width() - EditorBarUpper.BTN_SPACE);
+        this.btnLoad.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.btnLoad.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
         this.btnLoad.mouseEnabled = this.btnLoad.buttonMode = !0;
-        this.btnLoad.hitPadding = R.BTN_PAD;
-        this.btnLoad.set_alpha(R.TEXT_GREY);
+        this.btnLoad.hitPadding = EditorBarUpper.BTN_PAD;
+        this.btnLoad.set_alpha(EditorBarUpper.TEXT_GREY);
         this.addChild(this.btnLoad)
     };
-    R.__name__ = !0;
-    R.__super__ = GraphicsObject;
-    R.prototype = __INHERIT__(GraphicsObject.prototype, {
-        __class__: R
+    EditorBarUpper.__name__ = !0;
+    EditorBarUpper.__super__ = GraphicsObject;
+    EditorBarUpper.prototype = __INHERIT__(GraphicsObject.prototype, {
+        __class__: EditorBarUpper
     });
     var ButtonErase = function() {
         ImageSurface.call(this, Images.trash);
@@ -6444,7 +6444,7 @@
         this.addChild(this.toggle);
         this.label.set_x(32);
         this.label.set_y(1);
-        this.label.set_alpha(R.TEXT_GREY);
+        this.label.set_alpha(EditorBarUpper.TEXT_GREY);
         this.addChild(this.label)
     };
     GridToggle.__name__ = !0;
@@ -6965,13 +6965,13 @@
     O.list = [F.air, F.solid, F.start, F.finish, F.stairs, F.ramp, F.platform, F.spikes, F.saw, F.lever, F.door, F.number, F.vent, F.fan];
     O.selected = 1;
     EditorBarLower.HEIGHT = 48;
-    R.HEIGHT = 48;
-    R.EDGE_PAD = 14;
-    R.EDGE_PAD_Y = 9;
-    R.BTN_SPACE = 12;
-    R.BTN_PAD = 8;
-    R.TEXT_GREY = .75;
-    R.THEMES = ["Theme A", "Theme B"];
+    EditorBarUpper.HEIGHT = 48;
+    EditorBarUpper.EDGE_PAD = 14;
+    EditorBarUpper.EDGE_PAD_Y = 9;
+    EditorBarUpper.BTN_SPACE = 12;
+    EditorBarUpper.BTN_PAD = 8;
+    EditorBarUpper.TEXT_GREY = .75;
+    EditorBarUpper.THEMES = ["Theme A", "Theme B"];
     GameInstance.main()
 }
 )();
