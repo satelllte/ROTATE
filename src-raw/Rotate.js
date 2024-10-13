@@ -6655,7 +6655,7 @@
         this.btnNo = new Button("NO");
         this.btnYes = new Button("YES");
         this.main = new GraphicsObjectText(GameInstance.fontMain,"",2);
-        var b = this;
+        var _this = this;
         GraphicsObject.call(this);
         this.main.set_text(a);
         this.graphics.beginFill(1052688, .95);
@@ -6670,15 +6670,15 @@
         this.btnYes.set_x(Math.round(GameController.width / 2) - 96);
         this.btnYes.set_y(Math.round(GameController.height / 2) + 40);
         this.btnYes.addEventListener("click", function(c) {
-            if (2 > c.which && null != b.onYes)
-                b.onYes()
+            if (2 > c.which && null != _this.onYes)
+                _this.onYes()
         });
         this.addChild(this.btnYes);
         this.btnNo.set_x(Math.round(GameController.width / 2) + 96);
         this.btnNo.set_y(Math.round(GameController.height / 2) + 40);
         this.btnNo.addEventListener("click", function(c) {
-            if (2 > c.which && null != b.onNo)
-                b.onNo()
+            if (2 > c.which && null != _this.onNo)
+                _this.onNo()
         });
         this.addChild(this.btnNo)
     };
