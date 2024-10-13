@@ -2725,7 +2725,7 @@
                 var k = f[m];
                 ++m;
                 if (null != k && (null == d || d(k)))
-                    if (ES3ClassUtils.__instanceof(k, La)) {
+                    if (ES3ClassUtils.__instanceof(k, ColliderBounds)) {
                         if (k = k.bounds.copy(),
                         k.x += b * Constants.tileSize,
                         k.y += c * Constants.tileSize,
@@ -3106,7 +3106,7 @@
             return !1
         },
         getColliders: function(a) {
-            return [new La(new Rectangle(0,0,Constants.tileSize,Constants.tileSize))]
+            return [new ColliderBounds(new Rectangle(0,0,Constants.tileSize,Constants.tileSize))]
         },
         onTrigger: function(a) {
             return !0
@@ -3460,7 +3460,7 @@
             0 < a.getMeta(1) && GameplayLevel.i.signalOn(a.x, a.y, a.getMeta(0))
         },
         getColliders: function(a) {
-            return [new La(new Rectangle(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
+            return [new ColliderBounds(new Rectangle(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
         },
         alwaysUpdate: function(a) {
             return !ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel)
@@ -3710,7 +3710,7 @@
             b = new Rectangle(0,0,b,c)) : 1 == a.getMeta(0) ? (a = new Rectangle(b - c,e,c,d),
             b = new Rectangle(0,0,c,b)) : (a = new Rectangle(e,0,d,c),
             b = new Rectangle(0,c,b,c));
-            return [new La(a), new La(b)]
+            return [new ColliderBounds(a), new ColliderBounds(b)]
         },
         onTrigger: function(a) {
             GameplayLevel.i.killPlayer();
@@ -4460,16 +4460,16 @@
     cb.prototype = {
         __class__: cb
     };
-    var La = function(a) {
+    var ColliderBounds = function(a) {
         this.bounds = a
     };
-    La.__name__ = !0;
-    La.__interfaces__ = [cb];
-    La.prototype = {
+    ColliderBounds.__name__ = !0;
+    ColliderBounds.__interfaces__ = [cb];
+    ColliderBounds.prototype = {
         testPoint: function(a, b) {
             return this.bounds.contains(a)
         },
-        __class__: La
+        __class__: ColliderBounds
     };
     var kb = function(a) {
         this.dir = a
