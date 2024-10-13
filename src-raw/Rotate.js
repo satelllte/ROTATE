@@ -1454,7 +1454,7 @@
     sb.__name__ = !0;
     sb.prototype = {
         encodeBytes: function(a) {
-            for (var b = this.nbits, c = this.base, d = 8 * a.length / b | 0, e = new ya(new tb(d + (0 == 8 * a.length % b ? 0 : 1))), f = 0, m = 0, k = (1 << b) - 1, p = 0, y = 0; y < d; ) {
+            for (var b = this.nbits, c = this.base, d = 8 * a.length / b | 0, e = new ya(new _ArrayBuffer(d + (0 == 8 * a.length % b ? 0 : 1))), f = 0, m = 0, k = (1 << b) - 1, p = 0, y = 0; y < d; ) {
                 for (; m < b; )
                     m += 8,
                     f <<= 8,
@@ -1480,7 +1480,7 @@
         decodeBytes: function(a) {
             var b = this.nbits;
             null == this.tbl && this.initTable();
-            for (var c = this.tbl, d = a.length * b >> 3, e = new ya(new tb(d)), f = 0, m = 0, k = 0, p = 0; p < d; ) {
+            for (var c = this.tbl, d = a.length * b >> 3, e = new ya(new _ArrayBuffer(d)), f = 0, m = 0, k = 0, p = 0; p < d; ) {
                 for (; 8 > m; ) {
                     m += b;
                     f <<= b;
@@ -1765,7 +1765,7 @@
     FallbackArrayBuffer.__name__ = !0;
     FallbackArrayBuffer.sliceImpl = function(a, b) {
         var c = new _Uint8Array(this,a,null == b ? null : b - a)
-          , d = new tb(c.byteLength);
+          , d = new _ArrayBuffer(c.byteLength);
         (new _Uint8Array(d)).set(c);
         return d
     }
@@ -6708,8 +6708,8 @@
     }
       , tc = {}
       , na = {}
-      , tb = window.ArrayBuffer || FallbackArrayBuffer;
-    null == tb.prototype.slice && (tb.prototype.slice = FallbackArrayBuffer.sliceImpl);
+      , _ArrayBuffer = window.ArrayBuffer || FallbackArrayBuffer;
+    null == _ArrayBuffer.prototype.slice && (_ArrayBuffer.prototype.slice = FallbackArrayBuffer.sliceImpl);
     var _Uint8Array = window.Uint8Array || FallbackUint8Array._new;
     h.started = !1;
     h.imageSmoothingEnabled = !0;
