@@ -819,7 +819,7 @@
     RotateProgressEvent.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: RotateProgressEvent
     });
-    var Ha = function(a, b, c, d, e) {
+    var RotateMouseEvent = function(a, b, c, d, e) {
         null == e && (e = 0);
         this.type = a;
         this.target = b;
@@ -827,10 +827,10 @@
         this.y = d;
         this.which = e
     };
-    Ha.__name__ = !0;
-    Ha.__super__ = RotateEvent;
-    Ha.prototype = __INHERIT__(RotateEvent.prototype, {
-        __class__: Ha
+    RotateMouseEvent.__name__ = !0;
+    RotateMouseEvent.__super__ = RotateEvent;
+    RotateMouseEvent.prototype = __INHERIT__(RotateEvent.prototype, {
+        __class__: RotateMouseEvent
     });
     var fb = function(a, b) {
         this.type = a;
@@ -1039,7 +1039,7 @@
         },
         makeMouseEvent: function(a, b) {
             null == b && (b = 0);
-            return new Ha(a,null,this.mouseX,this.mouseY,b)
+            return new RotateMouseEvent(a,null,this.mouseX,this.mouseY,b)
         },
         onKeyDown: function(a) {
             if (this.isFocused) {
@@ -6737,10 +6737,10 @@
     RotateKeyboardEvent.KEY_UP = "keyUp";
     RotateProgressEvent.FINISHED = "finished";
     RotateProgressEvent.PROGRESS = "progress";
-    Ha.CLICK = "click";
-    Ha.MOUSE_DOWN = "mouseDown";
-    Ha.MOUSE_UP = "mouseUp";
-    Ha.MOVE = "move";
+    RotateMouseEvent.CLICK = "click";
+    RotateMouseEvent.MOUSE_DOWN = "mouseDown";
+    RotateMouseEvent.MOUSE_UP = "mouseUp";
+    RotateMouseEvent.MOVE = "move";
     fb.RENDER = "render";
     G.inited = !1;
     G.keys = [];
