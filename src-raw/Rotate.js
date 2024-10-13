@@ -1367,8 +1367,8 @@
         },
         __class__: Transform
     };
-    var lc = function() {};
-    lc.__name__ = !0;
+    var ListenersInterface = function() {};
+    ListenersInterface.__name__ = !0;
     var BytesData = function(a) {
         this.length = a.byteLength;
         this.b = new _Uint8Array(a);
@@ -1500,7 +1500,7 @@
         this.h = {}
     };
     hb.__name__ = !0;
-    hb.__interfaces__ = [lc];
+    hb.__interfaces__ = [ListenersInterface];
     hb.prototype = {
         keys: function() {
             var a = [], b;
@@ -1545,7 +1545,7 @@
         this.h = {}
     };
     Listeners.__name__ = !0;
-    Listeners.__interfaces__ = [lc];
+    Listeners.__interfaces__ = [ListenersInterface];
     Listeners.prototype = {
         setReserved: function(a, b) {
             null == this.rh && (this.rh = {});
