@@ -1749,7 +1749,7 @@
         return window[a]
     }
     ;
-    var wa = function(a) {
+    var FallbackArrayBuffer = function(a) {
         if (a instanceof Array && null == a.__enum__)
             this.a = a,
             this.byteLength = a.length;
@@ -1762,19 +1762,19 @@
             this.byteLength = a
         }
     };
-    wa.__name__ = !0;
-    wa.sliceImpl = function(a, b) {
+    FallbackArrayBuffer.__name__ = !0;
+    FallbackArrayBuffer.sliceImpl = function(a, b) {
         var c = new _Uint8Array(this,a,null == b ? null : b - a)
           , d = new tb(c.byteLength);
         (new _Uint8Array(d)).set(c);
         return d
     }
     ;
-    wa.prototype = {
+    FallbackArrayBuffer.prototype = {
         slice: function(a, b) {
-            return new wa(this.a.slice(a, b))
+            return new FallbackArrayBuffer(this.a.slice(a, b))
         },
-        __class__: wa
+        __class__: FallbackArrayBuffer
     };
     var FallbackUint8Array = function() {};
     FallbackUint8Array.__name__ = !0;
@@ -1787,8 +1787,8 @@
             }
             c.byteLength = c.length;
             c.byteOffset = 0;
-            c.buffer = new wa(c)
-        } else if (ES3ClassUtils.__instanceof(a, wa))
+            c.buffer = new FallbackArrayBuffer(c)
+        } else if (ES3ClassUtils.__instanceof(a, FallbackArrayBuffer))
             null == b && (b = 0),
             null == c && (c = a.byteLength - b),
             c = 0 == b ? a.a : a.a.slice(b, b + c),
@@ -1799,7 +1799,7 @@
             c = a.slice(),
             c.byteLength = c.length,
             c.byteOffset = 0,
-            c.buffer = new wa(c);
+            c.buffer = new FallbackArrayBuffer(c);
         else
             throw new Z("TODO " + la.string(a));
         c.subarray = FallbackUint8Array._subarray;
@@ -1808,7 +1808,7 @@
     }
     ;
     FallbackUint8Array._set = function(a, b) {
-        if (ES3ClassUtils.__instanceof(a.buffer, wa)) {
+        if (ES3ClassUtils.__instanceof(a.buffer, FallbackArrayBuffer)) {
             if (a.byteLength + b > this.byteLength)
                 throw new Z("set() outside of range");
             for (var c = 0, d = a.byteLength; c < d; ) {
@@ -6708,8 +6708,8 @@
     }
       , tc = {}
       , na = {}
-      , tb = window.ArrayBuffer || wa;
-    null == tb.prototype.slice && (tb.prototype.slice = wa.sliceImpl);
+      , tb = window.ArrayBuffer || FallbackArrayBuffer;
+    null == tb.prototype.slice && (tb.prototype.slice = FallbackArrayBuffer.sliceImpl);
     var _Uint8Array = window.Uint8Array || FallbackUint8Array._new;
     h.started = !1;
     h.imageSmoothingEnabled = !0;
