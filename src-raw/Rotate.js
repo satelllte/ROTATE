@@ -1392,7 +1392,7 @@
     BytesData.prototype = {
         getString: function(a, b) {
             if (0 > a || 0 > b || a + b > this.length)
-                throw new RotateError(oa.OutsideBounds);
+                throw new RotateError(RotateErrors.OutsideBounds);
             for (var c = "", d = this.b, e = String.fromCharCode, f = a, m = a + b; f < m; ) {
                 var k = d[f++];
                 if (128 > k) {
@@ -1581,22 +1581,22 @@
         },
         __class__: Ra
     };
-    var oa = {
+    var RotateErrors = {
         __ename__: !0,
         __constructs__: ["Blocked", "Overflow", "OutsideBounds", "Custom"],
         Blocked: ["Blocked", 0]
     };
-    oa.Blocked.toString = dc;
-    oa.Blocked.__enum__ = oa;
-    oa.Overflow = ["Overflow", 1];
-    oa.Overflow.toString = dc;
-    oa.Overflow.__enum__ = oa;
-    oa.OutsideBounds = ["OutsideBounds", 2];
-    oa.OutsideBounds.toString = dc;
-    oa.OutsideBounds.__enum__ = oa;
-    oa.Custom = function(a) {
+    RotateErrors.Blocked.toString = dc;
+    RotateErrors.Blocked.__enum__ = RotateErrors;
+    RotateErrors.Overflow = ["Overflow", 1];
+    RotateErrors.Overflow.toString = dc;
+    RotateErrors.Overflow.__enum__ = RotateErrors;
+    RotateErrors.OutsideBounds = ["OutsideBounds", 2];
+    RotateErrors.OutsideBounds.toString = dc;
+    RotateErrors.OutsideBounds.__enum__ = RotateErrors;
+    RotateErrors.Custom = function(a) {
         a = ["Custom", 3, a];
-        a.__enum__ = oa;
+        a.__enum__ = RotateErrors;
         a.toString = dc;
         return a
     }
