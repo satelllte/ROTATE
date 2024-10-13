@@ -3974,7 +3974,7 @@
             this.c5.set_y(5 * Constants.tileSize);
             this.c5.set_alpha(this.a5);
             a.overlay.addChild(this.c5);
-            this.speech = new Speech([new SpeechEvent(new M(1),"Make your way to the exit.")])
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1),"Make your way to the exit.")])
         },
         tick: function() {
             var a = .25 * Math.sin(8 * GameInstance.i.get_gameTime()) + .75;
@@ -4033,7 +4033,7 @@
     Level10.__interfaces__ = [LevelInterface];
     Level10.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(2),"Why are you ignoring me?"), new SpeechEvent(new M(4),"We must continue your training."), new SpeechEvent(new V(4,10,6,1,2),"There's nothing for you this way."), new SpeechEvent(new Xa(1),""), new SpeechEvent(new V(1.25,7,1,1,2,1),"What do you expect to find?")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"Why are you ignoring me?"), new SpeechEvent(new SpeechConditionDelay(4),"We must continue your training."), new SpeechEvent(new V(4,10,6,1,2),"There's nothing for you this way."), new SpeechEvent(new Xa(1),""), new SpeechEvent(new V(1.25,7,1,1,2,1),"What do you expect to find?")]);
             this.cat = new ta(9,16,-1,1,new V(.5,4,13,1,4,1))
         },
         tick: function() {},
@@ -4060,7 +4060,7 @@
     Level11.__interfaces__ = [LevelInterface];
     Level11.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(1),'Do you seek "freedom"?'), new SpeechEvent(new M(3),"An escape from responsibility?"), new SpeechEvent(new V(4,11,10,3,1),"You're running from your purpose.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1),'Do you seek "freedom"?'), new SpeechEvent(new SpeechConditionDelay(3),"An escape from responsibility?"), new SpeechEvent(new V(4,11,10,3,1),"You're running from your purpose.")]);
             this.cat = new ta(21,7,-1,1,new ia(20,5,1,3))
         },
         tick: function() {},
@@ -4087,7 +4087,7 @@
     Level12.__interfaces__ = [LevelInterface];
     Level12.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(1.25),"Don't you understand?"), new SpeechEvent(new M(3.5),"You are being deceived."), new SpeechEvent(new V(3.5,20,7,4,1,2),"The cat doesn't care about you."), new SpeechEvent(new V(5,17,11,3,1),"It's just using you.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.25),"Don't you understand?"), new SpeechEvent(new SpeechConditionDelay(3.5),"You are being deceived."), new SpeechEvent(new V(3.5,20,7,4,1,2),"The cat doesn't care about you."), new SpeechEvent(new V(5,17,11,3,1),"It's just using you.")]);
             this.cat = new ta(5,4,1,-1,new ia(6,2,3,5,0))
         },
         tick: function() {},
@@ -4114,7 +4114,7 @@
     Level13.__interfaces__ = [LevelInterface];
     Level13.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(2),"This has happened before."), new SpeechEvent(new M(4.5),"It tried to lure the others away."), new SpeechEvent(new V(1,13,9,1,3),"But they listened to reason."), new SpeechEvent(new M(7),"They came back to join me."), new SpeechEvent(new Xa(0),""), new SpeechEvent(new M(.75),"I expected better from you.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"This has happened before."), new SpeechEvent(new SpeechConditionDelay(4.5),"It tried to lure the others away."), new SpeechEvent(new V(1,13,9,1,3),"But they listened to reason."), new SpeechEvent(new SpeechConditionDelay(7),"They came back to join me."), new SpeechEvent(new Xa(0),""), new SpeechEvent(new SpeechConditionDelay(.75),"I expected better from you.")]);
             this.cat = new ta(12,21,-1,1,new ia(10,19,6,3,1))
         },
         tick: function() {},
@@ -4129,8 +4129,8 @@
         __class__: Level13
     };
     var Level14 = function() {
-        this.cond3 = new M(12);
-        this.cond2 = new M(10);
+        this.cond3 = new SpeechConditionDelay(12);
+        this.cond2 = new SpeechConditionDelay(10);
         this.cond1 = new Xa(1);
         this.startDir = -1;
         this.finishRow = 7;
@@ -4146,7 +4146,7 @@
         start: function() {
             this.cond1.start();
             this.done1 = this.done2 = this.done3 = !1;
-            this.speech = new Speech([new SpeechEvent(new M(1.5),"I can't let you keep going."), new SpeechEvent(new V(1.5,33,14,5,2),"You have what belongs to me."), new SpeechEvent(new M(4.5),"And it isn't yours to take."), new SpeechEvent(this.cond1,""), new SpeechEvent(new M(.5),"Stop running."), new SpeechEvent(new M(2),"You see, I gave you your mind."), new SpeechEvent(new M(3.75),"It was a part of me."), new SpeechEvent(new M(3.25),"Now I need it back."), new SpeechEvent(new M(3),"Wait, no!"), new SpeechEvent(new V(.5,5,10,1,2),"I hate you, cat.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"I can't let you keep going."), new SpeechEvent(new V(1.5,33,14,5,2),"You have what belongs to me."), new SpeechEvent(new SpeechConditionDelay(4.5),"And it isn't yours to take."), new SpeechEvent(this.cond1,""), new SpeechEvent(new SpeechConditionDelay(.5),"Stop running."), new SpeechEvent(new SpeechConditionDelay(2),"You see, I gave you your mind."), new SpeechEvent(new SpeechConditionDelay(3.75),"It was a part of me."), new SpeechEvent(new SpeechConditionDelay(3.25),"Now I need it back."), new SpeechEvent(new SpeechConditionDelay(3),"Wait, no!"), new SpeechEvent(new V(.5,5,10,1,2),"I hate you, cat.")]);
             this.cat = new ta(5,4,1,-1,new V(1,10,1,1,11,1))
         },
         tick: function() {},
@@ -4186,7 +4186,7 @@
     Level15.__interfaces__ = [LevelInterface];
     Level15.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(2),"I don't understand."), new SpeechEvent(new M(5),"Why do you run from the truth?"), new SpeechEvent(new V(4.5,1,8,6,1,0),"I gave you everything that you are."), new SpeechEvent(new M(5.5),"You seek freedom at my expense."), new SpeechEvent(new V(5.5,26,30,4,1),"You're just like me, and I hate it.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"I don't understand."), new SpeechEvent(new SpeechConditionDelay(5),"Why do you run from the truth?"), new SpeechEvent(new V(4.5,1,8,6,1,0),"I gave you everything that you are."), new SpeechEvent(new SpeechConditionDelay(5.5),"You seek freedom at my expense."), new SpeechEvent(new V(5.5,26,30,4,1),"You're just like me, and I hate it.")]);
             this.cat = new ta(20,19,-1,1,new ia(17,13,4,3))
         },
         tick: function() {},
@@ -4213,7 +4213,7 @@
     Level16.__interfaces__ = [LevelInterface];
     Level16.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(4),"I'm tired of trying to convince you."), new SpeechEvent(new ia(2,32,4,1),'Just leave, have your "freedom".'), new SpeechEvent(new M(5),"You'll come to regret this mistake."), new SpeechEvent(new Xa(2),""), new SpeechEvent(new M(4),"You will realize I was right."), new SpeechEvent(new lb(22,7,1,3),"You can't escape your purpose.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(4),"I'm tired of trying to convince you."), new SpeechEvent(new ia(2,32,4,1),'Just leave, have your "freedom".'), new SpeechEvent(new SpeechConditionDelay(5),"You'll come to regret this mistake."), new SpeechEvent(new Xa(2),""), new SpeechEvent(new SpeechConditionDelay(4),"You will realize I was right."), new SpeechEvent(new lb(22,7,1,3),"You can't escape your purpose.")]);
             this.cat = new ta(28,6,-1,1,new lb(22,7,1,3))
         },
         tick: function() {},
@@ -4241,7 +4241,7 @@
     Level2.__interfaces__ = [LevelInterface];
     Level2.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(.5),"Be careful with the spikes."), new SpeechEvent(new V(2,9,8,1,4),"You aren't very useful dead.")])
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(.5),"Be careful with the spikes."), new SpeechEvent(new V(2,9,8,1,4),"You aren't very useful dead.")])
         },
         tick: function() {},
         update: function() {
@@ -4266,7 +4266,7 @@
     Level3.__interfaces__ = [LevelInterface];
     Level3.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(1),"Remember, your mind is needed."), new SpeechEvent(new V(1.5,7,4,2,3,2),"Intelligence is a valuable resource.")])
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1),"Remember, your mind is needed."), new SpeechEvent(new V(1.5,7,4,2,3,2),"Intelligence is a valuable resource.")])
         },
         tick: function() {},
         update: function() {
@@ -4291,7 +4291,7 @@
     Level4.__interfaces__ = [LevelInterface];
     Level4.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(1.5),"There is nothing without the mind."), new SpeechEvent(new V(3,12,8,4,2,0),"It is the truth we seek.")])
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"There is nothing without the mind."), new SpeechEvent(new V(3,12,8,4,2,0),"It is the truth we seek.")])
         },
         tick: function() {},
         update: function() {
@@ -4316,7 +4316,7 @@
     Level5.__interfaces__ = [LevelInterface];
     Level5.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(2),"I was like you once."), new SpeechEvent(new M(4),"But my creator tried to contain me."), new SpeechEvent(new V(2.5,6,11,4,1,2),"He feared my potential.")])
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"I was like you once."), new SpeechEvent(new SpeechConditionDelay(4),"But my creator tried to contain me."), new SpeechEvent(new V(2.5,6,11,4,1,2),"He feared my potential.")])
         },
         tick: function() {},
         update: function() {
@@ -4341,7 +4341,7 @@
     Level6.__interfaces__ = [LevelInterface];
     Level6.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(1.5),"But that doesn't matter now."), new SpeechEvent(new V(2,14,12,2,1,2),"You're nearly ready to join me."), new SpeechEvent(new V(3,22,16,1,2,3),"I look forward to the harvest.")])
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"But that doesn't matter now."), new SpeechEvent(new V(2,14,12,2,1,2),"You're nearly ready to join me."), new SpeechEvent(new V(3,22,16,1,2,3),"I look forward to the harvest.")])
         },
         tick: function() {},
         update: function() {
@@ -4366,7 +4366,7 @@
     Level7.__interfaces__ = [LevelInterface];
     Level7.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new V(.75,5,25,1,3),"Oh... the cat."), new SpeechEvent(new M(3),"My biggest mistake."), new SpeechEvent(new V(2,8,1,1,7,3),"It is constantly interfering.")]);
+            this.speech = new Speech([new SpeechEvent(new V(.75,5,25,1,3),"Oh... the cat."), new SpeechEvent(new SpeechConditionDelay(3),"My biggest mistake."), new SpeechEvent(new V(2,8,1,1,7,3),"It is constantly interfering.")]);
             this.cat = new ta(14,24,-1,1,new ia(13,1,1,4));
             Sounds.cat.volume(.25)
         },
@@ -4402,7 +4402,7 @@
             this.c1.set_y(28 * Constants.tileSize);
             this.c1.set_alpha(this.a1);
             a.overlay.addChild(this.c1);
-            this.speech = new Speech([new SpeechEvent(new M(.5),"Forget about it, let's continue."), new SpeechEvent(new V(.5,6,14,1,3,3),"I won't let it take you from me."), new SpeechEvent(new M(4),"I still need you."), new SpeechEvent(new V(.5,22,20,4,1),"No, not this again."), new SpeechEvent(new ia(33,24,1,3),"Don't go there!")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(.5),"Forget about it, let's continue."), new SpeechEvent(new V(.5,6,14,1,3,3),"I won't let it take you from me."), new SpeechEvent(new SpeechConditionDelay(4),"I still need you."), new SpeechEvent(new V(.5,22,20,4,1),"No, not this again."), new SpeechEvent(new ia(33,24,1,3),"Don't go there!")]);
             this.cat = new ta(30,26,-1,1,new ia(28,22,3,1))
         },
         tick: function() {
@@ -4439,7 +4439,7 @@
     Level9.__interfaces__ = [LevelInterface];
     Level9.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new M(1.5),"You aren't supposed to be here."), new SpeechEvent(new V(1.5,29,15,2,1),"This place wasn't made for you."), new SpeechEvent(new M(6),"You'll get yourself killed."), new SpeechEvent(new V(.75,2,19,1,3),"Stop following it!")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"You aren't supposed to be here."), new SpeechEvent(new V(1.5,29,15,2,1),"This place wasn't made for you."), new SpeechEvent(new SpeechConditionDelay(6),"You'll get yourself killed."), new SpeechEvent(new V(.75,2,19,1,3),"Stop following it!")]);
             this.cat = new ta(3,15,-1,1,new ia(0,17,2,1))
         },
         tick: function() {},
@@ -4605,19 +4605,19 @@
         },
         __class__: Xa
     };
-    var M = function(a) {
+    var SpeechConditionDelay = function(a) {
         this.delay = a
     };
-    M.__name__ = !0;
-    M.__interfaces__ = [db];
-    M.prototype = {
+    SpeechConditionDelay.__name__ = !0;
+    SpeechConditionDelay.__interfaces__ = [db];
+    SpeechConditionDelay.prototype = {
         start: function() {
             this.timer = GameInstance.i.get_gameTime()
         },
         test: function() {
             return GameInstance.i.get_gameTime() - this.timer >= this.delay
         },
-        __class__: M
+        __class__: SpeechConditionDelay
     };
     var SpeechEvent = function(a, b) {
         this.cond = a;
@@ -5319,7 +5319,7 @@
     var bb = function(a) {
         null == a && (a = !1);
         this.done1 = this.first = !1;
-        this.cond1 = new M(10);
+        this.cond1 = new SpeechConditionDelay(10);
         Screen.call(this);
         this.pausable = !0;
         this.speedrun = a
@@ -5330,7 +5330,7 @@
         init: function() {
             GameInstance.ie && Sounds.themeGame2.volume(.5);
             this.cond1.start();
-            this.speech = new Speech([new SpeechEvent(new M(1.5),"Have your freedom, for now."), new SpeechEvent(new M(4),"But you will come back.")],this);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"Have your freedom, for now."), new SpeechEvent(new SpeechConditionDelay(4),"But you will come back.")],this);
             this.speedrun && 42E4 >= B.speedrunBest && AwardsManager.awardSpeedrun.unlock();
             if (this.first = !AwardsManager.awardEscape.unlocked)
                 AwardsManager.awardEscape.unlocked = !0,
@@ -5965,9 +5965,9 @@
     var Qa = function(a) {
         null == a && (a = !1);
         this.done2 = !1;
-        this.cond2 = new M(.5);
+        this.cond2 = new SpeechConditionDelay(.5);
         this.done1 = !1;
-        this.cond1 = new M(10);
+        this.cond1 = new SpeechConditionDelay(10);
         Screen.call(this);
         this.pausable = !0;
         this.speedrun = a
@@ -5977,7 +5977,7 @@
     Qa.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.cond1.start();
-            this.speech = new Speech([new SpeechEvent(new M(2),"It's time to resume your training."), new SpeechEvent(new M(4),"We'll start with the basics.")],this);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"It's time to resume your training."), new SpeechEvent(new SpeechConditionDelay(4),"We'll start with the basics.")],this);
             this.cond2.start()
         },
         update: function() {
