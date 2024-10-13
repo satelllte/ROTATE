@@ -1419,11 +1419,11 @@
         },
         __class__: ya
     };
-    var za = function() {};
-    za.__name__ = !0;
-    za.encode = function(a, b) {
+    var LocalStorageEncoder = function() {};
+    LocalStorageEncoder.__name__ = !0;
+    LocalStorageEncoder.encode = function(a, b) {
         null == b && (b = !0);
-        var c = (new sb(za.BYTES)).encodeBytes(a).toString();
+        var c = (new sb(LocalStorageEncoder.BYTES)).encodeBytes(a).toString();
         if (b)
             switch (a.length % 3) {
             case 1:
@@ -1435,12 +1435,12 @@
         return c
     }
     ;
-    za.decode = function(a, b) {
+    LocalStorageEncoder.decode = function(a, b) {
         null == b && (b = !0);
         if (b)
             for (; 61 == ja.cca(a, a.length - 1); )
                 a = ja.substr(a, 0, -1);
-        return (new sb(za.BYTES)).decodeBytes(ya.ofString(a))
+        return (new sb(LocalStorageEncoder.BYTES)).decodeBytes(ya.ofString(a))
     }
     ;
     var sb = function(a) {
@@ -2079,7 +2079,7 @@
             try {
                 var a = LocalStorage.getItem("lws:rotate");
                 if (null != a && "" != a) {
-                    var b = JSON.parse(za.decode(a).toString());
+                    var b = JSON.parse(LocalStorageEncoder.decode(a).toString());
                     if (null != b) {
                         b.muteMusic && this.toggleMusic(!1);
                         b.muteSFX && this.toggleSFX(!1);
@@ -2115,7 +2115,7 @@
             this.invert && (a.invert = !0);
             this.muteMusic && (a.muteMusic = !0);
             this.muteSFX && (a.muteSFX = !0);
-            LocalStorage.setItem("lws:rotate", za.encode(ya.ofString(JSON.stringify(a))))
+            LocalStorage.setItem("lws:rotate", LocalStorageEncoder.encode(ya.ofString(JSON.stringify(a))))
         },
         clearProgress: function() {
             LocalStorage.removeItem("lws:rotate");
@@ -6747,8 +6747,8 @@
     G.keysOld = [];
     Ga.FUNC = 1;
     Surface.PI2 = 2 * Math.PI;
-    za.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    za.BYTES = ya.ofString(za.CHARS);
+    LocalStorageEncoder.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    LocalStorageEncoder.BYTES = ya.ofString(LocalStorageEncoder.CHARS);
     ES3ClassUtils.__toStr = {}.toString;
     FallbackUint8Array.BYTES_PER_ELEMENT = 1;
     Constants.EPSILON = 1E-8;
