@@ -3928,7 +3928,7 @@
         kill: function() {},
         __class__: pa
     };
-    var ha = function() {
+    var Level1 = function() {
         this.startDir = 1;
         this.finishRow = 3;
         this.finishCol = 25;
@@ -3937,9 +3937,9 @@
         this.tiles = [[[1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [3, 2], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [7, -1], [7, 1], [1], [1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]], [[1], [1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [1], [1], [0], [0], [0], [0], [0], [1], [1], [1], [1], [1], [1]], [[1], [1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [1], [1], [1], [1], [1], [1]], [[1], [1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [1], [1], [1], [1], [1], [1]], [[10], [1], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [1], [10], [1], [1], [1], [1]], [[1], [1], [1], [1], [1], [1], [1], [1], [2, 1], [0], [0], [0], [0], [0], [0], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1]], [[1], [1], [1], [1], [1], [1], [1], [1], [1], [2, 1], [0], [0], [0], [0], [0], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1], [1]]];
         this.theme = 0
     };
-    ha.__name__ = !0;
-    ha.__interfaces__ = [ea];
-    ha.prototype = {
+    Level1.__name__ = !0;
+    Level1.__interfaces__ = [ea];
+    Level1.prototype = {
         start: function() {
             var a = g.i.currentScreen;
             this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
@@ -3978,24 +3978,24 @@
         },
         tick: function() {
             var a = .25 * Math.sin(8 * g.i.get_gameTime()) + .75;
-            this.s1 && 1 > this.a1 ? (this.a1 += ha.fadeSpeed,
-            1 < this.a1 && (this.a1 = 1)) : !this.s1 && 0 < this.a1 && (this.a1 -= ha.fadeSpeed,
+            this.s1 && 1 > this.a1 ? (this.a1 += Level1.fadeSpeed,
+            1 < this.a1 && (this.a1 = 1)) : !this.s1 && 0 < this.a1 && (this.a1 -= Level1.fadeSpeed,
             0 > this.a1 && (this.a1 = 0));
             this.c1.set_alpha(this.a1 * a);
-            this.s2 && 1 > this.a2 ? (this.a2 += ha.fadeSpeed,
-            1 < this.a2 && (this.a2 = 1)) : !this.s2 && 0 < this.a2 && (this.a2 -= ha.fadeSpeed,
+            this.s2 && 1 > this.a2 ? (this.a2 += Level1.fadeSpeed,
+            1 < this.a2 && (this.a2 = 1)) : !this.s2 && 0 < this.a2 && (this.a2 -= Level1.fadeSpeed,
             0 > this.a2 && (this.a2 = 0));
             this.c2.set_alpha(this.a2 * a);
-            this.s3 && 1 > this.a3 ? (this.a3 += ha.fadeSpeed,
-            1 < this.a3 && (this.a3 = 1)) : !this.s3 && 0 < this.a3 && (this.a3 -= ha.fadeSpeed,
+            this.s3 && 1 > this.a3 ? (this.a3 += Level1.fadeSpeed,
+            1 < this.a3 && (this.a3 = 1)) : !this.s3 && 0 < this.a3 && (this.a3 -= Level1.fadeSpeed,
             0 > this.a3 && (this.a3 = 0));
             this.c3.set_alpha(this.a3 * a);
-            this.s4 && 1 > this.a4 ? (this.a4 += ha.fadeSpeed,
-            1 < this.a4 && (this.a4 = 1)) : !this.s4 && 0 < this.a4 && (this.a4 -= ha.fadeSpeed,
+            this.s4 && 1 > this.a4 ? (this.a4 += Level1.fadeSpeed,
+            1 < this.a4 && (this.a4 = 1)) : !this.s4 && 0 < this.a4 && (this.a4 -= Level1.fadeSpeed,
             0 > this.a4 && (this.a4 = 0));
             this.c4.set_alpha(this.a4 * a);
-            this.s5 && 1 > this.a5 ? (this.a5 += ha.fadeSpeed,
-            1 < this.a5 && (this.a5 = 1)) : !this.s5 && 0 < this.a5 && (this.a5 -= ha.fadeSpeed,
+            this.s5 && 1 > this.a5 ? (this.a5 += Level1.fadeSpeed,
+            1 < this.a5 && (this.a5 = 1)) : !this.s5 && 0 < this.a5 && (this.a5 -= Level1.fadeSpeed,
             0 > this.a5 && (this.a5 = 0));
             this.c5.set_alpha(this.a5 * a)
         },
@@ -4018,7 +4018,7 @@
             this.c4.parent.removeChild(this.c4);
             this.c5.parent.removeChild(this.c5)
         },
-        __class__: ha
+        __class__: Level1
     };
     var Jb = function() {
         this.startDir = 1;
@@ -4407,8 +4407,8 @@
         },
         tick: function() {
             var a = .25 * Math.sin(8 * g.i.get_gameTime()) + .75;
-            this.s1 && 1 > this.a1 ? (this.a1 += ha.fadeSpeed,
-            1 < this.a1 && (this.a1 = 1)) : !this.s1 && 0 < this.a1 && (this.a1 -= ha.fadeSpeed,
+            this.s1 && 1 > this.a1 ? (this.a1 += Level1.fadeSpeed,
+            1 < this.a1 && (this.a1 = 1)) : !this.s1 && 0 < this.a1 && (this.a1 -= Level1.fadeSpeed,
             0 > this.a1 && (this.a1 = 0));
             this.c1.set_alpha(this.a1 * a)
         },
@@ -6916,10 +6916,10 @@
     F.fan = F.register(11, new zb);
     ab.GRAVITY_MULT = .2;
     pa.WORLD_SIZE = 42;
-    ha.fadeSpeed = .1;
+    Level1.fadeSpeed = .1;
     Aa.fakeCol = 30;
     Aa.fakeRow = 16;
-    B.level1 = new ha;
+    B.level1 = new Level1;
     B.level2 = new Qb;
     B.level3 = new Rb;
     B.level4 = new Sb;
