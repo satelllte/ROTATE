@@ -4033,7 +4033,7 @@
     Level10.__interfaces__ = [LevelInterface];
     Level10.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"Why are you ignoring me?"), new SpeechEvent(new SpeechConditionDelay(4),"We must continue your training."), new SpeechEvent(new V(4,10,6,1,2),"There's nothing for you this way."), new SpeechEvent(new Xa(1),""), new SpeechEvent(new V(1.25,7,1,1,2,1),"What do you expect to find?")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"Why are you ignoring me?"), new SpeechEvent(new SpeechConditionDelay(4),"We must continue your training."), new SpeechEvent(new V(4,10,6,1,2),"There's nothing for you this way."), new SpeechEvent(new SpeechConditionChannel(1),""), new SpeechEvent(new V(1.25,7,1,1,2,1),"What do you expect to find?")]);
             this.cat = new ta(9,16,-1,1,new V(.5,4,13,1,4,1))
         },
         tick: function() {},
@@ -4114,7 +4114,7 @@
     Level13.__interfaces__ = [LevelInterface];
     Level13.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"This has happened before."), new SpeechEvent(new SpeechConditionDelay(4.5),"It tried to lure the others away."), new SpeechEvent(new V(1,13,9,1,3),"But they listened to reason."), new SpeechEvent(new SpeechConditionDelay(7),"They came back to join me."), new SpeechEvent(new Xa(0),""), new SpeechEvent(new SpeechConditionDelay(.75),"I expected better from you.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"This has happened before."), new SpeechEvent(new SpeechConditionDelay(4.5),"It tried to lure the others away."), new SpeechEvent(new V(1,13,9,1,3),"But they listened to reason."), new SpeechEvent(new SpeechConditionDelay(7),"They came back to join me."), new SpeechEvent(new SpeechConditionChannel(0),""), new SpeechEvent(new SpeechConditionDelay(.75),"I expected better from you.")]);
             this.cat = new ta(12,21,-1,1,new ia(10,19,6,3,1))
         },
         tick: function() {},
@@ -4131,7 +4131,7 @@
     var Level14 = function() {
         this.cond3 = new SpeechConditionDelay(12);
         this.cond2 = new SpeechConditionDelay(10);
-        this.cond1 = new Xa(1);
+        this.cond1 = new SpeechConditionChannel(1);
         this.startDir = -1;
         this.finishRow = 7;
         this.finishCol = 13;
@@ -4213,7 +4213,7 @@
     Level16.__interfaces__ = [LevelInterface];
     Level16.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(4),"I'm tired of trying to convince you."), new SpeechEvent(new ia(2,32,4,1),'Just leave, have your "freedom".'), new SpeechEvent(new SpeechConditionDelay(5),"You'll come to regret this mistake."), new SpeechEvent(new Xa(2),""), new SpeechEvent(new SpeechConditionDelay(4),"You will realize I was right."), new SpeechEvent(new lb(22,7,1,3),"You can't escape your purpose.")]);
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(4),"I'm tired of trying to convince you."), new SpeechEvent(new ia(2,32,4,1),'Just leave, have your "freedom".'), new SpeechEvent(new SpeechConditionDelay(5),"You'll come to regret this mistake."), new SpeechEvent(new SpeechConditionChannel(2),""), new SpeechEvent(new SpeechConditionDelay(4),"You will realize I was right."), new SpeechEvent(new lb(22,7,1,3),"You can't escape your purpose.")]);
             this.cat = new ta(28,6,-1,1,new lb(22,7,1,3))
         },
         tick: function() {},
@@ -4589,13 +4589,13 @@
         },
         __class__: V
     };
-    var Xa = function(a) {
+    var SpeechConditionChannel = function(a) {
         this.timer = -1;
         this.channel = a
     };
-    Xa.__name__ = !0;
-    Xa.__interfaces__ = [db];
-    Xa.prototype = {
+    SpeechConditionChannel.__name__ = !0;
+    SpeechConditionChannel.__interfaces__ = [db];
+    SpeechConditionChannel.prototype = {
         start: function() {
             this.timer = GameInstance.i.get_gameTime()
         },
@@ -4603,7 +4603,7 @@
             var a = GameplayLevel.i.channels.h[this.channel];
             return null != a ? a.lastChanged > this.timer : !1
         },
-        __class__: Xa
+        __class__: SpeechConditionChannel
     };
     var SpeechConditionDelay = function(a) {
         this.delay = a
