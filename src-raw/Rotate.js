@@ -5494,7 +5494,7 @@
             this.btn3.set_y(this.btn2.y + 92);
             this.btn3.addEventListener("click", function(b) {
                 2 > b.which && (ca.stopTheme(),
-                GameInstance.i.changeScreen(new Qa(!0)))
+                GameInstance.i.changeScreen(new ScreenGameplayIntro(!0)))
             });
             this.addChild(this.btn3);
             this.text3.set_x(this.text2.x);
@@ -5567,7 +5567,7 @@
                 p.addEventListener("click", function(y) {
                     return function(H) {
                         1 < H.which || (ca.stopTheme(),
-                        0 == y[0] ? GameInstance.i.changeScreen(new Qa) : GameplayLevel.play(Levels.list[y[0]]))
+                        0 == y[0] ? GameInstance.i.changeScreen(new ScreenGameplayIntro) : GameplayLevel.play(Levels.list[y[0]]))
                     }
                 }(e))) : p.set_alpha(.5);
                 this.tiles.addChild(p);
@@ -5620,7 +5620,7 @@
             this.btnPlay.set_y(Math.floor(GameController.height / 2) - 1);
             this.btnPlay.addEventListener("click", function(a) {
                 1 < a.which || (0 == Levels.unlocked ? (ca.stopTheme(),
-                GameInstance.i.changeScreen(new Qa)) : GameInstance.i.changeScreen(new ScreenLevelSelect))
+                GameInstance.i.changeScreen(new ScreenGameplayIntro)) : GameInstance.i.changeScreen(new ScreenLevelSelect))
             });
             this.addChild(this.btnPlay);
             this.btnExtras.set_x(this.btnPlay.x);
@@ -5962,7 +5962,7 @@
         },
         __class__: vb
     });
-    var Qa = function(a) {
+    var ScreenGameplayIntro = function(a) {
         null == a && (a = !1);
         this.done2 = !1;
         this.cond2 = new SpeechConditionDelay(.5);
@@ -5972,9 +5972,9 @@
         this.pausable = !0;
         this.speedrun = a
     };
-    Qa.__name__ = !0;
-    Qa.__super__ = Screen;
-    Qa.prototype = __INHERIT__(Screen.prototype, {
+    ScreenGameplayIntro.__name__ = !0;
+    ScreenGameplayIntro.__super__ = Screen;
+    ScreenGameplayIntro.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.cond1.start();
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"It's time to resume your training."), new SpeechEvent(new SpeechConditionDelay(4),"We'll start with the basics.")],this);
@@ -5992,7 +5992,7 @@
             GameplayLevel.continueTheme || GameplayLevel.stopTheme()
         },
         kill: function() {},
-        __class__: Qa
+        __class__: ScreenGameplayIntro
     });
     var GraphicsObjectText = function(a, b, c) {
         null == c && (c = 0);
@@ -6608,7 +6608,7 @@
         this.btnQuit.set_x(this.btnRedo.x);
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
-            2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, Qa) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, Qa).speedrun,
+            2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ScreenGameplayIntro) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, ScreenGameplayIntro).speedrun,
             GameInstance.i.changeScreen(PlayManager.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (gameInstanceTemp = GameInstance.i,
             __BIND__(gameInstanceTemp, gameInstanceTemp.unpause))))
         });
