@@ -4708,7 +4708,7 @@
         this.rotating = !1;
         this.rotationSide = 0;
         this.awardDisplays = [];
-        this.mute = new Ba;
+        this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
         this.btnBack = new ba("BACK");
         this.title = new r(g.fontMain,"AWARDS",1);
@@ -4797,7 +4797,7 @@
     });
     var ScreenCredits = function(a) {
         null == a && (a = !1);
-        this.mute = new Ba;
+        this.mute = new ButtonMute;
         this.more = new ImageSurface(Images.linkLWS);
         this.moreText = new r(g.fontMain,"Game published by",1);
         this.soundtrack = new ImageSurface(Images.soundtrack);
@@ -5447,7 +5447,7 @@
     });
     var ScreenExtras = function() {
         this.erase = new ButtonErase;
-        this.mute = new Ba;
+        this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
         this.bestTime = new r(g.fontMain,"Best time: ",2);
         this.text3 = new r(g.fontMain,"Finish the game as\nquickly as you can.",1);
@@ -5522,7 +5522,7 @@
     });
     var ScreenLevelSelect = function() {
         this.erase = new ButtonErase;
-        this.mute = new Ba;
+        this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
         this.tiles = new x;
         this.btnBack = new ba("BACK");
@@ -5583,7 +5583,7 @@
     });
     var ca = function() {
         this.erase = new ButtonErase;
-        this.mute = new Ba;
+        this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
         this.btnCredits = new ba("CREDITS");
         this.btnExtras = new ba("EXTRAS");
@@ -6495,7 +6495,7 @@
     ba.prototype = __INHERIT__(x.prototype, {
         __class__: ba
     });
-    var Ba = function(a) {
+    var ButtonMute = function(a) {
         null == a && (a = 0);
         var b = this;
         x.call(this);
@@ -6518,9 +6518,9 @@
         this.music.set_y(h.height - this.music.get_height() - 12);
         this.addChild(this.music)
     };
-    Ba.__name__ = !0;
-    Ba.__super__ = x;
-    Ba.prototype = __INHERIT__(x.prototype, {
+    ButtonMute.__name__ = !0;
+    ButtonMute.__super__ = x;
+    ButtonMute.prototype = __INHERIT__(x.prototype, {
         showWarn: function(a) {
             var b = new ModalYesNo("Audio may slow down the game\nin Internet Explorer. Continue?");
             b.onNo = function() {
@@ -6543,7 +6543,7 @@
             g.i.toggleMusic();
             this.music.clipRect.x = g.i.muteMusic ? 84 : 56
         },
-        __class__: Ba
+        __class__: ButtonMute
     });
     var cc = function() {
         x.call(this);
@@ -6576,7 +6576,7 @@
     });
     var ub = function() {
         this.sponsor = new ButtonSponsor;
-        this.mute = new Ba(1);
+        this.mute = new ButtonMute(1);
         this.invert = new cc;
         this.btnQuit = new ba("QUIT",0);
         this.btnRedo = new ba("RESTART",0);
