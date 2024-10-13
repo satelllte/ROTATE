@@ -6651,13 +6651,13 @@
     ButtonSponsor.prototype = __INHERIT__(ImageSurface.prototype, {
         __class__: ButtonSponsor
     });
-    var ModalYesNo = function(a) {
+    var ModalYesNo = function(text) {
         this.btnNo = new Button("NO");
         this.btnYes = new Button("YES");
         this.main = new GraphicsObjectText(GameInstance.fontMain,"",2);
         var _this = this;
         GraphicsObject.call(this);
-        this.main.set_text(a);
+        this.main.set_text(text);
         this.graphics.beginFill(1052688, .95);
         this.graphics.drawRect(0, 0, GameController.width, GameController.height);
         this.mouseEnabled = !0;
