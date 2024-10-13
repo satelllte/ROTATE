@@ -1969,8 +1969,8 @@
             null != this.pauseMenu && (this.pauseMenu.visible = !0,
             this.pauseMenu.onPause()),
             this.hasPaused = !0,
-            ES3ClassUtils.__instanceof(this.currentScreen, w) && null != w.i.pauseText && (w.i.pauseText.parent.removeChild(w.i.pauseText),
-            w.i.pauseText = null)))
+            ES3ClassUtils.__instanceof(this.currentScreen, GameplayLevel) && null != GameplayLevel.i.pauseText && (GameplayLevel.i.pauseText.parent.removeChild(GameplayLevel.i.pauseText),
+            GameplayLevel.i.pauseText = null)))
         },
         unpause: function() {
             this.paused && null == this.targetScreen && (this.paused = !1,
@@ -3013,7 +3013,7 @@
                     a.translate(-p.x * Constants.tileSize, -p.y * Constants.tileSize))
                 }
                 this.showGrid && null != L.gridCanvas && a.drawImage(L.gridCanvas, null, 0, 0);
-                if (ES3ClassUtils.__instanceof(g.i.currentScreen, w) && (c = g.i.currentScreen,
+                if (ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && (c = g.i.currentScreen,
                 !l.rotating && !c.player.dead && !c.player.finished)) {
                     k = 0;
                     for (p = c.player.touching; k < p.length; )
@@ -3159,7 +3159,7 @@
         },
         collides: function(a) {
             var b = this.isOpen(a);
-            !b && this.isStuck(a) && w.i.killPlayer();
+            !b && this.isStuck(a) && GameplayLevel.i.killPlayer();
             return !b
         },
         alwaysUpdate: function(a) {
@@ -3178,8 +3178,8 @@
                     var m = this.isOpen(b)
                       , k = .5 * d - .16666666666666666;
                     c = m ? 0 : k;
-                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, w)) {
-                        var p = w.i.channels
+                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel)) {
+                        var p = GameplayLevel.i.channels
                           , y = b.getMeta(0);
                         p = p.h[y];
                         null != p && (c = Math.min(1, (g.i.get_gameTime() - p.lastChanged) / Constants.doorSlideTime),
@@ -3211,10 +3211,10 @@
             }
         },
         isOpen: function(a) {
-            return ES3ClassUtils.__instanceof(g.i.currentScreen, w) && w.i.getChannelStatus(a.getMeta(0)) ? !0 : !1
+            return ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && GameplayLevel.i.getChannelStatus(a.getMeta(0)) ? !0 : !1
         },
         isStuck: function(a) {
-            for (var b = 0, c = w.i.player.touching; b < c.length; ) {
+            for (var b = 0, c = GameplayLevel.i.player.touching; b < c.length; ) {
                 var d = c[b];
                 ++b;
                 if (d.get_block() == this && d.getMeta(0) == a.getMeta(0))
@@ -3429,22 +3429,22 @@
             var b = a.y * l.get_width() + a.x
               , c = l.leversChanged.h[b];
             if (!(null != c && g.i.get_gameTime() - c < Za.TOGGLE_TIMER)) {
-                c = w.i.channels;
+                c = GameplayLevel.i.channels;
                 var d = a.getMeta(0)
                   , e = c.h[d];
                 d = null != e && e.get_status();
-                (c = 1 > a.getMeta(1)) ? w.i.signalOn(a.x, a.y, a.getMeta(0)) : w.i.signalOff(a.x, a.y, a.getMeta(0));
+                (c = 1 > a.getMeta(1)) ? GameplayLevel.i.signalOn(a.x, a.y, a.getMeta(0)) : GameplayLevel.i.signalOff(a.x, a.y, a.getMeta(0));
                 var f = l.leversChanged
                   , m = g.i.get_gameTime();
                 f.h[b] = m;
-                null == e && (b = w.i.channels,
+                null == e && (b = GameplayLevel.i.channels,
                 e = a.getMeta(0),
                 e = b.h[e]);
                 e = null != e && e.get_status();
                 b = !1;
                 if (d != e)
                     for (d = 0,
-                    e = w.i.doors; d < e.length; )
+                    e = GameplayLevel.i.doors; d < e.length; )
                         if (f = e[d],
                         ++d,
                         f.channel == a.getMeta(0)) {
@@ -3457,7 +3457,7 @@
             }
         },
         onPlay: function(a) {
-            0 < a.getMeta(1) && w.i.signalOn(a.x, a.y, a.getMeta(0))
+            0 < a.getMeta(1) && GameplayLevel.i.signalOn(a.x, a.y, a.getMeta(0))
         },
         getColliders: function(a) {
             return [new La(new z(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
@@ -3679,7 +3679,7 @@
             return [new kb(a.getMeta(0))]
         },
         onTrigger: function(a) {
-            w.i.killPlayer(!0);
+            GameplayLevel.i.killPlayer(!0);
             return !1
         },
         alwaysUpdate: function(a) {
@@ -3713,7 +3713,7 @@
             return [new La(a), new La(b)]
         },
         onTrigger: function(a) {
-            w.i.killPlayer();
+            GameplayLevel.i.killPlayer();
             return !1
         },
         __class__: Eb
@@ -4001,10 +4001,10 @@
         },
         update: function() {
             this.speech.update();
-            this.s1 && w.i.player.x > 10 * Constants.tileSize ? (this.s1 = !1,
-            this.s2 = !0) : this.s2 && w.i.player.x > 17 * Constants.tileSize ? (this.s2 = !1,
-            this.s3 = !0) : this.s3 && w.i.player.x > 27 * Constants.tileSize && w.i.player.grounded && !l.rotating && 1 == l.rotation ? (this.s3 = !1,
-            this.s4 = !0) : this.s4 && w.i.player.x > 22 * Constants.tileSize && w.i.player.grounded && !l.rotating && 0 == l.rotation && (this.s4 = !1,
+            this.s1 && GameplayLevel.i.player.x > 10 * Constants.tileSize ? (this.s1 = !1,
+            this.s2 = !0) : this.s2 && GameplayLevel.i.player.x > 17 * Constants.tileSize ? (this.s2 = !1,
+            this.s3 = !0) : this.s3 && GameplayLevel.i.player.x > 27 * Constants.tileSize && GameplayLevel.i.player.grounded && !l.rotating && 1 == l.rotation ? (this.s3 = !1,
+            this.s4 = !0) : this.s4 && GameplayLevel.i.player.x > 22 * Constants.tileSize && GameplayLevel.i.player.grounded && !l.rotating && 0 == l.rotation && (this.s4 = !1,
             this.s5 = !0);
             this.c3.clipRect.x = this.c4.clipRect.x = g.i.invert ? 48 : 0
         },
@@ -4222,7 +4222,7 @@
             this.cat.update()
         },
         finished: function() {
-            g.i.changeScreen(new bb(ES3ClassUtils.__cast(g.i.currentScreen, w).speedrun));
+            g.i.changeScreen(new bb(ES3ClassUtils.__cast(g.i.currentScreen, GameplayLevel).speedrun));
             return null
         },
         kill: function() {},
@@ -4416,7 +4416,7 @@
             this.speech.update();
             this.cat.update();
             this.s1 ? g.i.currentScreen.getChannelStatus(0) || (this.s1 = !1,
-            this.s2 = !0) : !this.s2 && w.i.player.x >= 28 * Constants.tileSize && w.i.player.y >= 24 * Constants.tileSize && (this.s1 = !0)
+            this.s2 = !0) : !this.s2 && GameplayLevel.i.player.x >= 28 * Constants.tileSize && GameplayLevel.i.player.y >= 24 * Constants.tileSize && (this.s1 = !0)
         },
         finished: function() {
             return B.level9
@@ -4533,7 +4533,7 @@
     ta.__name__ = !0;
     ta.prototype = {
         update: function() {
-            var a = w.i;
+            var a = GameplayLevel.i;
             this.appeared ? !this.disappeared && null != this.endCond && this.endCond.test() && (a.catDisappear(this.endDir),
             this.disappeared = !0) : (a.catAppear(this.c, this.r, this.startDir),
             this.appeared = !0,
@@ -4556,7 +4556,7 @@
     ia.prototype = {
         start: function() {},
         test: function() {
-            return !w.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && l.rotation != this.rotation ? !1 : !l.rotating
+            return !GameplayLevel.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && l.rotation != this.rotation ? !1 : !l.rotating
         },
         __class__: ia
     };
@@ -4567,7 +4567,7 @@
     lb.__super__ = ia;
     lb.prototype = D(ia.prototype, {
         test: function() {
-            return ia.prototype.test.call(this) && w.i.getChannelStatus(0) && w.i.getChannelStatus(1) ? w.i.getChannelStatus(2) : !1
+            return ia.prototype.test.call(this) && GameplayLevel.i.getChannelStatus(0) && GameplayLevel.i.getChannelStatus(1) ? GameplayLevel.i.getChannelStatus(2) : !1
         },
         __class__: lb
     });
@@ -4583,7 +4583,7 @@
     V.prototype = {
         start: function() {},
         test: function() {
-            this.hit || !w.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && l.rotation != this.rotation || l.rotating || (this.hit = !0,
+            this.hit || !GameplayLevel.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && l.rotation != this.rotation || l.rotating || (this.hit = !0,
             this.timer = g.i.get_gameTime());
             return this.hit ? g.i.get_gameTime() - this.timer >= this.delay : !1
         },
@@ -4600,7 +4600,7 @@
             this.timer = g.i.get_gameTime()
         },
         test: function() {
-            var a = w.i.channels.h[this.channel];
+            var a = GameplayLevel.i.channels.h[this.channel];
             return null != a ? a.lastChanged > this.timer : !1
         },
         __class__: Xa
@@ -4640,7 +4640,7 @@
         this.field.xAlign = r.X_ALIGN_CENTER;
         this.field.align = r.ALIGN_CENTER;
         this.field.set_x(h.width / 2);
-        null == b && ES3ClassUtils.__instanceof(g.i.currentScreen, w) ? (b = g.i.currentScreen.textHolder,
+        null == b && ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) ? (b = g.i.currentScreen.textHolder,
         this.field.yAlign = r.Y_ALIGN_TOP,
         this.field.set_y(h.height - 96)) : (this.field.yAlign = r.Y_ALIGN_MIDDLE,
         this.field.set_y(h.height / 2));
@@ -4651,7 +4651,7 @@
     U.prototype = {
         update: function() {
             var a = !0;
-            ES3ClassUtils.__instanceof(g.i.currentScreen, w) && (a = !g.i.currentScreen.player.dead);
+            ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && (a = !g.i.currentScreen.player.dead);
             a && null != this.events[this.index] && this.events[this.index].cond.test() && ("" != this.events[this.index].text && (this.field.set_text(""),
             this.msg = this.events[this.index].text,
             this["char"] = this.char2 = 0,
@@ -4676,7 +4676,7 @@
             }
             this["char"] == this.msg.length && g.i.get_gameTimeMS() - this.timer > U.TIME_STAY && (a = Math.min(1, (g.i.get_gameTimeMS() - this.timer - U.TIME_STAY) / U.TIME_FADE),
             this.field.set_alpha(g.smootherStep(1 - a)));
-            ES3ClassUtils.__instanceof(g.i.currentScreen, w) && (this.field.graphics.clear(),
+            ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && (this.field.graphics.clear(),
             "" != this.field.text && (a = this.field.getBoundsSelf(),
             this.field.graphics.beginFill(2105376, .85),
             this.field.graphics.drawRect(a.x - 6, a.y + 2, a.width + 12, a.height)))
@@ -5213,7 +5213,7 @@
                 G.keyPressed(67) && this.showSaveDialog();
                 G.keyPressed(71) && (this.renderer.showGrid = EditorLevel.showGrid = !EditorLevel.showGrid,
                 this.barLower.gridToggle.toggle.clipRect.x = EditorLevel.showGrid ? this.barLower.gridToggle.toggle.clipRect.width : 0);
-                G.keyPressed(13) && g.i.changeScreen(new w(EditorLevel.editorLevel))
+                G.keyPressed(13) && g.i.changeScreen(new GameplayLevel(EditorLevel.editorLevel))
             }
         },
         tryLoadLevel: function(a) {
@@ -5567,7 +5567,7 @@
                 p.addEventListener("click", function(y) {
                     return function(H) {
                         1 < H.which || (ca.stopTheme(),
-                        0 == y[0] ? g.i.changeScreen(new Qa) : w.play(B.list[y[0]]))
+                        0 == y[0] ? g.i.changeScreen(new Qa) : GameplayLevel.play(B.list[y[0]]))
                     }
                 }(e))) : p.set_alpha(.5);
                 this.tiles.addChild(p);
@@ -5641,7 +5641,7 @@
         },
         __class__: ca
     });
-    var w = function(a, b, c) {
+    var GameplayLevel = function(a, b, c) {
         null == c && (c = -1);
         null == b && (b = !1);
         this.channels = new hb;
@@ -5661,21 +5661,21 @@
         this.pausable = !0;
         this.speedrun = b;
         this.speedrunStart = c;
-        0 == a.theme && Sounds.themeGame1.playing() || 1 == a.theme && Sounds.themeGame2.playing() ? w.continueTheme = !0 : w.continueTheme = !1
+        0 == a.theme && Sounds.themeGame1.playing() || 1 == a.theme && Sounds.themeGame2.playing() ? GameplayLevel.continueTheme = !0 : GameplayLevel.continueTheme = !1
     };
-    w.__name__ = !0;
-    w.play = function(a, b, c) {
+    GameplayLevel.__name__ = !0;
+    GameplayLevel.play = function(a, b, c) {
         null == c && (c = -1);
         null == b && (b = !1);
-        null != a && g.i.changeScreen(new w(a,b,c))
+        null != a && g.i.changeScreen(new GameplayLevel(a,b,c))
     }
     ;
-    w.playTheme = function(a) {
-        w.stopped && (0 == a && Sounds.themeGame1.playing() ? (Sounds.themeGame1.stop(),
-        w.canceled = !0) : 1 == a && Sounds.themeGame2.playing() && (Sounds.themeGame2.stop(),
-        w.canceled = !0),
+    GameplayLevel.playTheme = function(a) {
+        GameplayLevel.stopped && (0 == a && Sounds.themeGame1.playing() ? (Sounds.themeGame1.stop(),
+        GameplayLevel.canceled = !0) : 1 == a && Sounds.themeGame2.playing() && (Sounds.themeGame2.stop(),
+        GameplayLevel.canceled = !0),
         g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1),
-        w.stopped = !1);
+        GameplayLevel.stopped = !1);
         0 == a ? (Sounds.themeGame1.volume(1),
         Sounds.themeGame1.playing() || (g.ie && g.i.muteMusic || Sounds.themeGame1.play(),
         g.ie && (g.i.ieGame1 = !0))) : 1 == a && (Sounds.themeGame2.volume(1),
@@ -5683,34 +5683,34 @@
         g.ie && (g.i.ieGame2 = !0)))
     }
     ;
-    w.stopTheme = function() {
+    GameplayLevel.stopTheme = function() {
         var a = Sounds.themeGame1.playing() ? Sounds.themeGame1 : Sounds.themeGame2.playing() ? Sounds.themeGame2 : null;
         if (null != a) {
-            var b = ES3ClassUtils.__instanceof(g.i.currentScreen, w) && ES3ClassUtils.__instanceof(g.i.targetScreen, bb);
+            var b = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && ES3ClassUtils.__instanceof(g.i.targetScreen, bb);
             if (g.ie)
                 b || a.stop();
             else {
                 var c = a.volume();
                 a.fade(c, 0, Math.floor(Constants.screenFadeTime / 2) + (b ? 1E4 : 0));
                 a.once("fade", function() {
-                    w.canceled || (a.stop(),
+                    GameplayLevel.canceled || (a.stop(),
                     a.volume(1))
                 })
             }
-            w.stopped = !0;
-            w.canceled = !1
+            GameplayLevel.stopped = !0;
+            GameplayLevel.canceled = !1
         } else
-            w.stopped = w.canceled = !1;
+            GameplayLevel.stopped = GameplayLevel.canceled = !1;
         g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1)
     }
     ;
-    w.__super__ = qa;
-    w.prototype = D(qa.prototype, {
+    GameplayLevel.__super__ = qa;
+    GameplayLevel.prototype = D(qa.prototype, {
         init: function() {
-            w.i = this;
+            GameplayLevel.i = this;
             this.tempLevel == EditorLevel.editorLevel && AwardsManager.awardEditor.unlock();
-            w.playTheme(this.tempLevel.theme);
-            w.continueTheme = !1;
+            GameplayLevel.playTheme(this.tempLevel.theme);
+            GameplayLevel.continueTheme = !1;
             l.set_level(this.tempLevel);
             l.onPlay();
             for (var a = this.channels.iterator(); a.hasNext(); )
@@ -5790,7 +5790,7 @@
         restart: function(a) {
             a = g.i.paused ? (Ja = g.i,
             T(Ja, Ja.unpause)) : null;
-            g.i.changeScreen(new w(l.level,this.speedrun,this.speedrunStart), !0, a)
+            g.i.changeScreen(new GameplayLevel(l.level,this.speedrun,this.speedrunStart), !0, a)
         },
         finished: function() {
             var a = B.list.indexOf(l.level);
@@ -5808,17 +5808,17 @@
                 b && g.i.saveProgress()
             }
             a = l.level.finished();
-            null != a && w.play(a, this.speedrun, this.speedrunStart)
+            null != a && GameplayLevel.play(a, this.speedrun, this.speedrunStart)
         },
         update: function() {
             qa.prototype.update.call(this);
             if (this.player.dead) {
-                var a = 1 - Math.min((g.i.get_gameTime() - this.deathTime) / w.DEATH_SHAKE_TIME, 1);
+                var a = 1 - Math.min((g.i.get_gameTime() - this.deathTime) / GameplayLevel.DEATH_SHAKE_TIME, 1);
                 this.red.set_alpha(a);
                 a = g.smootherStep(a);
-                this.shakeX = Math.random() * w.DEATH_SHAKE_AMOUNT * a;
-                this.shakeY = Math.random() * w.DEATH_SHAKE_AMOUNT * a;
-                g.i.get_gameTime() - this.deathTime >= w.DEATH_TIME && null == g.i.targetScreen && this.restart(!0)
+                this.shakeX = Math.random() * GameplayLevel.DEATH_SHAKE_AMOUNT * a;
+                this.shakeY = Math.random() * GameplayLevel.DEATH_SHAKE_AMOUNT * a;
+                g.i.get_gameTime() - this.deathTime >= GameplayLevel.DEATH_TIME && null == g.i.targetScreen && this.restart(!0)
             } else
                 this.player.finished || this.doRotation(this.player);
             this.player.update()
@@ -5881,7 +5881,7 @@
             this.cat.horizontal = this.cat.scaleX)
         },
         kill: function() {
-            w.i = null;
+            GameplayLevel.i = null;
             l.level.kill();
             l.set_level(null);
             Sounds.cat.volume(1);
@@ -5897,9 +5897,9 @@
                     g.i.timerHolder.removeChild(this.timerText)
         },
         prekill: function() {
-            w.continueTheme ? w.stopped = w.canceled = !1 : w.stopTheme()
+            GameplayLevel.continueTheme ? GameplayLevel.stopped = GameplayLevel.canceled = !1 : GameplayLevel.stopTheme()
         },
-        __class__: w
+        __class__: GameplayLevel
     });
     var $b = function(a) {
         null == a && (a = !0);
@@ -5982,14 +5982,14 @@
         },
         update: function() {
             !this.done2 && this.cond2.test() && (this.done2 = !0,
-            w.playTheme(0),
+            GameplayLevel.playTheme(0),
             g.ie || Sounds.themeGame1.fade(0, 1, 1E3));
             this.speech.update();
             !this.done1 && this.cond1.test() && (this.done1 = !0,
-            w.play(B.level1, this.speedrun))
+            GameplayLevel.play(B.level1, this.speedrun))
         },
         prekill: function() {
-            w.continueTheme || w.stopTheme()
+            GameplayLevel.continueTheme || GameplayLevel.stopTheme()
         },
         kill: function() {},
         __class__: Qa
@@ -6367,7 +6367,7 @@
         this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
         this.btnPlay.hitPadding = R.BTN_PAD;
         this.btnPlay.addEventListener("click", function(d) {
-            2 > d.which && w.play(EditorLevel.editorLevel)
+            2 > d.which && GameplayLevel.play(EditorLevel.editorLevel)
         });
         this.addChild(this.btnPlay);
         this.btnSave.set_x(this.btnPlay.x - this.btnPlay.get_width() - R.BTN_SPACE);
@@ -6602,13 +6602,13 @@
         this.btnRedo.set_x(this.btnPlay.x);
         this.btnRedo.set_y(this.btnPlay.y + 60);
         this.btnRedo.addEventListener("click", function(a) {
-            2 > a.which && ES3ClassUtils.__instanceof(g.i.currentScreen, w) && g.i.currentScreen.restart(!1)
+            2 > a.which && ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && g.i.currentScreen.restart(!1)
         });
         this.addChild(this.btnRedo);
         this.btnQuit.set_x(this.btnRedo.x);
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
-            2 > a.which && (a = ES3ClassUtils.__instanceof(g.i.currentScreen, w) && ES3ClassUtils.__cast(g.i.currentScreen, w).speedrun || ES3ClassUtils.__instanceof(g.i.currentScreen, Qa) && ES3ClassUtils.__cast(g.i.currentScreen, Qa).speedrun,
+            2 > a.which && (a = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(g.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(g.i.currentScreen, Qa) && ES3ClassUtils.__cast(g.i.currentScreen, Qa).speedrun,
             g.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new Oa : 0 < B.unlocked ? new pb : new ca, !0, (Ja = g.i,
             T(Ja, Ja.unpause))))
         });
@@ -6625,7 +6625,7 @@
         onPause: function() {
             this.mute.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
             this.mute.music.clipRect.x = g.i.muteMusic ? 84 : 56;
-            var a = ES3ClassUtils.__instanceof(g.i.currentScreen, w);
+            var a = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel);
             this.btnRedo.set_alpha(a ? 1 : .25);
             this.btnRedo.main.mouseEnabled = a;
             a = ES3ClassUtils.__instanceof(g.i.currentScreen, bb) || ES3ClassUtils.__instanceof(g.i.currentScreen, ob);
@@ -6944,13 +6944,13 @@
     EditorLevel.MOVE_SPEED = 4;
     EditorLevel.showGrid = !0;
     EditorLevel.editorLevel = new LevelEditor;
-    w.continueTheme = !1;
-    w.RESTART_DELAY = 1;
-    w.DEATH_TIME = 1.5;
-    w.DEATH_SHAKE_TIME = .85;
-    w.DEATH_SHAKE_AMOUNT = 24;
-    w.stopped = !1;
-    w.canceled = !1;
+    GameplayLevel.continueTheme = !1;
+    GameplayLevel.RESTART_DELAY = 1;
+    GameplayLevel.DEATH_TIME = 1.5;
+    GameplayLevel.DEATH_SHAKE_TIME = .85;
+    GameplayLevel.DEATH_SHAKE_AMOUNT = 24;
+    GameplayLevel.stopped = !1;
+    GameplayLevel.canceled = !1;
     r.ALIGN_LEFT = 0;
     r.ALIGN_CENTER = 1;
     r.ALIGN_RIGHT = 2;
