@@ -1496,12 +1496,12 @@
         },
         __class__: Base64Encoder
     };
-    var hb = function() {
+    var ListenersIterable = function() {
         this.h = {}
     };
-    hb.__name__ = !0;
-    hb.__interfaces__ = [ListenersInterface];
-    hb.prototype = {
+    ListenersIterable.__name__ = !0;
+    ListenersIterable.__interfaces__ = [ListenersInterface];
+    ListenersIterable.prototype = {
         keys: function() {
             var a = [], b;
             for (b in this.h)
@@ -1521,7 +1521,7 @@
                 }
             }
         },
-        __class__: hb
+        __class__: ListenersIterable
     };
     var Iterable = function(a, b) {
         this.map = a;
@@ -2927,7 +2927,7 @@
     ;
     PlayManager.onPlay = function() {
         if (null != PlayManager.level) {
-            PlayManager.leversChanged = new hb;
+            PlayManager.leversChanged = new ListenersIterable;
             for (var a = 0, b = PlayManager.tiles.length; a < b; )
                 for (var c = a++, d = 0, e = PlayManager.tiles[c].length; d < e; ) {
                     var f = d++;
@@ -5644,7 +5644,7 @@
     var GameplayLevel = function(a, b, c) {
         null == c && (c = -1);
         null == b && (b = !1);
-        this.channels = new hb;
+        this.channels = new ListenersIterable;
         this.newBest = !1;
         this.speedrunFinal = -1;
         this.doors = [];
