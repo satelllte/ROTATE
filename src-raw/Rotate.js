@@ -526,7 +526,7 @@
             a.endStroke()
         },
         call: function(a, b) {
-            this.items.push(Ga.callFunc(a, b))
+            this.items.push(GraphicsBoundedFn.callFunc(a, b))
         },
         beginFill: function(a, b) {
             null == b && (b = 1);
@@ -1107,22 +1107,22 @@
         return G.keyDown(a) ? !1 : G.keyDownOld(a)
     }
     ;
-    var Ga = function(a, b) {
+    var GraphicsBoundedFn = function(a, b) {
         this.type = a;
         this.name = b
     };
-    Ga.__name__ = !0;
-    Ga.callFunc = function(a, b) {
-        var c = new Ga(Ga.FUNC,a);
+    GraphicsBoundedFn.__name__ = !0;
+    GraphicsBoundedFn.callFunc = function(a, b) {
+        var c = new GraphicsBoundedFn(GraphicsBoundedFn.FUNC,a);
         c.params = b;
         return c
     }
     ;
-    Ga.prototype = {
+    GraphicsBoundedFn.prototype = {
         execute: function(a) {
-            this.type == Ga.FUNC && a[this.name].apply(a, this.params)
+            this.type == GraphicsBoundedFn.FUNC && a[this.name].apply(a, this.params)
         },
-        __class__: Ga
+        __class__: GraphicsBoundedFn
     };
     var Surface = function(a) {
         this._transform = new Transform;
@@ -6745,7 +6745,7 @@
     G.inited = !1;
     G.keys = [];
     G.keysOld = [];
-    Ga.FUNC = 1;
+    GraphicsBoundedFn.FUNC = 1;
     Surface.PI2 = 2 * Math.PI;
     LocalStorageEncoder.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     LocalStorageEncoder.BYTES = BytesData.ofString(LocalStorageEncoder.CHARS);
