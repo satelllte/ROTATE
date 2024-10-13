@@ -4995,7 +4995,7 @@
             }
             );
             this.addChild(this.barUpper);
-            this.barLower = new Pa(function() {
+            this.barLower = new EditorBarLower(function() {
                 a.renderer.showGrid = EditorLevel.showGrid
             }
             );
@@ -6293,27 +6293,27 @@
     Zb.prototype = __INHERIT__(Da.prototype, {
         __class__: Zb
     });
-    var Pa = function(a) {
+    var EditorBarLower = function(a) {
         this.selector = new O;
         var b = this;
         GraphicsObject.call(this);
-        this.set_y(h.height - Pa.HEIGHT);
+        this.set_y(h.height - EditorBarLower.HEIGHT);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
-        this.graphics.drawRect(0, 0, h.width, Pa.HEIGHT);
+        this.graphics.drawRect(0, 0, h.width, EditorBarLower.HEIGHT);
         this.gridToggle = new bc(a);
         this.addChild(this.gridToggle);
         this.selector.set_x(12);
-        this.selector.set_y(Math.round((Pa.HEIGHT - this.selector.get_height()) / 2));
+        this.selector.set_y(Math.round((EditorBarLower.HEIGHT - this.selector.get_height()) / 2));
         this.addChild(this.selector);
         this.addEventListener("mouseDown", function(c) {
             2 > c.which && c.target == b && (b.selector.bubble.visible = !1)
         })
     };
-    Pa.__name__ = !0;
-    Pa.__super__ = GraphicsObject;
-    Pa.prototype = __INHERIT__(GraphicsObject.prototype, {
-        __class__: Pa
+    EditorBarLower.__name__ = !0;
+    EditorBarLower.__super__ = GraphicsObject;
+    EditorBarLower.prototype = __INHERIT__(GraphicsObject.prototype, {
+        __class__: EditorBarLower
     });
     var R = function(a, b) {
         this.btnLoad = new GraphicsObjectText(GameInstance.fontMain,"Load");
@@ -6964,7 +6964,7 @@
     O.size4 = Constants.tileSize + 4;
     O.list = [F.air, F.solid, F.start, F.finish, F.stairs, F.ramp, F.platform, F.spikes, F.saw, F.lever, F.door, F.number, F.vent, F.fan];
     O.selected = 1;
-    Pa.HEIGHT = 48;
+    EditorBarLower.HEIGHT = 48;
     R.HEIGHT = 48;
     R.EDGE_PAD = 14;
     R.EDGE_PAD_Y = 9;
