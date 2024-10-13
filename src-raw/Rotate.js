@@ -3374,12 +3374,12 @@
         },
         __class__: da
     });
-    var zb = function() {
+    var TileFan = function() {
         da.call(this)
     };
-    zb.__name__ = !0;
-    zb.__super__ = da;
-    zb.prototype = __INHERIT__(da.prototype, {
+    TileFan.__name__ = !0;
+    TileFan.__super__ = da;
+    TileFan.prototype = __INHERIT__(da.prototype, {
         alwaysUpdate: function(a) {
             return !0
         },
@@ -3392,7 +3392,7 @@
             c = !c || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel) ? 0 : Math.floor(GameInstance.i.get_gameTimeMS() / 50) % 3;
             a.drawImage(Images.blocks, new Rectangle(((0 < b && 3 > b ? 1 : 0) + 2 * c) * Constants.tileSize,(5 + (1 < b ? 1 : 0)) * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
-        __class__: zb
+        __class__: TileFan
     });
     var TileFinish = function() {
         X.call(this)
@@ -6913,7 +6913,7 @@
     EditorTiles.door = EditorTiles.register(9, new TileDoor);
     EditorTiles.number = EditorTiles.register(7, new TileNumber);
     EditorTiles.vent = EditorTiles.register(10, new TileVent);
-    EditorTiles.fan = EditorTiles.register(11, new zb);
+    EditorTiles.fan = EditorTiles.register(11, new TileFan);
     BloodParticle.GRAVITY_MULT = .2;
     LevelEditor.WORLD_SIZE = 42;
     Level1.fadeSpeed = .1;
