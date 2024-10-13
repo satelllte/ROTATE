@@ -3751,18 +3751,18 @@
         },
         __class__: TileStart
     });
-    var Hb = function() {
+    var TileVent = function() {
         X.call(this)
     };
-    Hb.__name__ = !0;
-    Hb.__super__ = TileSolid;
-    Hb.prototype = __INHERIT__(TileSolid.prototype, {
+    TileVent.__name__ = !0;
+    TileVent.__super__ = TileSolid;
+    TileVent.prototype = __INHERIT__(TileSolid.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
             c ? TileSolid.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new Rectangle(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
             a.drawImage(Images.blocks, new Rectangle(5 * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0, !1)
         },
-        __class__: Hb
+        __class__: TileVent
     });
     var EditorTiles = function() {};
     EditorTiles.__name__ = !0;
@@ -6912,7 +6912,7 @@
     EditorTiles.lever = EditorTiles.register(8, new TileLever);
     EditorTiles.door = EditorTiles.register(9, new TileDoor);
     EditorTiles.number = EditorTiles.register(7, new TileNumber);
-    EditorTiles.vent = EditorTiles.register(10, new Hb);
+    EditorTiles.vent = EditorTiles.register(10, new TileVent);
     EditorTiles.fan = EditorTiles.register(11, new zb);
     BloodParticle.GRAVITY_MULT = .2;
     LevelEditor.WORLD_SIZE = 42;
