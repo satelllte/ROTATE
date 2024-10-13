@@ -2669,13 +2669,13 @@
             return 3 == d ? new Rectangle(b - a,c - f / 2,m,f) : 2 == d ? new Rectangle(b - m / 2,c - a,m,f) : 1 == d ? new Rectangle(b - m + a,c - f / 2,m,f) : new Rectangle(b - m / 2,c - f + a,m,f)
         },
         rampCheck: function(a) {
-            return ES3ClassUtils.__instanceof(a, Wa) ? (0 != PlayManager.rotation || 0 != a.dir && 1 != a.dir) && (1 != PlayManager.rotation || 3 != a.dir && 0 != a.dir) && (2 != PlayManager.rotation || 2 != a.dir && 3 != a.dir) ? 3 == PlayManager.rotation ? 1 != a.dir ? 2 == a.dir : !0 : !1 : !0 : !1
+            return ES3ClassUtils.__instanceof(a, ColliderDirectional) ? (0 != PlayManager.rotation || 0 != a.dir && 1 != a.dir) && (1 != PlayManager.rotation || 3 != a.dir && 0 != a.dir) && (2 != PlayManager.rotation || 2 != a.dir && 3 != a.dir) ? 3 == PlayManager.rotation ? 1 != a.dir ? 2 == a.dir : !0 : !1 : !0 : !1
         },
         nonRampCheck: function(a) {
             return !this.rampCheck(a)
         },
         rampCheckDX: function(a) {
-            return ES3ClassUtils.__instanceof(a, Wa) ? 0 == PlayManager.rotation && (0 < this.dx && 0 == a.dir || 0 > this.dx && 1 == a.dir) || 1 == PlayManager.rotation && (0 < this.dx && 3 == a.dir || 0 > this.dx && 0 == a.dir) || 2 == PlayManager.rotation && (0 < this.dx && 2 == a.dir || 0 > this.dx && 3 == a.dir) ? !0 : 3 == PlayManager.rotation ? 0 < this.dx && 1 == a.dir ? !0 : 0 > this.dx ? 2 == a.dir : !1 : !1 : !1
+            return ES3ClassUtils.__instanceof(a, ColliderDirectional) ? 0 == PlayManager.rotation && (0 < this.dx && 0 == a.dir || 0 > this.dx && 1 == a.dir) || 1 == PlayManager.rotation && (0 < this.dx && 3 == a.dir || 0 > this.dx && 0 == a.dir) || 2 == PlayManager.rotation && (0 < this.dx && 2 == a.dir || 0 > this.dx && 3 == a.dir) ? !0 : 3 == PlayManager.rotation ? 0 < this.dx && 1 == a.dir ? !0 : 0 > this.dx ? 2 == a.dir : !1 : !1 : !1
         },
         nonRampCheckDX: function(a) {
             return !this.rampCheckDX(a)
@@ -2731,7 +2731,7 @@
                         k.y += c * Constants.tileSize,
                         a.intersects(k))
                             return !0
-                    } else if (ES3ClassUtils.__instanceof(k, Wa)) {
+                    } else if (ES3ClassUtils.__instanceof(k, ColliderDirectional)) {
                         var p = new Vector2(a.get_right(),a.get_bottom());
                         1 == k.dir && (p = new Vector2(a.get_left(),a.get_bottom()));
                         2 == k.dir && (p = new Vector2(a.get_left(),a.get_top()));
@@ -3656,7 +3656,7 @@
             this.renderRotated(a, b, 6 * Constants.tileSize, 0)
         },
         getColliders: function(a) {
-            return [new Wa(a.getMeta(0))]
+            return [new ColliderDirectional(a.getMeta(0))]
         },
         __class__: TileRamp
     });
@@ -4508,19 +4508,19 @@
         },
         __class__: ColliderBoundsOriented
     };
-    var Wa = function(a) {
+    var ColliderDirectional = function(a) {
         this.set_dir(a)
     };
-    Wa.__name__ = !0;
-    Wa.__interfaces__ = [cb];
-    Wa.prototype = {
+    ColliderDirectional.__name__ = !0;
+    ColliderDirectional.__interfaces__ = [cb];
+    ColliderDirectional.prototype = {
         set_dir: function(a) {
             return this.dir = 0 > a || 3 < a ? 0 : a
         },
         testPoint: function(a, b) {
             return 0 == this.dir && a.x + a.y > Constants.tileSize || 1 == this.dir && Constants.tileSize - a.x + a.y > Constants.tileSize || 2 == this.dir && a.x + a.y < Constants.tileSize ? !0 : 3 == this.dir ? Constants.tileSize - a.x + a.y < Constants.tileSize : !1
         },
-        __class__: Wa
+        __class__: ColliderDirectional
     };
     var Cat = function(a, b, c, d, e) {
         this.appeared = this.disappeared = !1;
