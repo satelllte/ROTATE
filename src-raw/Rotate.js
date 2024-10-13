@@ -5962,15 +5962,15 @@
         },
         __class__: vb
     });
-    var ScreenGameplayIntro = function(a) {
-        null == a && (a = !1);
+    var ScreenGameplayIntro = function(speedrun) {
+        null == speedrun && (speedrun = !1);
         this.done2 = !1;
         this.cond2 = new SpeechConditionDelay(.5);
         this.done1 = !1;
         this.cond1 = new SpeechConditionDelay(10);
         Screen.call(this);
         this.pausable = !0;
-        this.speedrun = a
+        this.speedrun = speedrun
     };
     ScreenGameplayIntro.__name__ = !0;
     ScreenGameplayIntro.__super__ = Screen;
