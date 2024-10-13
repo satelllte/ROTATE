@@ -165,12 +165,12 @@
     h.loop = function() {
         N._update();
         if (LoadingManager.get_done())
-            h.wasLoaded || (LoadingManager.triggerEvent(new Fa("progress",1)),
+            h.wasLoaded || (LoadingManager.triggerEvent(new RotateProgressEvent("progress",1)),
             h.lastProgress = 1,
-            LoadingManager.triggerEvent(new Fa("finished",1)));
+            LoadingManager.triggerEvent(new RotateProgressEvent("finished",1)));
         else {
             var a = LoadingManager.get_progress();
-            a != h.lastProgress && (LoadingManager.triggerEvent(new Fa("progress",a)),
+            a != h.lastProgress && (LoadingManager.triggerEvent(new RotateProgressEvent("progress",a)),
             h.lastProgress = a)
         }
         h.wasLoaded = LoadingManager.get_done();
@@ -810,14 +810,14 @@
     RotateKeyboardEvent.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: RotateKeyboardEvent
     });
-    var Fa = function(a, b) {
+    var RotateProgressEvent = function(a, b) {
         this.type = a;
         this.progress = b
     };
-    Fa.__name__ = !0;
-    Fa.__super__ = RotateEvent;
-    Fa.prototype = __INHERIT__(RotateEvent.prototype, {
-        __class__: Fa
+    RotateProgressEvent.__name__ = !0;
+    RotateProgressEvent.__super__ = RotateEvent;
+    RotateProgressEvent.prototype = __INHERIT__(RotateEvent.prototype, {
+        __class__: RotateProgressEvent
     });
     var Ha = function(a, b, c, d, e) {
         null == e && (e = 0);
@@ -6735,8 +6735,8 @@
     RotateFocusEvent.BLUR = "blur";
     RotateKeyboardEvent.KEY_DOWN = "keyDown";
     RotateKeyboardEvent.KEY_UP = "keyUp";
-    Fa.FINISHED = "finished";
-    Fa.PROGRESS = "progress";
+    RotateProgressEvent.FINISHED = "finished";
+    RotateProgressEvent.PROGRESS = "progress";
     Ha.CLICK = "click";
     Ha.MOUSE_DOWN = "mouseDown";
     Ha.MOUSE_UP = "mouseUp";
