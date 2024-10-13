@@ -3142,7 +3142,7 @@
         },
         __class__: TileAir
     });
-    var yb = function() {
+    var TileDoor = function() {
         this.angle = 0;
         this.length = 3;
         this.channel = 0;
@@ -3151,9 +3151,9 @@
         this.bubbleHeight = 106;
         this.configurable = !0
     };
-    yb.__name__ = !0;
-    yb.__super__ = X;
-    yb.prototype = __INHERIT__(X.prototype, {
+    TileDoor.__name__ = !0;
+    TileDoor.__super__ = X;
+    TileDoor.prototype = __INHERIT__(X.prototype, {
         set_angle: function(a) {
             return this.angle = 0 > a ? 3 : 3 < a ? 0 : a
         },
@@ -3315,7 +3315,7 @@
         getConfigMeta: function() {
             return [this.channel, this.length, this.angle]
         },
-        __class__: yb
+        __class__: TileDoor
     });
     var da = function() {
         this.angle = 0;
@@ -6910,7 +6910,7 @@
     EditorTiles.spikes = EditorTiles.register(5, new TileSpikes);
     EditorTiles.saw = EditorTiles.register(6, new TileSaw);
     EditorTiles.lever = EditorTiles.register(8, new TileLever);
-    EditorTiles.door = EditorTiles.register(9, new yb);
+    EditorTiles.door = EditorTiles.register(9, new TileDoor);
     EditorTiles.number = EditorTiles.register(7, new Bb);
     EditorTiles.vent = EditorTiles.register(10, new Hb);
     EditorTiles.fan = EditorTiles.register(11, new zb);
