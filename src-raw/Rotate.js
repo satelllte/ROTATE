@@ -6120,7 +6120,7 @@
         __class__: Xb
     });
     var EditorTileSelector = function() {
-        this.bubble = new ac;
+        this.bubble = new EditorTileSelectorBubble;
         var a = this;
         GraphicsObject.call(this);
         this.mouseEnabled = this.buttonMode = !0;
@@ -6177,16 +6177,16 @@
         },
         __class__: EditorTileSelector
     });
-    var ac = function() {
+    var EditorTileSelectorBubble = function() {
         this.tip = new ImageSurface(Images.configTip);
         GraphicsObject.call(this);
         this.tip.set_x(-this.tip.get_width() / 2);
         this.tip.set_y(-this.tip.get_height());
         this.addChild(this.tip)
     };
-    ac.__name__ = !0;
-    ac.__super__ = GraphicsObject;
-    ac.prototype = __INHERIT__(GraphicsObject.prototype, {
+    EditorTileSelectorBubble.__name__ = !0;
+    EditorTileSelectorBubble.__super__ = GraphicsObject;
+    EditorTileSelectorBubble.prototype = __INHERIT__(GraphicsObject.prototype, {
         setup: function(a) {
             var b = Math.round(a.bubbleWidth / 2);
             this.graphics.clear();
@@ -6201,7 +6201,7 @@
             this.addChild(this.content);
             a.setupBubble(this.content)
         },
-        __class__: ac
+        __class__: EditorTileSelectorBubble
     });
     var Dialog = function(a, b) {
         null == b && (b = "");
