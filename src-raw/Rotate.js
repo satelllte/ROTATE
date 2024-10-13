@@ -4760,7 +4760,7 @@
                 var d = b++
                   , e = Math.floor(d / 3)
                   , f = e < a ? 3 : AwardsManager.awardsAll.length - 3 * a
-                  , m = new Xb(AwardsManager.awardsAll[d]);
+                  , m = new GraphicsObjectAward(AwardsManager.awardsAll[d]);
                 m.set_x(Math.floor(GameController.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e));
                 m.set_y(128 + 136 * e);
                 this.content.addChild(m);
@@ -6097,7 +6097,7 @@
         },
         __class__: GraphicsObjectText
     });
-    var Xb = function(a) {
+    var GraphicsObjectAward = function(a) {
         GraphicsObject.call(this);
         var b = new ImageSurface(Images.awardFrame);
         b.set_x(-b.get_width() / 2);
@@ -6114,10 +6114,10 @@
         this.addChild(b);
         a.unlocked || this.set_alpha(.5)
     };
-    Xb.__name__ = !0;
-    Xb.__super__ = GraphicsObject;
-    Xb.prototype = __INHERIT__(GraphicsObject.prototype, {
-        __class__: Xb
+    GraphicsObjectAward.__name__ = !0;
+    GraphicsObjectAward.__super__ = GraphicsObject;
+    GraphicsObjectAward.prototype = __INHERIT__(GraphicsObject.prototype, {
+        __class__: GraphicsObjectAward
     });
     var EditorTileSelector = function() {
         this.bubble = new EditorTileSelectorBubble;
