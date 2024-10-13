@@ -4213,8 +4213,8 @@
     Level16.__interfaces__ = [LevelInterface];
     Level16.prototype = {
         start: function() {
-            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(4),"I'm tired of trying to convince you."), new SpeechEvent(new SpeechConditionPosition(2,32,4,1),'Just leave, have your "freedom".'), new SpeechEvent(new SpeechConditionDelay(5),"You'll come to regret this mistake."), new SpeechEvent(new SpeechConditionChannel(2),""), new SpeechEvent(new SpeechConditionDelay(4),"You will realize I was right."), new SpeechEvent(new lb(22,7,1,3),"You can't escape your purpose.")]);
-            this.cat = new ta(28,6,-1,1,new lb(22,7,1,3))
+            this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(4),"I'm tired of trying to convince you."), new SpeechEvent(new SpeechConditionPosition(2,32,4,1),'Just leave, have your "freedom".'), new SpeechEvent(new SpeechConditionDelay(5),"You'll come to regret this mistake."), new SpeechEvent(new SpeechConditionChannel(2),""), new SpeechEvent(new SpeechConditionDelay(4),"You will realize I was right."), new SpeechEvent(new SpeechConditionPositionWithChannels(22,7,1,3),"You can't escape your purpose.")]);
+            this.cat = new ta(28,6,-1,1,new SpeechConditionPositionWithChannels(22,7,1,3))
         },
         tick: function() {},
         update: function() {
@@ -4560,16 +4560,16 @@
         },
         __class__: SpeechConditionPosition
     };
-    var lb = function(a, b, c, d, e) {
+    var SpeechConditionPositionWithChannels = function(a, b, c, d, e) {
         SpeechConditionPosition.call(this, a, b, c, d, e)
     };
-    lb.__name__ = !0;
-    lb.__super__ = SpeechConditionPosition;
-    lb.prototype = __INHERIT__(SpeechConditionPosition.prototype, {
+    SpeechConditionPositionWithChannels.__name__ = !0;
+    SpeechConditionPositionWithChannels.__super__ = SpeechConditionPosition;
+    SpeechConditionPositionWithChannels.prototype = __INHERIT__(SpeechConditionPosition.prototype, {
         test: function() {
             return SpeechConditionPosition.prototype.test.call(this) && GameplayLevel.i.getChannelStatus(0) && GameplayLevel.i.getChannelStatus(1) ? GameplayLevel.i.getChannelStatus(2) : !1
         },
-        __class__: lb
+        __class__: SpeechConditionPositionWithChannels
     });
     var SpeechConditionPositionDelayed = function(a, b, c, d, e, f) {
         null == f && (f = -1);
