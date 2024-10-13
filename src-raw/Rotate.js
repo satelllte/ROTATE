@@ -786,8 +786,8 @@
         },
         __class__: ImageSurface
     });
-    var RotateEvent = function(a) {
-        this.type = a
+    var RotateEvent = function(type) {
+        this.type = type
     };
     RotateEvent.__name__ = !0;
     RotateEvent.prototype = {
