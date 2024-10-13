@@ -230,7 +230,7 @@
             b._ctx.globalAlpha *= a.alpha;
             b.reset(!0);
             a.graphics._paint(b);
-            a.triggerEvent(new fb("render",b));
+            a.triggerEvent(new RotateRenderEvent("render",b));
             for (var d = 0, e = a._children; d < e.length; ) {
                 var f = e[d];
                 ++d;
@@ -832,14 +832,14 @@
     RotateMouseEvent.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: RotateMouseEvent
     });
-    var fb = function(a, b) {
+    var RotateRenderEvent = function(a, b) {
         this.type = a;
         this.surface = b
     };
-    fb.__name__ = !0;
-    fb.__super__ = RotateEvent;
-    fb.prototype = __INHERIT__(RotateEvent.prototype, {
-        __class__: fb
+    RotateRenderEvent.__name__ = !0;
+    RotateRenderEvent.__super__ = RotateEvent;
+    RotateRenderEvent.prototype = __INHERIT__(RotateEvent.prototype, {
+        __class__: RotateRenderEvent
     });
     var Vector2 = function(a, b) {
         this.x = a;
@@ -6741,7 +6741,7 @@
     RotateMouseEvent.MOUSE_DOWN = "mouseDown";
     RotateMouseEvent.MOUSE_UP = "mouseUp";
     RotateMouseEvent.MOVE = "move";
-    fb.RENDER = "render";
+    RotateRenderEvent.RENDER = "render";
     G.inited = !1;
     G.keys = [];
     G.keysOld = [];
