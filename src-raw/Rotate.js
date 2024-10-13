@@ -3537,12 +3537,12 @@
         },
         __class__: Za
     });
-    var va = function() {
+    var TileSolid = function() {
         X.call(this)
     };
-    va.__name__ = !0;
-    va.__super__ = X;
-    va.prototype = __INHERIT__(X.prototype, {
+    TileSolid.__name__ = !0;
+    TileSolid.__super__ = X;
+    TileSolid.prototype = __INHERIT__(X.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0)
@@ -3568,12 +3568,12 @@
                 return !0;
             a = l.getBlockData(a, b);
             b = a.get_block();
-            if (ES3ClassUtils.__instanceof(b, va))
+            if (ES3ClassUtils.__instanceof(b, TileSolid))
                 return !0;
             a.getMeta(0);
             return !1
         },
-        __class__: va
+        __class__: TileSolid
     });
     var Bb = function() {
         this.value = 1;
@@ -3581,14 +3581,14 @@
         this.configurable = !0
     };
     Bb.__name__ = !0;
-    Bb.__super__ = va;
-    Bb.prototype = __INHERIT__(va.prototype, {
+    Bb.__super__ = TileSolid;
+    Bb.prototype = __INHERIT__(TileSolid.prototype, {
         set_value: function(a) {
             return this.value = 0 > a ? 99 : 99 < a ? 0 : a
         },
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new Rectangle(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
+            c ? TileSolid.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new Rectangle(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
             b = b.getMeta(0);
             0 > b ? (a.drawImage(Images.blocks, new Rectangle(100,4 * Constants.tileSize,10,Constants.tileSize), 14, 0, !1),
             -1 == b && a.drawImage(Images.blocks, new Rectangle(110,4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1),
@@ -3755,11 +3755,11 @@
         X.call(this)
     };
     Hb.__name__ = !0;
-    Hb.__super__ = va;
-    Hb.prototype = __INHERIT__(va.prototype, {
+    Hb.__super__ = TileSolid;
+    Hb.prototype = __INHERIT__(TileSolid.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new Rectangle(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
+            c ? TileSolid.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new Rectangle(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
             a.drawImage(Images.blocks, new Rectangle(5 * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0, !1)
         },
         __class__: Hb
@@ -6903,7 +6903,7 @@
     EditorTiles.start = EditorTiles.register(-1, new TileStart);
     EditorTiles.finish = EditorTiles.register(-2, new TileFinish);
     EditorTiles.air = EditorTiles.register(0, new TileAir);
-    EditorTiles.solid = EditorTiles.register(1, new va);
+    EditorTiles.solid = EditorTiles.register(1, new TileSolid);
     EditorTiles.stairs = EditorTiles.register(2, new Fb);
     EditorTiles.ramp = EditorTiles.register(3, new $a);
     EditorTiles.platform = EditorTiles.register(4, new Cb);
