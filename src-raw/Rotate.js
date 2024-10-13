@@ -4455,16 +4455,16 @@
     };
     var Levels = function() {};
     Levels.__name__ = !0;
-    var cb = function() {};
-    cb.__name__ = !0;
-    cb.prototype = {
-        __class__: cb
+    var Collider = function() {};
+    Collider.__name__ = !0;
+    Collider.prototype = {
+        __class__: Collider
     };
     var ColliderBounds = function(a) {
         this.bounds = a
     };
     ColliderBounds.__name__ = !0;
-    ColliderBounds.__interfaces__ = [cb];
+    ColliderBounds.__interfaces__ = [Collider];
     ColliderBounds.prototype = {
         testPoint: function(a, b) {
             return this.bounds.contains(a)
@@ -4475,7 +4475,7 @@
         this.dir = a
     };
     ColliderNever.__name__ = !0;
-    ColliderNever.__interfaces__ = [cb];
+    ColliderNever.__interfaces__ = [Collider];
     ColliderNever.prototype = {
         testPoint: function(a, b) {
             return !1
@@ -4487,7 +4487,7 @@
         this.dir = a
     };
     ColliderBoundsOriented.__name__ = !0;
-    ColliderBoundsOriented.__interfaces__ = [cb];
+    ColliderBoundsOriented.__interfaces__ = [Collider];
     ColliderBoundsOriented.prototype = {
         testPoint: function(a, b) {
             if (null == b)
@@ -4512,7 +4512,7 @@
         this.set_dir(a)
     };
     ColliderDirectional.__name__ = !0;
-    ColliderDirectional.__interfaces__ = [cb];
+    ColliderDirectional.__interfaces__ = [Collider];
     ColliderDirectional.prototype = {
         set_dir: function(a) {
             return this.dir = 0 > a || 3 < a ? 0 : a
