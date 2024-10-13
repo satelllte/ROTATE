@@ -875,11 +875,11 @@
         },
         __class__: Vector2
     };
-    var Rectangle = function(a, b, c, d) {
-        this.x = a;
-        this.y = b;
-        this.width = c;
-        this.height = d
+    var Rectangle = function(x, y, width, height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height
     };
     Rectangle.__name__ = !0;
     Rectangle.combineMultiple = function(a) {
