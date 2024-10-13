@@ -5033,7 +5033,7 @@
         showLoadDialog: function() {
             var a = this;
             if (null == this.dialog) {
-                var b = new Yb;
+                var b = new DialogLoadLevel;
                 b.onBack = function() {
                     b.kill();
                     a.removeChild(a.dialog);
@@ -6241,7 +6241,7 @@
         },
         __class__: Da
     });
-    var Yb = function() {
+    var DialogLoadLevel = function() {
         this.btnLoad = new Button("LOAD");
         this.btnCancel = new Button("CANCEL");
         this.invalid = new GraphicsObjectText(GameInstance.fontMain,"Level code is invalid!",2);
@@ -6270,10 +6270,10 @@
             a.invalid.visible = !1
         })
     };
-    Yb.__name__ = !0;
-    Yb.__super__ = Da;
-    Yb.prototype = __INHERIT__(Da.prototype, {
-        __class__: Yb
+    DialogLoadLevel.__name__ = !0;
+    DialogLoadLevel.__super__ = Da;
+    DialogLoadLevel.prototype = __INHERIT__(Da.prototype, {
+        __class__: DialogLoadLevel
     });
     var Zb = function(a) {
         this.btnBack = new Button("BACK");
