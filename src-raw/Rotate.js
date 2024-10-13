@@ -801,14 +801,14 @@
     RotateFocusEvent.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: RotateFocusEvent
     });
-    var Ua = function(a, b) {
+    var RotateKeyboardEvent = function(a, b) {
         this.type = a;
         this.keyCode = b
     };
-    Ua.__name__ = !0;
-    Ua.__super__ = RotateEvent;
-    Ua.prototype = __INHERIT__(RotateEvent.prototype, {
-        __class__: Ua
+    RotateKeyboardEvent.__name__ = !0;
+    RotateKeyboardEvent.__super__ = RotateEvent;
+    RotateKeyboardEvent.prototype = __INHERIT__(RotateEvent.prototype, {
+        __class__: RotateKeyboardEvent
     });
     var Fa = function(a, b) {
         this.type = a;
@@ -1044,14 +1044,14 @@
         onKeyDown: function(a) {
             if (this.isFocused) {
                 var b = window.document.activeElement.tagName.toLowerCase();
-                "input" != b && "textarea" != b && (this.triggerEvent(new Ua("keyDown",a.keyCode)),
+                "input" != b && "textarea" != b && (this.triggerEvent(new RotateKeyboardEvent("keyDown",a.keyCode)),
                 this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault())
             }
         },
         onKeyUp: function(a) {
             if (this.isFocused) {
                 var b = window.document.activeElement.tagName.toLowerCase();
-                "input" != b && "textarea" != b && (this.triggerEvent(new Ua("keyUp",a.keyCode)),
+                "input" != b && "textarea" != b && (this.triggerEvent(new RotateKeyboardEvent("keyUp",a.keyCode)),
                 this.captureKey(a.keyCode, a.ctrlKey) && a.preventDefault())
             }
         },
@@ -6733,8 +6733,8 @@
     RotateEvent.EXIT_FRAME = "exitFrame";
     RotateFocusEvent.FOCUS = "focus";
     RotateFocusEvent.BLUR = "blur";
-    Ua.KEY_DOWN = "keyDown";
-    Ua.KEY_UP = "keyUp";
+    RotateKeyboardEvent.KEY_DOWN = "keyDown";
+    RotateKeyboardEvent.KEY_UP = "keyUp";
     Fa.FINISHED = "finished";
     Fa.PROGRESS = "progress";
     Ha.CLICK = "click";
