@@ -4222,7 +4222,7 @@
             this.cat.update()
         },
         finished: function() {
-            GameInstance.i.changeScreen(new bb(ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun));
+            GameInstance.i.changeScreen(new ScreenPreFinal(ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun));
             return null
         },
         kill: function() {},
@@ -5316,7 +5316,7 @@
         },
         __class__: EditorLevel
     });
-    var bb = function(a) {
+    var ScreenPreFinal = function(a) {
         null == a && (a = !1);
         this.done1 = this.first = !1;
         this.cond1 = new SpeechConditionDelay(10);
@@ -5324,9 +5324,9 @@
         this.pausable = !0;
         this.speedrun = a
     };
-    bb.__name__ = !0;
-    bb.__super__ = Screen;
-    bb.prototype = __INHERIT__(Screen.prototype, {
+    ScreenPreFinal.__name__ = !0;
+    ScreenPreFinal.__super__ = Screen;
+    ScreenPreFinal.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             GameInstance.ie && Sounds.themeGame2.volume(.5);
             this.cond1.start();
@@ -5351,7 +5351,7 @@
             Sounds.themeGame2.volume(1);
             GameInstance.ie && (GameInstance.i.ieGame2 = !1)
         },
-        __class__: bb
+        __class__: ScreenPreFinal
     });
     var ScreenFinal = function(a) {
         null == a && (a = !1);
@@ -5686,7 +5686,7 @@
     GameplayLevel.stopTheme = function() {
         var a = Sounds.themeGame1.playing() ? Sounds.themeGame1 : Sounds.themeGame2.playing() ? Sounds.themeGame2 : null;
         if (null != a) {
-            var b = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__instanceof(GameInstance.i.targetScreen, bb);
+            var b = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__instanceof(GameInstance.i.targetScreen, ScreenPreFinal);
             if (GameInstance.ie)
                 b || a.stop();
             else {
@@ -6628,7 +6628,7 @@
             var a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel);
             this.btnRedo.set_alpha(a ? 1 : .25);
             this.btnRedo.main.mouseEnabled = a;
-            a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, bb) || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ScreenFinal);
+            a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ScreenPreFinal) || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ScreenFinal);
             this.btnQuit.set_alpha(a ? .25 : 1);
             this.btnQuit.main.mouseEnabled = !a
         },
