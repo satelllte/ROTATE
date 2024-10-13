@@ -4709,7 +4709,7 @@
         this.rotationSide = 0;
         this.awardDisplays = [];
         this.mute = new Ba;
-        this.sponsor = new Ma;
+        this.sponsor = new ButtonSponsor;
         this.btnBack = new ba("BACK");
         this.title = new r(g.fontMain,"AWARDS",1);
         this.bg = new Na;
@@ -5448,7 +5448,7 @@
     var ScreenExtras = function() {
         this.erase = new ButtonErase;
         this.mute = new Ba;
-        this.sponsor = new Ma;
+        this.sponsor = new ButtonSponsor;
         this.bestTime = new r(g.fontMain,"Best time: ",2);
         this.text3 = new r(g.fontMain,"Finish the game as\nquickly as you can.",1);
         this.btn3 = new ba("SPEEDRUN");
@@ -5523,7 +5523,7 @@
     var pb = function() {
         this.erase = new ButtonErase;
         this.mute = new Ba;
-        this.sponsor = new Ma;
+        this.sponsor = new ButtonSponsor;
         this.tiles = new x;
         this.btnBack = new ba("BACK");
         this.title = new r(g.fontMain,"LEVEL SELECT",1);
@@ -5584,7 +5584,7 @@
     var ca = function() {
         this.erase = new ButtonErase;
         this.mute = new Ba;
-        this.sponsor = new Ma;
+        this.sponsor = new ButtonSponsor;
         this.btnCredits = new ba("CREDITS");
         this.btnExtras = new ba("EXTRAS");
         this.btnPlay = new ba("PLAY");
@@ -6575,7 +6575,7 @@
         __class__: cc
     });
     var ub = function() {
-        this.sponsor = new Ma;
+        this.sponsor = new ButtonSponsor;
         this.mute = new Ba(1);
         this.invert = new cc;
         this.btnQuit = new ba("QUIT",0);
@@ -6634,7 +6634,7 @@
         },
         __class__: ub
     });
-    var Ma = function() {
+    var ButtonSponsor = function() {
         ImageSurface.call(this, Images.linkJoshua);
         this.clipRect.height /= 2;
         this.set_x(8);
@@ -6646,10 +6646,10 @@
             a.focus())
         })
     };
-    Ma.__name__ = !0;
-    Ma.__super__ = ImageSurface;
-    Ma.prototype = __INHERIT__(ImageSurface.prototype, {
-        __class__: Ma
+    ButtonSponsor.__name__ = !0;
+    ButtonSponsor.__super__ = ImageSurface;
+    ButtonSponsor.prototype = __INHERIT__(ImageSurface.prototype, {
+        __class__: ButtonSponsor
     });
     var ModalYesNo = function(a) {
         this.btnNo = new ba("NO");
