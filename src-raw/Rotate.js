@@ -152,7 +152,7 @@
             alpha: h.transparent
         });
         h.set_imageSmoothingEnabled(h.imageSmoothingEnabled);
-        h.surface = new Ea(h.ctx);
+        h.surface = new Surface(h.ctx);
         N._reset();
         h.input = new qb(h.c);
         G._init();
@@ -1124,13 +1124,13 @@
         },
         __class__: Ga
     };
-    var Ea = function(a) {
+    var Surface = function(a) {
         this._transform = new Transform;
         this._ctx = a;
         this.reset()
     };
-    Ea.__name__ = !0;
-    Ea.prototype = {
+    Surface.__name__ = !0;
+    Surface.prototype = {
         save: function() {
             this._transform.save();
             this._ctx.save()
@@ -1242,7 +1242,7 @@
                 a += d;
                 b += d;
                 this.beginPath();
-                this.arc(a, b, c, .1, Ea.PI2 + .1);
+                this.arc(a, b, c, .1, Surface.PI2 + .1);
                 this.applyPath()
             }
         },
@@ -1268,7 +1268,7 @@
                 this.save();
                 this.translate(a + c / 2, b + d / 2);
                 this.scale(c / d, 1);
-                this.arc(0, 0, d / 2, .1, Ea.PI2 + .1);
+                this.arc(0, 0, d / 2, .1, Surface.PI2 + .1);
                 this.restore();
                 this.applyPath()
             }
@@ -1307,7 +1307,7 @@
             }
             return b
         },
-        __class__: Ea
+        __class__: Surface
     };
     var Transform = function() {
         this.states = [];
@@ -2947,7 +2947,7 @@
             Renderer.bakeCtx = Renderer.bakeCanvas.getContext("2d", null);
             var c = Renderer.bakeCtx;
             c.webkitImageSmoothingEnabled = c.mozImageSmoothingEnabled = c.msImageSmoothingEnabled = c.oImageSmoothingEnabled = c.imageSmoothingEnabled = !1;
-            Renderer.bakeSurface = new Ea(Renderer.bakeCtx)
+            Renderer.bakeSurface = new Surface(Renderer.bakeCtx)
         }
         c = PlayManager.get_width() + 2;
         Renderer.bakeCanvas.width = c * Constants.tileSize;
@@ -2960,7 +2960,7 @@
             Renderer.gridCanvas.width = EditorLevel.editorLevel.tiles[0].length * Constants.tileSize + 2;
             Renderer.gridCanvas.height = EditorLevel.editorLevel.tiles.length * Constants.tileSize + 2;
             Renderer.gridCtx = Renderer.gridCanvas.getContext("2d", null);
-            Renderer.gridSurface = new Ea(Renderer.gridCtx);
+            Renderer.gridSurface = new Surface(Renderer.gridCtx);
             Renderer.gridSurface.beginFill(2105376, .2);
             c = 0;
             for (var d = EditorLevel.editorLevel.tiles.length + 1; c < d; )
@@ -6746,7 +6746,7 @@
     G.keys = [];
     G.keysOld = [];
     Ga.FUNC = 1;
-    Ea.PI2 = 2 * Math.PI;
+    Surface.PI2 = 2 * Math.PI;
     za.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     za.BYTES = ya.ofString(za.CHARS);
     ES3ClassUtils.__toStr = {}.toString;
