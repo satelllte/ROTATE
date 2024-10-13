@@ -4034,7 +4034,7 @@
     Level10.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"Why are you ignoring me?"), new SpeechEvent(new SpeechConditionDelay(4),"We must continue your training."), new SpeechEvent(new SpeechConditionPositionDelayed(4,10,6,1,2),"There's nothing for you this way."), new SpeechEvent(new SpeechConditionChannel(1),""), new SpeechEvent(new SpeechConditionPositionDelayed(1.25,7,1,1,2,1),"What do you expect to find?")]);
-            this.cat = new ta(9,16,-1,1,new SpeechConditionPositionDelayed(.5,4,13,1,4,1))
+            this.cat = new Cat(9,16,-1,1,new SpeechConditionPositionDelayed(.5,4,13,1,4,1))
         },
         tick: function() {},
         update: function() {
@@ -4061,7 +4061,7 @@
     Level11.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1),'Do you seek "freedom"?'), new SpeechEvent(new SpeechConditionDelay(3),"An escape from responsibility?"), new SpeechEvent(new SpeechConditionPositionDelayed(4,11,10,3,1),"You're running from your purpose.")]);
-            this.cat = new ta(21,7,-1,1,new SpeechConditionPosition(20,5,1,3))
+            this.cat = new Cat(21,7,-1,1,new SpeechConditionPosition(20,5,1,3))
         },
         tick: function() {},
         update: function() {
@@ -4088,7 +4088,7 @@
     Level12.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.25),"Don't you understand?"), new SpeechEvent(new SpeechConditionDelay(3.5),"You are being deceived."), new SpeechEvent(new SpeechConditionPositionDelayed(3.5,20,7,4,1,2),"The cat doesn't care about you."), new SpeechEvent(new SpeechConditionPositionDelayed(5,17,11,3,1),"It's just using you.")]);
-            this.cat = new ta(5,4,1,-1,new SpeechConditionPosition(6,2,3,5,0))
+            this.cat = new Cat(5,4,1,-1,new SpeechConditionPosition(6,2,3,5,0))
         },
         tick: function() {},
         update: function() {
@@ -4115,7 +4115,7 @@
     Level13.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"This has happened before."), new SpeechEvent(new SpeechConditionDelay(4.5),"It tried to lure the others away."), new SpeechEvent(new SpeechConditionPositionDelayed(1,13,9,1,3),"But they listened to reason."), new SpeechEvent(new SpeechConditionDelay(7),"They came back to join me."), new SpeechEvent(new SpeechConditionChannel(0),""), new SpeechEvent(new SpeechConditionDelay(.75),"I expected better from you.")]);
-            this.cat = new ta(12,21,-1,1,new SpeechConditionPosition(10,19,6,3,1))
+            this.cat = new Cat(12,21,-1,1,new SpeechConditionPosition(10,19,6,3,1))
         },
         tick: function() {},
         update: function() {
@@ -4147,7 +4147,7 @@
             this.cond1.start();
             this.done1 = this.done2 = this.done3 = !1;
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"I can't let you keep going."), new SpeechEvent(new SpeechConditionPositionDelayed(1.5,33,14,5,2),"You have what belongs to me."), new SpeechEvent(new SpeechConditionDelay(4.5),"And it isn't yours to take."), new SpeechEvent(this.cond1,""), new SpeechEvent(new SpeechConditionDelay(.5),"Stop running."), new SpeechEvent(new SpeechConditionDelay(2),"You see, I gave you your mind."), new SpeechEvent(new SpeechConditionDelay(3.75),"It was a part of me."), new SpeechEvent(new SpeechConditionDelay(3.25),"Now I need it back."), new SpeechEvent(new SpeechConditionDelay(3),"Wait, no!"), new SpeechEvent(new SpeechConditionPositionDelayed(.5,5,10,1,2),"I hate you, cat.")]);
-            this.cat = new ta(5,4,1,-1,new SpeechConditionPositionDelayed(1,10,1,1,11,1))
+            this.cat = new Cat(5,4,1,-1,new SpeechConditionPositionDelayed(1,10,1,1,11,1))
         },
         tick: function() {},
         update: function() {
@@ -4187,7 +4187,7 @@
     Level15.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(2),"I don't understand."), new SpeechEvent(new SpeechConditionDelay(5),"Why do you run from the truth?"), new SpeechEvent(new SpeechConditionPositionDelayed(4.5,1,8,6,1,0),"I gave you everything that you are."), new SpeechEvent(new SpeechConditionDelay(5.5),"You seek freedom at my expense."), new SpeechEvent(new SpeechConditionPositionDelayed(5.5,26,30,4,1),"You're just like me, and I hate it.")]);
-            this.cat = new ta(20,19,-1,1,new SpeechConditionPosition(17,13,4,3))
+            this.cat = new Cat(20,19,-1,1,new SpeechConditionPosition(17,13,4,3))
         },
         tick: function() {},
         update: function() {
@@ -4214,7 +4214,7 @@
     Level16.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(4),"I'm tired of trying to convince you."), new SpeechEvent(new SpeechConditionPosition(2,32,4,1),'Just leave, have your "freedom".'), new SpeechEvent(new SpeechConditionDelay(5),"You'll come to regret this mistake."), new SpeechEvent(new SpeechConditionChannel(2),""), new SpeechEvent(new SpeechConditionDelay(4),"You will realize I was right."), new SpeechEvent(new SpeechConditionPositionWithChannels(22,7,1,3),"You can't escape your purpose.")]);
-            this.cat = new ta(28,6,-1,1,new SpeechConditionPositionWithChannels(22,7,1,3))
+            this.cat = new Cat(28,6,-1,1,new SpeechConditionPositionWithChannels(22,7,1,3))
         },
         tick: function() {},
         update: function() {
@@ -4367,7 +4367,7 @@
     Level7.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionPositionDelayed(.75,5,25,1,3),"Oh... the cat."), new SpeechEvent(new SpeechConditionDelay(3),"My biggest mistake."), new SpeechEvent(new SpeechConditionPositionDelayed(2,8,1,1,7,3),"It is constantly interfering.")]);
-            this.cat = new ta(14,24,-1,1,new SpeechConditionPosition(13,1,1,4));
+            this.cat = new Cat(14,24,-1,1,new SpeechConditionPosition(13,1,1,4));
             Sounds.cat.volume(.25)
         },
         tick: function() {},
@@ -4403,7 +4403,7 @@
             this.c1.set_alpha(this.a1);
             a.overlay.addChild(this.c1);
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(.5),"Forget about it, let's continue."), new SpeechEvent(new SpeechConditionPositionDelayed(.5,6,14,1,3,3),"I won't let it take you from me."), new SpeechEvent(new SpeechConditionDelay(4),"I still need you."), new SpeechEvent(new SpeechConditionPositionDelayed(.5,22,20,4,1),"No, not this again."), new SpeechEvent(new SpeechConditionPosition(33,24,1,3),"Don't go there!")]);
-            this.cat = new ta(30,26,-1,1,new SpeechConditionPosition(28,22,3,1))
+            this.cat = new Cat(30,26,-1,1,new SpeechConditionPosition(28,22,3,1))
         },
         tick: function() {
             var a = .25 * Math.sin(8 * GameInstance.i.get_gameTime()) + .75;
@@ -4440,7 +4440,7 @@
     Level9.prototype = {
         start: function() {
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"You aren't supposed to be here."), new SpeechEvent(new SpeechConditionPositionDelayed(1.5,29,15,2,1),"This place wasn't made for you."), new SpeechEvent(new SpeechConditionDelay(6),"You'll get yourself killed."), new SpeechEvent(new SpeechConditionPositionDelayed(.75,2,19,1,3),"Stop following it!")]);
-            this.cat = new ta(3,15,-1,1,new SpeechConditionPosition(0,17,2,1))
+            this.cat = new Cat(3,15,-1,1,new SpeechConditionPosition(0,17,2,1))
         },
         tick: function() {},
         update: function() {
@@ -4522,7 +4522,7 @@
         },
         __class__: Wa
     };
-    var ta = function(a, b, c, d, e) {
+    var Cat = function(a, b, c, d, e) {
         this.appeared = this.disappeared = !1;
         this.c = a;
         this.r = b;
@@ -4530,8 +4530,8 @@
         this.endDir = 0 > d ? -1 : 1;
         this.endCond = e
     };
-    ta.__name__ = !0;
-    ta.prototype = {
+    Cat.__name__ = !0;
+    Cat.prototype = {
         update: function() {
             var a = GameplayLevel.i;
             this.appeared ? !this.disappeared && null != this.endCond && this.endCond.test() && (a.catDisappear(this.endDir),
@@ -4539,7 +4539,7 @@
             this.appeared = !0,
             null != this.endCond && this.endCond.start())
         },
-        __class__: ta
+        __class__: Cat
     };
     var SpeechConditionInterface = function() {};
     SpeechConditionInterface.__name__ = !0;
