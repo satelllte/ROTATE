@@ -1523,14 +1523,14 @@
         },
         __class__: hb
     };
-    var fc = function(a, b) {
+    var Iterable = function(a, b) {
         this.map = a;
         this.keys = b;
         this.index = 0;
         this.count = b.length
     };
-    fc.__name__ = !0;
-    fc.prototype = {
+    Iterable.__name__ = !0;
+    Iterable.prototype = {
         hasNext: function() {
             return this.index < this.count
         },
@@ -1539,7 +1539,7 @@
               , b = this.keys[this.index++];
             return null != na[b] ? a.getReserved(b) : a.h[b]
         },
-        __class__: fc
+        __class__: Iterable
     };
     var Ra = function() {
         this.h = {}
@@ -2994,7 +2994,7 @@
                     }
                 }
                 var k = PlayManager.updateQueue;
-                for (k = new fc(k,k.arrayKeys()); k.hasNext(); ) {
+                for (k = new Iterable(k,k.arrayKeys()); k.hasNext(); ) {
                     var p = k.next()
                       , y = PlayManager.rotating;
                     if (!y)
