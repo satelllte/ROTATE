@@ -6119,7 +6119,7 @@
     Xb.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: Xb
     });
-    var O = function() {
+    var EditorTileSelector = function() {
         this.bubble = new ac;
         var a = this;
         GraphicsObject.call(this);
@@ -6129,10 +6129,10 @@
         this.addChild(this.bubble);
         this.addEventListener("mouseDown", function(b) {
             if (b.target == a && 2 > b.which) {
-                var c = O.selected;
-                O.set_selected(Math.floor(a.globalToLocal(b.x, b.y).x / O.size4));
-                a.bubble.set_x(Math.round((O.selected + .5) * O.size4));
-                b = a.get_selection().configurable && (O.selected == c ? !a.bubble.visible : !0);
+                var c = EditorTileSelector.selected;
+                EditorTileSelector.set_selected(Math.floor(a.globalToLocal(b.x, b.y).x / EditorTileSelector.size4));
+                a.bubble.set_x(Math.round((EditorTileSelector.selected + .5) * EditorTileSelector.size4));
+                b = a.get_selection().configurable && (EditorTileSelector.selected == c ? !a.bubble.visible : !0);
                 a.bubble.visible = b;
                 a.bubble.visible && a.bubble.setup(a.get_selection())
             }
@@ -6141,41 +6141,41 @@
             a.render(b.surface)
         })
     };
-    O.__name__ = !0;
-    O.set_selected = function(a) {
-        return O.selected = 0 > a ? 0 : a >= O.list.length ? O.list.length - 1 : a
+    EditorTileSelector.__name__ = !0;
+    EditorTileSelector.set_selected = function(a) {
+        return EditorTileSelector.selected = 0 > a ? 0 : a >= EditorTileSelector.list.length ? EditorTileSelector.list.length - 1 : a
     }
     ;
-    O.__super__ = GraphicsObject;
-    O.prototype = __INHERIT__(GraphicsObject.prototype, {
+    EditorTileSelector.__super__ = GraphicsObject;
+    EditorTileSelector.prototype = __INHERIT__(GraphicsObject.prototype, {
         get_selection: function() {
-            return O.list[O.selected]
+            return EditorTileSelector.list[EditorTileSelector.selected]
         },
         render: function(a) {
             a.beginFill(12525600, .75);
-            a.drawRect((G.keyDown(16) ? 0 : O.selected) * O.size4, 0, O.size4, O.size4);
+            a.drawRect((G.keyDown(16) ? 0 : EditorTileSelector.selected) * EditorTileSelector.size4, 0, EditorTileSelector.size4, EditorTileSelector.size4);
             a.translate(2, 2);
             a.beginFill(14671839);
-            for (var b = 0, c = O.list.length; b < c; ) {
+            for (var b = 0, c = EditorTileSelector.list.length; b < c; ) {
                 var d = b++
-                  , e = O.list[d];
-                0 < d && a.translate(O.size4, 0);
-                e.rotatePreview() && (a.translate(O.size2, O.size2),
+                  , e = EditorTileSelector.list[d];
+                0 < d && a.translate(EditorTileSelector.size4, 0);
+                e.rotatePreview() && (a.translate(EditorTileSelector.size2, EditorTileSelector.size2),
                 a.rotate(l.rotation * Math.PI / 2),
-                a.translate(-O.size2, -O.size2));
+                a.translate(-EditorTileSelector.size2, -EditorTileSelector.size2));
                 a.drawRect(0, 0, Constants.tileSize, Constants.tileSize);
                 e.render(a, new wb(0,0,e.id,e.getConfigMeta()), !1);
-                e.rotatePreview() && (a.translate(O.size2, O.size2),
+                e.rotatePreview() && (a.translate(EditorTileSelector.size2, EditorTileSelector.size2),
                 a.rotate(-l.rotation * Math.PI / 2),
-                a.translate(-O.size2, -O.size2))
+                a.translate(-EditorTileSelector.size2, -EditorTileSelector.size2))
             }
-            a.translate((O.list.length - 1) * -O.size4, 0);
+            a.translate((EditorTileSelector.list.length - 1) * -EditorTileSelector.size4, 0);
             a.translate(-2, -2)
         },
         getBoundsSelf: function() {
-            return new Rectangle(0,0,O.list.length * (Constants.tileSize + 4),Constants.tileSize + 4)
+            return new Rectangle(0,0,EditorTileSelector.list.length * (Constants.tileSize + 4),Constants.tileSize + 4)
         },
-        __class__: O
+        __class__: EditorTileSelector
     });
     var ac = function() {
         this.tip = new ImageSurface(Images.configTip);
@@ -6294,7 +6294,7 @@
         __class__: Zb
     });
     var EditorBarLower = function(a) {
-        this.selector = new O;
+        this.selector = new EditorTileSelector;
         var b = this;
         GraphicsObject.call(this);
         this.set_y(h.height - EditorBarLower.HEIGHT);
@@ -6960,10 +6960,10 @@
     GraphicsObjectText.Y_ALIGN_TOP = 0;
     GraphicsObjectText.Y_ALIGN_MIDDLE = 1;
     GraphicsObjectText.Y_ALIGN_BOTTOM = 2;
-    O.size2 = Constants.tileSize / 2;
-    O.size4 = Constants.tileSize + 4;
-    O.list = [F.air, F.solid, F.start, F.finish, F.stairs, F.ramp, F.platform, F.spikes, F.saw, F.lever, F.door, F.number, F.vent, F.fan];
-    O.selected = 1;
+    EditorTileSelector.size2 = Constants.tileSize / 2;
+    EditorTileSelector.size4 = Constants.tileSize + 4;
+    EditorTileSelector.list = [F.air, F.solid, F.start, F.finish, F.stairs, F.ramp, F.platform, F.spikes, F.saw, F.lever, F.door, F.number, F.vent, F.fan];
+    EditorTileSelector.selected = 1;
     EditorBarLower.HEIGHT = 48;
     EditorBarUpper.HEIGHT = 48;
     EditorBarUpper.EDGE_PAD = 14;
