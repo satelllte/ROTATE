@@ -302,7 +302,7 @@
     }
     ;
     var EventDispatcher = function() {
-        this.listeners = new Ra
+        this.listeners = new Listeners
     };
     EventDispatcher.__name__ = !0;
     EventDispatcher.prototype = {
@@ -594,7 +594,7 @@
         this.rotation = 0;
         this.scaleX = this.scaleY = 1;
         this.x = this.y = 0;
-        this.listeners = new Ra
+        this.listeners = new Listeners
     };
     GraphicsObject.__name__ = !0;
     GraphicsObject.__super__ = EventDispatcher;
@@ -966,7 +966,7 @@
         this.mouseX = this.mouseY = 0;
         this.isFocused = !1;
         var b = this;
-        this.listeners = new Ra;
+        this.listeners = new Listeners;
         this.c = a;
         window.addEventListener("focus", __BIND__(this, this.onFocus));
         window.addEventListener("blur", __BIND__(this, this.onBlur));
@@ -1541,12 +1541,12 @@
         },
         __class__: Iterable
     };
-    var Ra = function() {
+    var Listeners = function() {
         this.h = {}
     };
-    Ra.__name__ = !0;
-    Ra.__interfaces__ = [lc];
-    Ra.prototype = {
+    Listeners.__name__ = !0;
+    Listeners.__interfaces__ = [lc];
+    Listeners.prototype = {
         setReserved: function(a, b) {
             null == this.rh && (this.rh = {});
             this.rh["$" + a] = b
@@ -1579,7 +1579,7 @@
                     36 == b.charCodeAt(0) && a.push(b.substr(1));
             return a
         },
-        __class__: Ra
+        __class__: Listeners
     };
     var RotateErrors = {
         __ename__: !0,
@@ -2836,7 +2836,7 @@
                     PlayManager.tiles[d][m] = a.tiles[d][m].slice(0)
                 }
             }
-            PlayManager.updateQueue = new Ra;
+            PlayManager.updateQueue = new Listeners;
             b = 0;
             for (c = PlayManager.get_height(); b < c; )
                 for (d = b++,
