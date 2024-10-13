@@ -128,7 +128,7 @@
             window.focus()
         }, 0),
         h.setup(a),
-        f.triggerEvent(new Y("added")),
+        f.triggerEvent(new RotateEvent("added")),
         LoadingManager._init(),
         h.loop(),
         h.started = !0)
@@ -190,11 +190,11 @@
         a = null != h.mouseSprite && h.mouseSprite.buttonMode ? "pointer" : "default";
         a != h.lastCursor && (h.c.style.cursor = a,
         h.lastCursor = a);
-        var d = new Y("enterFrame");
+        var d = new RotateEvent("enterFrame");
         h.stage.cascadingCallback(function(e) {
             e.triggerEvent(d)
         });
-        d = new Y("exitFrame");
+        d = new RotateEvent("exitFrame");
         h.stage.cascadingCallback(function(e) {
             e.triggerEvent(d)
         });
@@ -649,20 +649,20 @@
             this._children.push(a),
             a.parent = this,
             a._updateTransform(),
-            a.triggerEvent(new Y("added")))
+            a.triggerEvent(new RotateEvent("added")))
         },
         addChildAt: function(a, b) {
             null != a && a != this.get_stage() && a != this && (null != a.parent && a.parent.removeChild(a),
             this._children.splice(b, 0, a),
             a.parent = this,
             a._updateTransform(),
-            a.triggerEvent(new Y("added")))
+            a.triggerEvent(new RotateEvent("added")))
         },
         removeChild: function(a) {
             null != a && a.parent == this && (a.parent = null,
             this._children.splice(this._children.indexOf(a), 1),
             a._updateTransform(),
-            a.triggerEvent(new Y("removed")))
+            a.triggerEvent(new RotateEvent("removed")))
         },
         removeChildAt: function(a) {
             if (0 <= a && a < this._children.length) {
@@ -670,7 +670,7 @@
                 b.parent = null;
                 b._updateTransform();
                 this._children.splice(a, 1);
-                b.triggerEvent(new Y("removed"))
+                b.triggerEvent(new RotateEvent("removed"))
             }
         },
         removeChildren: function() {
@@ -786,19 +786,19 @@
         },
         __class__: ImageSurface
     });
-    var Y = function(a) {
+    var RotateEvent = function(a) {
         this.type = a
     };
-    Y.__name__ = !0;
-    Y.prototype = {
-        __class__: Y
+    RotateEvent.__name__ = !0;
+    RotateEvent.prototype = {
+        __class__: RotateEvent
     };
     var Ta = function(a) {
         this.type = a
     };
     Ta.__name__ = !0;
-    Ta.__super__ = Y;
-    Ta.prototype = __INHERIT__(Y.prototype, {
+    Ta.__super__ = RotateEvent;
+    Ta.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: Ta
     });
     var Ua = function(a, b) {
@@ -806,8 +806,8 @@
         this.keyCode = b
     };
     Ua.__name__ = !0;
-    Ua.__super__ = Y;
-    Ua.prototype = __INHERIT__(Y.prototype, {
+    Ua.__super__ = RotateEvent;
+    Ua.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: Ua
     });
     var Fa = function(a, b) {
@@ -815,8 +815,8 @@
         this.progress = b
     };
     Fa.__name__ = !0;
-    Fa.__super__ = Y;
-    Fa.prototype = __INHERIT__(Y.prototype, {
+    Fa.__super__ = RotateEvent;
+    Fa.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: Fa
     });
     var Ha = function(a, b, c, d, e) {
@@ -828,8 +828,8 @@
         this.which = e
     };
     Ha.__name__ = !0;
-    Ha.__super__ = Y;
-    Ha.prototype = __INHERIT__(Y.prototype, {
+    Ha.__super__ = RotateEvent;
+    Ha.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: Ha
     });
     var fb = function(a, b) {
@@ -837,8 +837,8 @@
         this.surface = b
     };
     fb.__name__ = !0;
-    fb.__super__ = Y;
-    fb.prototype = __INHERIT__(Y.prototype, {
+    fb.__super__ = RotateEvent;
+    fb.prototype = __INHERIT__(RotateEvent.prototype, {
         __class__: fb
     });
     var Vector2 = function(a, b) {
@@ -6727,10 +6727,10 @@
     N.lastTime = 0;
     N.elapsedTime = 0;
     Graphics.PI2 = 2 * Math.PI;
-    Y.ADDED = "added";
-    Y.REMOVED = "removed";
-    Y.ENTER_FRAME = "enterFrame";
-    Y.EXIT_FRAME = "exitFrame";
+    RotateEvent.ADDED = "added";
+    RotateEvent.REMOVED = "removed";
+    RotateEvent.ENTER_FRAME = "enterFrame";
+    RotateEvent.EXIT_FRAME = "exitFrame";
     Ta.FOCUS = "focus";
     Ta.BLUR = "blur";
     Ua.KEY_DOWN = "keyDown";
