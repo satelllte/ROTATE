@@ -154,7 +154,7 @@
         GameController.set_imageSmoothingEnabled(GameController.imageSmoothingEnabled);
         GameController.surface = new Surface(GameController.ctx);
         Timer._reset();
-        GameController.input = new qb(GameController.c);
+        GameController.input = new GameControllerInput(GameController.c);
         GameInput._init();
         GameController.input.addEventListener("click", GameController.onClick);
         GameController.input.addEventListener("mouseDown", GameController.onMouseDown);
@@ -962,7 +962,7 @@
         },
         __class__: Rectangle
     };
-    var qb = function(a) {
+    var GameControllerInput = function(a) {
         this.mouseX = this.mouseY = 0;
         this.isFocused = !1;
         var b = this;
@@ -987,9 +987,9 @@
         window.addEventListener("keydown", __BIND__(this, this.onKeyDown));
         window.addEventListener("keyup", __BIND__(this, this.onKeyUp))
     };
-    qb.__name__ = !0;
-    qb.__super__ = EventDispatcher;
-    qb.prototype = __INHERIT__(EventDispatcher.prototype, {
+    GameControllerInput.__name__ = !0;
+    GameControllerInput.__super__ = EventDispatcher;
+    GameControllerInput.prototype = __INHERIT__(EventDispatcher.prototype, {
         set_mouseX: function(a) {
             return this.mouseX = Math.floor(a)
         },
@@ -1058,7 +1058,7 @@
         captureKey: function(a, b) {
             return !(112 <= a && 123 >= a || b && (48 == a || 96 == a || 187 == a || 107 == a || 189 == a || 109 == a || 84 == a))
         },
-        __class__: qb
+        __class__: GameControllerInput
     });
     var GameInput = function() {};
     GameInput.__name__ = !0;
