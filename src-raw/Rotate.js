@@ -793,13 +793,13 @@
     RotateEvent.prototype = {
         __class__: RotateEvent
     };
-    var Ta = function(a) {
+    var RotateFocusEvent = function(a) {
         this.type = a
     };
-    Ta.__name__ = !0;
-    Ta.__super__ = RotateEvent;
-    Ta.prototype = __INHERIT__(RotateEvent.prototype, {
-        __class__: Ta
+    RotateFocusEvent.__name__ = !0;
+    RotateFocusEvent.__super__ = RotateEvent;
+    RotateFocusEvent.prototype = __INHERIT__(RotateEvent.prototype, {
+        __class__: RotateFocusEvent
     });
     var Ua = function(a, b) {
         this.type = a;
@@ -1003,11 +1003,11 @@
         },
         onFocus: function() {
             this.isFocused = !0;
-            this.triggerEvent(new Ta("focus"))
+            this.triggerEvent(new RotateFocusEvent("focus"))
         },
         onBlur: function() {
             this.isFocused = !1;
-            this.triggerEvent(new Ta("blur"))
+            this.triggerEvent(new RotateFocusEvent("blur"))
         },
         onClick: function(a) {
             if (!this.isFocused)
@@ -6731,8 +6731,8 @@
     RotateEvent.REMOVED = "removed";
     RotateEvent.ENTER_FRAME = "enterFrame";
     RotateEvent.EXIT_FRAME = "exitFrame";
-    Ta.FOCUS = "focus";
-    Ta.BLUR = "blur";
+    RotateFocusEvent.FOCUS = "focus";
+    RotateFocusEvent.BLUR = "blur";
     Ua.KEY_DOWN = "keyDown";
     Ua.KEY_UP = "keyUp";
     Fa.FINISHED = "finished";
