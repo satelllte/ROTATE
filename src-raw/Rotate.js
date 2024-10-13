@@ -1776,9 +1776,9 @@
         },
         __class__: wa
     };
-    var Ia = function() {};
-    Ia.__name__ = !0;
-    Ia._new = function(a, b, c) {
+    var FallbackUint8Array = function() {};
+    FallbackUint8Array.__name__ = !0;
+    FallbackUint8Array._new = function(a, b, c) {
         if ("number" == typeof a) {
             c = [];
             for (b = 0; b < a; ) {
@@ -1802,12 +1802,12 @@
             c.buffer = new wa(c);
         else
             throw new Z("TODO " + la.string(a));
-        c.subarray = Ia._subarray;
-        c.set = Ia._set;
+        c.subarray = FallbackUint8Array._subarray;
+        c.set = FallbackUint8Array._set;
         return c
     }
     ;
-    Ia._set = function(a, b) {
+    FallbackUint8Array._set = function(a, b) {
         if (ES3ClassUtils.__instanceof(a.buffer, wa)) {
             if (a.byteLength + b > this.byteLength)
                 throw new Z("set() outside of range");
@@ -1826,8 +1826,8 @@
             throw new Z("TODO");
     }
     ;
-    Ia._subarray = function(a, b) {
-        var c = Ia._new(this.slice(a, b));
+    FallbackUint8Array._subarray = function(a, b) {
+        var c = FallbackUint8Array._new(this.slice(a, b));
         c.byteOffset = a;
         return c
     }
@@ -6710,7 +6710,7 @@
       , na = {}
       , tb = window.ArrayBuffer || wa;
     null == tb.prototype.slice && (tb.prototype.slice = wa.sliceImpl);
-    var ec = window.Uint8Array || Ia._new;
+    var ec = window.Uint8Array || FallbackUint8Array._new;
     h.started = !1;
     h.imageSmoothingEnabled = !0;
     h.lastCursor = "default";
@@ -6750,7 +6750,7 @@
     za.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     za.BYTES = ya.ofString(za.CHARS);
     ES3ClassUtils.__toStr = {}.toString;
-    Ia.BYTES_PER_ELEMENT = 1;
+    FallbackUint8Array.BYTES_PER_ELEMENT = 1;
     Constants.EPSILON = 1E-8;
     Constants.screenFadeTime = 700;
     Constants.screenFadeTimeSlow = 1600;
