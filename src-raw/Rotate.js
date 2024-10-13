@@ -583,7 +583,7 @@
         },
         __class__: Graphics
     };
-    var x = function() {
+    var GraphicsObject = function() {
         this.graphics = new Graphics;
         this._children = [];
         this._transformReverse = new gb;
@@ -596,9 +596,9 @@
         this.x = this.y = 0;
         this.listeners = new Ra
     };
-    x.__name__ = !0;
-    x.__super__ = Sa;
-    x.prototype = __INHERIT__(Sa.prototype, {
+    GraphicsObject.__name__ = !0;
+    GraphicsObject.__super__ = Sa;
+    GraphicsObject.prototype = __INHERIT__(Sa.prototype, {
         set_x: function(a) {
             this.x != a && (this.x = a,
             this._updateTransform());
@@ -735,12 +735,12 @@
                 }
             }
         },
-        __class__: x
+        __class__: GraphicsObject
     });
     var ImageSurface = function(a) {
         this.imageWidth = this.imageHeight = 0;
         var b = this;
-        x.call(this);
+        GraphicsObject.call(this);
         null != a && this.create(a);
         this.addEventListener("render", function(c) {
             b.render(c.surface)
@@ -756,8 +756,8 @@
         return c
     }
     ;
-    ImageSurface.__super__ = x;
-    ImageSurface.prototype = __INHERIT__(x.prototype, {
+    ImageSurface.__super__ = GraphicsObject;
+    ImageSurface.prototype = __INHERIT__(GraphicsObject.prototype, {
         get_rect: function() {
             return new Rectangle(0,0,null != this.clipRect ? this.clipRect.width : 0,null != this.clipRect ? this.clipRect.height : 0)
         },
@@ -1867,13 +1867,13 @@
     };
     var g = function() {
         this.muteMusic = this.muteSFX = this.ieMenu = this.ieGame1 = this.ieGame2 = this.ieSurface = this.ieUnmuted = this.invert = !1;
-        this.fader = new x;
+        this.fader = new GraphicsObject;
         this.fading = this.fadingSlow = !1;
-        this.timerHolder = new x;
+        this.timerHolder = new GraphicsObject;
         this.pauseOnInit = !1;
         this.pausedTime = 0;
         this.hasPaused = this.paused = !1;
-        x.call(this)
+        GraphicsObject.call(this)
     };
     g.__name__ = !0;
     g.main = function() {
@@ -1918,8 +1918,8 @@
         return b += a
     }
     ;
-    g.__super__ = x;
-    g.prototype = __INHERIT__(x.prototype, {
+    g.__super__ = GraphicsObject;
+    g.prototype = __INHERIT__(GraphicsObject.prototype, {
         get_gameTimeMS: function() {
             return this.paused ? this.pauseStart - this.pausedTime : N.get_currentMS() - this.pausedTime
         },
@@ -2242,7 +2242,7 @@
     var AwardsManager = function() {};
     AwardsManager.__name__ = !0;
     AwardsManager.setup = function(a) {
-        null == AwardsManager.bubble && (AwardsManager.bubble = new x,
+        null == AwardsManager.bubble && (AwardsManager.bubble = new GraphicsObject,
         AwardsManager.bubble.mouseEnabled = !0,
         a.addChild(AwardsManager.bubble),
         AwardsManager.bubbleTitle = new r(g.fontMain,"NEW AWARD"),
@@ -2330,7 +2330,7 @@
         this.frame = this.animTimer = this.lastF = 0;
         this.origin = new Q(0,0);
         var d = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.image = a;
         this.frameW = b;
         this.frameH = c;
@@ -2342,8 +2342,8 @@
         })
     };
     ua.__name__ = !0;
-    ua.__super__ = x;
-    ua.prototype = __INHERIT__(x.prototype, {
+    ua.__super__ = GraphicsObject;
+    ua.prototype = __INHERIT__(GraphicsObject.prototype, {
         set_frame: function(a) {
             return this.frame = 0 > a || a >= this.frames ? 0 : a
         },
@@ -2941,7 +2941,7 @@
     var L = function(a) {
         this.showGrid = !1;
         var b = this;
-        x.call(this);
+        GraphicsObject.call(this);
         if (null == L.bakeCanvas) {
             L.bakeCanvas = window.document.createElement("canvas");
             L.bakeCtx = L.bakeCanvas.getContext("2d", null);
@@ -2976,8 +2976,8 @@
         })
     };
     L.__name__ = !0;
-    L.__super__ = x;
-    L.prototype = __INHERIT__(x.prototype, {
+    L.__super__ = GraphicsObject;
+    L.prototype = __INHERIT__(GraphicsObject.prototype, {
         render: function(a, b) {
             if (null != l.level) {
                 a.drawImage(L.bakeCanvas, null, -Constants.tileSize, -Constants.tileSize);
@@ -3810,7 +3810,7 @@
         null == k && (k = !1);
         this.particles = [];
         var y = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.color = c;
         for (c = 0; 75 > c; ) {
             c++;
@@ -3826,8 +3826,8 @@
         })
     };
     Ib.__name__ = !0;
-    Ib.__super__ = x;
-    Ib.prototype = __INHERIT__(x.prototype, {
+    Ib.__super__ = GraphicsObject;
+    Ib.prototype = __INHERIT__(GraphicsObject.prototype, {
         update: function(a) {
             if (!g.i.paused)
                 for (a = this.particles.length; 0 <= --a; ) {
@@ -4690,11 +4690,11 @@
     };
     var Screen = function() {
         this.pausable = !1;
-        x.call(this)
+        GraphicsObject.call(this)
     };
     Screen.__name__ = !0;
-    Screen.__super__ = x;
-    Screen.prototype = __INHERIT__(x.prototype, {
+    Screen.__super__ = GraphicsObject;
+    Screen.prototype = __INHERIT__(GraphicsObject.prototype, {
         init: function() {},
         ready: function() {},
         update: function() {},
@@ -4713,8 +4713,8 @@
         this.btnBack = new Button("BACK");
         this.title = new r(g.fontMain,"AWARDS",1);
         this.bg = new Na;
-        this.content = new x;
-        this.pivot = new x;
+        this.content = new GraphicsObject;
+        this.pivot = new GraphicsObject;
         Screen.call(this)
     };
     ScreenAwards.__name__ = !0;
@@ -4814,7 +4814,7 @@
         init: function() {
             var a = this;
             if (this.fromEnd) {
-                this.bg = new x;
+                this.bg = new GraphicsObject;
                 this.bg.graphics.beginFill(16777215);
                 this.bg.graphics.drawRect(0, 0, h.width, h.height);
                 var b = new ImageSurface(Images.vignette);
@@ -4886,10 +4886,10 @@
     });
     var BaseLevel = function() {
         this.cameraX = this.cameraY = 0;
-        this.level = new x;
-        this.camera = new x;
-        this.pivot = new x;
-        this.bg = new x;
+        this.level = new GraphicsObject;
+        this.camera = new GraphicsObject;
+        this.pivot = new GraphicsObject;
+        this.bg = new GraphicsObject;
         Screen.call(this)
     };
     BaseLevel.__name__ = !0;
@@ -5362,10 +5362,10 @@
         this.artPlants = new ua(Images.endingPlants,504,24);
         this.artMain = new ImageSurface(Images.endingMain);
         this.vignette = new ImageSurface(Images.vignette);
-        this.bg = new x;
+        this.bg = new GraphicsObject;
         this.cameraX = this.cameraY = 0;
-        this.camera = new x;
-        this.pivot = new x;
+        this.camera = new GraphicsObject;
+        this.pivot = new GraphicsObject;
         this.done = !1;
         this.delay = 9.5;
         Screen.call(this);
@@ -5524,7 +5524,7 @@
         this.erase = new ButtonErase;
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
-        this.tiles = new x;
+        this.tiles = new GraphicsObject;
         this.btnBack = new Button("BACK");
         this.title = new r(g.fontMain,"LEVEL SELECT",1);
         this.bg = new Na;
@@ -5650,10 +5650,10 @@
         this.doors = [];
         this.cat = null;
         this.vignette = new ImageSurface(Images.vignette);
-        this.red = new x;
-        this.overlay = new x;
-        this.textHolder = new x;
-        this.blood = new x;
+        this.red = new GraphicsObject;
+        this.overlay = new GraphicsObject;
+        this.textHolder = new GraphicsObject;
+        this.blood = new GraphicsObject;
         this.shakeX = this.shakeY = 0;
         this.deathTime = -1;
         BaseLevel.call(this);
@@ -5927,7 +5927,7 @@
     });
     var vb = function() {
         this.start = new ImageSurface(Images.start);
-        this.pivot = new x;
+        this.pivot = new GraphicsObject;
         Screen.call(this)
     };
     vb.__name__ = !0;
@@ -6002,7 +6002,7 @@
         this.align = this.xAlign = this.yAlign = this.lineHeight = this.hitPadding = 0;
         this.text = "";
         var d = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.set_font(a);
         this.set_text(b);
         this.color = c;
@@ -6025,8 +6025,8 @@
         }
     }
     ;
-    r.__super__ = x;
-    r.prototype = __INHERIT__(x.prototype, {
+    r.__super__ = GraphicsObject;
+    r.prototype = __INHERIT__(GraphicsObject.prototype, {
         set_font: function(a) {
             this.font = a;
             this.set_lineHeight(a.lineHeight);
@@ -6098,7 +6098,7 @@
         __class__: r
     });
     var Xb = function(a) {
-        x.call(this);
+        GraphicsObject.call(this);
         var b = new ImageSurface(Images.awardFrame);
         b.set_x(-b.get_width() / 2);
         this.addChild(b);
@@ -6115,14 +6115,14 @@
         a.unlocked || this.set_alpha(.5)
     };
     Xb.__name__ = !0;
-    Xb.__super__ = x;
-    Xb.prototype = __INHERIT__(x.prototype, {
+    Xb.__super__ = GraphicsObject;
+    Xb.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: Xb
     });
     var O = function() {
         this.bubble = new ac;
         var a = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.mouseEnabled = this.buttonMode = !0;
         this.bubble.visible = !1;
         this.bubble.mouseEnabled = !0;
@@ -6146,8 +6146,8 @@
         return O.selected = 0 > a ? 0 : a >= O.list.length ? O.list.length - 1 : a
     }
     ;
-    O.__super__ = x;
-    O.prototype = __INHERIT__(x.prototype, {
+    O.__super__ = GraphicsObject;
+    O.prototype = __INHERIT__(GraphicsObject.prototype, {
         get_selection: function() {
             return O.list[O.selected]
         },
@@ -6179,14 +6179,14 @@
     });
     var ac = function() {
         this.tip = new ImageSurface(Images.configTip);
-        x.call(this);
+        GraphicsObject.call(this);
         this.tip.set_x(-this.tip.get_width() / 2);
         this.tip.set_y(-this.tip.get_height());
         this.addChild(this.tip)
     };
     ac.__name__ = !0;
-    ac.__super__ = x;
-    ac.prototype = __INHERIT__(x.prototype, {
+    ac.__super__ = GraphicsObject;
+    ac.prototype = __INHERIT__(GraphicsObject.prototype, {
         setup: function(a) {
             var b = Math.round(a.bubbleWidth / 2);
             this.graphics.clear();
@@ -6195,7 +6195,7 @@
             this.graphics.beginFill(2105376);
             this.graphics.drawRect(-b, -a.bubbleHeight - this.tip.get_height(), a.bubbleWidth, a.bubbleHeight);
             null != this.content && this.removeChild(this.content);
-            this.content = new x;
+            this.content = new GraphicsObject;
             this.content.set_x(-b);
             this.content.set_y(-a.bubbleHeight - this.tip.get_height());
             this.addChild(this.content);
@@ -6205,7 +6205,7 @@
     });
     var Da = function(a, b) {
         null == b && (b = "");
-        x.call(this);
+        GraphicsObject.call(this);
         this.graphics.beginFill(1052688, .95);
         this.graphics.drawRect(0, 0, h.width, h.height);
         this.mouseEnabled = !0;
@@ -6234,8 +6234,8 @@
         this.area.select()
     };
     Da.__name__ = !0;
-    Da.__super__ = x;
-    Da.prototype = __INHERIT__(x.prototype, {
+    Da.__super__ = GraphicsObject;
+    Da.prototype = __INHERIT__(GraphicsObject.prototype, {
         kill: function() {
             null != this.area.parentElement && window.document.body.removeChild(this.area)
         },
@@ -6296,7 +6296,7 @@
     var Pa = function(a) {
         this.selector = new O;
         var b = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.set_y(h.height - Pa.HEIGHT);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
@@ -6311,8 +6311,8 @@
         })
     };
     Pa.__name__ = !0;
-    Pa.__super__ = x;
-    Pa.prototype = __INHERIT__(x.prototype, {
+    Pa.__super__ = GraphicsObject;
+    Pa.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: Pa
     });
     var R = function(a, b) {
@@ -6321,7 +6321,7 @@
         this.btnPlay = new r(g.fontMain,"Play");
         this.btnClear = new r(g.fontMain,"Clear");
         this.btnExit = new r(g.fontMain,"Exit");
-        x.call(this);
+        GraphicsObject.call(this);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
         this.graphics.drawRect(0, 0, h.width, R.HEIGHT);
@@ -6386,8 +6386,8 @@
         this.addChild(this.btnLoad)
     };
     R.__name__ = !0;
-    R.__super__ = x;
-    R.prototype = __INHERIT__(x.prototype, {
+    R.__super__ = GraphicsObject;
+    R.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: R
     });
     var ButtonErase = function() {
@@ -6428,7 +6428,7 @@
         this.label = new r(g.fontMain,"Grid");
         this.toggle = new ImageSurface(Images.configToggle);
         var b = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.set_x(h.width - this.get_width() - 12);
         this.set_y(8);
         this.mouseEnabled = this.buttonMode = !0;
@@ -6448,8 +6448,8 @@
         this.addChild(this.label)
     };
     bc.__name__ = !0;
-    bc.__super__ = x;
-    bc.prototype = __INHERIT__(x.prototype, {
+    bc.__super__ = GraphicsObject;
+    bc.prototype = __INHERIT__(GraphicsObject.prototype, {
         getBoundsSelf: function() {
             return new Rectangle(0,0,76,30)
         },
@@ -6457,14 +6457,14 @@
     });
     var Na = function() {
         var a = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.addEventListener("render", function(b) {
             a.render(b.surface)
         })
     };
     Na.__name__ = !0;
-    Na.__super__ = x;
-    Na.prototype = __INHERIT__(x.prototype, {
+    Na.__super__ = GraphicsObject;
+    Na.prototype = __INHERIT__(GraphicsObject.prototype, {
         render: function(a) {
             for (var b = -Math.round(30 * N.get_current() % Images.bgCells.width), c = -Math.round(15 * N.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(h.height / Images.bgCells.height) + 1; d < e; )
                 for (var f = d++, m = 0, k = Math.ceil(h.width / Images.bgCells.width) + 1; m < k; ) {
@@ -6477,7 +6477,7 @@
     });
     var Button = function(a, b) {
         null == b && (b = 0);
-        x.call(this);
+        GraphicsObject.call(this);
         this.main = new ImageSurface(Images.menuBtn);
         this.main.set_x(-this.main.get_width() / 2);
         this.main.set_y(-this.main.get_height() / 2);
@@ -6491,14 +6491,14 @@
         this.addChild(this.text)
     };
     Button.__name__ = !0;
-    Button.__super__ = x;
-    Button.prototype = __INHERIT__(x.prototype, {
+    Button.__super__ = GraphicsObject;
+    Button.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: Button
     });
     var ButtonMute = function(a) {
         null == a && (a = 0);
         var b = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.sfx = new ImageSurface(Images.mute);
         this.sfx.set_clipRect(new Rectangle(g.i.muteSFX ? 28 : 0,30 * a,28,30));
         this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
@@ -6519,8 +6519,8 @@
         this.addChild(this.music)
     };
     ButtonMute.__name__ = !0;
-    ButtonMute.__super__ = x;
-    ButtonMute.prototype = __INHERIT__(x.prototype, {
+    ButtonMute.__super__ = GraphicsObject;
+    ButtonMute.prototype = __INHERIT__(GraphicsObject.prototype, {
         showWarn: function(a) {
             var b = new ModalYesNo("Audio may slow down the game\nin Internet Explorer. Continue?");
             b.onNo = function() {
@@ -6546,7 +6546,7 @@
         __class__: ButtonMute
     });
     var ButtonInvertControls = function() {
-        x.call(this);
+        GraphicsObject.call(this);
         this.set_x(12);
         this.set_y(12);
         this.mouseEnabled = this.buttonMode = !0;
@@ -6567,8 +6567,8 @@
         })
     };
     ButtonInvertControls.__name__ = !0;
-    ButtonInvertControls.__super__ = x;
-    ButtonInvertControls.prototype = __INHERIT__(x.prototype, {
+    ButtonInvertControls.__super__ = GraphicsObject;
+    ButtonInvertControls.prototype = __INHERIT__(GraphicsObject.prototype, {
         getBoundsSelf: function() {
             return new Rectangle(0,0,198,22)
         },
@@ -6582,7 +6582,7 @@
         this.btnRedo = new Button("RESTART",0);
         this.btnPlay = new Button("CONTINUE",0);
         this.text = new r(g.fontMain,"GAME PAUSED");
-        x.call(this);
+        GraphicsObject.call(this);
         this.graphics.beginFill(1052688, .85);
         this.graphics.drawRect(0, 0, h.width, h.height);
         this.visible = !1;
@@ -6620,8 +6620,8 @@
         g.i.warnNoSave(this)
     };
     MenuPause.__name__ = !0;
-    MenuPause.__super__ = x;
-    MenuPause.prototype = __INHERIT__(x.prototype, {
+    MenuPause.__super__ = GraphicsObject;
+    MenuPause.prototype = __INHERIT__(GraphicsObject.prototype, {
         onPause: function() {
             this.mute.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
             this.mute.music.clipRect.x = g.i.muteMusic ? 84 : 56;
@@ -6656,7 +6656,7 @@
         this.btnYes = new Button("YES");
         this.main = new r(g.fontMain,"",2);
         var b = this;
-        x.call(this);
+        GraphicsObject.call(this);
         this.main.set_text(a);
         this.graphics.beginFill(1052688, .95);
         this.graphics.drawRect(0, 0, h.width, h.height);
@@ -6683,8 +6683,8 @@
         this.addChild(this.btnNo)
     };
     ModalYesNo.__name__ = !0;
-    ModalYesNo.__super__ = x;
-    ModalYesNo.prototype = __INHERIT__(x.prototype, {
+    ModalYesNo.__super__ = GraphicsObject;
+    ModalYesNo.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: ModalYesNo
     });
     var Ja, pc = 0;
