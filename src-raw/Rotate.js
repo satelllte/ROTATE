@@ -254,7 +254,7 @@
                 var c = a.getBounds();
                 c.width -= 1E-4;
                 c.height -= 1E-4;
-                xa.pointInTransformedBounds(new Q(h.input.mouseX,h.input.mouseY), a._transform, c) && (b = a)
+                xa.pointInTransformedBounds(new Vector2(h.input.mouseX,h.input.mouseY), a._transform, c) && (b = a)
             }
             c = 0;
             for (var d = a._children; c < d.length; ) {
@@ -267,7 +267,7 @@
     }
     ;
     h.pageToGame = function(a, b) {
-        return new Q((a - h.offsetX) / h.scale,(b - h.offsetY) / h.scale)
+        return new Vector2((a - h.offsetX) / h.scale,(b - h.offsetY) / h.scale)
     }
     ;
     h.onClick = function(a) {
@@ -481,10 +481,10 @@
         b = a.subtract(b);
         d = d.subtract(c);
         c = a.subtract(c);
-        a = Q.dot(e, b);
-        e = Q.dot(e, e);
-        c = Q.dot(d, c);
-        d = Q.dot(d, d);
+        a = Vector2.dot(e, b);
+        e = Vector2.dot(e, e);
+        c = Vector2.dot(d, c);
+        d = Vector2.dot(d, d);
         return 0 <= a && a <= e && 0 <= c ? c <= d : !1
     }
     ;
@@ -841,39 +841,39 @@
     fb.prototype = __INHERIT__(Y.prototype, {
         __class__: fb
     });
-    var Q = function(a, b) {
+    var Vector2 = function(a, b) {
         this.x = a;
         this.y = b
     };
-    Q.__name__ = !0;
-    Q.dot = function(a, b) {
+    Vector2.__name__ = !0;
+    Vector2.dot = function(a, b) {
         return a.x * b.x + a.y * b.y
     }
     ;
-    Q.distance = function(a, b) {
+    Vector2.distance = function(a, b) {
         return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y))
     }
     ;
-    Q.prototype = {
+    Vector2.prototype = {
         copy: function() {
-            return new Q(this.x,this.y)
+            return new Vector2(this.x,this.y)
         },
         equals: function(a) {
             return null != a && a.x == this.x ? a.y == this.y : !1
         },
         add: function(a) {
-            return new Q(this.x + a.x,this.y + a.y)
+            return new Vector2(this.x + a.x,this.y + a.y)
         },
         subtract: function(a) {
-            return new Q(this.x - a.x,this.y - a.y)
+            return new Vector2(this.x - a.x,this.y - a.y)
         },
         multiply: function(a) {
-            return new Q(this.x * a.x,this.y * a.y)
+            return new Vector2(this.x * a.x,this.y * a.y)
         },
         divide: function(a) {
-            return new Q(this.x / a.x,this.y / a.y)
+            return new Vector2(this.x / a.x,this.y / a.y)
         },
-        __class__: Q
+        __class__: Vector2
     };
     var Rectangle = function(a, b, c, d) {
         this.x = a;
@@ -936,7 +936,7 @@
             return a
         },
         get_center: function() {
-            return new Q((this.get_left() + this.get_right()) / 2,(this.get_top() + this.get_bottom()) / 2)
+            return new Vector2((this.get_left() + this.get_right()) / 2,(this.get_top() + this.get_bottom()) / 2)
         },
         intersects: function(a) {
             return a.get_left() < this.get_right() && a.get_right() > this.get_left() && a.get_top() < this.get_bottom() ? a.get_bottom() > this.get_top() : !1
@@ -1363,7 +1363,7 @@
             this.matrix[5] = a.get(5)
         },
         apply: function(a, b) {
-            return new Q(this.matrix[0] * a + this.matrix[2] * b + this.matrix[4],this.matrix[1] * a + this.matrix[3] * b + this.matrix[5])
+            return new Vector2(this.matrix[0] * a + this.matrix[2] * b + this.matrix[4],this.matrix[1] * a + this.matrix[3] * b + this.matrix[5])
         },
         __class__: Transform
     };
@@ -2328,7 +2328,7 @@
     var ua = function(a, b, c) {
         this.animChanged = !1;
         this.frame = this.animTimer = this.lastF = 0;
-        this.origin = new Q(0,0);
+        this.origin = new Vector2(0,0);
         var d = this;
         GraphicsObject.call(this);
         this.image = a;
@@ -2732,10 +2732,10 @@
                         a.intersects(k))
                             return !0
                     } else if (ES3ClassUtils.__instanceof(k, Wa)) {
-                        var p = new Q(a.get_right(),a.get_bottom());
-                        1 == k.dir && (p = new Q(a.get_left(),a.get_bottom()));
-                        2 == k.dir && (p = new Q(a.get_left(),a.get_top()));
-                        3 == k.dir && (p = new Q(a.get_right(),a.get_top()));
+                        var p = new Vector2(a.get_right(),a.get_bottom());
+                        1 == k.dir && (p = new Vector2(a.get_left(),a.get_bottom()));
+                        2 == k.dir && (p = new Vector2(a.get_left(),a.get_top()));
+                        3 == k.dir && (p = new Vector2(a.get_right(),a.get_top()));
                         p.x -= b * Constants.tileSize;
                         p.y -= c * Constants.tileSize;
                         if (k.testPoint(p))
@@ -2761,14 +2761,14 @@
                     y = a.copy(),
                     y.x -= b * k,
                     y.y -= c * k,
-                    p = new Q(0 == p.dir || 3 == p.dir ? k : 0,0 == p.dir || 1 == p.dir ? k : 0),
+                    p = new Vector2(0 == p.dir || 3 == p.dir ? k : 0,0 == p.dir || 1 == p.dir ? k : 0),
                     this.testAABBCircle(new Rectangle(a.x - b * k,a.y - c * k,a.width,a.height), p, k)))
                         return !0
             }
             return !1
         },
         testAABBCircle: function(a, b, c) {
-            return (new Rectangle(a.x,a.y - c,a.width,a.height + 2 * c)).contains(b) || (new Rectangle(a.x - c,a.y,a.width + 2 * c,a.height)).contains(b) || Q.distance(b, new Q(a.get_left(),a.get_top())) < c || Q.distance(b, new Q(a.get_right(),a.get_top())) < c || Q.distance(b, new Q(a.get_right(),a.get_bottom())) < c ? !0 : Q.distance(b, new Q(a.get_left(),a.get_bottom())) < c
+            return (new Rectangle(a.x,a.y - c,a.width,a.height + 2 * c)).contains(b) || (new Rectangle(a.x - c,a.y,a.width + 2 * c,a.height)).contains(b) || Vector2.distance(b, new Vector2(a.get_left(),a.get_top())) < c || Vector2.distance(b, new Vector2(a.get_right(),a.get_top())) < c || Vector2.distance(b, new Vector2(a.get_right(),a.get_bottom())) < c ? !0 : Vector2.distance(b, new Vector2(a.get_left(),a.get_bottom())) < c
         },
         jumpKeyDown: function() {
             return G.keyDown(38) || G.keyDown(87) ? !0 : G.keyDown(32)
@@ -3842,12 +3842,12 @@
                 var d = l.getBlockData(b, c)
                   , e = d.get_block();
                 if (e.collides(d) && !e.isTrigger(d)) {
-                    var f = new Q(a.x - b * Constants.tileSize,a.y - c * Constants.tileSize);
+                    var f = new Vector2(a.x - b * Constants.tileSize,a.y - c * Constants.tileSize);
                     d = e.getColliders(d);
                     for (e = 0; e < d.length; ) {
                         var m = d[e];
                         ++e;
-                        if (m.testPoint(f, new Q(a.lastX - b * Constants.tileSize,a.lastY - c * Constants.tileSize))) {
+                        if (m.testPoint(f, new Vector2(a.lastX - b * Constants.tileSize,a.lastY - c * Constants.tileSize))) {
                             a.freeze = !0;
                             break
                         }
@@ -6085,7 +6085,7 @@
             return new Rectangle(a.x - this.hitPadding,a.y - this.hitPadding,this.textWidth + 2 * this.hitPadding,this.textHeight + 2 * this.hitPadding)
         },
         getTextOffset: function() {
-            var a = new Q(0,0);
+            var a = new Vector2(0,0);
             this.xAlign == r.X_ALIGN_CENTER && (a.x = Math.round(-this.textWidth / 2));
             this.xAlign == r.X_ALIGN_RIGHT && (a.x = -this.textWidth);
             this.yAlign == r.Y_ALIGN_MIDDLE && (a.y = Math.round(-this.textHeight / 2));
