@@ -155,7 +155,7 @@
         h.surface = new Surface(h.ctx);
         N._reset();
         h.input = new qb(h.c);
-        G._init();
+        GameInput._init();
         h.input.addEventListener("click", h.onClick);
         h.input.addEventListener("mouseDown", h.onMouseDown);
         h.input.addEventListener("mouseUp", h.onMouseUp);
@@ -1060,51 +1060,51 @@
         },
         __class__: qb
     });
-    var G = function() {};
-    G.__name__ = !0;
-    G._init = function() {
-        G.inited || (h.input.addEventListener("keyDown", G.onKeyDown),
-        h.input.addEventListener("keyUp", G.onKeyUp),
-        h.input.addEventListener("blur", G.reset),
-        h.stage.addEventListener("exitFrame", G.update),
-        G.inited = !0)
+    var GameInput = function() {};
+    GameInput.__name__ = !0;
+    GameInput._init = function() {
+        GameInput.inited || (h.input.addEventListener("keyDown", GameInput.onKeyDown),
+        h.input.addEventListener("keyUp", GameInput.onKeyUp),
+        h.input.addEventListener("blur", GameInput.reset),
+        h.stage.addEventListener("exitFrame", GameInput.update),
+        GameInput.inited = !0)
     }
     ;
-    G.onKeyDown = function(a) {
-        G.keyDown(a.keyCode) || G.keys.push(a.keyCode)
+    GameInput.onKeyDown = function(a) {
+        GameInput.keyDown(a.keyCode) || GameInput.keys.push(a.keyCode)
     }
     ;
-    G.onKeyUp = function(a) {
-        a = G.keys.indexOf(a.keyCode);
-        -1 < a && G.keys.splice(a, 1)
+    GameInput.onKeyUp = function(a) {
+        a = GameInput.keys.indexOf(a.keyCode);
+        -1 < a && GameInput.keys.splice(a, 1)
     }
     ;
-    G.reset = function(a) {
-        G.keys = []
+    GameInput.reset = function(a) {
+        GameInput.keys = []
     }
     ;
-    G.update = function() {
-        G.keysOld = G.keys.slice(0);
+    GameInput.update = function() {
+        GameInput.keysOld = GameInput.keys.slice(0);
         if (null != window.document.activeElement && null != window.document.activeElement.tagName) {
             var a = window.document.activeElement.tagName.toLowerCase();
-            "input" != a && "textarea" != a || G.reset(null)
+            "input" != a && "textarea" != a || GameInput.reset(null)
         }
     }
     ;
-    G.keyDown = function(a) {
-        return -1 < G.keys.indexOf(a)
+    GameInput.keyDown = function(a) {
+        return -1 < GameInput.keys.indexOf(a)
     }
     ;
-    G.keyDownOld = function(a) {
-        return -1 < G.keysOld.indexOf(a)
+    GameInput.keyDownOld = function(a) {
+        return -1 < GameInput.keysOld.indexOf(a)
     }
     ;
-    G.keyPressed = function(a) {
-        return G.keyDown(a) ? !G.keyDownOld(a) : !1
+    GameInput.keyPressed = function(a) {
+        return GameInput.keyDown(a) ? !GameInput.keyDownOld(a) : !1
     }
     ;
-    G.keyReleased = function(a) {
-        return G.keyDown(a) ? !1 : G.keyDownOld(a)
+    GameInput.keyReleased = function(a) {
+        return GameInput.keyDown(a) ? !1 : GameInput.keyDownOld(a)
     }
     ;
     var GraphicsBoundedFn = function(a, b) {
@@ -1892,11 +1892,11 @@
     }
     ;
     GameInstance.getInputX = function() {
-        return (G.keyDown(37) || G.keyDown(65) ? -1 : 0) + (G.keyDown(39) || G.keyDown(68) ? 1 : 0)
+        return (GameInput.keyDown(37) || GameInput.keyDown(65) ? -1 : 0) + (GameInput.keyDown(39) || GameInput.keyDown(68) ? 1 : 0)
     }
     ;
     GameInstance.getInputY = function() {
-        return (G.keyDown(38) || G.keyDown(87) ? -1 : 0) + (G.keyDown(40) || G.keyDown(83) ? 1 : 0)
+        return (GameInput.keyDown(38) || GameInput.keyDown(87) ? -1 : 0) + (GameInput.keyDown(40) || GameInput.keyDown(83) ? 1 : 0)
     }
     ;
     GameInstance.formatMS = function(a) {
@@ -2023,7 +2023,7 @@
             this.fader.set_alpha(1 - GameInstance.smootherStep(a)),
             1 == a && (this.fading = this.fader.mouseEnabled = !1,
             this.currentScreen.ready()));
-            null != this.currentScreen && this.currentScreen.pausable && (G.keyPressed(80) || G.keyPressed(27)) && (this.paused ? this.unpause() : this.pause());
+            null != this.currentScreen && this.currentScreen.pausable && (GameInput.keyPressed(80) || GameInput.keyPressed(27)) && (this.paused ? this.unpause() : this.pause());
             if (!this.paused) {
                 null != this.currentScreen && this.currentScreen.update();
                 for (a = 0; this.get_gameTimeMS() - this.lastTick >= Constants.tickMS; )
@@ -2542,7 +2542,7 @@
         update: function() {
             if (!PlayManager.rotating && !this.dead && (this.horizontal = this.finished ? 0 : GameInstance.getInputX(),
             0 != this.horizontal ? this.set_scaleX(0 < this.horizontal ? 1 : -1) : this.grounded && this.animation != Player.ANIM_IDLE && this.set_animation(Player.ANIM_IDLE),
-            !this.finished && (G.keyPressed(40) || G.keyPressed(83)))) {
+            !this.finished && (GameInput.keyPressed(40) || GameInput.keyPressed(83)))) {
                 for (var a = 0, b = this.touching; a < b.length; ) {
                     var c = b[a];
                     ++a;
@@ -2771,7 +2771,7 @@
             return (new Rectangle(a.x,a.y - c,a.width,a.height + 2 * c)).contains(b) || (new Rectangle(a.x - c,a.y,a.width + 2 * c,a.height)).contains(b) || Vector2.distance(b, new Vector2(a.get_left(),a.get_top())) < c || Vector2.distance(b, new Vector2(a.get_right(),a.get_top())) < c || Vector2.distance(b, new Vector2(a.get_right(),a.get_bottom())) < c ? !0 : Vector2.distance(b, new Vector2(a.get_left(),a.get_bottom())) < c
         },
         jumpKeyDown: function() {
-            return G.keyDown(38) || G.keyDown(87) ? !0 : G.keyDown(32)
+            return GameInput.keyDown(38) || GameInput.keyDown(87) ? !0 : GameInput.keyDown(32)
         },
         canRotate: function(a) {
             if (!this.grounded || this.jumpKeyDown() || GameInstance.i.get_gameTime() - this.rotateTimer < Player.ROTATE_DELAY + Constants.rotateTime || GameInstance.i.get_gameTime() - this.jumpTimer2 < Player.JUMP_DELAY_2)
@@ -4781,8 +4781,8 @@
                         a.set_rotation(a.rotation - 360);
                     this.rotating = !1
                 }
-            } else if (a = G.keyPressed(GameInstance.i.invert ? 69 : 81),
-            b = G.keyPressed(GameInstance.i.invert ? 81 : 69),
+            } else if (a = GameInput.keyPressed(GameInstance.i.invert ? 69 : 81),
+            b = GameInput.keyPressed(GameInstance.i.invert ? 81 : 69),
             a || b)
                 AwardsManager.awardRotate.unlock(),
                 this.rotating = !0,
@@ -4928,8 +4928,8 @@
                     if (null != a)
                         a.onRotateEnd()
                 }
-            } else if (b = G.keyPressed(GameInstance.i.invert ? 69 : 81),
-            c = G.keyPressed(GameInstance.i.invert ? 81 : 69),
+            } else if (b = GameInput.keyPressed(GameInstance.i.invert ? 69 : 81),
+            c = GameInput.keyPressed(GameInstance.i.invert ? 81 : 69),
             (b || c) && (null == a || a.canRotate(b ? -1 : 1))) {
                 PlayManager.rotating = !0;
                 this.rotateStart = GameInstance.i.get_gameTime();
@@ -5130,7 +5130,7 @@
                     if (PlayManager.isInBounds(d, e)) {
                         var f = [];
                         b = null;
-                        var m = G.keyDown(16) ? 0 : this.barLower.selector.get_selection().id;
+                        var m = GameInput.keyDown(16) ? 0 : this.barLower.selector.get_selection().id;
                         if (m == EditorTiles.start.id) {
                             if (0 < e && (d != EditorLevel.editorLevel.finishCol || e != EditorLevel.editorLevel.finishRow && e - 1 != EditorLevel.editorLevel.finishRow && e != EditorLevel.editorLevel.finishRow - 1)) {
                                 c = EditorLevel.editorLevel.startCol;
@@ -5209,11 +5209,11 @@
                             }
                     }
                 }
-                G.keyPressed(76) && this.showLoadDialog();
-                G.keyPressed(67) && this.showSaveDialog();
-                G.keyPressed(71) && (this.renderer.showGrid = EditorLevel.showGrid = !EditorLevel.showGrid,
+                GameInput.keyPressed(76) && this.showLoadDialog();
+                GameInput.keyPressed(67) && this.showSaveDialog();
+                GameInput.keyPressed(71) && (this.renderer.showGrid = EditorLevel.showGrid = !EditorLevel.showGrid,
                 this.barLower.gridToggle.toggle.clipRect.x = EditorLevel.showGrid ? this.barLower.gridToggle.toggle.clipRect.width : 0);
-                G.keyPressed(13) && GameInstance.i.changeScreen(new GameplayLevel(EditorLevel.editorLevel))
+                GameInput.keyPressed(13) && GameInstance.i.changeScreen(new GameplayLevel(EditorLevel.editorLevel))
             }
         },
         tryLoadLevel: function(a) {
@@ -5427,7 +5427,7 @@
             );
             var c = b - this.delay;
             this.hint.set_alpha(0 > c ? 0 : .33 * GameInstance.smootherStep(Math.min(c / 2.5, 1)));
-            !this.done && b >= this.delay && G.keyPressed(32) && (this.done = !0,
+            !this.done && b >= this.delay && GameInput.keyPressed(32) && (this.done = !0,
             this.first && (AwardsManager.awardEscape.unlocked = !1,
             AwardsManager.awardEscape.unlock()),
             GameInstance.i.changeScreen(new ScreenCredits(!0), !0, null, !0, !0),
@@ -6153,7 +6153,7 @@
         },
         render: function(a) {
             a.beginFill(12525600, .75);
-            a.drawRect((G.keyDown(16) ? 0 : EditorTileSelector.selected) * EditorTileSelector.size4, 0, EditorTileSelector.size4, EditorTileSelector.size4);
+            a.drawRect((GameInput.keyDown(16) ? 0 : EditorTileSelector.selected) * EditorTileSelector.size4, 0, EditorTileSelector.size4, EditorTileSelector.size4);
             a.translate(2, 2);
             a.beginFill(14671839);
             for (var b = 0, c = EditorTileSelector.list.length; b < c; ) {
@@ -6742,9 +6742,9 @@
     RotateMouseEvent.MOUSE_UP = "mouseUp";
     RotateMouseEvent.MOVE = "move";
     RotateRenderEvent.RENDER = "render";
-    G.inited = !1;
-    G.keys = [];
-    G.keysOld = [];
+    GameInput.inited = !1;
+    GameInput.keys = [];
+    GameInput.keysOld = [];
     GraphicsBoundedFn.FUNC = 1;
     Surface.PI2 = 2 * Math.PI;
     LocalStorageEncoder.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
