@@ -26,15 +26,15 @@
     var dc = function() {
         return ES3ClassUtils.__string_rec(this, "")
     }
-      , ja = function() {};
-    ja.__name__ = !0;
-    ja.cca = function(a, b) {
+      , UtilsRest = function() {};
+    UtilsRest.__name__ = !0;
+    UtilsRest.cca = function(a, b) {
         var c = a.charCodeAt(b);
         if (c == c)
             return c
     }
     ;
-    ja.substr = function(a, b, c) {
+    UtilsRest.substr = function(a, b, c) {
         if (null == c)
             c = a.length;
         else if (0 > c)
@@ -45,7 +45,7 @@
         return a.substr(b, c)
     }
     ;
-    ja.iter = function(a) {
+    UtilsRest.iter = function(a) {
         return {
             cur: 0,
             arr: a,
@@ -67,27 +67,27 @@
     ;
     StringUtils2.parseInt = function(a) {
         var b = parseInt(a, 10);
-        0 != b || 120 != ja.cca(a, 1) && 88 != ja.cca(a, 1) || (b = parseInt(a));
+        0 != b || 120 != UtilsRest.cca(a, 1) && 88 != UtilsRest.cca(a, 1) || (b = parseInt(a));
         return isNaN(b) ? null : b
     }
     ;
     var StringUtils = function() {};
     StringUtils.__name__ = !0;
     StringUtils.isSpace = function(a, b) {
-        var c = ja.cca(a, b);
+        var c = UtilsRest.cca(a, b);
         return 8 < c && 14 > c ? !0 : 32 == c
     }
     ;
     StringUtils.ltrim = function(a) {
         for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, c); )
             ++c;
-        return 0 < c ? ja.substr(a, c, b - c) : a
+        return 0 < c ? UtilsRest.substr(a, c, b - c) : a
     }
     ;
     StringUtils.rtrim = function(a) {
         for (var b = a.length, c = 0; c < b && StringUtils.isSpace(a, b - c - 1); )
             ++c;
-        return 0 < c ? ja.substr(a, 0, b - c) : a
+        return 0 < c ? UtilsRest.substr(a, 0, b - c) : a
     }
     ;
     StringUtils.trim = function(a) {
@@ -769,7 +769,7 @@
                 this.image = a;
                 var b = a.width
                   , c = a.height;
-                "svg" == ja.substr(a.src, a.src.length - 3, null) && (window.document.body.appendChild(a),
+                "svg" == UtilsRest.substr(a.src, a.src.length - 3, null) && (window.document.body.appendChild(a),
                 b = a.offsetWidth,
                 c = a.offsetHeight,
                 window.document.body.removeChild(a));
@@ -1438,8 +1438,8 @@
     LocalStorageEncoder.decode = function(a, b) {
         null == b && (b = !0);
         if (b)
-            for (; 61 == ja.cca(a, a.length - 1); )
-                a = ja.substr(a, 0, -1);
+            for (; 61 == UtilsRest.cca(a, a.length - 1); )
+                a = UtilsRest.substr(a, 0, -1);
         return (new Base64Encoder(LocalStorageEncoder.BYTES)).decodeBytes(BytesData.ofString(a))
     }
     ;
@@ -1506,7 +1506,7 @@
             var a = [], b;
             for (b in this.h)
                 this.h.hasOwnProperty(b) && a.push(b | 0);
-            return ja.iter(a)
+            return UtilsRest.iter(a)
         },
         iterator: function() {
             return {
@@ -6018,7 +6018,7 @@
             var K = y++;
             "\n" == c.charAt(K) ? (++p,
             m = 0,
-            k += b.lineHeight) : (K = ja.cca(c, K),
+            k += b.lineHeight) : (K = UtilsRest.cca(c, K),
             K = b.chars[K],
             null != K && (a.drawImage(b.image, new Rectangle(K.x + f * b.colorOffset,K.y,K.w,K.h), d + m + K.xo, e + k + K.yo),
             m += K.xa))
@@ -6056,7 +6056,7 @@
                     d > b && (b = d),
                     a = d = 0,
                     c += this.lineHeight;
-                else if (m = ja.cca(this.text, m),
+                else if (m = UtilsRest.cca(this.text, m),
                 m = this.font.chars[m],
                 null != m) {
                     var k = m.xo + m.w;
@@ -6074,7 +6074,7 @@
                 var k = f++;
                 "\n" == this.text.charAt(k) ? (++e,
                 c = -this.getLineOffset(this.lineWidths[e]),
-                d += this.lineHeight) : (k = ja.cca(this.text, k),
+                d += this.lineHeight) : (k = UtilsRest.cca(this.text, k),
                 k = this.font.chars[k],
                 null != k && (a.drawImage(this.font.image, new Rectangle(k.x + this.color * this.font.colorOffset,k.y,k.w,k.h), b.x + c + k.xo, b.y + d + k.yo),
                 c += k.xa))
