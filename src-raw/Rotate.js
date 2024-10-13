@@ -4795,7 +4795,7 @@
         },
         __class__: ScreenAwards
     });
-    var mb = function(a) {
+    var ScreenCredits = function(a) {
         null == a && (a = !1);
         this.mute = new Ba;
         this.more = new I(Images.linkLWS);
@@ -4808,9 +4808,9 @@
         Screen.call(this);
         this.fromEnd = a
     };
-    mb.__name__ = !0;
-    mb.__super__ = Screen;
-    mb.prototype = D(Screen.prototype, {
+    ScreenCredits.__name__ = !0;
+    ScreenCredits.__super__ = Screen;
+    ScreenCredits.prototype = D(Screen.prototype, {
         init: function() {
             var a = this;
             if (this.fromEnd) {
@@ -4882,7 +4882,7 @@
             this.addChild(this.btnBack);
             this.addChild(this.mute)
         },
-        __class__: mb
+        __class__: ScreenCredits
     });
     var BaseLevel = function() {
         this.cameraX = this.cameraY = 0;
@@ -5430,7 +5430,7 @@
             !this.done && b >= this.delay && G.keyPressed(32) && (this.done = !0,
             this.first && (AwardsManager.awardEscape.unlocked = !1,
             AwardsManager.awardEscape.unlock()),
-            g.i.changeScreen(new mb(!0), !0, null, !0, !0),
+            g.i.changeScreen(new ScreenCredits(!0), !0, null, !0, !0),
             g.i.timerHolder.removeChildren())
         },
         tick: function() {
@@ -5632,7 +5632,7 @@
             this.btnCredits.set_x(this.btnExtras.x);
             this.btnCredits.set_y(this.btnExtras.y + 60);
             this.btnCredits.addEventListener("click", function(a) {
-                2 > a.which && g.i.changeScreen(new mb)
+                2 > a.which && g.i.changeScreen(new ScreenCredits)
             });
             this.addChild(this.btnCredits);
             this.addChild(this.mute);
