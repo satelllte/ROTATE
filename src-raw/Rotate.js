@@ -6203,7 +6203,7 @@
         },
         __class__: ac
     });
-    var Da = function(a, b) {
+    var Dialog = function(a, b) {
         null == b && (b = "");
         GraphicsObject.call(this);
         this.graphics.beginFill(1052688, .95);
@@ -6233,20 +6233,20 @@
         this.area.value = b;
         this.area.select()
     };
-    Da.__name__ = !0;
-    Da.__super__ = GraphicsObject;
-    Da.prototype = __INHERIT__(GraphicsObject.prototype, {
+    Dialog.__name__ = !0;
+    Dialog.__super__ = GraphicsObject;
+    Dialog.prototype = __INHERIT__(GraphicsObject.prototype, {
         kill: function() {
             null != this.area.parentElement && window.document.body.removeChild(this.area)
         },
-        __class__: Da
+        __class__: Dialog
     });
     var DialogLoadLevel = function() {
         this.btnLoad = new Button("LOAD");
         this.btnCancel = new Button("CANCEL");
         this.invalid = new GraphicsObjectText(GameInstance.fontMain,"Level code is invalid!",2);
         var a = this;
-        Da.call(this, "LOAD LEVEL");
+        Dialog.call(this, "LOAD LEVEL");
         this.invalid.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.invalid.yAlign = GraphicsObjectText.Y_ALIGN_BOTTOM;
         this.invalid.set_x(Math.round(GameController.width / 2));
@@ -6271,14 +6271,14 @@
         })
     };
     DialogLoadLevel.__name__ = !0;
-    DialogLoadLevel.__super__ = Da;
-    DialogLoadLevel.prototype = __INHERIT__(Da.prototype, {
+    DialogLoadLevel.__super__ = Dialog;
+    DialogLoadLevel.prototype = __INHERIT__(Dialog.prototype, {
         __class__: DialogLoadLevel
     });
     var DialogSaveLevel = function(a) {
         this.btnBack = new Button("BACK");
         var b = this;
-        Da.call(this, "SAVE LEVEL", a);
+        Dialog.call(this, "SAVE LEVEL", a);
         this.area.readOnly = !0;
         this.btnBack.set_x(Math.round(GameController.width / 2));
         this.btnBack.set_y(GameController.height - 52);
@@ -6289,8 +6289,8 @@
         this.addChild(this.btnBack)
     };
     DialogSaveLevel.__name__ = !0;
-    DialogSaveLevel.__super__ = Da;
-    DialogSaveLevel.prototype = __INHERIT__(Da.prototype, {
+    DialogSaveLevel.__super__ = Dialog;
+    DialogSaveLevel.prototype = __INHERIT__(Dialog.prototype, {
         __class__: DialogSaveLevel
     });
     var EditorBarLower = function(a) {
