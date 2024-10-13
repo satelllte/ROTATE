@@ -3776,7 +3776,7 @@
         return F.registry[a]
     }
     ;
-    var ab = function(a, b, c, d, e, f, m, k, p) {
+    var BloodParticle = function(a, b, c, d, e, f, m, k, p) {
         null == k && (k = 0);
         null == m && (m = 0);
         this.freeze = !1;
@@ -3790,12 +3790,12 @@
         this.gravityY = k;
         this.handler = p
     };
-    ab.__name__ = !0;
-    ab.prototype = {
+    BloodParticle.__name__ = !0;
+    BloodParticle.prototype = {
         update: function() {
             if (!this.freeze || 0 >= this.life)
-                this.dx += this.gravityX * ab.GRAVITY_MULT,
-                this.dy += this.gravityY * ab.GRAVITY_MULT,
+                this.dx += this.gravityX * BloodParticle.GRAVITY_MULT,
+                this.dy += this.gravityY * BloodParticle.GRAVITY_MULT,
                 this.x += this.dx,
                 this.y += this.dy,
                 null != this.handler && this.handler(this),
@@ -3803,7 +3803,7 @@
                 this.lastX = this.x,
                 this.lastY = this.y
         },
-        __class__: ab
+        __class__: BloodParticle
     };
     var Blood = function(a, b, c, d, e, f, m, k, p) {
         null == p && (p = 1);
@@ -3817,7 +3817,7 @@
             var H = Math.random() * Math.PI * 2
               , K = 3 * (.7 * Math.random() + .3) * p
               , W = 20 * Math.random();
-            H = new ab(6 * (.6 * Math.random() + .4),Math.round(50 * (.5 * Math.random() + .5)),a + Math.cos(H) * W,b + Math.sin(H) * W,d + Math.cos(H) * K,e + Math.sin(H) * K,f,m,k ? T(this, this.collsionHandler) : null);
+            H = new BloodParticle(6 * (.6 * Math.random() + .4),Math.round(50 * (.5 * Math.random() + .5)),a + Math.cos(H) * W,b + Math.sin(H) * W,d + Math.cos(H) * K,e + Math.sin(H) * K,f,m,k ? T(this, this.collsionHandler) : null);
             this.particles.push(H)
         }
         this.addEventListener("enterFrame", T(this, this.update));
@@ -6914,7 +6914,7 @@
     F.number = F.register(7, new Bb);
     F.vent = F.register(10, new Hb);
     F.fan = F.register(11, new zb);
-    ab.GRAVITY_MULT = .2;
+    BloodParticle.GRAVITY_MULT = .2;
     LevelEditor.WORLD_SIZE = 42;
     Level1.fadeSpeed = .1;
     Level8.fakeCol = 30;
