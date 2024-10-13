@@ -2756,7 +2756,7 @@
                             if (aa && (1 == k.dir && this.lastBounds.get_left() >= p.get_right() || 3 == k.dir && this.lastBounds.get_right() <= p.get_left()))
                                 return !0
                         }
-                    } else if (ES3ClassUtils.__instanceof(k, kb) && (p = k,
+                    } else if (ES3ClassUtils.__instanceof(k, ColliderNever) && (p = k,
                     k = Constants.tileSize,
                     y = a.copy(),
                     y.x -= b * k,
@@ -3676,7 +3676,7 @@
             this.renderRotated(a, b, (4 + c) * Constants.tileSize, Constants.tileSize)
         },
         getColliders: function(a) {
-            return [new kb(a.getMeta(0))]
+            return [new ColliderNever(a.getMeta(0))]
         },
         onTrigger: function(a) {
             GameplayLevel.i.killPlayer(!0);
@@ -4471,16 +4471,16 @@
         },
         __class__: ColliderBounds
     };
-    var kb = function(a) {
+    var ColliderNever = function(a) {
         this.dir = a
     };
-    kb.__name__ = !0;
-    kb.__interfaces__ = [cb];
-    kb.prototype = {
+    ColliderNever.__name__ = !0;
+    ColliderNever.__interfaces__ = [cb];
+    ColliderNever.prototype = {
         testPoint: function(a, b) {
             return !1
         },
-        __class__: kb
+        __class__: ColliderNever
     };
     var ColliderBoundsOriented = function(a) {
         this.bounds = new Rectangle(0,0,Constants.tileSize,Constants.tileSize);
