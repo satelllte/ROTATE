@@ -2955,16 +2955,16 @@
         L.bakeCanvas.height = c * Constants.tileSize;
         L.bakeSurface.reset();
         L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
-        if (null == L.gridCanvas && ES3ClassUtils.__instanceof(g.i.currentScreen, A)) {
+        if (null == L.gridCanvas && ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel)) {
             L.gridCanvas = window.document.createElement("canvas");
-            L.gridCanvas.width = A.editorLevel.tiles[0].length * Constants.tileSize + 2;
-            L.gridCanvas.height = A.editorLevel.tiles.length * Constants.tileSize + 2;
+            L.gridCanvas.width = EditorLevel.editorLevel.tiles[0].length * Constants.tileSize + 2;
+            L.gridCanvas.height = EditorLevel.editorLevel.tiles.length * Constants.tileSize + 2;
             L.gridCtx = L.gridCanvas.getContext("2d", null);
             L.gridSurface = new Ea(L.gridCtx);
             L.gridSurface.beginFill(2105376, .2);
             c = 0;
-            for (var d = A.editorLevel.tiles.length + 1; c < d; )
-                for (var e = c++, f = 0, m = A.editorLevel.tiles[0].length + 1; f < m; ) {
+            for (var d = EditorLevel.editorLevel.tiles.length + 1; c < d; )
+                for (var e = c++, f = 0, m = EditorLevel.editorLevel.tiles[0].length + 1; f < m; ) {
                     var k = f++ * Constants.tileSize
                       , p = e * Constants.tileSize;
                     L.gridSurface.drawRect(k, p, 2, Constants.tileSize);
@@ -3195,11 +3195,11 @@
                         k += p * f;
                     a.drawImage(Images.blocks, new z(4 * f,3 * f,f,f), c * f, 0);
                     a.drawImage(Images.blocks, new z(5 * f,3 * f,f,f), (d - c - 1) * f, 0);
-                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, A) && (A.renderBlockText(a, b.getMeta(0) + ""),
+                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) && (EditorLevel.renderBlockText(a, b.getMeta(0) + ""),
                     1 < d))
                         for (b = 1; b < d; )
                             c = b++,
-                            A.renderBlockRed(a, c * f, 0)
+                            EditorLevel.renderBlockRed(a, c * f, 0)
                 } else
                     a.drawImage(Images.blocks, new z(3 * f,3 * f,.33333333333333337 * f,f), 0, 0),
                     a.drawImage(Images.blocks, new z(4 * f,3 * f,f,f), .33333333333333337 * f, 0),
@@ -3389,7 +3389,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             b = b.getMeta(0) % 4;
-            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
+            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
             a.drawImage(Images.blocks, new z(((0 < b && 3 > b ? 1 : 0) + 2 * c) * Constants.tileSize,(5 + (1 < b ? 1 : 0)) * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         __class__: zb
@@ -3463,13 +3463,13 @@
             return [new La(new z(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
         },
         alwaysUpdate: function(a) {
-            return !ES3ClassUtils.__instanceof(g.i.currentScreen, A)
+            return !ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel)
         },
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = 0 < b.getMeta(1);
             a.drawImage(Images.blocks, new z((d ? 4 : 3) * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0);
-            c && ES3ClassUtils.__instanceof(g.i.currentScreen, A) && A.renderBlockText(a, b.getMeta(0) + "")
+            c && ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) && EditorLevel.renderBlockText(a, b.getMeta(0) + "")
         },
         setupBubble: function(a) {
             var b = this
@@ -3672,7 +3672,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = g.i.get_gameTimeMS() / 40;
-            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(d - (d < Constants.EPSILON ? 0 : Constants.EPSILON)) % 3;
+            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) ? 0 : Math.floor(d - (d < Constants.EPSILON ? 0 : Constants.EPSILON)) % 3;
             this.renderRotated(a, b, (4 + c) * Constants.tileSize, Constants.tileSize)
         },
         getColliders: function(a) {
@@ -3683,7 +3683,7 @@
             return !1
         },
         alwaysUpdate: function(a) {
-            return !ES3ClassUtils.__instanceof(g.i.currentScreen, A)
+            return !ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel)
         },
         __class__: Db
     });
@@ -3922,7 +3922,7 @@
             this.speech.update()
         },
         finished: function() {
-            g.i.changeScreen(new A);
+            g.i.changeScreen(new EditorLevel);
             return null
         },
         kill: function() {},
@@ -4950,29 +4950,29 @@
         },
         __class__: qa
     });
-    var A = function() {
+    var EditorLevel = function() {
         this.doors = [];
         this.drawing = !1;
         this.horizontal = this.vertical = 0;
         qa.call(this)
     };
-    A.__name__ = !0;
-    A.renderBlockText = function(a, b) {
-        A.renderBlockRed(a, 0, 0);
+    EditorLevel.__name__ = !0;
+    EditorLevel.renderBlockText = function(a, b) {
+        EditorLevel.renderBlockRed(a, 0, 0);
         r.drawText(a, g.fontMain, b, 2, 0, 0)
     }
     ;
-    A.renderBlockRed = function(a, b, c) {
+    EditorLevel.renderBlockRed = function(a, b, c) {
         a.beginFill(10428448, .4);
         a.drawRect(b, c, Constants.tileSize, Constants.tileSize);
         a.endFill()
     }
     ;
-    A.__super__ = qa;
-    A.prototype = D(qa.prototype, {
+    EditorLevel.__super__ = qa;
+    EditorLevel.prototype = D(qa.prototype, {
         init: function() {
             var a = this;
-            l.set_level(A.editorLevel);
+            l.set_level(EditorLevel.editorLevel);
             for (var b = 0, c = l.get_height(); b < c; )
                 for (var d = b++, e = 0, f = l.get_width(); e < f; ) {
                     var m = e++;
@@ -4987,16 +4987,16 @@
                 2 > k.which && k.target == a && (a.drawing = !0)
             });
             h.input.addEventListener("mouseUp", T(this, this.mouseUp));
-            this.renderer.showGrid = A.showGrid;
-            this.barUpper = new R(A.editorLevel.theme,function(k) {
-                A.editorLevel.theme = 1 - A.editorLevel.theme;
-                a.barUpper.theme.set_text(R.THEMES[A.editorLevel.theme]);
+            this.renderer.showGrid = EditorLevel.showGrid;
+            this.barUpper = new R(EditorLevel.editorLevel.theme,function(k) {
+                EditorLevel.editorLevel.theme = 1 - EditorLevel.editorLevel.theme;
+                a.barUpper.theme.set_text(R.THEMES[EditorLevel.editorLevel.theme]);
                 a.renderer.updateAllBlocks()
             }
             );
             this.addChild(this.barUpper);
             this.barLower = new Pa(function() {
-                a.renderer.showGrid = A.showGrid
+                a.renderer.showGrid = EditorLevel.showGrid
             }
             );
             this.addChild(this.barLower);
@@ -5010,8 +5010,8 @@
                 if (2 > k.which) {
                     var p = new eb("Are you sure you want\nto clear the level?");
                     p.onYes = function() {
-                        A.editorLevel.reset();
-                        g.i.changeScreen(new A, !1)
+                        EditorLevel.editorLevel.reset();
+                        g.i.changeScreen(new EditorLevel, !1)
                     }
                     ;
                     p.onNo = function() {
@@ -5042,7 +5042,7 @@
                 ;
                 b.onLoad = function(c) {
                     return a.tryLoadLevel(c) ? (b.kill(),
-                    g.i.changeScreen(new A, !1),
+                    g.i.changeScreen(new EditorLevel, !1),
                     !0) : !1
                 }
                 ;
@@ -5053,10 +5053,10 @@
         showSaveDialog: function() {
             var a = this;
             if (null == this.dialog) {
-                for (var b = -1, c = -1, d = 0, e = A.editorLevel.tiles.length; d < e; )
-                    for (var f = d++, m = 0, k = A.editorLevel.tiles[f].length; m < k; ) {
+                for (var b = -1, c = -1, d = 0, e = EditorLevel.editorLevel.tiles.length; d < e; )
+                    for (var f = d++, m = 0, k = EditorLevel.editorLevel.tiles[f].length; m < k; ) {
                         var p = m++;
-                        if (1 != A.editorLevel.tiles[f][p][0]) {
+                        if (1 != EditorLevel.editorLevel.tiles[f][p][0]) {
                             -1 == b && (b = f);
                             c = f;
                             break
@@ -5064,24 +5064,24 @@
                     }
                 e = d = -1;
                 f = 0;
-                for (m = A.editorLevel.tiles[0].length; f < m; ) {
+                for (m = EditorLevel.editorLevel.tiles[0].length; f < m; ) {
                     k = f++;
                     p = 0;
-                    for (var y = A.editorLevel.tiles.length; p < y; ) {
+                    for (var y = EditorLevel.editorLevel.tiles.length; p < y; ) {
                         var H = p++;
-                        if (1 != A.editorLevel.tiles[H][k][0]) {
+                        if (1 != EditorLevel.editorLevel.tiles[H][k][0]) {
                             -1 == d && (d = k);
                             e = k;
                             break
                         }
                     }
                 }
-                f = A.editorLevel.startCol - d + ",";
-                f += A.editorLevel.startRow - b + ",";
-                f += A.editorLevel.finishCol - d + ",";
-                f += A.editorLevel.finishRow - b + ",";
+                f = EditorLevel.editorLevel.startCol - d + ",";
+                f += EditorLevel.editorLevel.startRow - b + ",";
+                f += EditorLevel.editorLevel.finishCol - d + ",";
+                f += EditorLevel.editorLevel.finishRow - b + ",";
                 f = f + (d + ",") + b;
-                0 != A.editorLevel.theme && (f += "," + A.editorLevel.theme);
+                0 != EditorLevel.editorLevel.theme && (f += "," + EditorLevel.editorLevel.theme);
                 f += "|";
                 m = b;
                 for (c += 1; m < c; )
@@ -5090,13 +5090,13 @@
                     p = d,
                     y = e + 1; p < y; ) {
                         H = p++;
-                        for (var K = "", W = A.editorLevel.tiles[k][H].length; 0 < --W && 0 == A.editorLevel.tiles[k][H][W]; )
+                        for (var K = "", W = EditorLevel.editorLevel.tiles[k][H].length; 0 < --W && 0 == EditorLevel.editorLevel.tiles[k][H][W]; )
                             ;
                         var aa = 0;
                         for (W += 1; aa < W; ) {
                             var fa = aa++;
                             "" != K && (K += ".");
-                            0 != A.editorLevel.tiles[k][H][fa] && (K += A.editorLevel.tiles[k][H][fa])
+                            0 != EditorLevel.editorLevel.tiles[k][H][fa] && (K += EditorLevel.editorLevel.tiles[k][H][fa])
                         }
                         H > d && (f += ",");
                         f += K
@@ -5132,10 +5132,10 @@
                         b = null;
                         var m = G.keyDown(16) ? 0 : this.barLower.selector.get_selection().id;
                         if (m == F.start.id) {
-                            if (0 < e && (d != A.editorLevel.finishCol || e != A.editorLevel.finishRow && e - 1 != A.editorLevel.finishRow && e != A.editorLevel.finishRow - 1)) {
-                                c = A.editorLevel.startCol;
-                                var k = A.editorLevel.startRow;
-                                A.editorLevel.setStart(d, e);
+                            if (0 < e && (d != EditorLevel.editorLevel.finishCol || e != EditorLevel.editorLevel.finishRow && e - 1 != EditorLevel.editorLevel.finishRow && e != EditorLevel.editorLevel.finishRow - 1)) {
+                                c = EditorLevel.editorLevel.startCol;
+                                var k = EditorLevel.editorLevel.startRow;
+                                EditorLevel.editorLevel.setStart(d, e);
                                 var p = l.getBlockData(d, e - 1);
                                 f.push(p);
                                 l.setBlock(d, e - 1, 0, [], !0);
@@ -5148,9 +5148,9 @@
                                 this.renderer.updateBlockPlus(d, e)
                             }
                         } else if (m == F.finish.id)
-                            0 < e && (d != A.editorLevel.startCol || e != A.editorLevel.startRow && e - 1 != A.editorLevel.startRow && e != A.editorLevel.startRow - 1) && (c = A.editorLevel.finishCol,
-                            k = A.editorLevel.finishRow,
-                            A.editorLevel.setFinish(d, e),
+                            0 < e && (d != EditorLevel.editorLevel.startCol || e != EditorLevel.editorLevel.startRow && e - 1 != EditorLevel.editorLevel.startRow && e != EditorLevel.editorLevel.startRow - 1) && (c = EditorLevel.editorLevel.finishCol,
+                            k = EditorLevel.editorLevel.finishRow,
+                            EditorLevel.editorLevel.setFinish(d, e),
                             p = l.getBlockData(d, e - 1),
                             f.push(p),
                             l.setBlock(d, e - 1, 0, [], !0),
@@ -5211,9 +5211,9 @@
                 }
                 G.keyPressed(76) && this.showLoadDialog();
                 G.keyPressed(67) && this.showSaveDialog();
-                G.keyPressed(71) && (this.renderer.showGrid = A.showGrid = !A.showGrid,
-                this.barLower.gridToggle.toggle.clipRect.x = A.showGrid ? this.barLower.gridToggle.toggle.clipRect.width : 0);
-                G.keyPressed(13) && g.i.changeScreen(new w(A.editorLevel))
+                G.keyPressed(71) && (this.renderer.showGrid = EditorLevel.showGrid = !EditorLevel.showGrid,
+                this.barLower.gridToggle.toggle.clipRect.x = EditorLevel.showGrid ? this.barLower.gridToggle.toggle.clipRect.width : 0);
+                G.keyPressed(13) && g.i.changeScreen(new w(EditorLevel.editorLevel))
             }
         },
         tryLoadLevel: function(a) {
@@ -5292,13 +5292,13 @@
                 for (H = b[c],
                 ++c; H.length < LevelEditor.WORLD_SIZE; )
                     H.push([1]);
-            A.editorLevel.load(b, a + m, d + k, e + m, f + k, p);
+            EditorLevel.editorLevel.load(b, a + m, d + k, e + m, f + k, p);
             return !0
         },
         tick: function() {
             if (!l.rotating && null == this.dialog) {
-                var a = this.horizontal * A.MOVE_SPEED
-                  , b = this.vertical * A.MOVE_SPEED;
+                var a = this.horizontal * EditorLevel.MOVE_SPEED
+                  , b = this.vertical * EditorLevel.MOVE_SPEED;
                 0 == l.rotation ? (this.cameraX -= a,
                 this.cameraY -= b) : 1 == l.rotation && (this.cameraX -= b,
                 this.cameraY += a);
@@ -5314,7 +5314,7 @@
             h.input.removeEventListener("mouseUp", T(this, this.mouseUp));
             l.set_level(null)
         },
-        __class__: A
+        __class__: EditorLevel
     });
     var bb = function(a) {
         null == a && (a = !1);
@@ -5484,7 +5484,7 @@
             this.btn2.set_y(this.btn1.y + 92);
             this.btn2.addEventListener("click", function(b) {
                 2 > b.which && (ca.stopTheme(),
-                g.i.changeScreen(new A))
+                g.i.changeScreen(new EditorLevel))
             });
             this.addChild(this.btn2);
             this.text2.set_x(this.text1.x);
@@ -5708,7 +5708,7 @@
     w.prototype = D(qa.prototype, {
         init: function() {
             w.i = this;
-            this.tempLevel == A.editorLevel && AwardsManager.awardEditor.unlock();
+            this.tempLevel == EditorLevel.editorLevel && AwardsManager.awardEditor.unlock();
             w.playTheme(this.tempLevel.theme);
             w.continueTheme = !1;
             l.set_level(this.tempLevel);
@@ -6367,7 +6367,7 @@
         this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
         this.btnPlay.hitPadding = R.BTN_PAD;
         this.btnPlay.addEventListener("click", function(d) {
-            2 > d.which && w.play(A.editorLevel)
+            2 > d.which && w.play(EditorLevel.editorLevel)
         });
         this.addChild(this.btnPlay);
         this.btnSave.set_x(this.btnPlay.x - this.btnPlay.get_width() - R.BTN_SPACE);
@@ -6433,12 +6433,12 @@
         this.set_y(8);
         this.mouseEnabled = this.buttonMode = !0;
         this.addEventListener("click", function(c) {
-            1 < c.which || (A.showGrid = !A.showGrid,
-            b.toggle.clipRect.x = A.showGrid ? b.toggle.clipRect.width : 0,
+            1 < c.which || (EditorLevel.showGrid = !EditorLevel.showGrid,
+            b.toggle.clipRect.x = EditorLevel.showGrid ? b.toggle.clipRect.width : 0,
             null != a && a())
         });
         this.toggle.clipRect.width /= 2;
-        this.toggle.clipRect.x = A.showGrid ? this.toggle.clipRect.width : 0;
+        this.toggle.clipRect.x = EditorLevel.showGrid ? this.toggle.clipRect.width : 0;
         this.toggle.set_x(4);
         this.toggle.set_y(5);
         this.addChild(this.toggle);
@@ -6609,7 +6609,7 @@
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(g.i.currentScreen, w) && ES3ClassUtils.__cast(g.i.currentScreen, w).speedrun || ES3ClassUtils.__instanceof(g.i.currentScreen, Qa) && ES3ClassUtils.__cast(g.i.currentScreen, Qa).speedrun,
-            g.i.changeScreen(l.level == A.editorLevel ? new A : a ? new Oa : 0 < B.unlocked ? new pb : new ca, !0, (Ja = g.i,
+            g.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new Oa : 0 < B.unlocked ? new pb : new ca, !0, (Ja = g.i,
             T(Ja, Ja.unpause))))
         });
         this.addChild(this.btnQuit);
@@ -6941,9 +6941,9 @@
     U.TIME_TYPE = 30;
     U.TIME_STAY = 5250;
     U.TIME_FADE = 750;
-    A.MOVE_SPEED = 4;
-    A.showGrid = !0;
-    A.editorLevel = new LevelEditor;
+    EditorLevel.MOVE_SPEED = 4;
+    EditorLevel.showGrid = !0;
+    EditorLevel.editorLevel = new LevelEditor;
     w.continueTheme = !1;
     w.RESTART_DELAY = 1;
     w.DEATH_TIME = 1.5;
