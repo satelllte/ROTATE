@@ -254,7 +254,7 @@
                 var c = a.getBounds();
                 c.width -= 1E-4;
                 c.height -= 1E-4;
-                xa.pointInTransformedBounds(new Vector2(GameController.input.mouseX,GameController.input.mouseY), a._transform, c) && (b = a)
+                GraphicsUtils.pointInTransformedBounds(new Vector2(GameController.input.mouseX,GameController.input.mouseY), a._transform, c) && (b = a)
             }
             c = 0;
             for (var d = a._children; c < d.length; ) {
@@ -469,14 +469,14 @@
         return Timer.elapsedTime
     }
     ;
-    var xa = function() {};
-    xa.__name__ = !0;
-    xa.getColorString = function(a, b) {
+    var GraphicsUtils = function() {};
+    GraphicsUtils.__name__ = !0;
+    GraphicsUtils.getColorString = function(a, b) {
         null == b && (b = 1);
         return "rgba(" + ((a & 16711680) >>> 16) + ", " + ((a & 65280) >>> 8) + ", " + (a & 255) + ", " + b + ")"
     }
     ;
-    xa.pointInQuad = function(a, b, c, d, e) {
+    GraphicsUtils.pointInQuad = function(a, b, c, d, e) {
         e = c.subtract(b);
         b = a.subtract(b);
         d = d.subtract(c);
@@ -488,11 +488,11 @@
         return 0 <= a && a <= e && 0 <= c ? c <= d : !1
     }
     ;
-    xa.pointInTransformedBounds = function(a, b, c) {
-        return null == a || null == b || null == c || 0 == c.width || 0 == c.height ? !1 : xa.pointInQuad(a, b.apply(c.get_left(), c.get_top()), b.apply(c.get_right(), c.get_top()), b.apply(c.get_right(), c.get_bottom()), b.apply(c.get_left(), c.get_bottom()))
+    GraphicsUtils.pointInTransformedBounds = function(a, b, c) {
+        return null == a || null == b || null == c || 0 == c.width || 0 == c.height ? !1 : GraphicsUtils.pointInQuad(a, b.apply(c.get_left(), c.get_top()), b.apply(c.get_right(), c.get_top()), b.apply(c.get_right(), c.get_bottom()), b.apply(c.get_left(), c.get_bottom()))
     }
     ;
-    xa.drawImageSafe = function(a, b, c, d, e, f, m, k) {
+    GraphicsUtils.drawImageSafe = function(a, b, c, d, e, f, m, k) {
         0 >= e || 0 >= f || 0 >= c + e || c >= b.width || 0 >= d + f || d >= b.height || (c += 0 > c ? -c : 0,
         d += 0 > d ? -d : 0,
         c + e > b.width && (e = b.width - c),
@@ -1175,7 +1175,7 @@
             null == b && (b = 1);
             null == a && (a = 0);
             0 > b ? b = 0 : 1 < b && (b = 1);
-            this._ctx.fillStyle = xa.getColorString(a & 16777215, b);
+            this._ctx.fillStyle = GraphicsUtils.getColorString(a & 16777215, b);
             this.filling = !0
         },
         endFill: function() {
@@ -1186,7 +1186,7 @@
             null == b && (b = 0);
             null == a && (a = 1);
             0 > c ? c = 0 : 1 < c && (c = 1);
-            this._ctx.strokeStyle = xa.getColorString(b & 16777215, c);
+            this._ctx.strokeStyle = GraphicsUtils.getColorString(b & 16777215, c);
             this._ctx.lineWidth = this.strokeWidth = a;
             this.stroking = !0
         },
@@ -1275,7 +1275,7 @@
         },
         drawImage: function(a, b, c, d, e) {
             null == e && (e = !0);
-            null != b ? e ? xa.drawImageSafe(this._ctx, a, b.x, b.y, b.width, b.height, c, d) : this._ctx.drawImage(a, b.x, b.y, b.width, b.height, c, d, b.width, b.height) : this._ctx.drawImage(a, c, d)
+            null != b ? e ? GraphicsUtils.drawImageSafe(this._ctx, a, b.x, b.y, b.width, b.height, c, d) : this._ctx.drawImage(a, b.x, b.y, b.width, b.height, c, d, b.width, b.height) : this._ctx.drawImage(a, c, d)
         },
         drawText: function(a, b, c, d, e, f, m, k) {
             null == k && (k = 1.25);
