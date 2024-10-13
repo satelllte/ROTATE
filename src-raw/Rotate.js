@@ -2938,49 +2938,49 @@
         }
     }
     ;
-    var L = function(a) {
+    var Renderer = function(a) {
         this.showGrid = !1;
         var b = this;
         GraphicsObject.call(this);
-        if (null == L.bakeCanvas) {
-            L.bakeCanvas = window.document.createElement("canvas");
-            L.bakeCtx = L.bakeCanvas.getContext("2d", null);
-            var c = L.bakeCtx;
+        if (null == Renderer.bakeCanvas) {
+            Renderer.bakeCanvas = window.document.createElement("canvas");
+            Renderer.bakeCtx = Renderer.bakeCanvas.getContext("2d", null);
+            var c = Renderer.bakeCtx;
             c.webkitImageSmoothingEnabled = c.mozImageSmoothingEnabled = c.msImageSmoothingEnabled = c.oImageSmoothingEnabled = c.imageSmoothingEnabled = !1;
-            L.bakeSurface = new Ea(L.bakeCtx)
+            Renderer.bakeSurface = new Ea(Renderer.bakeCtx)
         }
         c = PlayManager.get_width() + 2;
-        L.bakeCanvas.width = c * Constants.tileSize;
+        Renderer.bakeCanvas.width = c * Constants.tileSize;
         c = PlayManager.get_height() + 2;
-        L.bakeCanvas.height = c * Constants.tileSize;
-        L.bakeSurface.reset();
-        L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
-        if (null == L.gridCanvas && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel)) {
-            L.gridCanvas = window.document.createElement("canvas");
-            L.gridCanvas.width = EditorLevel.editorLevel.tiles[0].length * Constants.tileSize + 2;
-            L.gridCanvas.height = EditorLevel.editorLevel.tiles.length * Constants.tileSize + 2;
-            L.gridCtx = L.gridCanvas.getContext("2d", null);
-            L.gridSurface = new Ea(L.gridCtx);
-            L.gridSurface.beginFill(2105376, .2);
+        Renderer.bakeCanvas.height = c * Constants.tileSize;
+        Renderer.bakeSurface.reset();
+        Renderer.bakeSurface.clearRect(0, 0, Renderer.bakeCanvas.width, Renderer.bakeCanvas.height);
+        if (null == Renderer.gridCanvas && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel)) {
+            Renderer.gridCanvas = window.document.createElement("canvas");
+            Renderer.gridCanvas.width = EditorLevel.editorLevel.tiles[0].length * Constants.tileSize + 2;
+            Renderer.gridCanvas.height = EditorLevel.editorLevel.tiles.length * Constants.tileSize + 2;
+            Renderer.gridCtx = Renderer.gridCanvas.getContext("2d", null);
+            Renderer.gridSurface = new Ea(Renderer.gridCtx);
+            Renderer.gridSurface.beginFill(2105376, .2);
             c = 0;
             for (var d = EditorLevel.editorLevel.tiles.length + 1; c < d; )
                 for (var e = c++, f = 0, m = EditorLevel.editorLevel.tiles[0].length + 1; f < m; ) {
                     var k = f++ * Constants.tileSize
                       , p = e * Constants.tileSize;
-                    L.gridSurface.drawRect(k, p, 2, Constants.tileSize);
-                    L.gridSurface.drawRect(k + 2, p, Constants.tileSize - 2, 2)
+                    Renderer.gridSurface.drawRect(k, p, 2, Constants.tileSize);
+                    Renderer.gridSurface.drawRect(k + 2, p, Constants.tileSize - 2, 2)
                 }
         }
         this.addEventListener("render", function(y) {
             b.render(y.surface, a)
         })
     };
-    L.__name__ = !0;
-    L.__super__ = GraphicsObject;
-    L.prototype = __INHERIT__(GraphicsObject.prototype, {
+    Renderer.__name__ = !0;
+    Renderer.__super__ = GraphicsObject;
+    Renderer.prototype = __INHERIT__(GraphicsObject.prototype, {
         render: function(a, b) {
             if (null != PlayManager.level) {
-                a.drawImage(L.bakeCanvas, null, -Constants.tileSize, -Constants.tileSize);
+                a.drawImage(Renderer.bakeCanvas, null, -Constants.tileSize, -Constants.tileSize);
                 var c = null;
                 if (!PlayManager.rotating) {
                     c = PlayManager.rotation;
@@ -3012,7 +3012,7 @@
                     p.get_block().render(a, p),
                     a.translate(-p.x * Constants.tileSize, -p.y * Constants.tileSize))
                 }
-                this.showGrid && null != L.gridCanvas && a.drawImage(L.gridCanvas, null, 0, 0);
+                this.showGrid && null != Renderer.gridCanvas && a.drawImage(Renderer.gridCanvas, null, 0, 0);
                 if (ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && (c = GameInstance.i.currentScreen,
                 !PlayManager.rotating && !c.player.dead && !c.player.finished)) {
                     k = 0;
@@ -3034,13 +3034,13 @@
             a.translate(-(b + .5) * e, -(c + .5) * e)
         },
         updateAllBlocks: function() {
-            L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
-            L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
+            Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
+            Renderer.bakeSurface.clearRect(0, 0, Renderer.bakeCanvas.width, Renderer.bakeCanvas.height);
             if (null != PlayManager.level) {
-                for (var a = 1 == PlayManager.level.theme ? Images.bgBricks : Images.bgTiles, b = Math.ceil(L.bakeCanvas.width / a.width), c = 0, d = Math.ceil(L.bakeCanvas.height / a.height); c < d; )
+                for (var a = 1 == PlayManager.level.theme ? Images.bgBricks : Images.bgTiles, b = Math.ceil(Renderer.bakeCanvas.width / a.width), c = 0, d = Math.ceil(Renderer.bakeCanvas.height / a.height); c < d; )
                     for (var e = c++, f = 0, m = b; f < m; ) {
                         var k = f++;
-                        L.bakeSurface.drawImage(a, null, k * a.width, e * a.height)
+                        Renderer.bakeSurface.drawImage(a, null, k * a.width, e * a.height)
                     }
                 this.renderDecals();
                 a = -1;
@@ -3051,15 +3051,15 @@
                         f = d++,
                         m = PlayManager.getBlockData(f, c),
                         k = m.get_block(),
-                        null != k && k.shouldRender(m) && !k.alwaysUpdate(m) && (L.bakeSurface.translate((f + 1) * Constants.tileSize, (c + 1) * Constants.tileSize),
-                        k.render(L.bakeSurface, m),
-                        L.bakeSurface.translate(-(f + 1) * Constants.tileSize, -(c + 1) * Constants.tileSize))
+                        null != k && k.shouldRender(m) && !k.alwaysUpdate(m) && (Renderer.bakeSurface.translate((f + 1) * Constants.tileSize, (c + 1) * Constants.tileSize),
+                        k.render(Renderer.bakeSurface, m),
+                        Renderer.bakeSurface.translate(-(f + 1) * Constants.tileSize, -(c + 1) * Constants.tileSize))
             }
         },
         updateBlockPlus: function(a, b, c) {
             null == c && (c = !1);
-            L.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
-            L.bakeSurface.clearRect(a * Constants.tileSize, b * Constants.tileSize, 3 * Constants.tileSize, 3 * Constants.tileSize);
+            Renderer.bakeSurface.setTransform(1, 0, 0, 1, 0, 0);
+            Renderer.bakeSurface.clearRect(a * Constants.tileSize, b * Constants.tileSize, 3 * Constants.tileSize, 3 * Constants.tileSize);
             for (var d = b - 1, e = b + 2; d < e; )
                 for (var f = d++, m = a - 1, k = a + 2; m < k; ) {
                     var p = m++;
@@ -3067,11 +3067,11 @@
                         var y = PlayManager.getBlockData(p, f)
                           , H = y.get_block();
                         if (null != H) {
-                            L.bakeSurface.translate((p + 1) * Constants.tileSize, (f + 1) * Constants.tileSize);
+                            Renderer.bakeSurface.translate((p + 1) * Constants.tileSize, (f + 1) * Constants.tileSize);
                             var K = 1 == PlayManager.level.theme ? Images.bgBricks : Images.bgTiles;
-                            L.bakeSurface.drawImage(K, new Rectangle((p + 1) * Constants.tileSize % K.width,(f + 1) * Constants.tileSize % K.height,Constants.tileSize,Constants.tileSize), 0, 0);
-                            H.shouldRender(y) && !H.alwaysUpdate(y) && H.render(L.bakeSurface, y);
-                            L.bakeSurface.translate(-(p + 1) * Constants.tileSize, -(f + 1) * Constants.tileSize)
+                            Renderer.bakeSurface.drawImage(K, new Rectangle((p + 1) * Constants.tileSize % K.width,(f + 1) * Constants.tileSize % K.height,Constants.tileSize,Constants.tileSize), 0, 0);
+                            H.shouldRender(y) && !H.alwaysUpdate(y) && H.render(Renderer.bakeSurface, y);
+                            Renderer.bakeSurface.translate(-(p + 1) * Constants.tileSize, -(f + 1) * Constants.tileSize)
                         }
                     }
                 }
@@ -3079,14 +3079,14 @@
         },
         renderDecals: function() {
             var a = Constants.tileSize;
-            L.bakeSurface.drawImage(Images.blocks, new Rectangle(a,2 * a,a,2 * a), (PlayManager.level.startCol + 1) * a, PlayManager.level.startRow * a);
-            L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (PlayManager.level.finishCol + 1) * a, PlayManager.level.finishRow * a);
-            ES3ClassUtils.__instanceof(PlayManager.level, Level8) && L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
+            Renderer.bakeSurface.drawImage(Images.blocks, new Rectangle(a,2 * a,a,2 * a), (PlayManager.level.startCol + 1) * a, PlayManager.level.startRow * a);
+            Renderer.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (PlayManager.level.finishCol + 1) * a, PlayManager.level.finishRow * a);
+            ES3ClassUtils.__instanceof(PlayManager.level, Level8) && Renderer.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
         },
         getBoundsSelf: function() {
             return new Rectangle(0,0,PlayManager.get_width() * Constants.tileSize,PlayManager.get_height() * Constants.tileSize)
         },
-        __class__: L
+        __class__: Renderer
     });
     var X = function() {
         this.bubbleHeight = 46;
@@ -4906,7 +4906,7 @@
             this.level.set_x(-this.camera.x);
             this.level.set_y(-this.camera.y);
             this.camera.addChild(this.level);
-            this.renderer = new L(this.camera);
+            this.renderer = new Renderer(this.camera);
             this.renderer.updateAllBlocks();
             this.level.addChild(this.renderer)
         },
