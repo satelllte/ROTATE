@@ -3408,7 +3408,7 @@
         },
         __class__: TileFinish
     });
-    var Za = function() {
+    var TileLever = function() {
         this.on = !1;
         this.channel = 0;
         X.call(this);
@@ -3416,9 +3416,9 @@
         this.bubbleHeight = 76;
         this.configurable = !0
     };
-    Za.__name__ = !0;
-    Za.__super__ = X;
-    Za.prototype = __INHERIT__(X.prototype, {
+    TileLever.__name__ = !0;
+    TileLever.__super__ = X;
+    TileLever.prototype = __INHERIT__(X.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3428,7 +3428,7 @@
         onInteract: function(a) {
             var b = a.y * l.get_width() + a.x
               , c = l.leversChanged.h[b];
-            if (!(null != c && GameInstance.i.get_gameTime() - c < Za.TOGGLE_TIMER)) {
+            if (!(null != c && GameInstance.i.get_gameTime() - c < TileLever.TOGGLE_TIMER)) {
                 c = GameplayLevel.i.channels;
                 var d = a.getMeta(0)
                   , e = c.h[d];
@@ -3535,7 +3535,7 @@
         getConfigMeta: function() {
             return [this.channel, this.on ? 1 : 0]
         },
-        __class__: Za
+        __class__: TileLever
     });
     var TileSolid = function() {
         X.call(this)
@@ -6898,7 +6898,7 @@
     J.ANIM_ROTATE = new GameAnimation([16, 17, 18, 19],[100, 100, 100, 100],!1);
     l.rotating = !1;
     l.rotation = 0;
-    Za.TOGGLE_TIMER = .67;
+    TileLever.TOGGLE_TIMER = .67;
     EditorTiles.registry = [];
     EditorTiles.start = EditorTiles.register(-1, new TileStart);
     EditorTiles.finish = EditorTiles.register(-2, new TileFinish);
@@ -6909,7 +6909,7 @@
     EditorTiles.platform = EditorTiles.register(4, new TilePlatform);
     EditorTiles.spikes = EditorTiles.register(5, new TileSpikes);
     EditorTiles.saw = EditorTiles.register(6, new TileSaw);
-    EditorTiles.lever = EditorTiles.register(8, new Za);
+    EditorTiles.lever = EditorTiles.register(8, new TileLever);
     EditorTiles.door = EditorTiles.register(9, new yb);
     EditorTiles.number = EditorTiles.register(7, new Bb);
     EditorTiles.vent = EditorTiles.register(10, new Hb);
