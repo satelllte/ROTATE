@@ -98,17 +98,17 @@
         return a.split(b).join(c)
     }
     ;
-    var h = function() {};
-    h.__name__ = !0;
-    h.set_background = function(a) {
-        h.background = a & -1;
-        return h.background
+    var GameController = function() {};
+    GameController.__name__ = !0;
+    GameController.set_background = function(a) {
+        GameController.background = a & -1;
+        return GameController.background
     }
     ;
-    h.set_imageSmoothingEnabled = function(a) {
-        h.imageSmoothingEnabled = a;
-        if (null != h.ctx) {
-            var b = h.ctx;
+    GameController.set_imageSmoothingEnabled = function(a) {
+        GameController.imageSmoothingEnabled = a;
+        if (null != GameController.ctx) {
+            var b = GameController.ctx;
             b.webkitImageSmoothingEnabled = a;
             b.mozImageSmoothingEnabled = a;
             b.msImageSmoothingEnabled = a;
@@ -118,109 +118,109 @@
         return a
     }
     ;
-    h.start = function(a, b, c, d, e, f) {
-        h.started || 1 > b || 1 > c || null == f || (h.transparent = e,
-        h.width = b,
-        h.height = c,
-        h.set_background(d),
-        h.stage = f,
+    GameController.start = function(a, b, c, d, e, f) {
+        GameController.started || 1 > b || 1 > c || null == f || (GameController.transparent = e,
+        GameController.width = b,
+        GameController.height = c,
+        GameController.set_background(d),
+        GameController.stage = f,
         window.setTimeout(function() {
             window.focus()
         }, 0),
-        h.setup(a),
+        GameController.setup(a),
         f.triggerEvent(new RotateEvent("added")),
         LoadingManager._init(),
-        h.loop(),
-        h.started = !0)
+        GameController.loop(),
+        GameController.started = !0)
     }
     ;
-    h.setup = function(a) {
+    GameController.setup = function(a) {
         null == a && (a = window.document.body);
-        h.parent = a;
+        GameController.parent = a;
         var b = window.document.body;
         b.style.margin = "0";
         b.style.overflow = "hidden";
-        h.c = window.document.createElement("canvas");
-        h.c.width = h.width;
-        h.c.height = h.height;
-        h.c.style.position = "absolute";
-        h.c.style.left = h.c.style.top = "0";
-        h.c.style.transform = "translateZ(0px)";
-        h.c.style.cursor = "default";
-        a.appendChild(h.c);
-        h.ctx = h.c.getContext("2d", {
-            alpha: h.transparent
+        GameController.c = window.document.createElement("canvas");
+        GameController.c.width = GameController.width;
+        GameController.c.height = GameController.height;
+        GameController.c.style.position = "absolute";
+        GameController.c.style.left = GameController.c.style.top = "0";
+        GameController.c.style.transform = "translateZ(0px)";
+        GameController.c.style.cursor = "default";
+        a.appendChild(GameController.c);
+        GameController.ctx = GameController.c.getContext("2d", {
+            alpha: GameController.transparent
         });
-        h.set_imageSmoothingEnabled(h.imageSmoothingEnabled);
-        h.surface = new Surface(h.ctx);
+        GameController.set_imageSmoothingEnabled(GameController.imageSmoothingEnabled);
+        GameController.surface = new Surface(GameController.ctx);
         Timer._reset();
-        h.input = new qb(h.c);
+        GameController.input = new qb(GameController.c);
         GameInput._init();
-        h.input.addEventListener("click", h.onClick);
-        h.input.addEventListener("mouseDown", h.onMouseDown);
-        h.input.addEventListener("mouseUp", h.onMouseUp);
-        h.input.addEventListener("move", h.onMouseMove)
+        GameController.input.addEventListener("click", GameController.onClick);
+        GameController.input.addEventListener("mouseDown", GameController.onMouseDown);
+        GameController.input.addEventListener("mouseUp", GameController.onMouseUp);
+        GameController.input.addEventListener("move", GameController.onMouseMove)
     }
     ;
-    h.loop = function() {
+    GameController.loop = function() {
         Timer._update();
         if (LoadingManager.get_done())
-            h.wasLoaded || (LoadingManager.triggerEvent(new RotateProgressEvent("progress",1)),
-            h.lastProgress = 1,
+            GameController.wasLoaded || (LoadingManager.triggerEvent(new RotateProgressEvent("progress",1)),
+            GameController.lastProgress = 1,
             LoadingManager.triggerEvent(new RotateProgressEvent("finished",1)));
         else {
             var a = LoadingManager.get_progress();
-            a != h.lastProgress && (LoadingManager.triggerEvent(new RotateProgressEvent("progress",a)),
-            h.lastProgress = a)
+            a != GameController.lastProgress && (LoadingManager.triggerEvent(new RotateProgressEvent("progress",a)),
+            GameController.lastProgress = a)
         }
-        h.wasLoaded = LoadingManager.get_done();
-        var b = h.scale;
-        h.scale = window.innerWidth / window.innerHeight < h.width / h.height ? window.innerWidth / h.width : window.innerHeight / h.height;
-        var c = Math.round(h.width * h.scale);
-        a = Math.round(h.height * h.scale);
-        h.scale != b && (h.c.style.width = c + "px",
-        h.c.style.height = a + "px");
+        GameController.wasLoaded = LoadingManager.get_done();
+        var b = GameController.scale;
+        GameController.scale = window.innerWidth / window.innerHeight < GameController.width / GameController.height ? window.innerWidth / GameController.width : window.innerHeight / GameController.height;
+        var c = Math.round(GameController.width * GameController.scale);
+        a = Math.round(GameController.height * GameController.scale);
+        GameController.scale != b && (GameController.c.style.width = c + "px",
+        GameController.c.style.height = a + "px");
         b = Math.floor((window.innerWidth - c) / 2);
-        b != h.offsetX && (h.c.style.left = Math.floor((window.innerWidth - c) / 2) + "px",
-        h.offsetX = b);
+        b != GameController.offsetX && (GameController.c.style.left = Math.floor((window.innerWidth - c) / 2) + "px",
+        GameController.offsetX = b);
         c = Math.floor((window.innerHeight - a) / 2);
-        c != h.offsetY && (h.c.style.top = Math.floor((window.innerHeight - a) / 2) + "px",
-        h.offsetY = c);
-        h.updateMouseSprite();
-        a = null != h.mouseSprite && h.mouseSprite.buttonMode ? "pointer" : "default";
-        a != h.lastCursor && (h.c.style.cursor = a,
-        h.lastCursor = a);
+        c != GameController.offsetY && (GameController.c.style.top = Math.floor((window.innerHeight - a) / 2) + "px",
+        GameController.offsetY = c);
+        GameController.updateMouseSprite();
+        a = null != GameController.mouseSprite && GameController.mouseSprite.buttonMode ? "pointer" : "default";
+        a != GameController.lastCursor && (GameController.c.style.cursor = a,
+        GameController.lastCursor = a);
         var d = new RotateEvent("enterFrame");
-        h.stage.cascadingCallback(function(e) {
+        GameController.stage.cascadingCallback(function(e) {
             e.triggerEvent(d)
         });
         d = new RotateEvent("exitFrame");
-        h.stage.cascadingCallback(function(e) {
+        GameController.stage.cascadingCallback(function(e) {
             e.triggerEvent(d)
         });
-        h.render();
-        h.requestAnimationFrame(h.loop)
+        GameController.render();
+        GameController.requestAnimationFrame(GameController.loop)
     }
     ;
-    h.requestAnimationFrame = function(a) {
+    GameController.requestAnimationFrame = function(a) {
         var b = window;
         (b = b.requestAnimationFrame || b.webkitRequestAnimationFrame || b.mozRequestAnimationFrame || b.oRequestAnimationFrame || b.msRequestAnimationFrame) ? b(a) : window.setTimeout(a, 16)
     }
     ;
-    h.render = function() {
-        h.surface.reset();
-        if (h.transparent) {
-            var a = h.background >>> 24;
-            255 > a && h.surface.clearRect(0, 0, h.width, h.height);
-            h.surface.beginFill(h.background & 16777215, ES3ClassUtils.__cast(a, kc) / 255)
+    GameController.render = function() {
+        GameController.surface.reset();
+        if (GameController.transparent) {
+            var a = GameController.background >>> 24;
+            255 > a && GameController.surface.clearRect(0, 0, GameController.width, GameController.height);
+            GameController.surface.beginFill(GameController.background & 16777215, ES3ClassUtils.__cast(a, kc) / 255)
         } else
-            h.surface.beginFill(h.background & 16777215, 1);
-        h.surface.drawRect(0, 0, h.width, h.height);
-        h.surface._ctx.globalAlpha = 1;
-        h.renderSprite(h.stage, h.surface)
+            GameController.surface.beginFill(GameController.background & 16777215, 1);
+        GameController.surface.drawRect(0, 0, GameController.width, GameController.height);
+        GameController.surface._ctx.globalAlpha = 1;
+        GameController.renderSprite(GameController.stage, GameController.surface)
     }
     ;
-    h.renderSprite = function(a, b) {
+    GameController.renderSprite = function(a, b) {
         if (a.visible && 0 != a.alpha) {
             b.save();
             b.translate(a.x, a.y);
@@ -234,7 +234,7 @@
             for (var d = 0, e = a._children; d < e.length; ) {
                 var f = e[d];
                 ++d;
-                h.renderSprite(f, b)
+                GameController.renderSprite(f, b)
             }
             b.scale(1 / a.scaleX, 1 / a.scaleY);
             b._ctx.globalAlpha = c;
@@ -242,60 +242,60 @@
         }
     }
     ;
-    h.updateMouseSprite = function() {
-        var a = h.updateMouseSpriteStep(h.stage, null);
-        null == a && (a = h.stage);
-        h.mouseSprite = a
+    GameController.updateMouseSprite = function() {
+        var a = GameController.updateMouseSpriteStep(GameController.stage, null);
+        null == a && (a = GameController.stage);
+        GameController.mouseSprite = a
     }
     ;
-    h.updateMouseSpriteStep = function(a, b) {
+    GameController.updateMouseSpriteStep = function(a, b) {
         if (a.visible) {
             if (a.mouseEnabled) {
                 var c = a.getBounds();
                 c.width -= 1E-4;
                 c.height -= 1E-4;
-                xa.pointInTransformedBounds(new Vector2(h.input.mouseX,h.input.mouseY), a._transform, c) && (b = a)
+                xa.pointInTransformedBounds(new Vector2(GameController.input.mouseX,GameController.input.mouseY), a._transform, c) && (b = a)
             }
             c = 0;
             for (var d = a._children; c < d.length; ) {
                 var e = d[c];
                 ++c;
-                b = h.updateMouseSpriteStep(e, b)
+                b = GameController.updateMouseSpriteStep(e, b)
             }
         }
         return b
     }
     ;
-    h.pageToGame = function(a, b) {
-        return new Vector2((a - h.offsetX) / h.scale,(b - h.offsetY) / h.scale)
+    GameController.pageToGame = function(a, b) {
+        return new Vector2((a - GameController.offsetX) / GameController.scale,(b - GameController.offsetY) / GameController.scale)
     }
     ;
-    h.onClick = function(a) {
-        h.updateMouseSprite();
-        null != h.clickSprite && h.mouseSprite == h.clickSprite && h.triggerMouseEvent(h.clickSprite, a)
+    GameController.onClick = function(a) {
+        GameController.updateMouseSprite();
+        null != GameController.clickSprite && GameController.mouseSprite == GameController.clickSprite && GameController.triggerMouseEvent(GameController.clickSprite, a)
     }
     ;
-    h.onMouseDown = function(a) {
+    GameController.onMouseDown = function(a) {
         window.getSelection().removeAllRanges();
         var b = window.document.activeElement
           , c = b.tagName.toLowerCase();
         1 != a.which || "input" != c && "textarea" != c || b.setSelectionRange(0, 0);
-        h.updateMouseSprite();
-        h.clickSprite = h.mouseSprite;
-        null != h.mouseSprite && h.triggerMouseEvent(h.mouseSprite, a)
+        GameController.updateMouseSprite();
+        GameController.clickSprite = GameController.mouseSprite;
+        null != GameController.mouseSprite && GameController.triggerMouseEvent(GameController.mouseSprite, a)
     }
     ;
-    h.onMouseUp = function(a) {
-        h.updateMouseSprite();
-        null != h.mouseSprite && h.triggerMouseEvent(h.mouseSprite, a)
+    GameController.onMouseUp = function(a) {
+        GameController.updateMouseSprite();
+        null != GameController.mouseSprite && GameController.triggerMouseEvent(GameController.mouseSprite, a)
     }
     ;
-    h.onMouseMove = function(a) {
-        h.updateMouseSprite();
-        null != h.mouseSprite && h.triggerMouseEvent(h.mouseSprite, a)
+    GameController.onMouseMove = function(a) {
+        GameController.updateMouseSprite();
+        null != GameController.mouseSprite && GameController.triggerMouseEvent(GameController.mouseSprite, a)
     }
     ;
-    h.triggerMouseEvent = function(a, b) {
+    GameController.triggerMouseEvent = function(a, b) {
         for (var c = b.target = a; null != c; )
             c.triggerEvent(b),
             c = c.parent
@@ -628,7 +628,7 @@
             return this.alpha = 0 > a ? 0 : 1 < a ? 1 : a
         },
         get_stage: function() {
-            return h.stage
+            return GameController.stage
         },
         get_width: function() {
             return this.getBounds().width * this.scaleX
@@ -997,7 +997,7 @@
             return this.mouseY = Math.floor(a)
         },
         updateMouse: function(a) {
-            a = h.pageToGame(a.pageX, a.pageY);
+            a = GameController.pageToGame(a.pageX, a.pageY);
             this.set_mouseX(a.x);
             this.set_mouseY(a.y)
         },
@@ -1063,10 +1063,10 @@
     var GameInput = function() {};
     GameInput.__name__ = !0;
     GameInput._init = function() {
-        GameInput.inited || (h.input.addEventListener("keyDown", GameInput.onKeyDown),
-        h.input.addEventListener("keyUp", GameInput.onKeyUp),
-        h.input.addEventListener("blur", GameInput.reset),
-        h.stage.addEventListener("exitFrame", GameInput.update),
+        GameInput.inited || (GameController.input.addEventListener("keyDown", GameInput.onKeyDown),
+        GameController.input.addEventListener("keyUp", GameInput.onKeyUp),
+        GameController.input.addEventListener("blur", GameInput.reset),
+        GameController.stage.addEventListener("exitFrame", GameInput.update),
         GameInput.inited = !0)
     }
     ;
@@ -1880,7 +1880,7 @@
         GameInstance.i = new GameInstance;
         GameInstance.i.addEventListener("added", (Ja = GameInstance.i,
         T(Ja, Ja.init)));
-        h.start(GameInstance.element = window.document.getElementById("game"), 504, 504, 2105376, !1, GameInstance.i)
+        GameController.start(GameInstance.element = window.document.getElementById("game"), 504, 504, 2105376, !1, GameInstance.i)
     }
     ;
     GameInstance.smootherStep = function(a) {
@@ -1928,7 +1928,7 @@
         },
         init: function(a) {
             this.removeEventListener("added", T(this, this.init));
-            h.set_imageSmoothingEnabled(!1);
+            GameController.set_imageSmoothingEnabled(!1);
             LoadingManager.addEventListener("finished", T(this, this.loaded))
         },
         loaded: function(a) {
@@ -1956,7 +1956,7 @@
             this.addChild(this.fader);
             this.addChild(this.timerHolder);
             AwardsManager.setup(this);
-            h.input.addEventListener("blur", function(c) {
+            GameController.input.addEventListener("blur", function(c) {
                 null != b.targetScreen && b.targetScreen.pausable && (b.pauseOnInit = !0);
                 null != b.currentScreen && b.currentScreen.pausable && b.pause()
             });
@@ -1990,7 +1990,7 @@
             this.fadeStart = Timer.get_currentMS(),
             this.fader.graphics.clear(),
             this.fader.graphics.beginFill(e ? 16777215 : 1052688),
-            this.fader.graphics.drawRect(0, 0, h.width, h.height),
+            this.fader.graphics.drawRect(0, 0, GameController.width, GameController.height),
             this.fader.mouseEnabled = !0,
             null == this.currentScreen ? (this.fader.set_alpha(1),
             this.fadeStart -= this.getFadeSpeed() / 2,
@@ -2984,11 +2984,11 @@
                 var c = null;
                 if (!PlayManager.rotating) {
                     c = PlayManager.rotation;
-                    c = b.globalToLocal(1 == c || 2 == c ? h.width : 0, 2 == c || 3 == c ? h.height : 0);
+                    c = b.globalToLocal(1 == c || 2 == c ? GameController.width : 0, 2 == c || 3 == c ? GameController.height : 0);
                     var d = Math.floor(c.x / Constants.tileSize)
-                      , e = Math.floor((c.x + h.width - Constants.EPSILON) / Constants.tileSize)
+                      , e = Math.floor((c.x + GameController.width - Constants.EPSILON) / Constants.tileSize)
                       , f = Math.floor(c.y / Constants.tileSize)
-                      , m = Math.floor((c.y + h.height - Constants.EPSILON) / Constants.tileSize);
+                      , m = Math.floor((c.y + GameController.height - Constants.EPSILON) / Constants.tileSize);
                     c = function(fa, ka) {
                         return fa >= d && ka >= f && fa <= e ? ka <= m : !1
                     }
@@ -4639,11 +4639,11 @@
         this.field.set_alpha(0);
         this.field.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.field.align = GraphicsObjectText.ALIGN_CENTER;
-        this.field.set_x(h.width / 2);
+        this.field.set_x(GameController.width / 2);
         null == b && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) ? (b = GameInstance.i.currentScreen.textHolder,
         this.field.yAlign = GraphicsObjectText.Y_ALIGN_TOP,
-        this.field.set_y(h.height - 96)) : (this.field.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE,
-        this.field.set_y(h.height / 2));
+        this.field.set_y(GameController.height - 96)) : (this.field.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE,
+        this.field.set_y(GameController.height / 2));
         b.addChild(this.field);
         null != a[0] && a[0].cond.start()
     };
@@ -4723,18 +4723,18 @@
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
-            this.pivot.set_x(Math.round(h.width / 2));
-            this.pivot.set_y(Math.round(h.height / 2));
+            this.pivot.set_x(Math.round(GameController.width / 2));
+            this.pivot.set_y(Math.round(GameController.height / 2));
             this.addChild(this.pivot);
             this.content.set_x(-this.pivot.x);
             this.content.set_y(-this.pivot.y);
             this.pivot.addChild(this.content);
             this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
-            this.title.set_x(Math.round(h.width / 2));
+            this.title.set_x(Math.round(GameController.width / 2));
             this.title.set_y(64);
             this.content.addChild(this.title);
-            this.btnBack.set_x(Math.round(h.width / 2));
-            this.btnBack.set_y(h.height - 88);
+            this.btnBack.set_x(Math.round(GameController.width / 2));
+            this.btnBack.set_y(GameController.height - 88);
             this.btnBack.addEventListener("click", function(a) {
                 2 > a.which && GameInstance.i.changeScreen(new ScreenExtras)
             });
@@ -4761,7 +4761,7 @@
                   , e = Math.floor(d / 3)
                   , f = e < a ? 3 : AwardsManager.awardsAll.length - 3 * a
                   , m = new Xb(AwardsManager.awardsAll[d]);
-                m.set_x(Math.floor(h.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e));
+                m.set_x(Math.floor(GameController.width / 2) - 80 * (f - 1) + 160 * (d - 3 * e));
                 m.set_y(128 + 136 * e);
                 this.content.addChild(m);
                 this.awardDisplays.push(m)
@@ -4816,7 +4816,7 @@
             if (this.fromEnd) {
                 this.bg = new GraphicsObject;
                 this.bg.graphics.beginFill(16777215);
-                this.bg.graphics.drawRect(0, 0, h.width, h.height);
+                this.bg.graphics.drawRect(0, 0, GameController.width, GameController.height);
                 var b = new ImageSurface(Images.vignette);
                 b.set_alpha(.75);
                 this.bg.addChild(b);
@@ -4825,11 +4825,11 @@
                 ca.playTheme(),
                 this.bg = new Na;
             this.addChild(this.bg);
-            this.text1.set_x(Math.round(h.width / 2));
+            this.text1.set_x(Math.round(GameController.width / 2));
             this.text1.set_y(80);
             this.text1.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.addChild(this.text1);
-            this.joshua.set_x(Math.round((h.width - this.joshua.get_width()) / 2));
+            this.joshua.set_x(Math.round((GameController.width - this.joshua.get_width()) / 2));
             this.joshua.set_y(this.text1.y + 36);
             this.joshua.mouseEnabled = this.joshua.buttonMode = !0;
             this.joshua.addEventListener("click", function(c) {
@@ -4847,7 +4847,7 @@
             this.text2.addEventListener("click", function(c) {
                 1 < c.which || window.open("https://www.patreon.com/lightwolfstudios", "_blank").focus()
             });
-            this.soundtrack.set_x(h.width - this.soundtrack.get_width() - 6);
+            this.soundtrack.set_x(GameController.width - this.soundtrack.get_width() - 6);
             this.soundtrack.set_y(8);
             this.soundtrack.mouseEnabled = this.soundtrack.buttonMode = !0;
             this.soundtrack.addEventListener("click", function(c) {
@@ -4860,7 +4860,7 @@
             this.moreText.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.moreText.align = GraphicsObjectText.ALIGN_CENTER;
             this.addChild(this.moreText);
-            this.more.set_x(Math.round((h.width - this.more.get_width()) / 2));
+            this.more.set_x(Math.round((GameController.width - this.more.get_width()) / 2));
             this.more.set_y(this.moreText.y + this.moreText.get_height());
             this.more.mouseEnabled = this.more.buttonMode = !0;
             this.more.addEventListener("click", function(c) {
@@ -4869,8 +4869,8 @@
                 c.focus())
             });
             this.addChild(this.more);
-            this.btnBack.set_x(Math.round(h.width / 2));
-            this.btnBack.set_y(h.height - 64);
+            this.btnBack.set_x(Math.round(GameController.width / 2));
+            this.btnBack.set_y(GameController.height - 64);
             this.btnBack.addEventListener("click", function(c) {
                 2 > c.which && (a.fromEnd && Sounds.surface.playing() && (GameInstance.ie ? Sounds.surface.stop() : (Sounds.surface.fade(1, 0, Math.round(Constants.screenFadeTime / 2)),
                 Sounds.surface.once("fade", function() {
@@ -4897,10 +4897,10 @@
     BaseLevel.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.bg.graphics.beginFill(3158064);
-            this.bg.graphics.drawRect(0, 0, h.width, h.height);
+            this.bg.graphics.drawRect(0, 0, GameController.width, GameController.height);
             this.addChild(this.bg);
-            this.pivot.set_x(h.width / 2);
-            this.pivot.set_y(h.height / 2);
+            this.pivot.set_x(GameController.width / 2);
+            this.pivot.set_y(GameController.height / 2);
             this.addChild(this.pivot);
             this.pivot.addChild(this.camera);
             this.level.set_x(-this.camera.x);
@@ -4986,7 +4986,7 @@
             this.addEventListener("mouseDown", function(k) {
                 2 > k.which && k.target == a && (a.drawing = !0)
             });
-            h.input.addEventListener("mouseUp", T(this, this.mouseUp));
+            GameController.input.addEventListener("mouseUp", T(this, this.mouseUp));
             this.renderer.showGrid = EditorLevel.showGrid;
             this.barUpper = new EditorBarUpper(EditorLevel.editorLevel.theme,function(k) {
                 EditorLevel.editorLevel.theme = 1 - EditorLevel.editorLevel.theme;
@@ -5028,7 +5028,7 @@
             2 > a.which && (this.drawing = !1)
         },
         getBoundsSelf: function() {
-            return new Rectangle(0,0,h.width,h.height)
+            return new Rectangle(0,0,GameController.width,GameController.height)
         },
         showLoadDialog: function() {
             var a = this;
@@ -5119,9 +5119,9 @@
                 this.doRotation();
                 this.horizontal = GameInstance.getInputX();
                 this.vertical = GameInstance.getInputY();
-                var b = h.input.mouseX
-                  , c = h.input.mouseY;
-                if (this.drawing && !PlayManager.rotating && 0 <= b && 0 <= c && b < h.width && c < h.height) {
+                var b = GameController.input.mouseX
+                  , c = GameController.input.mouseY;
+                if (this.drawing && !PlayManager.rotating && 0 <= b && 0 <= c && b < GameController.width && c < GameController.height) {
                     if (null == PlayManager.level)
                         return;
                     b = this.renderer.globalToLocal(b, c);
@@ -5311,7 +5311,7 @@
             }
         },
         kill: function() {
-            h.input.removeEventListener("mouseUp", T(this, this.mouseUp));
+            GameController.input.removeEventListener("mouseUp", T(this, this.mouseUp));
             PlayManager.set_level(null)
         },
         __class__: EditorLevel
@@ -5378,10 +5378,10 @@
         init: function() {
             this.start = GameInstance.i.get_gameTime();
             this.bg.graphics.beginFill(16777215);
-            this.bg.graphics.drawRect(0, 0, h.width, h.height);
+            this.bg.graphics.drawRect(0, 0, GameController.width, GameController.height);
             this.addChild(this.bg);
-            this.pivot.set_x(h.width / 2);
-            this.pivot.set_y(h.height / 2);
+            this.pivot.set_x(GameController.width / 2);
+            this.pivot.set_y(GameController.height / 2);
             this.addChild(this.pivot);
             this.pivot.addChild(this.camera);
             this.camera.addChild(this.artMain);
@@ -5405,8 +5405,8 @@
             this.addChild(this.vignette);
             this.hint.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.hint.yAlign = GraphicsObjectText.Y_ALIGN_BOTTOM;
-            this.hint.set_x(Math.round(h.width / 2));
-            this.hint.set_y(h.height - 24);
+            this.hint.set_x(Math.round(GameController.width / 2));
+            this.hint.set_y(GameController.height - 24);
             this.hint.set_alpha(0);
             this.addChild(this.hint);
             Sounds.surface.volume(1);
@@ -5437,7 +5437,7 @@
             var a = .75 * Constants.cameraSpeed;
             this.cameraX += (-this.player.x - this.cameraX) * a;
             this.cameraY += (-this.player.y + Constants.rotateOffset - this.cameraY) * a;
-            this.cat.x < h.width + 100 && this.cat.tick()
+            this.cat.x < GameController.width + 100 && this.cat.tick()
         },
         postUpdate: function() {
             this.camera.set_x(Math.round(this.cameraX));
@@ -5468,7 +5468,7 @@
             ca.playTheme();
             this.addChild(this.bg);
             this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
-            this.title.set_x(Math.round(h.width / 2));
+            this.title.set_x(Math.round(GameController.width / 2));
             this.title.set_y(56);
             this.addChild(this.title);
             this.btn1.set_x(134);
@@ -5501,14 +5501,14 @@
             this.text3.set_y(this.btn3.y - 29);
             this.addChild(this.text3);
             this.bestTime.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
-            this.bestTime.set_x(Math.round(h.width / 2));
+            this.bestTime.set_x(Math.round(GameController.width / 2));
             this.bestTime.set_y(this.btn3.y + 21 + 8);
             var a = this.bestTime;
             a.set_text(a.text + (-1 < Levels.speedrunBest ? GameInstance.formatMS(Levels.speedrunBest) : "--:--:----"));
             0 > Levels.speedrunBest && this.bestTime.set_alpha(.5);
             this.addChild(this.bestTime);
-            this.btnBack.set_x(Math.round(h.width / 2));
-            this.btnBack.set_y(h.height - 80);
+            this.btnBack.set_x(Math.round(GameController.width / 2));
+            this.btnBack.set_y(GameController.height - 80);
             this.btnBack.addEventListener("click", function(b) {
                 2 > b.which && GameInstance.i.changeScreen(new ca)
             });
@@ -5537,12 +5537,12 @@
             ca.playTheme();
             this.addChild(this.bg);
             this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
-            this.title.set_x(Math.round(h.width / 2));
+            this.title.set_x(Math.round(GameController.width / 2));
             this.title.set_y(56);
             this.addChild(this.title);
             this.addChild(this.tiles);
-            this.btnBack.set_x(Math.round(h.width / 2));
-            this.btnBack.set_y(h.height - 84);
+            this.btnBack.set_x(Math.round(GameController.width / 2));
+            this.btnBack.set_y(GameController.height - 84);
             this.btnBack.addEventListener("click", function(a) {
                 2 > a.which && GameInstance.i.changeScreen(new ca)
             });
@@ -5555,7 +5555,7 @@
         },
         refresh: function() {
             this.tiles.removeChildren();
-            for (var a = Levels.list.length, b = Math.round((h.width - (4 * Images.level.width + 72)) / 2), c = this.title.y + 56, d = 0; d < a; ) {
+            for (var a = Levels.list.length, b = Math.round((GameController.width - (4 * Images.level.width + 72)) / 2), c = this.title.y + 56, d = 0; d < a; ) {
                 var e = [d++]
                   , f = Math.floor(e[0] / 4)
                   , m = e[0] % 4
@@ -5613,11 +5613,11 @@
             ca.playTheme();
             this.addChild(this.bg);
             this.addChild(this.sponsor);
-            this.logo.set_x(Math.floor((h.width - this.logo.get_width()) / 2));
+            this.logo.set_x(Math.floor((GameController.width - this.logo.get_width()) / 2));
             this.logo.set_y(80);
             this.addChild(this.logo);
-            this.btnPlay.set_x(Math.floor(h.width / 2));
-            this.btnPlay.set_y(Math.floor(h.height / 2) - 1);
+            this.btnPlay.set_x(Math.floor(GameController.width / 2));
+            this.btnPlay.set_y(Math.floor(GameController.height / 2) - 1);
             this.btnPlay.addEventListener("click", function(a) {
                 1 < a.which || (0 == Levels.unlocked ? (ca.stopTheme(),
                 GameInstance.i.changeScreen(new Qa)) : GameInstance.i.changeScreen(new ScreenLevelSelect))
@@ -5738,7 +5738,7 @@
             this.addChild(this.vignette);
             this.addChild(this.textHolder);
             this.red.graphics.beginFill(14622752);
-            this.red.graphics.drawRect(0, 0, h.width, h.height);
+            this.red.graphics.drawRect(0, 0, GameController.width, GameController.height);
             this.red.visible = !1;
             this.addChild(this.red);
             if (this.speedrun) {
@@ -5747,14 +5747,14 @@
                 this.timerText = new GraphicsObjectText(GameInstance.fontMain,"",2);
                 this.timerText.align = GraphicsObjectText.ALIGN_RIGHT;
                 this.timerText.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
-                this.timerText.set_x(h.width - 12);
+                this.timerText.set_x(GameController.width - 12);
                 this.timerText.set_y(8);
                 GameInstance.i.timerHolder.addChild(this.timerText);
                 this.updateTimer()
             } else
                 PlayManager.level != Levels.level1 || GameInstance.i.hasPaused || (this.pauseText = new GraphicsObjectText(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
                 this.pauseText.xAlign = GraphicsObjectText.X_ALIGN_CENTER,
-                this.pauseText.set_x(Math.round(h.width / 2)),
+                this.pauseText.set_x(Math.round(GameController.width / 2)),
                 this.pauseText.set_y(8),
                 this.pauseText.set_alpha(.33),
                 this.addChild(this.pauseText))
@@ -5909,8 +5909,8 @@
         Screen.call(this);
         this.lws = a;
         a = new ImageSurface(Images.splashLWS);
-        a.set_x(Math.round((h.width - a.get_width()) / 2));
-        a.set_y(Math.round((h.height - a.get_height()) / 2));
+        a.set_x(Math.round((GameController.width - a.get_width()) / 2));
+        a.set_y(Math.round((GameController.height - a.get_height()) / 2));
         this.addChild(a)
     };
     $b.__name__ = !0;
@@ -5935,8 +5935,8 @@
     vb.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.timer = Timer.get_currentMS();
-            this.pivot.set_x(h.width / 2);
-            this.pivot.set_y(h.height / 2);
+            this.pivot.set_x(GameController.width / 2);
+            this.pivot.set_y(GameController.height / 2);
             this.addChild(this.pivot);
             this.start.set_x(-this.start.get_width() / 2);
             this.start.set_y(-this.start.get_height() / 2);
@@ -6207,19 +6207,19 @@
         null == b && (b = "");
         GraphicsObject.call(this);
         this.graphics.beginFill(1052688, .95);
-        this.graphics.drawRect(0, 0, h.width, h.height);
+        this.graphics.drawRect(0, 0, GameController.width, GameController.height);
         this.mouseEnabled = !0;
         this.title = new GraphicsObjectText(GameInstance.fontMain,a);
         this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
-        this.title.set_x(Math.round(h.width / 2));
+        this.title.set_x(Math.round(GameController.width / 2));
         this.title.set_y(36);
         this.addChild(this.title);
         this.area = window.document.createElement("textarea");
-        var c = h.width - 80;
+        var c = GameController.width - 80;
         window.document.body.appendChild(this.area);
         this.area.style.position = "absolute";
-        this.area.style.left = Math.round((h.width - c) / 2) + "px";
-        this.area.style.top = Math.round((h.height - 300) / 2 - 8) + "px";
+        this.area.style.left = Math.round((GameController.width - c) / 2) + "px";
+        this.area.style.top = Math.round((GameController.height - 300) / 2 - 8) + "px";
         this.area.style.width = c - 12 + "px";
         this.area.style.height = "288px";
         this.area.style.resize = "none";
@@ -6249,19 +6249,19 @@
         Da.call(this, "LOAD LEVEL");
         this.invalid.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.invalid.yAlign = GraphicsObjectText.Y_ALIGN_BOTTOM;
-        this.invalid.set_x(Math.round(h.width / 2));
-        this.invalid.set_y(h.height - 82);
+        this.invalid.set_x(Math.round(GameController.width / 2));
+        this.invalid.set_y(GameController.height - 82);
         this.invalid.visible = !1;
         this.addChild(this.invalid);
-        this.btnCancel.set_x(Math.round(h.width / 2) - 96);
-        this.btnCancel.set_y(h.height - 52);
+        this.btnCancel.set_x(Math.round(GameController.width / 2) - 96);
+        this.btnCancel.set_y(GameController.height - 52);
         this.btnCancel.addEventListener("click", function(b) {
             if (2 > b.which && null != a.onBack)
                 a.onBack()
         });
         this.addChild(this.btnCancel);
-        this.btnLoad.set_x(Math.round(h.width / 2) + 96);
-        this.btnLoad.set_y(h.height - 52);
+        this.btnLoad.set_x(Math.round(GameController.width / 2) + 96);
+        this.btnLoad.set_y(GameController.height - 52);
         this.btnLoad.addEventListener("click", function(b) {
             2 > b.which && null != a.onLoad && !a.onLoad(a.area.value) && (a.invalid.visible = !0)
         });
@@ -6280,8 +6280,8 @@
         var b = this;
         Da.call(this, "SAVE LEVEL", a);
         this.area.readOnly = !0;
-        this.btnBack.set_x(Math.round(h.width / 2));
-        this.btnBack.set_y(h.height - 52);
+        this.btnBack.set_x(Math.round(GameController.width / 2));
+        this.btnBack.set_y(GameController.height - 52);
         this.btnBack.addEventListener("click", function(c) {
             if (2 > c.which && null != b.onBack)
                 b.onBack()
@@ -6297,10 +6297,10 @@
         this.selector = new EditorTileSelector;
         var b = this;
         GraphicsObject.call(this);
-        this.set_y(h.height - EditorBarLower.HEIGHT);
+        this.set_y(GameController.height - EditorBarLower.HEIGHT);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
-        this.graphics.drawRect(0, 0, h.width, EditorBarLower.HEIGHT);
+        this.graphics.drawRect(0, 0, GameController.width, EditorBarLower.HEIGHT);
         this.gridToggle = new GridToggle(a);
         this.addChild(this.gridToggle);
         this.selector.set_x(12);
@@ -6324,7 +6324,7 @@
         GraphicsObject.call(this);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
-        this.graphics.drawRect(0, 0, h.width, EditorBarUpper.HEIGHT);
+        this.graphics.drawRect(0, 0, GameController.width, EditorBarUpper.HEIGHT);
         this.btnExit.set_x(EditorBarUpper.EDGE_PAD);
         this.btnExit.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
@@ -6361,7 +6361,7 @@
             2 > d.which && b(1)
         });
         this.addChild(c);
-        this.btnPlay.set_x(h.width - EditorBarUpper.EDGE_PAD);
+        this.btnPlay.set_x(GameController.width - EditorBarUpper.EDGE_PAD);
         this.btnPlay.set_y(EditorBarUpper.EDGE_PAD_Y);
         this.btnPlay.xAlign = GraphicsObjectText.X_ALIGN_RIGHT;
         this.btnPlay.mouseEnabled = this.btnPlay.buttonMode = !0;
@@ -6392,8 +6392,8 @@
     });
     var ButtonErase = function() {
         ImageSurface.call(this, Images.trash);
-        this.set_x(h.width - 120);
-        this.set_y(h.height - this.get_height() - 12);
+        this.set_x(GameController.width - 120);
+        this.set_y(GameController.height - this.get_height() - 12);
         for (var a = !1, b = 0, c = AwardsManager.awardsAll; b < c.length; ) {
             var d = c[b];
             ++b;
@@ -6429,7 +6429,7 @@
         this.toggle = new ImageSurface(Images.configToggle);
         var b = this;
         GraphicsObject.call(this);
-        this.set_x(h.width - this.get_width() - 12);
+        this.set_x(GameController.width - this.get_width() - 12);
         this.set_y(8);
         this.mouseEnabled = this.buttonMode = !0;
         this.addEventListener("click", function(c) {
@@ -6466,8 +6466,8 @@
     Na.__super__ = GraphicsObject;
     Na.prototype = __INHERIT__(GraphicsObject.prototype, {
         render: function(a) {
-            for (var b = -Math.round(30 * Timer.get_current() % Images.bgCells.width), c = -Math.round(15 * Timer.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(h.height / Images.bgCells.height) + 1; d < e; )
-                for (var f = d++, m = 0, k = Math.ceil(h.width / Images.bgCells.width) + 1; m < k; ) {
+            for (var b = -Math.round(30 * Timer.get_current() % Images.bgCells.width), c = -Math.round(15 * Timer.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(GameController.height / Images.bgCells.height) + 1; d < e; )
+                for (var f = d++, m = 0, k = Math.ceil(GameController.width / Images.bgCells.width) + 1; m < k; ) {
                     var p = m++;
                     a.drawImage(Images.bgCells, null, b + Images.bgCells.width * p, c + Images.bgCells.height * f)
                 }
@@ -6505,8 +6505,8 @@
         this.sfx.addEventListener("click", function(c) {
             2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(T(b, b.toggleSFX)) : b.toggleSFX())
         });
-        this.sfx.set_x(h.width - this.sfx.get_width() - 12);
-        this.sfx.set_y(h.height - this.sfx.get_height() - 12);
+        this.sfx.set_x(GameController.width - this.sfx.get_width() - 12);
+        this.sfx.set_y(GameController.height - this.sfx.get_height() - 12);
         this.addChild(this.sfx);
         this.music = new ImageSurface(Images.mute);
         this.music.set_clipRect(new Rectangle(GameInstance.i.muteMusic ? 84 : 56,30 * a,28,30));
@@ -6515,7 +6515,7 @@
             2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(T(b, b.toggleMusic)) : b.toggleMusic())
         });
         this.music.set_x(this.sfx.x - this.music.get_width() - 12);
-        this.music.set_y(h.height - this.music.get_height() - 12);
+        this.music.set_y(GameController.height - this.music.get_height() - 12);
         this.addChild(this.music)
     };
     ButtonMute.__name__ = !0;
@@ -6584,14 +6584,14 @@
         this.text = new GraphicsObjectText(GameInstance.fontMain,"GAME PAUSED");
         GraphicsObject.call(this);
         this.graphics.beginFill(1052688, .85);
-        this.graphics.drawRect(0, 0, h.width, h.height);
+        this.graphics.drawRect(0, 0, GameController.width, GameController.height);
         this.visible = !1;
         this.mouseEnabled = !0;
         this.text.align = GraphicsObjectText.ALIGN_CENTER;
         this.text.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.text.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE;
-        this.text.set_x(Math.floor(h.width / 2));
-        this.text.set_y(Math.floor(h.height / 2) - 96 - 1);
+        this.text.set_x(Math.floor(GameController.width / 2));
+        this.text.set_y(Math.floor(GameController.height / 2) - 96 - 1);
         this.addChild(this.text);
         this.btnPlay.set_x(this.text.x);
         this.btnPlay.set_y(this.text.y + 60);
@@ -6638,7 +6638,7 @@
         ImageSurface.call(this, Images.linkJoshua);
         this.clipRect.height /= 2;
         this.set_x(8);
-        this.set_y(h.height - this.get_height() - 8);
+        this.set_y(GameController.height - this.get_height() - 8);
         this.mouseEnabled = this.buttonMode = !0;
         this.addEventListener("click", function(a) {
             2 <= a.which || (a = window.open("https://lightwolfstudios.com", "_blank"),
@@ -6659,23 +6659,23 @@
         GraphicsObject.call(this);
         this.main.set_text(a);
         this.graphics.beginFill(1052688, .95);
-        this.graphics.drawRect(0, 0, h.width, h.height);
+        this.graphics.drawRect(0, 0, GameController.width, GameController.height);
         this.mouseEnabled = !0;
         this.main.align = GraphicsObjectText.ALIGN_CENTER;
         this.main.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
         this.main.yAlign = GraphicsObjectText.Y_ALIGN_MIDDLE;
-        this.main.set_x(Math.round(h.width / 2));
-        this.main.set_y(Math.round(h.height / 2) - 40);
+        this.main.set_x(Math.round(GameController.width / 2));
+        this.main.set_y(Math.round(GameController.height / 2) - 40);
         this.addChild(this.main);
-        this.btnYes.set_x(Math.round(h.width / 2) - 96);
-        this.btnYes.set_y(Math.round(h.height / 2) + 40);
+        this.btnYes.set_x(Math.round(GameController.width / 2) - 96);
+        this.btnYes.set_y(Math.round(GameController.height / 2) + 40);
         this.btnYes.addEventListener("click", function(c) {
             if (2 > c.which && null != b.onYes)
                 b.onYes()
         });
         this.addChild(this.btnYes);
-        this.btnNo.set_x(Math.round(h.width / 2) + 96);
-        this.btnNo.set_y(Math.round(h.height / 2) + 40);
+        this.btnNo.set_x(Math.round(GameController.width / 2) + 96);
+        this.btnNo.set_y(Math.round(GameController.height / 2) + 40);
         this.btnNo.addEventListener("click", function(c) {
             if (2 > c.which && null != b.onNo)
                 b.onNo()
@@ -6711,14 +6711,14 @@
       , _ArrayBuffer = window.ArrayBuffer || FallbackArrayBuffer;
     null == _ArrayBuffer.prototype.slice && (_ArrayBuffer.prototype.slice = FallbackArrayBuffer.sliceImpl);
     var _Uint8Array = window.Uint8Array || FallbackUint8Array._new;
-    h.started = !1;
-    h.imageSmoothingEnabled = !0;
-    h.lastCursor = "default";
-    h.scale = 1;
-    h.offsetX = 0;
-    h.offsetY = 0;
-    h.wasLoaded = !1;
-    h.lastProgress = 0;
+    GameController.started = !1;
+    GameController.imageSmoothingEnabled = !0;
+    GameController.lastCursor = "default";
+    GameController.scale = 1;
+    GameController.offsetX = 0;
+    GameController.offsetY = 0;
+    GameController.wasLoaded = !1;
+    GameController.lastProgress = 0;
     LoadingManager.inited = !1;
     LoadingManager.finished = !1;
     LoadingManager.tasks = [];
