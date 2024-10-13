@@ -3660,12 +3660,12 @@
         },
         __class__: TileRamp
     });
-    var Db = function() {
+    var TileSaw = function() {
         da.call(this)
     };
-    Db.__name__ = !0;
-    Db.__super__ = da;
-    Db.prototype = __INHERIT__(da.prototype, {
+    TileSaw.__name__ = !0;
+    TileSaw.__super__ = da;
+    TileSaw.prototype = __INHERIT__(da.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3685,7 +3685,7 @@
         alwaysUpdate: function(a) {
             return !ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel)
         },
-        __class__: Db
+        __class__: TileSaw
     });
     var TileSpikes = function() {
         da.call(this)
@@ -6908,7 +6908,7 @@
     EditorTiles.ramp = EditorTiles.register(3, new TileRamp);
     EditorTiles.platform = EditorTiles.register(4, new TilePlatform);
     EditorTiles.spikes = EditorTiles.register(5, new TileSpikes);
-    EditorTiles.saw = EditorTiles.register(6, new Db);
+    EditorTiles.saw = EditorTiles.register(6, new TileSaw);
     EditorTiles.lever = EditorTiles.register(8, new Za);
     EditorTiles.door = EditorTiles.register(9, new yb);
     EditorTiles.number = EditorTiles.register(7, new Bb);
