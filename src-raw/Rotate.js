@@ -514,7 +514,7 @@
         clear: function() {
             this.items = [];
             this.filling = this.stroking = !1;
-            this.bounds = new z(0,0,0,0)
+            this.bounds = new Rectangle(0,0,0,0)
         },
         _paint: function(a) {
             for (var b = 0, c = this.items; b < c.length; ) {
@@ -550,26 +550,26 @@
             this.stroking = !1
         },
         drawRect: function(a, b, c, d) {
-            this.get_skipDraw() || (this.bounds.combine(new z(a,b,c,d)),
+            this.get_skipDraw() || (this.bounds.combine(new Rectangle(a,b,c,d)),
             this.call("drawRect", [a, b, c, d]))
         },
         drawPath: function(a, b) {
             null == b && (b = !0);
-            this.get_skipDraw() || (this.bounds.combine(z.containingPoints(a)),
+            this.get_skipDraw() || (this.bounds.combine(Rectangle.containingPoints(a)),
             this.call("drawPath", [a, b]))
         },
         drawCircle: function(a, b, c) {
-            this.get_skipDraw() || (this.bounds.combine(new z(a - c,b - c,2 * c,2 * c)),
+            this.get_skipDraw() || (this.bounds.combine(new Rectangle(a - c,b - c,2 * c,2 * c)),
             this.call("drawCircle", [a, b, c]))
         },
         drawArc: function(a, b, c, d, e, f, m) {
             null == m && (m = !1);
             null == f && (f = !1);
-            this.get_skipDraw() || (this.bounds.combine(new z(a - c,b - c,2 * c,2 * c)),
+            this.get_skipDraw() || (this.bounds.combine(new Rectangle(a - c,b - c,2 * c,2 * c)),
             this.call("drawArc", [a, b, c, d, e, f, m]))
         },
         drawEllipse: function(a, b, c, d) {
-            this.get_skipDraw() || (this.bounds.combine(new z(a,b,c,d)),
+            this.get_skipDraw() || (this.bounds.combine(new Rectangle(a,b,c,d)),
             this.call("drawEllipse", [a, b, c, d]))
         },
         drawImage: function(a, b, c) {
@@ -716,11 +716,11 @@
             }
         },
         getBoundsSelf: function() {
-            return new z(0,0,0,0)
+            return new Rectangle(0,0,0,0)
         },
         getBounds: function() {
             var a = [this.getBoundsSelf(), this.graphics.bounds];
-            return z.combineMultiple(a)
+            return Rectangle.combineMultiple(a)
         },
         hitTestPoint: function(a) {
             return this.getBounds().contains(a)
@@ -759,7 +759,7 @@
     ImageSurface.__super__ = x;
     ImageSurface.prototype = __INHERIT__(x.prototype, {
         get_rect: function() {
-            return new z(0,0,null != this.clipRect ? this.clipRect.width : 0,null != this.clipRect ? this.clipRect.height : 0)
+            return new Rectangle(0,0,null != this.clipRect ? this.clipRect.width : 0,null != this.clipRect ? this.clipRect.height : 0)
         },
         set_clipRect: function(a) {
             return this.clipRect = a
@@ -775,11 +775,11 @@
                 window.document.body.removeChild(a));
                 this.imageWidth = b;
                 this.imageHeight = c;
-                this.set_clipRect(new z(0,0,b,c))
+                this.set_clipRect(new Rectangle(0,0,b,c))
             }
         },
         getBoundsSelf: function() {
-            return new z(0,0,null != this.image ? this.clipRect.width : 0,null != this.image ? this.clipRect.height : 0)
+            return new Rectangle(0,0,null != this.image ? this.clipRect.width : 0,null != this.image ? this.clipRect.height : 0)
         },
         render: function(a) {
             null != this.image && a.drawImage(this.image, this.clipRect, 0, 0, 0 != this.clipRect.x || 0 != this.clipRect.y || this.clipRect.width != this.imageWidth || this.clipRect.height != this.imageHeight)
@@ -875,14 +875,14 @@
         },
         __class__: Q
     };
-    var z = function(a, b, c, d) {
+    var Rectangle = function(a, b, c, d) {
         this.x = a;
         this.y = b;
         this.width = c;
         this.height = d
     };
-    z.__name__ = !0;
-    z.combineMultiple = function(a) {
+    Rectangle.__name__ = !0;
+    Rectangle.combineMultiple = function(a) {
         for (var b = 0, c = 0, d = 0, e = 0, f = 0, m = a.length; f < m; ) {
             var k = f++
               , p = a[k];
@@ -895,20 +895,20 @@
             if (0 == k || p.get_right() > e)
                 e = p.get_right()
         }
-        return new z(c,b,e - c,d - b)
+        return new Rectangle(c,b,e - c,d - b)
     }
     ;
-    z.containingPoints = function(a) {
+    Rectangle.containingPoints = function(a) {
         for (var b = a[0].y, c = a[0].x, d = a[0].y, e = a[0].x, f = 0; f < a.length; ) {
             var m = a[f];
             ++f;
             m.y < b ? b = m.y : m.y > d && (d = m.y);
             m.x < c ? c = m.x : m.x > e && (e = m.x)
         }
-        return new z(c,b,e - c,d - b)
+        return new Rectangle(c,b,e - c,d - b)
     }
     ;
-    z.prototype = {
+    Rectangle.prototype = {
         get_top: function() {
             return this.y
         },
@@ -958,9 +958,9 @@
             this.set_right(a)
         },
         copy: function() {
-            return new z(this.x,this.y,this.width,this.height)
+            return new Rectangle(this.x,this.y,this.width,this.height)
         },
-        __class__: z
+        __class__: Rectangle
     };
     var qb = function(a) {
         this.mouseX = this.mouseY = 0;
@@ -2377,10 +2377,10 @@
             this.animChanged = !1
         },
         getFrameRect: function(a) {
-            return new z(a % this.cols * this.frameW,Math.floor(a / this.cols) * this.frameH,this.frameW,this.frameH)
+            return new Rectangle(a % this.cols * this.frameW,Math.floor(a / this.cols) * this.frameH,this.frameW,this.frameH)
         },
         getBoundsSelf: function() {
-            return new z(-this.origin.x,-this.origin.y,this.frameW,this.frameH)
+            return new Rectangle(-this.origin.x,-this.origin.y,this.frameW,this.frameH)
         },
         __class__: ua
     });
@@ -2666,7 +2666,7 @@
               , m = f ? J.HIT_W : J.HIT_H;
             f = f ? J.HIT_H : J.HIT_W;
             a = a && l.rotating || !a && e ? Constants.rotateOffset : 0;
-            return 3 == d ? new z(b - a,c - f / 2,m,f) : 2 == d ? new z(b - m / 2,c - a,m,f) : 1 == d ? new z(b - m + a,c - f / 2,m,f) : new z(b - m / 2,c - f + a,m,f)
+            return 3 == d ? new Rectangle(b - a,c - f / 2,m,f) : 2 == d ? new Rectangle(b - m / 2,c - a,m,f) : 1 == d ? new Rectangle(b - m + a,c - f / 2,m,f) : new Rectangle(b - m / 2,c - f + a,m,f)
         },
         rampCheck: function(a) {
             return ES3ClassUtils.__instanceof(a, Wa) ? (0 != l.rotation || 0 != a.dir && 1 != a.dir) && (1 != l.rotation || 3 != a.dir && 0 != a.dir) && (2 != l.rotation || 2 != a.dir && 3 != a.dir) ? 3 == l.rotation ? 1 != a.dir ? 2 == a.dir : !0 : !1 : !0 : !1
@@ -2762,13 +2762,13 @@
                     y.x -= b * k,
                     y.y -= c * k,
                     p = new Q(0 == p.dir || 3 == p.dir ? k : 0,0 == p.dir || 1 == p.dir ? k : 0),
-                    this.testAABBCircle(new z(a.x - b * k,a.y - c * k,a.width,a.height), p, k)))
+                    this.testAABBCircle(new Rectangle(a.x - b * k,a.y - c * k,a.width,a.height), p, k)))
                         return !0
             }
             return !1
         },
         testAABBCircle: function(a, b, c) {
-            return (new z(a.x,a.y - c,a.width,a.height + 2 * c)).contains(b) || (new z(a.x - c,a.y,a.width + 2 * c,a.height)).contains(b) || Q.distance(b, new Q(a.get_left(),a.get_top())) < c || Q.distance(b, new Q(a.get_right(),a.get_top())) < c || Q.distance(b, new Q(a.get_right(),a.get_bottom())) < c ? !0 : Q.distance(b, new Q(a.get_left(),a.get_bottom())) < c
+            return (new Rectangle(a.x,a.y - c,a.width,a.height + 2 * c)).contains(b) || (new Rectangle(a.x - c,a.y,a.width + 2 * c,a.height)).contains(b) || Q.distance(b, new Q(a.get_left(),a.get_top())) < c || Q.distance(b, new Q(a.get_right(),a.get_top())) < c || Q.distance(b, new Q(a.get_right(),a.get_bottom())) < c ? !0 : Q.distance(b, new Q(a.get_left(),a.get_bottom())) < c
         },
         jumpKeyDown: function() {
             return G.keyDown(38) || G.keyDown(87) ? !0 : G.keyDown(32)
@@ -3069,7 +3069,7 @@
                         if (null != H) {
                             L.bakeSurface.translate((p + 1) * Constants.tileSize, (f + 1) * Constants.tileSize);
                             var K = 1 == l.level.theme ? Images.bgBricks : Images.bgTiles;
-                            L.bakeSurface.drawImage(K, new z((p + 1) * Constants.tileSize % K.width,(f + 1) * Constants.tileSize % K.height,Constants.tileSize,Constants.tileSize), 0, 0);
+                            L.bakeSurface.drawImage(K, new Rectangle((p + 1) * Constants.tileSize % K.width,(f + 1) * Constants.tileSize % K.height,Constants.tileSize,Constants.tileSize), 0, 0);
                             H.shouldRender(y) && !H.alwaysUpdate(y) && H.render(L.bakeSurface, y);
                             L.bakeSurface.translate(-(p + 1) * Constants.tileSize, -(f + 1) * Constants.tileSize)
                         }
@@ -3079,12 +3079,12 @@
         },
         renderDecals: function() {
             var a = Constants.tileSize;
-            L.bakeSurface.drawImage(Images.blocks, new z(a,2 * a,a,2 * a), (l.level.startCol + 1) * a, l.level.startRow * a);
-            L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (l.level.finishCol + 1) * a, l.level.finishRow * a);
-            ES3ClassUtils.__instanceof(l.level, Level8) && L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
+            L.bakeSurface.drawImage(Images.blocks, new Rectangle(a,2 * a,a,2 * a), (l.level.startCol + 1) * a, l.level.startRow * a);
+            L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (l.level.finishCol + 1) * a, l.level.finishRow * a);
+            ES3ClassUtils.__instanceof(l.level, Level8) && L.bakeSurface.drawImage(Images.blocks, new Rectangle(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
         },
         getBoundsSelf: function() {
-            return new z(0,0,l.get_width() * Constants.tileSize,l.get_height() * Constants.tileSize)
+            return new Rectangle(0,0,l.get_width() * Constants.tileSize,l.get_height() * Constants.tileSize)
         },
         __class__: L
     });
@@ -3106,7 +3106,7 @@
             return !1
         },
         getColliders: function(a) {
-            return [new La(new z(0,0,Constants.tileSize,Constants.tileSize))]
+            return [new La(new Rectangle(0,0,Constants.tileSize,Constants.tileSize))]
         },
         onTrigger: function(a) {
             return !0
@@ -3189,22 +3189,22 @@
                     m = c;
                     for (k = 0; 0 < m; )
                         p = 1 < m ? 1 : m,
-                        a.drawImage(Images.blocks, new z(3 * f,3 * f,p * f,f), k, 0),
-                        a.drawImage(Images.blocks, new z((4 - p) * f,3 * f,p * f,f), d * f - k - p * f, 0),
+                        a.drawImage(Images.blocks, new Rectangle(3 * f,3 * f,p * f,f), k, 0),
+                        a.drawImage(Images.blocks, new Rectangle((4 - p) * f,3 * f,p * f,f), d * f - k - p * f, 0),
                         m -= p,
                         k += p * f;
-                    a.drawImage(Images.blocks, new z(4 * f,3 * f,f,f), c * f, 0);
-                    a.drawImage(Images.blocks, new z(5 * f,3 * f,f,f), (d - c - 1) * f, 0);
+                    a.drawImage(Images.blocks, new Rectangle(4 * f,3 * f,f,f), c * f, 0);
+                    a.drawImage(Images.blocks, new Rectangle(5 * f,3 * f,f,f), (d - c - 1) * f, 0);
                     if (ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) && (EditorLevel.renderBlockText(a, b.getMeta(0) + ""),
                     1 < d))
                         for (b = 1; b < d; )
                             c = b++,
                             EditorLevel.renderBlockRed(a, c * f, 0)
                 } else
-                    a.drawImage(Images.blocks, new z(3 * f,3 * f,.33333333333333337 * f,f), 0, 0),
-                    a.drawImage(Images.blocks, new z(4 * f,3 * f,f,f), .33333333333333337 * f, 0),
-                    a.drawImage(Images.blocks, new z(5 * f,3 * f,f,f), -.33333333333333337 * f, 0),
-                    a.drawImage(Images.blocks, new z(3.6666666666666665 * f,3 * f,.33333333333333337 * f,f), .6666666666666666 * f, 0);
+                    a.drawImage(Images.blocks, new Rectangle(3 * f,3 * f,.33333333333333337 * f,f), 0, 0),
+                    a.drawImage(Images.blocks, new Rectangle(4 * f,3 * f,f,f), .33333333333333337 * f, 0),
+                    a.drawImage(Images.blocks, new Rectangle(5 * f,3 * f,f,f), -.33333333333333337 * f, 0),
+                    a.drawImage(Images.blocks, new Rectangle(3.6666666666666665 * f,3 * f,.33333333333333337 * f,f), .6666666666666666 * f, 0);
                 a.translate(f / 2, f / 2);
                 a.rotate(-e * Math.PI / 2);
                 a.translate(-f / 2, -f / 2)
@@ -3368,7 +3368,7 @@
               , f = e / 2;
             a.translate(f, f);
             a.rotate(b.getMeta(0) * Math.PI / 2);
-            a.drawImage(Images.blocks, new z(c,d,e,e), -f, -f);
+            a.drawImage(Images.blocks, new Rectangle(c,d,e,e), -f, -f);
             a.rotate(-b.getMeta(0) * Math.PI / 2);
             a.translate(-f, -f)
         },
@@ -3390,7 +3390,7 @@
             null == c && (c = !0);
             b = b.getMeta(0) % 4;
             c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
-            a.drawImage(Images.blocks, new z(((0 < b && 3 > b ? 1 : 0) + 2 * c) * Constants.tileSize,(5 + (1 < b ? 1 : 0)) * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new Rectangle(((0 < b && 3 > b ? 1 : 0) + 2 * c) * Constants.tileSize,(5 + (1 < b ? 1 : 0)) * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         __class__: zb
     });
@@ -3401,7 +3401,7 @@
     Ab.__super__ = X;
     Ab.prototype = __INHERIT__(X.prototype, {
         render: function(a, b, c) {
-            a.drawImage(Images.blocks, new z(0,3 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new Rectangle(0,3 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         shouldRender: function(a) {
             return !1
@@ -3460,7 +3460,7 @@
             0 < a.getMeta(1) && GameplayLevel.i.signalOn(a.x, a.y, a.getMeta(0))
         },
         getColliders: function(a) {
-            return [new La(new z(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
+            return [new La(new Rectangle(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
         },
         alwaysUpdate: function(a) {
             return !ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel)
@@ -3468,7 +3468,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = 0 < b.getMeta(1);
-            a.drawImage(Images.blocks, new z((d ? 4 : 3) * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0);
+            a.drawImage(Images.blocks, new Rectangle((d ? 4 : 3) * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0);
             c && ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) && EditorLevel.renderBlockText(a, b.getMeta(0) + "")
         },
         setupBubble: function(a) {
@@ -3558,10 +3558,10 @@
             m = p || m ? m ? p ? k ? 0 : 1 : 2 : 3 : 4;
             k = Constants.tileSize;
             p = Constants.tileSize / 2;
-            a.drawImage(Images.blocks, new z((e || b ? b ? e ? d ? 0 : 1 : 2 : 3 : 4) * k,0,p,p), 0, 0);
-            a.drawImage(Images.blocks, new z(f * k + p,0,p,p), p, 0);
-            a.drawImage(Images.blocks, new z(y * k,p,p,p), 0, p);
-            a.drawImage(Images.blocks, new z(m * k + p,p,p,p), p, p)
+            a.drawImage(Images.blocks, new Rectangle((e || b ? b ? e ? d ? 0 : 1 : 2 : 3 : 4) * k,0,p,p), 0, 0);
+            a.drawImage(Images.blocks, new Rectangle(f * k + p,0,p,p), p, 0);
+            a.drawImage(Images.blocks, new Rectangle(y * k,p,p,p), 0, p);
+            a.drawImage(Images.blocks, new Rectangle(m * k + p,p,p,p), p, p)
         },
         testCanSolidConnect: function(a, b, c) {
             if (!l.isInBounds(a, b))
@@ -3588,12 +3588,12 @@
         },
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
+            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new Rectangle(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
             b = b.getMeta(0);
-            0 > b ? (a.drawImage(Images.blocks, new z(100,4 * Constants.tileSize,10,Constants.tileSize), 14, 0, !1),
-            -1 == b && a.drawImage(Images.blocks, new z(110,4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1),
-            -2 == b && a.drawImage(Images.blocks, new z(120,4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1)) : (a.drawImage(Images.blocks, new z(b % 10 * 10,4 * Constants.tileSize,10,Constants.tileSize), 14, 0, !1),
-            a.drawImage(Images.blocks, new z(10 * Math.min(Math.floor(.1 * b), 9),4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1))
+            0 > b ? (a.drawImage(Images.blocks, new Rectangle(100,4 * Constants.tileSize,10,Constants.tileSize), 14, 0, !1),
+            -1 == b && a.drawImage(Images.blocks, new Rectangle(110,4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1),
+            -2 == b && a.drawImage(Images.blocks, new Rectangle(120,4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1)) : (a.drawImage(Images.blocks, new Rectangle(b % 10 * 10,4 * Constants.tileSize,10,Constants.tileSize), 14, 0, !1),
+            a.drawImage(Images.blocks, new Rectangle(10 * Math.min(Math.floor(.1 * b), 9),4 * Constants.tileSize,10,Constants.tileSize), 0, 0, !1))
         },
         setupBubble: function(a) {
             var b = this
@@ -3705,11 +3705,11 @@
             var c = b / 2
               , d = .5 * b
               , e = (b - d) / 2;
-            3 == a.getMeta(0) ? (a = new z(0,e,c,d),
-            b = new z(c,0,c,b)) : 2 == a.getMeta(0) ? (a = new z(e,b - c,d,c),
-            b = new z(0,0,b,c)) : 1 == a.getMeta(0) ? (a = new z(b - c,e,c,d),
-            b = new z(0,0,c,b)) : (a = new z(e,0,d,c),
-            b = new z(0,c,b,c));
+            3 == a.getMeta(0) ? (a = new Rectangle(0,e,c,d),
+            b = new Rectangle(c,0,c,b)) : 2 == a.getMeta(0) ? (a = new Rectangle(e,b - c,d,c),
+            b = new Rectangle(0,0,b,c)) : 1 == a.getMeta(0) ? (a = new Rectangle(b - c,e,c,d),
+            b = new Rectangle(0,0,c,b)) : (a = new Rectangle(e,0,d,c),
+            b = new Rectangle(0,c,b,c));
             return [new La(a), new La(b)]
         },
         onTrigger: function(a) {
@@ -3730,7 +3730,7 @@
             a.translate(d, d);
             1 < b.getMeta(0) && a.rotate(Math.PI);
             1 != b.getMeta(0) && 3 != b.getMeta(0) || a.scale(-1, 1);
-            a.drawImage(Images.blocks, new z(5 * Constants.tileSize,0,c,c), -d, -d);
+            a.drawImage(Images.blocks, new Rectangle(5 * Constants.tileSize,0,c,c), -d, -d);
             1 != b.getMeta(0) && 3 != b.getMeta(0) || a.scale(-1, 1);
             1 < b.getMeta(0) && a.rotate(-Math.PI);
             a.translate(-d, -d)
@@ -3744,7 +3744,7 @@
     Gb.__super__ = X;
     Gb.prototype = __INHERIT__(X.prototype, {
         render: function(a, b, c) {
-            a.drawImage(Images.blocks, new z(0,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
+            a.drawImage(Images.blocks, new Rectangle(0,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         shouldRender: function(a) {
             return !1
@@ -3759,8 +3759,8 @@
     Hb.prototype = __INHERIT__(va.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
-            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
-            a.drawImage(Images.blocks, new z(5 * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0, !1)
+            c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new Rectangle(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
+            a.drawImage(Images.blocks, new Rectangle(5 * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0, !1)
         },
         __class__: Hb
     });
@@ -4483,7 +4483,7 @@
         __class__: kb
     };
     var jb = function(a) {
-        this.bounds = new z(0,0,Constants.tileSize,Constants.tileSize);
+        this.bounds = new Rectangle(0,0,Constants.tileSize,Constants.tileSize);
         this.dir = a
     };
     jb.__name__ = !0;
@@ -4548,7 +4548,7 @@
     };
     var ia = function(a, b, c, d, e) {
         null == e && (e = -1);
-        this.bounds = new z(a * Constants.tileSize,b * Constants.tileSize,c * Constants.tileSize,d * Constants.tileSize);
+        this.bounds = new Rectangle(a * Constants.tileSize,b * Constants.tileSize,c * Constants.tileSize,d * Constants.tileSize);
         this.rotation = e
     };
     ia.__name__ = !0;
@@ -4575,7 +4575,7 @@
         null == f && (f = -1);
         this.hit = !1;
         this.delay = a;
-        this.bounds = new z(b * Constants.tileSize,c * Constants.tileSize,d * Constants.tileSize,e * Constants.tileSize);
+        this.bounds = new Rectangle(b * Constants.tileSize,c * Constants.tileSize,d * Constants.tileSize,e * Constants.tileSize);
         this.rotation = f
     };
     V.__name__ = !0;
@@ -5028,7 +5028,7 @@
             2 > a.which && (this.drawing = !1)
         },
         getBoundsSelf: function() {
-            return new z(0,0,h.width,h.height)
+            return new Rectangle(0,0,h.width,h.height)
         },
         showLoadDialog: function() {
             var a = this;
@@ -6020,7 +6020,7 @@
             m = 0,
             k += b.lineHeight) : (K = ja.cca(c, K),
             K = b.chars[K],
-            null != K && (a.drawImage(b.image, new z(K.x + f * b.colorOffset,K.y,K.w,K.h), d + m + K.xo, e + k + K.yo),
+            null != K && (a.drawImage(b.image, new Rectangle(K.x + f * b.colorOffset,K.y,K.w,K.h), d + m + K.xo, e + k + K.yo),
             m += K.xa))
         }
     }
@@ -6076,13 +6076,13 @@
                 c = -this.getLineOffset(this.lineWidths[e]),
                 d += this.lineHeight) : (k = ja.cca(this.text, k),
                 k = this.font.chars[k],
-                null != k && (a.drawImage(this.font.image, new z(k.x + this.color * this.font.colorOffset,k.y,k.w,k.h), b.x + c + k.xo, b.y + d + k.yo),
+                null != k && (a.drawImage(this.font.image, new Rectangle(k.x + this.color * this.font.colorOffset,k.y,k.w,k.h), b.x + c + k.xo, b.y + d + k.yo),
                 c += k.xa))
             }
         },
         getBoundsSelf: function() {
             var a = this.getTextOffset();
-            return new z(a.x - this.hitPadding,a.y - this.hitPadding,this.textWidth + 2 * this.hitPadding,this.textHeight + 2 * this.hitPadding)
+            return new Rectangle(a.x - this.hitPadding,a.y - this.hitPadding,this.textWidth + 2 * this.hitPadding,this.textHeight + 2 * this.hitPadding)
         },
         getTextOffset: function() {
             var a = new Q(0,0);
@@ -6173,7 +6173,7 @@
             a.translate(-2, -2)
         },
         getBoundsSelf: function() {
-            return new z(0,0,O.list.length * (Constants.tileSize + 4),Constants.tileSize + 4)
+            return new Rectangle(0,0,O.list.length * (Constants.tileSize + 4),Constants.tileSize + 4)
         },
         __class__: O
     });
@@ -6451,7 +6451,7 @@
     bc.__super__ = x;
     bc.prototype = __INHERIT__(x.prototype, {
         getBoundsSelf: function() {
-            return new z(0,0,76,30)
+            return new Rectangle(0,0,76,30)
         },
         __class__: bc
     });
@@ -6500,7 +6500,7 @@
         var b = this;
         x.call(this);
         this.sfx = new ImageSurface(Images.mute);
-        this.sfx.set_clipRect(new z(g.i.muteSFX ? 28 : 0,30 * a,28,30));
+        this.sfx.set_clipRect(new Rectangle(g.i.muteSFX ? 28 : 0,30 * a,28,30));
         this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
         this.sfx.addEventListener("click", function(c) {
             2 > c.which && (g.ie && !g.i.ieUnmuted ? b.showWarn(T(b, b.toggleSFX)) : b.toggleSFX())
@@ -6509,7 +6509,7 @@
         this.sfx.set_y(h.height - this.sfx.get_height() - 12);
         this.addChild(this.sfx);
         this.music = new ImageSurface(Images.mute);
-        this.music.set_clipRect(new z(g.i.muteMusic ? 84 : 56,30 * a,28,30));
+        this.music.set_clipRect(new Rectangle(g.i.muteMusic ? 84 : 56,30 * a,28,30));
         this.music.mouseEnabled = this.music.buttonMode = !0;
         this.music.addEventListener("click", function(c) {
             2 > c.which && (g.ie && !g.i.ieUnmuted ? b.showWarn(T(b, b.toggleMusic)) : b.toggleMusic())
@@ -6570,7 +6570,7 @@
     ButtonInvertControls.__super__ = x;
     ButtonInvertControls.prototype = __INHERIT__(x.prototype, {
         getBoundsSelf: function() {
-            return new z(0,0,198,22)
+            return new Rectangle(0,0,198,22)
         },
         __class__: ButtonInvertControls
     });
