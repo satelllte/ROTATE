@@ -6545,7 +6545,7 @@
         },
         __class__: ButtonMute
     });
-    var cc = function() {
+    var ButtonInvertControls = function() {
         x.call(this);
         this.set_x(12);
         this.set_y(12);
@@ -6566,18 +6566,18 @@
             g.i.saveProgress())
         })
     };
-    cc.__name__ = !0;
-    cc.__super__ = x;
-    cc.prototype = __INHERIT__(x.prototype, {
+    ButtonInvertControls.__name__ = !0;
+    ButtonInvertControls.__super__ = x;
+    ButtonInvertControls.prototype = __INHERIT__(x.prototype, {
         getBoundsSelf: function() {
             return new z(0,0,198,22)
         },
-        __class__: cc
+        __class__: ButtonInvertControls
     });
     var MenuPause = function() {
         this.sponsor = new ButtonSponsor;
         this.mute = new ButtonMute(1);
-        this.invert = new cc;
+        this.invert = new ButtonInvertControls;
         this.btnQuit = new Button("QUIT",0);
         this.btnRedo = new Button("RESTART",0);
         this.btnPlay = new Button("CONTINUE",0);
