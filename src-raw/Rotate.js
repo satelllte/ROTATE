@@ -2233,7 +2233,7 @@
                 return !1;
             this.unlocked = !0;
             g.i.saveProgress();
-            ES3ClassUtils.__instanceof(g.i.currentScreen, ib) && g.i.currentScreen.refresh();
+            ES3ClassUtils.__instanceof(g.i.currentScreen, ScreenAwards) && g.i.currentScreen.refresh();
             AwardsManager.queueNotify(this);
             return !0
         },
@@ -4704,7 +4704,7 @@
         kill: function() {},
         __class__: Screen
     });
-    var ib = function() {
+    var ScreenAwards = function() {
         this.rotating = !1;
         this.rotationSide = 0;
         this.awardDisplays = [];
@@ -4717,9 +4717,9 @@
         this.pivot = new x;
         Screen.call(this)
     };
-    ib.__name__ = !0;
-    ib.__super__ = Screen;
-    ib.prototype = D(Screen.prototype, {
+    ScreenAwards.__name__ = !0;
+    ScreenAwards.__super__ = Screen;
+    ScreenAwards.prototype = D(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -4793,7 +4793,7 @@
                 this.rotationSide += this.rotateDir,
                 this.rotationSide = 0 > this.rotationSide ? 3 : 3 < this.rotationSide ? 0 : this.rotationSide
         },
-        __class__: ib
+        __class__: ScreenAwards
     });
     var mb = function(a) {
         null == a && (a = !1);
@@ -5474,7 +5474,7 @@
             this.btn1.set_x(134);
             this.btn1.set_y(133);
             this.btn1.addEventListener("click", function(b) {
-                2 > b.which && g.i.changeScreen(new ib)
+                2 > b.which && g.i.changeScreen(new ScreenAwards)
             });
             this.addChild(this.btn1);
             this.text1.set_x(this.btn1.x + 110);
