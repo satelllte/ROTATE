@@ -6301,7 +6301,7 @@
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
         this.graphics.drawRect(0, 0, h.width, EditorBarLower.HEIGHT);
-        this.gridToggle = new bc(a);
+        this.gridToggle = new GridToggle(a);
         this.addChild(this.gridToggle);
         this.selector.set_x(12);
         this.selector.set_y(Math.round((EditorBarLower.HEIGHT - this.selector.get_height()) / 2));
@@ -6424,7 +6424,7 @@
     ButtonErase.prototype = __INHERIT__(ImageSurface.prototype, {
         __class__: ButtonErase
     });
-    var bc = function(a) {
+    var GridToggle = function(a) {
         this.label = new GraphicsObjectText(GameInstance.fontMain,"Grid");
         this.toggle = new ImageSurface(Images.configToggle);
         var b = this;
@@ -6447,13 +6447,13 @@
         this.label.set_alpha(R.TEXT_GREY);
         this.addChild(this.label)
     };
-    bc.__name__ = !0;
-    bc.__super__ = GraphicsObject;
-    bc.prototype = __INHERIT__(GraphicsObject.prototype, {
+    GridToggle.__name__ = !0;
+    GridToggle.__super__ = GraphicsObject;
+    GridToggle.prototype = __INHERIT__(GraphicsObject.prototype, {
         getBoundsSelf: function() {
             return new Rectangle(0,0,76,30)
         },
-        __class__: bc
+        __class__: GridToggle
     });
     var Na = function() {
         var a = this;
