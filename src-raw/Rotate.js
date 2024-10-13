@@ -2740,7 +2740,7 @@
                         p.y -= c * Constants.tileSize;
                         if (k.testPoint(p))
                             return !0
-                    } else if (ES3ClassUtils.__instanceof(k, jb)) {
+                    } else if (ES3ClassUtils.__instanceof(k, ColliderBoundsOriented)) {
                         if (p = k.bounds.copy(),
                         p.x += b * Constants.tileSize,
                         p.y += c * Constants.tileSize,
@@ -3642,7 +3642,7 @@
             this.renderRotated(a, b, 7 * Constants.tileSize, 0)
         },
         getColliders: function(a) {
-            return [new jb(a.getMeta(0))]
+            return [new ColliderBoundsOriented(a.getMeta(0))]
         },
         __class__: TilePlatform
     });
@@ -4482,13 +4482,13 @@
         },
         __class__: kb
     };
-    var jb = function(a) {
+    var ColliderBoundsOriented = function(a) {
         this.bounds = new Rectangle(0,0,Constants.tileSize,Constants.tileSize);
         this.dir = a
     };
-    jb.__name__ = !0;
-    jb.__interfaces__ = [cb];
-    jb.prototype = {
+    ColliderBoundsOriented.__name__ = !0;
+    ColliderBoundsOriented.__interfaces__ = [cb];
+    ColliderBoundsOriented.prototype = {
         testPoint: function(a, b) {
             if (null == b)
                 return !1;
@@ -4506,7 +4506,7 @@
                 return !0;
             return !1
         },
-        __class__: jb
+        __class__: ColliderBoundsOriented
     };
     var Wa = function(a) {
         this.set_dir(a)
