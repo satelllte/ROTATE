@@ -212,7 +212,7 @@
         if (GameController.transparent) {
             var a = GameController.background >>> 24;
             255 > a && GameController.surface.clearRect(0, 0, GameController.width, GameController.height);
-            GameController.surface.beginFill(GameController.background & 16777215, ES3ClassUtils.__cast(a, kc) / 255)
+            GameController.surface.beginFill(GameController.background & 16777215, ES3ClassUtils.__cast(a, _Number) / 255)
         } else
             GameController.surface.beginFill(GameController.background & 16777215, 1);
         GameController.surface.drawRect(0, 0, GameController.width, GameController.height);
@@ -1709,7 +1709,7 @@
             return "boolean" == typeof a;
         case _Dynamic:
             return !0;
-        case kc:
+        case _Number:
             return "number" == typeof a;
         case rc:
             return "number" == typeof a ? (a | 0) === a : !1;
@@ -6699,8 +6699,8 @@
       , _Dynamic = {
         __name__: ["Dynamic"]
     }
-      , kc = Number;
-    kc.__name__ = ["Float"];
+      , _Number = Number;
+    _Number.__name__ = ["Float"];
     var _Boolean = Boolean;
     _Boolean.__ename__ = ["Bool"];
     var sc = {
