@@ -1960,7 +1960,7 @@
                 null != b.targetScreen && b.targetScreen.pausable && (b.pauseOnInit = !0);
                 null != b.currentScreen && b.currentScreen.pausable && b.pause()
             });
-            this.changeScreen(new vb, !1)
+            this.changeScreen(new ScreenFirst, !1)
         },
         pause: function(a) {
             null == a && (a = !0);
@@ -5925,14 +5925,14 @@
         },
         __class__: $b
     });
-    var vb = function() {
+    var ScreenFirst = function() {
         this.start = new ImageSurface(Images.start);
         this.pivot = new GraphicsObject;
         Screen.call(this)
     };
-    vb.__name__ = !0;
-    vb.__super__ = Screen;
-    vb.prototype = __INHERIT__(Screen.prototype, {
+    ScreenFirst.__name__ = !0;
+    ScreenFirst.__super__ = Screen;
+    ScreenFirst.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.timer = Timer.get_currentMS();
             this.pivot.set_x(GameController.width / 2);
@@ -5960,7 +5960,7 @@
                 a.start.mouseEnabled = !1)
             }))
         },
-        __class__: vb
+        __class__: ScreenFirst
     });
     var ScreenGameplayIntro = function(speedrun) {
         null == speedrun && (speedrun = !1);
