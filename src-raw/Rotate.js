@@ -1950,7 +1950,7 @@
             this.addEventListener("enterFrame", T(this, this.update));
             window.document.getElementById("game").style.display = "block";
             window.document.getElementById("loader").style.display = "none";
-            this.pauseMenu = new ub;
+            this.pauseMenu = new MenuPause;
             this.addChild(this.pauseMenu);
             this.fader.mouseEnabled = !0;
             this.addChild(this.fader);
@@ -6574,7 +6574,7 @@
         },
         __class__: cc
     });
-    var ub = function() {
+    var MenuPause = function() {
         this.sponsor = new ButtonSponsor;
         this.mute = new ButtonMute(1);
         this.invert = new cc;
@@ -6619,9 +6619,9 @@
         this.sponsor.clipRect.y = this.sponsor.clipRect.height;
         g.i.warnNoSave(this)
     };
-    ub.__name__ = !0;
-    ub.__super__ = x;
-    ub.prototype = __INHERIT__(x.prototype, {
+    MenuPause.__name__ = !0;
+    MenuPause.__super__ = x;
+    MenuPause.prototype = __INHERIT__(x.prototype, {
         onPause: function() {
             this.mute.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
             this.mute.music.clipRect.x = g.i.muteMusic ? 84 : 56;
@@ -6632,7 +6632,7 @@
             this.btnQuit.set_alpha(a ? .25 : 1);
             this.btnQuit.main.mouseEnabled = !a
         },
-        __class__: ub
+        __class__: MenuPause
     });
     var ButtonSponsor = function() {
         ImageSurface.call(this, Images.linkJoshua);
