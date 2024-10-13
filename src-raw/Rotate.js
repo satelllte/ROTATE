@@ -11,7 +11,7 @@
     function __BIND__(a, b) {
         if (null == b)
             return null;
-        null == b.__id__ && (b.__id__ = pc++);
+        null == b.__id__ && (b.__id__ = __BIND__nextId++);
         var c;
         null == a.hx__closures__ ? a.hx__closures__ = {} : c = a.hx__closures__[b.__id__];
         null == c && (c = function() {
@@ -6687,7 +6687,7 @@
     ModalYesNo.prototype = __INHERIT__(GraphicsObject.prototype, {
         __class__: ModalYesNo
     });
-    var Ja, pc = 0;
+    var Ja, __BIND__nextId = 0;
     String.prototype.__class__ = String;
     String.__name__ = !0;
     Array.__name__ = !0;
