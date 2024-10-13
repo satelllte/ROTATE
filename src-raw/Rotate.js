@@ -1705,7 +1705,7 @@
         switch (b) {
         case Array:
             return a instanceof Array ? null == a.__enum__ : !1;
-        case mc:
+        case _Boolean:
             return "boolean" == typeof a;
         case qc:
             return !0;
@@ -6701,8 +6701,8 @@
     }
       , kc = Number;
     kc.__name__ = ["Float"];
-    var mc = Boolean;
-    mc.__ename__ = ["Bool"];
+    var _Boolean = Boolean;
+    _Boolean.__ename__ = ["Bool"];
     var sc = {
         __name__: ["Class"]
     }
