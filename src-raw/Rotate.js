@@ -1707,7 +1707,7 @@
             return a instanceof Array ? null == a.__enum__ : !1;
         case _Boolean:
             return "boolean" == typeof a;
-        case qc:
+        case _Dynamic:
             return !0;
         case kc:
             return "number" == typeof a;
@@ -6696,7 +6696,7 @@
     var rc = {
         __name__: ["Int"]
     }
-      , qc = {
+      , _Dynamic = {
         __name__: ["Dynamic"]
     }
       , kc = Number;
