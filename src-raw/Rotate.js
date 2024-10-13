@@ -1836,7 +1836,7 @@
     Constants.__name__ = !0;
     var Images = function() {};
     Images.__name__ = !0;
-    var gc = function(a, b, c, d) {
+    var RotateFont = function(a, b, c, d) {
         null == d && (d = 0);
         null == c && (c = 1);
         var e = this;
@@ -1861,9 +1861,9 @@
             }
         })
     };
-    gc.__name__ = !0;
-    gc.prototype = {
-        __class__: gc
+    RotateFont.__name__ = !0;
+    RotateFont.prototype = {
+        __class__: RotateFont
     };
     var GameInstance = function() {
         this.muteMusic = this.muteSFX = this.ieMenu = this.ieGame1 = this.ieGame2 = this.ieSurface = this.ieUnmuted = this.invert = !1;
@@ -6798,7 +6798,7 @@
     Images.controls3 = LoadingManager.loadImage("img/controls-3.png");
     Images.controls4 = LoadingManager.loadImage("img/controls-4.png");
     Images.controls5 = LoadingManager.loadImage("img/controls-5.png");
-    GameInstance.fontMain = new gc("fonts/simple-pixels.png","fonts/simple-pixels.json",2,112);
+    GameInstance.fontMain = new RotateFont("fonts/simple-pixels.png","fonts/simple-pixels.json",2,112);
     GameInstance.nosave = !1;
     GameInstance.ie = !1;
     Sounds.themeMenu = LoadingManager.loadSound({
