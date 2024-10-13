@@ -3632,19 +3632,19 @@
         },
         __class__: Bb
     });
-    var Cb = function() {
+    var TilePlatform = function() {
         da.call(this)
     };
-    Cb.__name__ = !0;
-    Cb.__super__ = da;
-    Cb.prototype = __INHERIT__(da.prototype, {
+    TilePlatform.__name__ = !0;
+    TilePlatform.__super__ = da;
+    TilePlatform.prototype = __INHERIT__(da.prototype, {
         render: function(a, b, c) {
             this.renderRotated(a, b, 7 * Constants.tileSize, 0)
         },
         getColliders: function(a) {
             return [new jb(a.getMeta(0))]
         },
-        __class__: Cb
+        __class__: TilePlatform
     });
     var TileRamp = function() {
         da.call(this)
@@ -6906,7 +6906,7 @@
     EditorTiles.solid = EditorTiles.register(1, new TileSolid);
     EditorTiles.stairs = EditorTiles.register(2, new TileStairs);
     EditorTiles.ramp = EditorTiles.register(3, new TileRamp);
-    EditorTiles.platform = EditorTiles.register(4, new Cb);
+    EditorTiles.platform = EditorTiles.register(4, new TilePlatform);
     EditorTiles.spikes = EditorTiles.register(5, new Eb);
     EditorTiles.saw = EditorTiles.register(6, new Db);
     EditorTiles.lever = EditorTiles.register(8, new Za);
