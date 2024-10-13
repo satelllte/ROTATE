@@ -1369,15 +1369,15 @@
     };
     var lc = function() {};
     lc.__name__ = !0;
-    var ya = function(a) {
+    var BytesData = function(a) {
         this.length = a.byteLength;
         this.b = new _Uint8Array(a);
         this.b.bufferValue = a;
         a.hxBytes = this;
         a.bytes = this.b
     };
-    ya.__name__ = !0;
-    ya.ofString = function(a) {
+    BytesData.__name__ = !0;
+    BytesData.ofString = function(a) {
         for (var b = [], c = 0; c < a.length; ) {
             var d = a.charCodeAt(c++);
             55296 <= d && 56319 >= d && (d = d - 55232 << 10 | a.charCodeAt(c++) & 1023);
@@ -1386,10 +1386,10 @@
             b.push(128 | d >> 6 & 63)),
             b.push(128 | d & 63))
         }
-        return new ya((new _Uint8Array(b)).buffer)
+        return new BytesData((new _Uint8Array(b)).buffer)
     }
     ;
-    ya.prototype = {
+    BytesData.prototype = {
         getString: function(a, b) {
             if (0 > a || 0 > b || a + b > this.length)
                 throw new Z(oa.OutsideBounds);
@@ -1417,7 +1417,7 @@
         toString: function() {
             return this.getString(0, this.length)
         },
-        __class__: ya
+        __class__: BytesData
     };
     var LocalStorageEncoder = function() {};
     LocalStorageEncoder.__name__ = !0;
@@ -1440,7 +1440,7 @@
         if (b)
             for (; 61 == ja.cca(a, a.length - 1); )
                 a = ja.substr(a, 0, -1);
-        return (new Base64Encoder(LocalStorageEncoder.BYTES)).decodeBytes(ya.ofString(a))
+        return (new Base64Encoder(LocalStorageEncoder.BYTES)).decodeBytes(BytesData.ofString(a))
     }
     ;
     var Base64Encoder = function(a) {
@@ -1454,7 +1454,7 @@
     Base64Encoder.__name__ = !0;
     Base64Encoder.prototype = {
         encodeBytes: function(a) {
-            for (var b = this.nbits, c = this.base, d = 8 * a.length / b | 0, e = new ya(new _ArrayBuffer(d + (0 == 8 * a.length % b ? 0 : 1))), f = 0, m = 0, k = (1 << b) - 1, p = 0, y = 0; y < d; ) {
+            for (var b = this.nbits, c = this.base, d = 8 * a.length / b | 0, e = new BytesData(new _ArrayBuffer(d + (0 == 8 * a.length % b ? 0 : 1))), f = 0, m = 0, k = (1 << b) - 1, p = 0, y = 0; y < d; ) {
                 for (; m < b; )
                     m += 8,
                     f <<= 8,
@@ -1480,7 +1480,7 @@
         decodeBytes: function(a) {
             var b = this.nbits;
             null == this.tbl && this.initTable();
-            for (var c = this.tbl, d = a.length * b >> 3, e = new ya(new _ArrayBuffer(d)), f = 0, m = 0, k = 0, p = 0; p < d; ) {
+            for (var c = this.tbl, d = a.length * b >> 3, e = new BytesData(new _ArrayBuffer(d)), f = 0, m = 0, k = 0, p = 0; p < d; ) {
                 for (; 8 > m; ) {
                     m += b;
                     f <<= b;
@@ -2115,7 +2115,7 @@
             this.invert && (a.invert = !0);
             this.muteMusic && (a.muteMusic = !0);
             this.muteSFX && (a.muteSFX = !0);
-            LocalStorage.setItem("lws:rotate", LocalStorageEncoder.encode(ya.ofString(JSON.stringify(a))))
+            LocalStorage.setItem("lws:rotate", LocalStorageEncoder.encode(BytesData.ofString(JSON.stringify(a))))
         },
         clearProgress: function() {
             LocalStorage.removeItem("lws:rotate");
@@ -6748,7 +6748,7 @@
     Ga.FUNC = 1;
     Surface.PI2 = 2 * Math.PI;
     LocalStorageEncoder.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    LocalStorageEncoder.BYTES = ya.ofString(LocalStorageEncoder.CHARS);
+    LocalStorageEncoder.BYTES = BytesData.ofString(LocalStorageEncoder.CHARS);
     ES3ClassUtils.__toStr = {}.toString;
     FallbackUint8Array.BYTES_PER_ELEMENT = 1;
     Constants.EPSILON = 1E-8;
