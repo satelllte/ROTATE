@@ -1726,7 +1726,7 @@
                 }
             else
                 return !1;
-            return b == sc && null != a.__name__ || b == tc && null != a.__ename__ ? !0 : a.__enum__ == b
+            return b == _Class && null != a.__name__ || b == tc && null != a.__ename__ ? !0 : a.__enum__ == b
         }
     }
     ;
@@ -6703,7 +6703,7 @@
     _Number.__name__ = ["Float"];
     var _Boolean = Boolean;
     _Boolean.__ename__ = ["Bool"];
-    var sc = {
+    var _Class = {
         __name__: ["Class"]
     }
       , tc = {}
