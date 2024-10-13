@@ -1423,7 +1423,7 @@
     LocalStorageEncoder.__name__ = !0;
     LocalStorageEncoder.encode = function(a, b) {
         null == b && (b = !0);
-        var c = (new sb(LocalStorageEncoder.BYTES)).encodeBytes(a).toString();
+        var c = (new Base64Encoder(LocalStorageEncoder.BYTES)).encodeBytes(a).toString();
         if (b)
             switch (a.length % 3) {
             case 1:
@@ -1440,10 +1440,10 @@
         if (b)
             for (; 61 == ja.cca(a, a.length - 1); )
                 a = ja.substr(a, 0, -1);
-        return (new sb(LocalStorageEncoder.BYTES)).decodeBytes(ya.ofString(a))
+        return (new Base64Encoder(LocalStorageEncoder.BYTES)).decodeBytes(ya.ofString(a))
     }
     ;
-    var sb = function(a) {
+    var Base64Encoder = function(a) {
         for (var b = a.length, c = 1; b > 1 << c; )
             ++c;
         if (8 < c || b != 1 << c)
@@ -1451,8 +1451,8 @@
         this.base = a;
         this.nbits = c
     };
-    sb.__name__ = !0;
-    sb.prototype = {
+    Base64Encoder.__name__ = !0;
+    Base64Encoder.prototype = {
         encodeBytes: function(a) {
             for (var b = this.nbits, c = this.base, d = 8 * a.length / b | 0, e = new ya(new _ArrayBuffer(d + (0 == 8 * a.length % b ? 0 : 1))), f = 0, m = 0, k = (1 << b) - 1, p = 0, y = 0; y < d; ) {
                 for (; m < b; )
@@ -1494,7 +1494,7 @@
             }
             return e
         },
-        __class__: sb
+        __class__: Base64Encoder
     };
     var hb = function() {
         this.h = {}
