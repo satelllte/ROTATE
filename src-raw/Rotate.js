@@ -2046,7 +2046,7 @@
             try {
                 var a = JSON.parse(window.atob(LocalStorage.getItem("data")))
                   , b = a.unlocked;
-                if ("number" == typeof b && (b | 0) === b && 0 <= a.unlocked && a.unlocked < B.list.length && a.awards instanceof Array && null == a.awards.__enum__ && a.awards.length == AwardsManager.awardsAll.length)
+                if ("number" == typeof b && (b | 0) === b && 0 <= a.unlocked && a.unlocked < Levels.list.length && a.awards instanceof Array && null == a.awards.__enum__ && a.awards.length == AwardsManager.awardsAll.length)
                     if (null != a.best) {
                         var c = a.best;
                         var d = "number" == typeof c && (c | 0) === c ? -1 < a.best : !1
@@ -2083,7 +2083,7 @@
                     if (null != b) {
                         b.muteMusic && this.toggleMusic(!1);
                         b.muteSFX && this.toggleSFX(!1);
-                        null != b.unlocked && (B.unlocked = b.unlocked);
+                        null != b.unlocked && (Levels.unlocked = b.unlocked);
                         if (null != b.awards && b.awards instanceof Array && null == b.awards.__enum__) {
                             var c = b.awards;
                             a = 0;
@@ -2092,7 +2092,7 @@
                                 c[e] && (AwardsManager.awardsAll[e].unlocked = !0)
                             }
                         }
-                        null != b.best && (B.speedrunBest = b.best);
+                        null != b.best && (Levels.speedrunBest = b.best);
                         null != b.invert && (this.invert = 1 == b.invert)
                     }
                 }
@@ -2108,10 +2108,10 @@
                 a.push(d.unlocked)
             }
             a = {
-                unlocked: B.unlocked,
+                unlocked: Levels.unlocked,
                 awards: a
             };
-            -1 < B.speedrunBest && (a.best = B.speedrunBest);
+            -1 < Levels.speedrunBest && (a.best = Levels.speedrunBest);
             this.invert && (a.invert = !0);
             this.muteMusic && (a.muteMusic = !0);
             this.muteSFX && (a.muteSFX = !0);
@@ -2124,8 +2124,8 @@
                 ++a;
                 c.unlocked = !1
             }
-            B.unlocked = 0;
-            B.speedrunBest = -1;
+            Levels.unlocked = 0;
+            Levels.speedrunBest = -1;
             this.invert = !1
         },
         warnNoSave: function(a) {
@@ -4009,7 +4009,7 @@
             this.c3.clipRect.x = this.c4.clipRect.x = GameInstance.i.invert ? 48 : 0
         },
         finished: function() {
-            return B.level2
+            return Levels.level2
         },
         kill: function() {
             this.c1.parent.removeChild(this.c1);
@@ -4042,7 +4042,7 @@
             this.cat.update()
         },
         finished: function() {
-            return B.level11
+            return Levels.level11
         },
         kill: function() {},
         __class__: Level10
@@ -4069,7 +4069,7 @@
             this.cat.update()
         },
         finished: function() {
-            return B.level12
+            return Levels.level12
         },
         kill: function() {},
         __class__: Level11
@@ -4096,7 +4096,7 @@
             this.cat.update()
         },
         finished: function() {
-            return B.level13
+            return Levels.level13
         },
         kill: function() {},
         __class__: Level12
@@ -4123,7 +4123,7 @@
             this.cat.update()
         },
         finished: function() {
-            return B.level14
+            return Levels.level14
         },
         kill: function() {},
         __class__: Level13
@@ -4168,7 +4168,7 @@
                 this.cond3.start())
         },
         finished: function() {
-            return B.level15
+            return Levels.level15
         },
         kill: function() {},
         __class__: Level14
@@ -4195,7 +4195,7 @@
             this.cat.update()
         },
         finished: function() {
-            return B.level16
+            return Levels.level16
         },
         kill: function() {},
         __class__: Level15
@@ -4248,7 +4248,7 @@
             this.speech.update()
         },
         finished: function() {
-            return B.level3
+            return Levels.level3
         },
         kill: function() {},
         __class__: Level2
@@ -4273,7 +4273,7 @@
             this.speech.update()
         },
         finished: function() {
-            return B.level4
+            return Levels.level4
         },
         kill: function() {},
         __class__: Level3
@@ -4298,7 +4298,7 @@
             this.speech.update()
         },
         finished: function() {
-            return B.level5
+            return Levels.level5
         },
         kill: function() {},
         __class__: Level4
@@ -4323,7 +4323,7 @@
             this.speech.update()
         },
         finished: function() {
-            return B.level6
+            return Levels.level6
         },
         kill: function() {},
         __class__: Level5
@@ -4348,7 +4348,7 @@
             this.speech.update()
         },
         finished: function() {
-            return B.level7
+            return Levels.level7
         },
         kill: function() {},
         __class__: Level6
@@ -4376,7 +4376,7 @@
             this.cat.update()
         },
         finished: function() {
-            return B.level8
+            return Levels.level8
         },
         kill: function() {},
         __class__: Level7
@@ -4419,7 +4419,7 @@
             this.s2 = !0) : !this.s2 && GameplayLevel.i.player.x >= 28 * Constants.tileSize && GameplayLevel.i.player.y >= 24 * Constants.tileSize && (this.s1 = !0)
         },
         finished: function() {
-            return B.level9
+            return Levels.level9
         },
         kill: function() {
             this.c1.parent.removeChild(this.c1)
@@ -4448,13 +4448,13 @@
             this.cat.update()
         },
         finished: function() {
-            return B.level10
+            return Levels.level10
         },
         kill: function() {},
         __class__: Level9
     };
-    var B = function() {};
-    B.__name__ = !0;
+    var Levels = function() {};
+    Levels.__name__ = !0;
     var cb = function() {};
     cb.__name__ = !0;
     cb.prototype = {
@@ -5331,7 +5331,7 @@
             GameInstance.ie && Sounds.themeGame2.volume(.5);
             this.cond1.start();
             this.speech = new Speech([new SpeechEvent(new SpeechConditionDelay(1.5),"Have your freedom, for now."), new SpeechEvent(new SpeechConditionDelay(4),"But you will come back.")],this);
-            this.speedrun && 42E4 >= B.speedrunBest && AwardsManager.awardSpeedrun.unlock();
+            this.speedrun && 42E4 >= Levels.speedrunBest && AwardsManager.awardSpeedrun.unlock();
             if (this.first = !AwardsManager.awardEscape.unlocked)
                 AwardsManager.awardEscape.unlocked = !0,
                 GameInstance.i.saveProgress()
@@ -5504,8 +5504,8 @@
             this.bestTime.set_x(Math.round(h.width / 2));
             this.bestTime.set_y(this.btn3.y + 21 + 8);
             var a = this.bestTime;
-            a.set_text(a.text + (-1 < B.speedrunBest ? GameInstance.formatMS(B.speedrunBest) : "--:--:----"));
-            0 > B.speedrunBest && this.bestTime.set_alpha(.5);
+            a.set_text(a.text + (-1 < Levels.speedrunBest ? GameInstance.formatMS(Levels.speedrunBest) : "--:--:----"));
+            0 > Levels.speedrunBest && this.bestTime.set_alpha(.5);
             this.addChild(this.bestTime);
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 80);
@@ -5555,11 +5555,11 @@
         },
         refresh: function() {
             this.tiles.removeChildren();
-            for (var a = B.list.length, b = Math.round((h.width - (4 * Images.level.width + 72)) / 2), c = this.title.y + 56, d = 0; d < a; ) {
+            for (var a = Levels.list.length, b = Math.round((h.width - (4 * Images.level.width + 72)) / 2), c = this.title.y + 56, d = 0; d < a; ) {
                 var e = [d++]
                   , f = Math.floor(e[0] / 4)
                   , m = e[0] % 4
-                  , k = e[0] <= B.unlocked
+                  , k = e[0] <= Levels.unlocked
                   , p = new ImageSurface(Images.level);
                 p.set_x(b + m * (p.get_width() + 24));
                 p.set_y(c + f * (p.get_height() + 20));
@@ -5567,7 +5567,7 @@
                 p.addEventListener("click", function(y) {
                     return function(H) {
                         1 < H.which || (ca.stopTheme(),
-                        0 == y[0] ? GameInstance.i.changeScreen(new Qa) : GameplayLevel.play(B.list[y[0]]))
+                        0 == y[0] ? GameInstance.i.changeScreen(new Qa) : GameplayLevel.play(Levels.list[y[0]]))
                     }
                 }(e))) : p.set_alpha(.5);
                 this.tiles.addChild(p);
@@ -5619,7 +5619,7 @@
             this.btnPlay.set_x(Math.floor(h.width / 2));
             this.btnPlay.set_y(Math.floor(h.height / 2) - 1);
             this.btnPlay.addEventListener("click", function(a) {
-                1 < a.which || (0 == B.unlocked ? (ca.stopTheme(),
+                1 < a.which || (0 == Levels.unlocked ? (ca.stopTheme(),
                 GameInstance.i.changeScreen(new Qa)) : GameInstance.i.changeScreen(new ScreenLevelSelect))
             });
             this.addChild(this.btnPlay);
@@ -5742,7 +5742,7 @@
             this.red.visible = !1;
             this.addChild(this.red);
             if (this.speedrun) {
-                if (-1 == this.speedrunStart || 0 == B.list.indexOf(l.level))
+                if (-1 == this.speedrunStart || 0 == Levels.list.indexOf(l.level))
                     this.speedrunStart = GameInstance.i.get_gameTimeMS();
                 this.timerText = new GraphicsObjectText(GameInstance.fontMain,"",2);
                 this.timerText.align = GraphicsObjectText.ALIGN_RIGHT;
@@ -5752,7 +5752,7 @@
                 GameInstance.i.timerHolder.addChild(this.timerText);
                 this.updateTimer()
             } else
-                l.level != B.level1 || GameInstance.i.hasPaused || (this.pauseText = new GraphicsObjectText(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
+                l.level != Levels.level1 || GameInstance.i.hasPaused || (this.pauseText = new GraphicsObjectText(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
                 this.pauseText.xAlign = GraphicsObjectText.X_ALIGN_CENTER,
                 this.pauseText.set_x(Math.round(h.width / 2)),
                 this.pauseText.set_y(8),
@@ -5793,17 +5793,17 @@
             GameInstance.i.changeScreen(new GameplayLevel(l.level,this.speedrun,this.speedrunStart), !0, a)
         },
         finished: function() {
-            var a = B.list.indexOf(l.level);
+            var a = Levels.list.indexOf(l.level);
             if (-1 < a) {
                 var b = !1;
                 ++a;
-                if (this.speedrun && a == B.list.length) {
+                if (this.speedrun && a == Levels.list.length) {
                     if (this.speedrunFinal = GameInstance.i.get_gameTimeMS() - this.speedrunStart + Constants.screenFadeTime / 2,
-                    0 > B.speedrunBest || this.speedrunFinal < B.speedrunBest)
-                        B.speedrunBest = this.speedrunFinal,
+                    0 > Levels.speedrunBest || this.speedrunFinal < Levels.speedrunBest)
+                        Levels.speedrunBest = this.speedrunFinal,
                         b = this.newBest = !0
                 } else
-                    a > B.unlocked && a < B.list.length && (B.unlocked = a,
+                    a > Levels.unlocked && a < Levels.list.length && (Levels.unlocked = a,
                     b = !0);
                 b && GameInstance.i.saveProgress()
             }
@@ -5986,7 +5986,7 @@
             GameInstance.ie || Sounds.themeGame1.fade(0, 1, 1E3));
             this.speech.update();
             !this.done1 && this.cond1.test() && (this.done1 = !0,
-            GameplayLevel.play(B.level1, this.speedrun))
+            GameplayLevel.play(Levels.level1, this.speedrun))
         },
         prekill: function() {
             GameplayLevel.continueTheme || GameplayLevel.stopTheme()
@@ -6402,7 +6402,7 @@
                 break
             }
         }
-        0 != B.unlocked || a ? (this.buttonMode = this.mouseEnabled = !0,
+        0 != Levels.unlocked || a ? (this.buttonMode = this.mouseEnabled = !0,
         this.addEventListener("click", function(e) {
             if (2 > e.which) {
                 var f = new ModalYesNo("Do you want to erase ALL of\nyour saved progress?");
@@ -6609,7 +6609,7 @@
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, Qa) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, Qa).speedrun,
-            GameInstance.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < B.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = GameInstance.i,
+            GameInstance.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = GameInstance.i,
             T(Ja, Ja.unpause))))
         });
         this.addChild(this.btnQuit);
@@ -6919,25 +6919,25 @@
     Level1.fadeSpeed = .1;
     Level8.fakeCol = 30;
     Level8.fakeRow = 16;
-    B.level1 = new Level1;
-    B.level2 = new Level2;
-    B.level3 = new Level3;
-    B.level4 = new Level4;
-    B.level5 = new Level5;
-    B.level6 = new Level6;
-    B.level7 = new Level7;
-    B.level8 = new Level8;
-    B.level9 = new Level9;
-    B.level10 = new Level10;
-    B.level11 = new Level11;
-    B.level12 = new Level12;
-    B.level13 = new Level13;
-    B.level14 = new Level14;
-    B.level15 = new Level15;
-    B.level16 = new Level16;
-    B.list = [B.level1, B.level2, B.level3, B.level4, B.level5, B.level6, B.level7, B.level8, B.level9, B.level10, B.level11, B.level12, B.level13, B.level14, B.level15, B.level16];
-    B.unlocked = 0;
-    B.speedrunBest = -1;
+    Levels.level1 = new Level1;
+    Levels.level2 = new Level2;
+    Levels.level3 = new Level3;
+    Levels.level4 = new Level4;
+    Levels.level5 = new Level5;
+    Levels.level6 = new Level6;
+    Levels.level7 = new Level7;
+    Levels.level8 = new Level8;
+    Levels.level9 = new Level9;
+    Levels.level10 = new Level10;
+    Levels.level11 = new Level11;
+    Levels.level12 = new Level12;
+    Levels.level13 = new Level13;
+    Levels.level14 = new Level14;
+    Levels.level15 = new Level15;
+    Levels.level16 = new Level16;
+    Levels.list = [Levels.level1, Levels.level2, Levels.level3, Levels.level4, Levels.level5, Levels.level6, Levels.level7, Levels.level8, Levels.level9, Levels.level10, Levels.level11, Levels.level12, Levels.level13, Levels.level14, Levels.level15, Levels.level16];
+    Levels.unlocked = 0;
+    Levels.speedrunBest = -1;
     Speech.TIME_TYPE = 30;
     Speech.TIME_STAY = 5250;
     Speech.TIME_FADE = 750;
