@@ -3088,13 +3088,13 @@
         },
         __class__: Renderer
     });
-    var X = function() {
+    var Tile = function() {
         this.bubbleHeight = 46;
         this.bubbleWidth = 124;
         this.configurable = !1
     };
-    X.__name__ = !0;
-    X.prototype = {
+    Tile.__name__ = !0;
+    Tile.prototype = {
         shouldRender: function(a) {
             return !0
         },
@@ -3126,14 +3126,14 @@
             return !1
         },
         onInteract: function(a) {},
-        __class__: X
+        __class__: Tile
     };
     var TileAir = function() {
-        X.call(this)
+        Tile.call(this)
     };
     TileAir.__name__ = !0;
-    TileAir.__super__ = X;
-    TileAir.prototype = __INHERIT__(X.prototype, {
+    TileAir.__super__ = Tile;
+    TileAir.prototype = __INHERIT__(Tile.prototype, {
         collides: function(a) {
             return !1
         },
@@ -3146,14 +3146,14 @@
         this.angle = 0;
         this.length = 3;
         this.channel = 0;
-        X.call(this);
+        Tile.call(this);
         this.bubbleWidth = 148;
         this.bubbleHeight = 106;
         this.configurable = !0
     };
     TileDoor.__name__ = !0;
-    TileDoor.__super__ = X;
-    TileDoor.prototype = __INHERIT__(X.prototype, {
+    TileDoor.__super__ = Tile;
+    TileDoor.prototype = __INHERIT__(Tile.prototype, {
         set_angle: function(a) {
             return this.angle = 0 > a ? 3 : 3 < a ? 0 : a
         },
@@ -3319,12 +3319,12 @@
     });
     var TileOriented = function() {
         this.angle = 0;
-        X.call(this);
+        Tile.call(this);
         this.configurable = !0
     };
     TileOriented.__name__ = !0;
-    TileOriented.__super__ = X;
-    TileOriented.prototype = __INHERIT__(X.prototype, {
+    TileOriented.__super__ = Tile;
+    TileOriented.prototype = __INHERIT__(Tile.prototype, {
         set_angle: function(a) {
             return this.angle = 0 > a ? 3 : 3 < a ? 0 : a
         },
@@ -3395,11 +3395,11 @@
         __class__: TileFan
     });
     var TileFinish = function() {
-        X.call(this)
+        Tile.call(this)
     };
     TileFinish.__name__ = !0;
-    TileFinish.__super__ = X;
-    TileFinish.prototype = __INHERIT__(X.prototype, {
+    TileFinish.__super__ = Tile;
+    TileFinish.prototype = __INHERIT__(Tile.prototype, {
         render: function(a, b, c) {
             a.drawImage(Images.blocks, new Rectangle(0,3 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
@@ -3411,14 +3411,14 @@
     var TileLever = function() {
         this.on = !1;
         this.channel = 0;
-        X.call(this);
+        Tile.call(this);
         this.bubbleWidth = 148;
         this.bubbleHeight = 76;
         this.configurable = !0
     };
     TileLever.__name__ = !0;
-    TileLever.__super__ = X;
-    TileLever.prototype = __INHERIT__(X.prototype, {
+    TileLever.__super__ = Tile;
+    TileLever.prototype = __INHERIT__(Tile.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3538,11 +3538,11 @@
         __class__: TileLever
     });
     var TileSolid = function() {
-        X.call(this)
+        Tile.call(this)
     };
     TileSolid.__name__ = !0;
-    TileSolid.__super__ = X;
-    TileSolid.prototype = __INHERIT__(X.prototype, {
+    TileSolid.__super__ = Tile;
+    TileSolid.prototype = __INHERIT__(Tile.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0)
@@ -3577,7 +3577,7 @@
     });
     var TileNumber = function() {
         this.value = 1;
-        X.call(this);
+        Tile.call(this);
         this.configurable = !0
     };
     TileNumber.__name__ = !0;
@@ -3738,11 +3738,11 @@
         __class__: TileStairs
     });
     var TileStart = function() {
-        X.call(this)
+        Tile.call(this)
     };
     TileStart.__name__ = !0;
-    TileStart.__super__ = X;
-    TileStart.prototype = __INHERIT__(X.prototype, {
+    TileStart.__super__ = Tile;
+    TileStart.prototype = __INHERIT__(Tile.prototype, {
         render: function(a, b, c) {
             a.drawImage(Images.blocks, new Rectangle(0,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
@@ -3752,7 +3752,7 @@
         __class__: TileStart
     });
     var TileVent = function() {
-        X.call(this)
+        Tile.call(this)
     };
     TileVent.__name__ = !0;
     TileVent.__super__ = TileSolid;
