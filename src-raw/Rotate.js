@@ -5008,7 +5008,7 @@
             });
             this.barUpper.btnClear.addEventListener("click", function(k) {
                 if (2 > k.which) {
-                    var p = new eb("Are you sure you want\nto clear the level?");
+                    var p = new ModalYesNo("Are you sure you want\nto clear the level?");
                     p.onYes = function() {
                         EditorLevel.editorLevel.reset();
                         g.i.changeScreen(new EditorLevel, !1)
@@ -6405,7 +6405,7 @@
         0 != B.unlocked || a ? (this.buttonMode = this.mouseEnabled = !0,
         this.addEventListener("click", function(e) {
             if (2 > e.which) {
-                var f = new eb("Do you want to erase ALL of\nyour saved progress?");
+                var f = new ModalYesNo("Do you want to erase ALL of\nyour saved progress?");
                 f.onNo = function() {
                     g.i.currentScreen.removeChild(f)
                 }
@@ -6522,7 +6522,7 @@
     Ba.__super__ = x;
     Ba.prototype = __INHERIT__(x.prototype, {
         showWarn: function(a) {
-            var b = new eb("Audio may slow down the game\nin Internet Explorer. Continue?");
+            var b = new ModalYesNo("Audio may slow down the game\nin Internet Explorer. Continue?");
             b.onNo = function() {
                 g.i.removeChild(b)
             }
@@ -6651,7 +6651,7 @@
     Ma.prototype = __INHERIT__(I.prototype, {
         __class__: Ma
     });
-    var eb = function(a) {
+    var ModalYesNo = function(a) {
         this.btnNo = new ba("NO");
         this.btnYes = new ba("YES");
         this.main = new r(g.fontMain,"",2);
@@ -6682,10 +6682,10 @@
         });
         this.addChild(this.btnNo)
     };
-    eb.__name__ = !0;
-    eb.__super__ = x;
-    eb.prototype = __INHERIT__(x.prototype, {
-        __class__: eb
+    ModalYesNo.__name__ = !0;
+    ModalYesNo.__super__ = x;
+    ModalYesNo.prototype = __INHERIT__(x.prototype, {
+        __class__: ModalYesNo
     });
     var Ja, pc = 0;
     String.prototype.__class__ = String;
