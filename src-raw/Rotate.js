@@ -2496,7 +2496,7 @@
         },
         __class__: Va
     };
-    var J = function() {
+    var Player = function() {
         this.lastStep = -1;
         this.step = 0;
         this.touchingOld = [];
@@ -2508,14 +2508,14 @@
         this.grounded = !1;
         this.x2 = this.y2 = this.lastX = this.lastY = this.dx = this.dy = this.horizontal = 0;
         ua.call(this, Images.player, 32, 48);
-        this.set_animation(J.ANIM_IDLE);
+        this.set_animation(Player.ANIM_IDLE);
         this.onChange = T(this, this.aminChange);
         this.spawnTime = GameInstance.i.get_gameTimeMS();
         this.adjust()
     };
-    J.__name__ = !0;
-    J.__super__ = ua;
-    J.prototype = __INHERIT__(ua.prototype, {
+    Player.__name__ = !0;
+    Player.__super__ = ua;
+    Player.prototype = __INHERIT__(ua.prototype, {
         get_localX: function() {
             return 0 == PlayManager.rotation ? this.x2 : 1 == PlayManager.rotation ? PlayManager.get_height() - this.y2 : 2 == PlayManager.rotation ? PlayManager.get_width() - this.x2 : this.y2
         },
@@ -2531,7 +2531,7 @@
             return a
         },
         aminChange: function(a) {
-            this.animation == J.ANIM_RUN && 0 == a && 100 < GameInstance.i.get_gameTimeMS() - this.lastStep && (GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play(0 == this.step ? "a" : "b"),
+            this.animation == Player.ANIM_RUN && 0 == a && 100 < GameInstance.i.get_gameTimeMS() - this.lastStep && (GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play(0 == this.step ? "a" : "b"),
             this.lastStep = GameInstance.i.get_gameTimeMS(),
             this.step = 0 == this.step ? 1 : 0)
         },
@@ -2541,7 +2541,7 @@
         },
         update: function() {
             if (!PlayManager.rotating && !this.dead && (this.horizontal = this.finished ? 0 : GameInstance.getInputX(),
-            0 != this.horizontal ? this.set_scaleX(0 < this.horizontal ? 1 : -1) : this.grounded && this.animation != J.ANIM_IDLE && this.set_animation(J.ANIM_IDLE),
+            0 != this.horizontal ? this.set_scaleX(0 < this.horizontal ? 1 : -1) : this.grounded && this.animation != Player.ANIM_IDLE && this.set_animation(Player.ANIM_IDLE),
             !this.finished && (G.keyPressed(40) || G.keyPressed(83)))) {
                 for (var a = 0, b = this.touching; a < b.length; ) {
                     var c = b[a];
@@ -2559,15 +2559,15 @@
         tick: function() {
             if (!PlayManager.rotating && !this.dead) {
                 null == this.lastBounds && (this.lastBounds = this.getHitBounds());
-                var a = J.SPEED * (this.onRamp ? J.RAMP_MULT : 1);
-                0 < this.horizontal ? this.dx < a ? this.dx < -J.ACCEL ? this.dx *= J.DECCEL_MULT : (this.dx += J.ACCEL,
-                this.dx > a && (this.dx = a)) : this.dx > a && (this.dx = a) : 0 > this.horizontal ? this.dx > -a ? this.dx > J.ACCEL ? this.dx *= J.DECCEL_MULT : (this.dx -= J.ACCEL,
-                this.dx < -a && (this.dx = -a)) : this.dx < -a && (this.dx = -a) : this.dx *= J.DECCEL_MULT;
-                !this.finished && this.grounded && this.jumpKeyDown() && GameInstance.i.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY && GameInstance.i.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2 ? (this.dy = -J.JUMP_SPEED,
+                var a = Player.SPEED * (this.onRamp ? Player.RAMP_MULT : 1);
+                0 < this.horizontal ? this.dx < a ? this.dx < -Player.ACCEL ? this.dx *= Player.DECCEL_MULT : (this.dx += Player.ACCEL,
+                this.dx > a && (this.dx = a)) : this.dx > a && (this.dx = a) : 0 > this.horizontal ? this.dx > -a ? this.dx > Player.ACCEL ? this.dx *= Player.DECCEL_MULT : (this.dx -= Player.ACCEL,
+                this.dx < -a && (this.dx = -a)) : this.dx < -a && (this.dx = -a) : this.dx *= Player.DECCEL_MULT;
+                !this.finished && this.grounded && this.jumpKeyDown() && GameInstance.i.get_gameTime() - this.jumpTimer >= Player.JUMP_DELAY && GameInstance.i.get_gameTime() - this.jumpTimer2 >= Player.JUMP_DELAY_2 ? (this.dy = -Player.JUMP_SPEED,
                 this.jumpTimer = GameInstance.i.get_gameTime(),
                 GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play("a"),
-                this.lastStep = GameInstance.i.get_gameTimeMS()) : this.dy < J.GRAVITY_MAX && (this.dy += J.GRAVITY,
-                this.dy > J.GRAVITY_MAX && (this.dy = J.GRAVITY_MAX));
+                this.lastStep = GameInstance.i.get_gameTimeMS()) : this.dy < Player.GRAVITY_MAX && (this.dy += Player.GRAVITY,
+                this.dy > Player.GRAVITY_MAX && (this.dy = Player.GRAVITY_MAX));
                 a = this.grounded;
                 this.onRamp = this.grounded = !1;
                 for (var b = this.dx, c = this.dy, d = this.get_localX() - Math.floor(this.get_localX()), e = this.get_localY() - Math.floor(this.get_localY()), f = this.get_localX(), m = this.get_localY(), k, p = this.get_localY() + this.dy; 0 != b || 0 != c; )
@@ -2634,7 +2634,7 @@
                 this.grounded && !a && (100 < GameInstance.i.get_gameTimeMS() - this.spawnTime && (GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play("b"),
                 this.lastStep = GameInstance.i.get_gameTimeMS()),
                 this.jumpTimer2 = GameInstance.i.get_gameTime());
-                this.grounded ? 0 != this.horizontal && .75 < Math.abs(this.dx) ? this.set_animation(J.ANIM_RUN) : this.set_animation(J.ANIM_IDLE) : PlayManager.rotating || (0 <= this.dy ? this.set_animation(J.ANIM_FALL) : this.set_animation(J.ANIM_JUMP));
+                this.grounded ? 0 != this.horizontal && .75 < Math.abs(this.dx) ? this.set_animation(Player.ANIM_RUN) : this.set_animation(Player.ANIM_IDLE) : PlayManager.rotating || (0 <= this.dy ? this.set_animation(Player.ANIM_FALL) : this.set_animation(Player.ANIM_JUMP));
                 this.lastX = this.x2;
                 this.lastY = this.y2;
                 this.lastBounds = this.getHitBounds()
@@ -2663,8 +2663,8 @@
                     d -= 4
             }
             var f = 0 == d || 2 == d
-              , m = f ? J.HIT_W : J.HIT_H;
-            f = f ? J.HIT_H : J.HIT_W;
+              , m = f ? Player.HIT_W : Player.HIT_H;
+            f = f ? Player.HIT_H : Player.HIT_W;
             a = a && PlayManager.rotating || !a && e ? Constants.rotateOffset : 0;
             return 3 == d ? new Rectangle(b - a,c - f / 2,m,f) : 2 == d ? new Rectangle(b - m / 2,c - a,m,f) : 1 == d ? new Rectangle(b - m + a,c - f / 2,m,f) : new Rectangle(b - m / 2,c - f + a,m,f)
         },
@@ -2774,7 +2774,7 @@
             return G.keyDown(38) || G.keyDown(87) ? !0 : G.keyDown(32)
         },
         canRotate: function(a) {
-            if (!this.grounded || this.jumpKeyDown() || GameInstance.i.get_gameTime() - this.rotateTimer < J.ROTATE_DELAY + Constants.rotateTime || GameInstance.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2)
+            if (!this.grounded || this.jumpKeyDown() || GameInstance.i.get_gameTime() - this.rotateTimer < Player.ROTATE_DELAY + Constants.rotateTime || GameInstance.i.get_gameTime() - this.jumpTimer2 < Player.JUMP_DELAY_2)
                 return !1;
             var b = this.x2
               , c = this.y2;
@@ -2800,7 +2800,7 @@
             this.set_localY(this.get_localY() - Constants.rotateOffset);
             this.set_scaleX(a);
             this.adjust();
-            this.set_animation(J.ANIM_ROTATE);
+            this.set_animation(Player.ANIM_ROTATE);
             this.rotateTimer = GameInstance.i.get_gameTime();
             GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play("a");
             this.lastStep = GameInstance.i.get_gameTimeMS();
@@ -2818,7 +2818,7 @@
             this.set_localY(this.rotStartY - this.rotateAdjust + Constants.rotateOffset);
             this.adjust()
         },
-        __class__: J
+        __class__: Player
     });
     var PlayManager = function() {};
     PlayManager.__name__ = !0;
@@ -5395,7 +5395,7 @@
             this.camera.addChild(this.cat);
             this.player.origin.x = this.player.frameW / 2;
             this.player.origin.y = this.player.frameH;
-            this.player.set_animation(J.ANIM_IDLE);
+            this.player.set_animation(Player.ANIM_IDLE);
             this.player.set_x(10.5 * Constants.tileSize);
             this.player.set_y(12 * Constants.tileSize);
             this.camera.addChild(this.player);
@@ -5724,7 +5724,7 @@
                 }
             PlayManager.level.start();
             BaseLevel.prototype.init.call(this);
-            this.player = new J;
+            this.player = new Player;
             this.player.set_x(this.player.x2 = this.player.lastX = (PlayManager.level.startCol + .5) * Constants.tileSize);
             this.player.set_y(this.player.y2 = this.player.lastY = (PlayManager.level.startRow + 1) * Constants.tileSize);
             this.player.set_scaleX(0 > PlayManager.level.startDir ? -1 : 1);
@@ -6879,23 +6879,23 @@
     S.ANIM_EXIT = new GameAnimation([9, 10, 11, 12, 13, 14, 15, 16, 17],[100, 100, 100, 100, 100, 100, 100, 100, 100],!1);
     S.ANIM_END_1 = new GameAnimation([9, 10],[100, 100],!1);
     S.ANIM_END_2 = new GameAnimation([11, 12, 22, 14, 24, 25, 26],[100, 100, 100, 100, 100, 100, 100]);
-    J.HIT_W = 12;
-    J.HIT_H = 42;
-    J.SPEED = 3.7;
-    J.RAMP_MULT = .7;
-    J.ACCEL = .33;
-    J.DECCEL_MULT = .6;
-    J.JUMP_SPEED = 5.9;
-    J.JUMP_DELAY = .25;
-    J.JUMP_DELAY_2 = .06666666666666667;
-    J.GRAVITY = .35;
-    J.GRAVITY_MAX = 9;
-    J.ROTATE_DELAY = .05;
-    J.ANIM_IDLE = new GameAnimation([0, 1, 2, 3],[400, 400, 400, 400]);
-    J.ANIM_RUN = new GameAnimation([4, 5, 6, 7],[100, 100, 100, 100]);
-    J.ANIM_JUMP = new GameAnimation([8, 9],[200, 200],!1);
-    J.ANIM_FALL = new GameAnimation([12, 13, 14, 15],[100, 100, 100, 100]);
-    J.ANIM_ROTATE = new GameAnimation([16, 17, 18, 19],[100, 100, 100, 100],!1);
+    Player.HIT_W = 12;
+    Player.HIT_H = 42;
+    Player.SPEED = 3.7;
+    Player.RAMP_MULT = .7;
+    Player.ACCEL = .33;
+    Player.DECCEL_MULT = .6;
+    Player.JUMP_SPEED = 5.9;
+    Player.JUMP_DELAY = .25;
+    Player.JUMP_DELAY_2 = .06666666666666667;
+    Player.GRAVITY = .35;
+    Player.GRAVITY_MAX = 9;
+    Player.ROTATE_DELAY = .05;
+    Player.ANIM_IDLE = new GameAnimation([0, 1, 2, 3],[400, 400, 400, 400]);
+    Player.ANIM_RUN = new GameAnimation([4, 5, 6, 7],[100, 100, 100, 100]);
+    Player.ANIM_JUMP = new GameAnimation([8, 9],[200, 200],!1);
+    Player.ANIM_FALL = new GameAnimation([12, 13, 14, 15],[100, 100, 100, 100]);
+    Player.ANIM_ROTATE = new GameAnimation([16, 17, 18, 19],[100, 100, 100, 100],!1);
     PlayManager.rotating = !1;
     PlayManager.rotation = 0;
     TileLever.TOGGLE_TIMER = .67;
