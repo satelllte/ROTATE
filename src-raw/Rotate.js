@@ -2395,23 +2395,23 @@
     GameAnimation.prototype = {
         __class__: GameAnimation
     };
-    var S = function() {
+    var CatObject = function() {
         this.horizontal = this.x2 = this.dx = 0;
         ua.call(this, Images.cat, 24, 24);
         this.origin.x = this.frameW / 2;
         this.origin.y = this.frameH
     };
-    S.__name__ = !0;
-    S.__super__ = ua;
-    S.prototype = __INHERIT__(ua.prototype, {
+    CatObject.__name__ = !0;
+    CatObject.__super__ = ua;
+    CatObject.prototype = __INHERIT__(ua.prototype, {
         tick: function() {
-            0 < this.horizontal ? this.dx < S.SPEED && (this.dx < -S.ACCEL ? this.dx *= S.DECCEL_MULT : (this.dx += S.ACCEL,
-            this.dx > S.SPEED && (this.dx = S.SPEED))) : 0 > this.horizontal ? this.dx > -S.SPEED && (this.dx > S.ACCEL ? this.dx *= S.DECCEL_MULT : (this.dx -= S.ACCEL,
-            this.dx < -S.SPEED && (this.dx = -S.SPEED))) : this.dx *= S.DECCEL_MULT;
+            0 < this.horizontal ? this.dx < CatObject.SPEED && (this.dx < -CatObject.ACCEL ? this.dx *= CatObject.DECCEL_MULT : (this.dx += CatObject.ACCEL,
+            this.dx > CatObject.SPEED && (this.dx = CatObject.SPEED))) : 0 > this.horizontal ? this.dx > -CatObject.SPEED && (this.dx > CatObject.ACCEL ? this.dx *= CatObject.DECCEL_MULT : (this.dx -= CatObject.ACCEL,
+            this.dx < -CatObject.SPEED && (this.dx = -CatObject.SPEED))) : this.dx *= CatObject.DECCEL_MULT;
             this.x2 += this.dx;
             this.set_x(Math.round(this.x2))
         },
-        __class__: S
+        __class__: CatObject
     });
     var hc = function(a) {
         this.lastChanged = -1;
@@ -5357,7 +5357,7 @@
         null == a && (a = !1);
         this.hint = new GraphicsObjectText(GameInstance.fontMain,"Press [SPACE] to continue...");
         this.catTrigger = !1;
-        this.cat = new S;
+        this.cat = new CatObject;
         this.player = new ua(Images.player,32,48);
         this.artPlants = new ua(Images.endingPlants,504,24);
         this.artMain = new ImageSurface(Images.endingMain);
@@ -5391,7 +5391,7 @@
             this.cat.x2 = this.cat.set_x(17.5 * Constants.tileSize);
             this.cat.set_y(12 * Constants.tileSize);
             this.cat.set_scaleX(-1);
-            this.cat.set_animation(S.ANIM_IDLE);
+            this.cat.set_animation(CatObject.ANIM_IDLE);
             this.camera.addChild(this.cat);
             this.player.origin.x = this.player.frameW / 2;
             this.player.origin.y = this.player.frameH;
@@ -5419,9 +5419,9 @@
             !this.catTrigger && 8 <= b && (this.catTrigger = !0,
             this.cat.set_scaleX(1),
             this.cat.horizontal = 1,
-            this.cat.set_animation(S.ANIM_END_1),
+            this.cat.set_animation(CatObject.ANIM_END_1),
             this.cat.onFinish = function() {
-                a.cat.set_animation(S.ANIM_END_2);
+                a.cat.set_animation(CatObject.ANIM_END_2);
                 a.cat.onFinish = null
             }
             );
@@ -5860,11 +5860,11 @@
             return null != a ? a.get_status() : !1
         },
         catAppear: function(a, b, c) {
-            this.cat = new S;
+            this.cat = new CatObject;
             this.cat.set_x(this.cat.x2 = (a + .5) * Constants.tileSize);
             this.cat.set_y((b + 1) * Constants.tileSize);
             this.cat.set_scaleX(c);
-            this.cat.set_animation(S.ANIM_IDLE);
+            this.cat.set_animation(CatObject.ANIM_IDLE);
             this.level.addChild(this.cat)
         },
         catDisappear: function(a) {
@@ -5877,7 +5877,7 @@
                 b.cat = null
             }
             ,
-            this.cat.set_animation(S.ANIM_EXIT),
+            this.cat.set_animation(CatObject.ANIM_EXIT),
             this.cat.horizontal = this.cat.scaleX)
         },
         kill: function() {
@@ -6872,13 +6872,13 @@
     AwardsManager.FADE_MS = 250;
     AwardsManager.STAY_MS = 3E3;
     AwardsManager.bubbleTimer = -1;
-    S.SPEED = 2;
-    S.ACCEL = .06;
-    S.DECCEL_MULT = .6;
-    S.ANIM_IDLE = new GameAnimation([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],[1500, 100, 100, 100, 100, 100, 3E3, 100, 100, 200, 100, 100]);
-    S.ANIM_EXIT = new GameAnimation([9, 10, 11, 12, 13, 14, 15, 16, 17],[100, 100, 100, 100, 100, 100, 100, 100, 100],!1);
-    S.ANIM_END_1 = new GameAnimation([9, 10],[100, 100],!1);
-    S.ANIM_END_2 = new GameAnimation([11, 12, 22, 14, 24, 25, 26],[100, 100, 100, 100, 100, 100, 100]);
+    CatObject.SPEED = 2;
+    CatObject.ACCEL = .06;
+    CatObject.DECCEL_MULT = .6;
+    CatObject.ANIM_IDLE = new GameAnimation([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],[1500, 100, 100, 100, 100, 100, 3E3, 100, 100, 200, 100, 100]);
+    CatObject.ANIM_EXIT = new GameAnimation([9, 10, 11, 12, 13, 14, 15, 16, 17],[100, 100, 100, 100, 100, 100, 100, 100, 100],!1);
+    CatObject.ANIM_END_1 = new GameAnimation([9, 10],[100, 100],!1);
+    CatObject.ANIM_END_2 = new GameAnimation([11, 12, 22, 14, 24, 25, 26],[100, 100, 100, 100, 100, 100, 100]);
     Player.HIT_W = 12;
     Player.HIT_H = 42;
     Player.SPEED = 3.7;
