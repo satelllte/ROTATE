@@ -24,7 +24,7 @@
         return c
     }
     var dc = function() {
-        return E.__string_rec(this, "")
+        return ES3ClassUtils.__string_rec(this, "")
     }
       , ja = function() {};
     ja.__name__ = !0;
@@ -62,7 +62,7 @@
     var la = function() {};
     la.__name__ = !0;
     la.string = function(a) {
-        return E.__string_rec(a, "")
+        return ES3ClassUtils.__string_rec(a, "")
     }
     ;
     la.parseInt = function(a) {
@@ -212,7 +212,7 @@
         if (h.transparent) {
             var a = h.background >>> 24;
             255 > a && h.surface.clearRect(0, 0, h.width, h.height);
-            h.surface.beginFill(h.background & 16777215, E.__cast(a, kc) / 255)
+            h.surface.beginFill(h.background & 16777215, ES3ClassUtils.__cast(a, kc) / 255)
         } else
             h.surface.beginFill(h.background & 16777215, 1);
         h.surface.drawRect(0, 0, h.width, h.height);
@@ -1616,19 +1616,19 @@
     Z.prototype = D(Error.prototype, {
         __class__: Z
     });
-    var E = function() {};
-    E.__name__ = !0;
-    E.getClass = function(a) {
+    var ES3ClassUtils = function() {};
+    ES3ClassUtils.__name__ = !0;
+    ES3ClassUtils.getClass = function(a) {
         if (a instanceof Array && null == a.__enum__)
             return Array;
         var b = a.__class__;
         if (null != b)
             return b;
-        a = E.__nativeClassName(a);
-        return null != a ? E.__resolveNativeClass(a) : null
+        a = ES3ClassUtils.__nativeClassName(a);
+        return null != a ? ES3ClassUtils.__resolveNativeClass(a) : null
     }
     ;
-    E.__string_rec = function(a, b) {
+    ES3ClassUtils.__string_rec = function(a, b) {
         if (null == a)
             return "null";
         if (5 <= b.length)
@@ -1647,7 +1647,7 @@
                     b += "\t";
                     for (var d = 2, e = a.length; d < e; ) {
                         var f = d++;
-                        c = 2 != f ? c + ("," + E.__string_rec(a[f], b)) : c + E.__string_rec(a[f], b)
+                        c = 2 != f ? c + ("," + ES3ClassUtils.__string_rec(a[f], b)) : c + ES3ClassUtils.__string_rec(a[f], b)
                     }
                     return c + ")"
                 }
@@ -1656,7 +1656,7 @@
                 b += "\t";
                 for (e = 0; e < c; )
                     f = e++,
-                    d += (0 < f ? "," : "") + E.__string_rec(a[f], b);
+                    d += (0 < f ? "," : "") + ES3ClassUtils.__string_rec(a[f], b);
                 return d + "]"
             }
             try {
@@ -1673,7 +1673,7 @@
             e = null != a.hasOwnProperty;
             for (c in a)
                 e && !a.hasOwnProperty(c) || "prototype" == c || "__class__" == c || "__super__" == c || "__interfaces__" == c || "__properties__" == c || (2 != d.length && (d += ", \n"),
-                d += b + c + " : " + E.__string_rec(a[c], b));
+                d += b + c + " : " + ES3ClassUtils.__string_rec(a[c], b));
             b = b.substring(1);
             return d + ("\n" + b + "}");
         case "string":
@@ -1683,7 +1683,7 @@
         }
     }
     ;
-    E.__interfLoop = function(a, b) {
+    ES3ClassUtils.__interfLoop = function(a, b) {
         if (null == a)
             return !1;
         if (a == b)
@@ -1693,13 +1693,13 @@
             for (var d = 0, e = c.length; d < e; ) {
                 var f = d++;
                 f = c[f];
-                if (f == b || E.__interfLoop(f, b))
+                if (f == b || ES3ClassUtils.__interfLoop(f, b))
                     return !0
             }
-        return E.__interfLoop(a.__super__, b)
+        return ES3ClassUtils.__interfLoop(a.__super__, b)
     }
     ;
-    E.__instanceof = function(a, b) {
+    ES3ClassUtils.__instanceof = function(a, b) {
         if (null == b)
             return !1;
         switch (b) {
@@ -1718,10 +1718,10 @@
         default:
             if (null != a)
                 if ("function" == typeof b) {
-                    if (a instanceof b || E.__interfLoop(E.getClass(a), b))
+                    if (a instanceof b || ES3ClassUtils.__interfLoop(ES3ClassUtils.getClass(a), b))
                         return !0
                 } else {
-                    if ("object" == typeof b && E.__isNativeObj(b) && a instanceof b)
+                    if ("object" == typeof b && ES3ClassUtils.__isNativeObj(b) && a instanceof b)
                         return !0
                 }
             else
@@ -1730,22 +1730,22 @@
         }
     }
     ;
-    E.__cast = function(a, b) {
-        if (E.__instanceof(a, b))
+    ES3ClassUtils.__cast = function(a, b) {
+        if (ES3ClassUtils.__instanceof(a, b))
             return a;
         throw new Z("Cannot cast " + la.string(a) + " to " + la.string(b));
     }
     ;
-    E.__nativeClassName = function(a) {
-        a = E.__toStr.call(a).slice(8, -1);
+    ES3ClassUtils.__nativeClassName = function(a) {
+        a = ES3ClassUtils.__toStr.call(a).slice(8, -1);
         return "Object" == a || "Function" == a || "Math" == a || "JSON" == a ? null : a
     }
     ;
-    E.__isNativeObj = function(a) {
-        return null != E.__nativeClassName(a)
+    ES3ClassUtils.__isNativeObj = function(a) {
+        return null != ES3ClassUtils.__nativeClassName(a)
     }
     ;
-    E.__resolveNativeClass = function(a) {
+    ES3ClassUtils.__resolveNativeClass = function(a) {
         return window[a]
     }
     ;
@@ -1788,7 +1788,7 @@
             c.byteLength = c.length;
             c.byteOffset = 0;
             c.buffer = new wa(c)
-        } else if (E.__instanceof(a, wa))
+        } else if (ES3ClassUtils.__instanceof(a, wa))
             null == b && (b = 0),
             null == c && (c = a.byteLength - b),
             c = 0 == b ? a.a : a.a.slice(b, b + c),
@@ -1808,7 +1808,7 @@
     }
     ;
     Ia._set = function(a, b) {
-        if (E.__instanceof(a.buffer, wa)) {
+        if (ES3ClassUtils.__instanceof(a.buffer, wa)) {
             if (a.byteLength + b > this.byteLength)
                 throw new Z("set() outside of range");
             for (var c = 0, d = a.byteLength; c < d; ) {
@@ -1969,7 +1969,7 @@
             null != this.pauseMenu && (this.pauseMenu.visible = !0,
             this.pauseMenu.onPause()),
             this.hasPaused = !0,
-            E.__instanceof(this.currentScreen, w) && null != w.i.pauseText && (w.i.pauseText.parent.removeChild(w.i.pauseText),
+            ES3ClassUtils.__instanceof(this.currentScreen, w) && null != w.i.pauseText && (w.i.pauseText.parent.removeChild(w.i.pauseText),
             w.i.pauseText = null)))
         },
         unpause: function() {
@@ -2233,7 +2233,7 @@
                 return !1;
             this.unlocked = !0;
             g.i.saveProgress();
-            E.__instanceof(g.i.currentScreen, ib) && g.i.currentScreen.refresh();
+            ES3ClassUtils.__instanceof(g.i.currentScreen, ib) && g.i.currentScreen.refresh();
             AwardsManager.queueNotify(this);
             return !0
         },
@@ -2669,13 +2669,13 @@
             return 3 == d ? new z(b - a,c - f / 2,m,f) : 2 == d ? new z(b - m / 2,c - a,m,f) : 1 == d ? new z(b - m + a,c - f / 2,m,f) : new z(b - m / 2,c - f + a,m,f)
         },
         rampCheck: function(a) {
-            return E.__instanceof(a, Wa) ? (0 != l.rotation || 0 != a.dir && 1 != a.dir) && (1 != l.rotation || 3 != a.dir && 0 != a.dir) && (2 != l.rotation || 2 != a.dir && 3 != a.dir) ? 3 == l.rotation ? 1 != a.dir ? 2 == a.dir : !0 : !1 : !0 : !1
+            return ES3ClassUtils.__instanceof(a, Wa) ? (0 != l.rotation || 0 != a.dir && 1 != a.dir) && (1 != l.rotation || 3 != a.dir && 0 != a.dir) && (2 != l.rotation || 2 != a.dir && 3 != a.dir) ? 3 == l.rotation ? 1 != a.dir ? 2 == a.dir : !0 : !1 : !0 : !1
         },
         nonRampCheck: function(a) {
             return !this.rampCheck(a)
         },
         rampCheckDX: function(a) {
-            return E.__instanceof(a, Wa) ? 0 == l.rotation && (0 < this.dx && 0 == a.dir || 0 > this.dx && 1 == a.dir) || 1 == l.rotation && (0 < this.dx && 3 == a.dir || 0 > this.dx && 0 == a.dir) || 2 == l.rotation && (0 < this.dx && 2 == a.dir || 0 > this.dx && 3 == a.dir) ? !0 : 3 == l.rotation ? 0 < this.dx && 1 == a.dir ? !0 : 0 > this.dx ? 2 == a.dir : !1 : !1 : !1
+            return ES3ClassUtils.__instanceof(a, Wa) ? 0 == l.rotation && (0 < this.dx && 0 == a.dir || 0 > this.dx && 1 == a.dir) || 1 == l.rotation && (0 < this.dx && 3 == a.dir || 0 > this.dx && 0 == a.dir) || 2 == l.rotation && (0 < this.dx && 2 == a.dir || 0 > this.dx && 3 == a.dir) ? !0 : 3 == l.rotation ? 0 < this.dx && 1 == a.dir ? !0 : 0 > this.dx ? 2 == a.dir : !1 : !1 : !1
         },
         nonRampCheckDX: function(a) {
             return !this.rampCheckDX(a)
@@ -2725,13 +2725,13 @@
                 var k = f[m];
                 ++m;
                 if (null != k && (null == d || d(k)))
-                    if (E.__instanceof(k, La)) {
+                    if (ES3ClassUtils.__instanceof(k, La)) {
                         if (k = k.bounds.copy(),
                         k.x += b * Constants.tileSize,
                         k.y += c * Constants.tileSize,
                         a.intersects(k))
                             return !0
-                    } else if (E.__instanceof(k, Wa)) {
+                    } else if (ES3ClassUtils.__instanceof(k, Wa)) {
                         var p = new Q(a.get_right(),a.get_bottom());
                         1 == k.dir && (p = new Q(a.get_left(),a.get_bottom()));
                         2 == k.dir && (p = new Q(a.get_left(),a.get_top()));
@@ -2740,7 +2740,7 @@
                         p.y -= c * Constants.tileSize;
                         if (k.testPoint(p))
                             return !0
-                    } else if (E.__instanceof(k, jb)) {
+                    } else if (ES3ClassUtils.__instanceof(k, jb)) {
                         if (p = k.bounds.copy(),
                         p.x += b * Constants.tileSize,
                         p.y += c * Constants.tileSize,
@@ -2756,7 +2756,7 @@
                             if (aa && (1 == k.dir && this.lastBounds.get_left() >= p.get_right() || 3 == k.dir && this.lastBounds.get_right() <= p.get_left()))
                                 return !0
                         }
-                    } else if (E.__instanceof(k, kb) && (p = k,
+                    } else if (ES3ClassUtils.__instanceof(k, kb) && (p = k,
                     k = Constants.tileSize,
                     y = a.copy(),
                     y.x -= b * k,
@@ -2955,7 +2955,7 @@
         L.bakeCanvas.height = c * Constants.tileSize;
         L.bakeSurface.reset();
         L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
-        if (null == L.gridCanvas && E.__instanceof(g.i.currentScreen, A)) {
+        if (null == L.gridCanvas && ES3ClassUtils.__instanceof(g.i.currentScreen, A)) {
             L.gridCanvas = window.document.createElement("canvas");
             L.gridCanvas.width = A.editorLevel.tiles[0].length * Constants.tileSize + 2;
             L.gridCanvas.height = A.editorLevel.tiles.length * Constants.tileSize + 2;
@@ -3013,7 +3013,7 @@
                     a.translate(-p.x * Constants.tileSize, -p.y * Constants.tileSize))
                 }
                 this.showGrid && null != L.gridCanvas && a.drawImage(L.gridCanvas, null, 0, 0);
-                if (E.__instanceof(g.i.currentScreen, w) && (c = g.i.currentScreen,
+                if (ES3ClassUtils.__instanceof(g.i.currentScreen, w) && (c = g.i.currentScreen,
                 !l.rotating && !c.player.dead && !c.player.finished)) {
                     k = 0;
                     for (p = c.player.touching; k < p.length; )
@@ -3081,7 +3081,7 @@
             var a = Constants.tileSize;
             L.bakeSurface.drawImage(Images.blocks, new z(a,2 * a,a,2 * a), (l.level.startCol + 1) * a, l.level.startRow * a);
             L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (l.level.finishCol + 1) * a, l.level.finishRow * a);
-            E.__instanceof(l.level, Level8) && L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
+            ES3ClassUtils.__instanceof(l.level, Level8) && L.bakeSurface.drawImage(Images.blocks, new z(2 * a,2 * a,a,2 * a), (Level8.fakeCol + 1) * a, Level8.fakeRow * a)
         },
         getBoundsSelf: function() {
             return new z(0,0,l.get_width() * Constants.tileSize,l.get_height() * Constants.tileSize)
@@ -3178,7 +3178,7 @@
                     var m = this.isOpen(b)
                       , k = .5 * d - .16666666666666666;
                     c = m ? 0 : k;
-                    if (E.__instanceof(g.i.currentScreen, w)) {
+                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, w)) {
                         var p = w.i.channels
                           , y = b.getMeta(0);
                         p = p.h[y];
@@ -3195,7 +3195,7 @@
                         k += p * f;
                     a.drawImage(Images.blocks, new z(4 * f,3 * f,f,f), c * f, 0);
                     a.drawImage(Images.blocks, new z(5 * f,3 * f,f,f), (d - c - 1) * f, 0);
-                    if (E.__instanceof(g.i.currentScreen, A) && (A.renderBlockText(a, b.getMeta(0) + ""),
+                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, A) && (A.renderBlockText(a, b.getMeta(0) + ""),
                     1 < d))
                         for (b = 1; b < d; )
                             c = b++,
@@ -3211,7 +3211,7 @@
             }
         },
         isOpen: function(a) {
-            return E.__instanceof(g.i.currentScreen, w) && w.i.getChannelStatus(a.getMeta(0)) ? !0 : !1
+            return ES3ClassUtils.__instanceof(g.i.currentScreen, w) && w.i.getChannelStatus(a.getMeta(0)) ? !0 : !1
         },
         isStuck: function(a) {
             for (var b = 0, c = w.i.player.touching; b < c.length; ) {
@@ -3389,7 +3389,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             b = b.getMeta(0) % 4;
-            c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
+            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
             a.drawImage(Images.blocks, new z(((0 < b && 3 > b ? 1 : 0) + 2 * c) * Constants.tileSize,(5 + (1 < b ? 1 : 0)) * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         __class__: zb
@@ -3463,13 +3463,13 @@
             return [new La(new z(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
         },
         alwaysUpdate: function(a) {
-            return !E.__instanceof(g.i.currentScreen, A)
+            return !ES3ClassUtils.__instanceof(g.i.currentScreen, A)
         },
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = 0 < b.getMeta(1);
             a.drawImage(Images.blocks, new z((d ? 4 : 3) * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0);
-            c && E.__instanceof(g.i.currentScreen, A) && A.renderBlockText(a, b.getMeta(0) + "")
+            c && ES3ClassUtils.__instanceof(g.i.currentScreen, A) && A.renderBlockText(a, b.getMeta(0) + "")
         },
         setupBubble: function(a) {
             var b = this
@@ -3568,7 +3568,7 @@
                 return !0;
             a = l.getBlockData(a, b);
             b = a.get_block();
-            if (E.__instanceof(b, va))
+            if (ES3ClassUtils.__instanceof(b, va))
                 return !0;
             a.getMeta(0);
             return !1
@@ -3672,7 +3672,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = g.i.get_gameTimeMS() / 40;
-            c = !c || E.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(d - (d < Constants.EPSILON ? 0 : Constants.EPSILON)) % 3;
+            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, A) ? 0 : Math.floor(d - (d < Constants.EPSILON ? 0 : Constants.EPSILON)) % 3;
             this.renderRotated(a, b, (4 + c) * Constants.tileSize, Constants.tileSize)
         },
         getColliders: function(a) {
@@ -3683,7 +3683,7 @@
             return !1
         },
         alwaysUpdate: function(a) {
-            return !E.__instanceof(g.i.currentScreen, A)
+            return !ES3ClassUtils.__instanceof(g.i.currentScreen, A)
         },
         __class__: Db
     });
@@ -4222,7 +4222,7 @@
             this.cat.update()
         },
         finished: function() {
-            g.i.changeScreen(new bb(E.__cast(g.i.currentScreen, w).speedrun));
+            g.i.changeScreen(new bb(ES3ClassUtils.__cast(g.i.currentScreen, w).speedrun));
             return null
         },
         kill: function() {},
@@ -4640,7 +4640,7 @@
         this.field.xAlign = r.X_ALIGN_CENTER;
         this.field.align = r.ALIGN_CENTER;
         this.field.set_x(h.width / 2);
-        null == b && E.__instanceof(g.i.currentScreen, w) ? (b = g.i.currentScreen.textHolder,
+        null == b && ES3ClassUtils.__instanceof(g.i.currentScreen, w) ? (b = g.i.currentScreen.textHolder,
         this.field.yAlign = r.Y_ALIGN_TOP,
         this.field.set_y(h.height - 96)) : (this.field.yAlign = r.Y_ALIGN_MIDDLE,
         this.field.set_y(h.height / 2));
@@ -4651,7 +4651,7 @@
     U.prototype = {
         update: function() {
             var a = !0;
-            E.__instanceof(g.i.currentScreen, w) && (a = !g.i.currentScreen.player.dead);
+            ES3ClassUtils.__instanceof(g.i.currentScreen, w) && (a = !g.i.currentScreen.player.dead);
             a && null != this.events[this.index] && this.events[this.index].cond.test() && ("" != this.events[this.index].text && (this.field.set_text(""),
             this.msg = this.events[this.index].text,
             this["char"] = this.char2 = 0,
@@ -4676,7 +4676,7 @@
             }
             this["char"] == this.msg.length && g.i.get_gameTimeMS() - this.timer > U.TIME_STAY && (a = Math.min(1, (g.i.get_gameTimeMS() - this.timer - U.TIME_STAY) / U.TIME_FADE),
             this.field.set_alpha(g.smootherStep(1 - a)));
-            E.__instanceof(g.i.currentScreen, w) && (this.field.graphics.clear(),
+            ES3ClassUtils.__instanceof(g.i.currentScreen, w) && (this.field.graphics.clear(),
             "" != this.field.text && (a = this.field.getBoundsSelf(),
             this.field.graphics.beginFill(2105376, .85),
             this.field.graphics.drawRect(a.x - 6, a.y + 2, a.width + 12, a.height)))
@@ -5686,7 +5686,7 @@
     w.stopTheme = function() {
         var a = Sounds.themeGame1.playing() ? Sounds.themeGame1 : Sounds.themeGame2.playing() ? Sounds.themeGame2 : null;
         if (null != a) {
-            var b = E.__instanceof(g.i.currentScreen, w) && E.__instanceof(g.i.targetScreen, bb);
+            var b = ES3ClassUtils.__instanceof(g.i.currentScreen, w) && ES3ClassUtils.__instanceof(g.i.targetScreen, bb);
             if (g.ie)
                 b || a.stop();
             else {
@@ -6602,13 +6602,13 @@
         this.btnRedo.set_x(this.btnPlay.x);
         this.btnRedo.set_y(this.btnPlay.y + 60);
         this.btnRedo.addEventListener("click", function(a) {
-            2 > a.which && E.__instanceof(g.i.currentScreen, w) && g.i.currentScreen.restart(!1)
+            2 > a.which && ES3ClassUtils.__instanceof(g.i.currentScreen, w) && g.i.currentScreen.restart(!1)
         });
         this.addChild(this.btnRedo);
         this.btnQuit.set_x(this.btnRedo.x);
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
-            2 > a.which && (a = E.__instanceof(g.i.currentScreen, w) && E.__cast(g.i.currentScreen, w).speedrun || E.__instanceof(g.i.currentScreen, Qa) && E.__cast(g.i.currentScreen, Qa).speedrun,
+            2 > a.which && (a = ES3ClassUtils.__instanceof(g.i.currentScreen, w) && ES3ClassUtils.__cast(g.i.currentScreen, w).speedrun || ES3ClassUtils.__instanceof(g.i.currentScreen, Qa) && ES3ClassUtils.__cast(g.i.currentScreen, Qa).speedrun,
             g.i.changeScreen(l.level == A.editorLevel ? new A : a ? new Oa : 0 < B.unlocked ? new pb : new ca, !0, (Ja = g.i,
             T(Ja, Ja.unpause))))
         });
@@ -6625,10 +6625,10 @@
         onPause: function() {
             this.mute.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
             this.mute.music.clipRect.x = g.i.muteMusic ? 84 : 56;
-            var a = E.__instanceof(g.i.currentScreen, w);
+            var a = ES3ClassUtils.__instanceof(g.i.currentScreen, w);
             this.btnRedo.set_alpha(a ? 1 : .25);
             this.btnRedo.main.mouseEnabled = a;
-            a = E.__instanceof(g.i.currentScreen, bb) || E.__instanceof(g.i.currentScreen, ob);
+            a = ES3ClassUtils.__instanceof(g.i.currentScreen, bb) || ES3ClassUtils.__instanceof(g.i.currentScreen, ob);
             this.btnQuit.set_alpha(a ? .25 : 1);
             this.btnQuit.main.mouseEnabled = !a
         },
@@ -6749,7 +6749,7 @@
     Ea.PI2 = 2 * Math.PI;
     za.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     za.BYTES = ya.ofString(za.CHARS);
-    E.__toStr = {}.toString;
+    ES3ClassUtils.__toStr = {}.toString;
     Ia.BYTES_PER_ELEMENT = 1;
     Constants.EPSILON = 1E-8;
     Constants.screenFadeTime = 700;
