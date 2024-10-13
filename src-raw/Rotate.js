@@ -3646,19 +3646,19 @@
         },
         __class__: Cb
     });
-    var $a = function() {
+    var TileRamp = function() {
         da.call(this)
     };
-    $a.__name__ = !0;
-    $a.__super__ = da;
-    $a.prototype = __INHERIT__(da.prototype, {
+    TileRamp.__name__ = !0;
+    TileRamp.__super__ = da;
+    TileRamp.prototype = __INHERIT__(da.prototype, {
         render: function(a, b, c) {
             this.renderRotated(a, b, 6 * Constants.tileSize, 0)
         },
         getColliders: function(a) {
             return [new Wa(a.getMeta(0))]
         },
-        __class__: $a
+        __class__: TileRamp
     });
     var Db = function() {
         da.call(this)
@@ -3722,8 +3722,8 @@
         da.call(this)
     };
     TileStairs.__name__ = !0;
-    TileStairs.__super__ = $a;
-    TileStairs.prototype = __INHERIT__($a.prototype, {
+    TileStairs.__super__ = TileRamp;
+    TileStairs.prototype = __INHERIT__(TileRamp.prototype, {
         render: function(a, b, c) {
             c = Constants.tileSize;
             var d = c / 2;
@@ -6905,7 +6905,7 @@
     EditorTiles.air = EditorTiles.register(0, new TileAir);
     EditorTiles.solid = EditorTiles.register(1, new TileSolid);
     EditorTiles.stairs = EditorTiles.register(2, new TileStairs);
-    EditorTiles.ramp = EditorTiles.register(3, new $a);
+    EditorTiles.ramp = EditorTiles.register(3, new TileRamp);
     EditorTiles.platform = EditorTiles.register(4, new Cb);
     EditorTiles.spikes = EditorTiles.register(5, new Eb);
     EditorTiles.saw = EditorTiles.register(6, new Db);
