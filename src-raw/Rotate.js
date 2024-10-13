@@ -2297,14 +2297,14 @@
         }
     }
     ;
-    var wb = function(a, b, c, d) {
+    var BlockMeta = function(a, b, c, d) {
         this.x = a;
         this.y = b;
         this.id = c;
         this.meta = null == d ? [] : d
     };
-    wb.__name__ = !0;
-    wb.prototype = {
+    BlockMeta.__name__ = !0;
+    BlockMeta.prototype = {
         get_block: function() {
             return EditorTiles.getBlock(this.id)
         },
@@ -2323,7 +2323,7 @@
             }
             return !0
         },
-        __class__: wb
+        __class__: BlockMeta
     };
     var GraphicsObjectAnimated = function(a, b, c) {
         this.animChanged = !1;
@@ -2887,7 +2887,7 @@
     }
     ;
     PlayManager.getBlockData = function(a, b) {
-        return new wb(a,b,PlayManager.getBlockID(a, b),PlayManager.getBlockMeta(a, b))
+        return new BlockMeta(a,b,PlayManager.getBlockID(a, b),PlayManager.getBlockMeta(a, b))
     }
     ;
     PlayManager.getBlock = function(a, b) {
@@ -6164,7 +6164,7 @@
                 a.rotate(PlayManager.rotation * Math.PI / 2),
                 a.translate(-EditorTileSelector.size2, -EditorTileSelector.size2));
                 a.drawRect(0, 0, Constants.tileSize, Constants.tileSize);
-                e.render(a, new wb(0,0,e.id,e.getConfigMeta()), !1);
+                e.render(a, new BlockMeta(0,0,e.id,e.getConfigMeta()), !1);
                 e.rotatePreview() && (a.translate(EditorTileSelector.size2, EditorTileSelector.size2),
                 a.rotate(-PlayManager.rotation * Math.PI / 2),
                 a.translate(-EditorTileSelector.size2, -EditorTileSelector.size2))
