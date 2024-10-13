@@ -23,7 +23,7 @@
         a.hx__closures__[b.__id__] = c);
         return c
     }
-    var dc = function() {
+    var __CLASS__toStringFn = function() {
         return ES3ClassUtils.__string_rec(this, "")
     }
       , UtilsRest = function() {};
@@ -1586,18 +1586,18 @@
         __constructs__: ["Blocked", "Overflow", "OutsideBounds", "Custom"],
         Blocked: ["Blocked", 0]
     };
-    RotateErrors.Blocked.toString = dc;
+    RotateErrors.Blocked.toString = __CLASS__toStringFn;
     RotateErrors.Blocked.__enum__ = RotateErrors;
     RotateErrors.Overflow = ["Overflow", 1];
-    RotateErrors.Overflow.toString = dc;
+    RotateErrors.Overflow.toString = __CLASS__toStringFn;
     RotateErrors.Overflow.__enum__ = RotateErrors;
     RotateErrors.OutsideBounds = ["OutsideBounds", 2];
-    RotateErrors.OutsideBounds.toString = dc;
+    RotateErrors.OutsideBounds.toString = __CLASS__toStringFn;
     RotateErrors.OutsideBounds.__enum__ = RotateErrors;
     RotateErrors.Custom = function(a) {
         a = ["Custom", 3, a];
         a.__enum__ = RotateErrors;
-        a.toString = dc;
+        a.toString = __CLASS__toStringFn;
         return a
     }
     ;
