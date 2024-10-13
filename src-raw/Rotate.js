@@ -4688,13 +4688,13 @@
         },
         __class__: U
     };
-    var P = function() {
+    var Screen = function() {
         this.pausable = !1;
         x.call(this)
     };
-    P.__name__ = !0;
-    P.__super__ = x;
-    P.prototype = D(x.prototype, {
+    Screen.__name__ = !0;
+    Screen.__super__ = x;
+    Screen.prototype = D(x.prototype, {
         init: function() {},
         ready: function() {},
         update: function() {},
@@ -4702,7 +4702,7 @@
         postUpdate: function() {},
         prekill: function() {},
         kill: function() {},
-        __class__: P
+        __class__: Screen
     });
     var ib = function() {
         this.rotating = !1;
@@ -4715,11 +4715,11 @@
         this.bg = new Na;
         this.content = new x;
         this.pivot = new x;
-        P.call(this)
+        Screen.call(this)
     };
     ib.__name__ = !0;
-    ib.__super__ = P;
-    ib.prototype = D(P.prototype, {
+    ib.__super__ = Screen;
+    ib.prototype = D(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -4805,12 +4805,12 @@
         this.joshua = new I(Images.linkJoshua2);
         this.text1 = new r(g.fontMain,"Design, code, & music by",1);
         this.btnBack = new ba("BACK");
-        P.call(this);
+        Screen.call(this);
         this.fromEnd = a
     };
     mb.__name__ = !0;
-    mb.__super__ = P;
-    mb.prototype = D(P.prototype, {
+    mb.__super__ = Screen;
+    mb.prototype = D(Screen.prototype, {
         init: function() {
             var a = this;
             if (this.fromEnd) {
@@ -4890,11 +4890,11 @@
         this.camera = new x;
         this.pivot = new x;
         this.bg = new x;
-        P.call(this)
+        Screen.call(this)
     };
     BaseLevel.__name__ = !0;
-    BaseLevel.__super__ = P;
-    BaseLevel.prototype = D(P.prototype, {
+    BaseLevel.__super__ = Screen;
+    BaseLevel.prototype = D(Screen.prototype, {
         init: function() {
             this.bg.graphics.beginFill(3158064);
             this.bg.graphics.drawRect(0, 0, h.width, h.height);
@@ -5320,13 +5320,13 @@
         null == a && (a = !1);
         this.done1 = this.first = !1;
         this.cond1 = new M(10);
-        P.call(this);
+        Screen.call(this);
         this.pausable = !0;
         this.speedrun = a
     };
     bb.__name__ = !0;
-    bb.__super__ = P;
-    bb.prototype = D(P.prototype, {
+    bb.__super__ = Screen;
+    bb.prototype = D(Screen.prototype, {
         init: function() {
             g.ie && Sounds.themeGame2.volume(.5);
             this.cond1.start();
@@ -5368,13 +5368,13 @@
         this.pivot = new x;
         this.done = !1;
         this.delay = 9.5;
-        P.call(this);
+        Screen.call(this);
         this.pausable = !0;
         this.first = a
     };
     ob.__name__ = !0;
-    ob.__super__ = P;
-    ob.prototype = D(P.prototype, {
+    ob.__super__ = Screen;
+    ob.prototype = D(Screen.prototype, {
         init: function() {
             this.start = g.i.get_gameTime();
             this.bg.graphics.beginFill(16777215);
@@ -5459,11 +5459,11 @@
         this.btnBack = new ba("BACK");
         this.title = new r(g.fontMain,"EXTRAS",1);
         this.bg = new Na;
-        P.call(this)
+        Screen.call(this)
     };
     Oa.__name__ = !0;
-    Oa.__super__ = P;
-    Oa.prototype = D(P.prototype, {
+    Oa.__super__ = Screen;
+    Oa.prototype = D(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5528,11 +5528,11 @@
         this.btnBack = new ba("BACK");
         this.title = new r(g.fontMain,"LEVEL SELECT",1);
         this.bg = new Na;
-        P.call(this)
+        Screen.call(this)
     };
     pb.__name__ = !0;
-    pb.__super__ = P;
-    pb.prototype = D(P.prototype, {
+    pb.__super__ = Screen;
+    pb.prototype = D(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5590,7 +5590,7 @@
         this.btnPlay = new ba("PLAY");
         this.logo = new I(Images.logo);
         this.bg = new Na;
-        P.call(this)
+        Screen.call(this)
     };
     ca.__name__ = !0;
     ca.playTheme = function() {
@@ -5607,8 +5607,8 @@
         }))
     }
     ;
-    ca.__super__ = P;
-    ca.prototype = D(P.prototype, {
+    ca.__super__ = Screen;
+    ca.prototype = D(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5906,7 +5906,7 @@
         this.onTimer = null;
         this.done = !1;
         this.length = 1.5;
-        P.call(this);
+        Screen.call(this);
         this.lws = a;
         a = new I(Images.splashLWS);
         a.set_x(Math.round((h.width - a.get_width()) / 2));
@@ -5914,8 +5914,8 @@
         this.addChild(a)
     };
     $b.__name__ = !0;
-    $b.__super__ = P;
-    $b.prototype = D(P.prototype, {
+    $b.__super__ = Screen;
+    $b.prototype = D(Screen.prototype, {
         ready: function() {
             this.timer = N.get_current()
         },
@@ -5928,11 +5928,11 @@
     var vb = function() {
         this.start = new I(Images.start);
         this.pivot = new x;
-        P.call(this)
+        Screen.call(this)
     };
     vb.__name__ = !0;
-    vb.__super__ = P;
-    vb.prototype = D(P.prototype, {
+    vb.__super__ = Screen;
+    vb.prototype = D(Screen.prototype, {
         init: function() {
             this.timer = N.get_currentMS();
             this.pivot.set_x(h.width / 2);
@@ -5968,13 +5968,13 @@
         this.cond2 = new M(.5);
         this.done1 = !1;
         this.cond1 = new M(10);
-        P.call(this);
+        Screen.call(this);
         this.pausable = !0;
         this.speedrun = a
     };
     Qa.__name__ = !0;
-    Qa.__super__ = P;
-    Qa.prototype = D(P.prototype, {
+    Qa.__super__ = Screen;
+    Qa.prototype = D(Screen.prototype, {
         init: function() {
             this.cond1.start();
             this.speech = new U([new C(new M(2),"It's time to resume your training."), new C(new M(4),"We'll start with the basics.")],this);
