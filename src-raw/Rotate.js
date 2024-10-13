@@ -59,13 +59,13 @@
     }
     ;
     Math.__name__ = !0;
-    var la = function() {};
-    la.__name__ = !0;
-    la.string = function(a) {
+    var StringUtils2 = function() {};
+    StringUtils2.__name__ = !0;
+    StringUtils2.string = function(a) {
         return ES3ClassUtils.__string_rec(a, "")
     }
     ;
-    la.parseInt = function(a) {
+    StringUtils2.parseInt = function(a) {
         var b = parseInt(a, 10);
         0 != b || 120 != ja.cca(a, 1) && 88 != ja.cca(a, 1) || (b = parseInt(a));
         return isNaN(b) ? null : b
@@ -1733,7 +1733,7 @@
     ES3ClassUtils.__cast = function(a, b) {
         if (ES3ClassUtils.__instanceof(a, b))
             return a;
-        throw new RotateError("Cannot cast " + la.string(a) + " to " + la.string(b));
+        throw new RotateError("Cannot cast " + StringUtils2.string(a) + " to " + StringUtils2.string(b));
     }
     ;
     ES3ClassUtils.__nativeClassName = function(a) {
@@ -1801,7 +1801,7 @@
             c.byteOffset = 0,
             c.buffer = new FallbackArrayBuffer(c);
         else
-            throw new RotateError("TODO " + la.string(a));
+            throw new RotateError("TODO " + StringUtils2.string(a));
         c.subarray = FallbackUint8Array._subarray;
         c.set = FallbackUint8Array._set;
         return c
@@ -5224,20 +5224,20 @@
             var c = b[0].split(",");
             if (4 > c.length)
                 return !1;
-            a = la.parseInt(c[0]);
-            var d = la.parseInt(c[1])
-              , e = la.parseInt(c[2])
-              , f = la.parseInt(c[3]);
+            a = StringUtils2.parseInt(c[0]);
+            var d = StringUtils2.parseInt(c[1])
+              , e = StringUtils2.parseInt(c[2])
+              , f = StringUtils2.parseInt(c[3]);
             if (null == a || null == d || null == e || null == f || 0 > a || 0 > e || 1 > d || 1 > f || a == e && (d == f || 1 == Math.abs(d - f)))
                 return !1;
             var m = 0
               , k = 0
               , p = 0;
-            5 <= c.length && (m = la.parseInt(c[4]),
+            5 <= c.length && (m = StringUtils2.parseInt(c[4]),
             null == m || 0 > m) && (m = 0);
-            6 <= c.length && (k = la.parseInt(c[5]),
+            6 <= c.length && (k = StringUtils2.parseInt(c[5]),
             null == k || 0 > k) && (k = 0);
-            7 <= c.length && (p = la.parseInt(c[6]),
+            7 <= c.length && (p = StringUtils2.parseInt(c[6]),
             null == p || 0 > p || 1 < p) && (p = 0);
             var y = b[1].split(";")
               , H = y.length;
@@ -5257,7 +5257,7 @@
                         if ("" == nb[ic])
                             b[W][Ca][ic] = 0;
                         else {
-                            var oc = la.parseInt(nb[ic]);
+                            var oc = StringUtils2.parseInt(nb[ic]);
                             if (null == oc)
                                 return !1;
                             b[W][Ca][ic] = oc
