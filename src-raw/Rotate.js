@@ -3737,19 +3737,19 @@
         },
         __class__: Fb
     });
-    var Gb = function() {
+    var TileStart = function() {
         X.call(this)
     };
-    Gb.__name__ = !0;
-    Gb.__super__ = X;
-    Gb.prototype = __INHERIT__(X.prototype, {
+    TileStart.__name__ = !0;
+    TileStart.__super__ = X;
+    TileStart.prototype = __INHERIT__(X.prototype, {
         render: function(a, b, c) {
             a.drawImage(Images.blocks, new Rectangle(0,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         shouldRender: function(a) {
             return !1
         },
-        __class__: Gb
+        __class__: TileStart
     });
     var Hb = function() {
         X.call(this)
@@ -6900,7 +6900,7 @@
     l.rotation = 0;
     Za.TOGGLE_TIMER = .67;
     EditorTiles.registry = [];
-    EditorTiles.start = EditorTiles.register(-1, new Gb);
+    EditorTiles.start = EditorTiles.register(-1, new TileStart);
     EditorTiles.finish = EditorTiles.register(-2, new Ab);
     EditorTiles.air = EditorTiles.register(0, new xb);
     EditorTiles.solid = EditorTiles.register(1, new va);
