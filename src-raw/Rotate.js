@@ -3873,20 +3873,20 @@
     ea.prototype = {
         __class__: ea
     };
-    var pa = function() {
+    var LevelEditor = function() {
         this.startDir = 1;
         this.theme = 0;
         this.reset()
     };
-    pa.__name__ = !0;
-    pa.__interfaces__ = [ea];
-    pa.prototype = {
+    LevelEditor.__name__ = !0;
+    LevelEditor.__interfaces__ = [ea];
+    LevelEditor.prototype = {
         reset: function() {
             this.tiles = [];
-            for (var a = 0, b = pa.WORLD_SIZE; a < b; ) {
+            for (var a = 0, b = LevelEditor.WORLD_SIZE; a < b; ) {
                 var c = a++;
                 this.tiles[c] = [];
-                for (var d = 0, e = pa.WORLD_SIZE; d < e; ) {
+                for (var d = 0, e = LevelEditor.WORLD_SIZE; d < e; ) {
                     var f = d++;
                     this.tiles[c][f] = [13 < f && 28 > f && 17 < c && 24 > c ? 0 : 1, 0]
                 }
@@ -3926,7 +3926,7 @@
             return null
         },
         kill: function() {},
-        __class__: pa
+        __class__: LevelEditor
     };
     var Level1 = function() {
         this.startDir = 1;
@@ -5241,7 +5241,7 @@
             null == p || 0 > p || 1 < p) && (p = 0);
             var y = b[1].split(";")
               , H = y.length;
-            if (1 > H || H > pa.WORLD_SIZE || d >= H || f >= H)
+            if (1 > H || H > LevelEditor.WORLD_SIZE || d >= H || f >= H)
                 return !1;
             c = 0;
             b = [];
@@ -5265,13 +5265,13 @@
                     }
                 }
             }
-            if (1 > c || c > pa.WORLD_SIZE || a >= c || e >= c)
+            if (1 > c || c > LevelEditor.WORLD_SIZE || a >= c || e >= c)
                 return !1;
             for (y = 0; y < H; )
                 for (K = y++; b[K].length < c; )
                     b[K].push([0]);
-            m = Math.min(m, pa.WORLD_SIZE - c);
-            k = Math.min(k, pa.WORLD_SIZE - H);
+            m = Math.min(m, LevelEditor.WORLD_SIZE - c);
+            k = Math.min(k, LevelEditor.WORLD_SIZE - H);
             if (a >= c || d >= H || e >= c || f >= H || 0 != b[d][a][0] || 0 != b[d - 1][a][0] || 0 != b[f][e][0] || 0 != b[f - 1][e][0])
                 return !1;
             for (y = 0; y < b.length; )
@@ -5283,14 +5283,14 @@
                     y.push([1]);
                 b.splice(0, 0, y)
             }
-            for (; b.length < pa.WORLD_SIZE; ) {
+            for (; b.length < LevelEditor.WORLD_SIZE; ) {
                 for (H = []; H.length < c + m; )
                     H.push([1]);
                 b.push(H)
             }
             for (c = 0; c < b.length; )
                 for (H = b[c],
-                ++c; H.length < pa.WORLD_SIZE; )
+                ++c; H.length < LevelEditor.WORLD_SIZE; )
                     H.push([1]);
             A.editorLevel.load(b, a + m, d + k, e + m, f + k, p);
             return !0
@@ -6915,7 +6915,7 @@
     F.vent = F.register(10, new Hb);
     F.fan = F.register(11, new zb);
     ab.GRAVITY_MULT = .2;
-    pa.WORLD_SIZE = 42;
+    LevelEditor.WORLD_SIZE = 42;
     Level1.fadeSpeed = .1;
     Level8.fakeCol = 30;
     Level8.fakeRow = 16;
@@ -6943,7 +6943,7 @@
     U.TIME_FADE = 750;
     A.MOVE_SPEED = 4;
     A.showGrid = !0;
-    A.editorLevel = new pa;
+    A.editorLevel = new LevelEditor;
     w.continueTheme = !1;
     w.RESTART_DELAY = 1;
     w.DEATH_TIME = 1.5;
