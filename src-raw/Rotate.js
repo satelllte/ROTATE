@@ -4736,7 +4736,7 @@
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 88);
             this.btnBack.addEventListener("click", function(a) {
-                2 > a.which && g.i.changeScreen(new Oa)
+                2 > a.which && g.i.changeScreen(new ScreenExtras)
             });
             this.content.addChild(this.btnBack);
             this.content.addChild(this.sponsor);
@@ -4877,7 +4877,7 @@
                     Sounds.surface.stop()
                 }))),
                 g.ie && (g.i.ieSurface = !1),
-                g.i.changeScreen(a.fromEnd ? new Oa : new ca))
+                g.i.changeScreen(a.fromEnd ? new ScreenExtras : new ca))
             });
             this.addChild(this.btnBack);
             this.addChild(this.mute)
@@ -5445,7 +5445,7 @@
         },
         __class__: ob
     });
-    var Oa = function() {
+    var ScreenExtras = function() {
         this.erase = new Ya;
         this.mute = new Ba;
         this.sponsor = new Ma;
@@ -5461,9 +5461,9 @@
         this.bg = new Na;
         Screen.call(this)
     };
-    Oa.__name__ = !0;
-    Oa.__super__ = Screen;
-    Oa.prototype = __INHERIT__(Screen.prototype, {
+    ScreenExtras.__name__ = !0;
+    ScreenExtras.__super__ = Screen;
+    ScreenExtras.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5518,7 +5518,7 @@
             this.addChild(this.erase);
             g.i.warnNoSave(this)
         },
-        __class__: Oa
+        __class__: ScreenExtras
     });
     var pb = function() {
         this.erase = new Ya;
@@ -5626,7 +5626,7 @@
             this.btnExtras.set_x(this.btnPlay.x);
             this.btnExtras.set_y(this.btnPlay.y + 60);
             this.btnExtras.addEventListener("click", function(a) {
-                2 > a.which && g.i.changeScreen(new Oa)
+                2 > a.which && g.i.changeScreen(new ScreenExtras)
             });
             this.addChild(this.btnExtras);
             this.btnCredits.set_x(this.btnExtras.x);
@@ -6330,7 +6330,7 @@
         this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
         this.btnExit.hitPadding = R.BTN_PAD;
         this.btnExit.addEventListener("click", function(d) {
-            2 > d.which && g.i.changeScreen(new Oa)
+            2 > d.which && g.i.changeScreen(new ScreenExtras)
         });
         this.addChild(this.btnExit);
         this.btnClear.set_x(this.btnExit.x + this.btnExit.get_width() + R.BTN_SPACE);
@@ -6609,7 +6609,7 @@
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(g.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(g.i.currentScreen, Qa) && ES3ClassUtils.__cast(g.i.currentScreen, Qa).speedrun,
-            g.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new Oa : 0 < B.unlocked ? new pb : new ca, !0, (Ja = g.i,
+            g.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < B.unlocked ? new pb : new ca, !0, (Ja = g.i,
             T(Ja, Ja.unpause))))
         });
         this.addChild(this.btnQuit);
