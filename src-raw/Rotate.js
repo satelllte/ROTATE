@@ -1392,7 +1392,7 @@
     BytesData.prototype = {
         getString: function(a, b) {
             if (0 > a || 0 > b || a + b > this.length)
-                throw new Z(oa.OutsideBounds);
+                throw new RotateError(oa.OutsideBounds);
             for (var c = "", d = this.b, e = String.fromCharCode, f = a, m = a + b; f < m; ) {
                 var k = d[f++];
                 if (128 > k) {
@@ -1447,7 +1447,7 @@
         for (var b = a.length, c = 1; b > 1 << c; )
             ++c;
         if (8 < c || b != 1 << c)
-            throw new Z("BaseCode : base length must be a power of two.");
+            throw new RotateError("BaseCode : base length must be a power of two.");
         this.base = a;
         this.nbits = c
     };
@@ -1486,7 +1486,7 @@
                     f <<= b;
                     var y = c[a.b[k++]];
                     if (-1 == y)
-                        throw new Z("BaseCode : invalid encoded char");
+                        throw new RotateError("BaseCode : invalid encoded char");
                     f |= y
                 }
                 m -= 8;
@@ -1601,20 +1601,20 @@
         return a
     }
     ;
-    var Z = function(a) {
+    var RotateError = function(a) {
         Error.call(this);
         this.val = a;
         this.message = String(a);
-        Error.captureStackTrace && Error.captureStackTrace(this, Z)
+        Error.captureStackTrace && Error.captureStackTrace(this, RotateError)
     };
-    Z.__name__ = !0;
-    Z.wrap = function(a) {
-        return a instanceof Error ? a : new Z(a)
+    RotateError.__name__ = !0;
+    RotateError.wrap = function(a) {
+        return a instanceof Error ? a : new RotateError(a)
     }
     ;
-    Z.__super__ = Error;
-    Z.prototype = __INHERIT__(Error.prototype, {
-        __class__: Z
+    RotateError.__super__ = Error;
+    RotateError.prototype = __INHERIT__(Error.prototype, {
+        __class__: RotateError
     });
     var ES3ClassUtils = function() {};
     ES3ClassUtils.__name__ = !0;
@@ -1733,7 +1733,7 @@
     ES3ClassUtils.__cast = function(a, b) {
         if (ES3ClassUtils.__instanceof(a, b))
             return a;
-        throw new Z("Cannot cast " + la.string(a) + " to " + la.string(b));
+        throw new RotateError("Cannot cast " + la.string(a) + " to " + la.string(b));
     }
     ;
     ES3ClassUtils.__nativeClassName = function(a) {
@@ -1801,7 +1801,7 @@
             c.byteOffset = 0,
             c.buffer = new FallbackArrayBuffer(c);
         else
-            throw new Z("TODO " + la.string(a));
+            throw new RotateError("TODO " + la.string(a));
         c.subarray = FallbackUint8Array._subarray;
         c.set = FallbackUint8Array._set;
         return c
@@ -1810,20 +1810,20 @@
     FallbackUint8Array._set = function(a, b) {
         if (ES3ClassUtils.__instanceof(a.buffer, FallbackArrayBuffer)) {
             if (a.byteLength + b > this.byteLength)
-                throw new Z("set() outside of range");
+                throw new RotateError("set() outside of range");
             for (var c = 0, d = a.byteLength; c < d; ) {
                 var e = c++;
                 this[e + b] = a[e]
             }
         } else if (a instanceof Array && null == a.__enum__) {
             if (a.length + b > this.byteLength)
-                throw new Z("set() outside of range");
+                throw new RotateError("set() outside of range");
             c = 0;
             for (d = a.length; c < d; )
                 e = c++,
                 this[e + b] = a[e]
         } else
-            throw new Z("TODO");
+            throw new RotateError("TODO");
     }
     ;
     FallbackUint8Array._subarray = function(a, b) {
@@ -2097,7 +2097,7 @@
                     }
                 }
             } catch (f) {
-                f instanceof Z && (f = f.val),
+                f instanceof RotateError && (f = f.val),
                 console.log(f)
             }
         },
@@ -2179,9 +2179,9 @@
         try {
             return window.localStorage.getItem(a)
         } catch (b) {
-            b instanceof Z && (b = b.val);
+            b instanceof RotateError && (b = b.val);
             if ("SecurityError" != b.name && "DOMException" != b.name)
-                throw Z.wrap(b);
+                throw RotateError.wrap(b);
             return null
         }
     }
@@ -2190,9 +2190,9 @@
         try {
             window.localStorage.setItem(a, b)
         } catch (c) {
-            if (c instanceof Z && (c = c.val),
+            if (c instanceof RotateError && (c = c.val),
             "SecurityError" != c.name && "DOMException" != c.name)
-                throw Z.wrap(c);
+                throw RotateError.wrap(c);
         }
     }
     ;
@@ -2200,9 +2200,9 @@
         try {
             window.localStorage.removeItem(a)
         } catch (b) {
-            if (b instanceof Z && (b = b.val),
+            if (b instanceof RotateError && (b = b.val),
             "SecurityError" != b.name && "DOMException" != b.name)
-                throw Z.wrap(b);
+                throw RotateError.wrap(b);
         }
     }
     ;
@@ -2214,9 +2214,9 @@
             window.localStorage.removeItem("?");
             return !0
         } catch (a) {
-            a instanceof Z && (a = a.val);
+            a instanceof RotateError && (a = a.val);
             if ("SecurityError" != a.name && "DOMException" != a.name)
-                throw Z.wrap(a);
+                throw RotateError.wrap(a);
             return !1
         }
     }
