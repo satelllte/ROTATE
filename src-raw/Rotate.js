@@ -5520,7 +5520,7 @@
         },
         __class__: ScreenExtras
     });
-    var pb = function() {
+    var ScreenLevelSelect = function() {
         this.erase = new ButtonErase;
         this.mute = new Ba;
         this.sponsor = new ButtonSponsor;
@@ -5530,9 +5530,9 @@
         this.bg = new Na;
         Screen.call(this)
     };
-    pb.__name__ = !0;
-    pb.__super__ = Screen;
-    pb.prototype = __INHERIT__(Screen.prototype, {
+    ScreenLevelSelect.__name__ = !0;
+    ScreenLevelSelect.__super__ = Screen;
+    ScreenLevelSelect.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5579,7 +5579,7 @@
                 p.addChild(e)
             }
         },
-        __class__: pb
+        __class__: ScreenLevelSelect
     });
     var ca = function() {
         this.erase = new ButtonErase;
@@ -5620,7 +5620,7 @@
             this.btnPlay.set_y(Math.floor(h.height / 2) - 1);
             this.btnPlay.addEventListener("click", function(a) {
                 1 < a.which || (0 == B.unlocked ? (ca.stopTheme(),
-                g.i.changeScreen(new Qa)) : g.i.changeScreen(new pb))
+                g.i.changeScreen(new Qa)) : g.i.changeScreen(new ScreenLevelSelect))
             });
             this.addChild(this.btnPlay);
             this.btnExtras.set_x(this.btnPlay.x);
@@ -6609,7 +6609,7 @@
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(g.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(g.i.currentScreen, Qa) && ES3ClassUtils.__cast(g.i.currentScreen, Qa).speedrun,
-            g.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < B.unlocked ? new pb : new ca, !0, (Ja = g.i,
+            g.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < B.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = g.i,
             T(Ja, Ja.unpause))))
         });
         this.addChild(this.btnQuit);
