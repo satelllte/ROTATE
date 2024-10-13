@@ -5901,7 +5901,7 @@
         },
         __class__: GameplayLevel
     });
-    var $b = function(a) {
+    var ScreenSplashLogo = function(a) {
         null == a && (a = !0);
         this.onTimer = null;
         this.done = !1;
@@ -5913,9 +5913,9 @@
         a.set_y(Math.round((GameController.height - a.get_height()) / 2));
         this.addChild(a)
     };
-    $b.__name__ = !0;
-    $b.__super__ = Screen;
-    $b.prototype = __INHERIT__(Screen.prototype, {
+    ScreenSplashLogo.__name__ = !0;
+    ScreenSplashLogo.__super__ = Screen;
+    ScreenSplashLogo.prototype = __INHERIT__(Screen.prototype, {
         ready: function() {
             this.timer = Timer.get_current()
         },
@@ -5923,7 +5923,7 @@
             !this.done && Timer.get_current() - this.timer > this.length && (this.done = !0,
             GameInstance.i.changeScreen(new ca))
         },
-        __class__: $b
+        __class__: ScreenSplashLogo
     });
     var ScreenFirst = function() {
         this.start = new ImageSurface(Images.start);
@@ -5956,7 +5956,7 @@
                 Sounds.exit.once("end", function() {
                     Sounds.exit.volume(1)
                 }),
-                GameInstance.i.changeScreen(new $b),
+                GameInstance.i.changeScreen(new ScreenSplashLogo),
                 a.start.mouseEnabled = !1)
             }))
         },
