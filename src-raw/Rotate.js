@@ -1,5 +1,5 @@
 (function() {
-    function D(a, b) {
+    function __INHERIT__(a, b) {
         function c() {}
         c.prototype = a;
         var d = new c, e;
@@ -598,7 +598,7 @@
     };
     x.__name__ = !0;
     x.__super__ = Sa;
-    x.prototype = D(Sa.prototype, {
+    x.prototype = __INHERIT__(Sa.prototype, {
         set_x: function(a) {
             this.x != a && (this.x = a,
             this._updateTransform());
@@ -757,7 +757,7 @@
     }
     ;
     I.__super__ = x;
-    I.prototype = D(x.prototype, {
+    I.prototype = __INHERIT__(x.prototype, {
         get_rect: function() {
             return new z(0,0,null != this.clipRect ? this.clipRect.width : 0,null != this.clipRect ? this.clipRect.height : 0)
         },
@@ -798,7 +798,7 @@
     };
     Ta.__name__ = !0;
     Ta.__super__ = Y;
-    Ta.prototype = D(Y.prototype, {
+    Ta.prototype = __INHERIT__(Y.prototype, {
         __class__: Ta
     });
     var Ua = function(a, b) {
@@ -807,7 +807,7 @@
     };
     Ua.__name__ = !0;
     Ua.__super__ = Y;
-    Ua.prototype = D(Y.prototype, {
+    Ua.prototype = __INHERIT__(Y.prototype, {
         __class__: Ua
     });
     var Fa = function(a, b) {
@@ -816,7 +816,7 @@
     };
     Fa.__name__ = !0;
     Fa.__super__ = Y;
-    Fa.prototype = D(Y.prototype, {
+    Fa.prototype = __INHERIT__(Y.prototype, {
         __class__: Fa
     });
     var Ha = function(a, b, c, d, e) {
@@ -829,7 +829,7 @@
     };
     Ha.__name__ = !0;
     Ha.__super__ = Y;
-    Ha.prototype = D(Y.prototype, {
+    Ha.prototype = __INHERIT__(Y.prototype, {
         __class__: Ha
     });
     var fb = function(a, b) {
@@ -838,7 +838,7 @@
     };
     fb.__name__ = !0;
     fb.__super__ = Y;
-    fb.prototype = D(Y.prototype, {
+    fb.prototype = __INHERIT__(Y.prototype, {
         __class__: fb
     });
     var Q = function(a, b) {
@@ -989,7 +989,7 @@
     };
     qb.__name__ = !0;
     qb.__super__ = Sa;
-    qb.prototype = D(Sa.prototype, {
+    qb.prototype = __INHERIT__(Sa.prototype, {
         set_mouseX: function(a) {
             return this.mouseX = Math.floor(a)
         },
@@ -1613,7 +1613,7 @@
     }
     ;
     Z.__super__ = Error;
-    Z.prototype = D(Error.prototype, {
+    Z.prototype = __INHERIT__(Error.prototype, {
         __class__: Z
     });
     var ES3ClassUtils = function() {};
@@ -1919,7 +1919,7 @@
     }
     ;
     g.__super__ = x;
-    g.prototype = D(x.prototype, {
+    g.prototype = __INHERIT__(x.prototype, {
         get_gameTimeMS: function() {
             return this.paused ? this.pauseStart - this.pausedTime : N.get_currentMS() - this.pausedTime
         },
@@ -2343,7 +2343,7 @@
     };
     ua.__name__ = !0;
     ua.__super__ = x;
-    ua.prototype = D(x.prototype, {
+    ua.prototype = __INHERIT__(x.prototype, {
         set_frame: function(a) {
             return this.frame = 0 > a || a >= this.frames ? 0 : a
         },
@@ -2403,7 +2403,7 @@
     };
     S.__name__ = !0;
     S.__super__ = ua;
-    S.prototype = D(ua.prototype, {
+    S.prototype = __INHERIT__(ua.prototype, {
         tick: function() {
             0 < this.horizontal ? this.dx < S.SPEED && (this.dx < -S.ACCEL ? this.dx *= S.DECCEL_MULT : (this.dx += S.ACCEL,
             this.dx > S.SPEED && (this.dx = S.SPEED))) : 0 > this.horizontal ? this.dx > -S.SPEED && (this.dx > S.ACCEL ? this.dx *= S.DECCEL_MULT : (this.dx -= S.ACCEL,
@@ -2515,7 +2515,7 @@
     };
     J.__name__ = !0;
     J.__super__ = ua;
-    J.prototype = D(ua.prototype, {
+    J.prototype = __INHERIT__(ua.prototype, {
         get_localX: function() {
             return 0 == l.rotation ? this.x2 : 1 == l.rotation ? l.get_height() - this.y2 : 2 == l.rotation ? l.get_width() - this.x2 : this.y2
         },
@@ -2977,7 +2977,7 @@
     };
     L.__name__ = !0;
     L.__super__ = x;
-    L.prototype = D(x.prototype, {
+    L.prototype = __INHERIT__(x.prototype, {
         render: function(a, b) {
             if (null != l.level) {
                 a.drawImage(L.bakeCanvas, null, -Constants.tileSize, -Constants.tileSize);
@@ -3133,7 +3133,7 @@
     };
     xb.__name__ = !0;
     xb.__super__ = X;
-    xb.prototype = D(X.prototype, {
+    xb.prototype = __INHERIT__(X.prototype, {
         collides: function(a) {
             return !1
         },
@@ -3153,7 +3153,7 @@
     };
     yb.__name__ = !0;
     yb.__super__ = X;
-    yb.prototype = D(X.prototype, {
+    yb.prototype = __INHERIT__(X.prototype, {
         set_angle: function(a) {
             return this.angle = 0 > a ? 3 : 3 < a ? 0 : a
         },
@@ -3324,7 +3324,7 @@
     };
     da.__name__ = !0;
     da.__super__ = X;
-    da.prototype = D(X.prototype, {
+    da.prototype = __INHERIT__(X.prototype, {
         set_angle: function(a) {
             return this.angle = 0 > a ? 3 : 3 < a ? 0 : a
         },
@@ -3379,7 +3379,7 @@
     };
     zb.__name__ = !0;
     zb.__super__ = da;
-    zb.prototype = D(da.prototype, {
+    zb.prototype = __INHERIT__(da.prototype, {
         alwaysUpdate: function(a) {
             return !0
         },
@@ -3399,7 +3399,7 @@
     };
     Ab.__name__ = !0;
     Ab.__super__ = X;
-    Ab.prototype = D(X.prototype, {
+    Ab.prototype = __INHERIT__(X.prototype, {
         render: function(a, b, c) {
             a.drawImage(Images.blocks, new z(0,3 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
@@ -3418,7 +3418,7 @@
     };
     Za.__name__ = !0;
     Za.__super__ = X;
-    Za.prototype = D(X.prototype, {
+    Za.prototype = __INHERIT__(X.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3542,7 +3542,7 @@
     };
     va.__name__ = !0;
     va.__super__ = X;
-    va.prototype = D(X.prototype, {
+    va.prototype = __INHERIT__(X.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = c && this.testCanSolidConnect(b.x - 1, b.y - 1, 0)
@@ -3582,7 +3582,7 @@
     };
     Bb.__name__ = !0;
     Bb.__super__ = va;
-    Bb.prototype = D(va.prototype, {
+    Bb.prototype = __INHERIT__(va.prototype, {
         set_value: function(a) {
             return this.value = 0 > a ? 99 : 99 < a ? 0 : a
         },
@@ -3637,7 +3637,7 @@
     };
     Cb.__name__ = !0;
     Cb.__super__ = da;
-    Cb.prototype = D(da.prototype, {
+    Cb.prototype = __INHERIT__(da.prototype, {
         render: function(a, b, c) {
             this.renderRotated(a, b, 7 * Constants.tileSize, 0)
         },
@@ -3651,7 +3651,7 @@
     };
     $a.__name__ = !0;
     $a.__super__ = da;
-    $a.prototype = D(da.prototype, {
+    $a.prototype = __INHERIT__(da.prototype, {
         render: function(a, b, c) {
             this.renderRotated(a, b, 6 * Constants.tileSize, 0)
         },
@@ -3665,7 +3665,7 @@
     };
     Db.__name__ = !0;
     Db.__super__ = da;
-    Db.prototype = D(da.prototype, {
+    Db.prototype = __INHERIT__(da.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3692,7 +3692,7 @@
     };
     Eb.__name__ = !0;
     Eb.__super__ = da;
-    Eb.prototype = D(da.prototype, {
+    Eb.prototype = __INHERIT__(da.prototype, {
         isTrigger: function(a) {
             return !0
         },
@@ -3723,7 +3723,7 @@
     };
     Fb.__name__ = !0;
     Fb.__super__ = $a;
-    Fb.prototype = D($a.prototype, {
+    Fb.prototype = __INHERIT__($a.prototype, {
         render: function(a, b, c) {
             c = Constants.tileSize;
             var d = c / 2;
@@ -3742,7 +3742,7 @@
     };
     Gb.__name__ = !0;
     Gb.__super__ = X;
-    Gb.prototype = D(X.prototype, {
+    Gb.prototype = __INHERIT__(X.prototype, {
         render: function(a, b, c) {
             a.drawImage(Images.blocks, new z(0,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
@@ -3756,7 +3756,7 @@
     };
     Hb.__name__ = !0;
     Hb.__super__ = va;
-    Hb.prototype = D(va.prototype, {
+    Hb.prototype = __INHERIT__(va.prototype, {
         render: function(a, b, c) {
             null == c && (c = !0);
             c ? va.prototype.render.call(this, a, b, c) : a.drawImage(Images.blocks, new z(0,0,Constants.tileSize,Constants.tileSize), 0, 0, !1);
@@ -3827,7 +3827,7 @@
     };
     Ib.__name__ = !0;
     Ib.__super__ = x;
-    Ib.prototype = D(x.prototype, {
+    Ib.prototype = __INHERIT__(x.prototype, {
         update: function(a) {
             if (!g.i.paused)
                 for (a = this.particles.length; 0 <= --a; ) {
@@ -4565,7 +4565,7 @@
     };
     lb.__name__ = !0;
     lb.__super__ = ia;
-    lb.prototype = D(ia.prototype, {
+    lb.prototype = __INHERIT__(ia.prototype, {
         test: function() {
             return ia.prototype.test.call(this) && GameplayLevel.i.getChannelStatus(0) && GameplayLevel.i.getChannelStatus(1) ? GameplayLevel.i.getChannelStatus(2) : !1
         },
@@ -4694,7 +4694,7 @@
     };
     Screen.__name__ = !0;
     Screen.__super__ = x;
-    Screen.prototype = D(x.prototype, {
+    Screen.prototype = __INHERIT__(x.prototype, {
         init: function() {},
         ready: function() {},
         update: function() {},
@@ -4719,7 +4719,7 @@
     };
     ScreenAwards.__name__ = !0;
     ScreenAwards.__super__ = Screen;
-    ScreenAwards.prototype = D(Screen.prototype, {
+    ScreenAwards.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -4810,7 +4810,7 @@
     };
     ScreenCredits.__name__ = !0;
     ScreenCredits.__super__ = Screen;
-    ScreenCredits.prototype = D(Screen.prototype, {
+    ScreenCredits.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             var a = this;
             if (this.fromEnd) {
@@ -4894,7 +4894,7 @@
     };
     BaseLevel.__name__ = !0;
     BaseLevel.__super__ = Screen;
-    BaseLevel.prototype = D(Screen.prototype, {
+    BaseLevel.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.bg.graphics.beginFill(3158064);
             this.bg.graphics.drawRect(0, 0, h.width, h.height);
@@ -4969,7 +4969,7 @@
     }
     ;
     EditorLevel.__super__ = BaseLevel;
-    EditorLevel.prototype = D(BaseLevel.prototype, {
+    EditorLevel.prototype = __INHERIT__(BaseLevel.prototype, {
         init: function() {
             var a = this;
             l.set_level(EditorLevel.editorLevel);
@@ -5326,7 +5326,7 @@
     };
     bb.__name__ = !0;
     bb.__super__ = Screen;
-    bb.prototype = D(Screen.prototype, {
+    bb.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             g.ie && Sounds.themeGame2.volume(.5);
             this.cond1.start();
@@ -5374,7 +5374,7 @@
     };
     ob.__name__ = !0;
     ob.__super__ = Screen;
-    ob.prototype = D(Screen.prototype, {
+    ob.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.start = g.i.get_gameTime();
             this.bg.graphics.beginFill(16777215);
@@ -5463,7 +5463,7 @@
     };
     Oa.__name__ = !0;
     Oa.__super__ = Screen;
-    Oa.prototype = D(Screen.prototype, {
+    Oa.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5532,7 +5532,7 @@
     };
     pb.__name__ = !0;
     pb.__super__ = Screen;
-    pb.prototype = D(Screen.prototype, {
+    pb.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5608,7 +5608,7 @@
     }
     ;
     ca.__super__ = Screen;
-    ca.prototype = D(Screen.prototype, {
+    ca.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             ca.playTheme();
             this.addChild(this.bg);
@@ -5705,7 +5705,7 @@
     }
     ;
     GameplayLevel.__super__ = BaseLevel;
-    GameplayLevel.prototype = D(BaseLevel.prototype, {
+    GameplayLevel.prototype = __INHERIT__(BaseLevel.prototype, {
         init: function() {
             GameplayLevel.i = this;
             this.tempLevel == EditorLevel.editorLevel && AwardsManager.awardEditor.unlock();
@@ -5915,7 +5915,7 @@
     };
     $b.__name__ = !0;
     $b.__super__ = Screen;
-    $b.prototype = D(Screen.prototype, {
+    $b.prototype = __INHERIT__(Screen.prototype, {
         ready: function() {
             this.timer = N.get_current()
         },
@@ -5932,7 +5932,7 @@
     };
     vb.__name__ = !0;
     vb.__super__ = Screen;
-    vb.prototype = D(Screen.prototype, {
+    vb.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.timer = N.get_currentMS();
             this.pivot.set_x(h.width / 2);
@@ -5974,7 +5974,7 @@
     };
     Qa.__name__ = !0;
     Qa.__super__ = Screen;
-    Qa.prototype = D(Screen.prototype, {
+    Qa.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
             this.cond1.start();
             this.speech = new U([new C(new M(2),"It's time to resume your training."), new C(new M(4),"We'll start with the basics.")],this);
@@ -6026,7 +6026,7 @@
     }
     ;
     r.__super__ = x;
-    r.prototype = D(x.prototype, {
+    r.prototype = __INHERIT__(x.prototype, {
         set_font: function(a) {
             this.font = a;
             this.set_lineHeight(a.lineHeight);
@@ -6116,7 +6116,7 @@
     };
     Xb.__name__ = !0;
     Xb.__super__ = x;
-    Xb.prototype = D(x.prototype, {
+    Xb.prototype = __INHERIT__(x.prototype, {
         __class__: Xb
     });
     var O = function() {
@@ -6147,7 +6147,7 @@
     }
     ;
     O.__super__ = x;
-    O.prototype = D(x.prototype, {
+    O.prototype = __INHERIT__(x.prototype, {
         get_selection: function() {
             return O.list[O.selected]
         },
@@ -6186,7 +6186,7 @@
     };
     ac.__name__ = !0;
     ac.__super__ = x;
-    ac.prototype = D(x.prototype, {
+    ac.prototype = __INHERIT__(x.prototype, {
         setup: function(a) {
             var b = Math.round(a.bubbleWidth / 2);
             this.graphics.clear();
@@ -6235,7 +6235,7 @@
     };
     Da.__name__ = !0;
     Da.__super__ = x;
-    Da.prototype = D(x.prototype, {
+    Da.prototype = __INHERIT__(x.prototype, {
         kill: function() {
             null != this.area.parentElement && window.document.body.removeChild(this.area)
         },
@@ -6272,7 +6272,7 @@
     };
     Yb.__name__ = !0;
     Yb.__super__ = Da;
-    Yb.prototype = D(Da.prototype, {
+    Yb.prototype = __INHERIT__(Da.prototype, {
         __class__: Yb
     });
     var Zb = function(a) {
@@ -6290,7 +6290,7 @@
     };
     Zb.__name__ = !0;
     Zb.__super__ = Da;
-    Zb.prototype = D(Da.prototype, {
+    Zb.prototype = __INHERIT__(Da.prototype, {
         __class__: Zb
     });
     var Pa = function(a) {
@@ -6312,7 +6312,7 @@
     };
     Pa.__name__ = !0;
     Pa.__super__ = x;
-    Pa.prototype = D(x.prototype, {
+    Pa.prototype = __INHERIT__(x.prototype, {
         __class__: Pa
     });
     var R = function(a, b) {
@@ -6387,7 +6387,7 @@
     };
     R.__name__ = !0;
     R.__super__ = x;
-    R.prototype = D(x.prototype, {
+    R.prototype = __INHERIT__(x.prototype, {
         __class__: R
     });
     var Ya = function() {
@@ -6421,7 +6421,7 @@
     };
     Ya.__name__ = !0;
     Ya.__super__ = I;
-    Ya.prototype = D(I.prototype, {
+    Ya.prototype = __INHERIT__(I.prototype, {
         __class__: Ya
     });
     var bc = function(a) {
@@ -6449,7 +6449,7 @@
     };
     bc.__name__ = !0;
     bc.__super__ = x;
-    bc.prototype = D(x.prototype, {
+    bc.prototype = __INHERIT__(x.prototype, {
         getBoundsSelf: function() {
             return new z(0,0,76,30)
         },
@@ -6464,7 +6464,7 @@
     };
     Na.__name__ = !0;
     Na.__super__ = x;
-    Na.prototype = D(x.prototype, {
+    Na.prototype = __INHERIT__(x.prototype, {
         render: function(a) {
             for (var b = -Math.round(30 * N.get_current() % Images.bgCells.width), c = -Math.round(15 * N.get_current() % Images.bgCells.height), d = 0, e = Math.ceil(h.height / Images.bgCells.height) + 1; d < e; )
                 for (var f = d++, m = 0, k = Math.ceil(h.width / Images.bgCells.width) + 1; m < k; ) {
@@ -6492,7 +6492,7 @@
     };
     ba.__name__ = !0;
     ba.__super__ = x;
-    ba.prototype = D(x.prototype, {
+    ba.prototype = __INHERIT__(x.prototype, {
         __class__: ba
     });
     var Ba = function(a) {
@@ -6520,7 +6520,7 @@
     };
     Ba.__name__ = !0;
     Ba.__super__ = x;
-    Ba.prototype = D(x.prototype, {
+    Ba.prototype = __INHERIT__(x.prototype, {
         showWarn: function(a) {
             var b = new eb("Audio may slow down the game\nin Internet Explorer. Continue?");
             b.onNo = function() {
@@ -6568,7 +6568,7 @@
     };
     cc.__name__ = !0;
     cc.__super__ = x;
-    cc.prototype = D(x.prototype, {
+    cc.prototype = __INHERIT__(x.prototype, {
         getBoundsSelf: function() {
             return new z(0,0,198,22)
         },
@@ -6621,7 +6621,7 @@
     };
     ub.__name__ = !0;
     ub.__super__ = x;
-    ub.prototype = D(x.prototype, {
+    ub.prototype = __INHERIT__(x.prototype, {
         onPause: function() {
             this.mute.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
             this.mute.music.clipRect.x = g.i.muteMusic ? 84 : 56;
@@ -6648,7 +6648,7 @@
     };
     Ma.__name__ = !0;
     Ma.__super__ = I;
-    Ma.prototype = D(I.prototype, {
+    Ma.prototype = __INHERIT__(I.prototype, {
         __class__: Ma
     });
     var eb = function(a) {
@@ -6684,7 +6684,7 @@
     };
     eb.__name__ = !0;
     eb.__super__ = x;
-    eb.prototype = D(x.prototype, {
+    eb.prototype = __INHERIT__(x.prototype, {
         __class__: eb
     });
     var Ja, pc = 0;
