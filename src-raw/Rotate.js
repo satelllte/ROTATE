@@ -4721,7 +4721,7 @@
     ScreenAwards.__super__ = Screen;
     ScreenAwards.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
-            ca.playTheme();
+            ScreenMenu.playTheme();
             this.addChild(this.bg);
             this.pivot.set_x(Math.round(GameController.width / 2));
             this.pivot.set_y(Math.round(GameController.height / 2));
@@ -4822,7 +4822,7 @@
                 this.bg.addChild(b);
                 this.btnBack.text.set_text("MENU")
             } else
-                ca.playTheme(),
+                ScreenMenu.playTheme(),
                 this.bg = new GraphicsObjectBackground;
             this.addChild(this.bg);
             this.text1.set_x(Math.round(GameController.width / 2));
@@ -4877,7 +4877,7 @@
                     Sounds.surface.stop()
                 }))),
                 GameInstance.ie && (GameInstance.i.ieSurface = !1),
-                GameInstance.i.changeScreen(a.fromEnd ? new ScreenExtras : new ca))
+                GameInstance.i.changeScreen(a.fromEnd ? new ScreenExtras : new ScreenMenu))
             });
             this.addChild(this.btnBack);
             this.addChild(this.mute)
@@ -5465,7 +5465,7 @@
     ScreenExtras.__super__ = Screen;
     ScreenExtras.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
-            ca.playTheme();
+            ScreenMenu.playTheme();
             this.addChild(this.bg);
             this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.title.set_x(Math.round(GameController.width / 2));
@@ -5483,7 +5483,7 @@
             this.btn2.set_x(this.btn1.x);
             this.btn2.set_y(this.btn1.y + 92);
             this.btn2.addEventListener("click", function(b) {
-                2 > b.which && (ca.stopTheme(),
+                2 > b.which && (ScreenMenu.stopTheme(),
                 GameInstance.i.changeScreen(new EditorLevel))
             });
             this.addChild(this.btn2);
@@ -5493,7 +5493,7 @@
             this.btn3.set_x(this.btn2.x);
             this.btn3.set_y(this.btn2.y + 92);
             this.btn3.addEventListener("click", function(b) {
-                2 > b.which && (ca.stopTheme(),
+                2 > b.which && (ScreenMenu.stopTheme(),
                 GameInstance.i.changeScreen(new ScreenGameplayIntro(!0)))
             });
             this.addChild(this.btn3);
@@ -5510,7 +5510,7 @@
             this.btnBack.set_x(Math.round(GameController.width / 2));
             this.btnBack.set_y(GameController.height - 80);
             this.btnBack.addEventListener("click", function(b) {
-                2 > b.which && GameInstance.i.changeScreen(new ca)
+                2 > b.which && GameInstance.i.changeScreen(new ScreenMenu)
             });
             this.addChild(this.btnBack);
             this.addChild(this.sponsor);
@@ -5534,7 +5534,7 @@
     ScreenLevelSelect.__super__ = Screen;
     ScreenLevelSelect.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
-            ca.playTheme();
+            ScreenMenu.playTheme();
             this.addChild(this.bg);
             this.title.xAlign = GraphicsObjectText.X_ALIGN_CENTER;
             this.title.set_x(Math.round(GameController.width / 2));
@@ -5544,7 +5544,7 @@
             this.btnBack.set_x(Math.round(GameController.width / 2));
             this.btnBack.set_y(GameController.height - 84);
             this.btnBack.addEventListener("click", function(a) {
-                2 > a.which && GameInstance.i.changeScreen(new ca)
+                2 > a.which && GameInstance.i.changeScreen(new ScreenMenu)
             });
             this.addChild(this.btnBack);
             this.addChild(this.sponsor);
@@ -5566,7 +5566,7 @@
                 k ? (p.mouseEnabled = p.buttonMode = !0,
                 p.addEventListener("click", function(y) {
                     return function(H) {
-                        1 < H.which || (ca.stopTheme(),
+                        1 < H.which || (ScreenMenu.stopTheme(),
                         0 == y[0] ? GameInstance.i.changeScreen(new ScreenGameplayIntro) : GameplayLevel.play(Levels.list[y[0]]))
                     }
                 }(e))) : p.set_alpha(.5);
@@ -5581,7 +5581,7 @@
         },
         __class__: ScreenLevelSelect
     });
-    var ca = function() {
+    var ScreenMenu = function() {
         this.erase = new ButtonErase;
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
@@ -5592,13 +5592,13 @@
         this.bg = new GraphicsObjectBackground;
         Screen.call(this)
     };
-    ca.__name__ = !0;
-    ca.playTheme = function() {
+    ScreenMenu.__name__ = !0;
+    ScreenMenu.playTheme = function() {
         Sounds.themeMenu.playing() || (GameInstance.ie && GameInstance.i.muteMusic || Sounds.themeMenu.play(),
         GameInstance.ie && (GameInstance.i.ieMenu = !0))
     }
     ;
-    ca.stopTheme = function() {
+    ScreenMenu.stopTheme = function() {
         GameInstance.ie ? (Sounds.themeMenu.stop(),
         GameInstance.i.ieMenu = !1) : (Sounds.themeMenu.fade(1, 0, Math.floor(Constants.screenFadeTime / 2)),
         Sounds.themeMenu.once("fade", function() {
@@ -5607,10 +5607,10 @@
         }))
     }
     ;
-    ca.__super__ = Screen;
-    ca.prototype = __INHERIT__(Screen.prototype, {
+    ScreenMenu.__super__ = Screen;
+    ScreenMenu.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
-            ca.playTheme();
+            ScreenMenu.playTheme();
             this.addChild(this.bg);
             this.addChild(this.sponsor);
             this.logo.set_x(Math.floor((GameController.width - this.logo.get_width()) / 2));
@@ -5619,7 +5619,7 @@
             this.btnPlay.set_x(Math.floor(GameController.width / 2));
             this.btnPlay.set_y(Math.floor(GameController.height / 2) - 1);
             this.btnPlay.addEventListener("click", function(a) {
-                1 < a.which || (0 == Levels.unlocked ? (ca.stopTheme(),
+                1 < a.which || (0 == Levels.unlocked ? (ScreenMenu.stopTheme(),
                 GameInstance.i.changeScreen(new ScreenGameplayIntro)) : GameInstance.i.changeScreen(new ScreenLevelSelect))
             });
             this.addChild(this.btnPlay);
@@ -5639,7 +5639,7 @@
             this.addChild(this.erase);
             GameInstance.i.warnNoSave(this)
         },
-        __class__: ca
+        __class__: ScreenMenu
     });
     var GameplayLevel = function(a, b, c) {
         null == c && (c = -1);
@@ -5921,7 +5921,7 @@
         },
         update: function() {
             !this.done && Timer.get_current() - this.timer > this.length && (this.done = !0,
-            GameInstance.i.changeScreen(new ca))
+            GameInstance.i.changeScreen(new ScreenMenu))
         },
         __class__: ScreenSplashLogo
     });
@@ -6412,7 +6412,7 @@
                 ;
                 f.onYes = function() {
                     GameInstance.i.clearProgress();
-                    GameInstance.i.changeScreen(new ca)
+                    GameInstance.i.changeScreen(new ScreenMenu)
                 }
                 ;
                 GameInstance.i.currentScreen.addChild(f)
@@ -6609,7 +6609,7 @@
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
             2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ScreenGameplayIntro) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, ScreenGameplayIntro).speedrun,
-            GameInstance.i.changeScreen(PlayManager.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ca, !0, (gameInstanceTemp = GameInstance.i,
+            GameInstance.i.changeScreen(PlayManager.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < Levels.unlocked ? new ScreenLevelSelect : new ScreenMenu, !0, (gameInstanceTemp = GameInstance.i,
             __BIND__(gameInstanceTemp, gameInstanceTemp.unpause))))
         });
         this.addChild(this.btnQuit);
