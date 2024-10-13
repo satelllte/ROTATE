@@ -1865,7 +1865,7 @@
     gc.prototype = {
         __class__: gc
     };
-    var g = function() {
+    var GameInstance = function() {
         this.muteMusic = this.muteSFX = this.ieMenu = this.ieGame1 = this.ieGame2 = this.ieSurface = this.ieUnmuted = this.invert = !1;
         this.fader = new GraphicsObject;
         this.fading = this.fadingSlow = !1;
@@ -1875,31 +1875,31 @@
         this.hasPaused = this.paused = !1;
         GraphicsObject.call(this)
     };
-    g.__name__ = !0;
-    g.main = function() {
-        g.i = new g;
-        g.i.addEventListener("added", (Ja = g.i,
+    GameInstance.__name__ = !0;
+    GameInstance.main = function() {
+        GameInstance.i = new GameInstance;
+        GameInstance.i.addEventListener("added", (Ja = GameInstance.i,
         T(Ja, Ja.init)));
-        h.start(g.element = window.document.getElementById("game"), 504, 504, 2105376, !1, g.i)
+        h.start(GameInstance.element = window.document.getElementById("game"), 504, 504, 2105376, !1, GameInstance.i)
     }
     ;
-    g.smootherStep = function(a) {
+    GameInstance.smootherStep = function(a) {
         return a * a * a * (a * (6 * a - 15) + 10)
     }
     ;
-    g.quantize = function(a) {
+    GameInstance.quantize = function(a) {
         return Math.floor(a / Constants.tileSize)
     }
     ;
-    g.getInputX = function() {
+    GameInstance.getInputX = function() {
         return (G.keyDown(37) || G.keyDown(65) ? -1 : 0) + (G.keyDown(39) || G.keyDown(68) ? 1 : 0)
     }
     ;
-    g.getInputY = function() {
+    GameInstance.getInputY = function() {
         return (G.keyDown(38) || G.keyDown(87) ? -1 : 0) + (G.keyDown(40) || G.keyDown(83) ? 1 : 0)
     }
     ;
-    g.formatMS = function(a) {
+    GameInstance.formatMS = function(a) {
         var b = "";
         a = Math.round(a);
         var c = Math.floor(a / 1E3)
@@ -1918,8 +1918,8 @@
         return b += a
     }
     ;
-    g.__super__ = GraphicsObject;
-    g.prototype = __INHERIT__(GraphicsObject.prototype, {
+    GameInstance.__super__ = GraphicsObject;
+    GameInstance.prototype = __INHERIT__(GraphicsObject.prototype, {
         get_gameTimeMS: function() {
             return this.paused ? this.pauseStart - this.pausedTime : N.get_currentMS() - this.pausedTime
         },
@@ -1933,8 +1933,8 @@
         },
         loaded: function(a) {
             var b = this;
-            g.nosave = !LocalStorage.test();
-            g.nosave || this.loadProgress();
+            GameInstance.nosave = !LocalStorage.test();
+            GameInstance.nosave || this.loadProgress();
             a = function() {
                 var c = -1
                   , d = window.navigator.userAgent
@@ -1944,8 +1944,8 @@
                 c = parseInt(d.substring(c + 3, d.indexOf(".", c)), 10));
                 return -1 < c ? c : void 0
             }();
-            g.ie = 0 < a && 11 >= a;
-            g.ie && (this.muteSFX = this.muteMusic = !0);
+            GameInstance.ie = 0 < a && 11 >= a;
+            GameInstance.ie && (this.muteSFX = this.muteMusic = !0);
             this.lastTick = N.get_currentMS();
             this.addEventListener("enterFrame", T(this, this.update));
             window.document.getElementById("game").style.display = "block";
@@ -2016,11 +2016,11 @@
         },
         update: function(a) {
             null != this.targetScreen ? (a = Math.min((N.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2), 1),
-            this.fader.set_alpha(g.smootherStep(a)),
+            this.fader.set_alpha(GameInstance.smootherStep(a)),
             1 == a && (a = this.targetScreen,
             this.targetScreen = null,
             this.setScreen(a))) : 0 < this.fader.alpha && (a = Math.min((N.get_currentMS() - this.fadeStart) / (this.getFadeSpeed() / 2) - 1, 1),
-            this.fader.set_alpha(1 - g.smootherStep(a)),
+            this.fader.set_alpha(1 - GameInstance.smootherStep(a)),
             1 == a && (this.fading = this.fader.mouseEnabled = !1,
             this.currentScreen.ready()));
             null != this.currentScreen && this.currentScreen.pausable && (G.keyPressed(80) || G.keyPressed(27)) && (this.paused ? this.unpause() : this.pause());
@@ -2129,8 +2129,8 @@
             this.invert = !1
         },
         warnNoSave: function(a) {
-            if (g.nosave) {
-                var b = new r(g.fontMain,"Enable cookies & site data\nto save your progress!",2);
+            if (GameInstance.nosave) {
+                var b = new r(GameInstance.fontMain,"Enable cookies & site data\nto save your progress!",2);
                 b.set_x(8);
                 b.set_y(4);
                 b.set_scaleX(b.set_scaleY(.5));
@@ -2140,7 +2140,7 @@
         toggleSFX: function(a) {
             null == a && (a = !0);
             this.muteSFX = !this.muteSFX;
-            if (g.ie) {
+            if (GameInstance.ie) {
                 if (this.muteSFX)
                     for (var b = 0, c = Sounds.SFX; b < c.length; ) {
                         var d = c[b];
@@ -2153,23 +2153,23 @@
                     d = c[b],
                     ++b,
                     d.mute(this.muteSFX);
-            g.ie ? this.muteMusic && (this.muteSFX ? Sounds.surface.stop() : this.ieSurface && !Sounds.surface.playing() && Sounds.surface.play()) : Sounds.surface.mute(this.muteSFX && this.muteMusic);
+            GameInstance.ie ? this.muteMusic && (this.muteSFX ? Sounds.surface.stop() : this.ieSurface && !Sounds.surface.playing() && Sounds.surface.play()) : Sounds.surface.mute(this.muteSFX && this.muteMusic);
             a && this.saveProgress()
         },
         toggleMusic: function(a) {
             null == a && (a = !0);
             this.muteMusic = !this.muteMusic;
-            g.ie ? this.muteMusic ? (Sounds.themeMenu.stop(),
+            GameInstance.ie ? this.muteMusic ? (Sounds.themeMenu.stop(),
             Sounds.themeGame1.stop(),
-            Sounds.themeGame2.stop()) : (g.i.ieMenu && !Sounds.themeMenu.playing() && Sounds.themeMenu.play(),
-            g.i.ieGame1 && !Sounds.themeGame1.playing() && Sounds.themeGame1.play(),
-            g.i.ieGame2 && !Sounds.themeGame2.playing() && Sounds.themeGame2.play()) : (Sounds.themeMenu.mute(this.muteMusic),
+            Sounds.themeGame2.stop()) : (GameInstance.i.ieMenu && !Sounds.themeMenu.playing() && Sounds.themeMenu.play(),
+            GameInstance.i.ieGame1 && !Sounds.themeGame1.playing() && Sounds.themeGame1.play(),
+            GameInstance.i.ieGame2 && !Sounds.themeGame2.playing() && Sounds.themeGame2.play()) : (Sounds.themeMenu.mute(this.muteMusic),
             Sounds.themeGame1.mute(this.muteMusic),
             Sounds.themeGame2.mute(this.muteMusic));
-            g.ie ? this.muteSFX && (this.muteMusic ? Sounds.surface.stop() : g.i.ieSurface && !Sounds.surface.playing() && Sounds.surface.play()) : Sounds.surface.mute(this.muteMusic && this.muteSFX);
+            GameInstance.ie ? this.muteSFX && (this.muteMusic ? Sounds.surface.stop() : GameInstance.i.ieSurface && !Sounds.surface.playing() && Sounds.surface.play()) : Sounds.surface.mute(this.muteMusic && this.muteSFX);
             a && this.saveProgress()
         },
-        __class__: g
+        __class__: GameInstance
     });
     var Sounds = function() {};
     Sounds.__name__ = !0;
@@ -2232,8 +2232,8 @@
             if (this.unlocked)
                 return !1;
             this.unlocked = !0;
-            g.i.saveProgress();
-            ES3ClassUtils.__instanceof(g.i.currentScreen, ScreenAwards) && g.i.currentScreen.refresh();
+            GameInstance.i.saveProgress();
+            ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ScreenAwards) && GameInstance.i.currentScreen.refresh();
             AwardsManager.queueNotify(this);
             return !0
         },
@@ -2245,12 +2245,12 @@
         null == AwardsManager.bubble && (AwardsManager.bubble = new GraphicsObject,
         AwardsManager.bubble.mouseEnabled = !0,
         a.addChild(AwardsManager.bubble),
-        AwardsManager.bubbleTitle = new r(g.fontMain,"NEW AWARD"),
+        AwardsManager.bubbleTitle = new r(GameInstance.fontMain,"NEW AWARD"),
         AwardsManager.bubbleTitle.set_x(68),
         AwardsManager.bubbleTitle.set_y(4),
         AwardsManager.bubbleTitle.set_alpha(.5),
         AwardsManager.bubble.addChild(AwardsManager.bubbleTitle),
-        AwardsManager.bubbleName = new r(g.fontMain,""),
+        AwardsManager.bubbleName = new r(GameInstance.fontMain,""),
         AwardsManager.bubbleName.set_x(68),
         AwardsManager.bubbleName.set_y(28),
         AwardsManager.bubble.addChild(AwardsManager.bubbleName),
@@ -2289,7 +2289,7 @@
             } else
                 d = !1;
             d ? (a = c <= AwardsManager.FADE_MS ? 0 : c <= AwardsManager.FADE_MS + AwardsManager.STAY_MS ? 1 : 2,
-            a = 0 == a ? g.smootherStep(c / AwardsManager.FADE_MS) : 1 == a ? 1 : 1 - g.smootherStep((c - AwardsManager.FADE_MS - AwardsManager.STAY_MS) / AwardsManager.FADE_MS)) : null != AwardsManager.queue && 0 < AwardsManager.queue.length && (c = AwardsManager.queue.shift(),
+            a = 0 == a ? GameInstance.smootherStep(c / AwardsManager.FADE_MS) : 1 == a ? 1 : 1 - GameInstance.smootherStep((c - AwardsManager.FADE_MS - AwardsManager.STAY_MS) / AwardsManager.FADE_MS)) : null != AwardsManager.queue && 0 < AwardsManager.queue.length && (c = AwardsManager.queue.shift(),
             AwardsManager.adjustBubble(c.name, c.icon),
             AwardsManager.bubbleTimer = b);
             AwardsManager.bubble.set_alpha(a);
@@ -2348,13 +2348,13 @@
             return this.frame = 0 > a || a >= this.frames ? 0 : a
         },
         set_animation: function(a) {
-            this.animation != a && (this.animTimer = g.i.get_gameTimeMS(),
+            this.animation != a && (this.animTimer = GameInstance.i.get_gameTimeMS(),
             this.animChanged = !0);
             return this.animation = a
         },
         render: function(a) {
             if (null != this.animation && null != this.animation.frames && 0 < this.animation.frames.length) {
-                for (var b = g.i.get_gameTimeMS() - this.animTimer, c = 0, d = !1; b > this.animation.delays[c]; )
+                for (var b = GameInstance.i.get_gameTimeMS() - this.animTimer, c = 0, d = !1; b > this.animation.delays[c]; )
                     if (b -= this.animation.delays[c],
                     ++c,
                     c == this.animation.frames.length)
@@ -2425,13 +2425,13 @@
         },
         signalOn: function(a, b) {
             var c = a + "x" + b;
-            0 > this.signals.indexOf(c) && (this.get_status() || (this.lastChanged = g.i.get_gameTime()),
+            0 > this.signals.indexOf(c) && (this.get_status() || (this.lastChanged = GameInstance.i.get_gameTime()),
             this.signals.push(c))
         },
         signalOff: function(a, b) {
             var c = this.signals.indexOf(a + "x" + b);
             -1 < c && (this.signals.splice(c, 1),
-            this.get_status() || (this.lastChanged = g.i.get_gameTime()))
+            this.get_status() || (this.lastChanged = GameInstance.i.get_gameTime()))
         },
         __class__: hc
     };
@@ -2510,7 +2510,7 @@
         ua.call(this, Images.player, 32, 48);
         this.set_animation(J.ANIM_IDLE);
         this.onChange = T(this, this.aminChange);
-        this.spawnTime = g.i.get_gameTimeMS();
+        this.spawnTime = GameInstance.i.get_gameTimeMS();
         this.adjust()
     };
     J.__name__ = !0;
@@ -2531,8 +2531,8 @@
             return a
         },
         aminChange: function(a) {
-            this.animation == J.ANIM_RUN && 0 == a && 100 < g.i.get_gameTimeMS() - this.lastStep && (g.ie && g.i.muteSFX || Sounds.steps.play(0 == this.step ? "a" : "b"),
-            this.lastStep = g.i.get_gameTimeMS(),
+            this.animation == J.ANIM_RUN && 0 == a && 100 < GameInstance.i.get_gameTimeMS() - this.lastStep && (GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play(0 == this.step ? "a" : "b"),
+            this.lastStep = GameInstance.i.get_gameTimeMS(),
             this.step = 0 == this.step ? 1 : 0)
         },
         adjust: function() {
@@ -2540,7 +2540,7 @@
             this.origin.y = this.frameH - (l.rotating ? Constants.rotateOffset : 0)
         },
         update: function() {
-            if (!l.rotating && !this.dead && (this.horizontal = this.finished ? 0 : g.getInputX(),
+            if (!l.rotating && !this.dead && (this.horizontal = this.finished ? 0 : GameInstance.getInputX(),
             0 != this.horizontal ? this.set_scaleX(0 < this.horizontal ? 1 : -1) : this.grounded && this.animation != J.ANIM_IDLE && this.set_animation(J.ANIM_IDLE),
             !this.finished && (G.keyPressed(40) || G.keyPressed(83)))) {
                 for (var a = 0, b = this.touching; a < b.length; ) {
@@ -2549,8 +2549,8 @@
                     c.get_block().onInteract(c)
                 }
                 this.touchingFinish() && (this.finished = !0,
-                g.ie && g.i.muteSFX || Sounds.exit.play(),
-                g.i.currentScreen.finished())
+                GameInstance.ie && GameInstance.i.muteSFX || Sounds.exit.play(),
+                GameInstance.i.currentScreen.finished())
             }
         },
         touchingFinish: function() {
@@ -2563,10 +2563,10 @@
                 0 < this.horizontal ? this.dx < a ? this.dx < -J.ACCEL ? this.dx *= J.DECCEL_MULT : (this.dx += J.ACCEL,
                 this.dx > a && (this.dx = a)) : this.dx > a && (this.dx = a) : 0 > this.horizontal ? this.dx > -a ? this.dx > J.ACCEL ? this.dx *= J.DECCEL_MULT : (this.dx -= J.ACCEL,
                 this.dx < -a && (this.dx = -a)) : this.dx < -a && (this.dx = -a) : this.dx *= J.DECCEL_MULT;
-                !this.finished && this.grounded && this.jumpKeyDown() && g.i.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY && g.i.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2 ? (this.dy = -J.JUMP_SPEED,
-                this.jumpTimer = g.i.get_gameTime(),
-                g.ie && g.i.muteSFX || Sounds.steps.play("a"),
-                this.lastStep = g.i.get_gameTimeMS()) : this.dy < J.GRAVITY_MAX && (this.dy += J.GRAVITY,
+                !this.finished && this.grounded && this.jumpKeyDown() && GameInstance.i.get_gameTime() - this.jumpTimer >= J.JUMP_DELAY && GameInstance.i.get_gameTime() - this.jumpTimer2 >= J.JUMP_DELAY_2 ? (this.dy = -J.JUMP_SPEED,
+                this.jumpTimer = GameInstance.i.get_gameTime(),
+                GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play("a"),
+                this.lastStep = GameInstance.i.get_gameTimeMS()) : this.dy < J.GRAVITY_MAX && (this.dy += J.GRAVITY,
                 this.dy > J.GRAVITY_MAX && (this.dy = J.GRAVITY_MAX));
                 a = this.grounded;
                 this.onRamp = this.grounded = !1;
@@ -2609,7 +2609,7 @@
                         f = this.get_localX()
                     }
                 this.get_localY() - p < -Constants.EPSILON && (this.grounded = !0);
-                b = g.i.get_gameTimeMS();
+                b = GameInstance.i.get_gameTimeMS();
                 c = 0 <= this.lastStuck && 100 >= b - this.lastStuck;
                 if (0 <= this.dy && !this.grounded) {
                     d = this.get_localY();
@@ -2631,9 +2631,9 @@
                     this.onRamp = !0)) : this.set_localY(d)
                 }
                 this.updateTouching();
-                this.grounded && !a && (100 < g.i.get_gameTimeMS() - this.spawnTime && (g.ie && g.i.muteSFX || Sounds.steps.play("b"),
-                this.lastStep = g.i.get_gameTimeMS()),
-                this.jumpTimer2 = g.i.get_gameTime());
+                this.grounded && !a && (100 < GameInstance.i.get_gameTimeMS() - this.spawnTime && (GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play("b"),
+                this.lastStep = GameInstance.i.get_gameTimeMS()),
+                this.jumpTimer2 = GameInstance.i.get_gameTime());
                 this.grounded ? 0 != this.horizontal && .75 < Math.abs(this.dx) ? this.set_animation(J.ANIM_RUN) : this.set_animation(J.ANIM_IDLE) : l.rotating || (0 <= this.dy ? this.set_animation(J.ANIM_FALL) : this.set_animation(J.ANIM_JUMP));
                 this.lastX = this.x2;
                 this.lastY = this.y2;
@@ -2683,10 +2683,10 @@
         isColliding: function(a, b, c) {
             null == c && (c = -1);
             a = null == a ? this.getHitBounds() : a;
-            var d = g.quantize(a.get_left())
-              , e = g.quantize(a.get_right() - Constants.EPSILON)
-              , f = g.quantize(a.get_top())
-              , m = g.quantize(a.get_bottom() - Constants.EPSILON);
+            var d = GameInstance.quantize(a.get_left())
+              , e = GameInstance.quantize(a.get_right() - Constants.EPSILON)
+              , f = GameInstance.quantize(a.get_top())
+              , m = GameInstance.quantize(a.get_bottom() - Constants.EPSILON);
             for (m += 1; f < m; )
                 for (var k = f++, p = d, y = e + 1; p < y; ) {
                     var H = p++;
@@ -2703,10 +2703,10 @@
             this.touchingOld = this.touching;
             this.touching = [];
             var a = this.getHitBounds()
-              , b = g.quantize(a.get_left())
-              , c = g.quantize(a.get_right() - Constants.EPSILON)
-              , d = g.quantize(a.get_top())
-              , e = g.quantize(a.get_bottom() - Constants.EPSILON);
+              , b = GameInstance.quantize(a.get_left())
+              , c = GameInstance.quantize(a.get_right() - Constants.EPSILON)
+              , d = GameInstance.quantize(a.get_top())
+              , e = GameInstance.quantize(a.get_bottom() - Constants.EPSILON);
             for (e += 1; d < e; )
                 for (var f = d++, m = b, k = c + 1; m < k; ) {
                     var p = m++
@@ -2774,7 +2774,7 @@
             return G.keyDown(38) || G.keyDown(87) ? !0 : G.keyDown(32)
         },
         canRotate: function(a) {
-            if (!this.grounded || this.jumpKeyDown() || g.i.get_gameTime() - this.rotateTimer < J.ROTATE_DELAY + Constants.rotateTime || g.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2)
+            if (!this.grounded || this.jumpKeyDown() || GameInstance.i.get_gameTime() - this.rotateTimer < J.ROTATE_DELAY + Constants.rotateTime || GameInstance.i.get_gameTime() - this.jumpTimer2 < J.JUMP_DELAY_2)
                 return !1;
             var b = this.x2
               , c = this.y2;
@@ -2801,10 +2801,10 @@
             this.set_scaleX(a);
             this.adjust();
             this.set_animation(J.ANIM_ROTATE);
-            this.rotateTimer = g.i.get_gameTime();
-            g.ie && g.i.muteSFX || Sounds.steps.play("a");
-            this.lastStep = g.i.get_gameTimeMS();
-            g.ie && g.i.muteSFX || Sounds.rotate.play()
+            this.rotateTimer = GameInstance.i.get_gameTime();
+            GameInstance.ie && GameInstance.i.muteSFX || Sounds.steps.play("a");
+            this.lastStep = GameInstance.i.get_gameTimeMS();
+            GameInstance.ie && GameInstance.i.muteSFX || Sounds.rotate.play()
         },
         onRotateStart2: function() {
             this.rotStartY = this.get_localY()
@@ -2955,7 +2955,7 @@
         L.bakeCanvas.height = c * Constants.tileSize;
         L.bakeSurface.reset();
         L.bakeSurface.clearRect(0, 0, L.bakeCanvas.width, L.bakeCanvas.height);
-        if (null == L.gridCanvas && ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel)) {
+        if (null == L.gridCanvas && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel)) {
             L.gridCanvas = window.document.createElement("canvas");
             L.gridCanvas.width = EditorLevel.editorLevel.tiles[0].length * Constants.tileSize + 2;
             L.gridCanvas.height = EditorLevel.editorLevel.tiles.length * Constants.tileSize + 2;
@@ -3013,7 +3013,7 @@
                     a.translate(-p.x * Constants.tileSize, -p.y * Constants.tileSize))
                 }
                 this.showGrid && null != L.gridCanvas && a.drawImage(L.gridCanvas, null, 0, 0);
-                if (ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && (c = g.i.currentScreen,
+                if (ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && (c = GameInstance.i.currentScreen,
                 !l.rotating && !c.player.dead && !c.player.finished)) {
                     k = 0;
                     for (p = c.player.touching; k < p.length; )
@@ -3029,7 +3029,7 @@
             var e = Constants.tileSize;
             a.translate((b + .5) * e, (c + .5) * e);
             a.rotate(-l.rotation * Math.PI / 2);
-            a.drawImage(Images.interact, null, -Images.interact.width / 2, Math.round(-e / 2 - Images.interact.height + 2 * Math.sin(8 * g.i.get_gameTime())) + d);
+            a.drawImage(Images.interact, null, -Images.interact.width / 2, Math.round(-e / 2 - Images.interact.height + 2 * Math.sin(8 * GameInstance.i.get_gameTime())) + d);
             a.rotate(l.rotation * Math.PI / 2);
             a.translate(-(b + .5) * e, -(c + .5) * e)
         },
@@ -3178,12 +3178,12 @@
                     var m = this.isOpen(b)
                       , k = .5 * d - .16666666666666666;
                     c = m ? 0 : k;
-                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel)) {
+                    if (ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel)) {
                         var p = GameplayLevel.i.channels
                           , y = b.getMeta(0);
                         p = p.h[y];
-                        null != p && (c = Math.min(1, (g.i.get_gameTime() - p.lastChanged) / Constants.doorSlideTime),
-                        c = g.smootherStep(c),
+                        null != p && (c = Math.min(1, (GameInstance.i.get_gameTime() - p.lastChanged) / Constants.doorSlideTime),
+                        c = GameInstance.smootherStep(c),
                         c = m ? (1 - c) * k : c * k)
                     }
                     m = c;
@@ -3195,7 +3195,7 @@
                         k += p * f;
                     a.drawImage(Images.blocks, new Rectangle(4 * f,3 * f,f,f), c * f, 0);
                     a.drawImage(Images.blocks, new Rectangle(5 * f,3 * f,f,f), (d - c - 1) * f, 0);
-                    if (ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) && (EditorLevel.renderBlockText(a, b.getMeta(0) + ""),
+                    if (ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel) && (EditorLevel.renderBlockText(a, b.getMeta(0) + ""),
                     1 < d))
                         for (b = 1; b < d; )
                             c = b++,
@@ -3211,7 +3211,7 @@
             }
         },
         isOpen: function(a) {
-            return ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && GameplayLevel.i.getChannelStatus(a.getMeta(0)) ? !0 : !1
+            return ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && GameplayLevel.i.getChannelStatus(a.getMeta(0)) ? !0 : !1
         },
         isStuck: function(a) {
             for (var b = 0, c = GameplayLevel.i.player.touching; b < c.length; ) {
@@ -3224,11 +3224,11 @@
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(g.fontMain,"Channel");
+              , c = new r(GameInstance.fontMain,"Channel");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(g.fontMain,this.channel + "");
+            var d = new r(GameInstance.fontMain,this.channel + "");
             d.align = r.ALIGN_CENTER;
             d.xAlign = r.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
@@ -3253,11 +3253,11 @@
             f.set_x(d.x - 11);
             f.set_y(e.y);
             a.addChild(f);
-            e = new r(g.fontMain,"Length");
+            e = new r(GameInstance.fontMain,"Length");
             e.set_x(16);
             e.set_y(c.y + 30);
             a.addChild(e);
-            var m = new r(g.fontMain,this.length + "");
+            var m = new r(GameInstance.fontMain,this.length + "");
             m.align = r.ALIGN_CENTER;
             m.xAlign = r.X_ALIGN_CENTER;
             m.set_x(this.bubbleWidth - 31);
@@ -3282,11 +3282,11 @@
             f.set_x(m.x - 11);
             f.set_y(c.y);
             a.addChild(f);
-            c = new r(g.fontMain,"Angle");
+            c = new r(GameInstance.fontMain,"Angle");
             c.set_x(32);
             c.set_y(e.y + 30);
             a.addChild(c);
-            var k = new r(g.fontMain,this.angle + "");
+            var k = new r(GameInstance.fontMain,this.angle + "");
             k.align = r.ALIGN_CENTER;
             k.xAlign = r.X_ALIGN_CENTER;
             k.set_x(this.bubbleWidth - 31);
@@ -3330,11 +3330,11 @@
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(g.fontMain,"Angle");
+              , c = new r(GameInstance.fontMain,"Angle");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(g.fontMain,this.angle + "");
+            var d = new r(GameInstance.fontMain,this.angle + "");
             d.align = r.ALIGN_CENTER;
             d.xAlign = r.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
@@ -3389,7 +3389,7 @@
         render: function(a, b, c) {
             null == c && (c = !0);
             b = b.getMeta(0) % 4;
-            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) ? 0 : Math.floor(g.i.get_gameTimeMS() / 50) % 3;
+            c = !c || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel) ? 0 : Math.floor(GameInstance.i.get_gameTimeMS() / 50) % 3;
             a.drawImage(Images.blocks, new Rectangle(((0 < b && 3 > b ? 1 : 0) + 2 * c) * Constants.tileSize,(5 + (1 < b ? 1 : 0)) * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0)
         },
         __class__: zb
@@ -3428,14 +3428,14 @@
         onInteract: function(a) {
             var b = a.y * l.get_width() + a.x
               , c = l.leversChanged.h[b];
-            if (!(null != c && g.i.get_gameTime() - c < Za.TOGGLE_TIMER)) {
+            if (!(null != c && GameInstance.i.get_gameTime() - c < Za.TOGGLE_TIMER)) {
                 c = GameplayLevel.i.channels;
                 var d = a.getMeta(0)
                   , e = c.h[d];
                 d = null != e && e.get_status();
                 (c = 1 > a.getMeta(1)) ? GameplayLevel.i.signalOn(a.x, a.y, a.getMeta(0)) : GameplayLevel.i.signalOff(a.x, a.y, a.getMeta(0));
                 var f = l.leversChanged
-                  , m = g.i.get_gameTime();
+                  , m = GameInstance.i.get_gameTime();
                 f.h[b] = m;
                 null == e && (b = GameplayLevel.i.channels,
                 e = a.getMeta(0),
@@ -3451,8 +3451,8 @@
                             b = !0;
                             break
                         }
-                c ? g.ie && g.i.muteSFX || Sounds.leverOn.play() : g.ie && g.i.muteSFX || Sounds.leverOff.play();
-                !b || g.ie && g.i.muteSFX || Sounds.door.play();
+                c ? GameInstance.ie && GameInstance.i.muteSFX || Sounds.leverOn.play() : GameInstance.ie && GameInstance.i.muteSFX || Sounds.leverOff.play();
+                !b || GameInstance.ie && GameInstance.i.muteSFX || Sounds.door.play();
                 l.setBlockMeta(a.x, a.y, [a.getMeta(0), c ? 1 : 0])
             }
         },
@@ -3463,21 +3463,21 @@
             return [new La(new Rectangle(.15 * Constants.tileSize,.15 * Constants.tileSize,.7 * Constants.tileSize,.7 * Constants.tileSize))]
         },
         alwaysUpdate: function(a) {
-            return !ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel)
+            return !ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel)
         },
         render: function(a, b, c) {
             null == c && (c = !0);
             var d = 0 < b.getMeta(1);
             a.drawImage(Images.blocks, new Rectangle((d ? 4 : 3) * Constants.tileSize,2 * Constants.tileSize,Constants.tileSize,Constants.tileSize), 0, 0);
-            c && ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) && EditorLevel.renderBlockText(a, b.getMeta(0) + "")
+            c && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel) && EditorLevel.renderBlockText(a, b.getMeta(0) + "")
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(g.fontMain,"Channel");
+              , c = new r(GameInstance.fontMain,"Channel");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(g.fontMain,this.channel + "");
+            var d = new r(GameInstance.fontMain,this.channel + "");
             d.align = r.ALIGN_CENTER;
             d.xAlign = r.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
@@ -3502,11 +3502,11 @@
             f.set_x(d.x - 11);
             f.set_y(e.y);
             a.addChild(f);
-            e = new r(g.fontMain,"State");
+            e = new r(GameInstance.fontMain,"State");
             e.set_x(32);
             e.set_y(c.y + 30);
             a.addChild(e);
-            var m = new r(g.fontMain,this.on ? "1" : "0");
+            var m = new r(GameInstance.fontMain,this.on ? "1" : "0");
             m.align = r.ALIGN_CENTER;
             m.xAlign = r.X_ALIGN_CENTER;
             m.set_x(this.bubbleWidth - 31);
@@ -3597,11 +3597,11 @@
         },
         setupBubble: function(a) {
             var b = this
-              , c = new r(g.fontMain,"Value");
+              , c = new r(GameInstance.fontMain,"Value");
             c.set_x(8);
             c.set_y(8);
             a.addChild(c);
-            var d = new r(g.fontMain,this.value + "");
+            var d = new r(GameInstance.fontMain,this.value + "");
             d.align = r.ALIGN_CENTER;
             d.xAlign = r.X_ALIGN_CENTER;
             d.set_x(this.bubbleWidth - 31);
@@ -3671,8 +3671,8 @@
         },
         render: function(a, b, c) {
             null == c && (c = !0);
-            var d = g.i.get_gameTimeMS() / 40;
-            c = !c || ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel) ? 0 : Math.floor(d - (d < Constants.EPSILON ? 0 : Constants.EPSILON)) % 3;
+            var d = GameInstance.i.get_gameTimeMS() / 40;
+            c = !c || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel) ? 0 : Math.floor(d - (d < Constants.EPSILON ? 0 : Constants.EPSILON)) % 3;
             this.renderRotated(a, b, (4 + c) * Constants.tileSize, Constants.tileSize)
         },
         getColliders: function(a) {
@@ -3683,7 +3683,7 @@
             return !1
         },
         alwaysUpdate: function(a) {
-            return !ES3ClassUtils.__instanceof(g.i.currentScreen, EditorLevel)
+            return !ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, EditorLevel)
         },
         __class__: Db
     });
@@ -3829,7 +3829,7 @@
     Ib.__super__ = GraphicsObject;
     Ib.prototype = __INHERIT__(GraphicsObject.prototype, {
         update: function(a) {
-            if (!g.i.paused)
+            if (!GameInstance.i.paused)
                 for (a = this.particles.length; 0 <= --a; ) {
                     var b = this.particles[a];
                     0 >= b.life ? this.particles.splice(a, 1) : b.update()
@@ -3922,7 +3922,7 @@
             this.speech.update()
         },
         finished: function() {
-            g.i.changeScreen(new EditorLevel);
+            GameInstance.i.changeScreen(new EditorLevel);
             return null
         },
         kill: function() {},
@@ -3941,7 +3941,7 @@
     Level1.__interfaces__ = [LevelInterface];
     Level1.prototype = {
         start: function() {
-            var a = g.i.currentScreen;
+            var a = GameInstance.i.currentScreen;
             this.a1 = this.a2 = this.a3 = this.a4 = this.a5 = 0;
             this.s1 = !0;
             this.s2 = this.s3 = this.s4 = this.s5 = !1;
@@ -3960,14 +3960,14 @@
             this.c3.set_y(9 * Constants.tileSize);
             this.c3.set_alpha(this.a3);
             this.c3.clipRect.width = 48;
-            g.i.invert && (this.c3.clipRect.x = 48);
+            GameInstance.i.invert && (this.c3.clipRect.x = 48);
             a.overlay.addChild(this.c3);
             null == this.c4 && (this.c4 = new ImageSurface(Images.controls4));
             this.c4.set_x(29 * Constants.tileSize);
             this.c4.set_y(Constants.tileSize);
             this.c4.set_alpha(this.a4);
             this.c4.clipRect.width = 48;
-            g.i.invert && (this.c4.clipRect.x = 48);
+            GameInstance.i.invert && (this.c4.clipRect.x = 48);
             a.overlay.addChild(this.c4);
             null == this.c5 && (this.c5 = new ImageSurface(Images.controls5));
             this.c5.set_x(24.5 * Constants.tileSize);
@@ -3977,7 +3977,7 @@
             this.speech = new U([new C(new M(1),"Make your way to the exit.")])
         },
         tick: function() {
-            var a = .25 * Math.sin(8 * g.i.get_gameTime()) + .75;
+            var a = .25 * Math.sin(8 * GameInstance.i.get_gameTime()) + .75;
             this.s1 && 1 > this.a1 ? (this.a1 += Level1.fadeSpeed,
             1 < this.a1 && (this.a1 = 1)) : !this.s1 && 0 < this.a1 && (this.a1 -= Level1.fadeSpeed,
             0 > this.a1 && (this.a1 = 0));
@@ -4006,7 +4006,7 @@
             this.s3 = !0) : this.s3 && GameplayLevel.i.player.x > 27 * Constants.tileSize && GameplayLevel.i.player.grounded && !l.rotating && 1 == l.rotation ? (this.s3 = !1,
             this.s4 = !0) : this.s4 && GameplayLevel.i.player.x > 22 * Constants.tileSize && GameplayLevel.i.player.grounded && !l.rotating && 0 == l.rotation && (this.s4 = !1,
             this.s5 = !0);
-            this.c3.clipRect.x = this.c4.clipRect.x = g.i.invert ? 48 : 0
+            this.c3.clipRect.x = this.c4.clipRect.x = GameInstance.i.invert ? 48 : 0
         },
         finished: function() {
             return B.level2
@@ -4155,7 +4155,7 @@
             this.cat.update();
             if (this.done1) {
                 if (!this.done2 && this.cond2.test() && (this.done2 = !0,
-                g.ie && g.i.muteSFX || (Sounds.cat.volume(.5),
+                GameInstance.ie && GameInstance.i.muteSFX || (Sounds.cat.volume(.5),
                 Sounds.cat.play())),
                 !this.done3 && this.cond3.test()) {
                     this.done3 = !0;
@@ -4222,7 +4222,7 @@
             this.cat.update()
         },
         finished: function() {
-            g.i.changeScreen(new bb(ES3ClassUtils.__cast(g.i.currentScreen, GameplayLevel).speedrun));
+            GameInstance.i.changeScreen(new bb(ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun));
             return null
         },
         kill: function() {},
@@ -4394,7 +4394,7 @@
     Level8.__interfaces__ = [LevelInterface];
     Level8.prototype = {
         start: function() {
-            var a = g.i.currentScreen;
+            var a = GameInstance.i.currentScreen;
             this.a1 = 0;
             this.s1 = this.s2 = !1;
             null == this.c1 && (this.c1 = new ImageSurface(Images.controls5));
@@ -4406,7 +4406,7 @@
             this.cat = new ta(30,26,-1,1,new ia(28,22,3,1))
         },
         tick: function() {
-            var a = .25 * Math.sin(8 * g.i.get_gameTime()) + .75;
+            var a = .25 * Math.sin(8 * GameInstance.i.get_gameTime()) + .75;
             this.s1 && 1 > this.a1 ? (this.a1 += Level1.fadeSpeed,
             1 < this.a1 && (this.a1 = 1)) : !this.s1 && 0 < this.a1 && (this.a1 -= Level1.fadeSpeed,
             0 > this.a1 && (this.a1 = 0));
@@ -4415,7 +4415,7 @@
         update: function() {
             this.speech.update();
             this.cat.update();
-            this.s1 ? g.i.currentScreen.getChannelStatus(0) || (this.s1 = !1,
+            this.s1 ? GameInstance.i.currentScreen.getChannelStatus(0) || (this.s1 = !1,
             this.s2 = !0) : !this.s2 && GameplayLevel.i.player.x >= 28 * Constants.tileSize && GameplayLevel.i.player.y >= 24 * Constants.tileSize && (this.s1 = !0)
         },
         finished: function() {
@@ -4584,8 +4584,8 @@
         start: function() {},
         test: function() {
             this.hit || !GameplayLevel.i.player.getHitBounds().intersects(this.bounds) || -1 != this.rotation && l.rotation != this.rotation || l.rotating || (this.hit = !0,
-            this.timer = g.i.get_gameTime());
-            return this.hit ? g.i.get_gameTime() - this.timer >= this.delay : !1
+            this.timer = GameInstance.i.get_gameTime());
+            return this.hit ? GameInstance.i.get_gameTime() - this.timer >= this.delay : !1
         },
         __class__: V
     };
@@ -4597,7 +4597,7 @@
     Xa.__interfaces__ = [db];
     Xa.prototype = {
         start: function() {
-            this.timer = g.i.get_gameTime()
+            this.timer = GameInstance.i.get_gameTime()
         },
         test: function() {
             var a = GameplayLevel.i.channels.h[this.channel];
@@ -4612,10 +4612,10 @@
     M.__interfaces__ = [db];
     M.prototype = {
         start: function() {
-            this.timer = g.i.get_gameTime()
+            this.timer = GameInstance.i.get_gameTime()
         },
         test: function() {
-            return g.i.get_gameTime() - this.timer >= this.delay
+            return GameInstance.i.get_gameTime() - this.timer >= this.delay
         },
         __class__: M
     };
@@ -4633,14 +4633,14 @@
         this.char2 = this.timer = 0;
         this["char"] = 0;
         this.msg = "";
-        this.field = new r(g.fontMain,"",2);
+        this.field = new r(GameInstance.fontMain,"",2);
         this.index = 0;
         this.events = a;
         this.field.set_alpha(0);
         this.field.xAlign = r.X_ALIGN_CENTER;
         this.field.align = r.ALIGN_CENTER;
         this.field.set_x(h.width / 2);
-        null == b && ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) ? (b = g.i.currentScreen.textHolder,
+        null == b && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) ? (b = GameInstance.i.currentScreen.textHolder,
         this.field.yAlign = r.Y_ALIGN_TOP,
         this.field.set_y(h.height - 96)) : (this.field.yAlign = r.Y_ALIGN_MIDDLE,
         this.field.set_y(h.height / 2));
@@ -4651,15 +4651,15 @@
     U.prototype = {
         update: function() {
             var a = !0;
-            ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && (a = !g.i.currentScreen.player.dead);
+            ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && (a = !GameInstance.i.currentScreen.player.dead);
             a && null != this.events[this.index] && this.events[this.index].cond.test() && ("" != this.events[this.index].text && (this.field.set_text(""),
             this.msg = this.events[this.index].text,
             this["char"] = this.char2 = 0,
-            this.timer = g.i.get_gameTimeMS(),
+            this.timer = GameInstance.i.get_gameTimeMS(),
             this.field.set_alpha(1)),
             this.index++,
             null != this.events[this.index] && this.events[this.index].cond.start());
-            if (this["char"] < this.msg.length && (0 == this["char"] || " " == this.msg.charAt(this["char"]) || "\n" == this.msg.charAt(this["char"]) || g.i.get_gameTimeMS() - this.timer >= U.TIME_TYPE)) {
+            if (this["char"] < this.msg.length && (0 == this["char"] || " " == this.msg.charAt(this["char"]) || "\n" == this.msg.charAt(this["char"]) || GameInstance.i.get_gameTimeMS() - this.timer >= U.TIME_TYPE)) {
                 a = this.field;
                 a.set_text(a.text + this.msg.charAt(this["char"]));
                 if (" " != this.msg.charAt(this["char"]) && "\n" != this.msg.charAt(this["char"])) {
@@ -4667,16 +4667,16 @@
                         for (a = this.lastTone; a == this.lastTone; )
                             a = Math.round(7 * Math.random());
                         this.lastTone = a;
-                        g.ie && g.i.muteSFX || Sounds.voice.play(this.tones[a])
+                        GameInstance.ie && GameInstance.i.muteSFX || Sounds.voice.play(this.tones[a])
                     }
                     this.char2++
                 }
                 this["char"]++;
-                this.timer = g.i.get_gameTimeMS()
+                this.timer = GameInstance.i.get_gameTimeMS()
             }
-            this["char"] == this.msg.length && g.i.get_gameTimeMS() - this.timer > U.TIME_STAY && (a = Math.min(1, (g.i.get_gameTimeMS() - this.timer - U.TIME_STAY) / U.TIME_FADE),
-            this.field.set_alpha(g.smootherStep(1 - a)));
-            ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && (this.field.graphics.clear(),
+            this["char"] == this.msg.length && GameInstance.i.get_gameTimeMS() - this.timer > U.TIME_STAY && (a = Math.min(1, (GameInstance.i.get_gameTimeMS() - this.timer - U.TIME_STAY) / U.TIME_FADE),
+            this.field.set_alpha(GameInstance.smootherStep(1 - a)));
+            ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && (this.field.graphics.clear(),
             "" != this.field.text && (a = this.field.getBoundsSelf(),
             this.field.graphics.beginFill(2105376, .85),
             this.field.graphics.drawRect(a.x - 6, a.y + 2, a.width + 12, a.height)))
@@ -4711,7 +4711,7 @@
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
         this.btnBack = new Button("BACK");
-        this.title = new r(g.fontMain,"AWARDS",1);
+        this.title = new r(GameInstance.fontMain,"AWARDS",1);
         this.bg = new Na;
         this.content = new GraphicsObject;
         this.pivot = new GraphicsObject;
@@ -4736,13 +4736,13 @@
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 88);
             this.btnBack.addEventListener("click", function(a) {
-                2 > a.which && g.i.changeScreen(new ScreenExtras)
+                2 > a.which && GameInstance.i.changeScreen(new ScreenExtras)
             });
             this.content.addChild(this.btnBack);
             this.content.addChild(this.sponsor);
             this.content.addChild(this.mute);
             this.refresh();
-            g.i.warnNoSave(this)
+            GameInstance.i.warnNoSave(this)
         },
         refresh: function() {
             for (var a = 0, b = this.awardDisplays; a < b.length; ) {
@@ -4769,8 +4769,8 @@
         },
         update: function() {
             if (this.rotating) {
-                var a = Math.min((g.i.get_gameTime() - this.rotateStart) / Constants.rotateTime, 1)
-                  , b = g.smootherStep(a);
+                var a = Math.min((GameInstance.i.get_gameTime() - this.rotateStart) / Constants.rotateTime, 1)
+                  , b = GameInstance.smootherStep(a);
                 this.pivot.set_rotation(this.rotateStartAngle + (this.rotateEndAngle - this.rotateStartAngle) * b);
                 if (1 == a) {
                     for (; 0 > this.pivot.rotation; )
@@ -4781,12 +4781,12 @@
                         a.set_rotation(a.rotation - 360);
                     this.rotating = !1
                 }
-            } else if (a = G.keyPressed(g.i.invert ? 69 : 81),
-            b = G.keyPressed(g.i.invert ? 81 : 69),
+            } else if (a = G.keyPressed(GameInstance.i.invert ? 69 : 81),
+            b = G.keyPressed(GameInstance.i.invert ? 81 : 69),
             a || b)
                 AwardsManager.awardRotate.unlock(),
                 this.rotating = !0,
-                this.rotateStart = g.i.get_gameTime(),
+                this.rotateStart = GameInstance.i.get_gameTime(),
                 this.rotateDir = a ? -1 : 1,
                 this.rotateStartAngle = this.pivot.rotation,
                 this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir,
@@ -4799,11 +4799,11 @@
         null == a && (a = !1);
         this.mute = new ButtonMute;
         this.more = new ImageSurface(Images.linkLWS);
-        this.moreText = new r(g.fontMain,"Game published by",1);
+        this.moreText = new r(GameInstance.fontMain,"Game published by",1);
         this.soundtrack = new ImageSurface(Images.soundtrack);
-        this.text2 = new r(g.fontMain,"Special thanks to the playtesters\nand Patreon contributors!",1);
+        this.text2 = new r(GameInstance.fontMain,"Special thanks to the playtesters\nand Patreon contributors!",1);
         this.joshua = new ImageSurface(Images.linkJoshua2);
-        this.text1 = new r(g.fontMain,"Design, code, & music by",1);
+        this.text1 = new r(GameInstance.fontMain,"Design, code, & music by",1);
         this.btnBack = new Button("BACK");
         Screen.call(this);
         this.fromEnd = a
@@ -4872,12 +4872,12 @@
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 64);
             this.btnBack.addEventListener("click", function(c) {
-                2 > c.which && (a.fromEnd && Sounds.surface.playing() && (g.ie ? Sounds.surface.stop() : (Sounds.surface.fade(1, 0, Math.round(Constants.screenFadeTime / 2)),
+                2 > c.which && (a.fromEnd && Sounds.surface.playing() && (GameInstance.ie ? Sounds.surface.stop() : (Sounds.surface.fade(1, 0, Math.round(Constants.screenFadeTime / 2)),
                 Sounds.surface.once("fade", function() {
                     Sounds.surface.stop()
                 }))),
-                g.ie && (g.i.ieSurface = !1),
-                g.i.changeScreen(a.fromEnd ? new ScreenExtras : new ca))
+                GameInstance.ie && (GameInstance.i.ieSurface = !1),
+                GameInstance.i.changeScreen(a.fromEnd ? new ScreenExtras : new ca))
             });
             this.addChild(this.btnBack);
             this.addChild(this.mute)
@@ -4912,8 +4912,8 @@
         },
         doRotation: function(a) {
             if (l.rotating) {
-                var b = Math.min((g.i.get_gameTime() - this.rotateStart) / Constants.rotateTime, 1)
-                  , c = g.smootherStep(b);
+                var b = Math.min((GameInstance.i.get_gameTime() - this.rotateStart) / Constants.rotateTime, 1)
+                  , c = GameInstance.smootherStep(b);
                 this.pivot.set_rotation(this.rotateStartAngle + (this.rotateEndAngle - this.rotateStartAngle) * c);
                 null != a && (a.set_rotation(-this.pivot.rotation),
                 a.onRotating(c));
@@ -4928,11 +4928,11 @@
                     if (null != a)
                         a.onRotateEnd()
                 }
-            } else if (b = G.keyPressed(g.i.invert ? 69 : 81),
-            c = G.keyPressed(g.i.invert ? 81 : 69),
+            } else if (b = G.keyPressed(GameInstance.i.invert ? 69 : 81),
+            c = G.keyPressed(GameInstance.i.invert ? 81 : 69),
             (b || c) && (null == a || a.canRotate(b ? -1 : 1))) {
                 l.rotating = !0;
-                this.rotateStart = g.i.get_gameTime();
+                this.rotateStart = GameInstance.i.get_gameTime();
                 this.rotateDir = b ? -1 : 1;
                 this.rotateStartAngle = this.pivot.rotation;
                 this.rotateEndAngle = this.rotateStartAngle + 90 * this.rotateDir;
@@ -4959,7 +4959,7 @@
     EditorLevel.__name__ = !0;
     EditorLevel.renderBlockText = function(a, b) {
         EditorLevel.renderBlockRed(a, 0, 0);
-        r.drawText(a, g.fontMain, b, 2, 0, 0)
+        r.drawText(a, GameInstance.fontMain, b, 2, 0, 0)
     }
     ;
     EditorLevel.renderBlockRed = function(a, b, c) {
@@ -5011,7 +5011,7 @@
                     var p = new ModalYesNo("Are you sure you want\nto clear the level?");
                     p.onYes = function() {
                         EditorLevel.editorLevel.reset();
-                        g.i.changeScreen(new EditorLevel, !1)
+                        GameInstance.i.changeScreen(new EditorLevel, !1)
                     }
                     ;
                     p.onNo = function() {
@@ -5042,7 +5042,7 @@
                 ;
                 b.onLoad = function(c) {
                     return a.tryLoadLevel(c) ? (b.kill(),
-                    g.i.changeScreen(new EditorLevel, !1),
+                    GameInstance.i.changeScreen(new EditorLevel, !1),
                     !0) : !1
                 }
                 ;
@@ -5117,8 +5117,8 @@
             BaseLevel.prototype.update.call(this);
             if (null == this.dialog) {
                 this.doRotation();
-                this.horizontal = g.getInputX();
-                this.vertical = g.getInputY();
+                this.horizontal = GameInstance.getInputX();
+                this.vertical = GameInstance.getInputY();
                 var b = h.input.mouseX
                   , c = h.input.mouseY;
                 if (this.drawing && !l.rotating && 0 <= b && 0 <= c && b < h.width && c < h.height) {
@@ -5213,7 +5213,7 @@
                 G.keyPressed(67) && this.showSaveDialog();
                 G.keyPressed(71) && (this.renderer.showGrid = EditorLevel.showGrid = !EditorLevel.showGrid,
                 this.barLower.gridToggle.toggle.clipRect.x = EditorLevel.showGrid ? this.barLower.gridToggle.toggle.clipRect.width : 0);
-                G.keyPressed(13) && g.i.changeScreen(new GameplayLevel(EditorLevel.editorLevel))
+                G.keyPressed(13) && GameInstance.i.changeScreen(new GameplayLevel(EditorLevel.editorLevel))
             }
         },
         tryLoadLevel: function(a) {
@@ -5328,19 +5328,19 @@
     bb.__super__ = Screen;
     bb.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
-            g.ie && Sounds.themeGame2.volume(.5);
+            GameInstance.ie && Sounds.themeGame2.volume(.5);
             this.cond1.start();
             this.speech = new U([new C(new M(1.5),"Have your freedom, for now."), new C(new M(4),"But you will come back.")],this);
             this.speedrun && 42E4 >= B.speedrunBest && AwardsManager.awardSpeedrun.unlock();
             if (this.first = !AwardsManager.awardEscape.unlocked)
                 AwardsManager.awardEscape.unlocked = !0,
-                g.i.saveProgress()
+                GameInstance.i.saveProgress()
         },
         update: function() {
             this.speech.update();
             !this.done1 && this.cond1.test() && (this.done1 = !0,
-            g.i.changeScreen(new ob(this.first), !0, null, !0),
-            g.ie && g.i.muteSFX || (Sounds.exit.volume(.5),
+            GameInstance.i.changeScreen(new ob(this.first), !0, null, !0),
+            GameInstance.ie && GameInstance.i.muteSFX || (Sounds.exit.volume(.5),
             Sounds.exit.play(),
             Sounds.exit.once("end", function() {
                 Sounds.exit.volume(1)
@@ -5349,13 +5349,13 @@
         kill: function() {
             Sounds.themeGame2.stop();
             Sounds.themeGame2.volume(1);
-            g.ie && (g.i.ieGame2 = !1)
+            GameInstance.ie && (GameInstance.i.ieGame2 = !1)
         },
         __class__: bb
     });
     var ob = function(a) {
         null == a && (a = !1);
-        this.hint = new r(g.fontMain,"Press [SPACE] to continue...");
+        this.hint = new r(GameInstance.fontMain,"Press [SPACE] to continue...");
         this.catTrigger = !1;
         this.cat = new S;
         this.player = new ua(Images.player,32,48);
@@ -5376,7 +5376,7 @@
     ob.__super__ = Screen;
     ob.prototype = __INHERIT__(Screen.prototype, {
         init: function() {
-            this.start = g.i.get_gameTime();
+            this.start = GameInstance.i.get_gameTime();
             this.bg.graphics.beginFill(16777215);
             this.bg.graphics.drawRect(0, 0, h.width, h.height);
             this.addChild(this.bg);
@@ -5410,12 +5410,12 @@
             this.hint.set_alpha(0);
             this.addChild(this.hint);
             Sounds.surface.volume(1);
-            g.ie && g.i.muteSFX && g.i.muteMusic ? g.i.ieSurface = !0 : (Sounds.surface.play(),
-            g.ie || Sounds.surface.fade(0, 1, Math.round(Constants.screenFadeTimeSlow / 2)))
+            GameInstance.ie && GameInstance.i.muteSFX && GameInstance.i.muteMusic ? GameInstance.i.ieSurface = !0 : (Sounds.surface.play(),
+            GameInstance.ie || Sounds.surface.fade(0, 1, Math.round(Constants.screenFadeTimeSlow / 2)))
         },
         update: function() {
             var a = this
-              , b = g.i.get_gameTime() - this.start;
+              , b = GameInstance.i.get_gameTime() - this.start;
             !this.catTrigger && 8 <= b && (this.catTrigger = !0,
             this.cat.set_scaleX(1),
             this.cat.horizontal = 1,
@@ -5426,12 +5426,12 @@
             }
             );
             var c = b - this.delay;
-            this.hint.set_alpha(0 > c ? 0 : .33 * g.smootherStep(Math.min(c / 2.5, 1)));
+            this.hint.set_alpha(0 > c ? 0 : .33 * GameInstance.smootherStep(Math.min(c / 2.5, 1)));
             !this.done && b >= this.delay && G.keyPressed(32) && (this.done = !0,
             this.first && (AwardsManager.awardEscape.unlocked = !1,
             AwardsManager.awardEscape.unlock()),
-            g.i.changeScreen(new ScreenCredits(!0), !0, null, !0, !0),
-            g.i.timerHolder.removeChildren())
+            GameInstance.i.changeScreen(new ScreenCredits(!0), !0, null, !0, !0),
+            GameInstance.i.timerHolder.removeChildren())
         },
         tick: function() {
             var a = .75 * Constants.cameraSpeed;
@@ -5449,15 +5449,15 @@
         this.erase = new ButtonErase;
         this.mute = new ButtonMute;
         this.sponsor = new ButtonSponsor;
-        this.bestTime = new r(g.fontMain,"Best time: ",2);
-        this.text3 = new r(g.fontMain,"Finish the game as\nquickly as you can.",1);
+        this.bestTime = new r(GameInstance.fontMain,"Best time: ",2);
+        this.text3 = new r(GameInstance.fontMain,"Finish the game as\nquickly as you can.",1);
         this.btn3 = new Button("SPEEDRUN");
-        this.text2 = new r(g.fontMain,"Build custom levels\nand share codes.",1);
+        this.text2 = new r(GameInstance.fontMain,"Build custom levels\nand share codes.",1);
         this.btn2 = new Button("EDITOR");
-        this.text1 = new r(g.fontMain,"See all the awards\nthat you've earned.",1);
+        this.text1 = new r(GameInstance.fontMain,"See all the awards\nthat you've earned.",1);
         this.btn1 = new Button("AWARDS");
         this.btnBack = new Button("BACK");
-        this.title = new r(g.fontMain,"EXTRAS",1);
+        this.title = new r(GameInstance.fontMain,"EXTRAS",1);
         this.bg = new Na;
         Screen.call(this)
     };
@@ -5474,7 +5474,7 @@
             this.btn1.set_x(134);
             this.btn1.set_y(133);
             this.btn1.addEventListener("click", function(b) {
-                2 > b.which && g.i.changeScreen(new ScreenAwards)
+                2 > b.which && GameInstance.i.changeScreen(new ScreenAwards)
             });
             this.addChild(this.btn1);
             this.text1.set_x(this.btn1.x + 110);
@@ -5484,7 +5484,7 @@
             this.btn2.set_y(this.btn1.y + 92);
             this.btn2.addEventListener("click", function(b) {
                 2 > b.which && (ca.stopTheme(),
-                g.i.changeScreen(new EditorLevel))
+                GameInstance.i.changeScreen(new EditorLevel))
             });
             this.addChild(this.btn2);
             this.text2.set_x(this.text1.x);
@@ -5494,7 +5494,7 @@
             this.btn3.set_y(this.btn2.y + 92);
             this.btn3.addEventListener("click", function(b) {
                 2 > b.which && (ca.stopTheme(),
-                g.i.changeScreen(new Qa(!0)))
+                GameInstance.i.changeScreen(new Qa(!0)))
             });
             this.addChild(this.btn3);
             this.text3.set_x(this.text2.x);
@@ -5504,19 +5504,19 @@
             this.bestTime.set_x(Math.round(h.width / 2));
             this.bestTime.set_y(this.btn3.y + 21 + 8);
             var a = this.bestTime;
-            a.set_text(a.text + (-1 < B.speedrunBest ? g.formatMS(B.speedrunBest) : "--:--:----"));
+            a.set_text(a.text + (-1 < B.speedrunBest ? GameInstance.formatMS(B.speedrunBest) : "--:--:----"));
             0 > B.speedrunBest && this.bestTime.set_alpha(.5);
             this.addChild(this.bestTime);
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 80);
             this.btnBack.addEventListener("click", function(b) {
-                2 > b.which && g.i.changeScreen(new ca)
+                2 > b.which && GameInstance.i.changeScreen(new ca)
             });
             this.addChild(this.btnBack);
             this.addChild(this.sponsor);
             this.addChild(this.mute);
             this.addChild(this.erase);
-            g.i.warnNoSave(this)
+            GameInstance.i.warnNoSave(this)
         },
         __class__: ScreenExtras
     });
@@ -5526,7 +5526,7 @@
         this.sponsor = new ButtonSponsor;
         this.tiles = new GraphicsObject;
         this.btnBack = new Button("BACK");
-        this.title = new r(g.fontMain,"LEVEL SELECT",1);
+        this.title = new r(GameInstance.fontMain,"LEVEL SELECT",1);
         this.bg = new Na;
         Screen.call(this)
     };
@@ -5544,13 +5544,13 @@
             this.btnBack.set_x(Math.round(h.width / 2));
             this.btnBack.set_y(h.height - 84);
             this.btnBack.addEventListener("click", function(a) {
-                2 > a.which && g.i.changeScreen(new ca)
+                2 > a.which && GameInstance.i.changeScreen(new ca)
             });
             this.addChild(this.btnBack);
             this.addChild(this.sponsor);
             this.addChild(this.mute);
             this.addChild(this.erase);
-            g.i.warnNoSave(this);
+            GameInstance.i.warnNoSave(this);
             this.refresh()
         },
         refresh: function() {
@@ -5567,11 +5567,11 @@
                 p.addEventListener("click", function(y) {
                     return function(H) {
                         1 < H.which || (ca.stopTheme(),
-                        0 == y[0] ? g.i.changeScreen(new Qa) : GameplayLevel.play(B.list[y[0]]))
+                        0 == y[0] ? GameInstance.i.changeScreen(new Qa) : GameplayLevel.play(B.list[y[0]]))
                     }
                 }(e))) : p.set_alpha(.5);
                 this.tiles.addChild(p);
-                e = new r(g.fontMain,"" + (e[0] + 1));
+                e = new r(GameInstance.fontMain,"" + (e[0] + 1));
                 e.xAlign = r.X_ALIGN_CENTER;
                 e.yAlign = r.Y_ALIGN_MIDDLE;
                 e.set_x(Math.round(p.get_width() / 2));
@@ -5594,13 +5594,13 @@
     };
     ca.__name__ = !0;
     ca.playTheme = function() {
-        Sounds.themeMenu.playing() || (g.ie && g.i.muteMusic || Sounds.themeMenu.play(),
-        g.ie && (g.i.ieMenu = !0))
+        Sounds.themeMenu.playing() || (GameInstance.ie && GameInstance.i.muteMusic || Sounds.themeMenu.play(),
+        GameInstance.ie && (GameInstance.i.ieMenu = !0))
     }
     ;
     ca.stopTheme = function() {
-        g.ie ? (Sounds.themeMenu.stop(),
-        g.i.ieMenu = !1) : (Sounds.themeMenu.fade(1, 0, Math.floor(Constants.screenFadeTime / 2)),
+        GameInstance.ie ? (Sounds.themeMenu.stop(),
+        GameInstance.i.ieMenu = !1) : (Sounds.themeMenu.fade(1, 0, Math.floor(Constants.screenFadeTime / 2)),
         Sounds.themeMenu.once("fade", function() {
             Sounds.themeMenu.stop();
             Sounds.themeMenu.volume(1)
@@ -5620,24 +5620,24 @@
             this.btnPlay.set_y(Math.floor(h.height / 2) - 1);
             this.btnPlay.addEventListener("click", function(a) {
                 1 < a.which || (0 == B.unlocked ? (ca.stopTheme(),
-                g.i.changeScreen(new Qa)) : g.i.changeScreen(new ScreenLevelSelect))
+                GameInstance.i.changeScreen(new Qa)) : GameInstance.i.changeScreen(new ScreenLevelSelect))
             });
             this.addChild(this.btnPlay);
             this.btnExtras.set_x(this.btnPlay.x);
             this.btnExtras.set_y(this.btnPlay.y + 60);
             this.btnExtras.addEventListener("click", function(a) {
-                2 > a.which && g.i.changeScreen(new ScreenExtras)
+                2 > a.which && GameInstance.i.changeScreen(new ScreenExtras)
             });
             this.addChild(this.btnExtras);
             this.btnCredits.set_x(this.btnExtras.x);
             this.btnCredits.set_y(this.btnExtras.y + 60);
             this.btnCredits.addEventListener("click", function(a) {
-                2 > a.which && g.i.changeScreen(new ScreenCredits)
+                2 > a.which && GameInstance.i.changeScreen(new ScreenCredits)
             });
             this.addChild(this.btnCredits);
             this.addChild(this.mute);
             this.addChild(this.erase);
-            g.i.warnNoSave(this)
+            GameInstance.i.warnNoSave(this)
         },
         __class__: ca
     });
@@ -5667,27 +5667,27 @@
     GameplayLevel.play = function(a, b, c) {
         null == c && (c = -1);
         null == b && (b = !1);
-        null != a && g.i.changeScreen(new GameplayLevel(a,b,c))
+        null != a && GameInstance.i.changeScreen(new GameplayLevel(a,b,c))
     }
     ;
     GameplayLevel.playTheme = function(a) {
         GameplayLevel.stopped && (0 == a && Sounds.themeGame1.playing() ? (Sounds.themeGame1.stop(),
         GameplayLevel.canceled = !0) : 1 == a && Sounds.themeGame2.playing() && (Sounds.themeGame2.stop(),
         GameplayLevel.canceled = !0),
-        g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1),
+        GameInstance.ie && (GameInstance.i.ieGame1 = GameInstance.i.ieGame2 = !1),
         GameplayLevel.stopped = !1);
         0 == a ? (Sounds.themeGame1.volume(1),
-        Sounds.themeGame1.playing() || (g.ie && g.i.muteMusic || Sounds.themeGame1.play(),
-        g.ie && (g.i.ieGame1 = !0))) : 1 == a && (Sounds.themeGame2.volume(1),
-        Sounds.themeGame2.playing() || (g.ie && g.i.muteMusic || Sounds.themeGame2.play(),
-        g.ie && (g.i.ieGame2 = !0)))
+        Sounds.themeGame1.playing() || (GameInstance.ie && GameInstance.i.muteMusic || Sounds.themeGame1.play(),
+        GameInstance.ie && (GameInstance.i.ieGame1 = !0))) : 1 == a && (Sounds.themeGame2.volume(1),
+        Sounds.themeGame2.playing() || (GameInstance.ie && GameInstance.i.muteMusic || Sounds.themeGame2.play(),
+        GameInstance.ie && (GameInstance.i.ieGame2 = !0)))
     }
     ;
     GameplayLevel.stopTheme = function() {
         var a = Sounds.themeGame1.playing() ? Sounds.themeGame1 : Sounds.themeGame2.playing() ? Sounds.themeGame2 : null;
         if (null != a) {
-            var b = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && ES3ClassUtils.__instanceof(g.i.targetScreen, bb);
-            if (g.ie)
+            var b = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__instanceof(GameInstance.i.targetScreen, bb);
+            if (GameInstance.ie)
                 b || a.stop();
             else {
                 var c = a.volume();
@@ -5701,7 +5701,7 @@
             GameplayLevel.canceled = !1
         } else
             GameplayLevel.stopped = GameplayLevel.canceled = !1;
-        g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1)
+        GameInstance.ie && (GameInstance.i.ieGame1 = GameInstance.i.ieGame2 = !1)
     }
     ;
     GameplayLevel.__super__ = BaseLevel;
@@ -5743,16 +5743,16 @@
             this.addChild(this.red);
             if (this.speedrun) {
                 if (-1 == this.speedrunStart || 0 == B.list.indexOf(l.level))
-                    this.speedrunStart = g.i.get_gameTimeMS();
-                this.timerText = new r(g.fontMain,"",2);
+                    this.speedrunStart = GameInstance.i.get_gameTimeMS();
+                this.timerText = new r(GameInstance.fontMain,"",2);
                 this.timerText.align = r.ALIGN_RIGHT;
                 this.timerText.xAlign = r.X_ALIGN_RIGHT;
                 this.timerText.set_x(h.width - 12);
                 this.timerText.set_y(8);
-                g.i.timerHolder.addChild(this.timerText);
+                GameInstance.i.timerHolder.addChild(this.timerText);
                 this.updateTimer()
             } else
-                l.level != B.level1 || g.i.hasPaused || (this.pauseText = new r(g.fontMain,"Press [ESC] or [P] to pause"),
+                l.level != B.level1 || GameInstance.i.hasPaused || (this.pauseText = new r(GameInstance.fontMain,"Press [ESC] or [P] to pause"),
                 this.pauseText.xAlign = r.X_ALIGN_CENTER,
                 this.pauseText.set_x(Math.round(h.width / 2)),
                 this.pauseText.set_y(8),
@@ -5760,15 +5760,15 @@
                 this.addChild(this.pauseText))
         },
         updateTimer: function() {
-            this.speedrun && this.timerText.set_text(g.formatMS(g.i.get_gameTimeMS() - this.speedrunStart))
+            this.speedrun && this.timerText.set_text(GameInstance.formatMS(GameInstance.i.get_gameTimeMS() - this.speedrunStart))
         },
         killPlayer: function(a) {
             null == a && (a = !1);
             if (!this.player.dead) {
                 this.player.dead = !0;
-                this.deathTime = g.i.get_gameTime();
+                this.deathTime = GameInstance.i.get_gameTime();
                 this.player.visible = !1;
-                g.ie && g.i.muteSFX || Sounds.death.play();
+                GameInstance.ie && GameInstance.i.muteSFX || Sounds.death.play();
                 var b = 0
                   , c = 0;
                 0 == l.rotation ? c = 1 : 1 == l.rotation ? b = 1 : 2 == l.rotation ? c = -1 : 3 == l.rotation && (b = -1);
@@ -5788,9 +5788,9 @@
             }
         },
         restart: function(a) {
-            a = g.i.paused ? (Ja = g.i,
+            a = GameInstance.i.paused ? (Ja = GameInstance.i,
             T(Ja, Ja.unpause)) : null;
-            g.i.changeScreen(new GameplayLevel(l.level,this.speedrun,this.speedrunStart), !0, a)
+            GameInstance.i.changeScreen(new GameplayLevel(l.level,this.speedrun,this.speedrunStart), !0, a)
         },
         finished: function() {
             var a = B.list.indexOf(l.level);
@@ -5798,14 +5798,14 @@
                 var b = !1;
                 ++a;
                 if (this.speedrun && a == B.list.length) {
-                    if (this.speedrunFinal = g.i.get_gameTimeMS() - this.speedrunStart + Constants.screenFadeTime / 2,
+                    if (this.speedrunFinal = GameInstance.i.get_gameTimeMS() - this.speedrunStart + Constants.screenFadeTime / 2,
                     0 > B.speedrunBest || this.speedrunFinal < B.speedrunBest)
                         B.speedrunBest = this.speedrunFinal,
                         b = this.newBest = !0
                 } else
                     a > B.unlocked && a < B.list.length && (B.unlocked = a,
                     b = !0);
-                b && g.i.saveProgress()
+                b && GameInstance.i.saveProgress()
             }
             a = l.level.finished();
             null != a && GameplayLevel.play(a, this.speedrun, this.speedrunStart)
@@ -5813,12 +5813,12 @@
         update: function() {
             BaseLevel.prototype.update.call(this);
             if (this.player.dead) {
-                var a = 1 - Math.min((g.i.get_gameTime() - this.deathTime) / GameplayLevel.DEATH_SHAKE_TIME, 1);
+                var a = 1 - Math.min((GameInstance.i.get_gameTime() - this.deathTime) / GameplayLevel.DEATH_SHAKE_TIME, 1);
                 this.red.set_alpha(a);
-                a = g.smootherStep(a);
+                a = GameInstance.smootherStep(a);
                 this.shakeX = Math.random() * GameplayLevel.DEATH_SHAKE_AMOUNT * a;
                 this.shakeY = Math.random() * GameplayLevel.DEATH_SHAKE_AMOUNT * a;
-                g.i.get_gameTime() - this.deathTime >= GameplayLevel.DEATH_TIME && null == g.i.targetScreen && this.restart(!0)
+                GameInstance.i.get_gameTime() - this.deathTime >= GameplayLevel.DEATH_TIME && null == GameInstance.i.targetScreen && this.restart(!0)
             } else
                 this.player.finished || this.doRotation(this.player);
             this.player.update()
@@ -5871,7 +5871,7 @@
             null == a && (a = 0);
             var b = this;
             null != this.cat && (0 != a && this.cat.set_scaleX(a),
-            g.ie && g.i.muteSFX || Sounds.cat.play(),
+            GameInstance.ie && GameInstance.i.muteSFX || Sounds.cat.play(),
             this.cat.onFinish = function() {
                 b.level.removeChild(b.cat);
                 b.cat = null
@@ -5888,13 +5888,13 @@
             Sounds.exit.volume(1);
             if (this.speedrun)
                 if (-1 < this.speedrunFinal) {
-                    if (this.timerText.set_text(g.formatMS(this.speedrunFinal)),
+                    if (this.timerText.set_text(GameInstance.formatMS(this.speedrunFinal)),
                     this.newBest) {
                         var a = this.timerText;
                         a.set_text(a.text + "\nNew best time!")
                     }
                 } else
-                    g.i.timerHolder.removeChild(this.timerText)
+                    GameInstance.i.timerHolder.removeChild(this.timerText)
         },
         prekill: function() {
             GameplayLevel.continueTheme ? GameplayLevel.stopped = GameplayLevel.canceled = !1 : GameplayLevel.stopTheme()
@@ -5921,7 +5921,7 @@
         },
         update: function() {
             !this.done && N.get_current() - this.timer > this.length && (this.done = !0,
-            g.i.changeScreen(new ca))
+            GameInstance.i.changeScreen(new ca))
         },
         __class__: $b
     });
@@ -5945,7 +5945,7 @@
         },
         update: function() {
             var a = this
-              , b = g.smootherStep(Math.min(1, (N.get_currentMS() - this.timer) / 250));
+              , b = GameInstance.smootherStep(Math.min(1, (N.get_currentMS() - this.timer) / 250));
             this.pivot.set_rotation(-90 + 90 * b);
             this.pivot.set_scaleX(this.pivot.set_scaleY(2 + -b));
             this.start.set_alpha(b);
@@ -5956,7 +5956,7 @@
                 Sounds.exit.once("end", function() {
                     Sounds.exit.volume(1)
                 }),
-                g.i.changeScreen(new $b),
+                GameInstance.i.changeScreen(new $b),
                 a.start.mouseEnabled = !1)
             }))
         },
@@ -5983,7 +5983,7 @@
         update: function() {
             !this.done2 && this.cond2.test() && (this.done2 = !0,
             GameplayLevel.playTheme(0),
-            g.ie || Sounds.themeGame1.fade(0, 1, 1E3));
+            GameInstance.ie || Sounds.themeGame1.fade(0, 1, 1E3));
             this.speech.update();
             !this.done1 && this.cond1.test() && (this.done1 = !0,
             GameplayLevel.play(B.level1, this.speedrun))
@@ -6106,7 +6106,7 @@
         b.set_x(-b.get_width() / 2);
         b.set_y(8);
         this.addChild(b);
-        b = new r(g.fontMain,a.name,1);
+        b = new r(GameInstance.fontMain,a.name,1);
         b.align = r.ALIGN_CENTER;
         b.xAlign = r.X_ALIGN_CENTER;
         b.set_y(64);
@@ -6209,7 +6209,7 @@
         this.graphics.beginFill(1052688, .95);
         this.graphics.drawRect(0, 0, h.width, h.height);
         this.mouseEnabled = !0;
-        this.title = new r(g.fontMain,a);
+        this.title = new r(GameInstance.fontMain,a);
         this.title.xAlign = r.X_ALIGN_CENTER;
         this.title.set_x(Math.round(h.width / 2));
         this.title.set_y(36);
@@ -6244,7 +6244,7 @@
     var Yb = function() {
         this.btnLoad = new Button("LOAD");
         this.btnCancel = new Button("CANCEL");
-        this.invalid = new r(g.fontMain,"Level code is invalid!",2);
+        this.invalid = new r(GameInstance.fontMain,"Level code is invalid!",2);
         var a = this;
         Da.call(this, "LOAD LEVEL");
         this.invalid.xAlign = r.X_ALIGN_CENTER;
@@ -6316,11 +6316,11 @@
         __class__: Pa
     });
     var R = function(a, b) {
-        this.btnLoad = new r(g.fontMain,"Load");
-        this.btnSave = new r(g.fontMain,"Save");
-        this.btnPlay = new r(g.fontMain,"Play");
-        this.btnClear = new r(g.fontMain,"Clear");
-        this.btnExit = new r(g.fontMain,"Exit");
+        this.btnLoad = new r(GameInstance.fontMain,"Load");
+        this.btnSave = new r(GameInstance.fontMain,"Save");
+        this.btnPlay = new r(GameInstance.fontMain,"Play");
+        this.btnClear = new r(GameInstance.fontMain,"Clear");
+        this.btnExit = new r(GameInstance.fontMain,"Exit");
         GraphicsObject.call(this);
         this.mouseEnabled = !0;
         this.graphics.beginFill(2105376);
@@ -6330,7 +6330,7 @@
         this.btnExit.mouseEnabled = this.btnExit.buttonMode = !0;
         this.btnExit.hitPadding = R.BTN_PAD;
         this.btnExit.addEventListener("click", function(d) {
-            2 > d.which && g.i.changeScreen(new ScreenExtras)
+            2 > d.which && GameInstance.i.changeScreen(new ScreenExtras)
         });
         this.addChild(this.btnExit);
         this.btnClear.set_x(this.btnExit.x + this.btnExit.get_width() + R.BTN_SPACE);
@@ -6339,7 +6339,7 @@
         this.btnClear.hitPadding = R.BTN_PAD;
         this.btnClear.set_alpha(R.TEXT_GREY);
         this.addChild(this.btnClear);
-        this.theme = new r(g.fontMain,R.THEMES[a]);
+        this.theme = new r(GameInstance.fontMain,R.THEMES[a]);
         this.theme.set_x(this.btnClear.x + this.btnClear.get_width() + 72);
         this.theme.set_y(R.EDGE_PAD_Y);
         this.theme.xAlign = r.X_ALIGN_CENTER;
@@ -6407,15 +6407,15 @@
             if (2 > e.which) {
                 var f = new ModalYesNo("Do you want to erase ALL of\nyour saved progress?");
                 f.onNo = function() {
-                    g.i.currentScreen.removeChild(f)
+                    GameInstance.i.currentScreen.removeChild(f)
                 }
                 ;
                 f.onYes = function() {
-                    g.i.clearProgress();
-                    g.i.changeScreen(new ca)
+                    GameInstance.i.clearProgress();
+                    GameInstance.i.changeScreen(new ca)
                 }
                 ;
-                g.i.currentScreen.addChild(f)
+                GameInstance.i.currentScreen.addChild(f)
             }
         })) : this.set_alpha(.33)
     };
@@ -6425,7 +6425,7 @@
         __class__: ButtonErase
     });
     var bc = function(a) {
-        this.label = new r(g.fontMain,"Grid");
+        this.label = new r(GameInstance.fontMain,"Grid");
         this.toggle = new ImageSurface(Images.configToggle);
         var b = this;
         GraphicsObject.call(this);
@@ -6483,7 +6483,7 @@
         this.main.set_y(-this.main.get_height() / 2);
         this.main.mouseEnabled = this.main.buttonMode = !0;
         this.addChild(this.main);
-        var c = this.text = new r(g.fontMain,a.toUpperCase(),b);
+        var c = this.text = new r(GameInstance.fontMain,a.toUpperCase(),b);
         c.set_y(c.y - 2);
         this.text.align = r.ALIGN_CENTER;
         this.text.xAlign = r.X_ALIGN_CENTER;
@@ -6500,19 +6500,19 @@
         var b = this;
         GraphicsObject.call(this);
         this.sfx = new ImageSurface(Images.mute);
-        this.sfx.set_clipRect(new Rectangle(g.i.muteSFX ? 28 : 0,30 * a,28,30));
+        this.sfx.set_clipRect(new Rectangle(GameInstance.i.muteSFX ? 28 : 0,30 * a,28,30));
         this.sfx.mouseEnabled = this.sfx.buttonMode = !0;
         this.sfx.addEventListener("click", function(c) {
-            2 > c.which && (g.ie && !g.i.ieUnmuted ? b.showWarn(T(b, b.toggleSFX)) : b.toggleSFX())
+            2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(T(b, b.toggleSFX)) : b.toggleSFX())
         });
         this.sfx.set_x(h.width - this.sfx.get_width() - 12);
         this.sfx.set_y(h.height - this.sfx.get_height() - 12);
         this.addChild(this.sfx);
         this.music = new ImageSurface(Images.mute);
-        this.music.set_clipRect(new Rectangle(g.i.muteMusic ? 84 : 56,30 * a,28,30));
+        this.music.set_clipRect(new Rectangle(GameInstance.i.muteMusic ? 84 : 56,30 * a,28,30));
         this.music.mouseEnabled = this.music.buttonMode = !0;
         this.music.addEventListener("click", function(c) {
-            2 > c.which && (g.ie && !g.i.ieUnmuted ? b.showWarn(T(b, b.toggleMusic)) : b.toggleMusic())
+            2 > c.which && (GameInstance.ie && !GameInstance.i.ieUnmuted ? b.showWarn(T(b, b.toggleMusic)) : b.toggleMusic())
         });
         this.music.set_x(this.sfx.x - this.music.get_width() - 12);
         this.music.set_y(h.height - this.music.get_height() - 12);
@@ -6524,24 +6524,24 @@
         showWarn: function(a) {
             var b = new ModalYesNo("Audio may slow down the game\nin Internet Explorer. Continue?");
             b.onNo = function() {
-                g.i.removeChild(b)
+                GameInstance.i.removeChild(b)
             }
             ;
             b.onYes = function() {
-                g.i.removeChild(b);
-                g.i.ieUnmuted = !0;
+                GameInstance.i.removeChild(b);
+                GameInstance.i.ieUnmuted = !0;
                 null != a && a()
             }
             ;
-            g.i.addChild(b)
+            GameInstance.i.addChild(b)
         },
         toggleSFX: function() {
-            g.i.toggleSFX();
-            this.sfx.clipRect.x = g.i.muteSFX ? 28 : 0
+            GameInstance.i.toggleSFX();
+            this.sfx.clipRect.x = GameInstance.i.muteSFX ? 28 : 0
         },
         toggleMusic: function() {
-            g.i.toggleMusic();
-            this.music.clipRect.x = g.i.muteMusic ? 84 : 56
+            GameInstance.i.toggleMusic();
+            this.music.clipRect.x = GameInstance.i.muteMusic ? 84 : 56
         },
         __class__: ButtonMute
     });
@@ -6550,20 +6550,20 @@
         this.set_x(12);
         this.set_y(12);
         this.mouseEnabled = this.buttonMode = !0;
-        var a = new r(g.fontMain,"Invert [Q] & [E]?");
+        var a = new r(GameInstance.fontMain,"Invert [Q] & [E]?");
         a.set_x(30);
         a.set_y(-4);
         a.set_alpha(.5);
         this.addChild(a);
         var b = new ImageSurface(Images.configToggle);
         b.clipRect.width = 22;
-        g.i.invert && (b.clipRect.x = 22);
+        GameInstance.i.invert && (b.clipRect.x = 22);
         b.set_alpha(.75);
         this.addChild(b);
         this.addEventListener("click", function(c) {
-            2 > c.which && (g.i.invert = !g.i.invert,
-            b.clipRect.x = g.i.invert ? 22 : 0,
-            g.i.saveProgress())
+            2 > c.which && (GameInstance.i.invert = !GameInstance.i.invert,
+            b.clipRect.x = GameInstance.i.invert ? 22 : 0,
+            GameInstance.i.saveProgress())
         })
     };
     ButtonInvertControls.__name__ = !0;
@@ -6581,7 +6581,7 @@
         this.btnQuit = new Button("QUIT",0);
         this.btnRedo = new Button("RESTART",0);
         this.btnPlay = new Button("CONTINUE",0);
-        this.text = new r(g.fontMain,"GAME PAUSED");
+        this.text = new r(GameInstance.fontMain,"GAME PAUSED");
         GraphicsObject.call(this);
         this.graphics.beginFill(1052688, .85);
         this.graphics.drawRect(0, 0, h.width, h.height);
@@ -6596,20 +6596,20 @@
         this.btnPlay.set_x(this.text.x);
         this.btnPlay.set_y(this.text.y + 60);
         this.btnPlay.addEventListener("click", function(a) {
-            2 > a.which && g.i.unpause()
+            2 > a.which && GameInstance.i.unpause()
         });
         this.addChild(this.btnPlay);
         this.btnRedo.set_x(this.btnPlay.x);
         this.btnRedo.set_y(this.btnPlay.y + 60);
         this.btnRedo.addEventListener("click", function(a) {
-            2 > a.which && ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && g.i.currentScreen.restart(!1)
+            2 > a.which && ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && GameInstance.i.currentScreen.restart(!1)
         });
         this.addChild(this.btnRedo);
         this.btnQuit.set_x(this.btnRedo.x);
         this.btnQuit.set_y(this.btnRedo.y + 60);
         this.btnQuit.addEventListener("click", function(a) {
-            2 > a.which && (a = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(g.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(g.i.currentScreen, Qa) && ES3ClassUtils.__cast(g.i.currentScreen, Qa).speedrun,
-            g.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < B.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = g.i,
+            2 > a.which && (a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, GameplayLevel).speedrun || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, Qa) && ES3ClassUtils.__cast(GameInstance.i.currentScreen, Qa).speedrun,
+            GameInstance.i.changeScreen(l.level == EditorLevel.editorLevel ? new EditorLevel : a ? new ScreenExtras : 0 < B.unlocked ? new ScreenLevelSelect : new ca, !0, (Ja = GameInstance.i,
             T(Ja, Ja.unpause))))
         });
         this.addChild(this.btnQuit);
@@ -6617,18 +6617,18 @@
         this.addChild(this.mute);
         this.addChild(this.sponsor);
         this.sponsor.clipRect.y = this.sponsor.clipRect.height;
-        g.i.warnNoSave(this)
+        GameInstance.i.warnNoSave(this)
     };
     MenuPause.__name__ = !0;
     MenuPause.__super__ = GraphicsObject;
     MenuPause.prototype = __INHERIT__(GraphicsObject.prototype, {
         onPause: function() {
-            this.mute.sfx.clipRect.x = g.i.muteSFX ? 28 : 0;
-            this.mute.music.clipRect.x = g.i.muteMusic ? 84 : 56;
-            var a = ES3ClassUtils.__instanceof(g.i.currentScreen, GameplayLevel);
+            this.mute.sfx.clipRect.x = GameInstance.i.muteSFX ? 28 : 0;
+            this.mute.music.clipRect.x = GameInstance.i.muteMusic ? 84 : 56;
+            var a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, GameplayLevel);
             this.btnRedo.set_alpha(a ? 1 : .25);
             this.btnRedo.main.mouseEnabled = a;
-            a = ES3ClassUtils.__instanceof(g.i.currentScreen, bb) || ES3ClassUtils.__instanceof(g.i.currentScreen, ob);
+            a = ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, bb) || ES3ClassUtils.__instanceof(GameInstance.i.currentScreen, ob);
             this.btnQuit.set_alpha(a ? .25 : 1);
             this.btnQuit.main.mouseEnabled = !a
         },
@@ -6654,7 +6654,7 @@
     var ModalYesNo = function(a) {
         this.btnNo = new Button("NO");
         this.btnYes = new Button("YES");
-        this.main = new r(g.fontMain,"",2);
+        this.main = new r(GameInstance.fontMain,"",2);
         var b = this;
         GraphicsObject.call(this);
         this.main.set_text(a);
@@ -6798,9 +6798,9 @@
     Images.controls3 = LoadingManager.loadImage("img/controls-3.png");
     Images.controls4 = LoadingManager.loadImage("img/controls-4.png");
     Images.controls5 = LoadingManager.loadImage("img/controls-5.png");
-    g.fontMain = new gc("fonts/simple-pixels.png","fonts/simple-pixels.json",2,112);
-    g.nosave = !1;
-    g.ie = !1;
+    GameInstance.fontMain = new gc("fonts/simple-pixels.png","fonts/simple-pixels.json",2,112);
+    GameInstance.nosave = !1;
+    GameInstance.ie = !1;
     Sounds.themeMenu = LoadingManager.loadSound({
         src: ["music/menu.ogg", "music/menu.mp3"],
         loop: !0
@@ -6972,6 +6972,6 @@
     R.BTN_PAD = 8;
     R.TEXT_GREY = .75;
     R.THEMES = ["Theme A", "Theme B"];
-    g.main()
+    GameInstance.main()
 }
 )();
