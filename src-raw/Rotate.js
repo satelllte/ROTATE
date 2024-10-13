@@ -4884,7 +4884,7 @@
         },
         __class__: mb
     });
-    var qa = function() {
+    var BaseLevel = function() {
         this.cameraX = this.cameraY = 0;
         this.level = new x;
         this.camera = new x;
@@ -4892,9 +4892,9 @@
         this.bg = new x;
         P.call(this)
     };
-    qa.__name__ = !0;
-    qa.__super__ = P;
-    qa.prototype = D(P.prototype, {
+    BaseLevel.__name__ = !0;
+    BaseLevel.__super__ = P;
+    BaseLevel.prototype = D(P.prototype, {
         init: function() {
             this.bg.graphics.beginFill(3158064);
             this.bg.graphics.drawRect(0, 0, h.width, h.height);
@@ -4948,13 +4948,13 @@
             this.camera.set_x(Math.round(this.cameraX));
             this.camera.set_y(Math.round(this.cameraY))
         },
-        __class__: qa
+        __class__: BaseLevel
     });
     var EditorLevel = function() {
         this.doors = [];
         this.drawing = !1;
         this.horizontal = this.vertical = 0;
-        qa.call(this)
+        BaseLevel.call(this)
     };
     EditorLevel.__name__ = !0;
     EditorLevel.renderBlockText = function(a, b) {
@@ -4968,8 +4968,8 @@
         a.endFill()
     }
     ;
-    EditorLevel.__super__ = qa;
-    EditorLevel.prototype = D(qa.prototype, {
+    EditorLevel.__super__ = BaseLevel;
+    EditorLevel.prototype = D(BaseLevel.prototype, {
         init: function() {
             var a = this;
             l.set_level(EditorLevel.editorLevel);
@@ -4979,7 +4979,7 @@
                     m = l.getBlockData(m, d);
                     m.get_block() == F.door && 0 < m.getMeta(1) && this.doors.push(new Va(m))
                 }
-            qa.prototype.init.call(this);
+            BaseLevel.prototype.init.call(this);
             this.cameraX = -(l.level.startCol + .5) * Constants.tileSize;
             this.cameraY = -(l.level.startRow - .5) * Constants.tileSize;
             this.mouseEnabled = !0;
@@ -5114,7 +5114,7 @@
         },
         update: function() {
             var a = this;
-            qa.prototype.update.call(this);
+            BaseLevel.prototype.update.call(this);
             if (null == this.dialog) {
                 this.doRotation();
                 this.horizontal = g.getInputX();
@@ -5656,7 +5656,7 @@
         this.blood = new x;
         this.shakeX = this.shakeY = 0;
         this.deathTime = -1;
-        qa.call(this);
+        BaseLevel.call(this);
         this.tempLevel = a;
         this.pausable = !0;
         this.speedrun = b;
@@ -5704,8 +5704,8 @@
         g.ie && (g.i.ieGame1 = g.i.ieGame2 = !1)
     }
     ;
-    GameplayLevel.__super__ = qa;
-    GameplayLevel.prototype = D(qa.prototype, {
+    GameplayLevel.__super__ = BaseLevel;
+    GameplayLevel.prototype = D(BaseLevel.prototype, {
         init: function() {
             GameplayLevel.i = this;
             this.tempLevel == EditorLevel.editorLevel && AwardsManager.awardEditor.unlock();
@@ -5723,7 +5723,7 @@
                     f.get_block() == F.door && 0 < f.getMeta(1) && this.doors.push(new Va(f))
                 }
             l.level.start();
-            qa.prototype.init.call(this);
+            BaseLevel.prototype.init.call(this);
             this.player = new J;
             this.player.set_x(this.player.x2 = this.player.lastX = (l.level.startCol + .5) * Constants.tileSize);
             this.player.set_y(this.player.y2 = this.player.lastY = (l.level.startRow + 1) * Constants.tileSize);
@@ -5811,7 +5811,7 @@
             null != a && GameplayLevel.play(a, this.speedrun, this.speedrunStart)
         },
         update: function() {
-            qa.prototype.update.call(this);
+            BaseLevel.prototype.update.call(this);
             if (this.player.dead) {
                 var a = 1 - Math.min((g.i.get_gameTime() - this.deathTime) / GameplayLevel.DEATH_SHAKE_TIME, 1);
                 this.red.set_alpha(a);
