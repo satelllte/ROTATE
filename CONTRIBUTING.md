@@ -1,12 +1,12 @@
 # Contributing
 
-Thank you visiting contribution guide. It's always welcomed and highly encouraged!
+Contributions are always welcomed and highly encouraged, thank you for visiting this page!
 
 ## Ways to help
 
-If you have an idea, question, anything else to discuss, feel free to open a new issue [here](/issues/new).
+If you have an idea, question, anything else to discuss, feel free to open a new issue in "Issues" tab.
 
-If you want to submit a pull request, see technical guide below and feel free to open a new PR.
+If you want to submit your code, see technical guide below and feel free to open a new PR in "Pull requests" tab.
 
 ## Technical guide
 
